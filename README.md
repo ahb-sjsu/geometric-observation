@@ -1,6 +1,6 @@
 # Geometric Observation
 
-The third work in the geometric series, and its **evidence repository**. The book
+The fourteenth work in the geometric series, and its **evidence repository**. The book
 synthesizes:
 
 - **Paper I** — *Keep the Angle* ([`the-angular-observer`](https://github.com/ahb-sjsu/the-angular-observer)): the spectral/angular result and the manifold recognizer.
