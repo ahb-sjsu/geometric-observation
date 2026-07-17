@@ -1,11 +1,42 @@
 # Geometric Observation — Test Protocol
 
+> The empirical program of **Observation Theory**.
+
 **Status:** draft v0.1 — adopt (with bars filled in) before any book-cited run
 **Scope:** governs every empirical and mathematical claim in *Geometric Observation* (book) and its companion claim ledger.
 **House rule:** the book may not assert what the ledger cannot show.
 
 Inherits: PREREG_RUNG discipline (dated amendments, registered before runs), CLAIMS.md
 ledger pattern, sentinel-delimited result JSONs, reproducibility tiers.
+
+---
+
+## The framework: Observation Theory
+
+**Observation Theory** is the thesis that **geometry, distortion, and reliability
+are properties of the _observation_ — the consumer's read operator, budget, and
+channel — not of the object observed.** *Geometric Observation* (this book) is its
+empirical program; the falsifiable core (GO-1…GO-5) tests its faces.
+
+Its formal engine is a **consumer-relative rate–distortion–capacity theory**:
+
+- **distortion** — the operative distortion is `tr(P_C · Σ_δ)`, the reconstruction
+  error `Σ_δ` seen through the consumer's read operator `P_C` (GO-2);
+- **identifiability** — `P_C` is recoverable ex ante from the consumer functional
+  alone, blind (GO-1);
+- **capacity** — single-stage observation has a vacuity threshold below which it
+  fails (GO-3);
+- **rate** — the observer's mode/bit budget sets a rate whose allocation flips the
+  verdict (GO-4).
+
+Classical error theory (least-squares adjustment of observations) and Shannon
+rate–distortion are its **task-agnostic limit** — the `P_C = I`, single-budget
+corner where the observer is assumed to read every direction equally. The claim
+Observation Theory adds is that no real consumer does, and that the correct
+distortion, rate, and capacity are all consumer-relative and computable.
+
+*The name is load-bearing only where the ledger is:* no result earns it until its
+row meets its class bar (§1). This section states the frame; §§2–6 keep it honest.
 
 ---
 
