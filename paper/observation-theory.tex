@@ -23,7 +23,7 @@
 \newcommand{\R}{\mathbb{R}}
 
 \title{\textbf{Observation Theory}\\[2pt]
-\large Geometry, Distortion, and Reliability as Properties of the Observer}
+\large Geometry, Distortion, and Reliability as Properties of Observation}
 \author{Andrew H. Bond\\ \small \texttt{agi.hpc@gmail.com}}
 \date{July 2026 --- \emph{Preprint (registration-first; every empirical claim resolves to a sealed ledger row).}}
 
@@ -38,17 +38,19 @@ its output metric), channel, and budget. From a second-order expansion of the do
 the leading-order controlling quantity---the reconstruction error read through the
 consumer, $\dO=\E_x\tr(\PC(x)\Sd(x))$, reducing under stated conditions to
 $\tr(\PC\Sd)$---with $\Sd$ the error second moment and $\PC=\E[J^\top G J]$ the
-Fisher-metric-weighted sensitivity. At root this is a \emph{distinguishability}:
-$\PC=J^\top G J$ is the pullback of the consumer's Fisher metric, so each observer
+output-metric-weighted sensitivity. At root this is a \emph{distinguishability}:
+$\PC=J^\top G J$ is the pullback of the consumer's output metric $G$ (the Fisher
+metric for KL and kindred statistical divergences), so each observer
 induces a geometry and a quotient $X/\!\sim_{\mathcal{C}}$ of the representation by
 what it cannot tell apart. This weighted-quadratic fidelity is classical:
 it is the indirect/remote source-coding distortion of Dobrushin--Tsybakov and
 Wolf--Ziv, reduces to Shannon's Gaussian rate--distortion by Berger's
 change of variables, and is Hessian-weighted loss-aware compression (OBD/OBS through
 GPTQ) written as a metric. Our contribution is the \emph{middle term}: $\PC$ is a
-geometric, PSD, water-fillable operator that is \emph{identifiable from the consumer
-alone}, sitting between Shannon rate--distortion ($\PC=I$) and the information
-bottleneck. We make that middle term testable and test it, under sealed, before-run
+geometric, PSD, water-fillable operator that is \emph{recoverable from black-box
+consumer queries under a specified observation distribution and output metric},
+sitting between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the
+information bottleneck. We make that middle term testable and test it, under sealed, before-run
 registrations with ex-ante bars: distortion---$\tr(\PC\Sd)$ governs downstream error,
 demonstrated and replicated across softmax attention, retrieval ranking, and
 gradient optimization, with a reconstruction-identical code \emph{flipping} its
@@ -96,11 +98,12 @@ Damage/Surgeon \cite{lecun1990,hassibi1993} to Hessian-aware quantization and GP
 \cite{dong2019hawq,frantar2023gptq}. What is missing across these is a single,
 \emph{identifiable geometric} object that names the task's metric and lets one
 predict, recover, and test it. Observation Theory supplies it: the read operator
-$\PC$, the local Fisher metric of the consumer, sitting as the geometric middle term
-between Shannon rate--distortion ($\PC=I$) and the information bottleneck
-\cite{tishby1999} (an arbitrary, non-geometric relevance variable). We contribute
-(i) the map placing these literatures on one axis; (ii) $\PC$'s
-\emph{identifiability}---recovery from the consumer alone, validated blind against a
+$\PC$, the consumer's local output metric, sitting as the geometric middle term
+between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the information
+bottleneck \cite{tishby1999} (an arbitrary, non-geometric relevance variable). We
+contribute (i) the map placing these literatures on one axis; (ii) $\PC$'s
+\emph{identifiability}---recovery from black-box consumer queries under a specified
+observation distribution, validated blind against a
 planted ground truth, which the quantization literature (estimating the Hessian from
 calibration data) never validates against truth; (iii) an ex-ante extreme-value
 reliability certificate; (iv) budget-relativity of the verdict; and (v) a
@@ -118,20 +121,29 @@ the reconstruction-is-not-the-target negative) \cite{paper2}, and the claim ledg
 An instance is $(X,\mathcal{C},\mathcal{Q})$: a representation with vectors
 $x\in\R^{d}$, a \emph{consumer} $\mathcal{C}:\R^{d}\to\R^m$ with a divergence $D_Y$
 on its outputs, and a family $\mathcal{Q}$ of lossy codes producing $\hat x=x+\delta$.
-The downstream distortion is $\dO:=D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, measured
-on the consumer output, never assumed from the ambient metric of $X$.
+The downstream distortion is the pointwise random quantity
+$\dO:=D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, measured on the consumer output, never
+assumed from the ambient metric of $X$; write $\bar{\dO}:=\E[\dO]$ for its expectation
+over the instance.
 \end{definition}
 
 \begin{proposition}[Consumer-projected distortion]\label{prop:main}
 Let $D_Y$ be twice differentiable with $D_Y(u,u)=0$, $\nabla_v D_Y(u,v)|_{v=u}=0$,
-and information metric $G(u)=\nabla^2_v D_Y(u,v)|_{v=u}\succeq0$; let
+and \emph{local output metric} $G(u)=\nabla^2_v D_Y(u,v)|_{v=u}\succeq0$ (the Fisher
+information metric when $D_Y$ is the KL divergence or a kindred statistical
+divergence, a generic local metric otherwise); let
 $J(x)=\partial\mathcal{C}/\partial x$. For error $\delta=\hat x-x$ with conditional
-\emph{second moment} $\Sd(x)=\E[\delta\delta^\top\mid x]$, the exact leading-order
+\emph{second moment} $\Sd(x)=\E[\delta\delta^\top\mid x]$, the leading-order expected
 distortion is
 \[
-\dO \;=\; \tfrac12\,\E_x\tr\!\big(\PC(x)\,\Sd(x)\big)\;+\;o(\|\delta\|^2),
-\qquad \PC(x)=J(x)^\top G(\mathcal{C}(x))\,J(x)\succeq0 .
+\bar{\dO} \;=\; \tfrac12\,\E_x\tr\!\big(\PC(x)\,\Sd(x)\big)\;+\;r,
+\qquad \PC(x)=J(x)^\top G(\mathcal{C}(x))\,J(x)\succeq0 ,
 \]
+so $\PC$ is the pullback of the local output metric $G$ along $\mathcal{C}$. Making
+the asymptotics explicit: for a small-noise family $\delta_\varepsilon=\varepsilon Z$
+with $\E\|Z\|^2<\infty$ and the second-order Taylor remainder dominated uniformly on a
+neighborhood of the diagonal, $\bar{\dO}=\tfrac{\varepsilon^2}{2}\,\E[Z^\top\PC(X)Z]
++o(\varepsilon^2)$ (i.e.\ $r=o(\varepsilon^2)$).
 When $\Sd(x)$ is uncorrelated with the point-dependent weight $\PC(x)$ this factors
 as $\tfrac12\tr(\PC\Sd)$ with $\PC=\E_x[\PC(x)]$, $\Sd=\E_x[\Sd(x)]$. The controlling
 object is the \emph{second} moment, not the covariance: pointwise
@@ -205,7 +217,8 @@ from queries, and studies what the channel (\S\ref{sec:capacity}) and budget
 Read keys $\{k_s\}_{s=1}^{S}$ through a query bank: logits $l_s=q^\top k_s/\sqrt{d}$,
 output $p=\mathrm{softmax}(l)$, $D_Y=\mathrm{KL}$. Under key perturbation $\delta_s$,
 \[
-\dO=\tfrac{1}{2d}\,\E_q\,\mathrm{Var}^{\,p}_s\!\big(q^\top\delta_s\big)+O(\|\delta\|^3)
+\bar{\dO}=\tfrac{1}{2d}\,\E_q\,\mathrm{Var}^{\,p}_s\!\big(q^\top\delta_s\big)
++O(\|\delta\|^3)
 =\tfrac{1}{2d}\,\E_q\tr\!\big(qq^\top A_q\big)+O(\|\delta\|^3),
 \qquad A_q=\sum_s p_s(q)\,\tilde\delta_s\tilde\delta_s^\top,
 \]
@@ -380,8 +393,11 @@ resolution.
 \begin{lemma}[Fixed-band consistency]\label{lem:band}
 At a fixed low-mode budget $m$, as the sample grows the graph operator converges
 spectrally to the manifold operator \cite{calder2022}, so the fixed low-$\lambda$
-band sharpens and geodesic fidelity is nondecreasing (the mechanism proved in
-Paper~I, \cite{paper1}).
+band sharpens and geodesic fidelity \emph{converges toward its continuum value} and is
+predicted to improve asymptotically (the spectral-convergence mechanism of
+Paper~I \cite{paper1}). Convergence does not force step-wise monotonicity in $N$; the
+monotone finite-sample trend below is the \emph{registered empirical} result, not a
+consequence of the lemma.
 \end{lemma}
 
 Holding instead the resolved scale $\tau$ fixed (spectral-gap matching), $m=N(\tau)$
@@ -454,8 +470,10 @@ H(\Pi X)$. Hence $R_{\mathcal{C}}(0)=H(\Pi X)$; if $\Pi$ collapses two support p
 $H(\Pi X)<H(X)$.
 \end{proof}
 \begin{remark}[Continuous sources]
-For a continuous source lossless coding costs infinite rate ($R_{\mathcal{C}}(D)\to
-\infty$ as $D\to0$, consistent with Prop.~\ref{prop:rd}). The surviving statement is
+When the tilted source $Y=\PC^{1/2}X$ has a nondegenerate continuous component,
+lossless-to-the-consumer coding costs infinite rate ($R_{\mathcal{C}}(D)\to\infty$ as
+$D\to0$, consistent with Prop.~\ref{prop:rd}); if $X$ lies entirely in $\ker\PC$ then
+$Y$ is degenerate and the floor is zero. The surviving statement is
 that at \emph{every} $D>0$ the water-filling of Prop.~\ref{prop:rd}, equivalently the
 reduction of Cor.~\ref{cor:coding}, spends zero rate on $\ker\PC$: the operational
 rate depends only on the $r$-dimensional tilted source. This lossless-to-the-consumer
