@@ -1,0 +1,64 @@
+{
+  "claim": "GO-2 kv-keys v3",
+  "prereg": "GO-P-2026-003",
+  "instance": "post-RoPE keys / structured softmax",
+  "n_seeds": 12,
+  "arms": [
+    "a_demean_perchan_asym4",
+    "b_wholevec_pertoken_uniform4",
+    "c_polarquant",
+    "d_perchan_uniform4"
+  ],
+  "effective_bits": {
+    "a_demean_perchan_asym4": 4.0625,
+    "b_wholevec_pertoken_uniform4": 4.25,
+    "c_polarquant": 4.125,
+    "d_perchan_uniform4": 4.0625
+  },
+  "eff_bits_spread": 0.1875,
+  "median_kl": {
+    "a_demean_perchan_asym4": 0.0016139798701234765,
+    "b_wholevec_pertoken_uniform4": 0.000596721030612007,
+    "c_polarquant": 0.010804573918347424,
+    "d_perchan_uniform4": 0.002301965566112933
+  },
+  "median_recon": {
+    "a_demean_perchan_asym4": 0.09378517791628838,
+    "b_wholevec_pertoken_uniform4": 0.09336287155747414,
+    "c_polarquant": 0.4432823657989502,
+    "d_perchan_uniform4": 0.11383458599448204
+  },
+  "median_tang_qproj": {
+    "a_demean_perchan_asym4": 0.051892421707745454,
+    "b_wholevec_pertoken_uniform4": 0.017822636734986533,
+    "c_polarquant": 0.34320271314885736,
+    "d_perchan_uniform4": 0.07275002884068474
+  },
+  "c_gap": 6.694367208880261,
+  "a_lt_b_seeds": "0/12",
+  "std_coef_tang": 0.7599890189618768,
+  "std_coef_recon": 0.23550238258738895,
+  "partial_r2_tang_qproj": 0.007820579389629323,
+  "partial_r2_recon": 0.0007509567151043894,
+  "dominance_margin": 0.0070696226745249335,
+  "noise_floor_kl": 4.8175507979015996e-09,
+  "gap_softmax": 0.36972024351602056,
+  "gap_linear_shiftsensitive": 0.33404280314711954,
+  "gap_softmax_isotropic": 1.1101030256683126,
+  "bars": {
+    "eff_bits_spread_le": 0.5,
+    "dominance_ge": 0.1,
+    "c_gap_ge": 5.0,
+    "a_lt_b_ge": 10,
+    "gap_softmax_ge": 1.5,
+    "gap_linear_le": 1.25
+  },
+  "verdict": {
+    "audit_pass": true,
+    "dominance": false,
+    "c_gap": true,
+    "a_lt_b_consistent": false,
+    "specificity": false
+  },
+  "GO2_positive_supported": false
+}
