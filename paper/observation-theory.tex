@@ -35,8 +35,9 @@ We unify and operationalize a family of results under one thesis---\emph{Observa
 Theory}: \emph{operational} geometry, distortion, and reliability are not properties
 of the object alone but of the \emph{relation} among object, observer (a consumer and
 its output metric), channel, and budget. From a second-order expansion of the downstream metric we recover
-the single controlling quantity, the reconstruction error read through the consumer,
-$\dO=\tr(\PC\Sd)$, with $\Sd$ the error second moment and $\PC=\E[J^\top G J]$ the
+the leading-order controlling quantity---the reconstruction error read through the
+consumer, $\dO=\E_x\tr(\PC(x)\Sd(x))$, reducing under stated conditions to
+$\tr(\PC\Sd)$---with $\Sd$ the error second moment and $\PC=\E[J^\top G J]$ the
 Fisher-metric-weighted sensitivity. At root this is a \emph{distinguishability}:
 $\PC=J^\top G J$ is the pullback of the consumer's Fisher metric, so each observer
 induces a geometry and a quotient $X/\!\sim_{\mathcal{C}}$ of the representation by
@@ -133,12 +134,12 @@ distortion is
 \]
 When $\Sd(x)$ is uncorrelated with the point-dependent weight $\PC(x)$ this factors
 as $\tfrac12\tr(\PC\Sd)$ with $\PC=\E_x[\PC(x)]$, $\Sd=\E_x[\Sd(x)]$. The controlling
-object is the \emph{second} moment, not the covariance:
-$\tr(\PC\Sd)=\tr(\PC\,\mathrm{Cov}[\delta\mid x])+\mu_\delta^\top\PC\mu_\delta$ with
-$\mu_\delta=\E[\delta\mid x]$, so a biased code's offset is \emph{part} of the
-distortion, not averaged away---which is why quantizer bias is first-class
-(\S\ref{sec:readop}). Reconstruction distortion $\E\|\delta\|^2=\tr(\Sd)$ is the
-\emph{isotropic} corner $\PC=I$.
+object is the \emph{second} moment, not the covariance: pointwise
+$\tr(\PC(x)\Sd(x))=\tr(\PC(x)\,\mathrm{Cov}[\delta\mid x])+\mu_\delta(x)^\top\PC(x)
+\mu_\delta(x)$ with $\mu_\delta(x)=\E[\delta\mid x]$, then averaged over $x$, so a
+biased code's offset is \emph{part} of the distortion, not averaged away---which is
+why quantizer bias is first-class (\S\ref{sec:readop}). Reconstruction distortion
+$\E\|\delta\|^2=\tr(\Sd)$ is the \emph{isotropic} corner $\PC=I$.
 \end{proposition}
 \begin{proof}
 Expand $\mathcal{C}(x+\delta)=\mathcal{C}(x)+J\delta+O(\|\delta\|^2)$ and $D_Y$ to
@@ -168,12 +169,17 @@ equivalence $x\sim_{\mathcal{C}}x'\iff D_Y(\mathcal{C}(x),\mathcal{C}(x'))=0$
 $\ker\PC(x)=\ker\!\big(G^{1/2}J\big)$, which equals $\ker J$ when $G\succ0$ on
 $\operatorname{im}J$ but is larger when $G$ is only semidefinite---the output can move
 parametrically yet stay indistinguishable. Under a constant-rank / integrability
-condition on $\PC(x)$ this null distribution integrates to the fibers of
-$\sim_{\mathcal{C}}$, and the consumer's true object is the quotient
-$X/\!\sim_{\mathcal{C}}$, not $X$: perturbations in $\ker\PC$ exist in the
-representation but have \emph{no operational consequence}. The consumer-lossless
-floor $R_{\mathcal{C}}(0)=H(\Pi X)$ (Prop.~\ref{prop:floor}) is exactly the entropy of
-that quotient---one pays only for what one can tell apart. Second, $\ker\PC$ is
+condition on $\PC(x)$ this null distribution integrates to leaves tangent to
+$\ker\PC(x)$; that the \emph{global} divergence vanishes along each leaf---so the
+leaves are exactly the fibers of $\sim_{\mathcal{C}}$---needs a further compatibility
+condition, namely $D_Y(\mathcal{C}(x),\mathcal{C}(x'))=0$ along them (equivalently,
+$\mathcal{C}$ factors through $X/\!\sim_{\mathcal{C}}$). Where it holds, the
+consumer's true object is the quotient $X/\!\sim_{\mathcal{C}}$, not $X$:
+perturbations in $\ker\PC$ exist in the representation but have \emph{no operational
+consequence}. In the fixed-$\PC$ model of \S\ref{sec:rd} this quotient is represented
+by $\Pi X$ and Prop.~\ref{prop:floor} gives the zero-distortion rate
+$R_{\mathcal{C}}(0)=H(\Pi X)$ (the point-dependent case is open)---one pays only for
+what one can tell apart. Second, $\ker\PC$ is
 gauge-like \emph{but only relative to $\mathcal{C}$}: another consumer may read those
 directions, so it is not a true gauge redundancy (which would be invisible to every
 admissible observer). One observer's noise is another's signal; one observer's state
@@ -290,7 +296,7 @@ consumers are \emph{synthetic}---the point is to validate the theory's logic (th
 $H=I$ positive control being the clean confirmation); the trained-model hardening
 (\S\ref{sec:discussion}) is the outstanding validation.
 
-\section{Identifiability: the metric is recoverable (GO-1)}\label{sec:id}
+\section{Identifiability: the read subspace is recoverable (GO-1)}\label{sec:id}
 
 \begin{proposition}[Recovery of the read subspace]\label{prop:id}
 Let $\mathcal{C}(x)=f(Wx)$, $W\in\R^{r\times d}$ of rank $r$, $f$ coordinatewise with
@@ -307,10 +313,16 @@ the planted read subspace at overlap $0.936$ against a $0.059$ chance baseline
 ($\approx16\times$), and the \emph{blind} $\tr(\hat\PC\Sd)$ predicts the flip of
 \S\ref{sec:distortion} on $12/12$ seeds in both consumers with rank correlation
 $1.00$---identical to ground truth---while reconstruction cannot ($0.40$)
-(\texttt{[predicted]}). Loss-aware compression estimates such a metric from
+(\texttt{[predicted]}). Two scope notes. Prop.~\ref{prop:id} recovers the read \emph{subspace} for the
+$f(Wx)$ model with a Euclidean output metric; recovering the \emph{full} operator
+$\E_x[J^\top G J]$---its eigenvalues, and a general $G$---is the broader program.
+And $\PC$ depends on the probe-point distribution and on $G$, so it is identifiable
+from black-box consumer queries \emph{under a specified observation distribution},
+not from the callable alone. Loss-aware compression estimates such a metric from
 calibration data; the contribution here is validating \emph{recovery against a
-planted ground truth under enforced blinding}, and composing it: from the consumer
-alone one predicts which code wins, before compressing anything.
+planted ground truth under enforced blinding}, and composing it: from consumer
+queries under that distribution one predicts which code wins, before compressing
+anything.
 
 \section{Capacity: a vacuity threshold, derived (GO-3)}\label{sec:capacity}
 
@@ -348,9 +360,13 @@ against that reference. This is expected and quantitative: the exact $\tfrac12$
 threshold is the \emph{median}, below the mean by $\Theta(1/a_N)$, so the $\sim\!5\%$
 shortfall is largely the mean--median offset (against the exact median of this
 proposition the crossing sits at $\approx1$). Positive dependence among distractors
-would lower it further by reducing the effective count; heavier tails, by contrast,
-\emph{raise} the maximum---the two must not be grouped. Capacity says, from a
-computable quantity, \emph{where} the channel dies before any retrieval is run.
+\emph{can} lower it further by reducing the effective count; heavier tails, by
+contrast, \emph{raise} the maximum---the two must not be grouped. The exact
+$\tfrac12$ crossing further assumes a \emph{fixed} standardized true margin and
+i.i.d.\ Gaussian distractors; when the true score is itself random or correlated with
+the distractors, $\rho$ is a reference certificate rather than an exact recall
+threshold. Capacity says, from a computable quantity, \emph{where} the channel dies
+before any retrieval is run.
 
 \section{Rate: the verdict belongs to the budget (GO-4)}\label{sec:rate}
 
@@ -569,11 +585,20 @@ let $p_{\hat X}$ be the output marginal and $\imath(x;\hat x)=\log\frac{dP_{X\ha
 $\{\hat X^n(w)\}_{w=1}^{2^{nR}}$ i.i.d.\ $\sim\prod_t p_{\hat X}$; encode $x^n$ by any
 $w$ with $\tfrac1n\sum_t\imath(x_t;\hat X_t(w))\le I(X;\hat X)+\varepsilon$
 \emph{and} $\tfrac1n\sum_t d_{\mathcal{C}}(x_t,\hat X_t(w))\le D+\varepsilon$, else
-declare failure and reconstruct with the constant $\hat x_0^{\,n}$. By the covering
-lemma (the weak law applied to the i.i.d.\ information density and distortion) a
-random codeword meets both conditions with probability $\ge2^{-n(I+2\varepsilon)}
-(1-o(1))$, so $\Pr[\mathrm{fail}]\le\big(1-2^{-n(I+2\varepsilon)}(1-o(1))\big)^{2^{nR}}
-\to0$ for $R>I+2\varepsilon$. On success the distortion is $\le D+\varepsilon$; on
+declare failure and reconstruct with the constant $\hat x_0^{\,n}$. Let $\mathcal{T}$
+be the joint event $\{\tfrac1n\sum_t\imath\le I+\varepsilon,\ \tfrac1n\sum_t
+d_{\mathcal{C}}\le D+\varepsilon\}$; by the weak law $P_{X\hat X}^{n}(\mathcal{T})\to1$,
+so for all but an $o(1)$-probability set $\mathcal{G}_n$ of source sequences the
+\emph{conditional} probability $P_{\hat X^n\mid X^n=x^n}(\mathcal{T})\ge1-o(1)$.
+Changing measure from $P_{\hat X^n\mid x^n}$ to the codebook marginal
+$P_{\hat X^n}=\prod_t p_{\hat X}$ on $\mathcal{T}$ costs at most $2^{n(I+\varepsilon)}$
+(there the density $\prod_t\frac{dP_{\hat X\mid X}}{dP_{\hat X}}=2^{\sum_t\imath}\le
+2^{n(I+\varepsilon)}$), so for each $x^n\in\mathcal{G}_n$ a single random codeword
+passes the encoding test with conditional probability $\ge2^{-n(I+2\varepsilon)}
+(1-o(1))$. Hence $\Pr[\mathrm{fail}\mid x^n]\le\big(1-2^{-n(I+2\varepsilon)}
+(1-o(1))\big)^{2^{nR}}\to0$ for $R>I+2\varepsilon$, uniformly over
+$x^n\in\mathcal{G}_n$, and $\Pr[\mathrm{fail}]\le\Pr[\mathcal{G}_n^{c}]+
+\sup_{x^n\in\mathcal{G}_n}\Pr[\mathrm{fail}\mid x^n]\to0$. On success the distortion is $\le D+\varepsilon$; on
 failure it is $\tfrac1n\sum_t d_{\mathcal{C}}(X_t,\hat x_0)$, whose contribution to
 the expectation is $\le\sqrt{\E[(\tfrac1n\sum_t d_{\mathcal{C}}(X_t,\hat x_0))^2]}\,
 \sqrt{\Pr[\mathrm{fail}]}\to0$ by Cauchy--Schwarz, finite by the second-moment
