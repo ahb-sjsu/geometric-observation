@@ -1,0 +1,485 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\PC}{P_{\mathcal{C}}}
+\newcommand{\Sd}{\Sigma_{\delta}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\dO}{d_{\mathcal{O}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+
+\title{\textbf{Observation Theory}\\[2pt]
+\large Geometry, Distortion, and Reliability as Properties of the Observer}
+\author{Andrew H. Bond\\ \small \texttt{agi.hpc@gmail.com}}
+\date{July 2026 --- \emph{Preprint (registration-first; every empirical claim resolves to a sealed ledger row).}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose \emph{Observation Theory}: geometry, distortion, and reliability are
+properties of the \emph{observation}---the consumer's read operator, budget, and
+channel---not of the object observed. We derive, from a second-order expansion of
+the downstream metric, that the operative distortion of a lossy code is the
+reconstruction error read through the consumer, $\dO=\tr(\PC\Sd)$, where
+$\Sd$ is the error covariance and $\PC=\E[J^\top G\,J]$ the Fisher-metric-weighted
+sensitivity of the consumer. Reconstruction distortion is exactly the corner
+$\PC=I$; there Shannon rate--distortion and Gauss least-squares live. We work the
+theory out from first principles: the read operator is derived for softmax
+attention (query second moment on the across-token--demeaned error), for a
+gradient-descent optimizer (the loss Hessian, \emph{exactly}), and for retrieval;
+the read operator is shown recoverable from the consumer alone by a Jacobian
+second moment; the retrieval capacity threshold is derived from extreme-value
+theory as $\mu_{\mathrm{crit}}\!\sim\!\sqrt{2\ln N}$; and a consumer-relative
+Gaussian rate--distortion function is obtained by reverse water-filling on the
+$\PC$-weighted source spectrum, reducing to Shannon at $\PC=I$. This yields a more
+general form of the source-coding bound: a consumer-lossless floor
+$R_{\mathcal{C}}(0)=H(\Pi X)\le H(X)$, so one can be \emph{lossless to the consumer}
+while compressing below the source entropy---the entropy of the read subspace, not
+the source, being the true floor; Shannon is the full-read corner
+$\ker\PC=\{0\}$, and the information bottleneck the non-geometric generalization.
+Each derived face is then tested against a sealed, before-run prediction: distortion
+(\texttt{demonstrated}, \texttt{replicated}, out-of-sample), identifiability
+($16\times$ chance, blind), capacity (death located to $6\%$), and rate (a
+fixed-budget verdict \emph{inverts} under budget-matched observation on real
+embedding manifolds). A fifth conjecture---a density quotient restoring the
+invariant in non-spectral retrieval---is \emph{refuted} across four prospective
+tests and carried as an honest negative. Classical rate--distortion is not wrong;
+it is the picture one sees after blurring out who is reading.
+\end{abstract}
+
+\section{Introduction}
+
+Shannon fixed a distortion measure---mean-squared error, the same in every
+direction---and asked for the fewest bits that meet it \cite{shannon1948,shannon1959}.
+Gauss, earlier, fixed the same measure and asked for the estimate that minimizes
+the sum of squared residuals \cite{gauss1809}. This paper argues that fixing the
+measure is the error. The distortion that matters is not the error a code makes but
+the error a consumer \emph{reads}, and different consumers read different subspaces
+of the same error. Once the distortion is the one the downstream task induces,
+reconstruction is a single corner of a larger theory---the corner where the
+consumer is assumed to weight all coordinates equally.
+
+We call this frame \emph{Observation Theory} and develop it in two registers. The
+first is analytic: from a second-order expansion (\S\ref{sec:framework}) we obtain a
+single controlling quantity, $\tr(\PC\Sd)$, and derive its instances---the read
+operator for softmax attention and for a gradient optimizer
+(\S\ref{sec:readop}), its recoverability from the consumer alone
+(\S\ref{sec:id}), the capacity threshold of single-stage observation
+(\S\ref{sec:capacity}), and a consumer-relative rate--distortion function
+(\S\ref{sec:rd}). The second register is empirical and adversarial to ourselves:
+each derived claim was written down and cryptographically sealed \emph{before} the
+measurement that tests it, bars fixed ex ante, misses recorded as misses. Four
+faces hold; a fifth is refuted (\S\ref{sec:boundary}); eleven negatives stand with
+the same prominence as the positives (\S\ref{sec:negatives}). The recurring
+demonstration is a single lossy code whose \emph{downstream verdict inverts} when
+nothing changes but the consumer.
+
+\section{The controlling quantity}\label{sec:framework}
+
+\begin{definition}[Instance]
+An instance is $(X,\mathcal{C},\mathcal{Q})$: a representation $X$ with vectors
+$x\in\R^D$, a \emph{consumer} $\mathcal{C}:\R^D\to\R^m$ with a divergence $D_Y$ on
+its outputs, and a family $\mathcal{Q}$ of lossy codes producing $\hat x=x+\delta$.
+The downstream distortion is $\dO:=D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$,
+measured on the consumer output, never assumed from the ambient metric of $X$.
+\end{definition}
+
+\begin{proposition}[Consumer-projected distortion]\label{prop:main}
+Let $D_Y$ be twice differentiable with $D_Y(u,u)=0$ and $\nabla_v D_Y(u,v)|_{v=u}=0$,
+and let $G(u)=\nabla^2_v D_Y(u,v)|_{v=u}\succeq0$ be its output information metric.
+Let $J(x)=\partial\mathcal{C}/\partial x$. For a code with error $\delta=\hat x-x$
+whose conditional covariance given $x$ is $\Sd(x)$,
+\[
+\dO \;=\; \tfrac12\,\tr\!\big(\PC\,\Sd\big)\;+\;o(\|\delta\|^2),
+\qquad
+\PC \;:=\; \E_x\!\big[\,J(x)^\top G(\mathcal{C}(x))\,J(x)\,\big],
+\quad
+\Sd=\E_x[\Sd(x)],
+\]
+provided $\Sd(x)$ is (conditionally) uncorrelated with the point-dependent weight.
+Reconstruction distortion $\E\|\delta\|^2=\tr(\Sd)$ is the case $\PC=I$
+($G=I$, $J=I$).
+\end{proposition}
+
+\begin{proof}
+Expand $\mathcal{C}(x+\delta)=\mathcal{C}(x)+J(x)\delta+O(\|\delta\|^2)$ and
+$D_Y(\mathcal{C}(x),\cdot)$ to second order about its minimum. The value and
+gradient terms vanish by $D_Y(u,u)=0$, $\nabla_vD_Y|_{v=u}=0$, leaving
+$D_Y(\mathcal{C}(x),\mathcal{C}(x+\delta))=\tfrac12(J\delta)^\top G(J\delta)
++o(\|\delta\|^2)=\tfrac12\,\delta^\top\!\big(J^\top G J\big)\delta+o(\|\delta\|^2)$.
+Take $\E_x$; under the stated uncorrelatedness $\E_x[\delta^\top(J^\top GJ)\delta]
+=\tr\!\big(\E_x[J^\top GJ]\,\E_x[\Sd(x)]\big)=\tr(\PC\Sd)$.
+\end{proof}
+
+Proposition~\ref{prop:main} is the theory in one line: \emph{the distortion that
+governs a task is the reconstruction-error covariance projected onto the consumer's
+Fisher-weighted sensitivity $\PC$.} The rest of the paper derives $\PC$ for
+concrete consumers, shows it is recoverable, and studies what the observer's
+channel and budget do to it. (We drop the harmless factor $\tfrac12$.)
+
+\section{The read operator, derived}\label{sec:readop}
+
+\begin{proposition}[Softmax attention]\label{prop:softmax}
+Let a consumer read keys $\{k_s\}_{s=1}^{S}$ through a query bank: logits
+$l_s=q^\top k_s/\sqrt{D}$, output $p=\mathrm{softmax}(l)$, divergence
+$D_Y=\mathrm{KL}$. Under a key perturbation $\delta_s$,
+\[
+\dO \;=\; \tfrac{1}{2D}\,\E_q\,\mathrm{Var}^{\,p}_s\!\big(q^\top\delta_s\big)
+\;+\;O(\|\delta\|^3)
+\;=\;\tfrac{1}{2D}\,\tr\!\big(Q\,\bar\Sigma_\delta\big)+O(\|\delta\|^3),
+\]
+where $Q=\E_q[qq^\top]$ is the query second moment and
+$\bar\Sigma_\delta=\sum_s p_s\,\tilde\delta_s\tilde\delta_s^\top$ is the
+$p$-weighted covariance of the \emph{across-token--demeaned} errors
+$\tilde\delta_s=\delta_s-\sum_{s'}p_{s'}\delta_{s'}$.
+\end{proposition}
+\begin{proof}
+The Fisher metric of $\mathrm{softmax}$ is $G=\mathrm{diag}(p)-pp^\top$, so
+$\mathrm{KL}(p\|\mathrm{softmax}(l+\Delta l))=\tfrac12\Delta l^\top(\mathrm{diag}(p)
+-pp^\top)\Delta l+O(\Delta l^3)=\tfrac12\mathrm{Var}^p_s(\Delta l_s)$ with
+$\Delta l_s=q^\top\delta_s/\sqrt D$. The $-pp^\top$ term is exactly the softmax's
+invariance to a common additive logit shift; it removes the $p$-mean of $\delta_s$,
+yielding the demeaned $\tilde\delta_s$. Averaging $q^\top\tilde\delta_s
+\tilde\delta_s^\top q$ over $q$ gives $\tr(Q\,\bar\Sigma_\delta)$.
+\end{proof}
+Two consequences are exactly the phenomena we later measure. First, $\PC\propto Q$:
+an \emph{isotropic} query bank gives $\PC\propto I$ (reconstruction-like), while a
+subspace-concentrated bank projects onto that subspace---so the read operator, and
+hence the winning code, changes with the query distribution. Second, only the
+\emph{demeaned} (tangential) part of the error survives; the across-token mean is a
+nuisance the softmax cannot see.
+
+\begin{proposition}[Gradient-descent optimizer; exact]\label{prop:opt}
+Let $L(\theta)=\tfrac12\theta^\top H\theta$ with $H\succeq0$, gradient $g=H\theta$,
+and a compressed gradient $\hat g=g+\delta$ used in one step of size $\eta$. Then
+\[
+L(\theta-\eta\hat g)-L(\theta-\eta g)
+=\tfrac12\eta^2\,\delta^\top H\delta-\eta\,\delta^\top H(\theta-\eta g),
+\]
+whose error-quadratic part is $\tfrac12\eta^2\,\tr(H\,\delta\delta^\top)$; averaging
+the linear cross term over zero-mean, direction-uncorrelated error gives
+$\E[\dO]=\tfrac12\eta^2\,\tr(H\,\Sd)$, so $\PC=H$ \emph{exactly}.
+\end{proposition}
+\begin{proof}
+With $\theta^+=\theta-\eta g$, expand $L(\theta^+-\eta\delta)=L(\theta^+)-\eta
+\delta^\top H\theta^+ +\tfrac12\eta^2\delta^\top H\delta$; the cross term is linear
+in $\delta$ and vanishes in expectation, leaving $\tfrac12\eta^2\,\tr(H\,\Sd)$ with
+no higher-order remainder.
+\end{proof}
+Here $\PC=H$ \emph{exactly}: the loss curvature \emph{is} the read operator, with no
+second-order remainder. Reconstruction ($\tr\Sd$) is the flat-loss case $H=I$; when
+the loss is curved, a gradient code good in flat directions and bad in sharp ones is
+downstream-worse than its reconstruction admits.
+
+\begin{remark}[Retrieval]
+For score-ranking consumers $s(q,x_i)=q^\top x_i$, the fraction of inverted pairs is,
+to leading order for smooth rank statistics, monotone in
+$\tr(\PC\bar\Sigma_\delta)/\tr(\PC\bar\Sigma_0)$ with $\PC=\E[qq^\top]$ and
+$\bar\Sigma$ the across-item covariance---the same read operator, now a subspace
+projector when the query distribution is concentrated. (Rank statistics are
+non-smooth; we treat this instance empirically, \S\ref{sec:distortion}.)
+\end{remark}
+
+\section{Distortion: the consumer is the metric (GO-2)}\label{sec:distortion}
+
+Proposition~\ref{prop:softmax} predicts that at \emph{matched reconstruction} the
+downstream ranking of two codes is set by $\tr(\PC\Sd)$, hence by the query
+distribution. We test it under sealed registration.
+
+\paragraph{Dissociation.} Two 4-bit codes at an audited matched budget (spread
+$0.19$ bit) with \emph{identical} reconstruction ($0.0938$ vs $0.0934$): the
+whole-vector code is $2.53\times$ worse on softmax-KL ($12/12$ seeds); a
+wrong-quotient control is $21\times$ worse at $\sim\!5\times$ the reconstruction.
+Reconstruction is not the controlling quantity (\texttt{[demonstrated]}).
+
+\paragraph{Flip.} Holding reconstruction fixed and changing only the query bank,
+the ranking \emph{inverts}: isotropic $\Rightarrow$ code $a$ better ($2.5\times$,
+$12/12$); subspace $\Rightarrow$ code $b$ better ($12/12$). The directly computed
+$\tr(\PC\Sd)$ tracks the sign on every seed in both consumers; reconstruction, a
+consumer-blind scalar, cannot (rank correlation $0.40$ vs $1.00$). This is
+Proposition~\ref{prop:softmax} with $Q$ swapped, observed
+(\texttt{[demonstrated]}).
+
+\paragraph{Replication and out-of-sample.} The flip replicates on retrieval ranking
+(different representation, set-valued consumer): identical reconstruction
+($0.0964$), ranking flips with the read subspace (log-advantage $-4.70$ vs $+4.65$,
+$12/12$), $\tr(\PC\Sd)$ tracking, reconstruction blind (\texttt{[replicated]}). It
+generalizes to optimization with $\PC=H$ (Proposition~\ref{prop:opt}): at matched
+reconstruction the curvature-metric distortion flips between two Hessians ($12/12$),
+tracked by $\tr(H\Sd)$, reconstruction uninformative ($-0.20$)---and under $H=I$
+reconstruction tracks \emph{perfectly} ($1.00$), the derived $\PC=I$ corner,
+observed (\texttt{[predicted]}, out-of-sample). One derivation; three read operators.
+
+\section{Identifiability: the metric is recoverable (GO-1)}\label{sec:id}
+
+Proposition~\ref{prop:main} is useful only if $\PC$ is knowable before compressing.
+
+\begin{proposition}[Recovery of the read subspace]\label{prop:id}
+Let $\mathcal{C}(x)=f(Wx)$ with $W\in\R^{r\times D}$ of rank $r$ and $f$
+coordinatewise. Then $J(x)^\top J(x)=W^\top\!\operatorname{diag}(f'(Wx)^2)\,W$ and
+$\E_x[J^\top J]=W^\top\!\E[\operatorname{diag}(f'^2)]\,W$ has rank $r$ with column
+space equal to $\operatorname{row}(W)$. Hence the top-$r$ eigenvectors of
+$\E_x[J^\top J]$ span the read subspace, and a finite-difference estimate
+$\hat J u\approx(\mathcal{C}(x{+}hu)-\mathcal{C}(x{-}hu))/2h$ recovers it from
+consumer queries alone.
+\end{proposition}
+
+We built such a probe---receiving only the callable $\mathcal{C}(\cdot)$ and the
+dimensions, never $W$, the codes, or $\dO$ (blinding enforced in code). It recovers
+the planted read subspace at overlap $0.936$ against a $0.059$ chance baseline
+($16\times$), and the \emph{blind} $\tr(\hat\PC\Sd)$ predicts the flip of
+\S\ref{sec:distortion} on $12/12$ seeds in both consumers with rank correlation
+$1.00$---identical to ground truth---while reconstruction cannot ($0.40$)
+(\texttt{[predicted]}). Composed: from the consumer alone one predicts which code
+wins, before compressing anything.
+
+\section{Capacity: a vacuity threshold, derived (GO-3)}\label{sec:capacity}
+
+Observation has a reliability limit, and it too is computable in advance.
+
+\begin{proposition}[Retrieval vacuity threshold]\label{prop:capacity}
+For single-stage top-1 retrieval with $N\!-\!1$ conditionally-exchangeable
+distractor scores standardized to mean $0$, variance $1$, success requires the
+standardized true margin to exceed $M_{N-1}=\max$ of the distractors, and
+\[
+\mu_{\mathrm{crit}}:=\E[M_{N-1}]
+=\sqrt{2\ln(N{-}1)}-\frac{\ln\ln(N{-}1)+\ln4\pi}{2\sqrt{2\ln(N{-}1)}}+o\!\Big(\tfrac{1}{\sqrt{\ln N}}\Big).
+\]
+Writing the margin certificate $\hat\mu=(\overline{\text{true}}-\overline{\text{distr}})/\mathrm{std}$
+and $\rho=\hat\mu/\mu_{\mathrm{crit}}$, recall crosses $\tfrac12$ at $\rho\!\approx\!1$;
+the certificate is \emph{vacuous} for $\rho<1$.
+\end{proposition}
+\begin{proof}[Derivation]
+Standardized i.i.d.\ Gaussian maxima obey the Fisher--Tippett law with Gumbel
+limit and centering/scaling $a_N=\sqrt{2\ln(N{-}1)}$,
+$b_N=1/a_N$; $\E[M_{N-1}]=a_N-b_N(\ln\ln(N{-}1)+\ln4\pi)/2+o(b_N)$. Top-1 success is
+$\text{true}>M_{N-1}$; averaging the standardized margin gives $\hat\mu$, so the
+$0.5$-recall crossing is at $\hat\mu\approx\E[M_{N-1}]=\mu_{\mathrm{crit}}$.
+\end{proof}
+
+Across $14$ structurally distinct corpora the derived---not fitted---threshold locates
+death: the recall-$0.5$ crossing sits at $\rho=0.948$ (within $6\%$ of $1$); the
+certificate orders corpora by recall at rank correlation $0.991$, beating the
+un-normalized margin ($0.873$), with a finite-width transition
+(\texttt{[demonstrated]}). Capacity says, from a computable quantity, \emph{where}
+the observation channel dies before any retrieval is run.
+
+\section{Rate: the verdict belongs to the budget (GO-4)}\label{sec:rate}
+
+The read operator, capacity, and distortion are stated at a fixed observer budget;
+the budget is itself a rate, and it can invert the verdict. The mechanism is
+spectral. An eigenfunction $\varphi_k$ of a Laplace--Beltrami operator with
+eigenvalue $\lambda_k$ oscillates on the \emph{wavelength} $\lambda_k^{-1/2}$;
+Weyl's law $N(\lambda)\sim c\,\mathrm{Vol}(M)\,\lambda^{d/2}$ says the count of modes
+below a fixed scale grows with resolution. Geodesic distance is preserved by modes
+whose wavelength \emph{exceeds} the geodesic scale of interest (small $\lambda$);
+modes with $\lambda$ above a threshold $\tau$ oscillate \emph{below} that scale and
+encode sub-geodesic detail.
+
+\begin{lemma}[Budget inversion]\label{lem:rate}
+Fix a low-mode budget $m$ (a fixed low-$\lambda$ band). As the sample $N$ grows, the
+graph operator converges to the manifold operator and the fixed band \emph{sharpens},
+so geodesic fidelity is nondecreasing. Hold instead the resolved scale $\tau$ fixed
+(spectral-gap matching), so $m=N(\tau)$ grows with $N$: the newly resolved modes
+near $\tau$ have wavelength approaching the sampling scale and, for a non-ideal
+(finite-sample, noisy) substrate, inject sub-geodesic detail, so geodesic fidelity
+is nonincreasing. The two budgets coincide at the coarsest $N$ and diverge in
+\emph{opposite} directions thereafter.
+\end{lemma}
+
+We test Lemma~\ref{lem:rate} on real $768$-d book-paragraph embedding manifolds
+($32{,}000$ points, three seeds). Fixed budget $m=10$: geometry preservation rises
+with $N$ (trend $+0.4,+1.0,+1.0$). Spectral-gap-matched, $m:10\to121/126/159$:
+geometry \emph{collapses} (trend $-1.0$ every seed), the added high modes injecting
+sub-wavelength detail; the budgets agree at the smallest $N$ (gap $\le0.002$)
+(\texttt{[replicated]}). Opposite verdicts about the same data, set by the observer's
+rate: ``clean geometry'' is a relation between observer resolution and substrate
+scale, not a substrate invariant.
+
+\section{A consumer-relative rate--distortion function}\label{sec:rd}
+
+The four faces assemble into one object. For a Gaussian source and the
+consumer-projected distortion of Proposition~\ref{prop:main}:
+
+\begin{proposition}[Consumer-relative Gaussian rate--distortion]\label{prop:rd}
+Let $x\sim\mathcal{N}(0,\Sigma_x)$ and constrain $\tr(\PC\Sd)\le D$. In the basis
+diagonalizing $\PC^{1/2}\Sigma_x\PC^{1/2}$ with eigenvalues $\gamma_i$, the minimum
+rate is
+\[
+R_{\mathcal{C}}(D)=\sum_i \tfrac12\log_2^{+}\!\frac{\gamma_i}{\theta},\qquad
+\sum_i\min(\gamma_i,\theta)=D,
+\]
+a \emph{reverse water-filling on the $\PC$-weighted source spectrum}. For $\PC=I$
+this is Shannon's Gaussian rate--distortion function \cite{shannon1959}, and the
+estimation dual is Gauss--Markov least squares \cite{gauss1809}.
+\end{proposition}
+\begin{proof}[Derivation]
+$\tr(\PC\Sd)=\tr(\PC^{1/2}\Sd\PC^{1/2})$; change variables $y=\PC^{1/2}x$ so the
+distortion is ordinary MSE on $y$ with source covariance $\PC^{1/2}\Sigma_x\PC^{1/2}$.
+Shannon's Gaussian water-filling applies to $y$, giving the stated allocation; the
+transform is invertible off the null space of $\PC$, on which the consumer is blind
+and no rate is spent.
+\end{proof}
+
+Proposition~\ref{prop:rd} makes the placement exact: \emph{classical
+rate--distortion is Observation Theory at $\PC=I$}. Bits should water-fill on the
+directions the consumer reads \emph{and} the source varies ($\gamma_i$ large), and
+spend nothing on $\ker\PC$---which is precisely why, empirically, a
+reconstruction-optimal code ($\PC=I$ allocation) is beaten by a consumer-matched one
+whenever $\PC\ne I$, and why the winner \emph{flips} with $\PC$
+(\S\ref{sec:distortion}). The identity-curvature control of \S\ref{sec:distortion}
+is the clean confirmation: only at $\PC=I$ does reconstruction become the correct
+objective, and there it becomes it perfectly.
+
+\subsection*{A more general Shannon: lossless to the consumer below the source entropy}
+
+Proposition~\ref{prop:rd} departs from Shannon in a way worth stating sharply.
+Shannon source coding obeys $R(0)=H(X)$: lossless representation costs the full
+source entropy. Observation Theory does not.
+
+\begin{proposition}[Consumer-lossless floor]\label{prop:floor}
+Let $\Pi$ project orthogonally onto $\operatorname{range}(\PC)$, rank $r\le D$.
+There exist codes with $\tr(\PC\Sd)=0$---zero downstream distortion---at rate
+\[
+R_{\mathcal{C}}(0)=H(\Pi X)\;\le\;H(X),
+\qquad
+H(X)-R_{\mathcal{C}}(0)=H\!\big(X\mid \Pi X\big),
+\]
+with equality iff $\PC\succ0$. The saving is the entropy of the consumer-invisible
+subspace $\ker\PC$, discarded at no downstream cost.
+\end{proposition}
+\begin{proof}
+$\tr(\PC\Sd)=\tr(\PC\,\Pi\Sd\Pi)$ depends on $\delta$ only through $\Pi\delta$; a
+code that transmits $\Pi X$ losslessly and reconstructs $(\mathrm{I}-\Pi)X$ by its
+conditional mean has $\Pi\delta=0$, hence $\tr(\PC\Sd)=0$, at rate $H(\Pi X)$.
+\end{proof}
+
+This is a genuinely more general statement than Shannon's: \emph{one can be lossless
+to the consumer while compressing below the source entropy}, and the floor is the
+entropy of the \emph{read subspace}, not of the source. It is what the flip
+experiments exhibit---a code spending zero bits on $\ker\PC$ (the across-token mean
+the softmax cannot see, Prop.~\ref{prop:softmax}; the subspace the query bank never
+probes) loses nothing the consumer can detect, and beats a reconstruction-optimal
+code that wastes bits there. Shannon is the corner $\ker\PC=\{0\}$, where nothing is
+free.
+
+Placed against the literature, Observation Theory is the middle term of a chain:
+Shannon rate--distortion ($\PC=I$) $\subset$ consumer-relative rate--distortion
+($\PC$ a rank-$r$ \emph{geometric, identifiable} operator, Props.~\ref{prop:rd},
+\ref{prop:floor}) $\subset$ the information bottleneck \cite{tishby1999} (an
+arbitrary relevance variable $Y$, generally non-geometric and requiring the joint
+$p(X,Y)$). The middle term is the operational one: $\PC$ is the \emph{local Fisher
+metric} of the relevance $\mathcal{C}(X)$ (Prop.~\ref{prop:main}), it is PSD and
+water-fillable (Prop.~\ref{prop:rd}), and---unlike the abstract bottleneck---it is
+\emph{recoverable from the consumer alone} by probing (Prop.~\ref{prop:id}). A more
+general Shannon is thus not a slogan but a program: replace ``represent the source''
+with ``serve the reader,'' make the reader's metric a measurable geometric object,
+and recover source coding, the reliability limit of \S\ref{sec:capacity} (a
+consumer-relative channel bound), and least squares as the $\PC=I$ shadow. What
+remains for the converse is a coding theorem: that $R_{\mathcal{C}}(D)$ is
+\emph{achievable} for general (non-Gaussian) sources by a random-coding argument on
+the $\PC$-tilted typical set---the natural next theorem of this program.
+
+\section{A boundary: the refuted quotient (GO-5)}\label{sec:boundary}
+
+Not every plausible face survives a sealed prediction. In the spectral setting the
+$\alpha{=}1$ anisotropic normalization of a diffusion operator cancels sampling
+density and recovers density-free geometry \cite{coifman2006}; the null space of
+$\PC$ there is the density mode. We conjectured this \emph{density quotient} likewise
+restores the invariant in a \emph{non-spectral} domain (locally-scaled ADC
+retrieval). It does not. Across four prospective tests---direct affinity (two
+variants), product-quantization ADC on real embeddings, and non-spectral
+diffusion-distance retrieval---the quotient fails to produce a decisive,
+density-specific restoration. In the direct and ADC domains it \emph{hurts}: the
+retrieval base is not a density-biased operator, so there is no density term to
+cancel, and in concentrated real data density is entangled with the invariant, so
+down-weighting dense points removes signal. In the diffusion domain the direction is
+right---$\alpha{=}1$ is the optimal exponent, recovered non-spectrally by iterated
+transition-matrix powers---but the effect is under $2\%$ and \emph{not
+density-specific} (a uniform-density control gains as much, $+0.015$ vs $+0.019$).
+Per its sealed registration the conjecture is \texttt{[refuted]} (NEG-11). The
+sharpened statement: \emph{the $\alpha{=}1$ cancellation is a property of the
+diffusion operator and does not transfer to direct observation}---consistent with
+Proposition~\ref{prop:rd}, which spends zero rate on $\ker\PC$ only when $\PC$
+actually contains the density direction. The theory is stronger for the boundary.
+
+\section{Honest negatives}\label{sec:negatives}
+
+Eleven standing negatives bound the theory and are reported with the prominence of
+the positives. Reconstruction cosine is not a proxy for key quality (the motivating
+negative). The reconstruction-blind flip is observable only for
+reconstruction-\emph{matched} codes: absent a tie one code Pareto-dominates and
+reconstruction is not falsified (NEG-10, a prospective miss locating a precondition,
+consistent with Proposition~\ref{prop:rd}'s water-filling). The projected-variance
+\emph{trace} governs the discriminating comparison but is not a complete rank
+statistic over all codes (NEG-9). The density quotient (NEG-11, \S\ref{sec:boundary}).
+Two are methodological: twice a substantive claim passed at $12/12$ while an
+over-strict secondary gate we had written failed, and twice a degenerate substrate
+was caught only by a regime-coverage gate---reported because a theory that publishes
+only its wins cannot be believed about them.
+
+\section{Method: registration-first}\label{sec:method}
+
+Every empirical claim was governed by a dated, hashed registry entry
+committed---sealed---before the first measurement it governs; the commit is the
+binding timestamp. Bars were fixed ex ante; misses enter the ledger as misses;
+amendments only dated and logged before unblinding; prospective claims
+(\S\ref{sec:id},\ref{sec:rate},\ref{sec:boundary}) were blinded where feasible. The
+registry, ledger, harnesses, and result artifacts are public; the house rule is that
+the paper may not assert what the ledger cannot show. This is what lets a reader
+separate the four faces that held from the fifth that did not.
+
+\section{Discussion}\label{sec:discussion}
+
+Observation Theory asks a change of default. Where a pipeline minimizes
+reconstruction and hopes the task follows, the theory says: recover the consumer's
+read operator (\S\ref{sec:id}), water-fill bits on $\PC$ rather than on $I$
+(\S\ref{sec:rd}), respect the channel's vacuity threshold (\S\ref{sec:capacity}), and
+remember the verdict is relative to the observation budget (\S\ref{sec:rate}). The
+practical target is compression, quantization, and retrieval, where reconstruction
+reigns and is, we have shown analytically and empirically, the wrong objective when
+$\PC\ne I$. The theoretical content is a reframing: geometry, distortion, and
+reliability are relations between an object and an observer, and the observer is
+specifiable, recoverable, and---within its budget and channel---sovereign over the
+verdict. Open: the achievability and converse of $R_{\mathcal{C}}(D)$ beyond the
+Gaussian case; whether the flip is exactly its argmin migrating with $\PC$; and the
+hardening of \S\ref{sec:id}--\ref{sec:distortion} on trained-model consumers.
+Four faces, one refutation, eleven negatives: a world to map, not a slogan.
+
+\begin{thebibliography}{9}
+\bibitem{shannon1948} C.~E. Shannon. A mathematical theory of communication.
+\emph{Bell System Technical Journal}, 27:379--423, 623--656, 1948.
+\bibitem{shannon1959} C.~E. Shannon. Coding theorems for a discrete source with a
+fidelity criterion. \emph{IRE Nat.\ Conv.\ Rec.}, 4:142--163, 1959.
+\bibitem{gauss1809} C.~F. Gauss. \emph{Theoria Motus Corporum Coelestium}, 1809.
+\bibitem{coifman2006} R.~R. Coifman and S.~Lafon. Diffusion maps.
+\emph{Appl.\ Comput.\ Harmon.\ Anal.}, 21(1):5--30, 2006.
+\bibitem{tishby1999} N.~Tishby, F.~C. Pereira, and W.~Bialek. The information
+bottleneck method. \emph{Proc.\ 37th Allerton Conf.\ on Communication, Control, and
+Computing}, 368--377, 1999.
+\bibitem{radovanovic2010} M.~Radovanovi\'c, A.~Nanopoulos, and M.~Ivanovi\'c.
+Hubs in space. \emph{J.\ Mach.\ Learn.\ Res.}, 11:2487--2531, 2010.
+\bibitem{ledger2026} A.~H. Bond. \emph{Geometric Observation: claim ledger,
+prediction registry, and reproduction artifacts}. Companion repository, 2026.
+\end{thebibliography}
+
+\paragraph{Reproducibility \& provenance.} All results resolve to sealed, before-run
+registry entries and committed artifacts in the companion repository. Computational
+experimentation and drafting were carried out with an AI research assistant under
+the registration-first protocol of \S\ref{sec:method}.
+
+\end{document}
