@@ -1,0 +1,52 @@
+{
+  "claim": "GO-2 kv-keys",
+  "prereg": "GO-P-2026-001",
+  "instance": "post-RoPE keys / softmax",
+  "n_seeds": 12,
+  "arms": [
+    "a_asym_nf4",
+    "b_lloyd_recon",
+    "c_polar_antiprobe",
+    "d_uniform"
+  ],
+  "median_kl": {
+    "a_asym_nf4": 0.05055701469086457,
+    "b_lloyd_recon": 0.0390931259518698,
+    "c_polar_antiprobe": 1.0755597194348774,
+    "d_uniform": 0.07016911459951164
+  },
+  "median_recon": {
+    "a_asym_nf4": 0.09378517791628838,
+    "b_lloyd_recon": 0.05773503519594669,
+    "c_polar_antiprobe": 0.4432823657989502,
+    "d_uniform": 0.11383458599448204
+  },
+  "median_tang": {
+    "a_asym_nf4": 0.24356792122125626,
+    "b_lloyd_recon": 0.1433902308344841,
+    "c_polar_antiprobe": 1.0127025842666626,
+    "d_uniform": 0.29215294122695923
+  },
+  "ordering_a_lt_b_lt_c_hits": "1/12",
+  "effect_a_vs_b": 0.773248305717975,
+  "effect_c_gap": 21.27419362103329,
+  "std_coef_tang": -2.0823849378712818,
+  "std_coef_recon": 3.073449392215101,
+  "partial_r2_tang": 0.0043675609281855765,
+  "partial_r2_recon": 0.009514129912760683,
+  "dominance_margin": -0.005146568984575106,
+  "noise_floor_kl": 3.724581625452626e-07,
+  "bars": {
+    "a_vs_b_ge": 1.1,
+    "c_gap_ge": 5.0,
+    "dominance_ge": 0.1,
+    "ordering_hits": 12
+  },
+  "verdict": {
+    "ordering": false,
+    "a_vs_b_floor": false,
+    "c_gap_floor": true,
+    "tangential_dominates": false
+  },
+  "GO2_supported": false
+}
