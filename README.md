@@ -5,11 +5,23 @@ synthesizes:
 
 - **Paper I** — *Keep the Angle* ([`the-angular-observer`](https://github.com/ahb-sjsu/the-angular-observer)): the spectral/angular result and the manifold recognizer.
 - **Paper II** — the compression-as-observation work ([`turboquant-pro`](https://github.com/ahb-sjsu/turboquant-pro)): keys/values asymmetry, rank certificates, the (A2) probe, operator-regime tracing.
-- **Paper III** — the generalized quotient-transfer theorem (`[proved]` gate for the umbrella principle).
+- **Paper III** — [**Observation Theory**](paper/observation-theory.pdf) ([source](paper/observation-theory.tex)): the information-theoretic synthesis.
 
 into one claim: **compression succeeds for a consumer exactly when it preserves
 what that consumer's functional distinguishes** — measured on the consumer's own
 metric, never on reconstruction error.
+
+## Observation Theory
+
+Geometry, distortion, and reliability are properties of the **observation** — the
+consumer's read operator, budget, and channel — not of the object observed. The
+operative distortion is the reconstruction error read through the consumer,
+`d_O = tr(P_C · Σ_δ)`; reconstruction (`tr Σ_δ`) is the corner `P_C = I`, where
+Shannon rate–distortion and Gauss least-squares live. The paper derives this,
+proves the achievability + converse of a consumer-relative rate–distortion function
+for a general source, and positions the framework as the identifiable geometric
+middle term between Shannon and the information bottleneck. See
+[`paper/observation-theory.pdf`](paper/observation-theory.pdf).
 
 ## House rule
 
@@ -39,9 +51,16 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
 | [`chapters/`](chapters/) | Chapter → claim map and drafts |
 
-## Status
+## Status — falsifiable core resolved
 
-**Bootstrapping.** Repo scaffolded to the protocol; the claim ledger carries the
-standing `[refuted]` rows and the GO-1…5 core as *registered/pending*. Drafting
-begins at Gate A ∧ B (`PROTOCOL.md` §11); no book-cited run happens before its
-prereg entry exists.
+| Claim | Class | Evidence |
+|---|---|---|
+| **GO-1** identifiability | `[predicted]` | blind probe recovers the read subspace at 0.94 vs 0.06 chance; predicts the flip 12/12 |
+| **GO-2** distortion (`tr P_C Σ_δ`) | `[demonstrated]` · `[replicated]` · Gate-B | recon-identical code 2.5× worse; flip inverts with the consumer; holds on attention, retrieval, optimization |
+| **GO-3** certificate vacuity | `[demonstrated]` | derived EVT threshold locates retrieval death to ~5%, orders 14 corpora (ρ=0.99) |
+| **GO-4** budget inversion | `[replicated]` | fixed-budget verdict inverts under budget-matched observation on real embedding manifolds |
+| **GO-5** density quotient | `[refuted]` | 4 prospective misses; operator/spectral-confined (NEG-11) |
+
+Four faces of Observation Theory stand; the fifth is an honest negative. ~20
+registered runs, all sealed before their measurement; eleven standing negatives
+(NEG-5…11). Every claim resolves to a row in [`claims/LEDGER.md`](claims/LEDGER.md).
