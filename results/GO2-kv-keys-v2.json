@@ -1,0 +1,66 @@
+{
+  "claim": "GO-2 kv-keys v2",
+  "prereg": "GO-P-2026-002",
+  "instance": "post-RoPE keys / softmax",
+  "n_seeds": 12,
+  "arms": [
+    "a_demean_perchan_asym4",
+    "b_wholevec_pertoken_uniform4",
+    "c_polarquant",
+    "d_perchan_uniform4"
+  ],
+  "effective_bits": {
+    "a_demean_perchan_asym4": 4.0625,
+    "b_wholevec_pertoken_uniform4": 4.25,
+    "c_polarquant": 4.125,
+    "d_perchan_uniform4": 4.0625
+  },
+  "eff_bits_spread": 0.1875,
+  "median_kl": {
+    "a_demean_perchan_asym4": 0.05055701469086457,
+    "b_wholevec_pertoken_uniform4": 0.12802389075095377,
+    "c_polarquant": 1.0755597194348774,
+    "d_perchan_uniform4": 0.07016911459951164
+  },
+  "median_recon": {
+    "a_demean_perchan_asym4": 0.09378517791628838,
+    "b_wholevec_pertoken_uniform4": 0.09336287155747414,
+    "c_polarquant": 0.4432823657989502,
+    "d_perchan_uniform4": 0.11383458599448204
+  },
+  "median_tang": {
+    "a_demean_perchan_asym4": 0.24356792122125626,
+    "b_wholevec_pertoken_uniform4": 0.2331099510192871,
+    "c_polarquant": 1.0127025842666626,
+    "d_perchan_uniform4": 0.29215294122695923
+  },
+  "c_gap": 21.27419362103329,
+  "a_lt_b_seeds": "12/12",
+  "std_coef_tang": -0.9552256692059603,
+  "std_coef_recon": 1.9476786500399308,
+  "partial_r2_tang": 0.0006198951430377297,
+  "partial_r2_recon": 0.0025771569730560495,
+  "dominance_margin": -0.0019572618300183198,
+  "noise_floor_kl": 3.724581625452626e-07,
+  "control_gap_real": 2.532267609821652,
+  "control_gap_headshuf": 2.490036092062234,
+  "control_gap_chanrot": 2.5793265808680186,
+  "bars": {
+    "eff_bits_spread_le": 0.5,
+    "dominance_ge": 0.1,
+    "c_gap_ge": 5.0,
+    "a_lt_b_ge": 10
+  },
+  "verdict": {
+    "audit_pass": true,
+    "dominance": false,
+    "c_gap": true,
+    "a_lt_b_consistent": true
+  },
+  "corroborating": {
+    "kl_gap_b_vs_a": 2.532267609821652,
+    "recon_ratio_b_vs_a": 0.9954970884717925,
+    "recon_does_not_explain_gap": true
+  },
+  "GO2_supported": false
+}
