@@ -36,8 +36,11 @@ Theory}: geometry, distortion, and reliability are properties of the
 \emph{observation} (the consumer's read operator, budget, and channel), not of the
 object observed. From a second-order expansion of the downstream metric we recover
 the single controlling quantity, the reconstruction error read through the consumer,
-$\dO=\tr(\PC\Sd)$, with $\Sd$ the error covariance and $\PC=\E[J^\top G J]$ the
-Fisher-metric-weighted sensitivity. This weighted-quadratic fidelity is classical:
+$\dO=\tr(\PC\Sd)$, with $\Sd$ the error second moment and $\PC=\E[J^\top G J]$ the
+Fisher-metric-weighted sensitivity. At root this is a \emph{distinguishability}:
+$\PC=J^\top G J$ is the pullback of the consumer's Fisher metric, so each observer
+induces a geometry and a quotient $X/\!\sim_{\mathcal{C}}$ of the representation by
+what it cannot tell apart. This weighted-quadratic fidelity is classical:
 it is the indirect/remote source-coding distortion of Dobrushin--Tsybakov and
 Wolf--Ziv, reduces to Shannon's Gaussian rate--distortion by Berger's
 change of variables, and is Hessian-weighted loss-aware compression (OBD/OBS through
@@ -58,11 +61,16 @@ including an $H{=}I$ control where reconstruction becomes exactly optimal; the o
 real-substrate face is the budget inversion, and hardening on trained-model consumers
 is the decisive open validation. A fifth conjecture---a density quotient restoring
 the invariant in non-spectral retrieval---is \emph{refuted} across four prospective
-tests and carried as a boundary. We prove achievability and converse of the
-consumer-relative rate--distortion function for a general source
-(Appendix~\ref{app:coding}), and for discrete sources exhibit a consumer-lossless
-floor below the source entropy. Shannon is the corner where the observer reads
-everything.
+tests and carried as a boundary. For the fixed (or averaged) weighted-quadratic
+model we prove achievability and converse of the consumer-relative rate--distortion
+function for a general source (Appendix~\ref{app:coding}), and for discrete sources
+exhibit a consumer-lossless floor below the source entropy. We do \emph{not} claim
+Shannon was incomplete---his framework already admits any fidelity criterion, and
+$R_{\mathcal{C}}(D)$ is a classical rate--distortion problem once the consumer's
+distortion is chosen. Euclidean reconstruction is its \emph{isotropic-observer}
+corner ($\PC=I$); Observation Theory's contribution is to make that distortion
+measure an \emph{identifiable geometric object}, recover it from the consumer, and
+show adversarially that changing it changes which representation is optimal.
 \end{abstract}
 
 \section{Introduction}
@@ -72,7 +80,9 @@ Shannon fixed a distortion measure and asked for the fewest bits meeting it
 least-squares estimate \cite{gauss1809}. This paper reads their common assumption
 as the variable of interest: the error that matters is not the one a code makes but
 the one a consumer \emph{reads}, and different consumers read different subspaces of
-the same error. Once the distortion is the task's, reconstruction is a single corner.
+the same error. Once the distortion is the task's, Euclidean reconstruction is one
+corner---the isotropic observer $\PC=I$---and any anisotropic or rank-deficient $\PC$
+reads the error differently.
 
 The idea that one should code a source to serve a \emph{functional} of it, not the
 source, is not new: it is the indirect (remote) rate--distortion problem
@@ -115,14 +125,20 @@ on the consumer output, never assumed from the ambient metric of $X$.
 Let $D_Y$ be twice differentiable with $D_Y(u,u)=0$, $\nabla_v D_Y(u,v)|_{v=u}=0$,
 and information metric $G(u)=\nabla^2_v D_Y(u,v)|_{v=u}\succeq0$; let
 $J(x)=\partial\mathcal{C}/\partial x$. For error $\delta=\hat x-x$ with conditional
-covariance $\Sd(x)$, the exact leading-order distortion is
+\emph{second moment} $\Sd(x)=\E[\delta\delta^\top\mid x]$, the exact leading-order
+distortion is
 \[
 \dO \;=\; \tfrac12\,\E_x\tr\!\big(\PC(x)\,\Sd(x)\big)\;+\;o(\|\delta\|^2),
 \qquad \PC(x)=J(x)^\top G(\mathcal{C}(x))\,J(x)\succeq0 .
 \]
 When $\Sd(x)$ is uncorrelated with the point-dependent weight $\PC(x)$ this factors
-as $\tfrac12\tr(\PC\Sd)$ with $\PC=\E_x[\PC(x)]$, $\Sd=\E_x[\Sd(x)]$; reconstruction
-distortion $\E\|\delta\|^2=\tr(\Sd)$ is the case $\PC=I$.
+as $\tfrac12\tr(\PC\Sd)$ with $\PC=\E_x[\PC(x)]$, $\Sd=\E_x[\Sd(x)]$. The controlling
+object is the \emph{second} moment, not the covariance:
+$\tr(\PC\Sd)=\tr(\PC\,\mathrm{Cov}[\delta\mid x])+\mu_\delta^\top\PC\mu_\delta$ with
+$\mu_\delta=\E[\delta\mid x]$, so a biased code's offset is \emph{part} of the
+distortion, not averaged away---which is why quantizer bias is first-class
+(\S\ref{sec:readop}). Reconstruction distortion $\E\|\delta\|^2=\tr(\Sd)$ is the
+\emph{isotropic} corner $\PC=I$.
 \end{proposition}
 \begin{proof}
 Expand $\mathcal{C}(x+\delta)=\mathcal{C}(x)+J\delta+O(\|\delta\|^2)$ and $D_Y$ to
@@ -132,11 +148,44 @@ form requires the stated uncorrelatedness (for real quantizers both $J$ and $\Sd
 depend on $x$, so the exact object is the $x$-averaged trace).
 \end{proof}
 
-We keep the exact form $\E_x\tr(\PC(x)\Sd(x))$ as primary and use the factored
-$\tr(\PC\Sd)$ as the convenience it is. The theory is this one line: the distortion
-governing a task is the error covariance read through the consumer's sensitivity.
-The rest derives $\PC$, shows it recoverable, and studies the observer's channel and
-budget. (We drop the harmless $\tfrac12$.)
+We keep $\E_x\tr(\PC(x)\Sd(x))$ as primary and use the factored $\tr(\PC\Sd)$ as the
+convenience it is. (We drop the harmless $\tfrac12$.)
+
+\subsection*{Distinguishability, and the observer's quotient}
+
+The form $\delta^\top\PC(x)\delta=(J\delta)^\top G\,(J\delta)$ is not, at root, a
+compression cost; it is a \emph{distinguishability}. It measures how far the
+consumer's outputs $\mathcal{C}(x)$ and $\mathcal{C}(x{+}\delta)$ separate in the
+output metric $G$, and when $G$ is the Fisher information metric of the output
+distribution, $\delta^\top\PC\delta$ \emph{is} the local statistical
+distinguishability (the leading KL / $\chi^2$) of those outputs. So $\PC$ is the
+pullback through $\mathcal{C}$ of the geometry of distinguishability: Observation
+Theory is pullback geometry.
+
+Two consequences follow, and both recur below. First, $\ker\PC$ (perturbations with
+$J\delta=0$) are changes that exist in the representation but have \emph{no
+operational consequence} for this consumer; they induce an equivalence
+$x\sim_{\mathcal{C}}x'\!\iff\!\mathcal{C}(x)=\mathcal{C}(x')$, and the consumer's true
+object is the quotient $X/\!\sim_{\mathcal{C}}$, not $X$. The consumer-lossless floor
+$R_{\mathcal{C}}(0)=H(\Pi X)$ (Prop.~\ref{prop:floor}) is exactly the entropy of that
+quotient---one pays only for what one can tell apart. Second, $\ker\PC$ is
+gauge-like \emph{but only relative to $\mathcal{C}$}: another consumer may read those
+directions, so it is not a true gauge redundancy (which would be invisible to every
+admissible observer). One observer's noise is another's signal; one observer's state
+variable is another's gauge freedom. Adjoining the budget of \S\ref{sec:rate}, an
+observer is a triple $\mathcal{O}=(\mathcal{C},G,B)$---readout, output metric, and
+resolution---and the geometry it resolves is relative to all three.
+
+\begin{quote}
+\textbf{Principle of observational relativity.} Statements about fidelity,
+distortion, and resolved geometry are incomplete unless the consumer, channel, and
+observation budget are specified. Observation induces geometry; each observer pulls
+back a world.
+\end{quote}
+
+The rest of the paper derives $\PC$ for concrete consumers, shows it recoverable
+from queries, and studies what the channel (\S\ref{sec:capacity}) and budget
+(\S\ref{sec:rate}) do to the geometry it induces.
 
 \section{The read operator, derived}\label{sec:readop}
 
@@ -145,11 +194,15 @@ Read keys $\{k_s\}_{s=1}^{S}$ through a query bank: logits $l_s=q^\top k_s/\sqrt
 output $p=\mathrm{softmax}(l)$, $D_Y=\mathrm{KL}$. Under key perturbation $\delta_s$,
 \[
 \dO=\tfrac{1}{2d}\,\E_q\,\mathrm{Var}^{\,p}_s\!\big(q^\top\delta_s\big)+O(\|\delta\|^3)
-=\tfrac{1}{2d}\,\tr\!\big(Q\,\bar\Sigma_\delta\big)+O(\|\delta\|^3),
+=\tfrac{1}{2d}\,\E_q\tr\!\big(qq^\top A_q\big)+O(\|\delta\|^3),
+\qquad A_q=\sum_s p_s(q)\,\tilde\delta_s\tilde\delta_s^\top,
 \]
-$Q=\E_q[qq^\top]$ the query second moment, $\bar\Sigma_\delta=\E_q\!\sum_s p_s\,
-\tilde\delta_s\tilde\delta_s^\top$ the $p$-weighted covariance of the
-across-token--demeaned errors $\tilde\delta_s=\delta_s-\sum_{s'}p_{s'}\delta_{s'}$.
+where $\tilde\delta_s=\delta_s-\sum_{s'}p_{s'}\delta_{s'}$ is the across-token
+$p$-demeaned error and $A_q$ its $p(q)$-weighted second moment. This
+\emph{factors} to $\tfrac{1}{2d}\tr(Q\,\bar\Sigma_\delta)$, with $Q=\E_q[qq^\top]$
+and $\bar\Sigma_\delta=\E_q[A_q]$, \emph{only} when $A_q$ is uncorrelated with
+$qq^\top$ (the proviso of Prop.~\ref{prop:main}); in general the expectation stays
+coupled, since $p$ depends on $q$.
 \end{proposition}
 \begin{proof}
 The Fisher metric of $\mathrm{softmax}$ is $G=\mathrm{diag}(p)-pp^\top$, so
@@ -252,37 +305,39 @@ alone one predicts which code wins, before compressing anything.
 \section{Capacity: a vacuity threshold, derived (GO-3)}\label{sec:capacity}
 
 \begin{proposition}[Retrieval vacuity threshold]\label{prop:capacity}
-Model the $N\!-\!1$ distractor scores, standardized to mean $0$ and variance $1$, as
-i.i.d.\ standard Gaussian (a reference; dependence or heavier tails shift the
-constants). Top-1 success needs the standardized true margin $\hat\mu$ to exceed the
-distractor maximum $M_{N-1}$, so $\mathrm{recall}@1=\Pr[\hat\mu>M_{N-1}]$ crosses
-$\tfrac12$ at the \emph{median} of the maximum,
+Model the $N\!-\!1$ distractor scores, standardized to mean $0$, variance $1$, as
+i.i.d.\ standard Gaussian (a reference model). Since $\Pr[M_{N-1}\le m]=\Phi(m)^{N-1}$,
+top-1 success $\Pr[\hat\mu>M_{N-1}]$ crosses $\tfrac12$ at the \emph{exact median}
+of the maximum,
 \[
-\mu_{\mathrm{crit}}:=\operatorname{med}(M_{N-1})=a_N-b_N\ln\ln 2,
-\qquad a_N=\sqrt{2\ln(N{-}1)},\ \ b_N=1/a_N,
+\mu_{\mathrm{crit}}:=\operatorname{med}(M_{N-1})=\Phi^{-1}\!\big(2^{-1/(N-1)}\big),
+\qquad \text{leading asymptotic }\sqrt{2\ln(N{-}1)},
 \]
-with $\hat\mu=(\overline{\text{true}}-\overline{\text{distr}})/\mathrm{std}$ the
+where $\hat\mu=(\overline{\text{true}}-\overline{\text{distr}})/\mathrm{std}$ is the
 margin certificate and $\rho=\hat\mu/\mu_{\mathrm{crit}}$; the certificate is
 \emph{vacuous} for $\rho<1$.
 \end{proposition}
 \begin{proof}[Derivation]
-By Fisher--Tippett, standardized i.i.d.\ Gaussian maxima converge to a Gumbel law of
-location $a_N$, scale $b_N=1/a_N$. For a fixed margin,
-$\mathrm{recall}@1=F_{\max}(\hat\mu)$ equals $\tfrac12$ at the median
-$a_N-b_N\ln\ln2$. The \emph{mean} $\E[M_{N-1}]=a_N+\gamma b_N$ ($\gamma$
-Euler--Mascheroni) differs from the median at order $b_N=\Theta(1/\sqrt{\ln N})$; the
-$\tfrac12$-crossing is the median, not the mean.
+$\Pr[M_{N-1}\le m]=\Phi(m)^{N-1}$; setting it to $\tfrac12$ gives $\Phi(m)=2^{-1/(N-1)}$,
+i.e.\ $m=\Phi^{-1}(2^{-1/(N-1)})$. The classical $a_N=\sqrt{2\ln(N{-}1)}$ is only the
+leading Gumbel location and \emph{overshoots} this median (the second-order centering
+correction is negative); the \emph{mean} $\E[M_{N-1}]=a_N+\gamma/a_N+o(1/a_N)$
+($\gamma$ Euler--Mascheroni) overshoots further. The recall-$\tfrac12$ crossing is
+the median---not the mean, not the leading-order location.
 \end{proof}
 
-Across $14$ structurally distinct corpora this \emph{derived} (not fitted)
-Gaussian-reference threshold locates death: the recall-$\tfrac12$ crossing sits at
-$\rho=0.948$, slightly \emph{below} $1$---exactly as score dependence predicts, since
-correlated or heavier-tailed distractors reduce the effective number of independent
-distractors and lower the true median below the i.i.d.-Gaussian reference. The
-certificate orders corpora by recall at rank correlation $0.991$, beating the
-un-normalized margin ($0.873$), with a finite-width transition (\texttt{[demonstrated]}).
-Capacity says, from a computable quantity, \emph{where} the observation channel dies
-before any retrieval is run.
+Across $14$ structurally distinct corpora the certificate orders them by recall at
+rank correlation $0.991$, beating the un-normalized margin ($0.873$), with a
+finite-width transition (\texttt{[demonstrated]}). The registered harness used the
+\emph{mean} $\E[M_{N-1}]$ (Monte-Carlo) as its $\mu_{\mathrm{crit}}$ reference, and
+the recall-$\tfrac12$ crossing sits at $\rho=0.948$---slightly \emph{below} $1$
+against that reference. This is expected and quantitative: the exact $\tfrac12$
+threshold is the \emph{median}, below the mean by $\Theta(1/a_N)$, so the $\sim\!5\%$
+shortfall is largely the mean--median offset (against the exact median of this
+proposition the crossing sits at $\approx1$). Positive dependence among distractors
+would lower it further by reducing the effective count; heavier tails, by contrast,
+\emph{raise} the maximum---the two must not be grouped. Capacity says, from a
+computable quantity, \emph{where} the channel dies before any retrieval is run.
 
 \section{Rate: the verdict belongs to the budget (GO-4)}\label{sec:rate}
 
@@ -316,10 +371,15 @@ scale, not a substrate invariant.
 \section{A consumer-relative rate--distortion function}\label{sec:rd}
 
 The consumer-projected distortion is the single-letter measure
-$d_{\mathcal{C}}(x,\hat x)=(x-\hat x)^\top\PC(x-\hat x)$; define
-$R_{\mathcal{C}}(D)=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\hat X)\le D\}$. This is a
-weighted-quadratic (difference) distortion, and its theory is classical
-\cite{berger1971}.
+$d_{\mathcal{C}}(x,\hat x)=(x-\hat x)^\top\PC(x-\hat x)$ for a \emph{fixed} $\PC$
+(constant, or the average $\E_x[\PC(x)]$ under the proviso of Prop.~\ref{prop:main});
+define $R_{\mathcal{C}}(D)=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\hat X)\le D\}$.
+This fixed-$\PC$ model must be kept distinct from the \emph{local} observation metric
+$\PC(x)$ of Prop.~\ref{prop:main}: for a nonlinear consumer $\PC(x)$ varies, there is
+no single tilted source---a direction invisible at one point can be visible at
+another---and the coding theorem for that case is open. The results below, and
+Appendix~\ref{app:coding}, are for the fixed weighted-quadratic model, whose theory
+is classical \cite{berger1971}.
 
 \begin{proposition}[Gaussian rate--distortion; Berger reduction]\label{prop:rd}
 For $X\sim\mathcal{N}(0,\Sigma_x)$, in the basis diagonalizing
@@ -343,7 +403,8 @@ Bits water-fill on directions the consumer reads \emph{and} the source varies,
 spending nothing on $\ker\PC$---why a reconstruction-optimal code ($\PC=I$
 allocation) is beaten by a consumer-matched one when $\PC\ne I$, and why the winner
 \emph{flips} with $\PC$ (\S\ref{sec:distortion}). The $H=I$ control confirms it: only
-at $\PC=I$ is reconstruction the right objective, and there it is exactly right.
+at the isotropic $\PC=I$ is reconstruction the right objective, and there it is
+exactly right.
 
 \begin{proposition}[Consumer-lossless floor; discrete source]\label{prop:floor}
 Let $X$ be discrete with finite entropy, $\Pi$ the projector onto
@@ -371,12 +432,16 @@ phenomenon is exactly coding for computing and graph entropy in the discrete wor
 \cite{korner1973,orlitsky2001}, here given a geometric read operator.
 \end{remark}
 
-Placed on one axis: Shannon rate--distortion ($\PC=I$) $\subset$ consumer-relative
-rate--distortion ($\PC$ a rank-$r$ geometric, \emph{identifiable} operator,
-Props.~\ref{prop:rd},\ref{prop:floor}) $\subset$ the information bottleneck
-\cite{tishby1999}. The middle term is the operational one---$\PC$ is PSD,
-water-fillable, and recoverable from the consumer (Prop.~\ref{prop:id})---and its
-coding theorem (achievability and converse, general source) is Appendix~\ref{app:coding}.
+These form a \emph{conceptual axis}, not a formal nesting: Shannon rate--distortion
+($\PC=I$, the isotropic observer), consumer-relative rate--distortion ($\PC$ a fixed
+geometric, \emph{identifiable} operator, Props.~\ref{prop:rd},\ref{prop:floor}), and
+the information bottleneck \cite{tishby1999}---which optimizes a different object (a
+stochastic relevance variable) and to which the consumer-relative term connects only
+through the local-Gaussian relevance limit ($Y=\mathcal{C}(X)$ deterministic,
+second-order). We claim no containment theorem. The middle term is the operational
+one---$\PC$ is PSD, water-fillable, and recoverable from the consumer
+(Prop.~\ref{prop:id})---and its coding theorem (achievability and converse, fixed
+$\PC$, general source) is Appendix~\ref{app:coding}.
 
 \section{A boundary: the refuted quotient (GO-5)}\label{sec:boundary}
 
@@ -435,14 +500,22 @@ conceptual but empirical: the analytic consumers of \S\S\ref{sec:distortion}--%
 into ``the theory works where it matters'' is the keys experiment on an actual
 trained attention layer, with the query second moment recovered by the blind probe
 and the winning quantizer predicted before compression---Gate~B for the book. Open
-theory: the achievability and converse of $R_{\mathcal{C}}(D)$ beyond the Gaussian
-case we settle in Appendix~\ref{app:coding}; whether the flip is exactly its argmin
-migrating with $\PC$; and the consumer-relative \emph{channel} coding theorem behind
-\S\ref{sec:capacity}. Four faces, one refutation, eleven negatives: a world to map,
-now with coordinates in the literature.
+theory: the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$ we settle
+in Appendix~\ref{app:coding}, but the \emph{point-dependent} $\PC(x)$ coding
+theorem---no single tilted source---remains open; whether the flip is exactly
+$R_{\mathcal{C}}$'s argmin migrating with $\PC$; and the consumer-relative
+\emph{channel} coding theorem behind \S\ref{sec:capacity}. Underneath is one
+principle: an object has no unique operational geometry---each observer
+$\mathcal{O}=(\mathcal{C},G,B)$ pulls back one, and the quotient
+$X/\!\sim_{\mathcal{C}}$ is the world it can act on. Four faces, one refutation,
+eleven negatives: a world to map, now with coordinates in the literature.
 
 \appendix
 \section{The consumer-relative coding theorem}\label{app:coding}
+
+Throughout, $\PC$ is a \emph{fixed} PSD operator (constant, or $\E_x[\PC(x)]$ under
+the proviso of Prop.~\ref{prop:main}); the point-dependent $\PC(x)$ of
+Prop.~\ref{prop:main} is out of scope here (\S\ref{sec:rd}).
 
 \begin{lemma}[Reduction to the tilted source]\label{lem:tilt}
 Let $Y=\PC^{1/2}X$, on $\operatorname{range}(\PC)$ of dimension $r=\operatorname{rank}\PC$.
@@ -548,12 +621,17 @@ target. Companion Paper~II, 2026.
 prediction registry, and reproduction artifacts}. Companion repository, 2026.
 \end{thebibliography}
 
-\paragraph{Reproducibility \& provenance.} All results resolve to sealed, before-run
-registry entries and committed artifacts in the companion repository \cite{ledger2026},
-private pending release; the release will be sealed to an external, immutable snapshot
-(Zenodo/OSF) so that registry hashes are anchored independently of forgeable commit
-timestamps and the custody chain is protected against history rewriting. Computational
-experimentation and drafting were carried out with an AI research assistant under the
-registration-first protocol of \S\ref{sec:negatives}.
+\paragraph{Reproducibility \& provenance.} All results resolve to committed registry
+entries and artifacts in the public companion repository \cite{ledger2026}; each
+registry entry is committed \emph{before} the run it governs, so the evidence that
+registration preceded experimentation is the \emph{commit ordering} of the public
+history. We are explicit about its limits: git and hosting timestamps are not
+cryptographic third-party proof, and a snapshot taken \emph{after} completion
+preserves the current history but does not retroactively establish timing. Stronger
+anchoring---an external immutable deposit (Zenodo/OSF) and any contemporaneous
+third-party timestamps (signed hashes, prior deposits)---accompanies the paper.
+Computational experimentation and drafting were carried out with an AI research
+assistant under the registration-first protocol of \S\ref{sec:negatives}; every
+ledger row names its verifier and context-freshness.
 
 \end{document}
