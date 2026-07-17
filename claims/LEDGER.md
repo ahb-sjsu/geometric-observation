@@ -42,7 +42,7 @@ The Honest Negatives chapter carries these with the same prominence as positives
 
 | ID | Domain (disjoint from Papers I–II) | Class target | Registry | Result | Notes |
 |---|---|---|---|---|---|
-| GO-B | *(register ≥1: optimizer moments / gradient compression / LoRA deltas / GT positional enc. / audio latents / recommender emb. / neural population codes)* | `[predicted]` | — | — | ≥1 prospective hit or a `[refuted]` row that narrows the Ch. 11 umbrella |
+| GO-B | **Gradient compression, curvature (Hessian) consumer** — optimization, disjoint from Papers I–II | `[predicted]` ✅ **hit** | [GO-P-2026-010](../prereg/GO-P-2026-010-gradient-curvature-gateB.md) | [GO2-gradient-curvature.json](../results/GO2-gradient-curvature.json) · [notes](../experiments/GO2-gradient-curvature-NOTES.md) | **PASS 5/5**, prospective. At identical recon (0.298) the curvature-metric update-direction distortion flips with H (H_A adv −2.57 / H_B +2.51, 12/12 both); proj_var=tr(H·Σ_δ)/tr(H·Σ_0) tracks 12/12; recon uninformative (Spearman −0.20). Read operator P_C generalizes to a **Hessian**. Scope: single-step update direction (30-step loss diagnostic washed out — unclaimed) |
 
 *Rows fill as prereg entries are written and runs land. Nothing here is
 load-bearing until its class bar (§1, §5, §6) is met and CI is green.*
