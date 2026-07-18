@@ -1,0 +1,23 @@
+{
+  "id": "GO-P-2026-033",
+  "title": "PolarQuant DOA Gate-B, rehabilitated & re-confirmed on held-out LOCATA",
+  "date_run": "2026-07-18",
+  "sealed_commit": "9c08089",
+  "sealed_hash": "7364092…",
+  "prospective": true,
+  "supersedes_miss": "GO-P-2026-032 (single-bin under-powered + confounded uniform baseline)",
+  "fixes": ["incoherent wideband MUSIC (correct per-bin steering, many bins)", "Lloyd-Max fixed-rate reconstruction-optimal baseline (replaces per-coord uniform)"],
+  "seen_development": {"data": "dev/task1 {1,2,3} + eval/task1 {1..13} (16 recordings)", "best": "8cm ULA, 750-2101 Hz, 48 bits: flip 13/16, recon-trade 16/16"},
+  "frozen_config": {"aperture": "8cm DICIT ULA", "band_hz": [750, 2101], "budget_bits": 48, "estimator": "incoherent-wideband-MUSIC", "reference": "dominant source from clean data (both arms vs same source)"},
+  "heldout": "eval/task2 DICIT recordings (13, multiple static loudspeakers), unused at seal time",
+  "verdict": "CONFIRMED",
+  "sealed_bars": {
+    "flip_holds": {"result": 11, "n": 13, "bar_prereg": 7, "bar_harness": 8, "pass": true},
+    "median_flip_fail_deg": {"result": 0.02, "bar": 1.0, "pass": true},
+    "anti_worst": {"result": 12, "n": 13, "bar": 9, "pass": true},
+    "recon_trade_lloyd_le_pq": {"result": 13, "n": 13, "bar": 10, "pass": true}
+  },
+  "interpretation": "The consumer-relative flip TRANSFERS to real, unseen microphone-array DOA when tested fairly and powerfully: a genuinely reconstruction-optimal code (Lloyd-Max, better reconstruction 13/13) is downstream-worse than the angle-preserving PolarQuant on 11/13. Demonstrated on fresh cross-task held-out data (multi-source), config sealed pre-run.",
+  "caveats": ["eval/task2 is multi-source: absolute error uses a dominant-source reference fixed on the clean data, so it is lenient in absolute terms, but the relative flip (both arms vs the same reference) is fair.", "one sealed config; the earlier GO-P-2026-032 single-bin/uniform miss remains on the record.", "prereg primary bar was >=7/13; the committed harness checked >=8/13; the 11/13 result clears both."],
+  "bearing": "GO-P-2026-031 (simulation) + GO-P-2026-033 (real held-out): the consumer-relative reconstruction-flip is demonstrated both in simulation and on real array recordings; GO-P-2026-032 is the honest interim miss that diagnosed the under-powering/baseline flaws."
+}

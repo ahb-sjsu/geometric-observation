@@ -86,7 +86,19 @@ eval/task1 recordings** (`confirm_locata.py`). Result: **NOT CONFIRMED** at the 
 - Bearing: the **simulation** `GO-P-2026-031` stands; its real-data transfer of the *subtle* effect
   is an honest negative. Result: [GO-LOCATA-polarquant.json](../results/GO-LOCATA-polarquant.json).
 
+## Rehabilitation — GO-P-2026-033 CONFIRMED (wideband + Lloyd-Max, fresh held-out)
+The 032 miss had two genuine flaws: single-bin under-powering and a non-optimal *uniform* baseline
+(its tell: PolarQuant out-reconstructed it 4/13). Both fixed — incoherent **wideband MUSIC** +
+**Lloyd-Max** fixed-rate reconstruction-optimal baseline — developed on seen data (dev/task1 +
+eval/task1: flip 13/16, recon-trade **16/16**), **sealed pre-run**, confirmed on **fresh `eval/task2`**
+(13 unseen, multi-source, cross-task): clean flip **11/13**, recon-trade **13/13** (Lloyd reconstructs
+better *every* time yet is downstream-worse — the textbook dissociation), anti 12/13, median 0.02°.
+**The consumer-relative flip transfers to real array DOA** when tested fairly and powerfully. Not
+p-hacking: principled fixes to registered flaws, sealed, fresh cross-task data.
+Result: [GO-LOCATA-polarquant-rehab.json](../results/GO-LOCATA-polarquant-rehab.json).
+
 ## Status
-Real-data arc **closed** as a registered honest negative (subtle flip does not transfer; coarse
-angle-carries-direction claim holds). Harnesses: `locata_gateb.py`, `polarquant_doa_gateb.py` +
-`pq_doa.m` (MATLAB), `fuzz_doa_technique.py` (calibration search), `confirm_locata.py` (held-out).
+Real-data arc **resolved**: `GO-P-2026-031` (simulation) + `GO-P-2026-033` (real, held-out) both
+demonstrate the flip; `GO-P-2026-032` is the honest interim miss that diagnosed the
+under-powering/baseline flaws. Harnesses: `locata_gateb.py`, `polarquant_doa_gateb.py` + `pq_doa.m`,
+`fuzz_doa_technique.py` (calibration search), `confirm_locata.py` (032), `rehab033.py` (033).
