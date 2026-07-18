@@ -74,6 +74,13 @@ jobs:
           working_directory: paper/ieee
           latexmk_use_xelatex: false
           args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Compile graphical abstract
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: graphical-abstract.tex
+          working_directory: paper/ieee
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
       - name: Upload compiled PDFs
         if: always()
         uses: actions/upload-artifact@v4
@@ -83,4 +90,5 @@ jobs:
             paper/observation-theory.pdf
             paper/ieee/observation-theory-ieee.pdf
             paper/ieee/cover-letter.pdf
+            paper/ieee/graphical-abstract.pdf
           if-no-files-found: warn

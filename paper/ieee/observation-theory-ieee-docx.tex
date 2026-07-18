@@ -72,13 +72,16 @@ bottleneck. Every empirical claim is governed by a sealed prior registration wit
 preset bar; four predictions are confirmed and one is refuted.
 \end{abstract}
 
-\begin{IEEEkeywords}
+\medskip\noindent\textbf{Index Terms---}
 Rate--distortion theory, source coding, quantization, information geometry,
 distinguishability, indirect source coding, information bottleneck, neural network
 compression, reproducibility.
-\end{IEEEkeywords}
+
 
 \IEEEpeerreviewmaketitle
+
+\noindent\emph{Andrew H. Bond, Senior Member, IEEE. Department of Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA. Email: andrew.bond@sjsu.edu. ORCID: 0009-0003-2599-6158.}
+
 
 \section{Introduction}
 
@@ -326,27 +329,7 @@ non-smooth; we treat this instance empirically (\S\ref{sec:distortion}).
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[>=Latex,scale=1.05]
-  \draw[gray!55,dashed] (0,0) circle (2.6);
-  \draw[->,thick,black!70] (-0.2,0)--(3.1,0) node[right,font=\footnotesize]{consumer 1 reads};
-  \draw[->,thick,black!70] (0,-0.2)--(0,3.1) node[above,font=\footnotesize]{consumer 2 reads};
-  % equal-norm error vectors (|dA|=|dB|=2.6)
-  \draw[->,very thick,blue!70!black] (0,0)--(0.7,2.5);
-  \node[blue!70!black,font=\footnotesize] at (0.55,2.65){$\delta_A$};
-  \draw[->,very thick,red!75!black] (0,0)--(2.5,0.7);
-  \node[red!75!black,font=\footnotesize] at (2.72,0.78){$\delta_B$};
-  % projections onto consumer-1 axis
-  \draw[blue!70!black,dotted] (0.7,2.5)--(0.7,0);
-  \draw[red!75!black,dotted]  (2.5,0.7)--(2.5,0);
-  \node[blue!70!black,font=\scriptsize,anchor=north] at (0.7,-0.05){small};
-  \node[red!75!black,font=\scriptsize,anchor=north] at (2.5,-0.05){large};
-  % projections onto consumer-2 axis
-  \draw[blue!70!black,dotted] (0.7,2.5)--(0,2.5);
-  \draw[red!75!black,dotted]  (2.5,0.7)--(0,0.7);
-  \node[blue!70!black,font=\scriptsize,anchor=east] at (-0.05,2.5){large};
-  \node[red!75!black,font=\scriptsize,anchor=east] at (-0.05,0.7){small};
-  \node[gray,font=\scriptsize] at (1.95,2.15){$\|\delta_A\|=\|\delta_B\|$};
-\end{tikzpicture}
+\includegraphics[width=0.62\linewidth]{fig1_flip.png}
 \caption{The flip. Two lossy codes produce errors $\delta_A,\delta_B$ of \emph{equal}
 reconstruction norm (dashed circle), so reconstruction cannot separate them. Consumer~1
 (horizontal read operator) sees a small $\delta_A$ projection and a large $\delta_B$
@@ -418,24 +401,7 @@ anything.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=0.98\linewidth, height=5.6cm,
-  xlabel={margin certificate $\rho=\hat\mu/\mu_{\mathrm{crit}}$},
-  ylabel={top-1 recall},
-  xmin=0.45, xmax=1.75, ymin=-0.02, ymax=1.06,
-  grid=both, grid style={gray!18},
-  tick label style={font=\footnotesize}, label style={font=\footnotesize},
-]
-\addplot[only marks, mark=*, mark size=1.7pt, blue!70!black] coordinates {
-(0.5595,0.0625)(0.7422,0.185)(0.8103,0.2825)(0.837,0.3425)(0.8625,0.3425)
-(0.8707,0.39)(1.0337,0.6225)(1.0394,0.6025)(1.1713,0.9025)(1.1724,0.8025)
-(1.2741,0.92)(1.2854,0.945)(1.4624,0.9725)(1.6579,1.0)};
-\addplot[dashed, red!75!black, thick] coordinates {(1,-0.02)(1,1.06)};
-\addplot[dotted, gray] coordinates {(0.45,0.5)(1.75,0.5)};
-\node[red!75!black, font=\scriptsize, anchor=south west] at (axis cs:1.01,0.0){derived threshold $\rho=1$};
-\end{axis}
-\end{tikzpicture}
+\includegraphics[width=0.85\linewidth]{fig2_vacuity.png}
 \caption{Capacity (GO-3), from the committed result artifact. The derived margin
 certificate $\rho$ orders top-1 retrieval recall across $14$ structurally distinct
 corpora at Spearman correlation $0.99$; the recall-$\tfrac12$ crossing sits at
