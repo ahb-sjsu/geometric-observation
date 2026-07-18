@@ -8,6 +8,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
@@ -20,6 +21,8 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
@@ -131,8 +134,8 @@ the reconstruction-is-not-the-target negative) \cite{paper2}, and the claim ledg
 \caption{Observation Theory as the identifiable geometric middle term between two
 classical extremes. The read operator $\PC$ is the axis.}
 \label{tab:positioning}
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{@{}p{3.1cm}p{2.2cm}p{6.2cm}@{}}
+\setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{3.0cm}p{2.1cm}p{6.2cm}@{}}
 \toprule
 \textbf{Framework} & \textbf{$\PC$} & \textbf{Character} \\
 \midrule
@@ -152,6 +155,18 @@ $\dO:=D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, measured on the consumer output,
 assumed from the ambient metric of $X$; write $\bar{\dO}:=\E[\dO]$ for its expectation
 over the instance.
 \end{definition}
+
+\begin{example}[A running instance]\label{ex:head}
+A concrete instance to keep in mind is a single attention head. Here $X$ is the set of
+key vectors, the consumer $\mathcal{C}$ is the softmax-attention map
+$x\mapsto\mathrm{softmax}(q^\top x/\sqrt d)$ that the head's queries $q$ induce, the
+output divergence $D_Y$ is the Kullback--Leibler divergence between attention
+distributions, and $\mathcal{Q}$ is a family of low-bit key quantizers. Then $\dO$
+measures how far a quantizer moves the head's attention, and---as \S\ref{sec:readop}
+derives---the read operator turns out to be the query second moment
+$\PC=\E[qq^\top]$: a code is judged only by how its error projects onto the directions
+the queries actually read. We return to this instance when instantiating each result.
+\end{example}
 
 \begin{proposition}[Consumer-projected distortion]\label{prop:main}
 Let $D_Y$ be twice differentiable with $D_Y(u,u)=0$, $\nabla_v D_Y(u,v)|_{v=u}=0$,
@@ -189,6 +204,19 @@ depend on $x$, so the exact object is the $x$-averaged trace).
 
 We keep $\E_x\tr(\PC(x)\Sd(x))$ as primary and use the factored $\tr(\PC\Sd)$ as the
 convenience it is. (We drop the harmless $\tfrac12$.)
+
+\begin{remark}[When the factored form is exact]\label{rem:factored}
+Because the rest of the paper leans on $\tr(\PC\Sd)$, it is worth stating when it
+holds. The factorization is \emph{exact} whenever the error second moment $\Sd(x)$
+does not co-vary with the read operator $\PC(x)$ across the support---in particular for
+a \emph{linear} consumer, where $\PC$ is constant. It holds to good approximation for
+a \emph{fixed-codebook} quantizer whose per-coordinate error statistics are roughly
+homogeneous over $x$ (uniform or per-channel key quantization on a representation whose
+read subspace is stable), which covers the codes studied in \S\ref{sec:distortion}.
+When the consumer is strongly point-dependent---a deep network whose $\PC(x)$ swings
+with the activation---the coupled expectation $\E_x\tr(\PC(x)\Sd(x))$ must be retained;
+Appendix~\ref{app:true} then gives the exact, unfactored treatment.
+\end{remark}
 
 \subsection*{Distinguishability, and the observer's quotient}
 
@@ -247,8 +275,8 @@ from queries, and studies what the channel (\S\ref{sec:capacity}) and budget
 \caption{The read operator $\PC$ instantiated for three consumers. Ordinary
 reconstruction is the isotropic corner $\PC=I$.}
 \label{tab:readops}
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{@{}p{2.1cm}p{2.4cm}p{4.3cm}p{4.2cm}@{}}
+\setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{2.0cm}p{2.3cm}p{4.3cm}p{4.1cm}@{}}
 \toprule
 \textbf{Consumer} & \textbf{Output divergence $D_Y$} & \textbf{Read operator $\PC$} & \textbf{Recovered from} \\
 \midrule
@@ -465,6 +493,15 @@ absolute death point but preserves the ordering the certificate is used for.
 Capacity says, from a computable quantity, \emph{where} the channel dies
 before any retrieval is run.
 
+\emph{Using the certificate.} For a practitioner, $\rho$ is a cheap pre-flight check:
+estimate the standardized true-versus-distractor margin on a small calibration set,
+divide by the derived $\mu_{\mathrm{crit}}$, and read off $\rho$. A value below $1$
+warns that single-stage retrieval is at or past its vacuity point---budget for a
+re-ranking stage or a larger index before deployment---while $\rho$ comfortably above
+$1$ certifies headroom. Because $\rho$ preserves the recall \emph{ordering} across
+corpora, it also ranks candidate corpora or index configurations \emph{without}
+running full retrieval.
+
 \section{Rate: the operative verdict depends on the budget (GO-4)}\label{sec:rate}
 
 The read operator, capacity, and distortion are stated at a fixed observer budget;
@@ -628,8 +665,8 @@ boundary. A prospective trained-model (Llama-3.2-3B) hardening of GO-2 first mis
 a non-reconstruction-matched design and is then cleared by a corrected rematch
 (\S\ref{sec:discussion}).}
 \label{tab:scoreboard}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}p{1.35cm}p{4.3cm}p{1.75cm}p{3.7cm}@{}}
+\setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{1.3cm}p{4.2cm}p{1.7cm}p{3.6cm}@{}}
 \toprule
 \textbf{Claim} & \textbf{Prediction} & \textbf{Class} & \textbf{Result} \\
 \midrule
@@ -679,7 +716,19 @@ and its exact reduction to output-side coding, the tilt being $\mathcal{C}$ itse
 remains open is narrower: the curved-image high-resolution case, the multi-observer
 rate region (distinct quotients, no single reduction), the consumer-relative
 \emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
-exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$. Underlying all of
+exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$.
+
+The coding-theoretic core of these claims lives in the appendices, and a reader
+focused on the information theory should read them next.
+Appendix~\ref{app:coding} proves the achievability and converse of the
+consumer-relative rate--distortion function $R_{\mathcal{C}}(D)$ for a general source;
+Appendix~\ref{app:true} then extends the theorem to the \emph{true} nonlinear consumer
+divergence and shows that the problem reduces \emph{exactly} to ordinary source coding
+of the consumer output (the read-operator ``tilt'' being $\mathcal{C}$ itself). These
+are the results that make ``distortion is what the consumer reads'' a coding theorem
+rather than a heuristic, and they are load-bearing for every rate claim in the body.
+
+Underlying all of
 this is a single principle: an object has no unique operational geometry; each
 observer $\mathcal{O}=(\mathcal{C},G,B)$ pulls back one, and the quotient
 $X/\!\sim_{\mathcal{C}}$ is the domain on which it acts. Four of the five registered
