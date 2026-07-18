@@ -33,6 +33,7 @@
 \newcommand{\dO}{d_{\mathcal{O}}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\Cov}{\operatorname{Cov}}
 
 \begin{document}
 
@@ -65,15 +66,17 @@ establish for a general source, with a coding theorem for the true nonlinear con
 divergence that reduces exactly to output coding. We instantiate it for
 attention, gradient optimization, and retrieval, and position it as the
 identifiable geometric middle term between Shannon rate distortion and the information
-bottleneck. Every empirical claim is governed by a sealed prior registration with a
-preset bar; four of five core predictions are confirmed, one refuted; a further
-trained-model test missed, then passed after correction.
+bottleneck. We further prove an exact two-observer coding theorem: a Gaussian source is
+successively refinable across two read operators if and only if their optimal error
+covariances nest, the excess rate given by a second max-det program. Every empirical
+claim is sealed-registered against a preset bar; four of five predictions are
+confirmed, one refuted, and a corrected trained-model test passed.
 \end{abstract}
 
 \medskip\noindent\textbf{Index Terms---}
 Distinguishability, indirect source coding, information bottleneck, information
 geometry, neural network compression, quantization, rate--distortion theory,
-reproducibility, source coding.
+reproducibility, source coding, successive refinement.
 
 
 \IEEEpeerreviewmaketitle
@@ -116,7 +119,10 @@ reliability certificate; (iv) budget-relativity of the verdict; and (v) a
 registration-first empirical program---sealed predictions, ex-ante bars, a refuted
 prediction reported as prominently as the confirmations---whose recurring
 demonstration is a single code whose downstream verdict \emph{inverts} when nothing
-changes but the consumer.
+changes but the consumer; and (vi) an exact two-observer successive-refinement
+theorem---a Gaussian source refines across two distinct read operators if and only if
+their optimal error covariances nest, with a closed-form max-det rate loss when they do
+not (\S\ref{sec:multiobs}).
 The three companion works are Paper~I (the angular observer and the spectral
 budget-inversion mechanism) [20], Paper~II (geometric key quantization and
 the reconstruction-is-not-the-target negative) [21], and the claim ledger
@@ -634,6 +640,173 @@ queries under the specified probing model (Prop.~\ref{prop:id})---and its coding
 theorem (achievability and converse, fixed
 $\PC$, general source) is Appendix~\ref{app:coding}.
 
+\section{Successive refinement across observers}\label{sec:multiobs}
+
+The single-observer theory (\S\ref{sec:rd}) serves one consumer at a time. When two
+consumers read the \emph{same} Gaussian source in two stages---a base layer judged by
+consumer~1's read operator $P_1$, the full description by consumer~2's $P_2$---the
+frontier flagged in \S\ref{sec:framework} (``another consumer may read those
+directions'') becomes a coding question with an exact answer, and a self-contained
+theorem: the paper's read operator turned into rate.
+
+Let $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, be i.i.d.; consumer
+$i\in\{1,2\}$ has $P_i\succeq0$ and distortion $d_i(x,\hat x)=(x-\hat x)^\top P_i
+(x-\hat x)$, with single-stage rate--distortion function $R_i$. Throughout we assume the
+coding regime $0<D_i<\tr(P_i\Sigma_x)$, so each optimum $\Sigma_i^\star$ (below) is
+positive definite and the distortion constraint binds. A two-stage code sends
+$nR_1$ bits decoded to $\hat X_1^n$ for consumer~1 and $n(R_2-R_1)$ further bits so both
+messages decode to $\hat X_2^n$ for consumer~2, with $\E\tfrac1n\sum_t d_i(X_t,\hat
+X_{i,t})\le D_i$. The pair $(D_1,D_2)$ is \emph{successively refinable} if the corner
+$(R_1,R_2)=(R_1(D_1),R_2(D_2))$ is achievable. Write $\Sigma(\hat X):=\Cov(X-\E[X\mid
+\hat X])=\E[\Cov(X\mid\hat X)]$. The two-stage achievable region for memoryless sources
+with per-stage distortion measures is Rimoldi's [32]: $(R_1,R_2)$ achievable
+iff there exist $\hat X_1,\hat X_2$ with $\E d_i(X,\hat X_i)\le D_i$, $R_1\ge
+I(X;\hat X_1)$, $R_2\ge I(X;\hat X_1,\hat X_2)$; for our abstract-alphabet,
+unbounded-distortion instance we invoke the general-source extension
+[28], [33] under the reference letter $\hat x_0=0$ (which has
+$\E d_i(X,0)^2<\infty$ for Gaussian $X$); strict convexity of the Gaussian $R_{P_i}$ on
+the coding regime pins the per-letter distortions, so the operational two-stage corner
+coincides with the single-letter region below.
+
+\begin{lemma}[Conditional mean serves every observer]\label{lem:cm}
+For any $P\succeq0$ and estimator $g(\hat X)$, $\E[(X-g)^\top P(X-g)]\ge\E[(X-\E[X\mid
+\hat X])^\top P(X-\E[X\mid\hat X])]=\tr(P\,\Sigma(\hat X))$.
+\end{lemma}
+\begin{proof}
+Split $X-g=(X-\E[X\mid\hat X])+(\E[X\mid\hat X]-g)$; the cross term vanishes since
+$\E[X-\E[X\mid\hat X]\mid\hat X]=0$, and the second term is a nonnegative $P$-quadratic.
+\end{proof}
+
+\begin{lemma}[Information bound, arbitrary joints]\label{lem:info}
+For any joint law of $(X,\hat X)$ with $X\sim\mathcal N(0,\Sigma_x)$,
+$I(X;\hat X)\ge\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma(\hat X)$ and
+$\Sigma(\hat X)\preceq\Sigma_x$.
+\end{lemma}
+\begin{proof}
+$I=h(X)-h(X\mid\hat X)$, and $h(X\mid\hat X)=h(X-\E[X\mid\hat X]\mid\hat X)\le h(X-\E[X
+\mid\hat X])\le\tfrac12\log[(2\pi e)^d\det\Sigma(\hat X)]$ by conditioning and Gaussian
+entropy maximization. The covariance bound is $\Sigma(\hat X)=\Sigma_x-\Cov(\E[X\mid
+\hat X])\preceq\Sigma_x$.
+\end{proof}
+
+\begin{lemma}[Markov monotonicity]\label{lem:markov}
+If $X\to\hat X_2\to\hat X_1$ is Markov, then $\Sigma(\hat X_2)\preceq\Sigma(\hat X_1)$.
+\end{lemma}
+\begin{proof}
+By the law of total covariance, refining the conditioning cannot increase the residual:
+$\E[\Cov(X\mid\hat X_1,\hat X_2)]\preceq\E[\Cov(X\mid\hat X_1)]$; and under the Markov
+chain $\Cov(X\mid\hat X_1,\hat X_2)=\Cov(X\mid\hat X_2)$ a.s.
+\end{proof}
+
+\begin{lemma}[Gaussian optimum: max-det form and uniqueness]\label{lem:maxdet}
+For $\Sigma_x\succ0$, $P\succeq0$, $D>0$,
+$R_P(D)=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma^\star(P,D)$, where
+$\Sigma^\star(P,D)=\arg\max\{\log\det\Sigma:0\preceq\Sigma\preceq\Sigma_x,\ \tr(P\Sigma)
+\le D\}$, and the maximizer is unique.
+\end{lemma}
+\begin{proof}
+\emph{Converse:} Lemmas~\ref{lem:cm}--\ref{lem:info} give, for any admissible channel,
+$I\ge\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma(\hat X)$ with $\Sigma(\hat X)$
+feasible; minimizing the bound is the stated program. \emph{Achievability:} the jointly
+Gaussian backward channel $X=\hat X+Z$, $Z\sim\mathcal N(0,\Sigma^\star)\perp\hat X$,
+$\Cov\hat X=\Sigma_x-\Sigma^\star\succeq0$, attains it. \emph{Uniqueness:} the feasible
+set is convex with an interior point; since $\log\det=-\infty$ on singular matrices the
+maximizer lies in $\mathbb S^d_{++}$, where $\log\det$ is strictly concave.
+\end{proof}
+
+\begin{theorem}[Two-observer refinability]\label{thm:multiobs}
+Let $\Sigma_i^\star:=\Sigma^\star(P_i,D_i)$. The pair $(D_1,D_2)$ is successively
+refinable if and only if the observers' optimal uncertainty ellipsoids nest,
+$\Sigma_2^\star\preceq\Sigma_1^\star$.
+\end{theorem}
+\begin{proof}
+\emph{Necessity.} Refinability supplies $(\hat X_1,\hat X_2)$ with $\E d_i\le D_i$,
+$I(X;\hat X_1)\le R_1(D_1)$, $I(X;\hat X_1,\hat X_2)\le R_2(D_2)$. Since $\hat X_2$ alone
+meets $D_2$, $I(X;\hat X_2)\ge R_2(D_2)$; with $I(X;\hat X_2)\le I(X;\hat X_1,\hat X_2)
+\le R_2(D_2)$ this forces equality throughout, hence $I(X;\hat X_1\mid\hat X_2)=0$: the
+chain $X\to\hat X_2\to\hat X_1$. Set $\Sigma_i:=\Sigma(\hat X_i)$. By Lemma~\ref{lem:cm},
+$\tr(P_i\Sigma_i)\le\E d_i\le D_i$, so $\Sigma_i$ is feasible; by Lemma~\ref{lem:info},
+$\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma_i\le I(X;\hat X_i)\le R_i(D_i)$, so
+$\det\Sigma_i\ge\det\Sigma_i^\star$; by Lemma~\ref{lem:maxdet}, $\Sigma_i=\Sigma_i^\star$.
+Lemma~\ref{lem:markov} then gives $\Sigma_2^\star\preceq\Sigma_1^\star$.
+\emph{Sufficiency.} Let $\Lambda_i:=(\Sigma_i^\star)^{-1}-\Sigma_x^{-1}\succeq0$;
+antitonicity of inversion turns $\Sigma_2^\star\preceq\Sigma_1^\star$ into
+$\Lambda_1\preceq\Lambda_2$, so $\mathrm{range}(\Lambda_1)\subseteq\mathrm{range}
+(\Lambda_2)$ and $K:=\Lambda_2^{+1/2}\Lambda_1\Lambda_2^{+1/2}$ satisfies $0\preceq K
+\preceq I$ (extended by $0$ off $\mathrm{range}(\Lambda_2)$). With independent standard
+Gaussians $N,N'$ set $Y_2:=\Lambda_2^{1/2}X+N$ and $Y_1:=K^{1/2}Y_2+(I-K)^{1/2}N'$; then
+$X\to Y_2\to Y_1$, $Y_1$'s noise covariance is $K+(I-K)=I$ and its signal matrix
+$K^{1/2}\Lambda_2^{1/2}$ contributes Fisher information $\Lambda_2^{1/2}K\Lambda_2^{1/2}
+=\Lambda_1$, so $\Cov(X\mid Y_i)=(\Sigma_x^{-1}+\Lambda_i)^{-1}=\Sigma_i^\star$. With
+$\hat X_i:=\E[X\mid Y_i]$, $\E d_i=\tr(P_i\Sigma_i^\star)\le D_i$, $I(X;\hat X_1)=
+R_1(D_1)$, and $I(X;\hat X_1,\hat X_2)\le I(X;Y_1,Y_2)=I(X;Y_2)=R_2(D_2)$; the region of
+[32], [28], [33] makes the corner $(R_1(D_1),R_2(D_2))$ achievable.
+\end{proof}
+
+\begin{theorem}[Exact rate loss]\label{thm:multiobs-loss}
+Among two-stage codes whose base layer is stage-1-optimal ($R_1=R_1(D_1)$, $\E d_1\le
+D_1$) and whose second stage meets $D_2$, the minimal total rate is $\tfrac12\log\det
+\Sigma_x-\tfrac12\log\det\Sigma^\circ$, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:
+\Sigma\preceq\Sigma_1^\star,\ \tr(P_2\Sigma)\le D_2\}$. Hence the rate loss is
+$L(D_1,D_2)=\tfrac12\log(\det\Sigma_2^\star/\det\Sigma^\circ)\ge0$, with $L=0$ iff
+$\Sigma_2^\star\preceq\Sigma_1^\star$.
+\end{theorem}
+\begin{proof}
+\emph{Converse.} Any such code yields $(\hat X_1,\hat X_2)$ with $I(X;\hat X_1)\le
+R_1(D_1)$, $\E d_1\le D_1$; as in Theorem~\ref{thm:multiobs}, $\Sigma(\hat X_1)=
+\Sigma_1^\star$. The total rate is at least $I(X;\hat X_1,\hat X_2)\ge\tfrac12\log\det
+\Sigma_x-\tfrac12\log\det\Sigma((\hat X_1,\hat X_2))$ (Lemma~\ref{lem:info} on the pair).
+The pair covariance satisfies $\Sigma((\hat X_1,\hat X_2))\preceq\Sigma(\hat X_1)=
+\Sigma_1^\star$ and $\tr(P_2\,\Sigma((\hat X_1,\hat X_2)))\le\E d_2\le D_2$
+(Lemma~\ref{lem:cm}: the pair-conditional mean serves consumer~2 at least as well), so
+it is feasible for the $\Sigma^\circ$ program. \emph{Achievability.} Run the
+Theorem~\ref{thm:multiobs} construction with targets $(\Sigma_1^\star,\Sigma^\circ)$;
+the nesting $\Sigma^\circ\preceq\Sigma_1^\star$ holds by constraint.
+\end{proof}
+
+Three consequences make the theorem legible. \emph{(i) Commuting observers.} If
+$\Sigma_x,P_1,P_2$ are simultaneously diagonalizable with mode variances $\sigma_k^2$
+and weights $p_k^{(i)}$, then $e_k^{(i)}=\min(\sigma_k^2,\theta_i/p_k^{(i)})$ (water
+levels $\theta_i$ from $\sum_k p_k^{(i)}e_k^{(i)}=D_i$), and refinability is $e_k^{(2)}
+\le e_k^{(1)}$ for every mode. \emph{(ii) Equitz--Cover, recovered.} For $P_1=P_2=P$ (not
+necessarily commuting with $\Sigma_x$), whiten by $\tilde P=\Sigma_x^{1/2}P
+\Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then $\Sigma^\star(D)=
+\Sigma_x^{1/2}V\,\mathrm{diag}(\min(1,\theta_D/\tilde p_k))\,V^\top\Sigma_x^{1/2}$ is
+Loewner-monotone in $D$ in a \emph{$D$-independent} eigenbasis, so $D_2\le D_1$ gives
+$\Sigma_2^\star\preceq\Sigma_1^\star$ automatically---a Gaussian source is successively
+refinable under any single weighted-quadratic measure, the $P=I$ case being
+Equitz--Cover [31]; conflict requires genuinely distinct observers. \emph{(iii) Kernel overhead.} If the base layer codes a direction in
+$\ker P_2$---one consumer~2 cannot read ($p_k^{(1)}>0$, $e_k^{(1)}<\sigma_k^2$,
+$p_k^{(2)}=0$)---then $e_k^{(2)}=\sigma_k^2>e_k^{(1)}$ and refinability fails strictly:
+rate spent on directions the next observer cannot read is unrecoverable. Concretely, for
+$\Sigma_x=I_2$, $P_1=\mathrm{diag}(1,0)$, $P_2=\mathrm{diag}(0,1)$, the optima
+$\Sigma_1^\star=\mathrm{diag}(D_1,1)$ and $\Sigma_2^\star=\mathrm{diag}(1,D_2)$ never
+nest and $\Sigma^\circ=\mathrm{diag}(D_1,D_2)$, so $L=\tfrac12\log(1/D_1)=R_1(D_1)$: the
+minimal total rate is $R_1(D_1)+R_2(D_2)$, zero reuse. This is ``one observer's noise is
+another's signal'' (\S\ref{sec:framework}) as an exact coding theorem.
+
+We confirmed Theorems~\ref{thm:multiobs}--\ref{thm:multiobs-loss} numerically (committed
+with the ledger [22]): the nesting characterization, the Equitz--Cover
+recovery, and the orthogonal-observer loss $L=R_1(D_1)$ all reproduce; sealed prereg
+GO-P-2026-022, with a fresh-context derivation-grade pass logged.
+
+\emph{Related work.} The successive-refinement line is Koshelev [27],
+Equitz--Cover [31], Rimoldi [32] (per-stage measures may
+differ), and, for abstract sources, Effros [28] and Kostina--Tuncel
+[33], which supply the operational region invoked above. Two works are
+closest, and neither subsumes ours. Nayak \emph{et al.}~[29] treat one
+vector Gaussian source under \emph{individual} (per-component) MSE criteria---the same
+coordinate constraints at both stages---and already show that vector-Gaussian
+refinability can fail; Op~'t~Veld and Gastpar [30] refine a rank-deficient
+Gaussian \emph{projection} to full reconstruction ($P_2=I$), exhibiting the
+kernel-overhead rate penalty. Our contribution is neither of those qualitative
+phenomena---both are known---but their common generalization: two \emph{arbitrary,
+possibly non-commuting, possibly different-kernel} positive-semidefinite read operators,
+characterized by the single Loewner condition $\Sigma_2^\star\preceq\Sigma_1^\star$
+(Thm.~\ref{thm:multiobs}) with the closed-form max-det rate loss
+(Thm.~\ref{thm:multiobs-loss}); we could not locate this general statement in the
+literature. Open beyond it: the general $k$-observer region and non-Gaussian sources.
+
 \section{A boundary: the refuted density quotient (GO-5)}\label{sec:boundary}
 
 Not every plausible face survives a sealed prediction. In the spectral setting the
@@ -1029,7 +1202,7 @@ Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-ima
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
 charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
 \S\ref{sec:capacity}; \emph{(c)} the multi-observer rate region for $\{\mathcal{C}_k\}$
-beyond the two-observer weighted-quadratic case that Appendix~\ref{app:multiobs} settles
+beyond the two-observer weighted-quadratic case that \S\ref{sec:multiobs} settles
 (the general $k$-observer region, and non-Gaussian sources, remain open); and
 \emph{(d)} non-i.i.d.\ sources.
 
@@ -1041,75 +1214,6 @@ $\dO(\mathrm a)\le\dO(\mathrm b)\le\dO(\mathrm c)$, the (a)--(c) gap governed by
 entropy share of $\ker\PC$ and strict whenever that share is positive, the (a)--(b) gap
 vanishing as $R$ grows (Thm.~\ref{thm:B3}). The synthetic harness of
 \S\ref{sec:distortion} suffices.
-
-\section{The multi-observer rate penalty}\label{app:multiobs}
-
-The single-observer theory serves one consumer at a time. When two consumers read the
-same Gaussian source in two stages---a base layer judged by consumer~1's read operator
-$P_1$, the full description by consumer~2's $P_2$---the frontier flagged in
-\S\ref{sec:framework} becomes a coding question with an exact answer.
-
-Let $X\sim\mathcal{N}(0,\Sigma_x)$, $\Sigma_x\succ0$; consumer $i\in\{1,2\}$ has
-$P_i\succeq0$ and distortion $d_i(x,\hat x)=(x-\hat x)^\top P_i(x-\hat x)$, with
-consumer-relative rate--distortion function $R_i$. From the conditional-mean estimator
-and Gaussian entropy-maximization converse (Prop.~\ref{prop:rd}), each single-stage
-optimum has a unique \emph{max-det} form,
-\[
-R_i(D_i)=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma_i^\star,\quad
-\Sigma_i^\star=\arg\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_x,\ \tr(P_i\Sigma)\le D_i\},
-\]
-the maximizer unique by strict concavity of $\log\det$ on the positive-definite cone.
-
-\begin{theorem}[Two-observer refinability]\label{thm:multiobs}
-The pair $(D_1,D_2)$ is successively refinable---the corner $(R_1(D_1),R_2(D_2))$ is
-achievable by a two-stage code---if and only if the observers' optimal uncertainty
-ellipsoids nest:
-\[
-\Sigma_2^\star\ \preceq\ \Sigma_1^\star .
-\]
-\end{theorem}
-\begin{proof}[Proof sketch]
-\emph{Necessity.} Refinability forces $I(X;\hat X_2)=I(X;\hat X_1,\hat X_2)=R_2(D_2)$,
-hence $I(X;\hat X_1\mid\hat X_2)=0$: the Markov chain $X\to\hat X_2\to\hat X_1$.
-Uniqueness of the max-det optimum gives $\Sigma(\hat X_i)=\Sigma_i^\star$, and Markov
-monotonicity of the error covariance gives $\Sigma_2^\star\preceq\Sigma_1^\star$.
-\emph{Sufficiency.} With $\Lambda_i:=(\Sigma_i^\star)^{-1}-\Sigma_x^{-1}\succeq0$, nesting
-is exactly $\Lambda_1\preceq\Lambda_2$; the jointly Gaussian chain
-$Y_2=\Lambda_2^{1/2}X+N$, $Y_1=K^{1/2}Y_2+(I-K)^{1/2}N'$ with
-$K=\Lambda_2^{+1/2}\Lambda_1\Lambda_2^{+1/2}$ realizes $\mathrm{Cov}(X\mid Y_i)=
-\Sigma_i^\star$, so the general-source successive-refinement region
-[28], [29] makes the corner achievable (reference letter
-$\hat x_0=0$).
-\end{proof}
-
-When nesting fails the exact price is a second max-det program:
-\begin{theorem}[Exact rate loss]\label{thm:multiobs-loss}
-Among two-stage codes whose base layer is stage-1-optimal, the minimal excess total
-rate is $L(D_1,D_2)=\tfrac12\log\!\big(\det\Sigma_2^\star/\det\Sigma^\circ\big)\ge0$,
-where $\Sigma^\circ=\arg\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_1^\star,\
-\tr(P_2\Sigma)\le D_2\}$; and $L=0$ iff $\Sigma_2^\star\preceq\Sigma_1^\star$.
-\end{theorem}
-
-Three consequences make the theorem legible. \emph{(i) Commuting observers:} when
-$\Sigma_x,P_1,P_2$ are simultaneously diagonalizable, both conditions become per-mode
-reverse water-filling, and refinability is $e_k^{(2)}\le e_k^{(1)}$ for every mode.
-\emph{(ii) Equitz--Cover, recovered:} taking $P_1=P_2$ and $D_2\le D_1$ nests the
-per-mode errors automatically, so any single weighted-quadratic Gaussian source is
-successively refinable---the $P=I$ case is Equitz--Cover [27]; conflict
-requires genuinely distinct observers. \emph{(iii) Kernel overhead:} if the base layer
-codes a direction in $\ker P_2$---one consumer~2 cannot read---refinability fails
-strictly, and rate spent there is unrecoverable. Concretely, for $\Sigma_x=I_2$,
-$P_1=\mathrm{diag}(1,0)$, $P_2=\mathrm{diag}(0,1)$, the optima
-$\Sigma_1^\star=\mathrm{diag}(D_1,1)$ and $\Sigma_2^\star=\mathrm{diag}(1,D_2)$ never
-nest and $L=\tfrac12\log(1/D_1)=R_1(D_1)$: zero reuse, the total rate is
-$R_1(D_1)+R_2(D_2)$. This is ``one observer's noise is another's signal''
-(\S\ref{sec:framework}) as an exact coding theorem.
-
-We confirmed Theorems~\ref{thm:multiobs}--\ref{thm:multiobs-loss} numerically (committed
-with the ledger [22]): the nesting characterization, the Equitz--Cover
-recovery, and the orthogonal-observer loss $L=R_1(D_1)$ all reproduce. Registered as
-GO-P-2026-022. Open beyond this: the general $k$-observer region and non-Gaussian
-sources.
 
 \section*{Acknowledgment}
 The author used Claude (Anthropic) as an AI assistant during this work, in four
@@ -1126,7 +1230,7 @@ All results resolve to committed registry entries and reproduction artifacts in 
 public companion repository [22]; each registry entry is committed
 \emph{before} the run it governs, so registration precedes experimentation in the
 commit ordering of the public history. That ordering is not cryptographic third-party
-proof; an external immutable deposit (Zenodo/OSF) accompanies the paper.
+proof; an external immutable deposit (Zenodo) accompanies the paper.
 
 \section*{References}
 \begin{enumerate}
@@ -1186,6 +1290,15 @@ Inf.\ Theory}, 45(2):533--547, 1999.
 \item  V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
 in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
 58(6):3309--3338, 2012.
+\item  V.~N. Koshelev. Hierarchical coding of discrete sources.
+\emph{Probl.\ Peredachi Inf.}, 16(3):31--49, 1980.
+\item  M.~Effros. Distortion-rate bounds for fixed- and variable-rate
+multiresolution source codes. \emph{IEEE Trans.\ Inf.\ Theory}, 45(6):1887--1910, 1999.
+\item  J.~Nayak, E.~Tuncel, D.~G\"und\"uz, and E.~Erkip. Successive
+refinement of vector sources under individual distortion criteria. \emph{IEEE Trans.\
+Inf.\ Theory}, 56(4):1769--1781, 2010.
+\item  G.~J. Op~'t~Veld and M.~C. Gastpar. Successive refinement of Gaussian
+projections. EPFL preprint, 2017.
 \item  W.~H.~R. Equitz and T.~M. Cover. Successive refinement of
 information. \emph{IEEE Trans.\ Inf.\ Theory}, 37(2):269--275, 1991.
 \item  B.~Rimoldi. Successive refinement of information: characterization of
