@@ -56,11 +56,14 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | Claim | Class | Evidence |
 |---|---|---|
 | **GO-1** identifiability | `[predicted]` | blind probe recovers the read subspace at 0.94 vs 0.06 chance; predicts the flip 12/12 |
-| **GO-2** distortion (`tr P_C Σ_δ`) | `[demonstrated]` · `[replicated]` · Gate-B | recon-identical code 2.5× worse; flip inverts with the consumer; holds on attention, retrieval, optimization |
+| **GO-2** distortion (`tr P_C Σ_δ`) | `[demonstrated]` · `[replicated]` · Gate-B | recon-identical code 2.5× worse; flip inverts with the consumer; holds on attention, retrieval, optimization, and a trained Llama-3.2-3B layer (Gate-B rematch, GO-021: blind worse-arm call 16/16 at reconstruction tied to 7.5e-9) |
 | **GO-3** certificate vacuity | `[demonstrated]` | derived EVT threshold locates retrieval death to ~5%, orders 14 corpora (ρ=0.99) |
 | **GO-4** budget inversion | `[replicated]` | fixed-budget verdict inverts under budget-matched observation on real embedding manifolds |
 | **GO-5** density quotient | `[refuted]` | 4 prospective misses; operator/spectral-confined (NEG-11) |
 
-Four faces of Observation Theory stand; the fifth is an honest negative. ~20
-registered runs, all sealed before their measurement; eleven standing negatives
-(NEG-5…11). Every claim resolves to a row in [`claims/LEDGER.md`](claims/LEDGER.md).
+Four faces of Observation Theory stand; the fifth is an honest negative; the
+Gate-B out-of-sample gate now includes a trained Llama layer (GO-021), and
+Appendix-E's omission floor is `[demonstrated]` downstream on a trained model
+(GO-027). 27 registered runs, all sealed before their measurement; twelve standing
+negatives (NEG-5…12), with NEG-13 resolved. Every claim resolves to a row in
+[`claims/LEDGER.md`](claims/LEDGER.md).
