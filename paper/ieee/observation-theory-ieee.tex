@@ -8,6 +8,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{framed}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -61,24 +62,26 @@ second-order expansion of the downstream distortion isolates one controlling qua
 the reconstruction error read through the consumer, the trace of the error second
 moment weighted by a positive semidefinite read operator, the pullback of the output
 metric along the consumer. Ordinary reconstruction is the isotropic corner where this
-operator is the identity, the home of the Gaussian mean squared error specialization
-of Shannon rate distortion and of Gauss least squares. We prove that the read operator
-is the pullback geometry of distinguishability, inducing a quotient of the
-representation by what the consumer cannot separate; that it is recoverable from black
-box consumer queries under a specified observation distribution; and that it defines a
+operator is the identity, the home of Shannon's Gaussian mean-squared-error rate
+distortion and Gauss least squares. We prove that the read operator
+is the pullback geometry of distinguishability, inducing a quotient by what the
+consumer cannot separate; that its read subspace is
+recoverable from black-box consumer queries under a specified observation
+distribution; and that it defines a
 consumer relative rate distortion function whose achievability and converse we
 establish for a general source, with a coding theorem for the true nonlinear consumer
-divergence that reduces exactly to output coding. We instantiate the read operator for
+divergence that reduces exactly to output coding. We instantiate it for
 attention, gradient optimization, and retrieval, and position it as the
 identifiable geometric middle term between Shannon rate distortion and the information
 bottleneck. Every empirical claim is governed by a sealed prior registration with a
-preset bar; four predictions are confirmed and one is refuted.
+preset bar; four of five core predictions are confirmed, one refuted; a further
+trained-model test missed, then passed after correction.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Rate--distortion theory, source coding, quantization, information geometry,
-distinguishability, indirect source coding, information bottleneck, neural network
-compression, reproducibility.
+Distinguishability, indirect source coding, information bottleneck, information
+geometry, neural network compression, quantization, rate--distortion theory,
+reproducibility, source coding.
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
@@ -107,7 +110,8 @@ Damage/Surgeon \cite{lecun1990,hassibi1993} to Hessian-aware quantization and GP
 predict, recover, and test it. Observation Theory supplies it: the read operator
 $\PC$, the consumer's local output metric, sitting as the geometric middle term
 between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the information
-bottleneck \cite{tishby1999} (an arbitrary, non-geometric relevance variable). We
+bottleneck \cite{tishby1999} (an arbitrary, non-geometric relevance variable), as
+Table~\ref{tab:positioning} summarizes. We
 contribute (i) the map placing these literatures on one axis; (ii) $\PC$'s
 \emph{identifiability}---recovery from black-box consumer queries under a specified
 observation distribution, validated blind against a
@@ -153,17 +157,24 @@ assumed from the ambient metric of $X$; write $\bar{\dO}:=\E[\dO]$ for its expec
 over the instance.
 \end{definition}
 
-\begin{example}[A running instance]\label{ex:head}
+\begin{leftbar}\small
+\begin{example}[The attention head as observer]\label{ex:head}
 A concrete instance to keep in mind is a single attention head. Here $X$ is the set of
 key vectors, the consumer $\mathcal{C}$ is the softmax-attention map
 $x\mapsto\mathrm{softmax}(q^\top x/\sqrt d)$ that the head's queries $q$ induce, the
 output divergence $D_Y$ is the Kullback--Leibler divergence between attention
-distributions, and $\mathcal{Q}$ is a family of low-bit key quantizers. Then $\dO$
-measures how far a quantizer moves the head's attention, and---as \S\ref{sec:readop}
-derives---the read operator turns out to be the query second moment
-$\PC=\E[qq^\top]$: a code is judged only by how its error projects onto the directions
-the queries actually read. We return to this instance when instantiating each result.
+distributions, and $\mathcal{Q}$ is a family of low-bit key quantizers. The read
+operator will turn out to be the query second moment $\PC=\E[qq^\top]$
+(\S\ref{sec:readop}), and our experiments make the consequences concrete: two $4$-bit
+key quantizers with \emph{identical} reconstruction error rank in opposite order under
+the head's softmax-KL, and the ranking \emph{flips} with the query bank
+($12/12$ seeds, \S\ref{sec:distortion}); a blind probe recovers this $\PC$'s top
+subspace and names the winner before any bits are spent (\S\ref{sec:id}); and on a
+real Llama-3.2-3B head the same blind prediction is right on $16/16$ heads while
+reconstruction, held equal, is at chance ($2/16$; \S\ref{sec:discussion}). One head,
+carried from definition to trained model.
 \end{example}
+\end{leftbar}
 
 \begin{proposition}[Consumer-projected distortion]\label{prop:main}
 Let $D_Y$ be twice differentiable with $D_Y(u,u)=0$, $\nabla_v D_Y(u,v)|_{v=u}=0$,
@@ -285,6 +296,9 @@ Reconstruction & squared Euclidean & identity $I$ (isotropic corner) & --- (task
 \end{tabular}
 \end{table}
 
+We now derive $\PC$ for three consumers, collected in Table~\ref{tab:readops}. The
+first is the attention head of Example~\ref{ex:head}.
+
 \begin{proposition}[Softmax attention]\label{prop:softmax}
 Read keys $\{k_s\}_{s=1}^{S}$ through a query bank: logits $l_s=q^\top k_s/\sqrt{d}$,
 output $p=\mathrm{softmax}(l)$, $D_Y=\mathrm{KL}$. Under key perturbation $\delta_s$,
@@ -325,13 +339,17 @@ cost. Invisible-to-the-consumer and free-to-encode are the same statement; range
 waste is a different one.
 
 \begin{proposition}[Gradient-descent optimizer; exact]\label{prop:opt}
-Let $L(\theta)=\tfrac12\theta^\top H\theta$ with $H\succeq0$, $g=H\theta$, and
-$\hat g=g+\delta$ with conditionally unbiased error $\E[\delta\mid\theta]=0$, used in
-a step of size $\eta$. Then $L(\theta-\eta\hat g)-L(\theta-\eta g)=\tfrac12\eta^2\,
-\delta^\top H\delta-\eta\,\delta^\top H(\theta-\eta g)$, whose error-quadratic part
-is $\tfrac12\eta^2\tr(H\,\delta\delta^\top)$; the linear cross term vanishes in
-expectation ($\E[\delta\mid\theta]=0$), giving $\E[\dO]=\tfrac12\eta^2\tr(H\,\Sd)$,
-so $\PC=H\succeq0$ \emph{exactly}.
+Let $L(\theta)=\tfrac12\theta^\top H\theta$ with $H\succeq0$ and $g=H\theta$; the
+consumer maps a gradient to its updated iterate $\mathcal{C}(g)=\theta-\eta g$ at step
+size $\eta$, read through the loss \emph{Bregman divergence}
+$D_L(u,v)=L(u)-L(v)-\nabla L(v)^\top(u-v)$. For a noisy gradient $\hat g=g+\delta$ the
+downstream distortion is, \emph{pointwise},
+\[
+\dO=D_L(\theta-\eta\hat g,\;\theta-\eta g)=\tfrac12\eta^2\,\delta^\top H\delta\ \ge0,
+\]
+so $\E[\dO]=\tfrac12\eta^2\tr(H\,\Sd)$ and $\PC=H\succeq0$ \emph{exactly}. Measuring the
+update error in the loss geometry rather than the raw excess loss removes the
+indefinite linear cross term, so no unbiasedness qualification on $\delta$ is needed.
 \end{proposition}
 \noindent This is loss-aware pruning/quantization made a metric: Hessian-weighted
 deletion \cite{lecun1990,hassibi1993,dong2019hawq,frantar2023gptq} \emph{is}
@@ -391,24 +409,24 @@ two codes is set by $\tr(\PC\Sd)$, hence by the query distribution.
 $0.19$ bit) with \emph{identical} reconstruction ($0.0938$ vs $0.0934$): the
 whole-vector code is $2.53\times$ worse on softmax-KL ($12/12$ seeds); a
 wrong-quotient control is $21\times$ worse at $\sim\!5\times$ the reconstruction.
-Reconstruction is not the controlling quantity (\texttt{[demonstrated]}).
+Reconstruction is not the controlling quantity (\emph{Demonstrated}).
 
 \paragraph{Flip.} Holding reconstruction fixed and changing only the query bank, the
-ranking \emph{inverts}: isotropic $\Rightarrow$ code $a$ better ($2.5\times$,
+ranking \emph{inverts} (Fig.~\ref{fig:flip}): isotropic $\Rightarrow$ code $a$ better ($2.5\times$,
 $12/12$); subspace $\Rightarrow$ code $b$ better ($12/12$). The directly computed
 $\tr(\PC\Sd)$ tracks the sign on every seed in both consumers; reconstruction, a
 consumer-blind scalar, cannot (rank correlation $0.40$ vs $1.00$). This is
-Proposition~\ref{prop:softmax} with $Q$ swapped (\texttt{[demonstrated]}).
+Proposition~\ref{prop:softmax} with $Q$ swapped (\emph{Demonstrated}).
 
 \paragraph{Replication and out-of-sample.} The flip replicates on retrieval ranking
 (different representation, set-valued consumer): identical reconstruction
 ($0.0964$), ranking flips with the read subspace (log-advantage $-4.70$ vs $+4.65$,
-$12/12$), $\tr(\PC\Sd)$ tracking, reconstruction blind (\texttt{[replicated]}). It
+$12/12$), $\tr(\PC\Sd)$ tracking, reconstruction blind (\emph{Replicated}). It
 generalizes to optimization with $\PC=H$ (Prop.~\ref{prop:opt}): at matched
 reconstruction the curvature-metric distortion flips between two Hessians ($12/12$),
 tracked by $\tr(H\Sd)$, reconstruction uninformative ($-0.20$)---and under $H=I$
 reconstruction tracks \emph{perfectly} ($1.00$), the derived $\PC=I$ corner observed
-(\texttt{[predicted]}, out-of-sample). One derivation; three read operators. These
+(\emph{Predicted}, out-of-sample). One derivation; three read operators. These
 consumers are \emph{synthetic}---the point is to validate the theory's logic (the
 $H=I$ positive control being the clean confirmation); the trained-model hardening
 (\S\ref{sec:discussion}), attempted prospectively, initially missed on a
@@ -432,7 +450,7 @@ the planted read subspace at overlap $0.936$ against a $0.059$ chance baseline
 ($\approx16\times$), and the \emph{blind} $\tr(\hat\PC\Sd)$ predicts the flip of
 \S\ref{sec:distortion} on $12/12$ seeds in both consumers with rank correlation
 $1.00$---identical to ground truth---while reconstruction cannot ($0.40$)
-(\texttt{[predicted]}). Two scope notes. Prop.~\ref{prop:id} recovers the read \emph{subspace} for the
+(\emph{Predicted}). Two scope notes. Prop.~\ref{prop:id} recovers the read \emph{subspace} for the
 $f(Wx)$ model with a Euclidean output metric; recovering the \emph{full} operator
 $\E_x[J^\top G J]$---its eigenvalues, and a general $G$---is the broader program.
 And $\PC$ depends on the probe-point distribution and on $G$, so it is identifiable
@@ -499,8 +517,8 @@ exact median $\Phi^{-1}(2^{-1/(N-1)})$---not the mean, not the leading order.
 \end{proof}
 
 Across $14$ structurally distinct corpora the certificate orders them by recall at
-rank correlation $0.991$, beating the un-normalized margin ($0.873$), with a
-finite-width transition (\texttt{[demonstrated]}). The registered harness used the
+rank correlation $0.991$ (Fig.~\ref{fig:vacuity}), beating the un-normalized margin
+($0.873$), with a finite-width transition (\emph{Demonstrated}). The registered harness used the
 \emph{mean} $\E[M_{N-1}]$ (Monte-Carlo) as its $\mu_{\mathrm{crit}}$ reference, and
 the recall-$\tfrac12$ crossing sits at $\rho=0.948$---slightly \emph{below} $1$
 against that reference. This is expected and quantitative: the exact $\tfrac12$
@@ -512,16 +530,16 @@ contrast, \emph{raise} the maximum---the two must not be grouped. The exact
 $\tfrac12$ crossing further assumes a \emph{fixed} standardized true margin and
 i.i.d.\ Gaussian distractors; when the true score is itself random or correlated with
 the distractors, $\rho$ is a reference certificate rather than an exact recall
-threshold. The \emph{form} of the threshold is nonetheless robust: the
-$\sqrt{2\ln N}$ scaling is the centering of the Gumbel max-domain of attraction,
-shared by every distractor law with sub-exponential (lighter-than-polynomial)
-tails---Gaussian, exponential, Weibull-type---so non-Gaussianity \emph{within} that
-domain moves the constants $(\alpha_N,b_N)$, not the scaling law; positive correlation
-enters as an \emph{effective count}, replacing $N$ by $\theta N$ through the extremal
-index $\theta\in(0,1]$ and shifting $\mu_{\mathrm{crit}}$ by
-$\tfrac{\ln\theta}{2\sqrt{2\ln N}}$ at leading order; and only genuinely heavy
-(Fr\'echet-domain, polynomial) tails change the scaling itself---the certificate's
-stated failure mode. The $14$-corpus ordering above ($\rho=0.99$ on clustered,
+threshold. The exact threshold above is Gaussian. More generally, maxima in the Gumbel domain
+retain a Gumbel limit but have \emph{tail-dependent} centering and scaling: for
+$F(x)\asymp\exp(-x^\alpha)$ the maximum grows like $(\ln N)^{1/\alpha}$, so Gaussian
+($\alpha{=}2$) and exponential ($\alpha{=}1$) distractors do \emph{not} share the same
+$\sqrt{\ln N}$ law---non-Gaussianity changes more than constants. Under suitable
+weak-dependence conditions an extremal index $\theta\in(0,1]$ modifies the effective
+exceedance count from $N$ to approximately $\theta N$, shifting the Gaussian centering
+by $\ln\theta/\sqrt{2\ln N}$ at leading order. We therefore use the Gaussian formula as
+a \emph{reference certificate}, not a distribution-free threshold. The $14$-corpus
+ordering above ($\rho=0.99$ on clustered,
 non-Gaussian real embeddings) is the empirical counterpart: real structure shifts the
 absolute death point but preserves the ordering the certificate is used for.
 Capacity says, from a computable quantity, \emph{where} the channel dies
@@ -532,7 +550,7 @@ estimate the standardized true-versus-distractor margin on a small calibration s
 divide by the derived $\mu_{\mathrm{crit}}$, and read off $\rho$. A value below $1$
 warns that single-stage retrieval is at or past its vacuity point---budget for a
 re-ranking stage or a larger index before deployment---while $\rho$ comfortably above
-$1$ certifies headroom. Because $\rho$ preserves the recall \emph{ordering} across
+$1$ indicates headroom. Because $\rho$ preserves the recall \emph{ordering} across
 corpora, it also ranks candidate corpora or index configurations \emph{without}
 running full retrieval.
 
@@ -564,7 +582,7 @@ embeddings (Project Gutenberg translations; $32{,}000$ points, three seeds). Fix
 $m=10$: geometry preservation rises with $N$ (trend $+0.4,+1.0,+1.0$).
 Spectral-gap-matched, $m:10\to121/126/159$: geometry \emph{collapses} (trend $-1.0$
 every seed); the budgets agree at the smallest $N$ (gap $\le0.002$)
-(\texttt{[replicated]}). Opposite verdicts about the same data, set by the observer's
+(\emph{Replicated}). Opposite verdicts about the same data, set by the observer's
 rate: ``clean geometry'' is a relation between observer resolution and substrate
 scale, not a substrate invariant.
 
@@ -575,11 +593,14 @@ $d_{\mathcal{C}}(x,\hat x)=(x-\hat x)^\top\PC(x-\hat x)$ for a \emph{fixed} $\PC
 (constant, or the average $\E_x[\PC(x)]$ under the proviso of Prop.~\ref{prop:main});
 define $R_{\mathcal{C}}(D)=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\hat X)\le D\}$.
 This fixed-$\PC$ model must be kept distinct from the \emph{local} observation metric
-$\PC(x)$ of Prop.~\ref{prop:main}: for a nonlinear consumer $\PC(x)$ varies, there is
-no single tilted source---a direction invisible at one point can be visible at
-another---and the coding theorem for that case is open. The results below, and
-Appendix~\ref{app:coding}, are for the fixed weighted-quadratic model, whose theory
-is classical \cite{berger1971}.
+$\PC(x)$ of Prop.~\ref{prop:main}. For a point-dependent $\PC(x)$ the operational
+rate--distortion theorem still \emph{exists}---$d_{\mathcal{C}}$ is then a general
+measurable single-letter distortion, so Cor.~\ref{cor:pointdep} and
+Appendix~\ref{app:true} apply---but what is \emph{lost} is the closed-form solution:
+there is no single \emph{linear} tilted source (a direction invisible at one point can
+be visible at another), so the Berger reduction and reverse water-filling below are
+specific to the fixed weighted-quadratic model, whose theory is classical
+\cite{berger1971}.
 
 \begin{proposition}[Gaussian rate--distortion; Berger reduction]\label{prop:rd}
 For $X\sim\mathcal{N}(0,\Sigma_x)$, in the basis diagonalizing
@@ -661,7 +682,7 @@ density is \emph{read}---it is not in $\ker\PC$---so quotienting it removes sign
 manufactures anti-hubs; in the diffusion domain the direction is right ($\alpha{=}1$
 optimal, recovered non-spectrally) but the effect is under $2\%$ and \emph{not
 density-specific} (a uniform-density control gains as much). Per its sealed
-registration the conjecture is \texttt{[refuted]}. The sharpened statement---the
+registration the conjecture is \emph{Refuted}. The sharpened statement---the
 $\alpha{=}1$ cancellation is a property of the diffusion operator and does not
 transfer to direct observation---is Proposition~\ref{prop:rd} read backwards: rate is
 saved on $\ker\PC$ only when the nuisance actually lies there. The refutation
@@ -713,9 +734,9 @@ GO-5 density quotient & $\alpha{=}1$ restores the invariant non-spectrally & ref
 \end{tabular}
 \end{table}
 
-In summary, Observation Theory identifies operational geometry with the pullback
-geometry of distinguishability and makes that geometry recoverable and experimentally
-consequential. It implies a change of default: where a conventional pipeline minimizes
+Table~\ref{tab:scoreboard} summarizes the falsifiable core. In summary, Observation
+Theory identifies operational geometry with the pullback geometry of distinguishability
+and makes that geometry recoverable and experimentally consequential. It implies a change of default: where a conventional pipeline minimizes
 reconstruction and presumes that the task follows, the theory instead prescribes
 recovering the consumer's read operator (\S\ref{sec:id}), water-filling bits on $\PC$
 rather than on $I$
@@ -737,10 +758,10 @@ $7.5\!\times\!10^{-9}$ but differing downstream (median relative divergence gap
 $1.85$), with an improved probe. On the trained model it \emph{clears all four sealed
 gates}---the blind $\tr(\hat\PC\Sd)$ predicts the reconstruction-invisible worse arm on
 $16/16$ heads while reconstruction, provably tied, agrees on only $2/16$ (its own
-floating-point noise), and the read operator is recovered at overlap $0.647$. The
-theory's mechanism thus operates on a trained frontier layer, called \emph{before}
-compression by a blind probe; the GO-P-2026-020 miss stands as an honest negative on
-the code design it exposed. Open
+floating-point noise), and the read \emph{subspace} is recovered at overlap $0.647$.
+The theory's mechanism thus operates on a trained Llama attention layer, called
+\emph{before} compression by a blind probe; the GO-P-2026-020 miss stands as an honest
+negative on the code design it exposed. Open
 theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
 metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
@@ -860,9 +881,13 @@ achievable for a fully point-dependent read operator.
 
 \noindent What the fixed-$\PC$ specialization keeps and the point-dependent case
 loses is therefore sharp: \emph{(i)} the closed-form reverse water-filling
-(Cor.~\ref{cor:coding}) needs a single \emph{linear} tilt $Y=\PC^{1/2}X$, whereas with
-$\PC(x)$ the tilt $x\mapsto\PC(x)^{1/2}x$ is nonlinear and $R_{\mathcal{C}}$ has no
-closed form; \emph{(ii)} the exact floor $R_{\mathcal{C}}(0)=H(X/\!\sim_{\mathcal{C}})$
+(Cor.~\ref{cor:coding}) needs a single \emph{linear} tilt $Y=\PC^{1/2}X$; a
+point-dependent $\PC(x)$ admits \emph{no} tilted-source representation at all---the map
+$x\mapsto\PC(x)^{1/2}x$ does not linearize the distortion, since in general
+$\PC(x)^{1/2}(\hat x-x)\neq\PC(\hat x)^{1/2}\hat x-\PC(x)^{1/2}x$---so
+$R_{\mathcal{C}}$ has no closed form, even though it exists as the rate--distortion
+function of a general measurable single-letter distortion (Cor.~\ref{cor:pointdep});
+\emph{(ii)} the exact floor $R_{\mathcal{C}}(0)=H(X/\!\sim_{\mathcal{C}})$
 requires the integrability/compatibility conditions of \S\ref{sec:framework} to
 identify the quotient; and \emph{(iii)} $d_{\PC}$ is the \emph{leading-order surrogate}
 for the true divergence $D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, so coding to it
@@ -1043,6 +1068,23 @@ entropy share of $\ker\PC$ and strict whenever that share is positive, the (a)--
 vanishing as $R$ grows (Thm.~\ref{thm:B3}). The synthetic harness of
 \S\ref{sec:distortion} suffices.
 
+\section*{Acknowledgment}
+The author used Claude (Anthropic) as an AI assistant during this work, in four
+distinguishable roles: \emph{(i) experimental coding and verification}---writing and
+running the experiment harnesses and the continuous-integration reproduction workflow;
+\emph{(ii) mathematical checking}---numerical and symbolic verification of the
+propositions and appendix theorems, including an independent fresh-context
+verification pass; \emph{(iii) drafting} of expository prose; and \emph{(iv) language
+editing}. All theorem statements, proofs, experimental designs, registered
+predictions, and claims were specified, reviewed, and accepted by the author, who is
+solely responsible for the content.
+
+All results resolve to committed registry entries and reproduction artifacts in the
+public companion repository \cite{ledger2026}; each registry entry is committed
+\emph{before} the run it governs, so registration precedes experimentation in the
+commit ordering of the public history. That ordering is not cryptographic third-party
+proof; an external immutable deposit (Zenodo/OSF) accompanies the paper.
+
 \begin{thebibliography}{99}
 \bibitem{shannon1948} C.~E. Shannon. A mathematical theory of communication.
 \emph{Bell Syst.\ Tech.\ J.}, 27:379--423, 623--656, 1948.
@@ -1101,18 +1143,5 @@ Inf.\ Theory}, 45(2):533--547, 1999.
 in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
 58(6):3309--3338, 2012.
 \end{thebibliography}
-
-\paragraph{Reproducibility \& provenance.} All results resolve to committed registry
-entries and artifacts in the public companion repository \cite{ledger2026}; each
-registry entry is committed \emph{before} the run it governs, so the evidence that
-registration preceded experimentation is the \emph{commit ordering} of the public
-history. We are explicit about its limits: git and hosting timestamps are not
-cryptographic third-party proof, and a snapshot taken \emph{after} completion
-preserves the current history but does not retroactively establish timing. Stronger
-anchoring---an external immutable deposit (Zenodo/OSF) and any contemporaneous
-third-party timestamps (signed hashes, prior deposits)---accompanies the paper.
-Computational experimentation and drafting were carried out with an AI research
-assistant under the registration-first protocol of \S\ref{sec:negatives}; every
-ledger row names its verifier and context-freshness.
 
 \end{document}

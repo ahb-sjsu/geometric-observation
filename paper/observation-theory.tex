@@ -49,8 +49,9 @@ it is the indirect/remote source-coding distortion of Dobrushin--Tsybakov and
 Wolf--Ziv, reduces to Shannon's Gaussian rate--distortion by Berger's
 change of variables, and is Hessian-weighted loss-aware compression (OBD/OBS through
 GPTQ) written as a metric. Our contribution is the \emph{middle term}: $\PC$ is a
-geometric, PSD, water-fillable operator that is \emph{recoverable from black-box
-consumer queries under a specified observation distribution and output metric},
+geometric, PSD, water-fillable operator whose read \emph{subspace} is
+\emph{recoverable from black-box consumer queries under a specified observation
+distribution and output metric},
 sitting between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the
 information bottleneck. We make that middle term testable and test it, under sealed, before-run
 registrations with ex-ante bars: distortion---$\tr(\PC\Sd)$ governs downstream error,
@@ -290,13 +291,17 @@ cost. Invisible-to-the-consumer and free-to-encode are the same statement; range
 waste is a different one.
 
 \begin{proposition}[Gradient-descent optimizer; exact]\label{prop:opt}
-Let $L(\theta)=\tfrac12\theta^\top H\theta$ with $H\succeq0$, $g=H\theta$, and
-$\hat g=g+\delta$ with conditionally unbiased error $\E[\delta\mid\theta]=0$, used in
-a step of size $\eta$. Then $L(\theta-\eta\hat g)-L(\theta-\eta g)=\tfrac12\eta^2\,
-\delta^\top H\delta-\eta\,\delta^\top H(\theta-\eta g)$, whose error-quadratic part
-is $\tfrac12\eta^2\tr(H\,\delta\delta^\top)$; the linear cross term vanishes in
-expectation ($\E[\delta\mid\theta]=0$), giving $\E[\dO]=\tfrac12\eta^2\tr(H\,\Sd)$,
-so $\PC=H\succeq0$ \emph{exactly}.
+Let $L(\theta)=\tfrac12\theta^\top H\theta$ with $H\succeq0$ and $g=H\theta$; the
+consumer maps a gradient to its updated iterate $\mathcal{C}(g)=\theta-\eta g$ at step
+size $\eta$, read through the loss \emph{Bregman divergence}
+$D_L(u,v)=L(u)-L(v)-\nabla L(v)^\top(u-v)$. For a noisy gradient $\hat g=g+\delta$ the
+downstream distortion is, \emph{pointwise},
+\[
+\dO=D_L(\theta-\eta\hat g,\;\theta-\eta g)=\tfrac12\eta^2\,\delta^\top H\delta\ \ge0,
+\]
+so $\E[\dO]=\tfrac12\eta^2\tr(H\,\Sd)$ and $\PC=H\succeq0$ \emph{exactly}. Measuring the
+update error in the loss geometry rather than the raw excess loss removes the
+indefinite linear cross term, so no unbiasedness qualification on $\delta$ is needed.
 \end{proposition}
 \noindent This is loss-aware pruning/quantization made a metric: Hessian-weighted
 deletion \cite{lecun1990,hassibi1993,dong2019hawq,frantar2023gptq} \emph{is}
@@ -417,16 +422,16 @@ contrast, \emph{raise} the maximum---the two must not be grouped. The exact
 $\tfrac12$ crossing further assumes a \emph{fixed} standardized true margin and
 i.i.d.\ Gaussian distractors; when the true score is itself random or correlated with
 the distractors, $\rho$ is a reference certificate rather than an exact recall
-threshold. The \emph{form} of the threshold is nonetheless robust: the
-$\sqrt{2\ln N}$ scaling is the centering of the Gumbel max-domain of attraction,
-shared by every distractor law with sub-exponential (lighter-than-polynomial)
-tails---Gaussian, exponential, Weibull-type---so non-Gaussianity \emph{within} that
-domain moves the constants $(\alpha_N,b_N)$, not the scaling law; positive correlation
-enters as an \emph{effective count}, replacing $N$ by $\theta N$ through the extremal
-index $\theta\in(0,1]$ and shifting $\mu_{\mathrm{crit}}$ by
-$\tfrac{\ln\theta}{2\sqrt{2\ln N}}$ at leading order; and only genuinely heavy
-(Fr\'echet-domain, polynomial) tails change the scaling itself---the certificate's
-stated failure mode. The $14$-corpus ordering above ($\rho=0.99$ on clustered,
+threshold. The exact threshold above is Gaussian. More generally, maxima in the Gumbel domain
+retain a Gumbel limit but have \emph{tail-dependent} centering and scaling: for
+$F(x)\asymp\exp(-x^\alpha)$ the maximum grows like $(\ln N)^{1/\alpha}$, so Gaussian
+($\alpha{=}2$) and exponential ($\alpha{=}1$) distractors do \emph{not} share the same
+$\sqrt{\ln N}$ law---non-Gaussianity changes more than constants. Under suitable
+weak-dependence conditions an extremal index $\theta\in(0,1]$ modifies the effective
+exceedance count from $N$ to approximately $\theta N$, shifting the Gaussian centering
+by $\ln\theta/\sqrt{2\ln N}$ at leading order. We therefore use the Gaussian formula as
+a \emph{reference certificate}, not a distribution-free threshold. The $14$-corpus
+ordering above ($\rho=0.99$ on clustered,
 non-Gaussian real embeddings) is the empirical counterpart: real structure shifts the
 absolute death point but preserves the ordering the certificate is used for.
 Capacity says, from a computable quantity, \emph{where} the channel dies
@@ -437,7 +442,7 @@ estimate the standardized true-versus-distractor margin on a small calibration s
 divide by the derived $\mu_{\mathrm{crit}}$, and read off $\rho$. A value below $1$
 warns that single-stage retrieval is at or past its vacuity point---budget for a
 re-ranking stage or a larger index before deployment---while $\rho$ comfortably above
-$1$ certifies headroom. Because $\rho$ preserves the recall \emph{ordering} across
+$1$ indicates headroom. Because $\rho$ preserves the recall \emph{ordering} across
 corpora, it also ranks candidate corpora or index configurations \emph{without}
 running full retrieval.
 
@@ -480,11 +485,14 @@ $d_{\mathcal{C}}(x,\hat x)=(x-\hat x)^\top\PC(x-\hat x)$ for a \emph{fixed} $\PC
 (constant, or the average $\E_x[\PC(x)]$ under the proviso of Prop.~\ref{prop:main});
 define $R_{\mathcal{C}}(D)=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\hat X)\le D\}$.
 This fixed-$\PC$ model must be kept distinct from the \emph{local} observation metric
-$\PC(x)$ of Prop.~\ref{prop:main}: for a nonlinear consumer $\PC(x)$ varies, there is
-no single tilted source---a direction invisible at one point can be visible at
-another---and the coding theorem for that case is open. The results below, and
-Appendix~\ref{app:coding}, are for the fixed weighted-quadratic model, whose theory
-is classical \cite{berger1971}.
+$\PC(x)$ of Prop.~\ref{prop:main}. For a point-dependent $\PC(x)$ the operational
+rate--distortion theorem still \emph{exists}---$d_{\mathcal{C}}$ is then a general
+measurable single-letter distortion, so Cor.~\ref{cor:pointdep} and
+Appendix~\ref{app:true} apply---but what is \emph{lost} is the closed-form solution:
+there is no single \emph{linear} tilted source (a direction invisible at one point can
+be visible at another), so the Berger reduction and reverse water-filling below are
+specific to the fixed weighted-quadratic model, whose theory is classical
+\cite{berger1971}.
 
 \begin{proposition}[Gaussian rate--distortion; Berger reduction]\label{prop:rd}
 For $X\sim\mathcal{N}(0,\Sigma_x)$, in the basis diagonalizing
@@ -617,8 +625,8 @@ $7.5\!\times\!10^{-9}$ but differing downstream (median relative divergence gap
 $1.85$), with an improved probe. On the trained model it \emph{clears all four sealed
 gates}---the blind $\tr(\hat\PC\Sd)$ predicts the reconstruction-invisible worse arm
 on $16/16$ heads while reconstruction, provably tied, agrees on only $2/16$ (its own
-floating-point noise), and the read operator is recovered at overlap $0.647$. The
-theory's mechanism thus operates on a trained frontier layer, called \emph{before}
+floating-point noise), and the read \emph{subspace} is recovered at overlap $0.647$.
+The theory's mechanism thus operates on a trained Llama attention layer, called \emph{before}
 compression by a blind probe; the GO-P-2026-020 miss stands as an honest negative on
 the code design it exposed (NEG-12). Open
 theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$
@@ -727,9 +735,13 @@ achievable for a fully point-dependent read operator.
 
 \noindent What the fixed-$\PC$ specialization keeps and the point-dependent case
 loses is therefore sharp: \emph{(i)} the closed-form reverse water-filling
-(Cor.~\ref{cor:coding}) needs a single \emph{linear} tilt $Y=\PC^{1/2}X$, whereas with
-$\PC(x)$ the tilt $x\mapsto\PC(x)^{1/2}x$ is nonlinear and $R_{\mathcal{C}}$ has no
-closed form; \emph{(ii)} the exact floor $R_{\mathcal{C}}(0)=H(X/\!\sim_{\mathcal{C}})$
+(Cor.~\ref{cor:coding}) needs a single \emph{linear} tilt $Y=\PC^{1/2}X$; a
+point-dependent $\PC(x)$ admits \emph{no} tilted-source representation at all---the map
+$x\mapsto\PC(x)^{1/2}x$ does not linearize the distortion, since in general
+$\PC(x)^{1/2}(\hat x-x)\neq\PC(\hat x)^{1/2}\hat x-\PC(x)^{1/2}x$---so
+$R_{\mathcal{C}}$ has no closed form, even though it exists as the rate--distortion
+function of a general measurable single-letter distortion (Cor.~\ref{cor:pointdep});
+\emph{(ii)} the exact floor $R_{\mathcal{C}}(0)=H(X/\!\sim_{\mathcal{C}})$
 requires the integrability/compatibility conditions of \S\ref{sec:framework} to
 identify the quotient; and \emph{(iii)} $d_{\PC}$ is the \emph{leading-order surrogate}
 for the true divergence $D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, so coding to it
