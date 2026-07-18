@@ -1453,15 +1453,14 @@ We verified Theorems~\ref{thm:commission}--\ref{thm:omission} numerically (seale
 GO-P-2026-024, fresh-context pass logged): the commission bound is tight at $P=m\hat P$,
 the floor equals $\tr(\tilde P\Pi)$ with rate diverging as $D\downarrow
 D_{\mathrm{floor}}$, and the naive kernel overstates the floor by ${\sim}30\%$ when
-$\Sigma_x\ne I$. A prospective test on a trained Llama-3.2-3B layer (GO-P-2026-026) exhibits the floor: on
-all $16$ KV heads the true read distortion $\tr(P\Sigma_\delta)$ saturates at the
-\emph{measured} whitened-kernel value, and the infinite-rate misidentified coder plateaus
-at a softmax divergence some $10^5\times$ that of the matched operator (median $0.10$
-nats)---a genuine downstream floor. A finite-rate sweep initially missed this, the softmax
-divergence still being dominated by the reducible read-mode error at the swept rates; the
-floor is thus a high-resolution phenomenon whose finite-rate visibility scales with the
-omitted direction's downstream weight. It remains a certificate about the read metric that
-the consumer's own metric inherits only in the high-rate limit.
+$\Sigma_x\ne I$. A sealed, held-out prospective test (GO-P-2026-027, layers $\{4,20\}$) confirms the floor
+operationally on all $16$ KV heads: the read-metric floor is reached, and the infinite-rate
+misidentified coder plateaus at a softmax divergence $800$--$5700\times$ that of the matched
+operator (median $0.10$ nats)---a genuine downstream wall, out-of-sample from the layers on
+which the effect was first seen. A finite-rate sweep initially missed it (the reducible
+read-mode error dominates the swept rates), so the floor is a high-resolution phenomenon
+whose finite-rate visibility scales with the omitted direction's downstream weight; the
+consumer's own metric inherits it in the high-rate limit.
 
 \section*{Acknowledgment}
 The author used Claude (Anthropic) as an AI assistant during this work, in four
