@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: obstheory-doa-gen
+  namespace: ssu-atlas-ai
+  labels: {app: obstheory-bench}
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels: {app: obstheory-bench}
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-A10
+      tolerations:
+      - {key: nvidia.com/gpu, operator: Exists, effect: NoSchedule}
+      containers:
+      - name: gen
+        image: vllm/vllm-openai:v0.11.0
+        command: ["python3", "/work/gen.py"]
+        env:
+        - {name: MODEL, value: "Qwen/Qwen2.5-Coder-7B-Instruct"}
+        - {name: HF_HOME, value: "/cache"}
+        resources:
+          limits: {nvidia.com/gpu: 1, cpu: "4", memory: 24Gi, ephemeral-storage: 45Gi}
+          requests: {nvidia.com/gpu: 1, cpu: "4", memory: 24Gi, ephemeral-storage: 45Gi}
+        volumeMounts:
+        - {name: work, mountPath: /work}
+        - {name: cache, mountPath: /cache}
+      volumes:
+      - name: work
+        configMap: {name: obstheory-gen}
+      - name: cache
+        emptyDir: {sizeLimit: 45Gi}
