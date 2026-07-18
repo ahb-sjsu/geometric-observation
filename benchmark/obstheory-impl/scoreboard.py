@@ -20,8 +20,9 @@ ORIGIN = {  # provenance of each candidate
 
 
 def main():
+    mdir = sys.argv[1] if len(sys.argv) > 1 else "models"
     rows = []
-    for sj in sorted(HERE.glob("models/*/score.json")):
+    for sj in sorted(HERE.glob(f"{mdir}/*/score.json")):
         d = json.loads(sj.read_text(encoding="utf-8"))
         rows.append(d)
     rows.sort(key=lambda d: (-d.get("passed", 0), d.get("candidate", "")))
@@ -44,8 +45,9 @@ def main():
                 f"{det.get('mse_step_ratios','?')} | {det.get('shuffled_flip','?')} | "
                 f"{det.get('omission_floor_mult','?')} |")
     md = "\n".join(lines) + "\n"
-    (HERE / "scoreboard.md").write_text(md, encoding="utf-8")
-    (HERE / "scoreboard.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    tag = "" if mdir == "models" else "_" + mdir.replace("models_", "").replace("models", "")
+    (HERE / f"scoreboard{tag}.md").write_text(md, encoding="utf-8")
+    (HERE / f"scoreboard{tag}.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
     print(md)
 
 

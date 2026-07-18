@@ -61,6 +61,25 @@ embedding / estimator numerics.
 - **NRP etiquette.** GPU work runs as burst Jobs (not idle pods); A100/H100 need the access form
   (hard-0 quota), so the fleet targets on-demand A10s. See the `atlas` skill `modules/nrp.md`.
 
+## v2 — the debug loop (`harness.py` + `run_v2.py`)
+
+Up to 4 iterations per model: generate → run → feed back the **crash traceback or the model's
+own flip-check** (fair signal — never the hidden oracle) → regenerate. Crucially the loop's
+self-check uses a **different** instance (M=12, θ0=5°, κ=3) than the held-out grading instance
+(M=16, −7°, κ=4), so models debug against train-like signal and are scored out-of-sample.
+
+Result (`scoreboard_v2.md`): **iteration fixes mechanics, not the physics.**
+- **Llama-3.3-70B**: one-shot crash (v1 0/5) → after 3 iterations it stops crashing and its *own*
+  self-check passes on the train instance — but on the held-out oracle it scores **1/5**: `cos=0.40`
+  (never derived the read operator) and a *degenerate* flip (MSE step ratios ≈ 1.0, arms barely
+  separated). The train/test split caught the overfit the self-check missed.
+- **DeepSeek-V3, Qwen2.5-Coder-32B**: still **0/5** after 4 iterations — never fixed their crashes.
+- Contrast: **Claude** got `cos=1.0` and 4/5 on the *first* try.
+
+So the conceptual core — deriving `ĝ = P_a^⊥a'` — separates frontier from open-weight *even with a
+debug loop*; the loop rescues mechanical bugs (Llama: crash → runs) but not the missing derivation.
+A useful benchmark property: the held-out instance exposes self-check overfitting.
+
 ## Files
 ```
 spec_doa.md        the task given to models (answer-free)

@@ -1,0 +1,26 @@
+[
+  {
+    "iter": 1,
+    "ok": false,
+    "feedback": "Runtime error (traceback):\nC:\\source\\geometric-observation\\benchmark\\obstheory-impl\\models_v2\\qwen25-coder-32b\\impl.py:66: RuntimeWarning: invalid value encountered in sqrt\n  deltas = np.sqrt(cov_matrix_transformed) @ np.random.randn(2 * M, n_trials)\nTraceback (most recent call last):\n  File \"<string>\", line 4, in <module>\n  File \"C:\\source\\geometric-observation\\benchmark\\obstheory-impl\\models_v2\\qwen25-coder-32b\\impl.py\", line 87, in solve\n    x_hat = x + delta.view(complex)\n                ^^^^^^^^^^^^^^^^^^^\nValueError: To change to a dtype of a different size, the last axis must be contiguous",
+    "code_len": 4722
+  },
+  {
+    "iter": 2,
+    "ok": false,
+    "feedback": "Runtime error (traceback):\nTraceback (most recent call last):\n  File \"<string>\", line 4, in <module>\n  File \"C:\\source\\geometric-observation\\benchmark\\obstheory-impl\\models_v2\\qwen25-coder-32b\\impl.py\", line 95, in solve\n    x_hat = x + delta.view(complex)\n                ^^^^^^^^^^^^^^^^^^^\nValueError: To change to a dtype of a different size, the last axis must be contiguous",
+    "code_len": 5164
+  },
+  {
+    "iter": 3,
+    "ok": false,
+    "feedback": "the flip does NOT hold at rate indices [1, 2, 3]: at every rate you need angle MSE invariant <= recon <= anti AND recon to have the smallest reconstruction energy. If this fails, your informative direction w_hat is likely wrong (it is NOT the signal subspace) or your arm variance allocation is off.",
+    "code_len": 5308
+  },
+  {
+    "iter": 4,
+    "ok": false,
+    "feedback": "the flip does NOT hold at rate indices [0, 1, 2, 3]: at every rate you need angle MSE invariant <= recon <= anti AND recon to have the smallest reconstruction energy. If this fails, your informative direction w_hat is likely wrong (it is NOT the signal subspace) or your arm variance allocation is off.",
+    "code_len": 5180
+  }
+]
