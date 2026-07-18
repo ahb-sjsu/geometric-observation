@@ -367,6 +367,27 @@ $H=I$ positive control being the clean confirmation); the trained-model hardenin
 non-reconstruction-matched design and is then \emph{cleared} by a corrected,
 reconstruction-matched rematch on a real Llama attention layer.
 
+\paragraph{A physical read operator (DOA).} The three read operators above are
+\emph{planted}; the fourth is not, and its consumer is a physical estimator. In simulated
+direction-of-arrival on a uniform linear array the consumer reads a source angle, and its
+read operator is the array-manifold derivative orthogonalized against the steering vector,
+$\hat g=\mathrm{normalize}(P_a^\perp\,a'(\theta_0))$, so $\PC=\hat g\hat g^\top$---\emph{not}
+the signal subspace $\operatorname{span}(A)$, within which a subspace estimator is
+scale-invariant, so error shaped there moves nothing (an initial $\operatorname{span}(A)$
+design gave RMSE $0$ for every arm---the design pivot). On held-out parameters sealed before
+the run (GO-P-2026-031), the estimator's own sensitivity recovers $\hat g$: the
+finite-difference gradient of the angle estimate equals the analytic $\hat g$ at
+$\cos=1.0000$. At matched log-precision the angle MSE orders invariant $<$ recon $<$ anti at
+every rate ($6/6$, step ratios tracking $\kappa$) while the reconstruction-optimal arm
+minimizes $\|x-\hat x\|$---the flip, on a physical estimator---and a shuffled read direction
+produces no ordering. Two estimators sharing no algorithm (continuous beamformer-ML and
+Phased-Array root-MUSIC) give the same $6/6$, their reconstruction-energy columns agreeing to
+three significant figures. Omitting $\hat g$ floors the angle estimate at $1984\times$ the
+rate-matched error---the Appendix-\ref{app:mismatch} omission, physically realized. Here the
+read operator is \emph{recovered from a physical consumer}, not assumed; this is the
+numerically-simulated companion to a pending X-band radar Gate~B (\texttt{[predicted]},
+out-of-sample).
+
 \section{Identifiability: the read subspace is recoverable (GO-1)}\label{sec:id}
 
 \begin{proposition}[Recovery of the read subspace]\label{prop:id}
