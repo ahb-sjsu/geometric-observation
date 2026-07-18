@@ -444,7 +444,7 @@ weak-dependence conditions an extremal index $\theta\in(0,1]$ modifies the effec
 exceedance count from $N$ to approximately $\theta N$, shifting the Gaussian centering
 by $\ln\theta/\sqrt{2\ln N}$ at leading order. We therefore use the Gaussian formula as
 a \emph{reference certificate}, not a distribution-free threshold. The $14$-corpus
-ordering above ($\rho=0.99$ on clustered,
+ordering above (Spearman $r_s=0.991$ on clustered,
 non-Gaussian real embeddings) is the empirical counterpart: real structure shifts the
 absolute death point but preserves the ordering the certificate is used for.
 Capacity says, from a computable quantity, \emph{where} the channel dies
@@ -582,33 +582,38 @@ The reduction to the tilted source (Lemma~\ref{lem:tilt}) and the coding theorem
 consumer-relative function inside standard information theory: a finite-blocklength law
 and a source--channel separation.
 
-\begin{proposition}[Dispersion counts read dimensions]\label{prop:dispersion}
+\begin{proposition}[Finite-blocklength reduction]\label{prop:dispersion}
 Fix $\PC$ of rank $r$ and an i.i.d.\ source with a finite-second-moment reference letter.
-Under the excess- (or average-) distortion criterion the finite-blocklength consumer
-coding problem for $d_{\mathcal C}$ is operationally identical, \emph{at every blocklength
-$n$}, to the standard mean-squared-error problem for the $r$-dimensional tilted source
-$Y=\PC^{1/2}X$ (Lemma~\ref{lem:tilt}). Hence the Kostina--Verd\'u \cite{kostinaverdu2012}
-second-order expansion transfers verbatim,
-\[
-R_{\mathcal C}(n,\epsilon,D)=R_Y(D)+\sqrt{V_Y(D)/n}\,Q^{-1}(\epsilon)+\tfrac{\log n}{2n}
-+o\!\left(\tfrac{\log n}{n}\right),
-\]
-with effective dimension $r_D:=\#\{\text{active water-filling modes}\}\le r$, equal to $r$
-in the high-resolution limit $D\to0$---never the ambient $d$.
+Under the excess- or average-distortion criterion the finite-blocklength consumer coding
+problem for $d_{\mathcal C}$ is operationally identical, \emph{at every blocklength $n$}, to
+the mean-squared-error problem for the $r$-dimensional tilted source $Y=\PC^{1/2}X$
+(Lemma~\ref{lem:tilt}): $R_{\mathcal C}(n,\epsilon,D)=R_Y(n,\epsilon,D)$ for every
+$n,\epsilon$.
 \end{proposition}
 \begin{proof}
 $R_{\mathcal C}\le R_Y$: run any $Y$-code and output an arbitrary constant on $\ker\PC$
 (zero distortion there), matching rate and distortion sample-for-sample. $R_{\mathcal
 C}\ge R_Y$: an $X$-code's decoder emits at most $2^{nR}$ reconstructions, hence at most
-$2^{nR}$ points in $Y$-space, and both the excess-distortion event and the average
-distortion of any codebook-mapping encoder depend on $Y^n$ and that codebook alone; so the
-minimal codebook size is the $D$-covering number of $Y^n$, i.e.\ the $r$-dimensional MSE
-problem. The encoder's side information on $\ker\PC$---genuinely correlated with $Y$ when
-$\Sigma_x$ couples the blocks---is operationally inert, because covering $Y$ is insensitive
-to extra data held only at the encoder. Thus $R_{\mathcal C}(n,\epsilon,D)=R_Y(n,\epsilon,
-D)$ exactly at every $n$; the dispersion constants $V_Y$ are those of the $r$-dimensional
-Gaussian, cited from \cite{kostinaverdu2012} \textup{[C7]}, not re-derived here.
+$2^{nR}$ points in $Y$-space. Given any $X$-encoder and its induced $Y$-space codebook,
+re-assigning each source block to its minimum-distance codeword in $Y^n$ cannot increase
+distortion and is a function of $Y^n$ alone; hence both the excess-distortion event and the
+average distortion depend on $Y^n$ and the codebook only, and the minimal codebook size is
+the $D$-covering number of $Y^n$---the $r$-dimensional MSE problem. The encoder's side
+information on $\ker\PC$---genuinely correlated with $Y$ when $\Sigma_x$ couples the
+blocks---is thus operationally inert: covering $Y$ is insensitive to data held only at the
+encoder. So $R_{\mathcal C}(n,\epsilon,D)=R_Y(n,\epsilon,D)$ exactly at every $n$.
 \end{proof}
+
+\begin{corollary}[Dispersion counts read dimensions]\label{cor:dispersion}
+For a Gaussian source under quadratic distortion, in the excess-distortion regime where the
+Kostina--Verd\'u \cite{kostinaverdu2012} normal approximation holds, the reduction gives
+\[
+R_{\mathcal C}(n,\epsilon,D)=R_Y(D)+\sqrt{V_Y(D)/n}\,Q^{-1}(\epsilon)+O\!\left(\tfrac{\log n}{n}\right),
+\]
+with effective dimension $r_D:=\#\{\text{active water-filling modes}\}\le r$ (equal to $r$
+as $D\to0$), never the ambient $d$; the tilted-Gaussian dispersion $V_Y$ is cited---scalar
+case \cite{kostinaverdu2012}, parallel/colored form \cite{ingberkochman}---not re-derived.
+\end{corollary}
 
 \begin{remark}
 Verbatim transfer is for the fixed-$\PC$ Gaussian-quadratic reduction. For the true
@@ -621,9 +626,10 @@ non-difference $D_Y$) the finite-blocklength theory ports only under Linder--Zam
 Let $X$ be i.i.d.\ read by a fixed consumer with distortion $d_{\mathcal C}$ (reference
 letter of finite second moment), transmitted at $\rho$ source symbols per channel use over
 a memoryless channel of capacity $C_{\mathrm{ch}}$ without feedback. The source is
-transmissible within consumer distortion $D$ iff $\rho\,R_{\mathcal C}(D)\le
-C_{\mathrm{ch}}$; the strict inequality $\rho\,R_{\mathcal C}(D)<C_{\mathrm{ch}}$ suffices
-and $\rho\,R_{\mathcal C}(D)>C_{\mathrm{ch}}$ is impossible.
+transmissible within consumer distortion $D$ if $\rho\,R_{\mathcal C}(D)<C_{\mathrm{ch}}$,
+and only if $\rho\,R_{\mathcal C}(D)\le C_{\mathrm{ch}}$; the boundary
+$\rho\,R_{\mathcal C}(D)=C_{\mathrm{ch}}$ is transmissible only when the distortion--rate
+curve is approachable from below in rate.
 \end{proposition}
 \begin{proof}
 Take $\rho=1$. \emph{Forward:} for $R_{\mathcal C}(D)<R<C_{\mathrm{ch}}$, concatenate a
@@ -631,8 +637,12 @@ rate-$R$ consumer source code (Theorem~\ref{thm:coding}) with a capacity-achievi
 code; on the error event (probability $P_e\to0$) the distortion contribution is
 $O(\sqrt{P_e})\to0$ by the second-moment hypothesis, so $\limsup_n\E d_{\mathcal C}\le D$.
 \emph{Converse:} $nR_{\mathcal C}(D)\le I(X^n;\hat X^n)\le nC_{\mathrm{ch}}$ by the RD
-converse and data processing across the memoryless channel. The only property used is that
-$d_{\mathcal C}$ is an admissible distortion with a legitimate $R_{\mathcal C}$.
+converse and data processing across the memoryless channel. At the boundary $\rho
+R_{\mathcal C}(D)=C_{\mathrm{ch}}$ transmissibility needs the distortion--rate curve
+approachable from below in rate: if $R_{\mathcal C}$ is strictly decreasing at $D$, codes
+for $D+1/k$ use rate $R_{\mathcal C}(D+1/k)<C_{\mathrm{ch}}$ and give $\limsup$-distortion
+$D$; on a flat segment of $R_{\mathcal C}$ it is not guaranteed. The only property used is
+that $d_{\mathcal C}$ is an admissible distortion with a legitimate $R_{\mathcal C}$.
 \end{proof}
 
 \begin{remark}
@@ -659,7 +669,9 @@ Let $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, be i.i.d.;
 $i\in\{1,2\}$ has $P_i\succeq0$ and distortion $d_i(x,\hat x)=(x-\hat x)^\top P_i
 (x-\hat x)$, with single-stage rate--distortion function $R_i$. Throughout we assume the
 coding regime $0<D_i<\tr(P_i\Sigma_x)$, so each optimum $\Sigma_i^\star$ (below) is
-positive definite and the distortion constraint binds. A two-stage code sends
+positive definite and the distortion constraint binds. Logarithms are natural and rates in
+nats throughout this section, \S\ref{sec:consequences}, and Appendix~\ref{app:mismatch}
+(Prop.~\ref{prop:rd} is stated in bits). A two-stage code sends
 $nR_1$ bits decoded to $\hat X_1^n$ for consumer~1 and $n(R_2-R_1)$ further bits so both
 messages decode to $\hat X_2^n$ for consumer~2, with $\E\tfrac1n\sum_t d_i(X_t,\hat
 X_{i,t})\le D_i$. The pair $(D_1,D_2)$ is \emph{successively refinable} if the corner
@@ -797,11 +809,13 @@ The same region argument closes the $k$-observer case, settling a frontier the c
 theorem left open.
 
 \begin{corollary}[The $k$-observer chain]\label{cor:kobs}
-For read operators $P_1,\dots,P_k\succeq0$ with targets $D_1,\dots,D_k$, the achievable
-region is $\{(R_1,\dots,R_k):\exists\ \Sigma_k\preceq\cdots\preceq\Sigma_1\preceq
-\Sigma_x,\ \tr(P_i\Sigma_i)\le D_i,\ \sum_{j\le i}R_j\ge\tfrac12\log\det\Sigma_x/\det
-\Sigma_i\ \forall i\}$, and $(D_1,\dots,D_k)$ is refinable iff the $k$ single-stage optima
-form a nested chain $\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$.
+For read operators $P_1,\dots,P_k\succeq0$ with targets $D_1,\dots,D_k$, write $T_i$ for
+the \emph{cumulative} rate decoded through stage $i$ (so $T_2=R_2$ of
+Theorem~\ref{thm:region}). The achievable region is
+$\{(T_1,\dots,T_k):\exists\ \Sigma_k\preceq\cdots\preceq\Sigma_1\preceq\Sigma_x,\
+\tr(P_i\Sigma_i)\le D_i,\ T_i\ge\tfrac12\log\det\Sigma_x/\det\Sigma_i\ \forall i\}$, and
+$(D_1,\dots,D_k)$ is refinable iff the $k$ single-stage optima form a nested chain
+$\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$.
 \end{corollary}
 \begin{proof}
 Put $\Sigma_i:=\Sigma(\hat X_{1:i})$: Lemma~\ref{lem:cm} gives each trace bound, the law
@@ -954,7 +968,9 @@ and the fact that the true nonlinear problem reduces \emph{exactly} to rate--dis
 coding of the reachable output source $\mathcal{C}(X)$ (Thm.~\ref{thm:B2}), with the
 quotient floor unconditional (Cor.~\ref{cor:B2a}). What
 remains open is narrower: the curved-image high-resolution case, the multi-observer
-rate region (distinct quotients, no single reduction), the consumer-relative
+rate region \emph{under the true divergence} (distinct quotients, no common Gaussian
+reduction; the Gaussian weighted-quadratic region is settled in \S\ref{sec:multiobs}), the
+consumer-relative
 \emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
 exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$. Underneath is one
 principle: an object has no unique operational geometry---each observer
@@ -1227,9 +1243,11 @@ conditions.
 Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-image case
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
 charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
-\S\ref{sec:capacity}; \emph{(c)} the multi-observer rate region for $\{\mathcal{C}_k\}$
-beyond the two-observer weighted-quadratic case that \S\ref{sec:multiobs} settles
-(the general $k$-observer region, and non-Gaussian sources, remain open); and
+\S\ref{sec:capacity}; \emph{(c)} the multi-observer problem beyond the Gaussian weighted-quadratic case that
+\S\ref{sec:multiobs} now settles completely (region, refinability, rate loss, and the
+$k$-observer chain)---namely non-Gaussian sources, and the multi-observer region under the
+\emph{true} nonlinear divergence, where the consumer quotients do not reduce to a common
+Gaussian program; and
 \emph{(d)} non-i.i.d.\ sources.
 
 \smallskip\noindent\textbf{GO-6 (proposed; to be sealed before running).} At matched
@@ -1259,8 +1277,8 @@ If $m\hat P\preceq P\preceq M\hat P$ on the shared range ($0<m\le M$, which forc
 $\mathrm{range}\,P=\mathrm{range}\,\hat P$; let $r$ be that rank), then for a true target
 $D$ in the coding regime the design $\Sigma_\delta=\Sigma^\star(\hat P,D/M)$ guarantees
 $\tr(P\Sigma_\delta)\le D$, and its excess rate over the $P$-oracle obeys $0\le R_{\hat
-P}(D/M)-R_P(D)\le\tfrac r2\log(M/m)$. The constant $r/2$ is exact---equality at $P=m\hat
-P$ with only the loose $M$ known.
+P}(D/M)-R_P(D)\le\tfrac r2\log(M/m)$. The constant $r/2$ is sharp---attained when
+$P=m\hat P$ with all $r$ modes active and only the loose $M$ known.
 \end{theorem}
 \begin{proof}
 Safety: $P\preceq M\hat P\Rightarrow\tr(P\Sigma_\delta)\le M\tr(\hat P\Sigma_\delta)\le D$.
@@ -1304,16 +1322,16 @@ $0.353$ of the read energy---\emph{provided the recovery omits the true subspace
 read weights are equal}. This is a conditional certificate, not a flat figure:
 Prop.~\ref{prop:id} recovers the subspace but not the eigenvalues, so a weighted floor
 $\sum_i\lambda_i\sin^2\phi_i$ needs data the overlap does not carry, and an
-\emph{over}-covering probe ($\hat R\supseteq R$) has the same $o<1$ yet
-$D_{\mathrm{floor}}=0$. What gates the floor is read energy lying \emph{outside} $\hat R$,
-not the symmetric overlap.
+\emph{over}-covering probe ($\hat R\supsetneq R$, $\dim\hat R>r$) drives
+$D_{\mathrm{floor}}$ to $0$ regardless of a below-one overlap. What gates the floor is the
+fraction of $R$ lying \emph{outside} $\hat R$, not the symmetric overlap $o$.
 
-\emph{The keys catastrophe, derived.} The boundary result of \S\ref{sec:boundary} (GO-5)
+\emph{The keys catastrophe, modeled.} The boundary result of \S\ref{sec:boundary} (GO-5)
 refutes the $\alpha=1$ density quotient for a direct inner-product consumer: the density is
-\emph{read} (not in $\ker\PC$, Prop.~\ref{prop:rd}), so quotienting it removes a read
-direction---an $\hat P$ whose range omits a direction the true $P$ reads, exactly
-Theorem~\ref{thm:omission}'s hypothesis, hence a positive floor and irrecoverable failure
-at any budget. The diffusion-domain case, where the density lies \emph{in} $\ker\PC$, is
+\emph{read} (not in $\ker\PC$, Prop.~\ref{prop:rd}), so, modeled within the
+quadratic-Gaussian water-filling picture, quotienting it acts as an $\hat P$ whose range
+omits a direction the true $P$ reads---exactly Theorem~\ref{thm:omission}'s hypothesis,
+hence a positive floor and irrecoverable failure at any budget. The diffusion-domain case, where the density lies \emph{in} $\ker\PC$, is
 pure commission: bounded wasted bits (Theorem~\ref{thm:commission}), the observed $<2\%$
 effect. One knob, two regimes, separated exactly by whether the discarded direction is
 inside or outside $\mathrm{range}\,P$---the theory-side account the practice paper lacked.
@@ -1381,6 +1399,8 @@ Inf.\ Theory}, 45(2):533--547, 1999.
 \bibitem{kostinaverdu2012} V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
 in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
 58(6):3309--3338, 2012.
+\bibitem{ingberkochman} A.~Ingber and Y.~Kochman. The dispersion of lossy source coding.
+In \emph{Proc.\ Data Compression Conf.\ (DCC)}, pages 53--62, 2011.
 \bibitem{koshelev} V.~N. Koshelev. Hierarchical coding of discrete sources.
 \emph{Probl.\ Peredachi Inf.}, 16(3):31--49, 1980.
 \bibitem{effros} M.~Effros. Distortion-rate bounds for fixed- and variable-rate
@@ -1389,7 +1409,7 @@ multiresolution source codes. \emph{IEEE Trans.\ Inf.\ Theory}, 45(6):1887--1910
 refinement of vector sources under individual distortion criteria. \emph{IEEE Trans.\
 Inf.\ Theory}, 56(4):1769--1781, 2010.
 \bibitem{optveld} G.~J. Op~'t~Veld and M.~C. Gastpar. Successive refinement of Gaussian
-projections. EPFL preprint, 2017.
+projections. Tech.\ rep., EPFL Infoscience, Lausanne, Switzerland, 2017.
 \bibitem{equitzcover} W.~H.~R. Equitz and T.~M. Cover. Successive refinement of
 information. \emph{IEEE Trans.\ Inf.\ Theory}, 37(2):269--275, 1991.
 \bibitem{rimoldi} B.~Rimoldi. Successive refinement of information: characterization of
