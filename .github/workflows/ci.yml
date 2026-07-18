@@ -51,10 +51,36 @@ jobs:
             exit 1
           fi
           echo "No undefined references or citations."
-      - name: Upload compiled PDF
+      - name: Compile IEEE T-IT manuscript (observation-theory-ieee.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: observation-theory-ieee.tex
+          working_directory: paper/ieee
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (IEEE)
+        run: |
+          cd paper/ieee
+          if grep -qiE "there were undefined (references|citations)" observation-theory-ieee.log; then
+            echo "::error::Undefined references or citations in observation-theory-ieee.log"
+            grep -iE "warning:.*undefined|there were undefined" observation-theory-ieee.log || true
+            exit 1
+          fi
+          echo "No undefined references or citations (IEEE)."
+      - name: Compile cover letter
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cover-letter.tex
+          working_directory: paper/ieee
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Upload compiled PDFs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: observation-theory-pdf
-          path: paper/observation-theory.pdf
+          name: paper-pdfs
+          path: |
+            paper/observation-theory.pdf
+            paper/ieee/observation-theory-ieee.pdf
+            paper/ieee/cover-letter.pdf
           if-no-files-found: warn
