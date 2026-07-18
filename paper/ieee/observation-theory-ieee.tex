@@ -74,11 +74,11 @@ establish for a general source, with a coding theorem for the true nonlinear con
 divergence that reduces exactly to output coding. We instantiate it for
 attention, gradient optimization, and retrieval, and position it as the
 identifiable geometric middle term between Shannon rate distortion and the information
-bottleneck. We determine the complete two-stage rate region for two read operators---a
-Gaussian source is successively refinable exactly when their optimal error covariances
-nest---extend it to $k$ observers, and price a misidentified observer: mis-weighting a
-read direction costs a bounded rate tax, omitting one erects an irreducible distortion
-floor. Every empirical claim is sealed-registered against a preset bar; of the five core
+bottleneck. We determine, for a \emph{Gaussian source}, the complete two-stage rate region
+for two read operators---successively refinable exactly when their optimal error
+covariances nest---extend it to $k$ observers, and price a misidentified observer:
+mis-weighting a read direction costs a bounded rate tax, omitting one erects an irreducible
+distortion floor. Every empirical claim is sealed-registered against a preset bar; of the five core
 predictions (GO-1--GO-5) four are confirmed, one refuted, and a corrected trained-model
 test passed.
 \end{abstract}
@@ -126,14 +126,15 @@ reliability certificate; (iv) budget-relativity of the verdict; and (v) a
 registration-first empirical program---sealed predictions, ex-ante bars, a refuted
 prediction reported as prominently as the confirmations---whose recurring
 demonstration is a single code whose downstream verdict \emph{inverts} when nothing
-changes but the consumer; (vi) the complete two-stage rate region for two read
-operators---with successive refinability (the optimal error covariances nest) and a
+changes but the consumer; (vi) the complete two-stage rate region for a Gaussian source
+under two read operators---with successive refinability (the optimal error covariances
+nest) and a
 closed-form max-det rate loss as its corner, extended to $k$ observers
-(\S\ref{sec:multiobs})---together with a finite-blocklength dispersion counting read
-dimensions and an observer source--channel separation (\S\ref{sec:consequences}); and
-(vii) an operational price for a \emph{mis}identified read operator: a bounded rate tax
-for mis-weighting, an irreducible distortion floor for omission
-(Appendix~\ref{app:mismatch}).
+(\S\ref{sec:multiobs})---together with a finite-blocklength reduction (with, in the
+Gaussian case, a dispersion counting read dimensions) and an observer source--channel
+separation (\S\ref{sec:consequences}); and (vii) for a Gaussian source, an operational
+price for a \emph{mis}identified read operator: a bounded rate tax for mis-weighting, an
+irreducible distortion floor for omission (Appendix~\ref{app:mismatch}).
 The three companion works are Paper~I (the angular observer and the spectral
 budget-inversion mechanism) \cite{paper1}, Paper~II (geometric key quantization and
 the reconstruction-is-not-the-target negative) \cite{paper2}, and the claim ledger
@@ -720,8 +721,9 @@ Kostina--Verd\'u \cite{kostinaverdu2012} normal approximation holds, the reducti
 R_{\mathcal C}(n,\epsilon,D)=R_Y(D)+\sqrt{V_Y(D)/n}\,Q^{-1}(\epsilon)+O\!\left(\tfrac{\log n}{n}\right),
 \]
 with effective dimension $r_D:=\#\{\text{active water-filling modes}\}\le r$ (equal to $r$
-as $D\to0$), never the ambient $d$; the tilted-Gaussian dispersion $V_Y$ is cited---scalar
-case \cite{kostinaverdu2012}, parallel/colored form \cite{ingberkochman}---not re-derived.
+as $D\to0$), never the ambient $d$; the tilted-Gaussian dispersion $V_Y$ is cited---the
+scalar quadratic-Gaussian case \cite{kostinaverdu2012,ingberkochman}, the parallel case
+following by per-mode additivity of the tilted information---not re-derived.
 \end{corollary}
 
 \begin{remark}
@@ -789,11 +791,13 @@ $(R_1,R_2)=(R_1(D_1),R_2(D_2))$ is achievable. Write $\Sigma(\hat X):=\Cov(X-\E[
 with per-stage distortion measures is Rimoldi's \cite{rimoldi}: $(R_1,R_2)$ achievable
 iff there exist $\hat X_1,\hat X_2$ with $\E d_i(X,\hat X_i)\le D_i$, $R_1\ge
 I(X;\hat X_1)$, $R_2\ge I(X;\hat X_1,\hat X_2)$; for our abstract-alphabet,
-unbounded-distortion instance we invoke the general-source extension
-\cite{effros,kostinatuncel} under the reference letter $\hat x_0=0$ (which has
-$\E d_i(X,0)^2<\infty$ for Gaussian $X$); strict convexity of the Gaussian $R_{P_i}$ on
-the coding regime pins the per-letter distortions, so the operational two-stage corner
-coincides with the single-letter region below.
+unbounded-distortion instance we invoke the abstract-source successive-refinement coding
+theorem \cite{kostinatuncel} (which extends Rimoldi's finite-alphabet per-stage-measure
+region to standard-Borel sources under a finite-distortion reference letter $\hat x_0=0$,
+$\E d_i(X,0)^2<\infty$ for Gaussian $X$); only its \emph{achievability} direction is
+used---the converses below are self-contained. Uniqueness of the max-det optimizer
+(Lemma~\ref{lem:maxdet}) forces the per-stage distortions to bind at $D_i$, which pins the
+corner $(R_1(D_1),R_2(D_2))$; the region itself (Theorem~\ref{thm:region}) needs neither.
 
 \begin{lemma}[Conditional mean serves every observer]\label{lem:cm}
 For any $P\succeq0$ and estimator $g(\hat X)$, $\E[(X-g)^\top P(X-g)]\ge\E[(X-\E[X\mid
@@ -814,15 +818,6 @@ $I=h(X)-h(X\mid\hat X)$, and $h(X\mid\hat X)=h(X-\E[X\mid\hat X]\mid\hat X)\le h
 \mid\hat X])\le\tfrac12\log[(2\pi e)^d\det\Sigma(\hat X)]$ by conditioning and Gaussian
 entropy maximization. The covariance bound is $\Sigma(\hat X)=\Sigma_x-\Cov(\E[X\mid
 \hat X])\preceq\Sigma_x$.
-\end{proof}
-
-\begin{lemma}[Markov monotonicity]\label{lem:markov}
-If $X\to\hat X_2\to\hat X_1$ is Markov, then $\Sigma(\hat X_2)\preceq\Sigma(\hat X_1)$.
-\end{lemma}
-\begin{proof}
-By the law of total covariance, refining the conditioning cannot increase the residual:
-$\E[\Cov(X\mid\hat X_1,\hat X_2)]\preceq\E[\Cov(X\mid\hat X_1)]$; and under the Markov
-chain $\Cov(X\mid\hat X_1,\hat X_2)=\Cov(X\mid\hat X_2)$ a.s.
 \end{proof}
 
 \begin{lemma}[Gaussian optimum: max-det form and uniqueness]\label{lem:maxdet}
@@ -867,16 +862,17 @@ X_1)\bigr]\succeq\Sigma_f$, and Lemma~\ref{lem:info} gives $\Sigma_b\preceq\Sigm
 $\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$. Finally Lemma~\ref{lem:info} on $\hat X_1$ and
 on the pair gives $R_1\ge I(X;\hat X_1)\ge\tfrac12\log\det\Sigma_x/\det\Sigma_b$ and
 $R_2\ge I(X;\hat X_1,\hat X_2)\ge\tfrac12\log\det\Sigma_x/\det\Sigma_f$. \emph{The converse
-uses neither Markov monotonicity (Lemma~\ref{lem:markov}) nor uniqueness
-(Lemma~\ref{lem:maxdet}).} \emph{Achievability.} Fix feasible $\Sigma_f\preceq\Sigma_b
+uses neither a Markov-chain assumption nor max-det uniqueness
+(Lemma~\ref{lem:maxdet})---the nesting comes straight from the law of total covariance.} \emph{Achievability.} Fix feasible $\Sigma_f\preceq\Sigma_b
 \preceq\Sigma_x$ and set $\Lambda_b:=\Sigma_b^{-1}-\Sigma_x^{-1}\preceq\Lambda_f:=
 \Sigma_f^{-1}-\Sigma_x^{-1}$ (antitone inversion). The independent-increment Gaussian
 observations $Z_1:=\Lambda_b^{1/2}X+M_1$ and $Z_2:=(\Lambda_f-\Lambda_b)^{1/2}X+M_2$,
 $M_1,M_2\sim\mathcal N(0,I)$ independent, have additive Fisher information, so
 $\Cov(X\mid Z_1)=(\Sigma_x^{-1}+\Lambda_b)^{-1}=\Sigma_b$ and $\Cov(X\mid Z_1,Z_2)=
 \Sigma_f$; with $\hat X_1=\E[X\mid Z_1]$, $\hat X_2=\E[X\mid Z_1,Z_2]$ this attains the
-boundary rates, and the operational region \cite{rimoldi,effros,kostinatuncel} lifts the
-single-letter point to $\mathcal R$. Upward closure supplies the rest.
+boundary rates, and the abstract-source achievability of \cite{kostinatuncel} (finite
+alphabets: \cite{rimoldi}) lifts the single-letter point to $\mathcal R$. Upward closure
+supplies the rest.
 \end{proof}
 
 The corner of $\mathcal R$ recovers---and simplifies the proof of---the two headline
@@ -932,8 +928,11 @@ of total covariance (conditioned on $\hat X_{1:i-1}$) the chain nesting, and
 Lemma~\ref{lem:info} the cumulative-rate bounds. A feasible chain is realized by
 independent Fisher increments $Z_i=\Delta_i^{1/2}X+M_i$, $\Delta_i:=\Lambda_i-
 \Lambda_{i-1}\succeq0$ ($\Lambda_i:=\Sigma_i^{-1}-\Sigma_x^{-1}$, $\Lambda_0:=0$, $M_i$
-i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$; the abstract-source region
-\cite{kostinatuncel} (finite alphabets: \cite{rimoldi}) lifts it. Refinability pins each
+i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$. The two-stage abstract-source arguments of
+\cite{kostinatuncel} extend verbatim to $k$ stages (cf.\ the discrete multiresolution
+region \cite{effros}), and for the present Gaussian instance the independent-increment
+construction with the covering argument of Prop.~\ref{prop:dispersion} yields $k$-stage
+achievability directly. Refinability pins each
 $\Sigma_i=\Sigma_i^\star$ by uniqueness, and the chain nesting reads $\Sigma_i^\star
 \preceq\Sigma_{i-1}^\star$.
 \end{proof}
@@ -990,8 +989,12 @@ phenomena---both are known---but their common generalization: the complete rate 
 different-kernel} positive-semidefinite read operators, whose corner is the single Loewner
 condition $\Sigma_2^\star\preceq\Sigma_1^\star$ (Cor.~\ref{thm:multiobs}) with the
 closed-form max-det rate loss (Cor.~\ref{thm:multiobs-loss}), extended to the $k$-observer
-chain (Cor.~\ref{cor:kobs}); we could not locate this general statement in the literature.
-Open beyond it: non-Gaussian sources.
+chain (Cor.~\ref{cor:kobs}); to our knowledge this general two-operator statement has not
+appeared explicitly. The covariance-distortion-constraint and side-informed vector-Gaussian
+successive-refinement lines \cite{xuSR,zahedi} impose \emph{matrix} distortion constraints
+or add side information rather than two scalar weighted-quadratic criteria, and do not
+specialize to the $\Sigma_2^\star\preceq\Sigma_1^\star$ corner with the closed-form max-det
+loss. Open beyond it: non-Gaussian sources.
 
 \section{A boundary: the refuted density quotient (GO-5)}\label{sec:boundary}
 
@@ -1468,9 +1471,9 @@ $0.353$ of the read energy---\emph{provided the recovery omits the true subspace
 read weights are equal}. This is a conditional certificate, not a flat figure:
 Prop.~\ref{prop:id} recovers the subspace but not the eigenvalues, so a weighted floor
 $\sum_i\lambda_i\sin^2\phi_i$ needs data the overlap does not carry, and an
-\emph{over}-covering probe ($\hat R\supsetneq R$, $\dim\hat R>r$) drives
-$D_{\mathrm{floor}}$ to $0$ regardless of a below-one overlap. What gates the floor is the
-fraction of $R$ lying \emph{outside} $\hat R$, not the symmetric overlap $o$.
+\emph{over}-covering probe ($\hat R\supseteq R$) has $D_{\mathrm{floor}}=0$---it reads
+everything the true operator does. What gates the floor is the true read energy lying
+\emph{outside} $\hat R$, which the symmetric overlap $o$ does not isolate.
 
 \emph{The keys catastrophe, modeled.} The boundary result of \S\ref{sec:boundary} (GO-5)
 refutes the $\alpha=1$ density quotient for a direct inner-product consumer: the density is
@@ -1579,6 +1582,11 @@ information. \emph{IEEE Trans.\ Inf.\ Theory}, 37(2):269--275, 1991.
 the achievable rates. \emph{IEEE Trans.\ Inf.\ Theory}, 40(1):253--259, 1994.
 \bibitem{kostinatuncel} V.~Kostina and E.~Tuncel. Successive refinement of abstract
 sources. \emph{IEEE Trans.\ Inf.\ Theory}, 65(10):6385--6398, 2019.
+\bibitem{xuSR} Y.~Xu, X.~Guang, J.~Lu, and J.~Chen. Vector Gaussian successive refinement
+with degraded side information. arXiv:2002.07324, 2020.
+\bibitem{zahedi} A.~Zahedi, J.~\O{}stergaard, S.~H. Jensen, P.~A. Naylor, and S.~Bech.
+Distributed remote vector Gaussian source coding with covariance distortion constraints.
+In \emph{Proc.\ IEEE Int.\ Symp.\ Inf.\ Theory (ISIT)}, 2014.
 \end{thebibliography}
 
 \end{document}
