@@ -61,14 +61,15 @@ and rate---a fixed-budget verdict that \emph{inverts} under budget-matched
 observation on real embedding manifolds. The analytic consumers are \emph{synthetic}
 by design (planted read operators, chosen query banks, constructed Hessians),
 including an $H{=}I$ control where reconstruction becomes exactly optimal; the one
-real-substrate face is the budget inversion. A prospective, preregistered attempt to
-harden on a \emph{trained} consumer (a Llama-3.2-3B attention layer, GO-P-2026-020)
-\emph{misses} its sealed bar: the blind probe recovers the real read operator at
-$4.5\times$ chance but below the $0.60$ overlap threshold ($0.567$), and---because the
-registered quantizer pair was not reconstruction-matched---the consumer-projected
-predictor does not \emph{beat} reconstruction, so the decisive dissociation is
-untested on the trained model. On this evidence the theory is bounded to synthetic
-consumers; a recon-matched, point-dependent rematch is the open decisive validation. A fifth conjecture---a density quotient restoring
+real-substrate face is the budget inversion. A first preregistered attempt to harden
+on a \emph{trained} consumer (a Llama-3.2-3B attention layer, GO-P-2026-020)
+\emph{missed} its bar because its registered code arms were not
+reconstruction-matched, so reconstruction predicted the winner for free; a corrected,
+reconstruction-matched rematch (GO-P-2026-021) \emph{clears} all four sealed gates on
+the trained model---with the arms tied in reconstruction to $7.5\!\times\!10^{-9}$,
+the blind probe predicts a reconstruction-invisible flip on $16/16$ heads while
+reconstruction, provably tied, is at chance ($2/16$), and the read operator is
+recovered at overlap $0.647$. A fifth conjecture---a density quotient restoring
 the invariant in non-spectral retrieval---is \emph{refuted} across four prospective
 tests and carried as a boundary. For the fixed (or averaged) weighted-quadratic
 model we prove achievability and converse of the consumer-relative rate--distortion
@@ -316,8 +317,9 @@ reconstruction tracks \emph{perfectly} ($1.00$), the derived $\PC=I$ corner obse
 (\texttt{[predicted]}, out-of-sample). One derivation; three read operators. These
 consumers are \emph{synthetic}---the point is to validate the theory's logic (the
 $H=I$ positive control being the clean confirmation); the trained-model hardening
-(\S\ref{sec:discussion}), attempted prospectively, does \emph{not} yet clear its
-sealed bar and remains the outstanding validation.
+(\S\ref{sec:discussion}), attempted prospectively, initially missed on a
+non-reconstruction-matched design and is then \emph{cleared} by a corrected,
+reconstruction-matched rematch on a real Llama attention layer.
 
 \section{Identifiability: the read subspace is recoverable (GO-1)}\label{sec:id}
 
@@ -536,7 +538,7 @@ sharpens the theory rather than embarrassing it.
 
 \section{Honest negatives and method}\label{sec:negatives}
 
-Eleven standing negatives bound the theory and are reported with the prominence of
+Twelve standing negatives bound the theory and are reported with the prominence of
 the positives. Reconstruction cosine is not a proxy for key quality (Paper~II
 \cite{paper2}, the motivating negative). The flip is observable only for
 reconstruction-\emph{matched} codes: absent a tie one code Pareto-dominates and
@@ -568,16 +570,21 @@ the literatures it unifies---indirect source coding, coding for computing,
 rate--distortion--perception, task-oriented communication, loss-aware
 compression---the contribution is making the task's metric a single identifiable
 geometric object and testing it adversarially. The decisive validation is not
-conceptual but empirical, and we ran it: a preregistered blind probe on an actual
-Llama-3.2-3B attention layer (Gate~B, GO-P-2026-020). It \emph{misses} the sealed
-bar. The real read operator is recovered at $4.5\times$ chance yet below the $0.60$
-overlap threshold ($0.567$), and the registered---not reconstruction-matched---%
-quantizer pair leaves the consumer-projected predictor unable to \emph{beat}
-reconstruction (both call the winner on $16/16$ heads). The blind prediction direction
-is right, but the decisive dissociation is untested on the trained model; on this
-evidence the theory is bounded to synthetic consumers. The corrected experiment---%
-reconstruction-matched key codes and a point-dependent $\PC(x)$ recovered per
-activation---is the outstanding decisive test. Open
+conceptual but empirical, and we ran it on a real model. A first preregistered blind
+probe on a Llama-3.2-3B attention layer (Gate~B, GO-P-2026-020) \emph{missed} its
+sealed bar: recovery was above chance but sub-threshold ($0.567$), and its registered
+quantizer pair was \emph{not} reconstruction-matched, so reconstruction predicted the
+winner for free ($16/16$) and the projected predictor could not \emph{beat} it---the
+same precondition that governs the synthetic dissociation. The corrected rematch
+(GO-P-2026-021) fixes exactly this: two key-error arms tied in reconstruction to
+$7.5\!\times\!10^{-9}$ but differing downstream (median relative divergence gap
+$1.85$), with an improved probe. On the trained model it \emph{clears all four sealed
+gates}---the blind $\tr(\hat\PC\Sd)$ predicts the reconstruction-invisible worse arm
+on $16/16$ heads while reconstruction, provably tied, agrees on only $2/16$ (its own
+floating-point noise), and the read operator is recovered at overlap $0.647$. The
+theory's mechanism thus operates on a trained frontier layer, called \emph{before}
+compression by a blind probe; the GO-P-2026-020 miss stands as an honest negative on
+the code design it exposed (NEG-12). Open
 theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
 metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
@@ -591,7 +598,7 @@ exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$. Underneath is one
 principle: an object has no unique operational geometry---each observer
 $\mathcal{O}=(\mathcal{C},G,B)$ pulls back one, and the quotient
 $X/\!\sim_{\mathcal{C}}$ is the world it can act on. Four faces, one refutation,
-eleven negatives: a world to map, now with coordinates in the literature.
+twelve negatives: a world to map, now with coordinates in the literature.
 
 \appendix
 \section{The consumer-relative coding theorem}\label{app:coding}
