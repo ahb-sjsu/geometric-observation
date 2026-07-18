@@ -91,6 +91,23 @@ except Exception as e:
 
 print()
 print("=" * 68)
+print("[1c] New analytic-result harnesses (region, mismatch, dispersion/separation)")
+print("=" * 68)
+for h in ("verify_rate_region.py", "verify_observer_mismatch.py",
+          "verify_dispersion_separation.py"):
+    try:
+        out = run(f"experiments/{h}", timeout=180)
+        if "VERDICT: ALL PASS" in out:
+            print(f"  PASS {h}")
+        else:
+            failures.append(f"{h}: VERDICT not ALL PASS")
+            print(f"  FAIL {h}: VERDICT not ALL PASS")
+    except Exception as e:
+        failures.append(f"{h} crashed: {e}")
+        print(f"  FAIL {h}: {e}")
+
+print()
+print("=" * 68)
 print("[2/3] Re-run CPU-only harnesses; assert committed verdict reproduces")
 print("=" * 68)
 for harness, sentinel, jname, flag in REPRODUCIBLE:
