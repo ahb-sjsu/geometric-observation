@@ -94,7 +94,7 @@ print("=" * 68)
 print("[1c] New analytic-result harnesses (region, mismatch, dispersion/separation)")
 print("=" * 68)
 for h in ("verify_rate_region.py", "verify_observer_mismatch.py",
-          "verify_dispersion_separation.py"):
+          "verify_dispersion_separation.py", "verify_go6.py"):
     try:
         out = run(f"experiments/{h}", timeout=180)
         if "VERDICT: ALL PASS" in out:
