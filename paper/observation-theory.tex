@@ -196,7 +196,10 @@ consumer's true object is the quotient $X/\!\sim_{\mathcal{C}}$, not $X$:
 perturbations in $\ker\PC$ exist in the representation but have \emph{no operational
 consequence}. In the fixed-$\PC$ model of \S\ref{sec:rd} this quotient is represented
 by $\Pi X$ and Prop.~\ref{prop:floor} gives the zero-distortion rate
-$R_{\mathcal{C}}(0)=H(\Pi X)$ (the point-dependent case is open)---one pays only for
+$R_{\mathcal{C}}(0)=H(\Pi X)$; the point-dependent case is settled unconditionally in
+Appendix~\ref{app:true} (Cor.~\ref{cor:B2a}: $R_{\mathcal{C}}(0)=H(\mathcal{C}(X))$,
+via the true divergence, needing none of the compatibility conditions above)---one
+pays only for
 what one can tell apart. Second, $\ker\PC$ is
 gauge-like \emph{but only relative to $\mathcal{C}$}: another consumer may read those
 directions, so it is not a true gauge redundancy (which would be invisible to every
@@ -577,11 +580,14 @@ reconstruction-matched key codes and a point-dependent $\PC(x)$ recovered per
 activation---is the outstanding decisive test. Open
 theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
-metric (Cor.~\ref{cor:pointdep}); what remains open is a single-letter coding theorem
-for the \emph{true} nonlinear divergence at non-vanishing $D$ and a closed form for
-the nonlinear tilt---no single tilted source; whether the flip is exactly
-$R_{\mathcal{C}}$'s argmin migrating with $\PC$; and the consumer-relative
-\emph{channel} coding theorem behind \S\ref{sec:capacity}. Underneath is one
+metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
+nonlinear divergence too---its single-letter theorem at every $D$ (Thm.~\ref{thm:B1})
+and its exact reduction to output-side coding, the tilt being $\mathcal{C}$ itself
+(Thm.~\ref{thm:B2}), with the quotient floor unconditional (Cor.~\ref{cor:B2a}). What
+remains open is narrower: the curved-image high-resolution case, the multi-observer
+rate region (distinct quotients, no single reduction), the consumer-relative
+\emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
+exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$. Underneath is one
 principle: an object has no unique operational geometry---each observer
 $\mathcal{O}=(\mathcal{C},G,B)$ pulls back one, and the quotient
 $X/\!\sim_{\mathcal{C}}$ is the world it can act on. Four faces, one refutation,
@@ -686,9 +692,180 @@ identify the quotient; and \emph{(iii)} $d_{\PC}$ is the \emph{leading-order sur
 for the true divergence $D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$, so coding to it
 certifies the true downstream distortion only in the high-rate (small-$D$) regime. The
 genuinely open problem is thus not the existence of $R_{\mathcal{C}}(D)$ under a
-point-dependent metric---Cor.~\ref{cor:pointdep} settles that---but a single-letter
-coding theorem for the \emph{true} nonlinear divergence at non-vanishing $D$, together
-with a closed form for the nonlinear tilt.
+point-dependent metric---Cor.~\ref{cor:pointdep} settles that---and, as
+Appendix~\ref{app:true} shows, not the true nonlinear divergence either:
+Thm.~\ref{thm:B1} gives its single-letter theorem at every $D$, and Thm.~\ref{thm:B2}
+its exact reduction (the tilt is $\mathcal{C}$ itself, with no linear surrogate needed).
+What remains open is narrower, and stated in \S B.4.
+
+\section{The coding theorem for the true nonlinear divergence}
+\label{app:true}
+
+Here $X$ is i.i.d.\ $\sim p_X$ on a Polish space $\mathcal{X}$, reconstruction
+alphabet $\hat{\mathcal{X}}=\mathcal{X}$, $\mathcal{C}:\mathcal{X}\to\mathcal{U}$ Borel
+into a Polish output space, and $D_Y:\mathcal{U}\times\mathcal{U}\to[0,\infty]$ jointly
+Borel with $D_Y(u,u)=0$. The \emph{true distortion} is
+$d_{\mathcal{C}}(x,\hat x):=D_Y(\mathcal{C}(x),\mathcal{C}(\hat x))$ and
+$R_{\mathcal{C}}^{\mathrm{true}}(D):=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\hat X)\le
+D\}$. The three results settle, in turn, existence of the single-letter theorem at
+non-vanishing $D$, the exact nonlinear tilt, and the quantitative relation to the
+quadratic surrogate $d_{\PC}$ of Cor.~\ref{cor:pointdep}. The load-bearing identities
+(Thm.~\ref{thm:B2}, Cor.~\ref{cor:B2a}) and the high-resolution formula
+(Thm.~\ref{thm:B3}) were confirmed to machine precision by an independent
+Blahut--Arimoto / reverse-water-filling check committed with the ledger
+\cite{ledger2026}.
+
+\subsection{Existence: the theorem ports verbatim}
+
+\begin{theorem}[Single-letter theorem for the true divergence]\label{thm:B1}
+If there is $\hat x_0$ with $\E\,d_{\mathcal{C}}(X,\hat x_0)^2<\infty$, then for every
+$D>0$, $R_{\mathcal{C}}^{\mathrm{true}}(D)$ is the operational rate--distortion
+function (achievability for any $R>R_{\mathcal{C}}^{\mathrm{true}}(D)$; converse), and
+$R_{\mathcal{C}}^{\mathrm{true}}$ is convex and nonincreasing.
+\end{theorem}
+\begin{proof}
+$d_{\mathcal{C}}$ is a nonnegative, jointly Borel, single-letter distortion (a
+composition of Borel maps). The information-density achievability and converse of
+Thm.~\ref{thm:coding} use only nonnegativity, joint measurability, memorylessness, and
+the reference-letter second moment; they nowhere use symmetry, the triangle
+inequality, difference structure, or $d(x,\hat x)=0\iff x=\hat x$---as
+Cor.~\ref{cor:pointdep} records. The proof applies verbatim with $d_{\mathcal{C}}$ for
+$d_{\PC}$ \cite{csiszar1974}. Nothing about the nonlinearity of
+$D_Y\circ(\mathcal{C},\mathcal{C})$ obstructs the classical theorem; the existence half
+of the ``open problem'' was mislocated.
+\end{proof}
+
+\subsection{The exact nonlinear tilt: reduction to the output source}
+
+\begin{theorem}[Output reduction; the tilt is $\mathcal{C}$]\label{thm:B2}
+Let $U:=\mathcal{C}(X)$, $V:=\mathcal{C}(\hat{\mathcal{X}})\subseteq\mathcal{U}$, and
+$R_U(D):=\inf\{I(U;\hat U):\hat U\in V\text{ a.s.},\ \E\,D_Y(U,\hat U)\le D\}$ the
+ordinary rate--distortion function of the output source $U$ under $D_Y$, reconstruction
+alphabet $V$. With $D_Y$ jointly Borel and a universally measurable right inverse
+$s:V\to\hat{\mathcal{X}}$ of $\mathcal{C}$ (automatic for Borel $\mathcal{C}$ between
+Polish spaces: $V$ is analytic and Jankov--von Neumann uniformization supplies $s$
+\cite{kechris1995}), $R_{\mathcal{C}}^{\mathrm{true}}(D)=R_U(D)$ for every $D\ge0$.
+\end{theorem}
+\begin{proof}
+($\ge$) Any admissible $\hat X$ gives $\hat U:=\mathcal{C}(\hat X)\in V$ with
+$\E D_Y(U,\hat U)=\E d_{\mathcal{C}}\le D$, and $I(X;\hat X)\ge I(U;\hat X)\ge
+I(U;\hat U)$ by data processing ($U$ a function of $X$; $\hat U$ a function of
+$\hat X$). ($\le$) Given a test channel $p(\hat u\mid u)$ with $I(U;\hat U)\le
+R_U(D)+\varepsilon$, draw $\hat U\mid X\sim p(\cdot\mid\mathcal{C}(X))$ and set
+$\hat X:=s(\hat U)$; then $\mathcal{C}(\hat X)=\hat U$, so $\E d_{\mathcal{C}}=\E
+D_Y(U,\hat U)\le D$, and $X\to U\to\hat U\to\hat X$ is Markov, giving $I(X;\hat X)\le
+I(X;\hat U)=I(U;\hat U)$. The equality uses \emph{both} $I(U;\hat U\mid X)=0$ ($U$ is
+a deterministic function of $X$) and $I(X;\hat U\mid U)=0$ (the Markov property), so
+$I(X;\hat U)=I(X,U;\hat U)=I(U;\hat U)$. The universally measurable $s$ defines the
+joint law of $(X,\hat X)$; on the standard Borel product this disintegrates into a
+\emph{Borel} conditional kernel, so the exhibited channel is feasible (universal
+measurability is used only to build the joint law). Because $d_{\mathcal{C}}(x,\hat x)$
+depends on $\hat x$ only through $\mathcal{C}(\hat x)\in V$, restricting reconstructions
+to $\{s(\hat u)\}$ loses nothing---the reduction is tight. Let $\varepsilon\to0$.
+\end{proof}
+
+\begin{corollary}[Quotient floor]\label{cor:B2a}
+If $D_Y$ is a \emph{strict} divergence ($D_Y(u,u')=0\iff u=u'$) and $X$ is discrete
+with finite entropy, then $R_{\mathcal{C}}^{\mathrm{true}}(0)=H(\mathcal{C}(X))=
+H(X/\!\sim_{\mathcal{C}})$. These two hypotheses are the only ones: \emph{none} of the
+integrability, constant-rank, or leaf-compatibility conditions the \emph{surrogate}
+needs (\S\ref{sec:framework}, Cor.~\ref{cor:pointdep}) arises, because the true
+divergence defines the quotient globally rather than infinitesimally. (If $D_Y$ is
+degenerate, replace $\mathcal{C}(X)$ by its quotient under $D_Y$-indistinguishability.)
+Prop.~\ref{prop:floor} is the linear case $\mathcal{C}=\Pi$.
+\end{corollary}
+
+\begin{corollary}[Order of operations]\label{cor:B2b}
+The reduction of Thm.~\ref{thm:B2} removes all dependence on $\ker\PC$, quotienting it
+\emph{exactly} prior to any linearization; the surrogate's pathologies (singular
+weights, non-integrable null distributions) are artifacts of linearizing before
+quotienting. The ``nonlinear tilt'' has a closed-form \emph{reduction}---it is
+$\mathcal{C}$ itself; what has no closed form is a tilt constrained linear in $x$,
+which the true problem never needed. Residual regularity is then governed not by a
+$\ker\PC$ singularity but by the output-side conditions of Thm.~\ref{thm:B3}.
+\end{corollary}
+
+\begin{remark}[Provenance]
+Thm.~\ref{thm:B2} is elementary---the deterministic, two-sided cousin of the indirect
+problem of Dobrushin--Tsybakov, Wolf--Ziv, and Witsenhausen---and we claim structural,
+not technical, novelty. The constraint $\hat U\in V$ matters: enlarging reconstructions
+beyond the consumer's reachable outputs could only lower the output-side function but
+is operationally meaningless, since every emitted $\hat x$ is read as
+$\mathcal{C}(\hat x)\in V$.
+\end{remark}
+
+\subsection{High resolution: the surrogate's exact validity region}
+
+Apply Thm.~\ref{thm:B2} first, so the residual problem lives on the output with local
+metric $G(u)$ and $D_Y$ is a locally quadratic non-difference distortion in the sense
+of Linder--Zamir \cite{linderzamir1999}: $q_G(u,\hat u):=\tfrac12(\hat u-u)^\top
+G(u)(\hat u-u)=\|W(u)(\hat u-u)\|^2$, $W=(G/2)^{1/2}$, $D_Y=q_G+O(\|\hat u-u\|^3)$.
+
+\begin{theorem}[High-resolution closed form; finite-$D$ pinch]\label{thm:B3}
+Work in an intrinsic chart in which $U=\mathcal{C}(X)$ has an $r$-dimensional Lebesgue
+density with finite $h(U)$, taking $h$, $G$, and $\det$ in that chart, and assume the
+Linder--Zamir admissibility conditions \cite{linderzamir1999} for $(U,D_Y)$: \emph{(a)}
+$D_Y(u,\cdot)\in C^3$ with uniformly bounded third-order partials; \emph{(b)} a unique
+minimum at $\hat u=u$ with a piecewise-$C^1$, piecewise-invertible reproduction map;
+\emph{(e)} $M(u):=\tfrac12\nabla^2_{\hat u}D_Y(u,\hat u)|_{\hat u=u}=G(u)/2\succ0$ a.e.;
+\emph{(f)} the $r$-dimensional density just named; \emph{(g)}
+$\E[\tr(G(U)^{-1})]<\infty$; and take $V$ relatively open, containing a neighborhood of
+$\mathrm{supp}(U)$. Then:
+
+\smallskip\noindent\textbf{(i)}\;As $D\to0$,
+\[
+R_{\mathcal{C}}^{\mathrm{true}}(D)=h(\mathcal{C}(X))-\frac r2\log\frac{2\pi eD}{r}
++\frac12\E\bigl[\log\det(G(\mathcal{C}(X))/2)\bigr]+o(1),
+\]
+the input-weighted Linder--Zamir asymptotic ($R(D)=h(X)-\tfrac n2\log\tfrac{2\pi
+eD}{n}+\E\log|\det W(X)|$), which we verified to machine precision against exact reverse
+water-filling in the fixed-$G$ Gaussian case. For KL-type consumers $G$ is the Fisher
+metric and the middle term is a Jeffreys-prior log-volume: \emph{rate $=$ entropy of
+what the consumer sees $+$ log-volume of the consumer's metric $+$ resolution}. The
+chart is essential: the ambient output metric may be degenerate---softmax's
+$G=\mathrm{diag}(p)-pp^\top$ has rank $r=S-1$, so $\det G=0$ in $\mathbb{R}^S$ and the
+formula is meaningful only in the $(S-1)$-dimensional simplex chart, where it further
+needs $\mathrm{supp}(U)$ bounded away from the boundary for (a),(g) to hold. The formula
+is chart-invariant as the combination $h(U)+\tfrac12\E\log\det G$; genuinely
+\emph{curved} $U$ (a nonlinear submanifold) needs a manifold extension the 1999 theory
+does not supply (\S B.4).
+
+\smallskip\noindent\textbf{(ii)}\;If $\alpha\,q_G\le D_Y\le\beta\,q_G$ on
+$\mathrm{supp}(U)\times V$---a \emph{global} two-sided sandwich, which for a merely
+local surrogate generally holds only near the diagonal / on bounded support, and so
+pairs with the high-resolution regime where $(U,\hat U)$ concentrate---then for every
+$D>0$, $R_{q_G}(D/\alpha)\le R_{\mathcal{C}}^{\mathrm{true}}(D)\le R_{q_G}(D/\beta)$, by
+feasible-set inclusion; the bracket is computable at any $D$ (Blahut--Arimoto;
+water-filling in the Gaussian case).
+\end{theorem}
+
+\begin{remark}[What coding to the surrogate certifies]
+Thms.~\ref{thm:B2}--\ref{thm:B3} replace Cor.~\ref{cor:pointdep}'s caveat (iii): coding
+to the point-dependent quadratic certifies the true downstream distortion \emph{exactly}
+as $D\to0$ and \emph{within the $[\alpha,\beta]$ pinch} at any fixed $D$---the
+surrogate's validity region is quantified, not asserted. Since $d_{\mathcal{C}}$ is an
+admissible general distortion with a reference letter, the finite-blocklength dispersion
+theory of Kostina--Verd\'u \cite{kostinaverdu2012} should port under their regularity
+conditions.
+\end{remark}
+
+\subsection{What remains open, and a registered prediction}
+
+Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-image case
+($U$ on a submanifold without an ambient density---the high-resolution theory needs
+charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
+\S\ref{sec:capacity}; \emph{(c)} the multi-observer rate region for $\{\mathcal{C}_k\}$,
+where the single-observer reduction fails because the observers' quotients differ---the
+frontier flagged in \S\ref{sec:framework}; and \emph{(d)} non-i.i.d.\ sources.
+
+\smallskip\noindent\textbf{GO-6 (proposed; to be sealed before running).} At matched
+rate $R$, three coders: (a) \emph{output coding}---compress $\mathcal{C}(X)$ under $D_Y$
+(Thm.~\ref{thm:B2}-optimal); (b) \emph{surrogate coding}---$X$-space, $d_{\PC}$;
+(c) \emph{reconstruction coding}---$X$-space MSE. Predictions:
+$\dO(\mathrm a)\le\dO(\mathrm b)\le\dO(\mathrm c)$, the (a)--(c) gap governed by the
+entropy share of $\ker\PC$ and strict whenever that share is positive, the (a)--(b) gap
+vanishing as $R$ grows (Thm.~\ref{thm:B3}). The synthetic harness of
+\S\ref{sec:distortion} suffices.
 
 \begin{thebibliography}{99}
 \bibitem{shannon1948} C.~E. Shannon. A mathematical theory of communication.
@@ -737,6 +914,16 @@ mode-budget inversion. Companion Paper~I, 2026.
 target. Companion Paper~II, 2026.
 \bibitem{ledger2026} A.~H. Bond. \emph{Geometric Observation: claim ledger,
 prediction registry, and reproduction artifacts}. Companion repository, 2026.
+\bibitem{csiszar1974} I.~Csisz\'ar. On an extremum problem of information theory.
+\emph{Studia Sci.\ Math.\ Hungar.}, 9:57--71, 1974.
+\bibitem{kechris1995} A.~S. Kechris. \emph{Classical Descriptive Set Theory}.
+Springer GTM 156, 1995 (Jankov--von Neumann uniformization, \S18).
+\bibitem{linderzamir1999} T.~Linder and R.~Zamir. High-resolution source coding for
+non-difference distortion measures: the rate-distortion function. \emph{IEEE Trans.\
+Inf.\ Theory}, 45(2):533--547, 1999.
+\bibitem{kostinaverdu2012} V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
+in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
+58(6):3309--3338, 2012.
 \end{thebibliography}
 
 \paragraph{Reproducibility \& provenance.} All results resolve to committed registry
