@@ -112,8 +112,8 @@ $\PC$, the consumer's local output metric, sitting as the geometric middle term
 between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the information
 bottleneck \cite{tishby1999} (an arbitrary, non-geometric relevance variable). We
 contribute (i) the map placing these literatures on one axis; (ii) $\PC$'s
-\emph{identifiability}---recovery from black-box consumer queries under a specified
-observation distribution, validated blind against a
+\emph{read-subspace recoverability}---recovery of the read subspace from black-box
+consumer queries under the specified probing model, validated blind against a
 planted ground truth, which the quantization literature (estimating the Hessian from
 calibration data) never validates against truth; (iii) an ex-ante extreme-value
 reliability certificate; (iv) budget-relativity of the verdict; and (v) a
@@ -440,11 +440,11 @@ before any retrieval is run.
 \emph{Using the certificate.} For a practitioner, $\rho$ is a cheap pre-flight check:
 estimate the standardized true-versus-distractor margin on a small calibration set,
 divide by the derived $\mu_{\mathrm{crit}}$, and read off $\rho$. A value below $1$
-warns that single-stage retrieval is at or past its vacuity point---budget for a
-re-ranking stage or a larger index before deployment---while $\rho$ comfortably above
-$1$ indicates headroom. Because $\rho$ preserves the recall \emph{ordering} across
-corpora, it also ranks candidate corpora or index configurations \emph{without}
-running full retrieval.
+warns of \emph{predicted} vacuity under the reference model---single-stage retrieval is
+likely at or past its vacuity point, so budget for a re-ranking stage or a larger index
+before deployment---while $\rho$ comfortably above $1$ indicates headroom. Because
+$\rho$ preserves the recall \emph{ordering}, in the tested corpora it also ranked
+candidate corpora and index configurations \emph{without} a full retrieval evaluation.
 
 \section{Rate: the verdict belongs to the budget (GO-4)}\label{sec:rate}
 
@@ -549,15 +549,17 @@ phenomenon is exactly coding for computing and graph entropy in the discrete wor
 \cite{korner1973,orlitsky2001}, here given a geometric read operator.
 \end{remark}
 
-These form a \emph{conceptual axis}, not a formal nesting: Shannon rate--distortion
-($\PC=I$, the isotropic observer), consumer-relative rate--distortion ($\PC$ a fixed
+These form a \emph{conceptual axis}, not a formal nesting: Shannon's Gaussian
+Euclidean-MSE specialization ($\PC=I$, the isotropic observer), consumer-relative
+rate--distortion ($\PC$ a fixed
 geometric, \emph{identifiable} operator, Props.~\ref{prop:rd},\ref{prop:floor}), and
 the information bottleneck \cite{tishby1999}---which optimizes a different object (a
 stochastic relevance variable) and to which the consumer-relative term connects only
 through the local-Gaussian relevance limit ($Y=\mathcal{C}(X)$ deterministic,
 second-order). We claim no containment theorem. The middle term is the operational
-one---$\PC$ is PSD, water-fillable, and recoverable from the consumer
-(Prop.~\ref{prop:id})---and its coding theorem (achievability and converse, fixed
+one---$\PC$ is PSD, water-fillable, and its read subspace is recoverable from consumer
+queries under the specified probing model (Prop.~\ref{prop:id})---and its coding
+theorem (achievability and converse, fixed
 $\PC$, general source) is Appendix~\ref{app:coding}.
 
 \section{A boundary: the refuted quotient (GO-5)}\label{sec:boundary}
@@ -633,8 +635,9 @@ theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
 metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
 nonlinear divergence too---its single-letter theorem at every $D$ (Thm.~\ref{thm:B1})
-and its exact reduction to output-side coding, the tilt being $\mathcal{C}$ itself
-(Thm.~\ref{thm:B2}), with the quotient floor unconditional (Cor.~\ref{cor:B2a}). What
+and the fact that the true nonlinear problem reduces \emph{exactly} to rate--distortion
+coding of the reachable output source $\mathcal{C}(X)$ (Thm.~\ref{thm:B2}), with the
+quotient floor unconditional (Cor.~\ref{cor:B2a}). What
 remains open is narrower: the curved-image high-resolution case, the multi-observer
 rate region (distinct quotients, no single reduction), the consumer-relative
 \emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
@@ -751,7 +754,7 @@ point-dependent metric---Cor.~\ref{cor:pointdep} settles that---and, as
 Appendix~\ref{app:true} shows, not the true nonlinear divergence either:
 Thm.~\ref{thm:B1} gives its single-letter theorem at every $D$, and Thm.~\ref{thm:B2}
 its exact reduction (the tilt is $\mathcal{C}$ itself, with no linear surrogate needed).
-What remains open is narrower, and stated in \S B.4.
+What remains open is narrower, and stated in Appendix~\ref{app:true}, \S\ref{subsec:open}.
 
 \section{The coding theorem for the true nonlinear divergence}
 \label{app:true}
@@ -875,15 +878,15 @@ R_{\mathcal{C}}^{\mathrm{true}}(D)=h(\mathcal{C}(X))-\frac r2\log\frac{2\pi eD}{
 the input-weighted Linder--Zamir asymptotic ($R(D)=h(X)-\tfrac n2\log\tfrac{2\pi
 eD}{n}+\E\log|\det W(X)|$), which we verified to machine precision against exact reverse
 water-filling in the fixed-$G$ Gaussian case. For KL-type consumers $G$ is the Fisher
-metric and the middle term is a Jeffreys-prior log-volume: \emph{rate $=$ entropy of
-what the consumer sees $+$ log-volume of the consumer's metric $+$ resolution}. The
+metric and the middle term is a Jeffreys-prior log-volume: \emph{rate = entropy of
+what the consumer sees + log-volume of the consumer's metric + resolution}. The
 chart is essential: the ambient output metric may be degenerate---softmax's
 $G=\mathrm{diag}(p)-pp^\top$ has rank $r=S-1$, so $\det G=0$ in $\mathbb{R}^S$ and the
 formula is meaningful only in the $(S-1)$-dimensional simplex chart, where it further
 needs $\mathrm{supp}(U)$ bounded away from the boundary for (a),(g) to hold. The formula
 is chart-invariant as the combination $h(U)+\tfrac12\E\log\det G$; genuinely
 \emph{curved} $U$ (a nonlinear submanifold) needs a manifold extension the 1999 theory
-does not supply (\S B.4).
+does not supply (Appendix~\ref{app:true}, \S\ref{subsec:open}).
 
 \smallskip\noindent\textbf{(ii)}\;If $\alpha\,q_G\le D_Y\le\beta\,q_G$ on
 $\mathrm{supp}(U)\times V$---a \emph{global} two-sided sandwich, which for a merely
@@ -904,7 +907,7 @@ theory of Kostina--Verd\'u \cite{kostinaverdu2012} should port under their regul
 conditions.
 \end{remark}
 
-\subsection{What remains open, and a registered prediction}
+\subsection{What remains open, and a registered prediction}\label{subsec:open}
 
 Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-image case
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
