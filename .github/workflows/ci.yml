@@ -1,0 +1,60 @@
+name: CI
+
+# Enforces PROTOCOL.md "CI green" for the CPU-reproducible ledger rows, and that the
+# paper compiles with no undefined references. Tier-A discipline: no check requires
+# GPU or Atlas -- Gate-B (GO-P-2026-020/021), GO-4 and GO-5-ADC are committed
+# artifacts, re-derived for self-consistency but not re-run here.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    name: Reproduce CPU-only claims (Tier-A)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Tier-A deps
+        run: python -m pip install --upgrade pip -r ci/requirements-ci.txt
+      - name: Reproduce verdicts + verify Appendix B
+        run: python ci/reproduce.py
+
+  paper:
+    name: Compile paper (no undefined refs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile observation-theory.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: observation-theory.tex
+          working_directory: paper
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations
+        run: |
+          cd paper
+          if grep -qiE "there were undefined (references|citations)" observation-theory.log; then
+            echo "::error::Undefined references or citations in observation-theory.log"
+            grep -iE "warning:.*undefined|there were undefined" observation-theory.log || true
+            exit 1
+          fi
+          echo "No undefined references or citations."
+      - name: Upload compiled PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observation-theory-pdf
+          path: paper/observation-theory.pdf
+          if-no-files-found: warn
