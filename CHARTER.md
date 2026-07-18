@@ -133,5 +133,46 @@ catches.
 
 ---
 
-*v1.0. This charter codifies rules already in force through GO-P-2026-027; it adds
-no retroactive burden to sealed claims that already satisfy them.*
+## 7. Standards alignment
+
+R-IND is not sui generis; each rule instantiates recognized practice. Naming the
+standard gives reviewers a familiar handhold and keeps the charter honest about what
+is established versus what is frontier.
+
+| Rule / concern | Recognized standard | Status here |
+|---|---|---|
+| REG-1 — seal before measure | OSF Registrations · AsPredicted · Registered Reports | self-hosted (sha256 + git commit); OSF adds an independent third-party timestamp |
+| R-IND-3 — conclusion-grade reproduction | ACM Artifact Review & Badging (Functional / Reusable / Results-Reproduced) · CODECHECK | CI self-reproduces; CODECHECK adds a *third-party* reproducer |
+| reproducible pipeline / environment | Snakemake · Nextflow · CWL; Apptainer/Docker + lockfiles; Zenodo · Software Heritage | env pinning + Zenodo already in force (REG-3) |
+| C3 numerical falsification nets | property-based testing (Hypothesis / QuickCheck) · metamorphic testing · differential / cross-implementation testing | hand-rolled fixed-seed property checks; Hypothesis + a second implementation (e.g. MATLAB↔numpy) upgrade them |
+| `[proved]` theorems | proof assistants — Lean/mathlib · Coq · Isabelle | machine-checking queued (PROTOCOL §7) for the flagship theorem |
+| adversarial arm | adversarial collaboration (Kahneman) · red-teaming | PROTOCOL §9 |
+
+**Frontier — the honest gap: AI self-grading independence (C-AI-1).** No mature
+standard toolkit exists for verifying AI-assisted work independently of the assistant
+that produced it. This program's approximation — a fresh-context verifier (R-IND-5),
+differential testing against a second implementation (R-IND-3), and, for theorems, a
+proof assistant — is a reasonable *composition* of established methods, not a
+recognized methodology in its own right. The charter discloses this rather than
+papering over it: independence for AI-authored items is achieved by that composition,
+and the gap is stated plainly. (VI-4 — the caught `sigma_star` false-pass — is the
+standing evidence that the composition works and that it was needed.)
+
+**Adopt-now upgrades (afternoon-scale, high value):**
+- **OSF** — mirror each sealed prereg to an Open Science Framework registration for an
+  independent timestamp (belt-and-suspenders with the git commit; strengthens REG-1).
+- **Hypothesis** — rewrite the C3 nets as property-based tests (random-instance,
+  shrinking, adversarial-by-construction) rather than fixed-seed spot checks
+  (strengthens T-CUST-1).
+
+**Reserved for the flagships:**
+- **Lean** — a machine-checked proof of the T1/T2 flagship theorem: the strongest
+  independence a theorem can carry (satisfies R-IND-3 derivation-grade by construction).
+- **CODECHECK** — an independent third-party reproduction of the one benchmark-winning
+  `[demonstrated]` claim (V4), reported in the ledger's external-replication column.
+
+---
+
+*v1.1. §7 (standards alignment) added 2026-07-18. This charter codifies rules already in
+force through GO-P-2026-028; it adds no retroactive burden to sealed claims that already
+satisfy them.*
