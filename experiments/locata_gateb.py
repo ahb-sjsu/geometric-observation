@@ -294,6 +294,97 @@ def flip_significance(X, p, f, theta0, w_read, s0sq, *, kappa=4.0, n=400, rank=1
     return stats, z("recon", "invariant"), z("anti", "invariant"), z("anti", "recon")
 
 
+# ── confirmatory protocol: black-box recovery, cal/eval split, cross-recording ──
+def _split_frames(X, frac_cal=0.5):
+    """Temporal split into calibration | evaluation frame sets (disjoint)."""
+    c = int(X.shape[1] * frac_cal)
+    return X[:, :c], X[:, c:]
+
+
+def recover_operator(Xcal, p, f, *, var=0.3, n_probes=180, n_reps=12, rank=1, rng, mode="ambient"):
+    """FULLY BLACK-BOX read-operator recovery on calibration snapshots. Probes random directions
+    in R^{2M}, measures mean-squared DISPLACEMENT of the consumer's DOA from its OWN clean estimate
+    (NO ground truth anywhere), fits the quadratic response y = w^T P w by least squares, returns
+    P's top eigenvector. mode='ambient' = full R^{2M} random probes + LS low-rank fit (no manifold,
+    no truth). mode='subspace' = probes restricted to span{a,ia,a',ia'} at the consumer's OWN clean
+    angle estimate (still truth-free). Returns (w_rec, th_ref, eigengap)."""
+    grid = _grid()
+    M = Xcal.shape[0]; M2 = 2 * M
+    th_ref = _consumer(Xcal, p, f, grid, rank)                 # own clean DOA — the only reference
+    if mode == "ambient":
+        W = rng.standard_normal((n_probes, M2))
+    else:
+        S = _read_subspace(th_ref, p, f)
+        W = rng.standard_normal((n_probes, S.shape[1])) @ S.T
+    W = W / np.linalg.norm(W, axis=1, keepdims=True)
+    y = np.empty(n_probes)
+    for k in range(n_probes):
+        w = W[k]; d = 0.0
+        for _ in range(n_reps):
+            D = np.outer(w, np.sqrt(var) * rng.standard_normal(Xcal.shape[1]))
+            d += (_consumer(Xcal + (D[:M] + 1j * D[M:]), p, f, grid, rank) - th_ref) ** 2
+        y[k] = d / n_reps / var
+    idx = [(i, j) for i in range(M2) for j in range(i, M2)]
+    Phi = np.array([[(2.0 if i != j else 1.0) * W[k, i] * W[k, j] for (i, j) in idx]
+                    for k in range(n_probes)])
+    coef = np.linalg.lstsq(Phi, y, rcond=None)[0]
+    P = np.zeros((M2, M2))
+    for c, (i, j) in zip(coef, idx):
+        P[i, j] = P[j, i] = c
+    ew, ev = np.linalg.eigh(P)
+    w_rec = ev[:, -1]
+    gap = float(ew[-1] / (abs(ew[-2]) + 1e-12))                # eigen-gap: rank-1-ness of P
+    return w_rec / np.linalg.norm(w_rec), th_ref, gap
+
+
+def bootstrap_stability(Xcal, p, f, *, B=6, rng, **kw):
+    """Median pairwise |cos| between operators recovered on bootstrap resamples of the cal frames."""
+    ws = []
+    for _ in range(B):
+        idx = rng.integers(0, Xcal.shape[1], Xcal.shape[1])
+        w, _t, _g = recover_operator(Xcal[:, idx], p, f, rng=rng, n_probes=120, n_reps=8, **kw)
+        ws.append(w)
+    cs = [abs(float(ws[i] @ ws[j])) for i in range(B) for j in range(i + 1, B)]
+    return float(np.median(cs))
+
+
+def run_confirm(rec_dirs, freq=2000.0, mode="ambient"):
+    """Full confirmatory protocol over a set of held-out recordings: black-box recover on each
+    recording's CALIBRATION frames, then three-way flip on its EVALUATION frames using
+    (analytic tangent, recovered-same-recording, recovered-TRANSFER-from-another-recording)."""
+    rng = np.random.default_rng(31)
+    D = []
+    for d in rec_dirs:
+        X, p, f, theta0 = load_recording(d, f_target=freq)
+        if X.shape[1] < 24:
+            print(f"  skip {d}: too few frames ({X.shape[1]})"); continue
+        Xc, Xe = _split_frames(X)
+        w_rec, th_ref, gap = recover_operator(Xc, p, f, rng=rng, mode=mode)
+        w_an = read_dir_analytic(th_ref, p, f)                 # tangent at OWN estimate (truth-free)
+        stab = bootstrap_stability(Xc, p, f, rng=rng, mode=mode)
+        D.append(dict(name=d.split("/dev/")[-1].split("/eval/")[-1], p=p, f=f, theta0=theta0,
+                      Xe=Xe, w_rec=w_rec, w_an=w_an, th_ref=th_ref, gap=gap, stab=stab,
+                      cos=abs(float(w_rec @ w_an))))
+    print(f"\n{'recording':<26} {'th_est':>7} {'GTΔ':>5} {'cos(rec,ĝ)':>10} {'stab':>5} {'gap':>5} "
+          f"| {'flip: ĝ':>7} {'rec-same':>8} {'rec-xfer':>8}")
+    agg = {"an": [], "same": [], "xfer": []}
+    for i, di in enumerate(D):
+        j = (i + 1) % len(D)                                   # transfer donor (different recording)
+        fa = gateb_consumer(di["Xe"], di["p"], di["f"], di["theta0"], di["w_an"], n_reps=30)["flip"]
+        fs = gateb_consumer(di["Xe"], di["p"], di["f"], di["theta0"], di["w_rec"], n_reps=30)["flip"]
+        ft = gateb_consumer(di["Xe"], di["p"], di["f"], di["theta0"], D[j]["w_rec"], n_reps=30)["flip"]
+        agg["an"].append(fa); agg["same"].append(fs); agg["xfer"].append(ft)
+        gd = abs(np.rad2deg(di["th_ref"] - di["theta0"]))
+        print(f"{di['name']:<26} {np.rad2deg(di['th_ref']):>6.1f}° {gd:>4.1f}° {di['cos']:>10.3f} "
+              f"{di['stab']:>5.2f} {di['gap']:>5.1f} | {fa:>5}/8 {fs:>6}/8 {ft:>6}/8")
+    n8 = 8
+    print(f"\naggregate median flip /{n8}:  analytic ĝ = {int(np.median(agg['an']))}  "
+          f"recovered-same = {int(np.median(agg['same']))}  recovered-transfer = {int(np.median(agg['xfer']))}")
+    print(f"recordings where recovered-same >= analytic: {sum(s>=a for s,a in zip(agg['same'],agg['an']))}/{len(D)}")
+    print(f"recordings where recovered-transfer >= analytic: {sum(t>=a for t,a in zip(agg['xfer'],agg['an']))}/{len(D)}")
+    return D, agg
+
+
 # ── self-test: synthetic ULA, must reproduce the GO-P-2026-031 flip ──────────
 def selftest():
     rng = np.random.default_rng(20260718)
@@ -402,9 +493,17 @@ if __name__ == "__main__":
     ap.add_argument("--recording", help="path to a LOCATA .../dicit array directory")
     ap.add_argument("--freq", type=float, default=2000.0)
     ap.add_argument("--sig", action="store_true", help="within-recording significance (sigmas)")
+    ap.add_argument("--confirm", help="glob of .../dicit dirs for the black-box confirmatory protocol")
+    ap.add_argument("--mode", default="ambient", choices=["ambient", "subspace"])
     a = ap.parse_args()
     if a.selftest:
         sys.exit(0 if selftest() else 1)
+    if a.confirm:
+        import glob
+        recs = sorted(glob.glob(a.confirm))
+        print(f"confirmatory ({a.mode}) over {len(recs)} recordings, freq {a.freq} Hz")
+        run_confirm(recs, freq=a.freq, mode=a.mode)
+        sys.exit(0)
     if a.recording and a.sig:
         X, p, f, theta0 = load_recording(a.recording, f_target=a.freq)
         w_rec = recover_read_dir(X, p, f, theta0, var=0.3, n_reps=30, rank=1)

@@ -1,5 +1,28 @@
 # Real-data DOA Gate-B on LOCATA — exploratory notes
 
+## ⚠️ CORRECTION (rigorous black-box protocol) — the exploratory result does NOT survive
+A reviewer critique (2026-07-18) flagged that the exploratory recovery (i) built its probe
+subspace from the ground-truth angle and (ii) recovered and evaluated on the same recording. A
+rebuilt **fully black-box** protocol (`--confirm`) fixes both: recover in the **full ambient
+R^{2M}** (or a subspace at the consumer's OWN clean DOA estimate) via random probes + low-rank
+LS, scoring **displacement from the consumer's own estimate** (no ground truth in recovery); a
+temporal **calibration/evaluation frame split**; and a **cross-recording transfer** test
+(recover on i, evaluate on j) plus **bootstrap stability** of the recovered direction.
+
+On the same dev/task1 recordings, the effect **collapses**: recovered-operator bootstrap
+stability is marginal (0.31–0.89 ambient, 0.69–0.87 subspace); the operator is not clearly
+rank-1 (eigengaps ~1.3–1.9); and the recovered operator does **not** beat the analytic tangent —
+median flip over 3 recordings: analytic ĝ = 5/8, recovered-same = 1–4/8, recovered-transfer =
+1–5/8, with no consistent winner. **The "recovered ≫ ĝ, 8/8" advantage was an artifact of the
+truth-built subspace + same-recording recover-and-evaluate.** Under a black-box, calibration-
+separated protocol the real-data DOA flip is **not demonstrated**. The simulated result
+(GO-P-2026-031) stands on its own; real-data transfer is, on this evidence, an honest negative /
+open question (candidate NEG entry). The exploratory numbers below are retained for the record but
+are superseded by this correction.
+
+---
+
+
 Empirical companion to `GO-P-2026-031` (simulated DOA Gate-B). Data: LOCATA corpus
 (Open Data Commons Attribution v1.0; Zenodo 3630471), `dev/task1` (single static loudspeaker),
 DICIT array. We pull the **8 cm 5-element nested ULA** (channels {3,4,6,9,10}, x = ±16/±8/0 cm,
