@@ -73,7 +73,20 @@ The effect is real at tens of sigma *per recording*. The **generalization** sigm
 independent unit is the recording, and this is **n=3** (3/3, ~1.5σ under a coin-flip null) — breadth
 needs the sealed multi-recording confirmatory below.
 
+## Resolution — GO-P-2026-032 held-out confirmation (PolarQuant + mature MATLAB, sealed pre-run)
+The redesign (per the user): real **PolarQuant** compressor (turboquant-pro foundation) + a mature,
+independent **MATLAB ESPRIT/root-MUSIC** consumer (exact at λ/2), config **selected on calibration**
+(dev/task1) via a **structural-fuzzing** search, **frozen + sealed**, then scored on **13 unseen
+eval/task1 recordings** (`confirm_locata.py`). Result: **NOT CONFIRMED** at the sealed bars (budget 48).
+- **Robust positive:** destroying phase/angle destroys DOA on **13/13** held-out (anti worst) — the
+  directional information lives in the angle.
+- **Registered negative:** the *subtle* flip (angle-favoring PolarQuant beats reconstruction-optimal
+  scalar at matched bits) held only **6/13** (< sealed 8/13); median flip_fail 0.00° = parity, not a
+  win. The calibration map's 74% was over-optimistic selection — the discipline caught it.
+- Bearing: the **simulation** `GO-P-2026-031` stands; its real-data transfer of the *subtle* effect
+  is an honest negative. Result: [GO-LOCATA-polarquant.json](../results/GO-LOCATA-polarquant.json).
+
 ## Status
-**Exploratory** (`task1/recording{1,2,3}`, single frequency bin, single array). A confirmatory,
-registration-first claim (**GO-B-LOCATA**) needs a sealed prereg with **held-out** recordings/tasks,
-fixed bars, pre-run. Harness: `experiments/locata_gateb.py` (self-test + `--recording <.../dicit>`).
+Real-data arc **closed** as a registered honest negative (subtle flip does not transfer; coarse
+angle-carries-direction claim holds). Harnesses: `locata_gateb.py`, `polarquant_doa_gateb.py` +
+`pq_doa.m` (MATLAB), `fuzz_doa_technique.py` (calibration search), `confirm_locata.py` (held-out).

@@ -1,0 +1,23 @@
+{
+  "id": "GO-P-2026-032",
+  "title": "PolarQuant DOA Gate-B, held-out LOCATA confirmation",
+  "date_run": "2026-07-18",
+  "sealed_commit": "01f309c",
+  "prospective": true,
+  "calibration": "dev/task1 recordings {1,2,3} (config selection only, via structural-fuzzing)",
+  "heldout": "eval/task1 DICIT recordings (13, single static loudspeaker), unseen at seal time",
+  "frozen_config": {"array": "8cm DICIT ULA", "bin_hz": 2144, "budget_bits": 48, "estimators": ["esprit", "rootmusic"]},
+  "verdict": "NOT CONFIRMED (honest negative)",
+  "sealed_bars_budget48": {
+    "flip_holds_ge_8of13": {"esprit": 6, "rootmusic": 5, "bar": 8, "pass": false},
+    "median_flip_fail_le_1.5deg": {"esprit": 0.00, "rootmusic": 0.04, "pass": true},
+    "anti_worst_ge_10of13": {"esprit": 13, "rootmusic": 11, "pass": true},
+    "recon_trade_scalar_le_pq_ge_10of13": {"esprit": 9, "rootmusic": 9, "bar": 10, "pass": false}
+  },
+  "support_budget64": {"flip_holds": {"esprit": 4, "rootmusic": 9}, "note": "not the sealed bar; shown for completeness, does not rescue the miss"},
+  "interpretation": {
+    "robust_positive": "Destroying the phase/angle catastrophically destroys DOA on 13/13 held-out recordings (anti worst). The directional information lives in the angle.",
+    "registered_negative": "The subtle consumer-relative flip (angle-preserving PolarQuant BEATS reconstruction-optimal scalar on DOA at matched bits, a clean two-halves flip) does NOT robustly transfer to real held-out LOCATA DOA (6/13 < 8/13). Parity, not a win; the calibration 74% was over-optimistic selection.",
+    "bearing": "GO-P-2026-031 (simulation) stands on its own; its real-data transfer of the SUBTLE effect is an honest negative. The coarse angle-carries-direction claim holds on real unseen data."
+  }
+}
