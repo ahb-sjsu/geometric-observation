@@ -1,0 +1,63 @@
+{
+  "id": "GO-P-2026-031",
+  "title": "DOA Gate-B (simulated physical): reconstruction flip + omission floor",
+  "date_run": "2026-07-18",
+  "sealed_commit": "ee85622",
+  "prospective": true,
+  "held_out_params": {"M": 16, "theta0_deg": -7, "kappa": 4},
+  "exploratory_params": {"M": 12, "theta0_deg": 12, "kappa": 3},
+  "read_operator": "ghat = normalize(P_a_perp * a'(theta0)); P_C = ghat ghat^T (rank 1)",
+  "geometry_cos_w_ghat": 1.0000,
+  "estimators": {
+    "beamformer_ml_numpy": {
+      "harness": "experiments/doa_gateb.py",
+      "flip_rate_points": "6/6",
+      "MSE_deg2": {
+        "invariant": [2.556e-02, 6.496e-03, 1.658e-03, 3.825e-04, 1.026e-04, 2.421e-05],
+        "recon":     [9.825e-02, 2.353e-02, 5.948e-03, 1.506e-03, 4.109e-04, 9.893e-05],
+        "anti":      [3.766e-01, 9.794e-02, 2.440e-02, 6.136e-03, 1.701e-03, 4.068e-04]
+      },
+      "recon_energy": {
+        "invariant": [3.248, 0.820, 0.206, 0.052, 0.013, 0.003],
+        "recon":     [3.212, 0.805, 0.202, 0.051, 0.013, 0.003],
+        "anti":      [3.373, 0.845, 0.213, 0.053, 0.014, 0.003]
+      },
+      "mse_step_ratio_rec_over_inv": 3.89,
+      "mse_step_ratio_anti_over_rec": 4.11
+    },
+    "rootmusic_matlab_phased_array": {
+      "reference": "experiments/doa_gateb_rootmusic.m",
+      "engine": "Atlas MATLAB R2026a, Phased Array System Toolbox, rootmusicdoa, T=32 snapshots",
+      "flip_rate_points": "6/6",
+      "MSE_deg2": {
+        "invariant": [1.819e-03, 5.581e-04, 1.357e-04, 3.324e-05, 9.513e-06, 4.145e-06],
+        "recon":     [3.161e-03, 8.564e-04, 2.023e-04, 5.443e-05, 1.521e-05, 4.789e-06],
+        "anti":      [9.779e-03, 2.024e-03, 5.141e-04, 1.259e-04, 3.274e-05, 8.311e-06]
+      },
+      "recon_energy": {
+        "invariant": [3.264, 0.821, 0.207, 0.052, 0.013, 0.003],
+        "recon":     [3.201, 0.805, 0.202, 0.051, 0.013, 0.003],
+        "anti":      [3.370, 0.847, 0.212, 0.053, 0.013, 0.003]
+      }
+    }
+  },
+  "controls": {
+    "shuffled_consumer_flip": "0/6",
+    "shuffled_consumer_median_arm_spread": 0.113,
+    "cross_implementation_recon_energy_match": "matches to 3 sig figs (shared shaping, estimator-independent)"
+  },
+  "omission_floor": {
+    "ghat_uncoded_MSE_deg2_highest_rate": 4.805e-02,
+    "coded_invariant_MSE_deg2_highest_rate": 2.421e-05,
+    "floor_multiple": 1984
+  },
+  "sealed_checks": {
+    "geometry_cos_gt_0.99": true,
+    "flip_ml_6of6": true,
+    "flip_rootmusic_6of6": true,
+    "mse_ratio_band_2.4_6.4": true,
+    "shuffled_collapses": true,
+    "omission_floor_ge_100x": true
+  },
+  "verdict": "ALL PASS"
+}
