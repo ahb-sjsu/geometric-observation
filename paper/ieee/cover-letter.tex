@@ -35,14 +35,23 @@ controlling quantity---the reconstruction error read through the consumer's read
 operator $P_{\mathcal{C}}=J^\top G J$---and shows that ordinary mean-squared-error
 reconstruction is its isotropic corner $P_{\mathcal{C}}=I$, the corner in which
 Shannon's Gaussian rate--distortion function and Gauss least squares reside. The
-principal contributions are: (i) an identification of the read operator with the
-pullback geometry of \emph{distinguishability} and the quotient of the representation
-it induces; (ii) the \emph{identifiability} of the read operator from black-box
-consumer queries, validated blind against a planted ground truth; (iii) a
-consumer-relative rate--distortion function with a proof of achievability and converse
-for a general source; and (iv) a coding theorem for the \emph{true} nonlinear consumer
-divergence that reduces exactly to output-side coding, together with its
-high-resolution form. The framework is positioned as the identifiable geometric middle
+principal contributions are information-theoretic. (i) A consumer-relative
+rate--distortion function, with achievability and converse for a general source, and a
+coding theorem for the \emph{true} nonlinear consumer divergence that reduces exactly to
+output-side coding. (ii) For a Gaussian source read by two operators, the \emph{complete
+two-stage rate region}: successive refinability is characterized by a single Loewner
+condition---the observers' optimal error covariances must nest---with a closed-form
+max-determinant rate loss when they do not, extended to the $k$-observer chain. (iii) Two
+coding-theoretic consequences of the reduction: a finite-blocklength result whose effective
+dimension is the \emph{rank} of the read operator rather than the ambient dimension, and a
+source--channel separation theorem for the consumer distortion. (iv) An operational theory
+of a \emph{misidentified} observer---mis-weighting a read direction costs a bounded rate
+tax, whereas omitting one erects an irreducible distortion floor that no rate can cross---an
+asymmetry that, within the Gaussian model, derives a compression catastrophe observed in
+the experiments. (v) The identification of the read operator with the pullback geometry of
+\emph{distinguishability}, and its recovery from black-box consumer queries, validated blind
+against a planted ground truth. Throughout, ordinary reconstruction is the isotropic corner
+$P_{\mathcal{C}}=I$, and the framework is positioned as the identifiable geometric middle
 term between Shannon rate--distortion and the information bottleneck.
 
 The work lies squarely within the Transactions' scope---Shannon theory,
@@ -64,8 +73,12 @@ governed by a sealed, before-the-fact registration with a pre-declared acceptanc
 The pre-registrations, experiment code, committed result artifacts, and a
 continuous-integration workflow that re-runs the reproducible experiments and verifies
 the paper's theoretical constructions are publicly available at the repository named in
-the manuscript. Consistent with the Society's encouragement, I intend to post a
-preprint to arXiv at the time of submission.
+the manuscript, with a permanent archival snapshot deposited at Zenodo
+(\href{https://doi.org/10.5281/zenodo.21423316}{doi:10.5281/zenodo.21423316}). In addition,
+each analytic result was independently re-derived in a fresh-context verification pass whose
+outcome---including two self-corrections caught before submission---is recorded in the
+ledger. Consistent with the Society's encouragement, I intend to post a preprint to arXiv at
+the time of submission.
 
 I confirm that I am the sole author; that the submission is prepared in the required
 single-column format and is well within the 50-page review limit; and that I hold a
