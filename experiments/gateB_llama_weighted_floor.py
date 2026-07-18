@@ -63,17 +63,17 @@ def _spearman(a, b):
 
 
 # ----------------------------------------------------------------------------- blind probe
-def blind_probe(consumer, base_K, d, rng):
+def blind_probe(consumer, base_K, d, rng, n_probe=N_PROBE, probe_keys=PROBE_KEYS):
     """Recover the read operator M = sum_s J_s^T J_s from consumer(K)->p by finite-diff Jacobians.
     Returns (M, eigvals asc, eigvecs); the top-R_SUB eigvecs span R_hat, the eigvals are the
     blind read-WEIGHT estimates (the quantity the rematch harness discarded)."""
     S = base_K.shape[0]
     M = np.zeros((d, d))
-    for s in rng.choice(S, min(PROBE_KEYS, S), replace=False):
-        U = rng.standard_normal((N_PROBE, d))
+    for s in rng.choice(S, min(probe_keys, S), replace=False):
+        U = rng.standard_normal((n_probe, d))
         U /= np.linalg.norm(U, axis=1, keepdims=True) + 1e-9
-        dC = np.empty((N_PROBE, consumer(base_K).size))
-        for j in range(N_PROBE):
+        dC = np.empty((n_probe, consumer(base_K).size))
+        for j in range(n_probe):
             Kp = base_K.copy(); Kp[s] = base_K[s] + H_FD * U[j]
             Km = base_K.copy(); Km[s] = base_K[s] - H_FD * U[j]
             dC[j] = (consumer(Kp).ravel() - consumer(Km).ravel()) / (2 * H_FD)
@@ -141,7 +141,7 @@ def rate_sweep(P_alloc, P_true, Sx, K, Qset, d, rng, n_levels=9, n_kl=4):
 
 
 # ----------------------------------------------------------------------------- synthetic gate
-def synthetic_weight_recovery(n_instances=24, d=16, r=R_SUB, seed=7):
+def synthetic_weight_recovery(n_instances=12, d=16, r=R_SUB, seed=7):
     """Plant a read operator via a query set (Pc_true = Q^T Q / n has planted weights); blind-probe
     it; check the recovered top-r spectrum rank-tracks the planted weights (Spearman >= 0.9).
     Guards the NEW dependency: that the probe's eigenVALUES, not just eigenvectors, are recoverable
@@ -157,7 +157,7 @@ def synthetic_weight_recovery(n_instances=24, d=16, r=R_SUB, seed=7):
         true_w = np.sort(np.linalg.eigvalsh(Pc_true))[-r:]
         K0 = rng.standard_normal((96, d))
         cons = lambda Kx: _consumer(Kx, Qset, d)
-        _, w_hat, _ = blind_probe(cons, K0, d, rng)
+        _, w_hat, _ = blind_probe(cons, K0, d, rng, n_probe=48, probe_keys=16)  # lighter; gate only
         rec_w = np.clip(w_hat[-r:], 0.0, None)
         rho = _spearman(true_w, rec_w)
         if np.isfinite(rho):

@@ -1,0 +1,29 @@
+{
+  "claim": "GO-P-2026-026 follow-up (EXPLORATORY, not pre-registered): the Appendix-E omission floor bites downstream on trained Llama attention as an asymptotic (infinite read-rate) phenomenon.",
+  "context": "Resolves NEG-13: the sealed finite-rate gate missed because its rate sweep was too shallow to reach the plateau; the downstream floor exists.",
+  "model": "unsloth/Llama-3.2-3B",
+  "layers_heads": "16 = layers {8,16} x 8 KV heads",
+  "method": "Per head: P=Q^T Q/n, Sx=Cov(K), P_hat=projector onto top-16 eigvecs of P (rank-16 truncation). Floor covariance = Sx^{1/2} Pi Sx^{1/2}, Pi = whitened kernel of P_hat. kl_floor = softmax-KL under error ~ N(0, floor cov) (infinite read-rate limit); kl_correct = softmax-KL under ~0 error.",
+  "per_head": [
+    {"layer": 8,  "head": 0, "kl_floor": 0.1212, "kl_correct": 7.853e-07, "ratio": 154406},
+    {"layer": 8,  "head": 1, "kl_floor": 0.1260, "kl_correct": 7.179e-07, "ratio": 175488},
+    {"layer": 8,  "head": 2, "kl_floor": 0.1239, "kl_correct": 5.910e-07, "ratio": 209638},
+    {"layer": 8,  "head": 3, "kl_floor": 0.1162, "kl_correct": 5.783e-07, "ratio": 200978},
+    {"layer": 8,  "head": 4, "kl_floor": 0.09829,"kl_correct": 4.965e-07, "ratio": 197943},
+    {"layer": 8,  "head": 5, "kl_floor": 0.1189, "kl_correct": 1.024e-06, "ratio": 116083},
+    {"layer": 8,  "head": 6, "kl_floor": 0.05259,"kl_correct": 5.862e-07, "ratio": 89707},
+    {"layer": 8,  "head": 7, "kl_floor": 0.07851,"kl_correct": 6.128e-07, "ratio": 128124},
+    {"layer": 16, "head": 0, "kl_floor": 0.08041,"kl_correct": 4.902e-07, "ratio": 164045},
+    {"layer": 16, "head": 1, "kl_floor": 0.1315, "kl_correct": 3.389e-07, "ratio": 388103},
+    {"layer": 16, "head": 2, "kl_floor": 0.04928,"kl_correct": 4.696e-07, "ratio": 104925},
+    {"layer": 16, "head": 3, "kl_floor": 0.1079, "kl_correct": 6.200e-07, "ratio": 173968},
+    {"layer": 16, "head": 4, "kl_floor": 0.08517,"kl_correct": 3.882e-07, "ratio": 219409},
+    {"layer": 16, "head": 5, "kl_floor": 0.01428,"kl_correct": 2.969e-07, "ratio": 48087},
+    {"layer": 16, "head": 6, "kl_floor": 0.1370, "kl_correct": 6.119e-07, "ratio": 223973},
+    {"layer": 16, "head": 7, "kl_floor": 0.07346,"kl_correct": 3.191e-07, "ratio": 230202}
+  ],
+  "median_kl_floor_nats": 0.1031,
+  "median_kl_correct_nats": 5.822e-07,
+  "downstream_floor_exists_16of16": true,
+  "note": "EXPLORATORY (post-hoc, not sealed). To claim [demonstrated], seal the asymptotic-floor gate as GO-P-2026-027 and re-run prospectively. Synthetic transfer map: experiments/explore_mismatch_limits.py."
+}
