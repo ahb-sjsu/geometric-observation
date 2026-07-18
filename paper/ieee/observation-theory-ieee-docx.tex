@@ -2,7 +2,7 @@
 %% Author: Andrew H. Bond, Senior Member, IEEE. Generated for submission via the
 %% IEEE Author Portal (https://ieee.atyponrex.com/journal/t-it). Single column is
 %% the required review format; final accepted version converts to two-column.
-\documentclass[journal,onecolumn,11pt]{IEEEtran}
+\documentclass[lettersize,onecolumn]{IEEEtran}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsthm}
@@ -38,15 +38,7 @@
 
 \title{Observation Theory: Geometry, Distortion, and\\ Reliability as Properties of Observation}
 
-\author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
-\thanks{Manuscript submitted July 2026. The author is with the Department of
-Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA
-(e-mail: andrew.bond@sjsu.edu; ORCID 0009-0003-2599-6158).}%
-\thanks{Companion software, the sealed pre-registrations, and the claim ledger that
-govern every empirical result are publicly available at
-\url{https://github.com/ahb-sjsu/geometric-observation}. A continuous-integration
-workflow re-runs the reproducible experiments and verifies the theoretical
-constructions on each commit.}}
+\author{Andrew H. Bond, Senior Member, IEEE}
 
 \markboth{IEEE TRANSACTIONS ON INFORMATION THEORY (SUBMITTED)}%
 {BOND: OBSERVATION THEORY}
@@ -86,14 +78,14 @@ reproducibility, source coding.
 
 \IEEEpeerreviewmaketitle
 
-\noindent\emph{Andrew H. Bond, Senior Member, IEEE. Department of Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA. Email: andrew.bond@sjsu.edu. ORCID: 0009-0003-2599-6158.}
+\noindent\emph{Department of Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA. Email: andrew.bond@sjsu.edu. ORCID: 0009-0003-2599-6158.}
 
 
 \section{Introduction}
 
 Shannon fixed a distortion measure and asked for the fewest bits meeting it
-\cite{shannon1948,shannon1959}; Gauss fixed the same measure and asked for the
-least-squares estimate \cite{gauss1809}. This paper reads their common assumption
+[1], [2]; Gauss fixed the same measure and asked for the
+least-squares estimate [3]. This paper reads their common assumption
 as the variable of interest: the error that matters is not the one a code makes but
 the one a consumer \emph{reads}, and different consumers read different subspaces of
 the same error. Once the distortion is that of the task, Euclidean reconstruction is one
@@ -102,22 +94,22 @@ reads the error differently.
 
 The idea that one should code a source to serve a \emph{functional} of it, not the
 source, is not new: it is the indirect (remote) rate--distortion problem
-\cite{dobrushin1962,wolfziv1970,witsenhausen1980}; its lossless, discrete form is
-coding for computing and graph entropy \cite{korner1973,orlitsky2001}; its modern
-face is the rate--distortion--perception tradeoff \cite{blau2019} and task-oriented
-/ semantic communication \cite{gunduz2023}; and its deployed form, for neural
+[5], [6], [7]; its lossless, discrete form is
+coding for computing and graph entropy [8], [9]; its modern
+face is the rate--distortion--perception tradeoff [10] and task-oriented
+/ semantic communication [11]; and its deployed form, for neural
 networks, is loss-aware (Hessian-weighted) compression, from Optimal Brain
-Damage/Surgeon \cite{lecun1990,hassibi1993} to Hessian-aware quantization and GPTQ
-\cite{dong2019hawq,frantar2023gptq}. What is missing across these is a single,
+Damage/Surgeon [16], [17] to Hessian-aware quantization and GPTQ
+[18], [19]. What is missing across these is a single,
 \emph{identifiable geometric} object that names the task's metric and lets one
 predict, recover, and test it. Observation Theory supplies it: the read operator
 $\PC$, the consumer's local output metric, sitting as the geometric middle term
 between Shannon's Gaussian Euclidean-MSE specialization ($\PC=I$) and the information
-bottleneck \cite{tishby1999} (an arbitrary, non-geometric relevance variable), as
+bottleneck [12] (an arbitrary, non-geometric relevance variable), as
 Table~\ref{tab:positioning} summarizes. We
 contribute (i) the map placing these literatures on one axis; (ii) $\PC$'s
-\emph{identifiability}---recovery from black-box consumer queries under a specified
-observation distribution, validated blind against a
+\emph{read-subspace recoverability}---recovery of the read subspace from black-box
+consumer queries under the specified probing model, validated blind against a
 planted ground truth, which the quantization literature (estimating the Hessian from
 calibration data) never validates against truth; (iii) an ex-ante extreme-value
 reliability certificate; (iv) budget-relativity of the verdict; and (v) a
@@ -126,16 +118,16 @@ prediction reported as prominently as the confirmations---whose recurring
 demonstration is a single code whose downstream verdict \emph{inverts} when nothing
 changes but the consumer.
 The three companion works are Paper~I (the angular observer and the spectral
-budget-inversion mechanism) \cite{paper1}, Paper~II (geometric key quantization and
-the reconstruction-is-not-the-target negative) \cite{paper2}, and the claim ledger
-\cite{ledger2026}; this is their information-theoretic synthesis.
+budget-inversion mechanism) [20], Paper~II (geometric key quantization and
+the reconstruction-is-not-the-target negative) [21], and the claim ledger
+[22]; this is their information-theoretic synthesis.
 
 \section{The controlling quantity}\label{sec:framework}
 
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{Observation Theory as the identifiable geometric middle term between two
+\caption{TABLE I. Observation Theory as the identifiable geometric middle term between two
 classical extremes. The read operator $\PC$ is the axis.}
 \label{tab:positioning}
 \setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.3}
@@ -283,7 +275,7 @@ from queries, and studies what the channel (\S\ref{sec:capacity}) and budget
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{The read operator $\PC$ instantiated for three consumers. Ordinary
+\caption{TABLE II. The read operator $\PC$ instantiated for three consumers. Ordinary
 reconstruction is the isotropic corner $\PC=I$.}
 \label{tab:readops}
 \setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.3}
@@ -334,7 +326,7 @@ operator (reconstruction-like) while a subspace bank projects---the read operato
 hence the winning code, changes with the query distribution. And only the
 \emph{demeaned} error survives, so the across-token mean is a nuisance the softmax
 cannot see. This last fact resolves an apparent tension with the DC-offset
-collapse of Paper~II \cite{paper2}: a truly common error component is free by shift
+collapse of Paper~II [21]: a truly common error component is free by shift
 invariance, but a per-channel DC \emph{offset} is not a common component---it inflates
 the quantizer's range, wasting levels and enlarging the \emph{visible} per-token
 error, which is exactly why an asymmetric zero-point (asym-NF4) repairs it at no bit
@@ -355,7 +347,7 @@ update error in the loss geometry rather than the raw excess loss removes the
 indefinite linear cross term, so no unbiasedness qualification on $\delta$ is needed.
 \end{proposition}
 \noindent This is loss-aware pruning/quantization made a metric: Hessian-weighted
-deletion \cite{lecun1990,hassibi1993,dong2019hawq,frantar2023gptq} \emph{is}
+deletion [16], [17], [18], [19] \emph{is}
 $\tr(H\Sd)$, and calibration-based Hessian estimation is the production form of the
 probe of \S\ref{sec:id}. Reconstruction is the flat case $H=I$. For a non-convex
 loss the Hessian may be indefinite; the metric reading then takes $\PC$ to be the
@@ -376,7 +368,7 @@ non-smooth; we treat this instance empirically (\S\ref{sec:distortion}).
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.62\linewidth]{fig1_flip.png}
-\caption{The flip. Two lossy codes produce errors $\delta_A,\delta_B$ of \emph{equal}
+\caption{Fig. 1. The flip. Two lossy codes produce errors $\delta_A,\delta_B$ of \emph{equal}
 reconstruction norm (dashed circle), so reconstruction cannot separate them. Consumer~1
 (horizontal read operator) sees a small $\delta_A$ projection and a large $\delta_B$
 one, and prefers code~$A$; consumer~2 (vertical read) prefers code~$B$. The downstream
@@ -455,7 +447,7 @@ anything.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.85\linewidth]{fig2_vacuity.png}
-\caption{Capacity (GO-3), from the committed result artifact. The derived margin
+\caption{Fig. 2. Capacity (GO-3), from the committed result artifact. The derived margin
 certificate $\rho$ orders top-1 retrieval recall across $14$ structurally distinct
 corpora at Spearman correlation $0.99$; the recall-$\tfrac12$ crossing sits at
 $\rho\approx0.95$, near the extreme-value vacuity threshold $\rho=1$ (dashed) at which
@@ -520,11 +512,11 @@ before any retrieval is run.
 \emph{Using the certificate.} For a practitioner, $\rho$ is a cheap pre-flight check:
 estimate the standardized true-versus-distractor margin on a small calibration set,
 divide by the derived $\mu_{\mathrm{crit}}$, and read off $\rho$. A value below $1$
-warns that single-stage retrieval is at or past its vacuity point---budget for a
-re-ranking stage or a larger index before deployment---while $\rho$ comfortably above
-$1$ indicates headroom. Because $\rho$ preserves the recall \emph{ordering} across
-corpora, it also ranks candidate corpora or index configurations \emph{without}
-running full retrieval.
+warns of \emph{predicted} vacuity under the reference model---single-stage retrieval is
+likely at or past its vacuity point, so budget for a re-ranking stage or a larger index
+before deployment---while $\rho$ comfortably above $1$ indicates headroom. Because
+$\rho$ preserves the recall \emph{ordering}, in the tested corpora it also ranked
+candidate corpora and index configurations \emph{without} a full retrieval evaluation.
 
 \section{Rate: the operative verdict depends on the budget (GO-4)}\label{sec:rate}
 
@@ -537,10 +529,10 @@ resolution.
 
 \begin{lemma}[Fixed-band consistency]\label{lem:band}
 At a fixed low-mode budget $m$, as the sample grows the graph operator converges
-spectrally to the manifold operator \cite{calder2022}, so the fixed low-$\lambda$
+spectrally to the manifold operator [14], so the fixed low-$\lambda$
 band sharpens and geodesic fidelity \emph{converges toward its continuum value} and is
 predicted to improve asymptotically (the spectral-convergence mechanism of
-Paper~I \cite{paper1}). Convergence does not force step-wise monotonicity in $N$; the
+Paper~I [20]). Convergence does not force step-wise monotonicity in $N$; the
 monotone finite-sample trend below is the \emph{registered empirical} result, not a
 consequence of the lemma.
 \end{lemma}
@@ -548,7 +540,7 @@ consequence of the lemma.
 Holding instead the resolved scale $\tau$ fixed (spectral-gap matching), $m=N(\tau)$
 grows with $N$; the newly resolved modes near $\tau$ have wavelength approaching the
 sampling scale and, for a non-ideal substrate, inject sub-geodesic detail, so
-geodesic fidelity is nonincreasing---Paper~I's registered inversion \cite{paper1}. We
+geodesic fidelity is nonincreasing---Paper~I's registered inversion [20]. We
 replicate it on a new substrate: $768$-dimensional multilingual book-paragraph
 embeddings (Project Gutenberg translations; $32{,}000$ points, three seeds). Fixed
 $m=10$: geometry preservation rises with $N$ (trend $+0.4,+1.0,+1.0$).
@@ -572,7 +564,7 @@ Appendix~\ref{app:true} apply---but what is \emph{lost} is the closed-form solut
 there is no single \emph{linear} tilted source (a direction invisible at one point can
 be visible at another), so the Berger reduction and reverse water-filling below are
 specific to the fixed weighted-quadratic model, whose theory is classical
-\cite{berger1971}.
+[4].
 
 \begin{proposition}[Gaussian rate--distortion; Berger reduction]\label{prop:rd}
 For $X\sim\mathcal{N}(0,\Sigma_x)$, in the basis diagonalizing
@@ -582,8 +574,8 @@ R_{\mathcal{C}}(D)=\sum_i \tfrac12\log_2^{+}\!\frac{\gamma_i}{\theta},\qquad
 \sum_i\min(\gamma_i,\theta)=D,
 \]
 a reverse water-filling on the $\PC$-weighted source spectrum. For $\PC=I$ this is
-Shannon's Gaussian $R(D)$ \cite{shannon1959}; the estimation dual is Gauss--Markov
-least squares \cite{gauss1809}.
+Shannon's Gaussian $R(D)$ [2]; the estimation dual is Gauss--Markov
+least squares [3].
 \end{proposition}
 \begin{proof}
 $\tr(\PC\Sd)=\|\PC^{1/2}(x-\hat x)\|^2$; with $y=\PC^{1/2}x$ this is MSE on
@@ -626,28 +618,30 @@ that at \emph{every} $D>0$ the water-filling of Prop.~\ref{prop:rd}, equivalentl
 reduction of Cor.~\ref{cor:coding}, spends zero rate on $\ker\PC$: the operational
 rate depends only on the $r$-dimensional tilted source. This lossless-to-the-consumer
 phenomenon is exactly coding for computing and graph entropy in the discrete world
-\cite{korner1973,orlitsky2001}, here given a geometric read operator.
+[8], [9], here given a geometric read operator.
 \end{remark}
 
-These form a \emph{conceptual axis}, not a formal nesting: Shannon rate--distortion
-($\PC=I$, the isotropic observer), consumer-relative rate--distortion ($\PC$ a fixed
+These form a \emph{conceptual axis}, not a formal nesting: Shannon's Gaussian
+Euclidean-MSE specialization ($\PC=I$, the isotropic observer), consumer-relative
+rate--distortion ($\PC$ a fixed
 geometric, \emph{identifiable} operator, Props.~\ref{prop:rd},\ref{prop:floor}), and
-the information bottleneck \cite{tishby1999}---which optimizes a different object (a
+the information bottleneck [12]---which optimizes a different object (a
 stochastic relevance variable) and to which the consumer-relative term connects only
 through the local-Gaussian relevance limit ($Y=\mathcal{C}(X)$ deterministic,
 second-order). We claim no containment theorem. The middle term is the operational
-one---$\PC$ is PSD, water-fillable, and recoverable from the consumer
-(Prop.~\ref{prop:id})---and its coding theorem (achievability and converse, fixed
+one---$\PC$ is PSD, water-fillable, and its read subspace is recoverable from consumer
+queries under the specified probing model (Prop.~\ref{prop:id})---and its coding
+theorem (achievability and converse, fixed
 $\PC$, general source) is Appendix~\ref{app:coding}.
 
 \section{A boundary: the refuted density quotient (GO-5)}\label{sec:boundary}
 
 Not every plausible face survives a sealed prediction. In the spectral setting the
 $\alpha{=}1$ anisotropic normalization of a diffusion operator cancels sampling
-density and recovers density-free geometry \cite{coifman2006}: there the density mode
+density and recovers density-free geometry [13]: there the density mode
 lies in $\ker\PC$. We conjectured this density quotient likewise restores the
 invariant in a \emph{non-spectral} domain (locally-scaled ADC retrieval, a hubness
-correction \cite{radovanovic2010}). It does not, across four prospective tests
+correction [15]). It does not, across four prospective tests
 (direct affinity twice, ADC on real embeddings, non-spectral diffusion-distance).
 The reason is Proposition~\ref{prop:rd}: for a direct inner-product consumer the
 density is \emph{read}---it is not in $\ker\PC$---so quotienting it removes signal and
@@ -664,7 +658,7 @@ sharpens the theory rather than undermining it.
 
 Twelve standing negatives bound the theory and are reported with the prominence of
 the positives. Reconstruction cosine is not a proxy for key quality (Paper~II
-\cite{paper2}, the motivating negative). The flip is observable only for
+[21], the motivating negative). The flip is observable only for
 reconstruction-\emph{matched} codes: absent a tie one code Pareto-dominates and
 reconstruction is not falsified (a prospective miss locating a precondition,
 consistent with the water-filling of Prop.~\ref{prop:rd}). The projected-variance
@@ -686,7 +680,7 @@ ledger cannot show.
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{The falsifiable core. Each row is a sealed, before-the-fact registration with
+\caption{TABLE III. The falsifiable core. Each row is a sealed, before-the-fact registration with
 an ex-ante acceptance bar; four are borne out and one is refuted and carried as a
 boundary. A prospective trained-model (Llama-3.2-3B) hardening of GO-2 first missed on
 a non-reconstruction-matched design and is then cleared by a corrected rematch
@@ -738,8 +732,9 @@ theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
 metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
 nonlinear divergence too---its single-letter theorem at every $D$ (Thm.~\ref{thm:B1})
-and its exact reduction to output-side coding, the tilt being $\mathcal{C}$ itself
-(Thm.~\ref{thm:B2}), with the quotient floor unconditional (Cor.~\ref{cor:B2a}). What
+and the fact that the true nonlinear problem reduces \emph{exactly} to rate--distortion
+coding of the reachable output source $\mathcal{C}(X)$ (Thm.~\ref{thm:B2}), with the
+quotient floor unconditional (Cor.~\ref{cor:B2a}). What
 remains open is narrower: the curved-image high-resolution case, the multi-observer
 rate region (distinct quotients, no single reduction), the consumer-relative
 \emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
@@ -795,7 +790,7 @@ $R_{\mathcal{C}}$ is convex and nonincreasing.
 \begin{proof}
 This is the single-letter rate--distortion theorem for a memoryless source on a
 standard Borel space with a measurable difference distortion and finite
-reference-letter moment \cite{berger1971}; we recall it in \emph{information-density}
+reference-letter moment [4]; we recall it in \emph{information-density}
 form, which uses no differential entropies and so holds on general alphabets.
 \emph{Achievability.} Fix $\varepsilon>0$ and a test channel $p^{*}(\hat x\mid x)$
 with $\E\,d_{\mathcal{C}}\le D$ and $I(X;\hat X)\le R_{\mathcal{C}}(D)+\varepsilon$;
@@ -869,7 +864,7 @@ point-dependent metric---Cor.~\ref{cor:pointdep} settles that---and, as
 Appendix~\ref{app:true} shows, not the true nonlinear divergence either:
 Thm.~\ref{thm:B1} gives its single-letter theorem at every $D$, and Thm.~\ref{thm:B2}
 its exact reduction (the tilt is $\mathcal{C}$ itself, with no linear surrogate needed).
-What remains open is narrower, and stated in \S B.4.
+What remains open is narrower, and stated in Appendix~\ref{app:true}, \S\ref{subsec:open}.
 
 \section{The coding theorem for the true nonlinear divergence}
 \label{app:true}
@@ -886,7 +881,7 @@ quadratic surrogate $d_{\PC}$ of Cor.~\ref{cor:pointdep}. The load-bearing ident
 (Thm.~\ref{thm:B2}, Cor.~\ref{cor:B2a}) and the high-resolution formula
 (Thm.~\ref{thm:B3}) were confirmed to machine precision by an independent
 Blahut--Arimoto / reverse-water-filling check committed with the ledger
-\cite{ledger2026}.
+[22].
 
 \subsection{Existence: the theorem ports verbatim}
 
@@ -903,7 +898,7 @@ Thm.~\ref{thm:coding} use only nonnegativity, joint measurability, memorylessnes
 the reference-letter second moment; they nowhere use symmetry, the triangle
 inequality, difference structure, or $d(x,\hat x)=0\iff x=\hat x$---as
 Cor.~\ref{cor:pointdep} records. The proof applies verbatim with $d_{\mathcal{C}}$ for
-$d_{\PC}$ \cite{csiszar1974}. Nothing about the nonlinearity of
+$d_{\PC}$ [23]. Nothing about the nonlinearity of
 $D_Y\circ(\mathcal{C},\mathcal{C})$ obstructs the classical theorem; the existence half
 of the ``open problem'' was mislocated.
 \end{proof}
@@ -917,7 +912,7 @@ ordinary rate--distortion function of the output source $U$ under $D_Y$, reconst
 alphabet $V$. With $D_Y$ jointly Borel and a universally measurable right inverse
 $s:V\to\hat{\mathcal{X}}$ of $\mathcal{C}$ (automatic for Borel $\mathcal{C}$ between
 Polish spaces: $V$ is analytic and Jankov--von Neumann uniformization supplies $s$
-\cite{kechris1995}), $R_{\mathcal{C}}^{\mathrm{true}}(D)=R_U(D)$ for every $D\ge0$.
+[24]), $R_{\mathcal{C}}^{\mathrm{true}}(D)=R_U(D)$ for every $D\ge0$.
 \end{theorem}
 \begin{proof}
 ($\ge$) Any admissible $\hat X$ gives $\hat U:=\mathcal{C}(\hat X)\in V$ with
@@ -971,13 +966,13 @@ $\mathcal{C}(\hat x)\in V$.
 
 Apply Thm.~\ref{thm:B2} first, so the residual problem lives on the output with local
 metric $G(u)$ and $D_Y$ is a locally quadratic non-difference distortion in the sense
-of Linder--Zamir \cite{linderzamir1999}: $q_G(u,\hat u):=\tfrac12(\hat u-u)^\top
+of Linder--Zamir [25]: $q_G(u,\hat u):=\tfrac12(\hat u-u)^\top
 G(u)(\hat u-u)=\|W(u)(\hat u-u)\|^2$, $W=(G/2)^{1/2}$, $D_Y=q_G+O(\|\hat u-u\|^3)$.
 
 \begin{theorem}[High-resolution closed form; finite-$D$ pinch]\label{thm:B3}
 Work in an intrinsic chart in which $U=\mathcal{C}(X)$ has an $r$-dimensional Lebesgue
 density with finite $h(U)$, taking $h$, $G$, and $\det$ in that chart, and assume the
-Linder--Zamir admissibility conditions \cite{linderzamir1999} for $(U,D_Y)$: \emph{(a)}
+Linder--Zamir admissibility conditions [25] for $(U,D_Y)$: \emph{(a)}
 $D_Y(u,\cdot)\in C^3$ with uniformly bounded third-order partials; \emph{(b)} a unique
 minimum at $\hat u=u$ with a piecewise-$C^1$, piecewise-invertible reproduction map;
 \emph{(e)} $M(u):=\tfrac12\nabla^2_{\hat u}D_Y(u,\hat u)|_{\hat u=u}=G(u)/2\succ0$ a.e.;
@@ -993,15 +988,15 @@ R_{\mathcal{C}}^{\mathrm{true}}(D)=h(\mathcal{C}(X))-\frac r2\log\frac{2\pi eD}{
 the input-weighted Linder--Zamir asymptotic ($R(D)=h(X)-\tfrac n2\log\tfrac{2\pi
 eD}{n}+\E\log|\det W(X)|$), which we verified to machine precision against exact reverse
 water-filling in the fixed-$G$ Gaussian case. For KL-type consumers $G$ is the Fisher
-metric and the middle term is a Jeffreys-prior log-volume: \emph{rate $=$ entropy of
-what the consumer sees $+$ log-volume of the consumer's metric $+$ resolution}. The
+metric and the middle term is a Jeffreys-prior log-volume: \emph{rate = entropy of
+what the consumer sees + log-volume of the consumer's metric + resolution}. The
 chart is essential: the ambient output metric may be degenerate---softmax's
 $G=\mathrm{diag}(p)-pp^\top$ has rank $r=S-1$, so $\det G=0$ in $\mathbb{R}^S$ and the
 formula is meaningful only in the $(S-1)$-dimensional simplex chart, where it further
 needs $\mathrm{supp}(U)$ bounded away from the boundary for (a),(g) to hold. The formula
 is chart-invariant as the combination $h(U)+\tfrac12\E\log\det G$; genuinely
 \emph{curved} $U$ (a nonlinear submanifold) needs a manifold extension the 1999 theory
-does not supply (\S B.4).
+does not supply (Appendix~\ref{app:true}, \S\ref{subsec:open}).
 
 \smallskip\noindent\textbf{(ii)}\;If $\alpha\,q_G\le D_Y\le\beta\,q_G$ on
 $\mathrm{supp}(U)\times V$---a \emph{global} two-sided sandwich, which for a merely
@@ -1018,11 +1013,11 @@ to the point-dependent quadratic certifies the true downstream distortion \emph{
 as $D\to0$ and \emph{within the $[\alpha,\beta]$ pinch} at any fixed $D$---the
 surrogate's validity region is quantified, not asserted. Since $d_{\mathcal{C}}$ is an
 admissible general distortion with a reference letter, the finite-blocklength dispersion
-theory of Kostina--Verd\'u \cite{kostinaverdu2012} should port under their regularity
+theory of Kostina--Verd\'u [26] should port under their regularity
 conditions.
 \end{remark}
 
-\subsection{What remains open, and a registered prediction}
+\subsection{What remains open, and a registered prediction}\label{subsec:open}
 
 Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-image case
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
@@ -1052,68 +1047,69 @@ predictions, and claims were specified, reviewed, and accepted by the author, wh
 solely responsible for the content.
 
 All results resolve to committed registry entries and reproduction artifacts in the
-public companion repository \cite{ledger2026}; each registry entry is committed
+public companion repository [22]; each registry entry is committed
 \emph{before} the run it governs, so registration precedes experimentation in the
 commit ordering of the public history. That ordering is not cryptographic third-party
 proof; an external immutable deposit (Zenodo/OSF) accompanies the paper.
 
-\begin{thebibliography}{99}
-\bibitem{shannon1948} C.~E. Shannon. A mathematical theory of communication.
+\section*{References}
+\begin{enumerate}
+\item  C.~E. Shannon. A mathematical theory of communication.
 \emph{Bell Syst.\ Tech.\ J.}, 27:379--423, 623--656, 1948.
-\bibitem{shannon1959} C.~E. Shannon. Coding theorems for a discrete source with a
+\item  C.~E. Shannon. Coding theorems for a discrete source with a
 fidelity criterion. \emph{IRE Nat.\ Conv.\ Rec.}, 4:142--163, 1959.
-\bibitem{gauss1809} C.~F. Gauss. \emph{Theoria Motus Corporum Coelestium}, 1809.
-\bibitem{berger1971} T.~Berger. \emph{Rate Distortion Theory}. Prentice-Hall, 1971.
-\bibitem{dobrushin1962} R.~L. Dobrushin and B.~S. Tsybakov. Information transmission
+\item  C.~F. Gauss. \emph{Theoria Motus Corporum Coelestium}, 1809.
+\item  T.~Berger. \emph{Rate Distortion Theory}. Prentice-Hall, 1971.
+\item  R.~L. Dobrushin and B.~S. Tsybakov. Information transmission
 with additional noise. \emph{IRE Trans.\ Inf.\ Theory}, 8(5):293--304, 1962.
-\bibitem{wolfziv1970} J.~K. Wolf and J.~Ziv. Transmission of noisy information to a
+\item  J.~K. Wolf and J.~Ziv. Transmission of noisy information to a
 noisy receiver with minimum distortion. \emph{IEEE Trans.\ Inf.\ Theory},
 16(4):406--411, 1970.
-\bibitem{witsenhausen1980} H.~S. Witsenhausen. Indirect rate distortion problems.
+\item  H.~S. Witsenhausen. Indirect rate distortion problems.
 \emph{IEEE Trans.\ Inf.\ Theory}, 26(5):518--521, 1980.
-\bibitem{korner1973} J.~K\"orner. Coding of an information source having ambiguous
+\item  J.~K\"orner. Coding of an information source having ambiguous
 alphabet and the entropy of graphs. \emph{Trans.\ 6th Prague Conf.}, 411--425, 1973.
-\bibitem{orlitsky2001} A.~Orlitsky and J.~R. Roche. Coding for computing.
+\item  A.~Orlitsky and J.~R. Roche. Coding for computing.
 \emph{IEEE Trans.\ Inf.\ Theory}, 47(3):903--917, 2001.
-\bibitem{blau2019} Y.~Blau and T.~Michaeli. Rethinking lossy compression: The
+\item  Y.~Blau and T.~Michaeli. Rethinking lossy compression: The
 rate--distortion--perception tradeoff. \emph{ICML}, 2019.
-\bibitem{gunduz2023} D.~G\"und\"uz et al. Beyond transmitting bits: Context,
+\item  D.~G\"und\"uz et al. Beyond transmitting bits: Context,
 semantics, and task-oriented communications. \emph{IEEE J.\ Sel.\ Areas Commun.},
 41(1):5--41, 2023.
-\bibitem{tishby1999} N.~Tishby, F.~C. Pereira, and W.~Bialek. The information
+\item  N.~Tishby, F.~C. Pereira, and W.~Bialek. The information
 bottleneck method. \emph{Proc.\ 37th Allerton Conf.}, 368--377, 1999.
-\bibitem{coifman2006} R.~R. Coifman and S.~Lafon. Diffusion maps. \emph{Appl.\
+\item  R.~R. Coifman and S.~Lafon. Diffusion maps. \emph{Appl.\
 Comput.\ Harmon.\ Anal.}, 21(1):5--30, 2006.
-\bibitem{calder2022} J.~Calder and N.~Garc\'ia Trillos. Improved spectral
+\item  J.~Calder and N.~Garc\'ia Trillos. Improved spectral
 convergence rates for graph Laplacians on $\varepsilon$-graphs and $k$-NN graphs.
 \emph{Appl.\ Comput.\ Harmon.\ Anal.}, 60:123--175, 2022.
-\bibitem{radovanovic2010} M.~Radovanovi\'c, A.~Nanopoulos, and M.~Ivanovi\'c. Hubs in
+\item  M.~Radovanovi\'c, A.~Nanopoulos, and M.~Ivanovi\'c. Hubs in
 space. \emph{J.\ Mach.\ Learn.\ Res.}, 11:2487--2531, 2010.
-\bibitem{lecun1990} Y.~LeCun, J.~S. Denker, and S.~A. Solla. Optimal Brain Damage.
+\item  Y.~LeCun, J.~S. Denker, and S.~A. Solla. Optimal Brain Damage.
 \emph{NeurIPS}, 1990.
-\bibitem{hassibi1993} B.~Hassibi and D.~G. Stork. Second order derivatives for
+\item  B.~Hassibi and D.~G. Stork. Second order derivatives for
 network pruning: Optimal Brain Surgeon. \emph{NeurIPS}, 1993.
-\bibitem{dong2019hawq} Z.~Dong et al. HAWQ: Hessian aware quantization of neural
+\item  Z.~Dong et al. HAWQ: Hessian aware quantization of neural
 networks. \emph{ICCV}, 2019.
-\bibitem{frantar2023gptq} E.~Frantar, S.~Ashkboos, T.~Hoefler, and D.~Alistarh.
+\item  E.~Frantar, S.~Ashkboos, T.~Hoefler, and D.~Alistarh.
 GPTQ: Accurate post-training quantization for generative pre-trained transformers.
 \emph{ICLR}, 2023.
-\bibitem{paper1} A.~H. Bond. The angular observer: geodesic preservation and the
+\item  A.~H. Bond. The angular observer: geodesic preservation and the
 mode-budget inversion. Companion Paper~I, 2026.
-\bibitem{paper2} A.~H. Bond. Geometric key quantization: reconstruction is not the
+\item  A.~H. Bond. Geometric key quantization: reconstruction is not the
 target. Companion Paper~II, 2026.
-\bibitem{ledger2026} A.~H. Bond. \emph{Geometric Observation: claim ledger,
+\item  A.~H. Bond. \emph{Geometric Observation: claim ledger,
 prediction registry, and reproduction artifacts}. Companion repository, 2026.
-\bibitem{csiszar1974} I.~Csisz\'ar. On an extremum problem of information theory.
+\item  I.~Csisz\'ar. On an extremum problem of information theory.
 \emph{Studia Sci.\ Math.\ Hungar.}, 9:57--71, 1974.
-\bibitem{kechris1995} A.~S. Kechris. \emph{Classical Descriptive Set Theory}.
+\item  A.~S. Kechris. \emph{Classical Descriptive Set Theory}.
 Springer GTM 156, 1995 (Jankov--von Neumann uniformization, \S18).
-\bibitem{linderzamir1999} T.~Linder and R.~Zamir. High-resolution source coding for
+\item  T.~Linder and R.~Zamir. High-resolution source coding for
 non-difference distortion measures: the rate-distortion function. \emph{IEEE Trans.\
 Inf.\ Theory}, 45(2):533--547, 1999.
-\bibitem{kostinaverdu2012} V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
+\item  V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
 in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
 58(6):3309--3338, 2012.
-\end{thebibliography}
+\end{enumerate}
 
 \end{document}
