@@ -1028,9 +1028,10 @@ conditions.
 Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-image case
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
 charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
-\S\ref{sec:capacity}; \emph{(c)} the multi-observer rate region for $\{\mathcal{C}_k\}$,
-where the single-observer reduction fails because the observers' quotients differ---the
-frontier flagged in \S\ref{sec:framework}; and \emph{(d)} non-i.i.d.\ sources.
+\S\ref{sec:capacity}; \emph{(c)} the multi-observer rate region for $\{\mathcal{C}_k\}$
+beyond the two-observer weighted-quadratic case that Appendix~\ref{app:multiobs} settles
+(the general $k$-observer region, and non-Gaussian sources, remain open); and
+\emph{(d)} non-i.i.d.\ sources.
 
 \smallskip\noindent\textbf{GO-6 (proposed; to be sealed before running).} At matched
 rate $R$, three coders: (a) \emph{output coding}---compress $\mathcal{C}(X)$ under $D_Y$
@@ -1040,6 +1041,75 @@ $\dO(\mathrm a)\le\dO(\mathrm b)\le\dO(\mathrm c)$, the (a)--(c) gap governed by
 entropy share of $\ker\PC$ and strict whenever that share is positive, the (a)--(b) gap
 vanishing as $R$ grows (Thm.~\ref{thm:B3}). The synthetic harness of
 \S\ref{sec:distortion} suffices.
+
+\section{The multi-observer rate penalty}\label{app:multiobs}
+
+The single-observer theory serves one consumer at a time. When two consumers read the
+same Gaussian source in two stages---a base layer judged by consumer~1's read operator
+$P_1$, the full description by consumer~2's $P_2$---the frontier flagged in
+\S\ref{sec:framework} becomes a coding question with an exact answer.
+
+Let $X\sim\mathcal{N}(0,\Sigma_x)$, $\Sigma_x\succ0$; consumer $i\in\{1,2\}$ has
+$P_i\succeq0$ and distortion $d_i(x,\hat x)=(x-\hat x)^\top P_i(x-\hat x)$, with
+consumer-relative rate--distortion function $R_i$. From the conditional-mean estimator
+and Gaussian entropy-maximization converse (Prop.~\ref{prop:rd}), each single-stage
+optimum has a unique \emph{max-det} form,
+\[
+R_i(D_i)=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma_i^\star,\quad
+\Sigma_i^\star=\arg\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_x,\ \tr(P_i\Sigma)\le D_i\},
+\]
+the maximizer unique by strict concavity of $\log\det$ on the positive-definite cone.
+
+\begin{theorem}[Two-observer refinability]\label{thm:multiobs}
+The pair $(D_1,D_2)$ is successively refinable---the corner $(R_1(D_1),R_2(D_2))$ is
+achievable by a two-stage code---if and only if the observers' optimal uncertainty
+ellipsoids nest:
+\[
+\Sigma_2^\star\ \preceq\ \Sigma_1^\star .
+\]
+\end{theorem}
+\begin{proof}[Proof sketch]
+\emph{Necessity.} Refinability forces $I(X;\hat X_2)=I(X;\hat X_1,\hat X_2)=R_2(D_2)$,
+hence $I(X;\hat X_1\mid\hat X_2)=0$: the Markov chain $X\to\hat X_2\to\hat X_1$.
+Uniqueness of the max-det optimum gives $\Sigma(\hat X_i)=\Sigma_i^\star$, and Markov
+monotonicity of the error covariance gives $\Sigma_2^\star\preceq\Sigma_1^\star$.
+\emph{Sufficiency.} With $\Lambda_i:=(\Sigma_i^\star)^{-1}-\Sigma_x^{-1}\succeq0$, nesting
+is exactly $\Lambda_1\preceq\Lambda_2$; the jointly Gaussian chain
+$Y_2=\Lambda_2^{1/2}X+N$, $Y_1=K^{1/2}Y_2+(I-K)^{1/2}N'$ with
+$K=\Lambda_2^{+1/2}\Lambda_1\Lambda_2^{+1/2}$ realizes $\mathrm{Cov}(X\mid Y_i)=
+\Sigma_i^\star$, so the general-source successive-refinement region
+[28], [29] makes the corner achievable (reference letter
+$\hat x_0=0$).
+\end{proof}
+
+When nesting fails the exact price is a second max-det program:
+\begin{theorem}[Exact rate loss]\label{thm:multiobs-loss}
+Among two-stage codes whose base layer is stage-1-optimal, the minimal excess total
+rate is $L(D_1,D_2)=\tfrac12\log\!\big(\det\Sigma_2^\star/\det\Sigma^\circ\big)\ge0$,
+where $\Sigma^\circ=\arg\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_1^\star,\
+\tr(P_2\Sigma)\le D_2\}$; and $L=0$ iff $\Sigma_2^\star\preceq\Sigma_1^\star$.
+\end{theorem}
+
+Three consequences make the theorem legible. \emph{(i) Commuting observers:} when
+$\Sigma_x,P_1,P_2$ are simultaneously diagonalizable, both conditions become per-mode
+reverse water-filling, and refinability is $e_k^{(2)}\le e_k^{(1)}$ for every mode.
+\emph{(ii) Equitz--Cover, recovered:} taking $P_1=P_2$ and $D_2\le D_1$ nests the
+per-mode errors automatically, so any single weighted-quadratic Gaussian source is
+successively refinable---the $P=I$ case is Equitz--Cover [27]; conflict
+requires genuinely distinct observers. \emph{(iii) Kernel overhead:} if the base layer
+codes a direction in $\ker P_2$---one consumer~2 cannot read---refinability fails
+strictly, and rate spent there is unrecoverable. Concretely, for $\Sigma_x=I_2$,
+$P_1=\mathrm{diag}(1,0)$, $P_2=\mathrm{diag}(0,1)$, the optima
+$\Sigma_1^\star=\mathrm{diag}(D_1,1)$ and $\Sigma_2^\star=\mathrm{diag}(1,D_2)$ never
+nest and $L=\tfrac12\log(1/D_1)=R_1(D_1)$: zero reuse, the total rate is
+$R_1(D_1)+R_2(D_2)$. This is ``one observer's noise is another's signal''
+(\S\ref{sec:framework}) as an exact coding theorem.
+
+We confirmed Theorems~\ref{thm:multiobs}--\ref{thm:multiobs-loss} numerically (committed
+with the ledger [22]): the nesting characterization, the Equitz--Cover
+recovery, and the orthogonal-observer loss $L=R_1(D_1)$ all reproduce. Registered as
+GO-P-2026-022. Open beyond this: the general $k$-observer region and non-Gaussian
+sources.
 
 \section*{Acknowledgment}
 The author used Claude (Anthropic) as an AI assistant during this work, in four
@@ -1116,6 +1186,12 @@ Inf.\ Theory}, 45(2):533--547, 1999.
 \item  V.~Kostina and S.~Verd\'u. Fixed-length lossy compression
 in the finite blocklength regime. \emph{IEEE Trans.\ Inf.\ Theory},
 58(6):3309--3338, 2012.
+\item  W.~H.~R. Equitz and T.~M. Cover. Successive refinement of
+information. \emph{IEEE Trans.\ Inf.\ Theory}, 37(2):269--275, 1991.
+\item  B.~Rimoldi. Successive refinement of information: characterization of
+the achievable rates. \emph{IEEE Trans.\ Inf.\ Theory}, 40(1):253--259, 1994.
+\item  V.~Kostina and E.~Tuncel. Successive refinement of abstract
+sources. \emph{IEEE Trans.\ Inf.\ Theory}, 65(10):6385--6398, 2019.
 \end{enumerate}
 
 \end{document}

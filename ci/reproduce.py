@@ -72,6 +72,23 @@ except Exception as e:
 
 print()
 print("=" * 68)
+print("[1b] Two-observer theorem harness (verify_two_observer.py)")
+print("=" * 68)
+try:
+    out = run("experiments/verify_two_observer.py", timeout=180)
+    need = ["nesting <=> Lam1<=Lam2: consistent", "all nested = True", "claim L=R1(D1): OK"]
+    missing = [s for s in need if s not in out]
+    if missing:
+        failures.append(f"verify_two_observer: missing {missing}")
+        print("  FAIL:", missing)
+    else:
+        print("  PASS: nesting equivalence, Equitz-Cover recovery, orthogonal loss L=R1(D1)")
+except Exception as e:
+    failures.append(f"verify_two_observer crashed: {e}")
+    print("  FAIL:", e)
+
+print()
+print("=" * 68)
 print("[2/3] Re-run CPU-only harnesses; assert committed verdict reproduces")
 print("=" * 68)
 for harness, sentinel, jname, flag in REPRODUCIBLE:

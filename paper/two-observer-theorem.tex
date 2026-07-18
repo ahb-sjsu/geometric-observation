@@ -1,0 +1,320 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,fullpage}
+\newtheorem{theorem}{Theorem}\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}\newtheorem{example}{Example}
+\newcommand{\E}{\mathbb{E}}\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}
+% STATUS: collaborative draft. Per charter rule R-IND-5 this manuscript
+% requires a fresh-context derivation-grade verification pass, and the C3
+% numerical falsification harness of Sec. 7, before submission or sealing.
+% [NOVELTY-CHECK] flags mark mandatory prior-art delineations.
+
+\title{Two Observers, One Source:\\ An Exact Characterization of Successive
+Refinement\\ Across Read Operators}
+\author{Andrew H. Bond}
+\date{Working draft v0.1 --- July 2026}
+\begin{document}\maketitle
+
+\begin{abstract}
+A Gaussian source is described in two stages for two different observers:
+the base layer is judged by the weighted-quadratic distortion of read operator
+$P_1$, the full description by that of $P_2$. We characterize exactly when
+this incurs no rate loss. Each observer's single-stage problem has a unique
+optimal error covariance $\Sigma^\star(P_i,D_i)$, the maximizer of
+$\log\det\Sigma$ over $\{\Sigma\preceq\Sigma_x,\ \tr(P_i\Sigma)\le D_i\}$.
+The pair $(D_1,D_2)$ is successively refinable if and only if
+$\Sigma^\star(P_2,D_2)\preceq\Sigma^\star(P_1,D_1)$: the observers' optimal
+uncertainty ellipsoids must nest. When they do not, the minimal excess total
+rate is $\tfrac12\log\bigl[\det\Sigma^\star(P_2,D_2)/\det\Sigma^\circ\bigr]$,
+where $\Sigma^\circ$ solves the same program with the additional constraint
+$\Sigma\preceq\Sigma^\star(P_1,D_1)$ --- so the complete theory is a pair of
+max-det programs. In the commuting case the condition and the loss are
+per-mode water-filling formulas; taking $P_1=P_2$ recovers the
+Equitz--Cover refinability of the Gaussian source under a single (now
+arbitrary weighted-quadratic) measure. A strict corollary: rate spent by the
+base layer on directions in $\ker P_2$ is unrecoverable --- one observer's
+signal is the other observer's overhead, made quantitative.
+\end{abstract}
+
+\section{Setup}
+$X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, i.i.d.\
+copies. Observer $i\in\{1,2\}$ has read operator $P_i\succeq0$ and distortion
+$d_i(x,\hat x)=(x-\hat x)^\top P_i(x-\hat x)$. A two-stage code sends $nR_1$
+bits decoded to $\hat X_1^n$ for observer~1 and $n(R_2-R_1)$ further bits so
+that both messages decode to $\hat X_2^n$ for observer~2, with
+$\E\frac1n\sum_t d_i(X_t,\hat X_{i,t})\le D_i$. Write $R_i(D)$ for observer
+$i$'s single-stage rate--distortion function. The pair $(D_1,D_2)$,
+$D_i>0$, is \emph{successively refinable} if the corner
+$(R_1,\,R_2)=(R_1(D_1),\,R_2(D_2))$ is achievable. Throughout,
+$\Sigma(\hat X):=\Cov\!\bigl(X-\E[X\mid\hat X]\bigr)=\E[\Cov(X\mid\hat X)]$.
+
+The two-stage achievable region for memoryless sources with per-stage
+distortion measures is Rimoldi's \cite{rimoldi}: $(R_1,R_2)$ achievable iff
+there exist $\hat X_1,\hat X_2$ with $\E d_i(X,\hat X_i)\le D_i$,
+$R_1\ge I(X;\hat X_1)$, $R_2\ge I(X;\hat X_1,\hat X_2)$. For our
+abstract-alphabet, unbounded-distortion setting we invoke the extension to
+general sources \cite{effros,kostinatuncel} under a reference letter
+($\hat x_0=0$ has $\E d_i(X,0)^2<\infty$ for Gaussian $X$).
+% [NOVELTY-CHECK] Pin the exact general-alphabet SR theorem statement
+% (Kostina--Tuncel 2017/2019 or Effros) whose conditions our instance meets,
+% and restate those conditions here verbatim.
+
+\section{Three lemmas}
+\begin{lemma}[Conditional mean serves every observer]\label{lem:cm}
+For any $P\succeq0$ and any estimator $g(\hat X)$,
+$\E[(X-g(\hat X))^\top P(X-g(\hat X))]\ \ge\
+\E[(X-\E[X\mid\hat X])^\top P(X-\E[X\mid\hat X])]=\tr\!\bigl(P\,\Sigma(\hat X)\bigr)$.
+\end{lemma}
+\begin{proof}
+Write $X-g=(X-\E[X\mid\hat X])+(\E[X\mid\hat X]-g)$; the cross term vanishes
+because $\E[X-\E[X\mid\hat X]\mid\hat X]=0$, and the second term contributes
+a nonnegative $P$-quadratic. The same decomposition gives the equality.
+\end{proof}
+
+\begin{lemma}[Information bound, arbitrary joints]\label{lem:info}
+For any joint law of $(X,\hat X)$ with $X\sim\mathcal N(0,\Sigma_x)$ and
+$\det\Sigma(\hat X)>0$,
+$I(X;\hat X)\ \ge\ \tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma(\hat X)$,
+and $\Sigma(\hat X)\preceq\Sigma_x$.
+\end{lemma}
+\begin{proof}
+$I=h(X)-h(X\mid\hat X)$ and
+$h(X\mid\hat X)=h\bigl(X-\E[X\mid\hat X]\mid\hat X\bigr)
+\le h\bigl(X-\E[X\mid\hat X]\bigr)
+\le\tfrac12\log\bigl[(2\pi e)^d\det\Sigma(\hat X)\bigr]$
+by conditioning and Gaussian entropy maximization. The covariance bound is
+$\Sigma(\hat X)=\Sigma_x-\Cov(\E[X\mid\hat X])\preceq\Sigma_x$. If
+$\Sigma(\hat X)$ is singular the bound holds with the convention
+$I=+\infty$ being impossible at finite rate.
+\end{proof}
+
+\begin{lemma}[Markov monotonicity]\label{lem:markov}
+If $X\to\hat X_2\to\hat X_1$ is a Markov chain, then
+$\Sigma(\hat X_2)\preceq\Sigma(\hat X_1)$.
+\end{lemma}
+\begin{proof}
+By the law of total covariance, for any refinement of conditioning,
+$\E[\Cov(X\mid\hat X_1,\hat X_2)]\preceq\E[\Cov(X\mid\hat X_1)]$. Under the
+Markov chain, $\Cov(X\mid\hat X_1,\hat X_2)=\Cov(X\mid\hat X_2)$ a.s.
+Combine.
+\end{proof}
+
+\begin{lemma}[Gaussian optimum: max-det form and uniqueness]\label{lem:unique}
+For $\Sigma_x\succ0$, $P\succeq0$, $D>0$ with a feasible
+$\Sigma\succ0$,
+\[
+R_P(D)=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma^\star(P,D),
+\quad
+\Sigma^\star(P,D)=\arg\max\{\log\det\Sigma:\ 0\preceq\Sigma\preceq\Sigma_x,\
+\tr(P\Sigma)\le D\},
+\]
+and the maximizer is unique.
+\end{lemma}
+\begin{proof}
+Converse: Lemmas \ref{lem:cm}--\ref{lem:info} give, for any admissible
+channel, $I\ge\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma(\hat X)$ with
+$\Sigma(\hat X)$ feasible; minimizing the bound is the stated program.
+Achievability: the jointly Gaussian backward channel $X=\hat X+Z$,
+$Z\sim\mathcal N(0,\Sigma^\star)\perp\hat X$,
+$\Cov\hat X=\Sigma_x-\Sigma^\star\succeq0$, attains it. Uniqueness: the
+feasible set is convex with a point in $\mathbb S^d_{++}$; since
+$\log\det=-\infty$ on singular matrices the maximizer lies in
+$\mathbb S^d_{++}$, where $\log\det$ is strictly concave.
+\end{proof}
+
+\section{Main theorem}
+\begin{theorem}[Two-observer refinability]\label{thm:main}
+Let $\Sigma_i^\star:=\Sigma^\star(P_i,D_i)$. The pair $(D_1,D_2)$ is
+successively refinable if and only if
+\[
+\Sigma_2^\star\ \preceq\ \Sigma_1^\star .
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Necessity.} Refinability supplies $(\hat X_1,\hat X_2)$ with
+$\E d_i\le D_i$, $I(X;\hat X_1)\le R_1(D_1)$,
+$I(X;\hat X_1,\hat X_2)\le R_2(D_2)$. Since $\hat X_2$ alone meets $D_2$,
+$I(X;\hat X_2)\ge R_2(D_2)$; combined with
+$I(X;\hat X_2)\le I(X;\hat X_1,\hat X_2)\le R_2(D_2)$ we get equality
+throughout, hence $I(X;\hat X_1\mid\hat X_2)=0$: the chain
+$X\to\hat X_2\to\hat X_1$ holds. Set $\Sigma_i:=\Sigma(\hat X_i)$. By
+Lemma~\ref{lem:cm}, $\tr(P_i\Sigma_i)\le\E d_i\le D_i$, so $\Sigma_i$ is
+feasible; by Lemma~\ref{lem:info},
+$\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma_i\le I(X;\hat X_i)\le
+R_i(D_i)$, so $\det\Sigma_i\ge\det\Sigma_i^\star$; by
+Lemma~\ref{lem:unique}, $\Sigma_i=\Sigma_i^\star$. Lemma~\ref{lem:markov}
+then gives $\Sigma_2^\star\preceq\Sigma_1^\star$.
+
+\emph{Sufficiency.} Let $\Lambda_i:=(\Sigma_i^\star)^{-1}-\Sigma_x^{-1}
+\succeq0$ (finite, since $\Sigma_i^\star\succ0$). The hypothesis and
+antitonicity of inversion give $\Lambda_1\preceq\Lambda_2$, hence
+$\mathrm{range}(\Lambda_1)\subseteq\mathrm{range}(\Lambda_2)$ and
+$K:=\Lambda_2^{+1/2}\Lambda_1\Lambda_2^{+1/2}$ satisfies $0\preceq K\preceq
+I$ on $\mathrm{range}(\Lambda_2)$ (extend by $0$). Define, with independent
+standard Gaussians $N,N'$,
+\[
+Y_2:=\Lambda_2^{1/2}X+N,\qquad
+Y_1:=K^{1/2}Y_2+(I-K)^{1/2}N' .
+\]
+Then $X\to Y_2\to Y_1$ by construction; $Y_1$'s effective noise covariance is
+$K+(I-K)=I$ and its signal matrix is $K^{1/2}\Lambda_2^{1/2}$, contributing
+Fisher information
+$\Lambda_2^{1/2}K\Lambda_2^{1/2}=\Lambda_1$. Hence
+$\Cov(X\mid Y_i)=(\Sigma_x^{-1}+\Lambda_i)^{-1}=\Sigma_i^\star$ and, with
+$\hat X_i:=\E[X\mid Y_i]$ (a sufficient statistic in the Gaussian model),
+$\E d_i(X,\hat X_i)=\tr(P_i\Sigma_i^\star)\le D_i$,
+$I(X;\hat X_1)=\tfrac12\log\det(\Sigma_x)-\tfrac12\log\det\Sigma_1^\star
+=R_1(D_1)$, and
+$I(X;\hat X_1,\hat X_2)\le I(X;Y_1,Y_2)=I(X;Y_2)=R_2(D_2)$ by the chain.
+The region of \cite{rimoldi,effros,kostinatuncel} then makes the corner
+$(R_1(D_1),R_2(D_2))$ achievable.
+\end{proof}
+
+\begin{remark}
+The condition $\Sigma_2^\star\preceq\Sigma_1^\star$ implies
+$\det\Sigma_2^\star\le\det\Sigma_1^\star$, i.e.\ $R_2(D_2)\ge R_1(D_1)$
+automatically; no ordering of distortions or rates is assumed.
+\end{remark}
+
+\section{The rate loss when observers conflict}
+\begin{theorem}[Exact rate loss]\label{thm:loss}
+Among two-stage codes whose base layer is stage-1-optimal
+($R_1=R_1(D_1)$, $\E d_1\le D_1$) and whose second stage meets $D_2$, the
+minimal total rate is
+$\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma^\circ$, where
+\[
+\Sigma^\circ:=\arg\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_1^\star,\
+\tr(P_2\Sigma)\le D_2\}.
+\]
+Hence the rate loss is
+\[
+L(D_1,D_2)\ =\ \tfrac12\log\frac{\det\Sigma_2^\star}{\det\Sigma^\circ}\ \ge\ 0,
+\]
+with $L=0$ iff $\Sigma_2^\star\preceq\Sigma_1^\star$ (Theorem~\ref{thm:main}).
+\end{theorem}
+\begin{proof}
+\emph{Converse.} Any such code yields $(\hat X_1,\hat X_2)$ with
+$I(X;\hat X_1)\le R_1(D_1)$ and $\E d_1\le D_1$; as in
+Theorem~\ref{thm:main}, $\Sigma(\hat X_1)=\Sigma_1^\star$. The total rate is
+at least $I(X;\hat X_1,\hat X_2)\ \ge\
+\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma\bigl((\hat X_1,\hat X_2)\bigr)$
+(Lemma~\ref{lem:info} applied to the pair). The pair covariance satisfies
+$\Sigma((\hat X_1,\hat X_2))\preceq\Sigma(\hat X_1)=\Sigma_1^\star$
+(refined conditioning) and
+$\tr\!\bigl(P_2\,\Sigma((\hat X_1,\hat X_2))\bigr)\le\E d_2(X,\hat X_2)\le
+D_2$ (Lemma~\ref{lem:cm}: the pair-conditional mean serves observer~2 at
+least as well as $\hat X_2$). Thus it is feasible for the $\Sigma^\circ$
+program, and the bound follows.
+\emph{Achievability.} Run the construction of Theorem~\ref{thm:main} with
+targets $(\Sigma_1^\star,\Sigma^\circ)$; the required nesting
+$\Sigma^\circ\preceq\Sigma_1^\star$ holds by constraint.
+\end{proof}
+
+\begin{remark}[Two convex programs]
+$\Sigma_1^\star,\Sigma_2^\star,\Sigma^\circ$ are solutions of max-det
+programs with linear and LMI constraints; the entire two-observer theory is
+computable by standard semidefinite solvers, and Theorem~\ref{thm:main} is a
+checkable matrix inequality between two SDP outputs.
+\end{remark}
+
+\section{Commuting observers: water-filling form}
+\begin{corollary}\label{cor:commute}
+Suppose $\Sigma_x,P_1,P_2$ are simultaneously diagonalizable with mode
+variances $\sigma_k^2$ and weights $p_k^{(i)}\ge0$. Then
+$e_k^{(i)}=\min(\sigma_k^2,\ \theta_i/p_k^{(i)})$ (with
+$e_k^{(i)}=\sigma_k^2$ when $p_k^{(i)}=0$), the water levels $\theta_i$ set
+by $\sum_k p_k^{(i)}e_k^{(i)}=D_i$ when binding. Refinability holds iff
+$e_k^{(2)}\le e_k^{(1)}$ for every $k$. Otherwise
+$e_k^\circ=\min\bigl(e_k^{(1)},\ \theta^\circ/p_k^{(2)}\bigr)$ with
+$\theta^\circ$ set by $\sum_k p_k^{(2)}e_k^\circ=D_2$, and
+$L=\tfrac12\sum_k\log\bigl(e_k^{(2)}/e_k^\circ\bigr)$. Since the caps force
+$\theta^\circ\ge\theta_2$, the loss on over-described modes is partially
+offset by coarsening elsewhere: the encoder re-water-fills around the
+constraint.
+\end{corollary}
+
+\begin{corollary}[One observer: Equitz--Cover, weighted]\label{cor:ec}
+If $P_1=P_2=P$ and $D_2\le D_1$, then $\theta_2\le\theta_1$, hence
+$e_k^{(2)}\le e_k^{(1)}$ for all $k$: the Gaussian source is successively
+refinable under any single weighted-quadratic measure. The MSE case $P=I$ is
+Equitz--Cover \cite{equitzcover}. Conflict therefore requires genuinely
+distinct observers.
+\end{corollary}
+
+\begin{corollary}[Kernel overhead]\label{cor:kernel}
+If the base layer actively codes a direction in $\ker P_2$ --- i.e.\ some
+mode has $p_k^{(1)}>0$, $e_k^{(1)}<\sigma_k^2$, $p_k^{(2)}=0$ --- then
+$e_k^{(2)}=\sigma_k^2>e_k^{(1)}$ and refinability fails strictly: rate spent
+on directions the fine observer cannot read is unrecoverable.
+\end{corollary}
+
+\begin{example}[Orthogonal observers: total loss]\label{ex:orth}
+$\Sigma_x=I_2$, $P_1=\mathrm{diag}(1,0)$, $P_2=\mathrm{diag}(0,1)$,
+$D_1,D_2\in(0,1)$. Then $\Sigma_1^\star=\mathrm{diag}(D_1,1)$,
+$\Sigma_2^\star=\mathrm{diag}(1,D_2)$: nesting fails for every
+$(D_1,D_2)$. The nested optimum is
+$\Sigma^\circ=\mathrm{diag}(D_1,D_2)$, so
+$L=\tfrac12\log(1/D_1)=R_1(D_1)$: the minimal total rate is
+$R_1(D_1)+R_2(D_2)$ --- \emph{zero} reuse. At $D_1=D_2=\tfrac14$: each
+stage needs $1$ bit alone; refinable would total $1$ bit; the true minimum is
+$2$ bits.
+\end{example}
+
+\section{Companion: one description, two observers}
+\begin{proposition}[Simultaneous service]\label{prop:sim}
+$R(D_1,D_2):=\min\{I(X;\hat X):\E d_i(X,\hat X)\le D_i,\ i=1,2\}
+=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma^{\mathrm s}$, with
+$\Sigma^{\mathrm s}$ the unique maximizer of $\log\det$ over
+$\{\Sigma\preceq\Sigma_x,\ \tr(P_i\Sigma)\le D_i,\ i=1,2\}$; by KKT,
+$(\Sigma^{\mathrm s})^{-1}=\lambda_1P_1+\lambda_2P_2+M$ with
+$\lambda_i\ge0$, $M\succeq0$ complementary to $\Sigma\preceq\Sigma_x$.
+(Same converse via Lemmas \ref{lem:cm}--\ref{lem:info} --- the conditional
+mean serves both observers at once --- and the Gaussian backward channel.)
+\end{proposition}
+\begin{remark}
+Simultaneous service mixes observers through multipliers into an effective
+read operator $\lambda_1P_1+\lambda_2P_2$; successive refinement cannot mix
+--- the stages are ordered, and Theorem~\ref{thm:main} says compatibility is
+the nesting of optima, not any blend of them.
+\end{remark}
+
+\section{Verification plan and related work}
+\textbf{C3 falsification harness (run before sealing).} Random instances
+$d\in\{2,3,4\}$: solve the three max-det programs numerically; test
+Theorem~\ref{thm:main}'s ``iff'' against a direct discretized search over
+jointly Gaussian Markov triples, and Theorem~\ref{thm:loss}'s $L$ against
+brute-force minimization; log seeds and tolerances. \textbf{Fresh-context
+pass (R-IND-5)} on Lemmas 1--4 and both theorems.
+
+\textbf{Related work.} Koshelev \cite{koshelev}; Equitz--Cover
+\cite{equitzcover}; Rimoldi \cite{rimoldi} (per-stage measures may differ);
+Effros \cite{effros}; Kostina--Tuncel \cite{kostinatuncel} (abstract
+sources); Lastras--Berger (rate-loss bounds, MSE); Tuncel--Rose.
+% [NOVELTY-CHECK] Mandatory: obtain and delineate against
+% "Successive Refinement of Vector Sources Under Individual Distortion
+% Criteria" (Nayak--Tuncel line): their individual/per-subvector criteria
+% vs our two full PSD read operators and the PSD-nesting characterization.
+% Verify no prior explicit Gaussian solution of this exact form exists.
+Observation-theoretic reading: the base and refinement layers serve two
+read operators; refinability is the nesting of the observers' optimal
+worlds, and Corollary~\ref{cor:kernel} is ``one observer's noise is
+another's signal'' as a coding theorem (companion Paper III).
+
+\begin{thebibliography}{9}
+\bibitem{koshelev} V.~N. Koshelev, Hierarchical coding of discrete sources,
+\emph{Probl. Peredachi Inf.} 16(3):31--49, 1980.
+\bibitem{equitzcover} W.~H.~R. Equitz, T.~M. Cover, Successive refinement of
+information, \emph{IEEE Trans. Inf. Theory} 37:269--275, 1991.
+\bibitem{rimoldi} B.~Rimoldi, Successive refinement of information:
+characterization of the achievable rates, \emph{IEEE Trans. Inf. Theory}
+40(1):253--259, 1994.
+\bibitem{effros} M.~Effros, Distortion-rate bounds for fixed- and
+variable-rate multiresolution source codes, \emph{IEEE Trans. Inf. Theory}
+45(6):1887--1910, 1999.
+\bibitem{kostinatuncel} V.~Kostina, E.~Tuncel, Successive refinement of
+abstract sources, \emph{IEEE Trans. Inf. Theory} 65(10):6385--6398, 2019.
+% verify final page range at splice time
+\end{thebibliography}
+\end{document}
