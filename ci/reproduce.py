@@ -19,9 +19,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
 
 # (harness, stdout sentinel, committed json, summary-flag key)
+# NOTE: the go2_kv_keys* and go2_embed_retrieval harnesses import `turboquant_pro`
+# (a separate research package, not on PyPI), so they are NOT Tier-A self-contained
+# and are carried as committed artifacts, re-derived for self-consistency in step [3].
+# The GO-2 mechanism is still CI-reproduced here by two independent instances that
+# depend only on numpy: retrieval ranking and gradient curvature.
 REPRODUCIBLE = [
     ("go1_blinded_probe.py",        "GO1-JSON",   "GO1-blinded-probe.json",        "GO1_supported"),
-    ("go2_kv_keys_v6.py",           "GO2V6-JSON", "GO2-kv-keys-v6.json",           "GO2_positive_supported"),
     ("go2_retrieval_matched_v2.py", "GO2RM2-JSON","GO2-retrieval-matched-v2.json", "GO2_mechanism_replicates"),
     ("go2_gradient_curvature.py",   "GO2GB-JSON", "GO2-gradient-curvature.json",   "GO2_mechanism_generalizes"),
     ("go3_certificate_vacuity_v3.py","GO3-JSON",  "GO3-certificate-vacuity-v3.json","GO3_supported"),
