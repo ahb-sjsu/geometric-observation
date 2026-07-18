@@ -52,16 +52,15 @@ co-designed this plan and may not solely grade its own items).
   reconstruction-optimal / anti-probe) at matched bits; downstream metric =
   training-trajectory divergence and final loss. Seal before any real-data
   pilot.
-- **V3 — Gate B, out-of-sample #2: the swell radar** (the author's own
-  physical-sensing system; contingent on hardware/field access).
-  **Design deferred to the author.** *The prior draft's specifics here —
-  "clutter cubes", "dispersion shell", "P̂_C vs the analytic shell",
-  "(λ, T, θ) vs buoy/hindcast", "Phase 0 tap feasibility" — were
-  AI-confabulated and have been removed; they do not describe the real system.*
-  The structural role is a Gate-B domain with physical data and external ground
-  truth (unimpeachably out-of-sample, §4). Once the author specifies the actual
-  consumer, its P_C, and the ground-truth metric, it drops into the three-arm
-  PROTOCOL §3 design with a sealed prereg (GO-P-2026-031).
+- **V3 — a named, NON-GATING possibility: the swell radar.** An *idea only* — a
+  hypothetical physical-sensing Gate-B domain, not a real system and not on any
+  critical path. **The plan does not gate on it, does not schedule it, and does
+  not count it toward Gate B** (the out-of-sample bet that does is V2; V4 is the
+  adoption bet). Listed so the idea isn't lost; if it ever becomes concrete, its
+  consumer, P_C, and ground-truth metric are the author's to supply and it would
+  follow PROTOCOL §3 with a fresh prereg (GO-P-2026-031, reserved). *A prior
+  draft confabulated technical specifics for it; those were removed and none were
+  invented to replace them.*
 - **V4 — The theory as running code.** turboquant `ConsumerAwareAllocator`:
   measure P̂_C by the §V probe on a calibration set, water-fill bits on it
   (Prop. 6), ship behind a flag. Benchmark at matched bits vs
@@ -133,8 +132,8 @@ harness + ledger row before any paper asserts it.
 ## Sequencing, capacity, honesty
 
 - **Boat reality:** W1 is hotspot-compatible; V1/V2/V4 need NRP or GPU
-  sessions; V3 needs the author's swell-radar hardware/field access ashore
-  (design TBD by the author, per V3). Order accordingly; the
+  sessions; V3 is an idea only — unscheduled and non-gating (per V3). Order
+  accordingly; the
   T-IT revision letter will land mid-plan — W1 reserves the capacity to
   answer it fully.
 - **Kill/narrow criteria are pre-committed above** (G-II.2), inherited from
