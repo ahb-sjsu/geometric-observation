@@ -170,9 +170,9 @@ key quantizers with \emph{identical} reconstruction error rank in opposite order
 the head's softmax-KL, and the ranking \emph{flips} with the query bank
 ($12/12$ seeds, \S\ref{sec:distortion}); a blind probe recovers this $\PC$'s top
 subspace and names the winner before any bits are spent (\S\ref{sec:id}); and on a
-real Llama-3.2-3B head the same blind prediction is right on $16/16$ heads while
-reconstruction, held equal, is at chance ($2/16$; \S\ref{sec:discussion}). One head,
-carried from definition to trained model.
+real Llama-3.2-3B layer the same blind prediction is right on all $16$ instances while
+reconstruction, held equal, cannot discriminate ($2/16$; \S\ref{sec:discussion}). One
+head, carried from definition to trained model.
 \end{example}
 \end{leftbar}
 
@@ -759,11 +759,17 @@ same precondition that governs the synthetic dissociation. The corrected rematch
 $7.5\!\times\!10^{-9}$ but differing downstream (median relative divergence gap
 $1.85$), with an improved probe. On the trained model it \emph{clears all four sealed
 gates}---the blind $\tr(\hat\PC\Sd)$ predicts the reconstruction-invisible worse arm on
-$16/16$ heads while reconstruction, provably tied, agrees on only $2/16$ (its own
-floating-point noise), and the read \emph{subspace} is recovered at overlap $0.647$.
-The theory's mechanism thus operates on a trained Llama attention layer, called
-\emph{before} compression by a blind probe; the GO-P-2026-020 miss stands as an honest
-negative on the code design it exposed. Open
+all $16$ instances (layers $\{8,16\}$, $8$ KV heads each) while reconstruction, tied to
+$7.5\!\times\!10^{-9}$, has no discriminative power: its residual sign is set by
+sub-nanoscale rounding and here points the wrong way ($2/16$; not chance, an artifact
+of the exactly-tied construction), so the projected predictor strictly beats it
+($16>2$). The read \emph{subspace} is recovered at median overlap $0.647$, below the
+synthetic $0.936$ of \S\ref{sec:id}, as expected for a real point-dependent $\PC(x)$:
+the probing distribution differs from the activation distribution, and the softmax
+output metric is rank-deficient. This is worse-arm discrimination under one consumer,
+not a two-consumer verdict inversion; the theory's mechanism nonetheless operates on a
+trained Llama attention layer, called \emph{before} compression by a blind probe, with
+the GO-P-2026-020 miss retained as an honest negative on the code design it exposed. Open
 theory: we settle the fixed-$\PC$ achievability and converse of $R_{\mathcal{C}}(D)$
 in Appendix~\ref{app:coding} and lift it to a fully point-dependent \emph{surrogate}
 metric (Cor.~\ref{cor:pointdep}), and Appendix~\ref{app:true} settles the \emph{true}
@@ -1008,7 +1014,7 @@ G(u)(\hat u-u)=\|W(u)(\hat u-u)\|^2$, $W=(G/2)^{1/2}$, $D_Y=q_G+O(\|\hat u-u\|^3
 \begin{theorem}[High-resolution closed form; finite-$D$ pinch]\label{thm:B3}
 Work in an intrinsic chart in which $U=\mathcal{C}(X)$ has an $r$-dimensional Lebesgue
 density with finite $h(U)$, taking $h$, $G$, and $\det$ in that chart, and assume the
-Linder--Zamir admissibility conditions \cite{linderzamir1999} for $(U,D_Y)$: \emph{(a)}
+Linder--Zamir admissibility conditions \cite{linderzamir1999} for $(U,D_Y)$ (labels follow \cite{linderzamir1999}, whose (c),(d) do not bind here): \emph{(a)}
 $D_Y(u,\cdot)\in C^3$ with uniformly bounded third-order partials; \emph{(b)} a unique
 minimum at $\hat u=u$ with a piecewise-$C^1$, piecewise-invertible reproduction map;
 \emph{(e)} $M(u):=\tfrac12\nabla^2_{\hat u}D_Y(u,\hat u)|_{\hat u=u}=G(u)/2\succ0$ a.e.;
@@ -1130,11 +1136,11 @@ networks. \emph{ICCV}, 2019.
 GPTQ: Accurate post-training quantization for generative pre-trained transformers.
 \emph{ICLR}, 2023.
 \bibitem{paper1} A.~H. Bond. The angular observer: geodesic preservation and the
-mode-budget inversion. Companion Paper~I, 2026.
+mode-budget inversion. Companion Paper~I, 2026. \url{https://github.com/ahb-sjsu/the-angular-observer}
 \bibitem{paper2} A.~H. Bond. Geometric key quantization: reconstruction is not the
-target. Companion Paper~II, 2026.
+target. Companion Paper~II, 2026. \url{https://github.com/ahb-sjsu/turboquant-pro}
 \bibitem{ledger2026} A.~H. Bond. \emph{Geometric Observation: claim ledger,
-prediction registry, and reproduction artifacts}. Companion repository, 2026.
+prediction registry, and reproduction artifacts}. Companion repository, 2026. \url{https://github.com/ahb-sjsu/geometric-observation}
 \bibitem{csiszar1974} I.~Csisz\'ar. On an extremum problem of information theory.
 \emph{Studia Sci.\ Math.\ Hungar.}, 9:57--71, 1974.
 \bibitem{kechris1995} A.~S. Kechris. \emph{Classical Descriptive Set Theory}.
