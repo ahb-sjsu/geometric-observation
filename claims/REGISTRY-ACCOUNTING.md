@@ -55,10 +55,13 @@ file or a run (numbering skip); proven absent from git history.
 | 037 | Reconcile the flip with turboquant-pro's (A2) probe | **sweep (M/K/Mu)** | (A2) verdicts (moral/music/KV); NEG-14 (unit_disp shortcut refuted) | Paper IV sweep · LEDGER NEG-14 | music-a2-reconciliation.json · whale-ketos-a2.json |
 | 038 | Sealed whale coda-dialect flip | **sweep (W)** | GO-B-whale **CONFIRMED** 4/4 (held-out R 0.934 > O 0.883) | Paper IV sweep · LEDGER | GO-whale-dialect.json |
 | 039 | Legal flip on a fresh virgin split (strengthens 036) | **sweep (L)** | **CONFIRMED** 4/4 (virgin eval-3, R 0.796 > O 0.780, margin 2× of 036) | Paper IV sweep · LEDGER | GO-legal-fresh-split.json |
+| 040 | κ magnitude-law prospective (reserved) | **void** | not sealed — the κ magnitude law failed validation (Paper IV Remark); reservation abandoned | Paper IV · GO-kappa-law.json | — |
+| 041 | Blind non-oracle prospective flip w/ magnitude prediction (fresh 20NG) | **sweep (blind)** | **PARTIAL** — blind winning-code prediction held (R 0.975 > O 0.910) but recon-trade tied on held-out + magnitude band missed | Paper IV sweep · LEDGER | GO-blind-clf.json |
 
 ## Completeness argument
 
-The assigned sequence is **001–039 with exactly two skips (029, 030)**, and every
+The assigned sequence is **001–041 with two skips (029, 030) and one void (040, an
+unsealed reservation — the κ magnitude law failed validation and was abandoned)**, and every
 other ID resolves to a registered run reported in the ledger. The three ID blocks
 the sweep document does not enumerate are accounted for here:
 
