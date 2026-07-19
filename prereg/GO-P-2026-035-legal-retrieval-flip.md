@@ -57,3 +57,19 @@ in a new content domain — reconstruction-optimal embedding compression is down
 citation ranking than an anisotropy-aware read-preserving code at matched bits, while reconstructing the
 embeddings better. A miss bounds the flip further. Sealed per REG-1 (CHARTER §4); the git commit is the
 binding timestamp. The rate is frozen on calibration before any held-out pair is scored.
+
+## Outcome — NOT CONFIRMED (honest negative), 2026-07-19
+Held-out disjoint pairs (`pairs_eval`, n=1293), frozen `base_bits=0.4`:
+- **recon-trade** recon(O)=0.218 ≤ recon(R)=0.260 ✓ — reconstruction-optimal reconstructs better.
+- **anti worst** 200/200 bootstraps ✓ (A=0.612 vs ~0.77) — destroying the semantic/read directions
+  destroys citation ranking, so the read direction genuinely governs the task.
+- **flip FAILS**: on the held-out **reconstruction-optimal beats read-preserving** on AUROC
+  (**O=0.773 vs R=0.757**), reversing calibration's razor-thin R>O (0.746 vs 0.742); flip 0/200.
+- **Diagnosis.** The calibration advantage (~0.004 AUROC, flip 168/200) was over-optimistic selection
+  within noise; the read operator (centered covariance) was **estimated and fit on calibration and did
+  not generalize** to the disjoint opinions, while faithful reconstruction did. This differs from the
+  CONFIRMED `GO-P-2026-009` (which used **planted, recon-matched probes with a known read subspace**) —
+  here the subspace is estimated and transfer-fragile. The flip needs not only read/signal misalignment
+  (present via anisotropy) but a read operator that **generalizes** across the query distribution.
+- The GO-032/D4 shape (robust anti-probe, no subtle flip). Recorded in `claims/LEDGER.md` (GO-B-legal)
+  and [`results/GO-legal-retrieval.json`](../results/GO-legal-retrieval.json). No file drawer.

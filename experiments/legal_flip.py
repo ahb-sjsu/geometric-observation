@@ -131,7 +131,7 @@ def main():
                   f"| flip {r['flip_boot']}/{r['boots']} | anti {r['anti_boot']}/{r['boots']} | recon-trade {r['recon_trade']}")
         return
     if "--confirm" in sys.argv:
-        bb = int(sys.argv[sys.argv.index("--confirm") + 1])
+        bb = float(sys.argv[sys.argv.index("--confirm") + 1])
         EAh, EBh = embed_cache(HELD_PAIRS, 1300, "held")      # DISJOINT opinions
         r = evaluate(EAh, EBh, mu, V, sig2, bb)
         f = lambda a, b: a / b if b else 0

@@ -1,0 +1,32 @@
+{
+  "id": "GO-P-2026-035",
+  "domain": "legal-citation retrieval (CourtListener), cosine-ranking consumer, LaBSE embeddings -- real large corpus, non-physical consumer",
+  "class": "honest negative (subtle flip) + robust anti-probe positive",
+  "prospective": true,
+  "harness": "experiments/legal_flip.py",
+  "consumer": "citation-pair cosine ranking; metric = retrieval AUROC (true doc ranks above others for its query); embeddings = base LaBSE (768-d). Uncompressed AUROC ~0.78-0.79; centering raises it to 0.84 (anisotropy is nuisance).",
+  "read_operator": "centered (semantic) document covariance FIT on calibration docs, frozen; nuisance = raw anisotropy/mean cone",
+  "arms": "three matched-bit codes on the document embeddings, semantic eigenbasis, fixed per-direction range: O=recon-optimal (bits by raw variance), R=read-preserving (bits by centered variance), A=anti (bits by raw/centered)",
+  "frozen_config": {"base_bits": 0.4, "sealed_commit": "f3f3c4f", "prereg_hash": "sha256:a386ca4507e6d490df2bcf985b60f34254859ebda683e39eabae3173cbb03268"},
+  "split": "calibration = pairs_train (n=4000, read operator + rate fit here); held-out = pairs_eval (n=1293, opinions DISJOINT from training, id%10==7)",
+  "calibration": {"auroc_R": 0.746, "auroc_O": 0.742, "auroc_A": 0.589, "auroc_uncompressed": 0.764, "recon_O": 0.223, "recon_R": 0.264, "flip_bootstraps": "168/200 (84%)", "anti_bootstraps": "200/200", "recon_trade": true},
+  "heldout": {
+    "n": 1293,
+    "auroc_R_read_preserving": 0.757,
+    "auroc_O_recon_optimal": 0.773,
+    "auroc_A_anti": 0.612,
+    "auroc_uncompressed": 0.786,
+    "recon_O": 0.218,
+    "recon_R": 0.260,
+    "recon_trade": true,
+    "flip_bootstraps": "0/200",
+    "anti_bootstraps": "200/200"
+  },
+  "sealed_bars": {
+    "flip_ge_60pct_boots": {"result": "0/200 = 0%", "pass": false},
+    "recon_trade_O_le_R": {"result": "0.218 <= 0.260", "pass": true},
+    "anti_worst_ge_70pct_boots": {"result": "200/200 = 100%", "pass": true},
+    "read_preserving_beats_recon_optimal_AUROC": {"result": "R 0.757 < O 0.773", "pass": false}
+  },
+  "verdict": "NOT CONFIRMED (honest negative) -- GO-032/D4 shape. ROBUST POSITIVE: the anti-probe is worst on 200/200 held-out bootstraps (A=0.612 vs ~0.77) -- destroying the semantic/read directions destroys citation ranking, so the read direction genuinely governs the task. REGISTERED NEGATIVE: the subtle read-vs-recon flip does NOT transfer out-of-sample -- on the held-out DISJOINT opinions reconstruction-optimal actually preserves the AUROC BETTER than read-preserving (0.773 vs 0.757), reversing calibration's razor-thin R>O (0.746 vs 0.742, within noise). DIAGNOSIS: the read operator (centered covariance) was ESTIMATED and FIT on calibration and did not generalize to the disjoint opinions, while faithful reconstruction did; the calibration flip (168/200) was over-optimistic selection on a ~0.004 AUROC gap. This differs from the CONFIRMED GO-2 instance-2 (GO-P-2026-009), which used PLANTED recon-matched probes with a KNOWN read subspace -- here the subspace is estimated and transfer-fragile. The flip needs not only read/signal misalignment (present here via anisotropy) but a read operator that generalizes across the query distribution. Bounds the flip; consistent with the no-file-drawer commitment."
+}
