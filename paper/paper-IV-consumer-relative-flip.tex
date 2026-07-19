@@ -56,13 +56,9 @@ sperm-whale dialect. The flip reproduces wherever the consumer's read operator i
 \textbf{identifiable} --- given by the geometry, or recovered blind from the consumer by
 probing what its output is sensitive to --- and fails, informatively, exactly where the
 read operator is \emph{coupled} to the signal's own energy or the consumer does not
-function. We derive the failure modes as the four degeneracies of $\PC$ and give the
-central one an ex-ante \emph{sign} predictor: a read--energy alignment coefficient
-$\kalign=\tr(\PCbar\Sx)/\sum_{i\le r}\lambda_i(\Sx)$ that near $1$ forbids the flip
-before any code is built (the gradient-coupling null). We tested, and report as an honest
-negative, the stronger claim that $\kalign$ reads off the flip \emph{magnitude}: it does
-not --- the magnitude is confounded by read-subspace energy and the quantizer regime, so
-$\kalign$ is a coupling-null predictor, not a continuous dial. Which code best exposes the flip is set not
+function. We derive the failure modes as the four degeneracies of the read operator, one of which
+--- coupling of the read subspace to the signal's own energy --- is predictable before any
+code is built. Which code best exposes the flip is set not
 by one statistic but by two axes of the representation's geometry --- concentration and
 correlation --- a diagnostic that also selects the code at deployment and whose
 single-statistic shortcut we pre-register and refute. Reconstruction fidelity is the
@@ -73,8 +69,9 @@ special case of a consumer that reads everything; observation, in general, is se
 \noindent\textbf{Tiers, worn in public.} Seven sealed confirmations (across synthetic,
 LLM-attention, acoustic, seismic, retrieval, and bioacoustic consumers) carry the claim;
 one partial (radar, data-limited), one sealed null (gradient compression, the coupling
-boundary), and two (A2)-probe verdicts (music, attention keys) are labelled as such
-throughout. Every row resolves to a sealed pre-registration and a result artifact.
+boundary), and three (A2)-probe verdicts (music, moral judgment, and the post-RoPE key
+regime) are labelled as such throughout. Every row resolves to a sealed pre-registration
+and a result artifact.
 \end{abstract}
 
 \section{Introduction}
@@ -147,7 +144,9 @@ shortcut.
 \subsection{The controlling quantity and the flip}
 
 We take as given the second-order result established in a companion foundational work
-\citep{cost}: for a consumer $\mathcal{C}$ with output metric $G$ acting on a
+\citep{cost}. Intuitively, only the part of a coding error that falls in the
+directions the consumer actually reads can move its output; error in the directions it
+ignores is free. Formally, for a consumer $\mathcal{C}$ with output metric $G$ acting on a
 representation through a Jacobian $J$, the leading-order downstream distortion induced by
 a coding error $\delta$ is
 \begin{equation}\label{eq:do}
@@ -180,7 +179,25 @@ The flip in \eqref{eq:flip} is not automatic. It requires the reconstruction-opt
 allocation to \emph{differ} from the read-preserving one --- i.e.\ the read subspace must
 be misaligned with the signal's high-energy directions --- and it requires the read
 operator to be correctly known. There are exactly four ways this can fail, and each is a
-degeneracy of $\PC$ (or of its estimate $\hat\PC$):
+degeneracy of $\PC$ (or of its estimate $\hat\PC$), summarised in
+Table~\ref{tab:degeneracies}:
+
+\begin{table}[h]\footnotesize\centering
+\caption{The four degeneracies of the read operator --- the exhaustive ways the flip fails,
+one fixable.}
+\label{tab:degeneracies}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+Degeneracy & Condition & Fixable? & Instance \\
+\midrule
+D1 Coupling & $\operatorname{range}\PC =$ top-energy subspace of $\Sx$ & no --- a wall & gradient compression \\
+D2 Precondition & $\PC\approx0$ (consumer does not function) & needs a trained consumer & moral, frozen emb. \\
+D3 Identifiability & $\hat\PC$ mis-estimated & \textbf{yes} --- recover by probing & legal $035{\to}036$ \\
+D4 Mechanism-absence & claimed nuisance $\notin\ker\PC$ & no --- a refutation & $\alpha{=}1$ density (NEG-11) \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \begin{description}
 \item[(D1) Coupling --- $\operatorname{range}\PC$ aligned with source energy.] If the
@@ -225,10 +242,14 @@ signal's low-energy directions.
 \end{definition}
 
 \begin{proposition}[coupling null]\label{prop:kappa}
-At $\kalign=1$ (full coupling, D1) the read subspace is the top-energy subspace, reverse
-water-filling already spends its budget on the read directions, and the flip vanishes:
-$\Delta = d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R})\to0$. Away from
-coupling, $\Delta$ can be positive.
+Suppose the read subspace $\operatorname{range}\PCbar$ equals the span of the top-$r$
+eigenvectors of $\Sx$ --- equivalently $\kalign=1$ --- and both codes allocate bits by
+reverse water-filling in the $\Sx$-eigenbasis at a common budget. Then O and R assign
+\emph{identical} rates to the read subspace, so $\Sd^{\mathrm O}$ and $\Sd^{\mathrm R}$
+agree on $\operatorname{range}\PCbar$ and the flip vanishes:
+$\Delta = d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R}) = 0$. For $\kalign<1$ the
+two allocations differ on $\operatorname{range}\PCbar$ and $\Delta$ can be nonzero (of
+either sign).
 \end{proposition}
 
 \begin{remark}[what $\kalign$ does and does not predict --- honest negative, with a sharpening]\label{rem:kappa}
@@ -332,7 +353,7 @@ logistic-regression training step (loss Hessian as the read metric). \emph{Learn
 representations} --- CourtListener \citep{courtlistener} citation pairs with LaBSE
 \citep{feng2022labse} (cosine ranking); ETHICS commonsense \citep{hendrycks2021ethics} with
 a bert-base classifier fine-tuned to 0.74 (frozen embeddings sit at chance); FMA music
-\citep{defferrard2017fma} with CLAP \citep{elizalde2023clap} PCA embeddings and a genre
+\citep{defferrard2017fma} with CLAP \citep{wu2023clap} PCA embeddings and a genre
 classifier; sperm-whale codas \citep{sharma2024codas} (DSWP) with a clan/dialect classifier
 on the inter-click-interval rhythm. Held-out sets are disjoint recordings/events/opinions/
 codas wherever obtainable.
@@ -358,36 +379,41 @@ dissociation on two consumers; Figure~\ref{fig:sweep} places it across the sweep
 null, (A2) verdict\}. Every row resolves to a sealed pre-registration and a result
 artifact (Appendix~\ref{app:domains}, Appendix~\ref{app:registry}).}
 \label{tab:sweep}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{@{}llll@{}}
 \toprule
 Domain & Consumer / read operator & Held-out outcome & Tier \\
 \midrule
-Synthetic ULA & beamformer-ML + root-MUSIC / $\hat g$ & flip 6/6 (two estimators) & sealed conf. \\
-LLM keys (Llama-3.2-3B) & softmax attention / blind probe & worse-arm 16/16, recon tied & sealed conf. \\
+Synthetic ULA & beamformer + root-MUSIC / $\hat g$ & flip 6/6 (two estimators) & sealed conf. \\
+LLM keys (Llama-3.2-3B) & softmax attention / blind probe & worse-arm 16/16 (recon =) & sealed conf. \\
 LOCATA acoustic & wideband MUSIC / array manifold & flip 11/13, recon-trade 13/13 & sealed conf. \\
 AV16.3 acoustic & wideband MUSIC / array manifold & flip 74\%, recon-trade 100\% & sealed conf. \\
 PDAR seismic & wideband MUSIC baz / array manifold & flip 76\%, recon-trade 100\% & sealed conf. \\
-Legal retrieval & cosine ranking / blind probe & R 0.796 $>$ O 0.780 (virgin split) & sealed conf. \\
-Whale codas & clan/dialect classifier / blind probe & R 0.934 $>$ O 0.883, flip 300/300 & sealed conf. \\
+Legal retrieval & cosine ranking / blind probe & R 0.796 $>$ O 0.780 (virgin) & sealed conf. \\
+Whale codas & clan/dialect classifier / blind probe & R 0.934 $>$ O 0.883 & sealed conf. \\
 \midrule
 RaDICaL radar & MUSIC DOA / virtual array & flip 25/25, anti 60\% (data-limited) & partial \\
 Gradient optim. & curvature metric / loss Hessian & anti 300/300, flip 27\% & sealed null \\
 \midrule
 Music genre & genre classifier / weight & polar 0.994 $>$ per-ch 0.956 & (A2) verdict \\
 Moral judgment & fine-tuned classifier / weight & polar preferred (once trained) & (A2) verdict \\
+Post-RoPE KV keys & attention logits / \texttt{a2\_probe} & whitened family preferred & (A2) verdict \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{figures/fig2_sweep.pdf}
-\caption{\textbf{The flip across nine sealed domains and six physics.} Held-out flip
-fraction (fraction of bootstrap query-subsets / held-out instances on which R beats O) with
-Wilson 95\% intervals, coloured by tier. Seven sealed confirmations span synthetic,
-LLM-attention, acoustic, seismic, retrieval, and bioacoustic consumers; radar is a
-data-limited partial; gradient compression is the sealed coupling null (D1), sitting at
-chance. Counts $k/n$ at right; the LLM-keys row is a reconstruction-invisible worse-arm
-discrimination (16/16 heads).}
+\caption{\textbf{The flip across nine pre-registered domains.} Held-out flip fraction
+(fraction of bootstrap query-subsets / held-out instances on which R beats O) with Wilson
+95\% intervals, coloured by tier. Seven sealed confirmations span synthetic, LLM-attention,
+acoustic, seismic, retrieval, and bioacoustic consumers --- three distinct wave physics
+(acoustic, seismic, electromagnetic) plus non-physical consumers. Radar is a data-limited
+partial; gradient compression is the sealed coupling null (D1) and sits \emph{below} chance
+(82/300, $p<10^{-3}$ against $\tfrac12$): under near-coupling ($\kalign\approx0.8$)
+reconstruction-optimal mildly but systematically wins downstream. Counts $k/n$ at right; the
+LLM-keys row is a reconstruction-invisible worse-arm discrimination (16/16 heads).}
 \label{fig:sweep}
 \end{figure}
 
@@ -445,10 +471,13 @@ probe as read operator, on held-out disjoint codas ($n=2907$) read-preserving AU
 \paragraph{Two boundary conditions bound the claim.} Gradient compression under a
 curvature metric is the \emph{coupling} boundary (D1, $\kalign\approx1$): the anti-probe
 is worst on \textbf{300/300} held-out steps --- the Hessian read operator genuinely
-governs the update --- yet the flip sits at chance (\textbf{27\%}), because the
-high-curvature and high-gradient-energy directions coincide, so reconstruction already
-protects the read directions. No read-operator recovery can rescue it; the operator was
-already exact. Radar is the data limit: the flip and reconstruction-trade hold
+governs the update --- yet the flip is \textbf{82/300 (27\%)}, significantly \emph{below}
+$\tfrac12$ ($p<10^{-3}$), not at chance: reconstruction-optimal mildly but systematically
+wins downstream. This is exactly what near-coupling predicts --- at $\kalign\approx0.8$ the
+variance-driven O allocation already captures the read-operator mass that R's top-$r$
+subspace allocation slightly misses --- so the coupling wall does not merely null the flip,
+it gently reverses it. No read-operator recovery can rescue it; the operator was already
+exact. Radar is the data limit: the flip and reconstruction-trade hold
 \textbf{25/25} on real 77\,GHz FMCW returns, but the anti control reaches only 60\% on the
 8-element array and the disjoint-recording held-out is inaccessible (the full set is
 310\,GB) --- recorded as a partial, not inflated to a confirmation.
@@ -485,6 +514,36 @@ channel-structured & --- & legal $\to$ \textbf{per-channel / blind-probe} \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\section{Related work}\label{sec:related}
+
+The pieces of this paper are individually classical; the contribution is the synthesis and
+its test. \textbf{Loss-aware compression as a metric.} Weighting quantization error by a
+curvature operator is the Hessian-pruning line --- Optimal Brain Damage and Surgeon
+\citep{lecun1990obd,hassibi1993obs} through GPTQ \citep{frantar2023gptq} --- where the
+second-order loss sensitivity says which parameters to coarsen. Our $\PC$ is that operator
+made general: not the loss Hessian of one task but any consumer's output-metric pullback
+$J^\top G J$, and, critically, \emph{recoverable from black-box queries} (\S\ref{sec:probe})
+rather than requiring the loss in hand. \textbf{Remote source coding.} The coding problem
+--- compress $X$ to serve a downstream functional, not to reconstruct $X$ --- is the
+indirect/remote source-coding setting of \citet{dobrushin1962} and \citet{wolfziv1970};
+the weighted-quadratic fidelity $\tr(\PC\Sd)$ is its second-order form, and $\PC=I$ recovers
+Shannon reconstruction \citep{shannon1959,cover2006}. Our addition is the middle term as a
+\emph{geometric, recoverable, water-fillable} operator and the prospective, cross-domain
+test of the resulting flip. \textbf{Information bottleneck.} IB \citep{tishby1999ib}
+optimises a \emph{stochastic} encoding to trade compression against relevance to a target
+variable; $\PC$ is instead a \emph{fixed geometric} operator recovered by probing a given
+consumer, with no relevance variable optimised --- the two are not contained in one another.
+The components of $\PC$ as a pullback metric are classical information geometry
+\citep{amari2000}. \textbf{Perceptual audio coding} is the historical anchor: MP3's
+psychoacoustic masking model \citep{painter2000perceptual} is precisely a hand-built read
+operator for the human auditory consumer, discarding what the ear cannot hear. The flip is
+the general statement of that idea --- a read operator \emph{recovered by probing arbitrary
+consumers}, not designed once for one physiology, and validated by a sealed
+reconstruction-vs-downstream dissociation rather than assumed. The deltas over all of the
+above are the same three: blind, validated read-operator recovery; prospective flips across
+twelve domains and three physics; and the degeneracy taxonomy that says, ex ante, where the
+flip cannot appear.
 
 \section{Discussion}\label{sec:discussion}
 
@@ -543,33 +602,120 @@ rather than promise reconstruction. There is no universal code; there is a diagn
 two axes, and a selector that reads it --- and, for the boundary, a single alignment
 number that says in advance how much the flip will buy.
 
+\section*{Reproducibility statement}
+\sloppy
+All code, sealed pre-registrations, and result artifacts are public in the program
+repository (\url{https://github.com/ahb-sjsu/geometric-observation}) and the companion
+Zenodo record (\href{https://doi.org/10.5281/zenodo.21423315}{doi:10.5281/zenodo.21423315}):
+each domain's harness, its frozen configuration and content-hash seal, the held-out result
+JSON, and the figure-generation script (every figure regenerates from the sealed result
+JSONs). The registration content hashes and the seal-before-run commit ordering
+(Appendix~\ref{app:registry}) are verifiable in the git history. No held-out instance was
+scored before its registration was committed.
+
+\section*{Acknowledgments}
+Portions of the code, experiments, and manuscript were developed with AI assistance
+(Claude, Anthropic) under the author's direction; all pre-registrations, held-out scoring,
+and claims are the author's responsibility.
+
 \bibliographystyle{plainnat}
 \bibliography{paper-IV-preprint}
 
 \appendix
 
 \section{Per-domain detail}\label{app:domains}
-Each row of Table~\ref{tab:sweep} expands to a per-domain entry recording the arms, the
-sample size $n$, the sealed bars and the realised statistics with their binomial nulls,
-the read-operator provenance (geometric / planted / recovered), and the seal and result
-commit hashes. These reproduce the ledger's Gate-B rows and the statistical audit
-(every reported percentage with its $n$, its bar, and its null); they are omitted here
-for length and provided in the supplementary registry. The empty regime cell
-(concentrated / low-correlation) is argued structurally rare: a representation whose
-directions are concentrated into a shared offset cone is, generically, one whose channels
-have acquired cross-channel correlation through that shared component --- so
-concentration without correlation is the off-diagonal that the data do not populate.
+
+Table~\ref{tab:perdomain} gives every sealed row its held-out $n$, realised statistics
+against the frozen bars, and exact binomial nulls. \textbf{Nulls, stated explicitly:} under
+exchangeability the per-instance flip and reconstruction-trade nulls are a coin flip
+($p=\tfrac12$: which arm wins), and the anti-worst null is worst-of-three ($p=\tfrac13$).
+Read this table together with the anonymized code and result artifacts (see the
+Reproducibility statement), which carry the arms, the frozen configs, and the seal/run
+commit hashes for each row.
+
+\begin{table}[h]\small\centering
+\caption{Per-domain held-out statistics with exact binomial nulls. Bars are the frozen
+sealed thresholds. $p_{\mathrm{flip}}$ is $P(X\ge k\mid \mathrm{Binom}(n,\tfrac12))$;
+anti $p$ is against $\tfrac13$. Radar's anti 15/25 is \emph{significant} against chance
+($p{=}5.6\mathrm{e}{-}3$) yet below the $0.70$ bar --- a significant-but-underpowered
+control, not a null.}
+\label{tab:perdomain}
+\begin{tabular}{@{}lrlll@{}}
+\toprule
+Domain (reg.) & $n$ & flip $k/n$ (bar) & anti $k/n$ (bar) & recon-trade / $p_{\mathrm{flip}}$ \\
+\midrule
+Synthetic ULA (031) & 6 & 6/6 (---) & shuffle 0/6 & 2 estimators / $0.016$ \\
+LLM keys (021) & 16 & 16/16 worse-arm & recon 2/16 & recon tied / $2\mathrm{e}{-}5$ \\
+LOCATA (033) & 13 & 11/13 ($8/13$) & 12/13 & 13/13 / $1.1\mathrm{e}{-}2$ \\
+AV16.3 (034\,D2) & 201 & 148/201 ($.60$) & 152/201 ($.70$) & 201/201 / $7\mathrm{e}{-}12$ \\
+PDAR (034\,D3) & 17 & 13/17 ($.55$) & 13/17 ($.70$) & 17/17 / $2.5\mathrm{e}{-}2$ \\
+Legal (036$\to$039) & 1342 & 200/200 boot ($.60$) & 200/200 & $O{\le}R$ / $<2^{-200}$ \\
+Whale (038) & 2907 & 300/300 ($.60$) & 300/300 & $O{\le}R$ / $<2^{-300}$ \\
+\midrule
+Radar (034\,D1) & 25 & 25/25 & \textbf{15/25} ($.70$, miss) & 25/25 / anti $p{=}5.6\mathrm{e}{-}3$ \\
+Gradient (034\,D4) & 300 & \textbf{82/300} (below $\tfrac12$) & 300/300 & --- / $p_{\le}\approx1$ \\
+\midrule
+Moral (037) & --- & \multicolumn{3}{l}{(A2) verdict: polar $0.994>$ per-ch $0.956$ at 1 bit (one-metric)} \\
+Music (037) & --- & \multicolumn{3}{l}{(A2) verdict: reconciles the $6\sigma$ music sign-flip; polar} \\
+KV keys (037) & --- & \multicolumn{3}{l}{(A2) verdict: whitened family preferred at matched bits} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The empty regime cell, filled by construction.} The concentrated /
+low-correlation cell of the regime map (Table~\ref{tab:regime}) is not merely argued empty:
+the \seal{037} refutation instances --- synthetic concentrated embeddings with a per-dimension
+offset and little cross-channel correlation --- \emph{are} that cell, and there generic polar
+wins (which is why the single-statistic shortcut, predicting ``needs blind-probe'' from
+concentration alone, was refuted). So the cell is \emph{constructible} (we built instances in
+it) yet \emph{unpopulated by natural data} in our sweep: every real embedding-consumer we
+measured that was concentrated had also acquired cross-channel correlation through its shared
+offset component. Constructible-but-naturally-empty is a stronger, data-backed statement than
+a genericity claim.
 
 \section{Registry accounting}\label{app:registry}
-The ``no file drawer'' claim rests on the registration sequence having no unexplained
-holes. The supplementary registry accounting gives every \texttt{GO-P-2026} identifier
-(001--039) a disposition --- reported in this sweep, reported in a companion paper
-(the COST theorem harnesses), superseded by a named successor (each miss still reported),
-or never assigned (the two numbering skips, verified absent from the full git history) ---
-together with the commit-ordering audit showing each sealed row's registration is a strict
-git ancestor of its result. The supersession chains
-($035\to036\to039$, $032\to033$, $020\to021$, and the earlier core iterations) carry every
-miss at equal prominence with its correction.
+The ``no file drawer'' claim rests on the registration sequence having no unexplained holes.
+Table~\ref{tab:registry} gives every \texttt{GO-P-2026} identifier (001--039) a disposition:
+\emph{sweep} (a row of Table~\ref{tab:sweep}), \emph{core} (a falsifiable-core row of a
+companion paper), \emph{cost} (a companion theorem harness), \emph{sup$\to$NNN} (a miss
+superseded by a named successor, the miss still reported), or \emph{none} (never assigned).
+The two skips, 029 and 030, carried no file and no run at any commit (verified absent from
+the full git history). Every sealed row's registration is a strict git ancestor of its
+result commit (checked by \texttt{merge-base}); supersession chains
+$001{\to}002$, $007{\to}009$, $012{\to}014$, $016{\to}019$, $020{\to}021$, $032{\to}033$,
+$035{\to}036{\to}039$ carry each miss at equal prominence with its correction.
+
+\begin{table}[h]\footnotesize\centering
+\caption{Disposition of every registration ID. NEG-$k$ marks a sealed refutation carried in
+the ledger's Honest Negatives.}
+\label{tab:registry}
+\begin{tabular}{@{}llll@{}}
+\toprule
+ID & disposition & ID & disposition \\
+\midrule
+001 & core; sup$\to$002 (NEG-5) & 021 & \textbf{sweep} A2 (rematch, hit) \\
+002 & core (GO-2 neg; NEG-6)     & 022 & cost (two-observer) \\
+003 & core (NEG-7)               & 023 & cost (rate region) \\
+004 & core (NEG-8)               & 024 & cost (observer mismatch) \\
+005 & core (NEG-9)               & 025 & cost (dispersion) \\
+006 & core (GO-2 Instance 1)     & 026 & cost; sup$\to$027 (NEG-13) \\
+007 & core; sup$\to$008 (NEG-10) & 027 & cost (floor, resolved) \\
+008 & core; sup$\to$009          & 028 & core (GO-6, App.\ B) \\
+009 & core (GO-2 Instance 2)     & 029 & \emph{none} (skip) \\
+010 & core (Gate B, gradient)    & 030 & \emph{none} (skip) \\
+011 & core (GO-1 blind probe)    & 031 & \textbf{sweep} A1 (DOA sim) \\
+012 & core; sup$\to$013          & 032 & \textbf{sweep} A3; sup$\to$033 (miss) \\
+013 & core; sup$\to$014          & 033 & \textbf{sweep} A3 (LOCATA hit) \\
+014 & core (GO-3)                & 034 & \textbf{sweep} D1--D4 (battery) \\
+015 & core (GO-4)               & 035 & \textbf{sweep} L; sup$\to$036 (miss) \\
+016 & core; sup$\to$017          & 036 & \textbf{sweep} L (legal hit) \\
+017 & core; sup$\to$018          & 037 & \textbf{sweep} M/K/Mu (NEG-14) \\
+018 & core; sup$\to$019          & 038 & \textbf{sweep} W (whale) \\
+019 & core (GO-5, refuted NEG-11)& 039 & \textbf{sweep} L (virgin split) \\
+020 & core; sup$\to$021 (NEG-12) &     & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{The $\kalign$ measurement (\texttt{results/GO-kappa-law.json})}\label{app:kappa}
 We computed $\kalign$ (Definition~\ref{def:kappa}) for the two analytic anchors

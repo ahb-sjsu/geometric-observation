@@ -57,12 +57,9 @@ sperm-whale dialect. The flip reproduces wherever the consumer's read operator i
 \textbf{identifiable} --- given by the geometry, or recovered blind from the consumer by
 probing what its output is sensitive to --- and fails, informatively, exactly where the
 read operator is \emph{coupled} to the signal's own energy or the consumer does not
-function. We derive the failure modes as the four degeneracies of $\PC$ and give the
-central one an ex-ante \emph{sign} predictor: a read--energy alignment coefficient
-$\kalign=\tr(\PCbar\Sx)/\sum_{i\le r}\lambda_i(\Sx)$ that near $1$ forbids the flip
-before any code is built (the gradient-coupling null). A stronger magnitude law fails an
-honest test --- read-subspace energy and the quantizer regime confound it --- so we report
-$\kalign$ as a coupling-null predictor, not a continuous dial. Which code best exposes the flip is set not
+function. We derive the failure modes as the four degeneracies of the read operator, one of which
+--- coupling of the read subspace to the signal's own energy --- is predictable before any
+code is built. Which code best exposes the flip is set not
 by one statistic but by two axes of the representation's geometry --- concentration and
 correlation --- a diagnostic that also selects the code at deployment and whose
 single-statistic shortcut we pre-register and refute. Reconstruction fidelity is the
@@ -148,7 +145,9 @@ shortcut.
 \subsection{The controlling quantity and the flip}
 
 We take as given the second-order result established in a companion foundational work
-\citep{anon-cost}: for a consumer $\mathcal{C}$ with output metric $G$ acting on a
+\citep{anon-cost}. Intuitively, only the part of a coding error that falls in the
+directions the consumer actually reads can move its output; error in the directions it
+ignores is free. Formally, for a consumer $\mathcal{C}$ with output metric $G$ acting on a
 representation through a Jacobian $J$, the leading-order downstream distortion induced by
 a coding error $\delta$ is
 \begin{equation}\label{eq:do}
@@ -181,7 +180,24 @@ The flip in \eqref{eq:flip} is not automatic. It requires the reconstruction-opt
 allocation to \emph{differ} from the read-preserving one --- i.e.\ the read subspace must
 be misaligned with the signal's high-energy directions --- and it requires the read
 operator to be correctly known. There are exactly four ways this can fail, and each is a
-degeneracy of $\PC$ (or of its estimate $\hat\PC$):
+degeneracy of $\PC$ (or of its estimate $\hat\PC$), summarised in
+Table~\ref{tab:degeneracies}:
+
+\begin{table}[h]\footnotesize\centering
+\caption{The four degeneracies of the read operator --- the exhaustive ways the flip fails,
+one fixable.}
+\label{tab:degeneracies}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Degeneracy & Condition & Fixable? & Instance \\
+\midrule
+D1 Coupling & $\operatorname{range}\PC =$ top-energy subspace of $\Sx$ & no --- a wall & gradient compression \\
+D2 Precondition & $\PC\approx0$ (consumer does not function) & needs a trained consumer & moral, frozen emb. \\
+D3 Identifiability & $\hat\PC$ mis-estimated & \textbf{yes} --- recover by probing & legal $035{\to}036$ \\
+D4 Mechanism-absence & claimed nuisance $\notin\ker\PC$ & no --- a refutation & $\alpha{=}1$ density (NEG-11) \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{description}
 \item[(D1) Coupling --- $\operatorname{range}\PC$ aligned with source energy.] If the
