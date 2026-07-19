@@ -57,4 +57,24 @@ read operator recovered with no oracle information. A pass shows the framework c
 the operative geometry and choose the better code prospectively; a fail is reported at equal
 prominence. Sealed per REG-1; the git commit is the binding timestamp.
 
-## Outcome — PENDING
+## Outcome — PARTIAL (blind direction confirmed; full flip + magnitude not), 2026-07-19
+
+Single evaluation on the untouched 20NG **test** split (n=790), frozen config (base_bits=2,
+r=16), read operator recovered non-oracle:
+- **PASS — blind winning-code prediction.** AUROC **R=0.975 > O=0.910** (gap **+0.064**),
+  anti **A=0.598** worst. The framework picked the better code prospectively, with no oracle
+  information --- the sign and the winner were sealed before the test split was opened.
+- **FAIL — recon-trade.** recon **O=0.528 ≈ R=0.526** (tied on held-out, though clean on
+  calibration): the two-metric flip did not transfer, so this is a \emph{mechanism}
+  confirmation, not a full flip.
+- **FAIL — magnitude.** The held-out gap **0.064** exceeded the sealed band $[0.015,0.045]$
+  (`delta_pred=+0.122`, correct sign); the effect was \emph{larger} than predicted ---
+  calibration underestimated the held-out gap.
+
+**Verdict: NOT CONFIRMED as a full flip; confirmed as a blind, non-oracle mechanism
+prediction (direction/winner correct on a fresh untouched domain).** Reported regardless of
+sign per the commitment. Recorded in `claims/LEDGER.md` (GO-B-blind) and
+[`results/GO-blind-clf.json`](../results/GO-blind-clf.json). Lesson: the downstream direction
+is recoverable blind and prospectively, but the recon-trade and the point magnitude are not
+calibrated by the internal split alone --- the hierarchical/magnitude calibration the second
+reviewer asked for is genuinely the open problem.
