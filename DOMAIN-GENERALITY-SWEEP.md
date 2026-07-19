@@ -27,7 +27,7 @@ sign (no file drawer).
 | **D2** | **AV16.3 acoustic (2nd corpus)** | wideband MUSIC (circular array) | array manifold | ✅ **confirmed** 74% flip, 100% recon, disjoint held-out, tracked GT | GO-P-2026-034 D2 |
 | **D3** | **PDAR seismic array** | wideband MUSIC backazimuth | array manifold | ✅ **confirmed** 76% flip, 100% recon, catalogue GT | GO-P-2026-034 D3 |
 | **D4** | **Optimization (gradient)** | update distortion under Hessian metric | the loss Hessian | **⊘ honest negative** — anti 300/300, flip 27% | GO-P-2026-034 D4 |
-| L | Legal citation retrieval | cosine ranking (LaBSE) | *estimated* covariance → **blind probe** | **✗ 035 → ✅ 036** (R 0.779 > O 0.771) | GO-P-2026-035/036 |
+| L | Legal citation retrieval | cosine ranking (LaBSE) | *estimated* covariance → **blind probe** | **✗ 035 → ✅ 036 → ✅ 039** (virgin split R 0.796 > O 0.780, margin 2×) | GO-P-2026-035/036/039 |
 | M | Moral judgment (ETHICS) | fine-tuned classifier | classifier weight (blind) | ✅ confirmed via a2_probe (polar 0.994 > per-ch 0.956) | GO-P-2026-037 |
 | K | LLM KV-keys (post-RoPE) | attention logits | — (regime reconciled) | ✅ reconciled (whitened 0.853 best) | a2_probe |
 | Mu | Music aesthetics (FMA CLAP) | genre classifier | classifier weight | ✅ reconciles `signflip_music` (6σ) | a2_probe |

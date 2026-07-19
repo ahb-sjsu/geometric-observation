@@ -1,0 +1,32 @@
+{
+  "id": "GO-P-2026-039",
+  "kind": "legal fresh-virgin-split rerun; frozen 036 recipe (r=32, base_bits=0.4), re-rolled fit + eval",
+  "strengthens": "GO-P-2026-036",
+  "date": "2026-07-19",
+  "prospective": true,
+  "seal_commit": "607666e",
+  "code_hash": "sha256:72b6157ead586dba41dcb7a578ad408c15cb0b1d19a2359faf929f49566e9034",
+  "prereg_hash": "sha256:786b2c7a0608d737d47f0a99f4c5a4ac7cda57abec5bdcc1f083481a5fd8250f",
+  "split": {
+    "fit": "CourtListener pairs, both endpoints id%10 not in {3,7}, first 4000 (opinion-disjoint from eval)",
+    "eval": "both endpoints id%10==3 (VIRGIN residue, never scored in 035/036)",
+    "n_fit": 4000,
+    "n_eval": 1342
+  },
+  "read_operator": "GO-1 blind margin S=mean g g^T, g=a_hat - cos(a,b) b_hat, refit on fit split, top-r=32",
+  "auroc": { "O": 0.7796048281250174, "R": 0.7956843159285673, "A": 0.6948714785660545 },
+  "auroc_uncompressed": 0.7939695113751666,
+  "recon": { "O": 0.22349423843075758, "R": 0.561071989542841, "A": 0.350635995548818 },
+  "flip": 200,
+  "anti": 200,
+  "boots": 200,
+  "recon_trade": true,
+  "checks": {
+    "flip>=60% boots": true,
+    "recon-trade (O<=R)": true,
+    "anti>=70% boots": true,
+    "R>=O on full AUROC": true
+  },
+  "verdict": "CONFIRMED",
+  "note": "Frozen 036 recipe reproduces the flip on a fully virgin opinion-disjoint split. Margin R-O = 0.016 (double 036's 0.008); R (0.7957) edges even the uncompressed AUROC (0.7940) -- nuisance-stripping denoises the ranking. Recon-optimal reconstructs 2.5x better (0.223 vs 0.561) yet loses downstream. Held-out-reuse concern from the U0 statistical audit is closed. Env: /home/claude/env torch 2.10.0+cu128, LaBSE on GPU 1."
+}

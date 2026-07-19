@@ -54,10 +54,11 @@ file or a run (numbering skip); proven absent from git history.
 | 036 | Legal-retrieval rehab via GO-1 blind probe | **sweep (L)** | GO-B-legal **CONFIRMED** (R 0.779 > O 0.771) | Paper IV sweep · LEDGER | GO-legal-retrieval-rehab.json |
 | 037 | Reconcile the flip with turboquant-pro's (A2) probe | **sweep (M/K/Mu)** | (A2) verdicts (moral/music/KV); NEG-14 (unit_disp shortcut refuted) | Paper IV sweep · LEDGER NEG-14 | music-a2-reconciliation.json · whale-ketos-a2.json |
 | 038 | Sealed whale coda-dialect flip | **sweep (W)** | GO-B-whale **CONFIRMED** 4/4 (held-out R 0.934 > O 0.883) | Paper IV sweep · LEDGER | GO-whale-dialect.json |
+| 039 | Legal flip on a fresh virgin split (strengthens 036) | **sweep (L)** | **CONFIRMED** 4/4 (virgin eval-3, R 0.796 > O 0.780, margin 2× of 036) | Paper IV sweep · LEDGER | GO-legal-fresh-split.json |
 
 ## Completeness argument
 
-The assigned sequence is **001–038 with exactly two skips (029, 030)**, and every
+The assigned sequence is **001–039 with exactly two skips (029, 030)**, and every
 other ID resolves to a registered run reported in the ledger. The three ID blocks
 the sweep document does not enumerate are accounted for here:
 
@@ -126,7 +127,8 @@ null is worst-of-three (`p=1/3`). Tail probabilities are exact
 | A3 | recon-trade | 13/13 (100%) | — | p=0.5 | 1.2e-4 | decisive |
 | A2 021 | worse-arm | 16/16 | 16/16 | recon 2/16 | recon at chance | decisive dissociation |
 | W 038 | flip | 300/300 | ≥60% | p=0.5 | 2^-300 | decisive |
-| L 036 | flip | 200/200 boot | ≥50% | p=0.5 | 2^-200 | **sign-stable; margin caveat below** |
+| L 036 | flip | 200/200 boot | ≥50% | p=0.5 | 2^-200 | sign-stable; thin margin → **resolved by 039** |
+| L 039 | flip | 200/200 boot | ≥60% | p=0.5 | 2^-200 | **virgin split, R−O margin 2× of 036** |
 | **D1 radar** | anti | 15/25 (60%) | ≥70% | p=1/3 | 5.6e-3 | **above chance, below bar → registered MISS (partial)** |
 | **D4 optim** | flip | 82/300 (27%) | >50% | p=0.5 | ≈1.0 | **at/below chance → honest NULL (correct)** |
 
@@ -148,12 +150,14 @@ L 036 confirms on all four sealed bars, but its headline AUROC margin is thin:
    **200/200** — i.e. the bootstrap sign distribution on `AUROC(R)−AUROC(O)` is
    entirely positive; the recon-trade (O reconstructs 2.6× better yet loses
    downstream) is the qualitatively large, unambiguous part.
-2. **Held-out reuse — disclosed.** The `036` held-out set (`id%10==7`) is the *same*
-   split that delivered the `035` verdict; `036` changed only the read operator
-   (estimated covariance → GO-1 blind probe), not the data. This is legitimate for a
-   read-operator fix (the data never entered the blind probe's fit, which is guarded
-   by an internal cal-A/cal-B split), **but the split is not virgin.** The stronger
-   confirmation — a rerun on a fresh disjoint split (`id%10==k, k≠7`) — is queued as
-   a U0 strengthening action; until then this reuse is stated, not hidden.
+2. **Held-out reuse — RESOLVED (GO-P-2026-039).** The `036` held-out set (`id%10==7`)
+   was the *same* split that delivered the `035` verdict. The strengthening rerun is now
+   done: the frozen `036` recipe (r=32, base_bits=0.4, blind probe **refit**) was scored
+   on a **fully virgin** opinion-disjoint split — eval = residue 3 (n=1342, *never scored*
+   in 035/036), fit = both endpoints `%10 ∉ {3,7}` (n=4000). **All four sealed bars pass,
+   and more cleanly than `036`:** R=0.796 > O=0.780 (**margin 0.016, double `036`'s 0.008**;
+   R edges even the uncompressed 0.794), recon O=0.223 ≤ R=0.561, flip 200/200, anti
+   200/200 (`results/GO-legal-fresh-split.json`, sealed `607666e` pre-run). The reuse
+   asterisk is removed — the flip holds on data that produced no prior verdict.
 
 

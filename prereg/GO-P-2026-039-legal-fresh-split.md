@@ -65,4 +65,18 @@ caveat tier (the qualitatively large recon-trade dissociation would still stand;
 two-metric flip would not). Sealed per REG-1; the git commit is the binding timestamp; the eval
 residue and all hyper-parameters are frozen here before any eval-3 embedding exists.
 
-## Outcome — PENDING
+## Outcome — CONFIRMED, 2026-07-19
+Frozen `036` recipe (r=32, base_bits=0.4, blind-probe read op **refit** on the fresh fit) scored on
+the **virgin** eval-3 (n=1342, opinion-disjoint from the fit, never scored in 035/036). Fit n=4000
+(both endpoints `%10 ∉ {3,7}`). All four sealed bars pass:
+- **AUROC read-preserving R=0.796 > recon-optimal O=0.780** ✓ (anti A=0.695; uncompressed 0.794 —
+  R edges *above* the uncompressed embedding: stripping nuisance directions denoises the ranking).
+  Margin R−O = **0.016 — double `036`'s 0.008**.
+- recon **O=0.223 ≤ R=0.561** ✓ (recon-optimal reconstructs 2.5× better yet is downstream-worse).
+- **flip 200/200** ✓, **anti 200/200** ✓ → **4/4 CONFIRMED.**
+
+The frozen recipe reproduces the flip on a **fully virgin, opinion-disjoint** split; the last
+asterisk on the sweep's legal row (held-out reuse + thin margin, flagged in the U0 statistical
+audit) is removed. Recorded in `claims/LEDGER.md` (GO-B-legal) and
+[`results/GO-legal-fresh-split.json`](../results/GO-legal-fresh-split.json). Run on Atlas GPU 1,
+env `/home/claude/env` (torch 2.10.0+cu128, LaBSE).
