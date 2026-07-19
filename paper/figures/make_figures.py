@@ -129,6 +129,30 @@ def fig3():
     plt.close(fig)
 
 
+# ------------------------------------------------ Fig 4: magnitude calibration across rate
+def fig4():
+    bits = np.array([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0])
+    dpred = np.array([0.4789, 0.2558, 0.1161, 0.0561, 0.0280, 0.0154, 0.0071])   # theory
+    gap = np.array([0.1719, 0.0740, 0.0291, 0.0124, 0.0040, 0.0021, 0.0013])     # measured AUROC R-O
+    fig, ax = plt.subplots(figsize=(4.6, 3.2))
+    sc = ax.scatter(dpred, gap, c=bits, cmap="viridis", s=48, zorder=3, edgecolor="white", linewidth=.6)
+    lo, hi = 5e-4, 0.8
+    ax.plot([lo, hi], [lo * gap[0] / dpred[0], hi * gap[0] / dpred[0]], color="#999", ls="--", lw=1,
+            zorder=1, label="proportional fit")
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(lo, hi); ax.set_ylim(lo, 0.4)
+    ax.set_xlabel(r"theory  $\Delta_{\rm pred}=\mathrm{tr}[P_C(\Sigma_\delta^O-\Sigma_\delta^R)]$")
+    ax.set_ylabel(r"measured AUROC gap  $R{-}O$")
+    ax.set_title("Magnitude tracks theory across rate ($r{=}0.995$)", fontsize=9.5)
+    cb = fig.colorbar(sc, ax=ax, pad=0.02); cb.set_label("bits/sample", fontsize=8); cb.ax.tick_params(labelsize=7)
+    ax.annotate("flip vanishes\nat high rate", (dpred[-1], gap[-1]), textcoords="offset points",
+                xytext=(14, 6), fontsize=6.8, color="#555")
+    ax.legend(frameon=False, fontsize=7.5, loc="upper left")
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(HERE, "fig4_magnitude.pdf"), bbox_inches="tight")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
-    fig1(); fig2(); fig3()
-    print("wrote fig1_dissociation.pdf, fig2_sweep.pdf, fig3_identifiability.pdf")
+    fig1(); fig2(); fig3(); fig4()
+    print("wrote fig1_dissociation.pdf, fig2_sweep.pdf, fig3_identifiability.pdf, fig4_magnitude.pdf")

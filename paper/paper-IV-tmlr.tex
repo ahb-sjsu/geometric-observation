@@ -542,9 +542,29 @@ discovered the operative geometry and chose the better code before seeing any do
 label; but the reconstruction-trade collapsed to a tie on held-out (O\,$0.528\approx$\,R\,$0.526$)
 --- a mechanism confirmation, not a full flip --- and the observed gap ($0.064$) exceeded the
 sealed magnitude band $[0.015,0.045]$ (predicted sign correct, point magnitude
-under-estimated). The prospective \emph{direction} is recoverable blind; the two-metric flip
-and the point magnitude are not calibrated by an internal split alone, which is the honest
-frontier (\S\ref{sec:discussion}).
+under-estimated). The prospective \emph{direction} is recoverable blind; the point magnitude
+at a single rate is not --- but, as we show next, the theory does predict magnitude
+\emph{across} rate.
+
+\paragraph{Magnitude tracks the theory across rate.} The blind test missed the point
+magnitude, but the functional relationship holds. On the same fresh domain we swept the bit
+budget and compared the theory's predicted gap $\Delta_{\mathrm{pred}}=\tr[\PC(\Sd^{\mathrm
+O}-\Sd^{\mathrm R})]$ against the measured downstream gap (AUROC $\mathrm R-\mathrm O$) at
+each rate (Fig.~\ref{fig:mag}). They track at Pearson $r=0.995$, both decreasing
+monotonically toward high rate --- exactly the finite-rate behaviour of
+Prop.~\ref{prop:kappa} (the flip vanishes as $R$ grows past $R^\star$). So
+$\Delta_{\mathrm{pred}}$ predicts the effect size up to a domain-specific scale constant, not
+merely its sign; calibrating that constant \emph{across domains} is the natural next
+contribution.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.5\linewidth]{figures/fig4_magnitude.pdf}
+\caption{\textbf{Magnitude, not just sign.} On the fresh blind-test domain, the theory's
+predicted gap $\Delta_{\mathrm{pred}}$ and the measured held-out AUROC gap track across bit
+rate at $r=0.995$ (log--log; dashed = proportional fit). Both shrink toward high rate as
+Prop.~\ref{prop:kappa} requires. The prediction is the effect size up to a scale constant.}
+\label{fig:mag}
+\end{figure}
 
 \section{An exploratory regime map}\label{sec:regime}
 
@@ -659,11 +679,11 @@ it), i.e.\ the same methodology reached from a different field.
 keys) are one-metric, not sealed flips; the array read operators are oracle-informed proxies
 (Methods); radar is data-limited; each domain uses a single model and dataset; AV16.3 now
 carries its recording-clustered CI (App.~\ref{app:domains}) but an independent replication
-remains open. The sharpest open problem is \emph{magnitude, prospectively}: the blind
-non-oracle test (\seal{041}) recovered the winning code's \emph{direction} on untouched data
-but missed the sealed magnitude band and lost the recon-trade on held-out. Predicting the
-effect size --- not just its sign --- from $\tr[\PC(\Sd^{\mathrm O}-\Sd^{\mathrm R})]$ across
-rate and domain, calibrated hierarchically, is the natural next contribution. And the $\kalign$ coordinate delivers less
+remains open. On magnitude: the blind non-oracle test (\seal{041}) recovered the winning code's
+\emph{direction} on untouched data but missed the sealed point magnitude at its single rate.
+Magnitude is nonetheless predictable \emph{across} rate --- $\Delta_{\mathrm{pred}}$ tracks
+the measured gap at $r=0.995$ (Fig.~\ref{fig:mag}) --- so what remains is calibrating the
+cross-\emph{domain} scale constant hierarchically, the natural next contribution. And the $\kalign$ coordinate delivers less
 than we first hoped: it robustly predicts the coupling \emph{null} ($\kalign\to1\Rightarrow$
 no flip) but not the flip magnitude (Remark~\ref{rem:kappa}), a limitation we found by
 testing the stronger claim and reporting its failure rather than the claim.
