@@ -55,3 +55,15 @@ the `035` negative into a demonstration that the earlier miss was a read-operato
 failure, not a failure of the flip. A miss bounds the flip to planted/known read subspaces. Sealed per
 REG-1; the git commit is the binding timestamp; the config is frozen (and already generalised on the
 internal split) before any held-out pair is scored.
+
+## Outcome — CONFIRMED, 2026-07-19
+Held-out disjoint pairs (`pairs_eval`, n=1293), frozen `r=32, bits=0.4`, read operator fit on all
+calibration: **AUROC read-preserving R=0.779 > recon-optimal O=0.771** ✓, recon **O=0.220 ≤ R=0.584**
+✓ (recon-optimal reconstructs 2.6× better — the textbook dissociation), **flip 200/200** ✓, **anti
+200/200** ✓ (A=0.695). **All four sealed bars pass → CONFIRMED.** On the *same* held-out where `035`
+failed (O=0.773 > R=0.757), the **only** change — the read operator, estimated doc-covariance → GO-1
+blind margin-sensitivity — flips it. The `035` miss was a **read-operator-identifiability failure, not a
+failure of the flip**; this is also the first **real-consumer** demonstration that the GO-1 blind probe
+(previously only `[predicted]` on planted subspaces) recovers a read operator that is both
+misaligned-with-energy **and** generalizing. Recorded in `claims/LEDGER.md` (GO-B-legal) and
+[`results/GO-legal-retrieval-rehab.json`](../results/GO-legal-retrieval-rehab.json).

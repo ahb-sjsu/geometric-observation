@@ -1,0 +1,31 @@
+{
+  "id": "GO-P-2026-036",
+  "rehab_of": "GO-P-2026-035",
+  "domain": "legal-citation retrieval (CourtListener), cosine-ranking consumer, LaBSE embeddings -- real large corpus, non-physical consumer",
+  "class": "CONFIRMED (rehabilitation of the GO-P-2026-035 honest negative)",
+  "prospective": true,
+  "harness": "experiments/legal_flip_v2.py (imports embed_cache/auroc/recon from legal_flip.py)",
+  "fix": "the GO-P-2026-035 miss used an ESTIMATED read operator (centered doc covariance) that overfit calibration and did not transfer. Replaced with the GO-1 BLIND-PROBE read operator: S = mean_i g_i g_i^T with g_i = a_hat - cos(a_i,b_i) b_hat (the ranking margin sensitivity, recovered from the consumer). This strips the anisotropy (in the subtracted cos*b_hat term), is task-tied, kept LOW-RANK (top-r), and the config was selected on an INTERNAL cal-A/cal-B split (fit on cal-A, flip scored on disjoint cal-B) before sealing.",
+  "read_operator": "GO-1 blind margin-sensitivity operator, top-r=32 low-rank subspace, fit on all calibration and applied unchanged to held-out",
+  "frozen_config": {"r": 32, "base_bits": 0.4, "sealed_commit": "a6016bf", "prereg_hash": "sha256:84dfad567afaa6596d06de72bd660caf9db3c62995793bdaa80b9725af91e16e"},
+  "internal_split_cal_B": {"auroc_R": 0.765, "auroc_O": 0.755, "auroc_A": 0.688, "recon_O": 0.222, "recon_R": 0.564, "flip": "200/200", "anti": "200/200", "recon_trade": true, "note": "fit on cal-A, scored on DISJOINT cal-B -> generalises out-of-fit before sealing"},
+  "heldout": {
+    "n": 1293,
+    "auroc_R_read_preserving": 0.779,
+    "auroc_O_recon_optimal": 0.771,
+    "auroc_A_anti": 0.695,
+    "auroc_uncompressed": 0.786,
+    "recon_O": 0.220,
+    "recon_R": 0.584,
+    "recon_trade": true,
+    "flip_bootstraps": "200/200",
+    "anti_bootstraps": "200/200"
+  },
+  "sealed_bars": {
+    "flip_ge_60pct_boots": {"result": "200/200 = 100%", "pass": true},
+    "recon_trade_O_le_R": {"result": "0.220 <= 0.584", "pass": true},
+    "anti_worst_ge_70pct_boots": {"result": "200/200 = 100%", "pass": true},
+    "read_preserving_beats_recon_optimal_AUROC": {"result": "R 0.779 > O 0.771", "pass": true}
+  },
+  "verdict": "CONFIRMED (4/4 sealed bars) on the held-out DISJOINT opinions. On the SAME held-out where GO-P-2026-035 failed (recon-optimal beat read-preserving, O=0.773 > R=0.757), the ONLY change -- the read operator, from estimated doc-covariance to the GO-1 blind margin-sensitivity -- flips it to read-preserving beating recon-optimal (R=0.779 > O=0.771, flip 200/200), while recon-optimal reconstructs the embeddings 2.6x better (O=0.220 vs R=0.584 -- the textbook dissociation). The consumer-relative flip DOES transfer to real legal-citation retrieval; the 035 miss was a read-operator-IDENTIFIABILITY failure, not a failure of the flip. This is also the first REAL-consumer demonstration that the GO-1 blind probe (previously only [predicted] on planted subspaces) recovers a read operator that is both misaligned-with-energy AND generalizing -- exactly the two conditions the D4/035 negatives showed are required."
+}
