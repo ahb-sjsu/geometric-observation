@@ -1,0 +1,15 @@
+{
+  "id": "GO-P-2026-038",
+  "domain": "sperm-whale coda dialect (DSWP/Sharma 2024) -- cetacean communication; SEALED consumer-relative flip",
+  "class": "CONFIRMED (promotes the exploratory whale a2_probe verdict to a sealed flip)",
+  "prospective": true,
+  "harness": "experiments/whale_flip.py",
+  "data": "DominicaCodas.csv (sw-combinatoriality): 8718 codas, 11-d ICI rhythm features; shuffle seed 0; calibration 2/3, held-out 1/3 disjoint",
+  "consumer": "Clan (dialect) classifier; downstream = Clan-logit AUROC (imbalanced 89% majority -> AUROC not accuracy)",
+  "read_operator": "GO-1 blind margin probe S=w wT, top-r=4 low-rank; eigenbasis quantiser (as GO-P-2026-036)",
+  "frozen_config": {"r": 4, "base_bits": 0.5, "sealed_commit": "0a7368a", "prereg_hash": "sha256:2f458983de307c5e224372d4c0df1f45f707d1c0a4ae5984af42dc638733a55b"},
+  "internal_split_cal_B": {"auroc_R": 0.934, "auroc_O": 0.855, "recon_O": 0.460, "recon_R": 0.893, "flip": "300/300", "anti": "300/300"},
+  "heldout": {"n": 2907, "auroc_R": 0.934, "auroc_O": 0.883, "auroc_A": 0.750, "auroc_uncompressed": 0.957, "recon_O": 0.431, "recon_R": 0.889, "recon_trade": true, "flip": "300/300", "anti": "300/300"},
+  "sealed_bars": {"flip_ge_60pct": true, "recon_trade_O_le_R": true, "anti_ge_70pct": true, "R_ge_O_auroc": true},
+  "verdict": "CONFIRMED (4/4). Read-preserving preserves the Clan-dialect logit AUROC (0.934) far better than reconstruction-optimal (0.883) while reconstruction-optimal reconstructs the coda features 2x better (0.431 vs 0.889) -- the consumer-relative flip, SEALED, on cetacean communication. Anchors the two-axis regime map's correlated-isotropic cell with a sealed confirmation rather than an a2_probe verdict; the whale row is promoted from exploratory to sealed."
+}

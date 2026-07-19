@@ -51,3 +51,11 @@ domain-generality regime map a confirmed anchor in its most novel cell — a rep
 isotropic (like music) yet requires protecting a low-rank read subspace against a reconstruction-optimal
 code (because its channels are correlated). Sealed per REG-1; the git commit is the binding timestamp;
 the config is frozen (and already generalised on the internal split) before any held-out coda is scored.
+
+## Outcome — CONFIRMED, 2026-07-19
+Held-out disjoint codas (n=2907), frozen r=4, bits=0.5: **AUROC read-preserving R=0.934 > recon-optimal
+O=0.883** (anti A=0.750; uncompressed 0.957); recon **O=0.431 ≤ R=0.889** (recon-optimal reconstructs the
+coda features 2× better); **flip 300/300**, **anti 300/300** — all four sealed bars pass → **CONFIRMED.**
+The exploratory whale (A2) verdict is promoted to a sealed flip; the two-axis regime map's
+correlated-isotropic cell now rests on a confirmation. Recorded in `claims/LEDGER.md` (GO-B-whale) and
+[`results/GO-whale-dialect.json`](../results/GO-whale-dialect.json).
