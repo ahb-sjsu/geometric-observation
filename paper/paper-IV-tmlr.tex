@@ -6,6 +6,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{url}
 
@@ -338,7 +339,19 @@ codas wherever obtainable.
 
 \section{Results}\label{sec:results}
 
-Table~\ref{tab:sweep} is the spine; each row wears its tier.
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{figures/fig1_dissociation.pdf}
+\caption{\textbf{The flip, on two real held-out consumers.} At matched bits the
+read-preserving code (R) beats the reconstruction-optimal code (O) on the downstream task
+(left; AUROC $\uparrow$) \emph{while} O reconstructs the raw signal better (right; relative
+MSE $\downarrow$). The two fidelities move in opposite directions --- a code can win
+reconstruction and lose the task. Numbers are held-out (legal on the virgin split,
+\S\ref{sec:results}; whale $n{=}2907$).}
+\label{fig:flip}
+\end{figure}
+
+Table~\ref{tab:sweep} is the spine; each row wears its tier. Figure~\ref{fig:flip} shows the
+dissociation on two consumers; Figure~\ref{fig:sweep} places it across the sweep.
 
 \begin{table}[t]\small\centering
 \caption{The twelve-domain sweep. Tier $\in$ \{sealed confirmation, partial, sealed
@@ -366,6 +379,18 @@ Moral judgment & fine-tuned classifier / weight & polar preferred (once trained)
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{figures/fig2_sweep.pdf}
+\caption{\textbf{The flip across nine sealed domains and six physics.} Held-out flip
+fraction (fraction of bootstrap query-subsets / held-out instances on which R beats O) with
+Wilson 95\% intervals, coloured by tier. Seven sealed confirmations span synthetic,
+LLM-attention, acoustic, seismic, retrieval, and bioacoustic consumers; radar is a
+data-limited partial; gradient compression is the sealed coupling null (D1), sitting at
+chance. Counts $k/n$ at right; the LLM-keys row is a reconstruction-invisible worse-arm
+discrimination (16/16 heads).}
+\label{fig:sweep}
+\end{figure}
+
 \paragraph{The flip reproduces across three physics.} On the physical arrays it holds
 under the mature subspace estimator and against independent ground truth: LOCATA
 \textbf{11/13} held-out recordings with the reconstruction-trade at \textbf{13/13} (Lloyd
@@ -379,6 +404,17 @@ softmax-KL loser on \textbf{16/16} heads while exactly-tied reconstruction canno
 (a reconstruction-invisible \emph{worse-arm} discrimination, distinct from a two-consumer
 inversion; \S\ref{sec:discussion}). The battery's pre-registered prediction --- a flip in
 $\ge2$ of its three core prospective domains --- is met by the two confirmed arrays.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.64\linewidth]{figures/fig3_identifiability.pdf}
+\caption{\textbf{Recovering the read operator makes the flip transfer.} On legal-citation
+retrieval an \emph{estimated} read operator overfits and reconstruction-optimal (O) beats
+read-preserving (R) on held-out data (\seal{035}, shaded miss). Replacing it with the GO-1
+blind probe --- the only change --- reverses the verdict on the identical held-out set
+(\seal{036}) and again on a fully virgin, opinion-disjoint split (\seal{039}). The 035 miss
+was a read-operator-identifiability failure (D3), not a failure of the flip.}
+\label{fig:ident}
+\end{figure}
 
 \paragraph{Recovering the read operator makes the flip transfer, twice.} On real
 legal-citation retrieval an \emph{estimated} read operator (document covariance) overfits:
