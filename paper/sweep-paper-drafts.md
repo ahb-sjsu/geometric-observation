@@ -15,6 +15,25 @@ fidelity across acoustic, seismic, neural, and biological signals.*
 **Target register.** Broad-audience empirical (Nat. Commun. / PNAS / Sci. Adv.) — the memorable object is
 the *breadth*, not any single derivation.
 
+### Abstract (draft)
+
+> Signals are almost universally compressed to minimise reconstruction error, on the assumption that a
+> more faithfully reconstructed signal better serves whatever reads it next. For a consumer that reads only
+> part of what a signal carries, this assumption is directionally wrong: downstream error is governed not
+> by the total reconstruction error but by its projection onto the consumer's *read operator*. A code that
+> spends a fixed budget minimising reconstruction spends it largely on directions the consumer ignores; a
+> code that instead protects the read directions reconstructs the signal worse yet serves the consumer
+> better — a dissociation we call the **flip**. We test the flip under a single pre-registered protocol
+> across twelve domains spanning three distinct physics: direction finding on automotive radar,
+> microphone, and seismic arrays; the attention keys of a language model; and learned classifiers of moral
+> judgment, music genre, and sperm-whale dialect. The flip reproduces wherever the consumer's read operator
+> is **identifiable** — given by the geometry, or recovered blind from the consumer by probing what its
+> output is sensitive to — and fails, informatively, exactly where the read operator is coupled to the
+> signal's own energy or the consumer does not function. Which code best exposes the flip is set not by one
+> statistic but by two axes of the representation's geometry, a diagnostic that also selects the code at
+> deployment. Reconstruction fidelity is the special case of a consumer that reads everything; observation,
+> in general, is selective — and compression should be too.
+
 ### Introduction (draft)
 
 > Almost every system that compresses a signal is judged by how faithfully it can reconstruct it —
@@ -164,6 +183,62 @@ dependent like the keys, so a single concentration statistic cannot predict it �
 `unit_displacement` threshold is refuted on its first out-of-sample test. The whitened code, added to the
 diagnostic here, wins at every bit budget on the codas (0.83 / 0.85 / 0.97 vs the per-channel code's
 0.41 / 0.80 / 0.89) — the clearest of the correlated-regime gains.
+
+### Discussion (draft)
+
+**What is established, and at what tier.** The load-bearing result is **five sealed confirmations across
+three distinct physics** — synthetic, LLM attention, and the LOCATA / AV16.3 / PDAR arrays — each scored
+on held-out data against independent ground truth under a pre-registered protocol. Around them the sweep
+carries, and labels, weaker evidence: one **partial** (radar, where the flip and reconstruction-trade
+hold 25/25 but the anti control and a disjoint held-out are data-limited), one **sealed null** (gradient
+compression), and three **exploratory reconciliations** (KV-keys, music, whale). Each wears its tier. We
+draw this line deliberately, because it is what lets a reader trust the confirmations without re-running
+them: the same registration machinery that seals a confirmation also makes an exploratory row *legible as
+exploratory*.
+
+**The flip and the (A2) verdict are not the same claim.** We reserve *flip* for the two-metric
+dissociation established by the sealed protocol — read-preserving coding beats reconstruction-optimal
+coding on the downstream task *while* reconstruction-optimal coding reconstructs the signal better. The
+**(A2) verdict** is a distinct, one-metric quantity: which quantizer family (angular, per-channel, or
+whitened) best preserves the consumer's rank ordering at matched bits. A verdict is *evidence consistent
+with* the flip — it shows the read-aligned family is preferred — but it does not by itself establish the
+reconstruction-trade, and it is not a sealed flip. The exploratory rows report verdicts; the confirmations
+report flips; the two terms are kept apart throughout.
+
+**The failure taxonomy is what makes this a theory rather than a demonstration.** A demonstration shows
+only the wins. What bounds a claim is where it *fails*, and the four failure kinds do exactly that:
+**identifiability** (the read operator mis-estimated — fixable by recovery), **coupling** (the read
+operator intrinsically aligned with the signal's energy — a wall), **precondition** (no working consumer),
+and **mechanism-absence** (a genuine refutation). The gradient-compression null is the coupling boundary's
+empirical face: the anti-probe is worst on 300/300 held-out steps, so the read operator plainly governs
+the task, yet the flip cannot appear because reconstruction already protects the read directions. And the
+two-axis refutation — a single summary statistic pre-registered as the regime predictor and refuted on its
+first out-of-sample test — is what forces the regime to be characterised, not asserted. Together these let
+the theory state, before any experiment, which domains admit the flip and which code exposes it.
+
+**Identifiability, made constructive.** One rarely has a consumer's read operator in closed form. The
+blind probe recovers it from the consumer's own output sensitivity, and on real legal-citation retrieval
+this is the difference between a miss and a confirmation on the *same* held-out set. This is the practical
+core of the identifiability face: the flip is available on any real learned representation whose consumer
+can be probed.
+
+**Convergent evidence, and the information-theoretic frame.** That reconstruction fidelity is the special
+case `P_C = I` — a consumer that reads everything — places the flip inside rate–distortion theory as its
+consumer-relative generalisation. Independent arrival at the same object is telling: a bioacoustics
+decoder-robustness index, developed for whale communication, measures precisely read-operator distortion
+(invariant acoustic transforms leave the decoder's read unchanged; stress transforms move it), i.e. the
+same methodology reached from a different field.
+
+**Limitations.** The three reconciliations are (A2) verdicts, not sealed flips; radar is data-limited; each
+domain uses a single model and dataset; the audio-level decoder-robustness measurement was not run. To
+keep the two-axis map from resting entirely on exploratory verdicts, one exploratory domain — the codas,
+the load-bearing isotropic-yet-correlated cell — is promoted to a sealed flip (its own pre-registration
+and held-out confirmation), so the map's novel axis is anchored by a confirmation rather than a verdict.
+The remaining reconciliations are left explicitly as the exploratory frontier.
+
+**Outlook.** The operational reading is direct: for compression under a known consumer, *measure the
+regime and adapt the code* — certify what the consumer reads rather than promise reconstruction. There is
+no universal code; there is a diagnostic, on two axes, and a selector that reads it.
 
 ---
 
