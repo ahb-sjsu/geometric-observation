@@ -1,0 +1,511 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\PC}{P_{\mathcal{C}}}
+\newcommand{\PCbar}{\bar P_{\mathcal{C}}}
+\newcommand{\Sd}{\Sigma_{\delta}}
+\newcommand{\Sx}{\Sigma_{x}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\dO}{d_{\mathcal{O}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\kalign}{\kappa}
+\newcommand{\seal}[1]{\texttt{GO-P-2026-#1}}
+
+\title{\textbf{The Consumer-Relative Flip Across Domains}\\[2pt]
+\large Preserve what the reader reads: a reconstruction--downstream dissociation
+across acoustic, seismic, neural, and biological signals}
+\author{Andrew H. Bond\\ \small \texttt{agi.hpc@gmail.com}}
+\date{July 2026 --- \emph{Preprint (registration-first; every empirical claim resolves to a sealed ledger row).}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Signals are almost universally compressed to minimise reconstruction error, on the
+assumption that a more faithfully reconstructed signal better serves whatever reads it
+next. For a consumer that reads only part of what a signal carries, this assumption is
+directionally wrong: downstream error is governed not by the total reconstruction error
+$\tr(\Sd)$ but by its projection onto the consumer's \emph{read operator},
+$\tr(\PC\Sd)$. A code that spends a fixed budget minimising reconstruction spends it
+largely on directions the consumer ignores; a code that instead protects the read
+directions reconstructs the signal \emph{worse} yet serves the consumer \emph{better}
+--- a dissociation we call the \textbf{flip}. We test the flip under a single
+pre-registered protocol across twelve domains spanning three distinct physics:
+direction finding on automotive radar, microphone, and seismic arrays; the attention
+keys of a language model; and learned classifiers of moral judgment, music genre, and
+sperm-whale dialect. The flip reproduces wherever the consumer's read operator is
+\textbf{identifiable} --- given by the geometry, or recovered blind from the consumer by
+probing what its output is sensitive to --- and fails, informatively, exactly where the
+read operator is \emph{coupled} to the signal's own energy or the consumer does not
+function. We derive the failure modes as the four degeneracies of $\PC$ and collapse the
+central one into a continuous, ex-ante dial: a read--energy alignment coefficient
+$\kalign=\tr(\PCbar\Sx)/\sum_{i\le r}\lambda_i(\Sx)$ whose endpoints are fixed
+analytically (a coupling null at $\kalign\to1$; a maximal flip at $\kalign\to0$) and
+whose interior is a registered prediction. Which code best exposes the flip is set not
+by one statistic but by two axes of the representation's geometry --- concentration and
+correlation --- a diagnostic that also selects the code at deployment and whose
+single-statistic shortcut we pre-register and refute. Reconstruction fidelity is the
+special case of a consumer that reads everything; observation, in general, is selective
+--- and compression should be too.
+
+\medskip
+\noindent\textbf{Tiers, worn in public.} Seven sealed confirmations (across synthetic,
+LLM-attention, acoustic, seismic, retrieval, and bioacoustic consumers) carry the claim;
+one partial (radar, data-limited), one sealed null (gradient compression, the coupling
+boundary), and two (A2)-probe verdicts (music, attention keys) are labelled as such
+throughout. Every row resolves to a sealed pre-registration and a result artifact.
+\end{abstract}
+
+\section{Introduction}
+
+Almost every system that compresses a signal is judged by how faithfully it can
+reconstruct it --- mean-squared error for images, cosine similarity for embeddings, PSNR
+for audio. The assumption underneath is so ingrained it is rarely stated: that a code
+which reconstructs the signal better is a code that serves whatever reads the signal next
+better. For a decoder that consumes only part of what the signal carries, this
+assumption is not merely loose --- it is \emph{directionally wrong}.
+
+The quantity that governs a consumer's downstream error is not the total reconstruction
+error $\tr(\Sd)$ but its projection onto the consumer's \textbf{read operator},
+$\tr(\PC\Sd)$ --- the error in the directions the consumer actually reads. When a fixed
+bit budget is spent to minimise reconstruction, it is spent largely on directions the
+consumer ignores; a code that instead protects the read directions reconstructs the raw
+signal \emph{worse} yet serves the consumer \emph{better}. We call this dissociation the
+\textbf{flip}: at matched bits, read-preserving coding beats reconstruction-optimal
+coding on the downstream task, precisely while reconstruction-optimal coding wins on
+reconstruction. The two fidelities move in opposite directions.
+
+The flip was first isolated in two narrow settings --- the direction of arrival read by a
+sensor array, and the keys read by softmax attention in a language model --- where it
+could be dismissed as an artifact of the geometry. Here we ask whether it is instead a
+\textbf{property of observation}. We test the same matched-bits dissociation, with the
+same discipline (each configuration frozen on a calibration split and scored on held-out
+data, every outcome pre-registered and reported regardless of sign), across twelve
+domains spanning three distinct physics --- direction finding on automotive radar,
+hearing-aid microphone arrays, and a seismic array reading earthquake back-azimuth; the
+attention keys of a transformer; a fine-tuned moral-judgment classifier; music genre and,
+strikingly, the dialect of sperm whales in their click-rhythm codas.
+
+The dissociation reproduces across all three physics and every consumer type wherever a
+single condition holds: the \textbf{read operator is identifiable} --- given by the
+geometry, or recovered blind from the consumer by probing what its output is sensitive
+to. Where it is not identifiable, or where it is \emph{coupled} to the signal's own
+energy (as it is for gradient compression under a curvature metric, whose high-curvature
+and high-energy directions coincide), the flip provably cannot appear --- and it does
+not. These failures are not noise; they are the theory's scope conditions. We show they
+are exactly the four ways the operator $\PC$ can degenerate, and that the central one
+--- coupling --- is not a bucket but a \emph{continuous} coordinate, a read--energy
+alignment coefficient $\kalign$ whose extremes we fix in closed form and whose interior
+we register as a prediction. Which encoding best exposes the flip, in turn, lives on two
+axes --- how \emph{concentrated} a representation's directions are and how
+\emph{correlated} its channels are --- and no single summary statistic (we pre-register
+one and refute it) can stand in for the full two-axis diagnostic.
+
+\paragraph{Contributions.}
+\begin{enumerate}\itemsep2pt
+\item The flip demonstrated as \textbf{domain-general} --- seven sealed confirmations
+spanning synthetic, LLM-attention, acoustic, seismic, retrieval, and bioacoustic
+consumers, three distinct physics --- under sealed pre-registration with outcomes
+reported regardless of sign.
+\item A \textbf{blind read-operator probe} that recovers what a consumer reads without
+its ground truth, turning a failed retrieval test into a confirmation on the identical
+held-out set, and confirmed a second time on a fully virgin split --- the identifiability
+boundary made constructive.
+\item The failure modes derived as the \textbf{four degeneracies of $\PC$}, and the
+coupling degeneracy collapsed into the \textbf{$\kalign$ alignment law} --- a continuous,
+ex-ante predictor of flip magnitude with analytically fixed endpoints and a registered
+interior point.
+\item A \textbf{two-axis regime map} (concentration $\times$ correlation) that predicts
+the winning code per domain, with a validated diagnostic and a refuted single-statistic
+shortcut.
+\end{enumerate}
+
+\section{Theory}\label{sec:theory}
+
+\subsection{The controlling quantity and the flip}
+
+We take as given the second-order result established in the companion foundational work
+(the COST paper): for a consumer $\mathcal{C}$ with output metric $G$ acting on a
+representation through a Jacobian $J$, the leading-order downstream distortion induced by
+a coding error $\delta$ is
+\begin{equation}\label{eq:do}
+\dO \;=\; \E_x \tr\!\big(\PC(x)\,\Sd(x)\big),\qquad \PC=\E[J^\top G J],
+\end{equation}
+reducing under stated conditions to $\tr(\PC\Sd)$, with $\Sd$ the error second moment.
+$\PC$ is symmetric positive semidefinite; its range is the \emph{read subspace} (the
+directions the consumer distinguishes) and its kernel is the quotient the consumer cannot
+tell apart. Reconstruction fidelity is the special case $\PC=I$: a consumer that reads
+everything.
+
+Fix a total bit budget and consider three codes on the representation:
+a \emph{read-preserving} code (R) that allocates bits to the range of $\PC$; a
+\emph{reconstruction-optimal} code (O) that minimises $\tr(\Sd)$ (reverse water-filling
+in the signal eigenbasis); and an \emph{anti} code (A) that starves the read directions.
+The \textbf{flip} is the joint event
+\begin{equation}\label{eq:flip}
+\underbrace{d_{\mathcal C}(\text{R}) \;\le\; d_{\mathcal C}(\text{O})}_{\text{downstream: R wins}}
+\quad\text{and}\quad
+\underbrace{\tr(\Sd^{\text{O}}) \;\le\; \tr(\Sd^{\text{R}})}_{\text{reconstruction: O wins}} ,
+\end{equation}
+with the anti check $d_{\mathcal C}(\text{A}) \ge \max(d_{\mathcal C}(\text{R}),
+d_{\mathcal C}(\text{O}))$. The two inequalities in \eqref{eq:flip} point in opposite
+directions; that is the whole content. A code can win reconstruction and lose the task.
+
+\subsection{The four degeneracies of $\PC$}\label{sec:taxonomy}
+
+The flip in \eqref{eq:flip} is not automatic. It requires the reconstruction-optimal
+allocation to \emph{differ} from the read-preserving one --- i.e.\ the read subspace must
+be misaligned with the signal's high-energy directions --- and it requires the read
+operator to be correctly known. There are exactly four ways this can fail, and each is a
+degeneracy of $\PC$ (or of its estimate $\hat\PC$):
+
+\begin{description}
+\item[(D1) Coupling --- $\operatorname{range}\PC$ aligned with source energy.] If the
+read subspace coincides with the top-energy eigenspace of $\Sx$, then O already allocates
+bits to the read directions and R has nothing to add. The flip vanishes although $\PC$ is
+exact. This is a genuine wall, not an artifact; it is the empirical content of the
+gradient-compression null (\S\ref{sec:results}). We make it a continuous coordinate in
+\S\ref{sec:kappa}.
+\item[(D2) Precondition --- $\PC\approx0$.] If the consumer does not function, there is
+no read subspace to protect and \eqref{eq:do} is degenerate. Observed for moral judgment
+on frozen embeddings (chance accuracy): the flip is ill-posed until the consumer is
+trained.
+\item[(D3) Identifiability --- wrong $\hat G$ (hence wrong $\hat\PC$).] If the read
+operator is \emph{estimated} rather than recovered from the consumer, the estimate can
+protect the wrong subspace and O wins on held-out data. This is the only fixable failure:
+recovering $\PC$ from the consumer's own output sensitivity (\S\ref{sec:probe}) restores
+the flip.
+\item[(D4) Mechanism-absence --- the claimed nuisance is not in $\ker\PC$.] If a
+direction hypothesised to be invariant is not actually in the consumer's kernel,
+protecting it buys nothing and the effect does not exist. A genuine refutation, not a
+rehabilitatable miss.
+\end{description}
+
+\noindent A demonstration shows only the wins; a theory states where it fails. The four
+degeneracies are what let us say, before any experiment, which domains admit the flip.
+
+\subsection{The alignment law: coupling as a continuous dial}\label{sec:kappa}
+
+Degeneracy (D1) is the informative one, because it is not binary. Let $\PCbar$ be the
+orthogonal projector onto the rank-$r$ read subspace $\operatorname{range}\PC$, and let
+$\lambda_1\ge\cdots\ge\lambda_d$ be the eigenvalues of the signal second moment $\Sx$.
+
+\begin{definition}[read--energy alignment]\label{def:kappa}
+\begin{equation}
+\kalign \;=\; \frac{\tr(\PCbar\,\Sx)}{\sum_{i=1}^{r}\lambda_i(\Sx)}
+\;\in\;\Big(\tfrac{\sum_{i>d-r}\lambda_i}{\sum_{i\le r}\lambda_i},\,1\Big].
+\end{equation}
+$\kalign$ is the fraction of the maximal $r$-dimensional signal energy that the read
+subspace actually captures. $\kalign=1$ iff the read subspace \emph{is} the top-$r$
+energy eigenspace of $\Sx$; $\kalign$ is small when the read subspace lies in the
+signal's low-energy directions.
+\end{definition}
+
+\begin{proposition}[alignment law, informal]\label{prop:kappa}
+At matched bits, the flip magnitude
+$\Delta \;=\; d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R})$
+is non-increasing in $\kalign$. At $\kalign=1$ (full coupling, D1) reverse water-filling
+already spends its budget on the read directions, so $\Delta\to0$: the coupling null. As
+$\kalign\to0$ the reconstruction-optimal code starves the read directions and $\Delta$ is
+maximal.
+\end{proposition}
+
+\noindent The two endpoints are fixed \emph{analytically}, not fit:
+\begin{itemize}\itemsep2pt
+\item \textbf{$\kalign\to0$ (maximal flip).} For direction finding the read direction is
+$\hat g = P_a^{\perp}a'(\theta_0)$, the array-manifold derivative orthogonalised against
+the steering vector, which is by construction orthogonal to the dominant received energy
+(the steering direction). For the synthetic and planted anchors the read subspace is
+planted orthogonal to the signal energy. Both give $\kalign\approx0$ and the largest
+observed flips.
+\item \textbf{$\kalign\to1$ (null).} For gradient compression under the curvature metric
+the read operator is the loss Hessian $H=\tfrac1n X^\top \mathrm{diag}(p(1{-}p))X$, whose
+high-curvature directions coincide with the high-energy directions of $X^\top X$; hence
+$\kalign\approx1$ and, as \S\ref{sec:results} confirms, $\Delta\approx0$ while the
+anti-probe stays maximal --- the read operator governs the task, but the flip cannot
+appear.
+\end{itemize}
+
+Proposition~\ref{prop:kappa} converts boundary condition (D1) from a bucket into an
+ex-ante coordinate. Its endpoints are settled; its interior is the paper's registered
+prediction. We measure $\kalign$ retrospectively across the twelve domains (labelled
+retrospective) and register one prospective point at intermediate $\kalign$,
+\seal{040}, predicting an intermediate $\Delta$ before the run
+(Appendix~\ref{app:kappa}). \emph{This paper reports the analytic endpoints and the
+registered protocol; the interior measurement is the one quantitative result still in
+flight, and is marked as such wherever it appears.}
+
+\subsection{Recovering the read operator}\label{sec:probe}
+
+One rarely has $\PC$ in closed form. The read operator enters three ways.
+\emph{Geometric} --- for sensor arrays it is $\hat g=P_a^{\perp}a'(\theta_0)$, known
+analytically. \emph{Planted} --- in the synthetic and LLM-rematch anchors it is
+constructed from a known subspace and the prediction made blind to it. \emph{Recovered}
+--- on real learned representations it is obtained by the \textbf{blind probe}: perturb
+the consumer's input and read its output sensitivity. For a cosine-ranking consumer the
+margin sensitivity is $\partial\cos(a,b)/\partial b \approx \hat a-\cos(a,b)\,\hat b$
+(the query component orthogonal to the item), and the read operator is the top-$r$
+eigenspace of $S=\langle g\,g^\top\rangle$ --- low-rank for robustness, with $r$ and the
+rate selected on an internal calibration split so that only a configuration that already
+generalises once is sealed. The blind probe is the constructive form of the
+identifiability face (D3): it is what makes the flip available on any real learned
+representation whose consumer can be queried.
+
+\section{Methods}\label{sec:methods}
+
+\paragraph{A domain-general protocol.} Every domain is tested by the same design. On the
+domain's native representation we build \textbf{three codes at matched total bits per
+sample}: read-preserving (R), reconstruction-optimal (O, Lloyd--Max or reverse
+water-filling), and anti (A). The consumer is the domain's own mature estimator,
+independent of the compressor. For each held-out instance we record the downstream error
+and the reconstruction error; the per-instance flip and anti checks are \eqref{eq:flip}.
+All configuration is chosen on a calibration split and frozen before the held-out run;
+each domain is pre-registered (a content hash sealed and git-timestamped before any
+held-out instance is scored), and outcomes are recorded regardless of sign. Matched bits
+are audited (allocation spread $\le1$--$2\%$); flip fractions are bootstrapped over
+query subsets for the retrieval and classifier consumers.
+
+\paragraph{The (A2) regime diagnostic.} For embedding consumers we additionally run
+\texttt{probe\_quotient} (the compression engine's calibration-time probe): at matched
+bits it applies a polar (angular), a per-channel (reconstruction-oriented), and a
+ZCA-whitened proxy code and reports the Spearman rank agreement of the declared
+consumer's scores under each. Two summary statistics characterise the regime:
+\texttt{tangential\_fraction} ($\approx1\Rightarrow$ an angular consumer) and
+\texttt{median\_unit\_displacement} ($\sqrt2\Rightarrow$ isotropic directions; small
+$\Rightarrow$ a concentrated offset cone).
+
+\paragraph{Domains and data.} \emph{Arrays} --- a simulated $\lambda/2$ ULA; LOCATA
+(8\,cm nested ULA, OptiTrack ground truth); AV16.3 (8-mic circular array, camera-tracked
+3-D mouth); PDAR (13-element IMS seismic array, USGS catalogue back-azimuth, 34
+teleseismic events); RaDICaL (8-element 77\,GHz FMCW virtual array). \emph{Neural} ---
+Llama-3.2-3B attention keys (layers 8/16); a logistic-regression training step (loss
+Hessian as the read metric). \emph{Learned representations} --- CourtListener citation
+pairs with LaBSE (cosine ranking); ETHICS commonsense with a bert-base classifier
+fine-tuned to 0.74 (frozen embeddings sit at chance); FMA music with CLAP-PCA embeddings
+and a genre classifier; sperm-whale codas (DSWP / Sharma 2024) with a clan/dialect
+classifier on the inter-click-interval rhythm. Held-out sets are disjoint
+recordings/events/opinions/codas wherever obtainable.
+
+\section{Results}\label{sec:results}
+
+Table~\ref{tab:sweep} is the spine; each row wears its tier.
+
+\begin{table}[t]\small\centering
+\caption{The twelve-domain sweep. Tier $\in$ \{sealed confirmation, partial, sealed
+null, (A2) verdict\}. Every row resolves to a sealed pre-registration and a result
+artifact (Appendix~\ref{app:domains}, Appendix~\ref{app:registry}).}
+\label{tab:sweep}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Domain & Consumer / read operator & Held-out outcome & Tier \\
+\midrule
+Synthetic ULA & beamformer-ML + root-MUSIC / $\hat g$ & flip 6/6 (two estimators) & sealed conf. \\
+LLM keys (Llama-3.2-3B) & softmax attention / blind probe & worse-arm 16/16, recon tied & sealed conf. \\
+LOCATA acoustic & wideband MUSIC / array manifold & flip 11/13, recon-trade 13/13 & sealed conf. \\
+AV16.3 acoustic & wideband MUSIC / array manifold & flip 74\%, recon-trade 100\% & sealed conf. \\
+PDAR seismic & wideband MUSIC baz / array manifold & flip 76\%, recon-trade 100\% & sealed conf. \\
+Legal retrieval & cosine ranking / blind probe & R 0.796 $>$ O 0.780 (virgin split) & sealed conf. \\
+Whale codas & clan/dialect classifier / blind probe & R 0.934 $>$ O 0.883, flip 300/300 & sealed conf. \\
+\midrule
+RaDICaL radar & MUSIC DOA / virtual array & flip 25/25, anti 60\% (data-limited) & partial \\
+Gradient optim. & curvature metric / loss Hessian & anti 300/300, flip 27\% & sealed null \\
+\midrule
+Music genre & genre classifier / weight & polar 0.994 $>$ per-ch 0.956 & (A2) verdict \\
+Moral judgment & fine-tuned classifier / weight & polar preferred (once trained) & (A2) verdict \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The flip reproduces across three physics.} On the physical arrays it holds
+under the mature subspace estimator and against independent ground truth: LOCATA
+\textbf{11/13} held-out recordings with the reconstruction-trade at \textbf{13/13} (Lloyd
+reconstructs better every time yet is downstream-worse); AV16.3 \textbf{74\%} of held-out
+windows with recon-trade \textbf{100\%} and anti-worst \textbf{76\%}, against
+camera-tracked angle on \emph{disjoint} recordings; PDAR seismic back-azimuth
+\textbf{76\%} of held-out events, recon-trade \textbf{100\%}, anti \textbf{76\%}, against
+catalogue ground truth. The synthetic anchor flips 6/6 under two independent estimators;
+the Llama-3.2-3B key consumer shows the read-operator-projected error predicting the
+softmax-KL loser on \textbf{16/16} heads while exactly-tied reconstruction cannot
+(a reconstruction-invisible \emph{worse-arm} discrimination, distinct from a two-consumer
+inversion; \S\ref{sec:discussion}). The battery's pre-registered prediction --- a flip in
+$\ge2$ of its three core prospective domains --- is met by the two confirmed arrays.
+
+\paragraph{Recovering the read operator makes the flip transfer, twice.} On real
+legal-citation retrieval an \emph{estimated} read operator (document covariance) overfits:
+on held-out opinions reconstruction-optimal \emph{beats} read-preserving (AUROC 0.773 vs
+0.757), a registered miss (\seal{035}, degeneracy D3). Replacing it with the blind-probe
+read operator --- the only change --- reverses the verdict on the identical held-out set
+(0.779 vs 0.771; flip 200/200 bootstraps) while reconstruction-optimal still reconstructs
+2.6$\times$ better (\seal{036}). Because that held-out split had itself produced the 035
+verdict and the margin was thin, we re-ran the \emph{frozen} recipe on a fully virgin,
+opinion-disjoint split (evaluation opinions never previously scored), sealed before any
+virgin instance was embedded (\seal{039}): all four bars pass and more cleanly ---
+\textbf{R 0.796 $>$ O 0.780}, a margin double that of 036, with R edging even the
+uncompressed embedding (0.794, nuisance-stripping denoises the ranking), recon
+O 0.223 $\le$ R 0.561, flip 200/200, anti 200/200. Moral judgment shows the consumer
+precondition (D2): frozen embeddings classify at chance (0.58--0.60 vs 0.63 majority) and
+the flip is ill-posed; a classifier fine-tuned to 0.74 makes the angular code preserve the
+class logit (0.994 vs 0.956 at 1 bit).
+
+\paragraph{The whale flip is sealed, not exploratory.} Sperm-whale coda dialect is the
+biologically most distant domain and the load-bearing cell of the regime map (isotropic
+directions, yet correlated channels). It was promoted from an exploratory (A2) verdict to
+a sealed flip (\seal{038}): with the clan classifier as consumer and the blind margin
+probe as read operator, on held-out disjoint codas ($n=2907$) read-preserving AUROC
+\textbf{0.934 $>$ 0.883} reconstruction-optimal, flip \textbf{300/300}, anti
+\textbf{300/300}, while reconstruction-optimal reconstructs the click-interval features
+2$\times$ better. The map's novel axis now rests on a confirmation.
+
+\paragraph{Two boundary conditions bound the claim.} Gradient compression under a
+curvature metric is the \emph{coupling} boundary (D1, $\kalign\approx1$): the anti-probe
+is worst on \textbf{300/300} held-out steps --- the Hessian read operator genuinely
+governs the update --- yet the flip sits at chance (\textbf{27\%}), because the
+high-curvature and high-gradient-energy directions coincide, so reconstruction already
+protects the read directions. No read-operator recovery can rescue it; the operator was
+already exact. Radar is the data limit: the flip and reconstruction-trade hold
+\textbf{25/25} on real 77\,GHz FMCW returns, but the anti control reaches only 60\% on the
+8-element array and the disjoint-recording held-out is inaccessible (the full set is
+310\,GB) --- recorded as a partial, not inflated to a confirmation.
+
+\section{The regime map: two axes, not one}\label{sec:regime}
+
+Characterising every embedding consumer with \texttt{probe\_quotient} places them on two
+\emph{independent} axes --- direction concentration and cross-channel correlation --- and
+the winning code is set by both (Table~\ref{tab:regime}). Music (isotropic, low
+correlation) is preserved by the generic angular code and reconciles a pre-existing
+$6\sigma$ music sign-flip; legal (concentrated, channel-structured) needs the
+per-channel or blind-probe code; post-RoPE keys and sperm-whale codas both need the
+whitened code, but for different reasons --- the keys are concentrated-correlated, the
+codas isotropic-correlated (their inter-click intervals are temporally correlated). Whale
+is the decisive case: isotropic like music yet whitening-dependent like the keys, so a
+single concentration statistic cannot predict it. Indeed a pre-registered
+\texttt{unit\_displacement} threshold is \emph{refuted} on its first out-of-sample test
+(\seal{037}, ledger NEG-14): synthetic concentrated embeddings sit below the threshold
+yet the generic polar code wins. The reliable diagnostic is the full end-to-end probe run
+per domain at low bits.
+
+\begin{table}[h]\small\centering
+\caption{The two-axis regime map. Cells give the winning code; the empty cell
+(concentrated / low-correlation) is argued structurally empty in
+Appendix~\ref{app:domains}.}
+\label{tab:regime}
+\begin{tabular}{@{}l>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{3.2cm}@{}}
+\toprule
+ & isotropic ($\text{unit\_disp}\approx\sqrt2$) & concentrated (unit\_disp small) \\
+\midrule
+low correlation & music, moral $\to$ \textbf{polar} & \emph{(structurally rare)} \\
+cross-channel correlated & \textbf{whale $\to$ whitened} & keys $\to$ \textbf{whitened} \\
+channel-structured & --- & legal $\to$ \textbf{per-channel / blind-probe} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}\label{sec:discussion}
+
+\paragraph{What is established, and at what tier.} The load-bearing result is
+\textbf{seven sealed confirmations} --- synthetic, LLM attention, LOCATA, AV16.3, PDAR,
+legal (double-confirmed on a virgin split), and whale --- each scored on held-out data
+against independent ground truth under a pre-registered protocol. Around them the sweep
+carries, and labels, weaker evidence: one \textbf{partial} (radar, data-limited), one
+\textbf{sealed null} (gradient compression), and two \textbf{(A2) verdicts} (music,
+attention keys). Each wears its tier. We draw this line deliberately, because it is what
+lets a reader trust the confirmations without re-running them: the same registration
+machinery that seals a confirmation also makes an exploratory row legible as exploratory.
+The full registry accounting --- every registration identifier, its disposition, and the
+seal-before-run commit ordering --- is Appendix~\ref{app:registry}.
+
+\paragraph{The flip and the (A2) verdict are not the same claim.} We reserve \emph{flip}
+for the two-metric dissociation \eqref{eq:flip} established by the sealed protocol. The
+\textbf{(A2) verdict} is a distinct, one-metric quantity: which quantizer family best
+preserves the consumer's rank ordering at matched bits. A verdict is \emph{evidence
+consistent with} the flip but does not by itself establish the reconstruction-trade. Two
+rows report verdicts; seven report flips; the terms are kept apart throughout. (A separate
+one-word disambiguation applies to the LLM-keys anchor: it is a reconstruction-invisible
+\emph{worse-arm} discrimination on a single consumer, not a two-consumer verdict
+\emph{inversion}.)
+
+\paragraph{The failure taxonomy is what makes this a theory.} The four degeneracies of
+$\PC$ (\S\ref{sec:taxonomy}) bound the claim where it fails. Identifiability is fixable by
+recovery; coupling is a wall; precondition needs a working consumer; mechanism-absence is
+a refutation. The gradient-compression null is coupling's empirical face, and the
+$\kalign$ law (\S\ref{sec:kappa}) turns that wall into a graded, ex-ante prediction rather
+than a category. The refuted single-statistic shortcut is the same discipline applied to
+the regime map: a predictor pre-registered and killed on its first out-of-sample test,
+which is what forces the regime to be characterised, not asserted.
+
+\paragraph{The information-theoretic frame, and convergent evidence.} That reconstruction
+fidelity is the special case $\PC=I$ places the flip inside rate--distortion theory as its
+consumer-relative generalisation (the COST paper). Independent arrival at the same object
+is telling: a bioacoustics decoder-robustness index --- the public name for the read-
+operator-distortion measure whose provenance we footnote\footnote{Originally the ``Bond
+Index'' in the ethics setting; renamed the Decoder Robustness Index (DRI) as the public
+index name in the bioacoustic setting.} --- measures precisely read-operator distortion
+(invariant acoustic transforms leave the decoder's read unchanged; stress transforms move
+it), i.e.\ the same methodology reached from a different field.
+
+\paragraph{Limitations.} The two reconciliations are (A2) verdicts, not sealed flips;
+radar is data-limited; each domain uses a single model and dataset; the audio-level
+decoder-robustness measurement was not run. The one quantitative piece still in flight is
+the \emph{interior} of the $\kalign$ law: its endpoints are analytic and its protocol is
+registered (\seal{040}), but the cross-domain $\kalign$ measurement is pending and is
+marked as such wherever it appears --- we do not report $\kalign$ values we have not
+measured.
+
+\paragraph{Outlook.} The operational reading is direct: for compression under a known
+consumer, \emph{measure the regime and adapt the code} --- certify what the consumer reads
+rather than promise reconstruction. There is no universal code; there is a diagnostic, on
+two axes, and a selector that reads it --- and, for the boundary, a single alignment
+number that says in advance how much the flip will buy.
+
+\appendix
+
+\section{Per-domain detail}\label{app:domains}
+Each row of Table~\ref{tab:sweep} expands to a per-domain entry recording the arms, the
+sample size $n$, the sealed bars and the realised statistics with their binomial nulls,
+the read-operator provenance (geometric / planted / recovered), and the seal and result
+commit hashes. These reproduce the ledger's Gate-B rows and the statistical audit
+(every reported percentage with its $n$, its bar, and its null); they are omitted here
+for length and provided in the supplementary registry. The empty regime cell
+(concentrated / low-correlation) is argued structurally rare: a representation whose
+directions are concentrated into a shared offset cone is, generically, one whose channels
+have acquired cross-channel correlation through that shared component --- so
+concentration without correlation is the off-diagonal that the data do not populate.
+
+\section{Registry accounting}\label{app:registry}
+The ``no file drawer'' claim rests on the registration sequence having no unexplained
+holes. The supplementary registry accounting gives every \texttt{GO-P-2026} identifier
+(001--039) a disposition --- reported in this sweep, reported in a companion paper
+(the COST theorem harnesses), superseded by a named successor (each miss still reported),
+or never assigned (the two numbering skips, verified absent from the full git history) ---
+together with the commit-ordering audit showing each sealed row's registration is a strict
+git ancestor of its result. The supersession chains
+($035\to036\to039$, $032\to033$, $020\to021$, and the earlier core iterations) carry every
+miss at equal prominence with its correction.
+
+\section{The $\kalign$ measurement protocol (\seal{040})}\label{app:kappa}
+The retrospective analysis computes $\kalign$ (Definition~\ref{def:kappa}) for each of the
+twelve domains from its read operator $\PC$ and signal second moment $\Sx$, and tests
+Proposition~\ref{prop:kappa} (flip magnitude $\Delta$ non-increasing in $\kalign$) with the
+analytic endpoints as anchors ($\kalign\approx0$ for the DOA/synthetic reads,
+$\kalign\approx1$ for the gradient Hessian). The prospective seal \seal{040} fixes, before
+the run, a domain engineered or selected to sit at intermediate $\kalign\approx0.5$ and
+predicts an intermediate $\Delta$ bounded away from both the coupling null and the maximal
+flip; the falsification is $\Delta$ landing at either extreme. This appendix is a protocol,
+not a result: the $\kalign$ values are reported only once measured.
+
+\end{document}
