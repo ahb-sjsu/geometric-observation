@@ -107,3 +107,53 @@ ancestors of their runs, so the seal-before-run chain holds a fortiori. Every
 result commit is strictly downstream of its seal; the ordering is verifiable at
 any snapshot (including the DOI'd release).
 
+## Statistical audit of the sealed rows
+
+Every reported percentage carries its `n`, its sealed bar, and its null. Flip and
+recon-trade nulls are a per-query coin flip (`p=0.5`: which arm wins); the anti
+null is worst-of-three (`p=1/3`). Tail probabilities are exact
+`Binom(n,p)`, `P(X≥k)`.
+
+| Row | Arm | Count | Sealed bar | Null | `P(≥k \| null)` | Read |
+|---|---|---|---|---|---|---|
+| D2 AV16.3 | flip | 148/201 (74%) | ≥60% | p=0.5 | 7.0e-12 | decisive |
+| D2 | anti | 152/201 (76%) | ≥70% | p=1/3 | 1.7e-34 | decisive |
+| D2 | recon-trade | 201/201 (100%) | ≥60% | p=0.5 | 2^-201 | decisive |
+| D3 PDAR | flip | 13/17 (76%) | ≥55% | p=0.5 | **2.5e-2** | modest alone → **carried by recon-trade** |
+| D3 | anti | 13/17 (76%) | ≥70% | p=1/3 | 3.4e-4 | strong |
+| D3 | recon-trade | 17/17 (100%) | ≥60% | p=0.5 | 7.6e-6 | decisive |
+| A3 LOCATA | flip | 11/13 (85%) | ≥8/13 | p=0.5 | 1.1e-2 | supported |
+| A3 | recon-trade | 13/13 (100%) | — | p=0.5 | 1.2e-4 | decisive |
+| A2 021 | worse-arm | 16/16 | 16/16 | recon 2/16 | recon at chance | decisive dissociation |
+| W 038 | flip | 300/300 | ≥60% | p=0.5 | 2^-300 | decisive |
+| L 036 | flip | 200/200 boot | ≥50% | p=0.5 | 2^-200 | **sign-stable; margin caveat below** |
+| **D1 radar** | anti | 15/25 (60%) | ≥70% | p=1/3 | 5.6e-3 | **above chance, below bar → registered MISS (partial)** |
+| **D4 optim** | flip | 82/300 (27%) | >50% | p=0.5 | ≈1.0 | **at/below chance → honest NULL (correct)** |
+
+Notes on the two non-confirmations, kept explicit:
+- **D1 anti 60%** is *above* its worst-of-three chance (33%, `p=5.6e-3`) — the
+  phase-destroy control does carry signal — but *below* the sealed 70% bar because
+  the tiny 8-element array's ~15° resolution lets destroyed snapshots occasionally
+  land near the reference. Correctly reported **partial**, not a pass.
+- **D4 flip 27%** sits at/below the coin-flip null: the subtle read-vs-recon flip
+  genuinely does not appear (curvature ≡ signal-energy coupling). The **anti arm is
+  300/300**, so the read operator *does* govern the task — a true boundary, not a
+  data gap. Correctly reported **honest null**.
+
+### Legal-036 margin — the one row needing a caveat
+
+L 036 confirms on all four sealed bars, but its headline AUROC margin is thin:
+**R 0.779 vs O 0.771 (Δ=0.008)** on `n=1293` held-out opinions. Two honesty items:
+1. **Interval.** The sealed flip is scored per bootstrap query-subset and comes back
+   **200/200** — i.e. the bootstrap sign distribution on `AUROC(R)−AUROC(O)` is
+   entirely positive; the recon-trade (O reconstructs 2.6× better yet loses
+   downstream) is the qualitatively large, unambiguous part.
+2. **Held-out reuse — disclosed.** The `036` held-out set (`id%10==7`) is the *same*
+   split that delivered the `035` verdict; `036` changed only the read operator
+   (estimated covariance → GO-1 blind probe), not the data. This is legitimate for a
+   read-operator fix (the data never entered the blind probe's fit, which is guarded
+   by an internal cal-A/cal-B split), **but the split is not virgin.** The stronger
+   confirmation — a rerun on a fresh disjoint split (`id%10==k, k≠7`) — is queued as
+   a U0 strengthening action; until then this reuse is stated, not hidden.
+
+
