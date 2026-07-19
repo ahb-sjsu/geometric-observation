@@ -131,4 +131,12 @@ This is the config freeze the battery requires of each domain before its held-ou
   calibration and **frozen**: `win=0.75 s, band 500–2500 Hz, budget=64 bits`. Calibration (vs tracked
   GT): clean flip **234/295 (79%)**, anti worst **240/295 (81%)**, recon-trade **294/295 (100%)**,
   median flip_fail 0.12°. All three sealed bars cleared with margin. Held-out outcome recorded below
-  after the confirm run. Harness: `experiments/av163_flip.py`.
+  after the confirm run. Harness: `experiments/av163_flip.py`. Frozen config sealed at commit `1843ebd`.
+- **Outcome (CONFIRMED).** Held-out DISJOINT {seq03, seq11, seq15}, n=201 windows, frozen config, scored
+  vs the **absolute tracked GT**: clean flip **148/201 (74%)** ≥ 60% ✓, recon-trade **201/201 (100%)**
+  ≥ 60% ✓ (Lloyd reconstructs better *every* window yet is downstream-worse), anti worst **152/201
+  (76%)** ≥ 70% ✓; median flip_fail 0.28°; GT cross-check corr **+0.65** (the consumer reads the true
+  direction). **All three sealed bars pass on disjoint held-out recordings against independent, precise
+  GT → D2 CONFIRMED.** The consumer-relative flip replicates on a second, fully independent acoustic
+  corpus. Recorded in `claims/LEDGER.md` (GO-B-AV163) and
+  [`results/GO-AV163-doa.json`](../results/GO-AV163-doa.json).

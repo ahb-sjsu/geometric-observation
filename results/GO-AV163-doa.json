@@ -1,0 +1,30 @@
+{
+  "id": "GO-P-2026-034-D2",
+  "domain": "acoustic mic-array DOA, SECOND independent corpus (AV16.3) -- within-domain robustness vs LOCATA",
+  "class": "CONFIRMED",
+  "prospective": true,
+  "harness": "experiments/av163_flip.py (imports compress3 from rehab033.py -- bit-identical matched-bit three-arm compressor)",
+  "dataset": "AV16.3 (Lathoud, Odobez, Gatica-Perez, MLMI'04; CC-BY, cite the paper). Independent of LOCATA: different array, room, speakers. 5 single-speaker (1p) sequences from the open glat.info host.",
+  "array": "AV16.3 array1: 8-mic uniform CIRCULAR array (r=0.1 m; mic coords from corpus README formula), 16 kHz",
+  "consumer": "incoherent wideband MUSIC generalised to the 2D circular geometry (single source per 0.75 s window; moving speaker)",
+  "ground_truth": "the corpus's camera-tracked 3D-MOUTH LOCATION (max err 1.2 cm) -> ABSOLUTE azimuth at the array-1 centre. The sealed D2 protocol ('tracked source DOA') is HONORED -- NO reference amendment (unlike D1: the 8-mic array resolves azimuth and the tracked-GT cross-check is strong).",
+  "config_frozen": {"win_s": 0.75, "band_hz": "500-2500", "budget_bits": 64, "arms": ["pq (angle-favoring PolarQuant)", "lloyd (Lloyd-Max recon-optimal)", "phase_destroy (anti)"], "sealed_commit": "1843ebd (frozen before the held-out confirm)"},
+  "split": "calibration = {seq01, seq02}; held-out = DISJOINT {seq03, seq11, seq15} (a real disjoint-recording held-out)",
+  "calibration": {"n": 295, "flip_vs_GT": "234/295 (79%)", "anti_vs_GT": "240/295 (81%)", "recon_trade": "294/295 (100%)", "median_flip_fail_deg": 0.12, "gt_xcheck_corr": 0.74},
+  "heldout": {
+    "n": 201,
+    "flip_vs_GT": "148/201 (74%)",
+    "recon_trade": "201/201 (100%)",
+    "anti_worst_vs_GT": "152/201 (76%)",
+    "median_flip_fail_deg": 0.28,
+    "gt_xcheck_corr": 0.65,
+    "gt_xcheck_err_deg": 19,
+    "corroboration_relative_reference": {"flip_vs_uncompressed": "152/201 (76%)", "anti_vs_uncompressed": "188/201 (94%)"}
+  },
+  "sealed_bars": {
+    "clean_flip_vs_trackedGT_ge_60pct": {"result": "148/201 = 74%", "pass": true},
+    "recon_trade_ge_60pct": {"result": "201/201 = 100%", "pass": true},
+    "anti_worst_vs_trackedGT_ge_70pct": {"result": "152/201 = 76%", "pass": true}
+  },
+  "verdict": "CONFIRMED -- all three sealed bars pass against the ABSOLUTE tracked GT on DISJOINT held-out recordings. The consumer-relative flip (angle-favoring code beats reconstruction-optimal Lloyd-Max at matched bits on the downstream DOA task, while Lloyd reconstructs the raw signal better -- 201/201 recon-trade) replicates on a SECOND, fully independent acoustic corpus. Config frozen + sealed before the confirm; no reference amendment (sealed protocol honored)."
+}
