@@ -1,0 +1,33 @@
+{
+  "id": "GO-P-2026-034-D1",
+  "domain": "radar DOA (RaDICaL, 77GHz FMCW automotive-grade mmWave; ELECTROMAGNETIC physics)",
+  "class": "partial / registered-miss",
+  "prospective": true,
+  "harness": "experiments/radar_flip.py (imports compress3 from rehab033.py -- bit-identical matched-bit three-arm compressor)",
+  "array": "RaDICaL indoor: 4 RX x 2 TX (TX0,TX2) = 8 virtual elements, lambda/2 ULA (from indoor_human_rcs.cfg: channelCfg 15 5); range res 0.047 m/bin; ~15 deg azimuth resolution",
+  "consumer": "narrowband MUSIC (single source) on the 8-element covariance across 32 chirps at the dominant (CFAR-style strongest) range bin",
+  "reference": "the consumer's OWN uncompressed MUSIC estimate (score the compression-induced displacement)",
+  "config_frozen": {"budget_bits": 32, "sharp_min": 10, "arms": ["pq (angle-favoring PolarQuant)", "lloyd (Lloyd-Max recon-optimal)", "phase_destroy (anti)"]},
+  "split": "WITHIN-RECORDING temporal split of the 50-frame indoor sample: calibration = frames 0..24, held-out = frames 25..49 (NOT disjoint recordings -- see data_limitation)",
+  "calibration": {"n": 25, "flip": "22/25", "anti_worst": "14/25", "recon_trade": "25/25", "median_flip_fail_deg": 0.44, "cam_xcorr": -0.15},
+  "heldout": {"n": 25, "flip": "25/25", "anti_worst": "15/25", "recon_trade": "25/25", "median_flip_fail_deg": 0.41, "cam_xcorr": 0.09},
+  "cam_xcorr_full50": -0.64,
+  "sealed_bars": {
+    "clean_flip_ge_60pct": {"result": "25/25 = 100%", "pass": true},
+    "recon_trade_ge_60pct": {"result": "25/25 = 100%", "pass": true},
+    "anti_worst_ge_70pct": {"result": "15/25 = 60%", "pass": false}
+  },
+  "verdict": "PARTIAL -- the core consumer-relative dissociation REPLICATES on real electromagnetic radar (angle-favoring code beats reconstruction-optimal Lloyd-Max at matched bits on every held-out frame; Lloyd reconstructs the raw signal better on every held-out frame -- the textbook flip, 100%/100%), but the anti control MISSES the sealed 70% bar (60%). The tiny 8-element array (~15 deg resolution) makes 1-bit phase destruction a less reliable worst-case, and its absolute accuracy is limited (unstable camera cross-check).",
+  "amendment_to_034_D1": {
+    "field": "reference / ground truth",
+    "sealed_plan": "ground truth from co-registered camera/lidar (absolute azimuth)",
+    "amended_to": "displacement from the consumer's own uncompressed estimate (corrected-LOCATA protocol, GO-P-2026-033 correction); camera depth-azimuth retained as a validity cross-check only",
+    "reason": "The 8-element array has ~15 deg azimuth resolution; an absolute camera/lidar GT is dominated by the array's own resolution noise and would swamp the compression-induced flip. Comparing all three arms to the SAME uncompressed estimate cancels the common resolution noise, isolating the compression effect. Decided from the accessible SAMPLE before any held-out flip was scored.",
+    "camera_crosscheck": "uncompressed MUSIC vs depth-derived source azimuth: -0.64 over all 50 frames (consistent sign; the negative is the radar/camera azimuth-convention flip), but unstable per-split (-0.15 cal, +0.09 held-out) -> the small array's absolute accuracy is limited."
+  },
+  "data_limitation": {
+    "accessible": "50-frame indoor sample (indoor_sample_50.h5, md5 b195ff422cc4c979eeb81623899050cb), CC BY 4.0",
+    "inaccessible": "full multi-recording set: indoor_human.tar.gz = 310 GB, 30m = 356 GB, 50m = 98 GB, high_res = 16 GB (~800 GB total); ROS-bag format; the databank /datafiles/{id}/download endpoint returns HTTP 403 to scripted access (Medusa-backed, browser-gated) even with UA/referer/range headers",
+    "consequence": "no disjoint-recording held-out was possible; the sealed D1 held-out (disjoint recordings) is blocked on data access and stated per the battery's accessibility clause. RADIal (192-antenna, direct azimuth GT) resolves to a Google Drive folder but has NO clear license (license API 404) -> set aside."
+  }
+}

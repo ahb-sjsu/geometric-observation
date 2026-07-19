@@ -78,3 +78,34 @@ seismic arrays, LLM attention, and optimization, each pre-registered and held-ou
 refutes domain-generality and bounds the claim to the regimes already shown. No prospective domain's
 held-out data is scored before this battery is sealed and committed; each domain additionally freezes
 its own config on calibration before its held-out run. Sealed per REG-1 (CHARTER §4).
+
+## Amendments (post-seal — the sealed block above and its hash are unchanged and remain verifiable)
+
+**A1 · D1 radar (RaDICaL) · 2026-07-18 · reference method + data scope.**
+Recorded *before scoring any held-out flip*, from inspection of the accessible 50-frame sample.
+- **Reference change.** D1's sealed plan was "ground truth from co-registered camera/lidar." On the
+  accessible RaDICaL indoor array (4 RX × 2 TX = **8 virtual elements**, λ/2 ULA), the azimuth
+  resolution is **~15°**; the depth-camera-derived source azimuth tracks the uncompressed array DOA
+  only to ~16° residual (≈ the array's own resolution floor). An *absolute* camera GT would therefore
+  be dominated by the array's resolution noise and would swamp the compression-induced flip. D1 is
+  amended to score **displacement from the consumer's own uncompressed MUSIC estimate** (the
+  reviewer-endorsed corrected-LOCATA protocol, `GO-P-2026-033` correction — the common resolution
+  noise cancels across the three matched-bit arms). Camera depth-azimuth is retained only as a
+  **validity cross-check** (uncompressed MUSIC vs depth azimuth: −0.64 over the full 50 frames;
+  unstable per-split). The compressor (`compress3`) and the recon-MSE metric are unchanged from `033`.
+- **Data scope.** The full multi-recording RaDICaL set is **not practically accessible**:
+  `indoor_human.tar.gz` = 310 GB, 30m = 356 GB, 50m = 98 GB (~800 GB total), ROS-bag format, and the
+  databank `/datafiles/{id}/download` endpoint returns **HTTP 403** to scripted access (Medusa-backed,
+  browser-gated) even with UA/referer/range headers. RADIal (192-antenna, direct azimuth GT) has **no
+  clear license** (license API 404) → set aside. D1 is therefore run on the **accessible 50-frame
+  indoor sample** with a **within-recording temporal split** (calibration frames 0–24, held-out
+  25–49) — *not* the sealed "disjoint recordings." This is stated per the battery's accessibility
+  clause; the disjoint-recording held-out is blocked on data access.
+- **Outcome (partial / registered-miss).** Held-out (frozen budget=32 bits, sharp≥10):
+  clean flip **25/25**, recon-trade **25/25** (Lloyd reconstructs better *every* frame yet is
+  downstream-worse — the textbook dissociation, on electromagnetic radar), median flip_fail 0.41°;
+  but **anti worst 15/25 = 60% < sealed 70%**. Two of three sealed bars pass at 100%; the anti control
+  misses (the small array's 1-bit-phase-destroyed snapshots still sometimes let MUSIC land near the
+  reference). Recorded in `claims/LEDGER.md` (GO-B-RaDICaL) and
+  [`results/GO-RaDICaL-radar.json`](../results/GO-RaDICaL-radar.json). Not a clean confirm; not a null
+  either — the core flip + recon-trade replicate, the anti control and disjoint held-out do not.
