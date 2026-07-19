@@ -145,8 +145,8 @@ shortcut.
 
 \subsection{The controlling quantity and the flip}
 
-We take as given the second-order result established in the companion foundational work
-(the COST paper): for a consumer $\mathcal{C}$ with output metric $G$ acting on a
+We take as given the second-order result established in a companion foundational work
+\citep{anon-cost}: for a consumer $\mathcal{C}$ with output metric $G$ acting on a
 representation through a Jacobian $J$, the leading-order downstream distortion induced by
 a coding error $\delta$ is
 \begin{equation}\label{eq:do}
@@ -161,7 +161,8 @@ everything.
 Fix a total bit budget and consider three codes on the representation:
 a \emph{read-preserving} code (R) that allocates bits to the range of $\PC$; a
 \emph{reconstruction-optimal} code (O) that minimises $\tr(\Sd)$ (reverse water-filling
-in the signal eigenbasis); and an \emph{anti} code (A) that starves the read directions.
+\citep{cover2006} in the signal eigenbasis); and an \emph{anti} code (A) that starves the
+read directions.
 The \textbf{flip} is the joint event
 \begin{equation}\label{eq:flip}
 \underbrace{d_{\mathcal C}(\text{R}) \;\le\; d_{\mathcal C}(\text{O})}_{\text{downstream: R wins}}
@@ -284,8 +285,9 @@ One rarely has $\PC$ in closed form. The read operator enters three ways.
 \emph{Geometric} --- for sensor arrays it is $\hat g=P_a^{\perp}a'(\theta_0)$, known
 analytically. \emph{Planted} --- in the synthetic and LLM-rematch anchors it is
 constructed from a known subspace and the prediction made blind to it. \emph{Recovered}
---- on real learned representations it is obtained by the \textbf{blind probe}: perturb
-the consumer's input and read its output sensitivity. For a cosine-ranking consumer the
+--- on real learned representations it is obtained by the \textbf{blind probe}
+\citep{anon-probe}: perturb the consumer's input and read its output sensitivity. For a
+cosine-ranking consumer the
 margin sensitivity is $\partial\cos(a,b)/\partial b \approx \hat a-\cos(a,b)\,\hat b$
 (the query component orthogonal to the item), and the read operator is the top-$r$
 eigenspace of $S=\langle g\,g^\top\rangle$ --- low-rank for robustness, with $r$ and the
@@ -318,16 +320,21 @@ consumer's scores under each. Two summary statistics characterise the regime:
 $\Rightarrow$ a concentrated offset cone).
 
 \paragraph{Domains and data.} \emph{Arrays} --- a simulated $\lambda/2$ ULA; LOCATA
-(8\,cm nested ULA, OptiTrack ground truth); AV16.3 (8-mic circular array, camera-tracked
-3-D mouth); PDAR (13-element IMS seismic array, USGS catalogue back-azimuth, 34
-teleseismic events); RaDICaL (8-element 77\,GHz FMCW virtual array). \emph{Neural} ---
-Llama-3.2-3B attention keys (layers 8/16); a logistic-regression training step (loss
-Hessian as the read metric). \emph{Learned representations} --- CourtListener citation
-pairs with LaBSE (cosine ranking); ETHICS commonsense with a bert-base classifier
-fine-tuned to 0.74 (frozen embeddings sit at chance); FMA music with CLAP-PCA embeddings
-and a genre classifier; sperm-whale codas (DSWP / Sharma 2024) with a clan/dialect
-classifier on the inter-click-interval rhythm. Held-out sets are disjoint
-recordings/events/opinions/codas wherever obtainable.
+\citep{evers2020locata} (8\,cm nested ULA, OptiTrack ground truth); AV16.3
+\citep{lathoud2004av163} (8-mic circular array, camera-tracked 3-D mouth); PDAR (13-element
+IMS seismic array, USGS catalogue back-azimuth, 34 teleseismic events; waveforms via
+\citealp{iris}); RaDICaL \citep{lim2021radical} (8-element 77\,GHz FMCW virtual array).
+The array consumer throughout is (wideband) MUSIC \citep{schmidt1986music}, and the
+reconstruction-optimal baseline is Lloyd--Max quantization \citep{lloyd1982}. \emph{Neural}
+--- Llama-3.2-3B \citep{grattafiori2024llama3} attention keys (layers 8/16); a
+logistic-regression training step (loss Hessian as the read metric). \emph{Learned
+representations} --- CourtListener \citep{courtlistener} citation pairs with LaBSE
+\citep{feng2022labse} (cosine ranking); ETHICS commonsense \citep{hendrycks2021ethics} with
+a bert-base classifier fine-tuned to 0.74 (frozen embeddings sit at chance); FMA music
+\citep{defferrard2017fma} with CLAP \citep{elizalde2023clap} PCA embeddings and a genre
+classifier; sperm-whale codas \citep{sharma2024codas} (DSWP) with a clan/dialect classifier
+on the inter-click-interval rhythm. Held-out sets are disjoint recordings/events/opinions/
+codas wherever obtainable.
 
 \section{Results}\label{sec:results}
 
@@ -477,8 +484,9 @@ the regime map: a predictor pre-registered and killed on its first out-of-sample
 which is what forces the regime to be characterised, not asserted.
 
 \paragraph{The information-theoretic frame, and convergent evidence.} That reconstruction
-fidelity is the special case $\PC=I$ places the flip inside rate--distortion theory as its
-consumer-relative generalisation (the COST paper). Independent arrival at the same object
+fidelity is the special case $\PC=I$ places the flip inside rate--distortion theory
+\citep{shannon1959,cover2006} as its consumer-relative generalisation \citep{anon-cost}.
+Independent arrival at the same object
 is telling: a bioacoustics decoder-robustness index --- the public name for the read-
 operator-distortion measure whose provenance we footnote\footnote{Introduced under a
 different name in an earlier ethics setting and renamed the Decoder Robustness Index (DRI)
@@ -499,6 +507,9 @@ consumer, \emph{measure the regime and adapt the code} --- certify what the cons
 rather than promise reconstruction. There is no universal code; there is a diagnostic, on
 two axes, and a selector that reads it --- and, for the boundary, a single alignment
 number that says in advance how much the flip will buy.
+
+\bibliographystyle{tmlr}
+\bibliography{paper-IV}
 
 \appendix
 
