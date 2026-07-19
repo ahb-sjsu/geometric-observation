@@ -12,6 +12,7 @@
 #   --verify SEQ             : uncompressed MUSIC vs GT azimuth across windows (validity of the array/GT)
 #   --develop                : config sweep on calibration sequences
 #   --confirm WIN BAND BUD   : frozen config on held-out sequences
+import json
 import sys
 import numpy as np
 from scipy.signal import stft
@@ -96,7 +97,7 @@ def flip_on(seqs, win, f_lo, f_hi, budget, tol=1.0):
     # Score the flip TWO ways: (rel) vs the consumer's own uncompressed estimate, and (abs) vs the
     # precise tracked mouth GT (the sealed D2 protocol). recon-trade is identical (raw-signal MSE).
     holds = anti = recon = n = 0; fails = []; refs = []; gts = []
-    holds_abs = anti_abs = 0
+    holds_abs = anti_abs = 0; dump = []
     for seq in seqs:
         for X3, fq, az_true in windows(seq, win, f_lo, f_hi):
             ref = np.rad2deg(wb_music_2d(X3, fq)); gtd = np.rad2deg(az_true)
@@ -112,11 +113,13 @@ def flip_on(seqs, win, f_lo, f_hi, budget, tol=1.0):
             recon += lqr <= pqr
             fails.append(max(0.0, de["pq"] - de["lloyd"])); n += 1
             refs.append(ref); gts.append(gtd)
+            # per-window paired errors + recording label, for the clustered bootstrap:
+            dump.append([seq, float(de["pq"]), float(de["lloyd"]), float(de["phase_destroy"])])
     refs = np.array(refs); gts = np.array(gts)
     gterr = float(np.median(np.abs(((refs - gts + 180) % 360) - 180))) if n else 9.9
     gtcorr = float(np.corrcoef(refs, gts)[0, 1]) if n > 3 else float("nan")
     return dict(n=n, holds=holds, anti=anti, recon=recon, holds_abs=holds_abs, anti_abs=anti_abs,
-                med=float(np.median(fails)) if fails else 9.9, gterr=gterr, gtcorr=gtcorr)
+                med=float(np.median(fails)) if fails else 9.9, gterr=gterr, gtcorr=gtcorr, dump=dump)
 
 
 def main():
@@ -140,6 +143,14 @@ def main():
                           f"flip_rel {r['holds']:3d}/{r['n']:3d} flip_abs {r['holds_abs']:3d}/{r['n']:3d} "
                           f"| anti_rel {r['anti']:3d} anti_abs {r['anti_abs']:3d} | recon {r['recon']:3d}/{r['n']:3d} "
                           f"| GT corr {r['gtcorr']:+.2f} err {r['gterr']:.0f}", flush=True)
+        return
+    if "--dump" in sys.argv:
+        # per-window paired errors + recording label on the frozen held-out config,
+        # for a recording-clustered bootstrap (win=0.75 band=500-2500 bits=64).
+        r = flip_on(HELDOUT, 0.75, 500.0, 2500.0, 64)
+        print("###DUMP_JSON_START###")
+        print(json.dumps(r["dump"]))
+        print("###DUMP_JSON_END###")
         return
     if "--confirm" in sys.argv:
         i = sys.argv.index("--confirm")

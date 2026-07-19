@@ -657,9 +657,9 @@ it), i.e.\ the same methodology reached from a different field.
 
 \paragraph{Limitations, and the open problem.} The three (A2) diagnostics (music, moral,
 keys) are one-metric, not sealed flips; the array read operators are oracle-informed proxies
-(Methods); radar is data-limited; each domain uses a single model and dataset; the
-clustered/hierarchical re-analysis (App.~\ref{app:domains}) and an independent replication
-remain open. The sharpest open problem is \emph{magnitude, prospectively}: the blind
+(Methods); radar is data-limited; each domain uses a single model and dataset; AV16.3 now
+carries its recording-clustered CI (App.~\ref{app:domains}) but an independent replication
+remains open. The sharpest open problem is \emph{magnitude, prospectively}: the blind
 non-oracle test (\seal{041}) recovered the winning code's \emph{direction} on untouched data
 but missed the sealed magnitude band and lost the recon-trade on held-out. Predicting the
 effect size --- not just its sign --- from $\tr[\PC(\Sd^{\mathrm O}-\Sd^{\mathrm R})]$ across
@@ -708,10 +708,13 @@ unified binomial $p$-values.} The flip fraction is a descriptive summary; for le
 it is computed over \emph{bootstrap resamples of the same held-out set}, which are dependent,
 so we report it as a \emph{sign-stability} diagnostic, not a sample size --- and we withdraw
 the earlier $p<2^{-200}$/$2^{-300}$ claims. AV16.3's 201 windows are clustered within 3
-recordings; the honest analysis is a recording-clustered (hierarchical) bootstrap of the
-paired difference $\Delta_i=L_i(\mathrm O)-L_i(\mathrm R)$, which we flag as the remaining
-statistical work. The anti arm is a mechanistic control (deliberately non-exchangeable), so
-we report its fraction rather than a worst-of-three chance test.
+recordings; we ran the recording-clustered (hierarchical) bootstrap --- resample the 3
+recordings, then windows within each --- and the flip fraction's 95\% CI is $[0.68,0.88]$,
+still excluding chance, versus a too-narrow naive window CI of $[0.70,0.82]$; the raw paired
+angular difference is near-parity (median $\Delta_i=L_i(\mathrm O)-L_i(\mathrm R)$ CI
+$[-0.49,+0.09]^\circ$), so AV16.3's two-metric flip rests on the tolerance-level win plus the
+recon-trade, not a large raw angular gap. The anti arm is a mechanistic control (deliberately
+non-exchangeable), so we report its fraction rather than a worst-of-three chance test.
 
 \begin{table}[h]\footnotesize\centering
 \caption{Per-domain held-out summary at the genuine independent unit. Fractions are
@@ -724,7 +727,7 @@ Domain (reg.) & unit ($n$) & flip fraction & downstream effect / recon-trade \\
 \midrule
 Synthetic ULA (031) & configs (6) & 6/6 & 2 independent estimators; recon-trade holds \\
 LOCATA (033) & recordings (13) & 11/13 & recon-trade 13/13 (Lloyd better, worse DOA) \\
-AV16.3 (034\,D2) & windows (201; 3 rec.) & 148/201 & recon-trade 201/201; \emph{cluster by rec.} \\
+AV16.3 (034\,D2) & windows (201; 3 rec.) & 148/201 & recon-trade 201/201; clustered flip CI $[.68,.88]$ \\
 PDAR (034\,D3) & events (17) & 13/17 & recon-trade 17/17 \\
 Legal (039) & bootstrap ($n{=}1342$) & 200/200 (stab.) & AUROC $\mathrm R{-}\mathrm O={+}0.016$; recon $O{\le}R$ \\
 Whale (038) & bootstrap ($n{=}2907$) & 300/300 (stab.) & AUROC $\mathrm R{-}\mathrm O={+}0.051$; recon $O{\le}R$ \\
