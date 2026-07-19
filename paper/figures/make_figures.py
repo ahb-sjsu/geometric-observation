@@ -95,7 +95,7 @@ def fig2():
            Patch(color=TIER["partial"], label="partial (data-limited)"),
            Patch(color=TIER["null"], label="sealed null (coupling)")]
     ax.legend(handles=leg, frameon=False, fontsize=7.6, loc="upper left", bbox_to_anchor=(0.0, 0.62))
-    ax.set_title("The flip across nine sealed domains and six physics", fontsize=10)
+    ax.set_title("The flip across nine pre-registered domains", fontsize=10)
     fig.tight_layout()
     fig.savefig(os.path.join(HERE, "fig2_sweep.pdf"), bbox_inches="tight")
     plt.close(fig)
