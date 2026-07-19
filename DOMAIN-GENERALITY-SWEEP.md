@@ -31,7 +31,7 @@ sign (no file drawer).
 | M | Moral judgment (ETHICS) | fine-tuned classifier | classifier weight (blind) | ✅ confirmed via a2_probe (polar 0.994 > per-ch 0.956) | GO-P-2026-037 |
 | K | LLM KV-keys (post-RoPE) | attention logits | — (regime reconciled) | ✅ reconciled (whitened 0.853 best) | a2_probe |
 | Mu | Music aesthetics (FMA CLAP) | genre classifier | classifier weight | ✅ reconciles `signflip_music` (6σ) | a2_probe |
-| W | Whale codas (DSWP) | Clan/dialect classifier | classifier weight | ✅ new regime — whitened wins all bits | a2_probe |
+| W | Whale codas (DSWP) | Clan/dialect classifier | blind probe (top-4) | ✅ **sealed flip** — held-out R 0.934 > O 0.883, 300/300 (was a2_probe verdict) | GO-P-2026-038 |
 
 **Result:** the flip **confirms wherever the read operator is identifiable** — given by geometry (the
 physical arrays), planted (synthetic, LLM rematch), or recovered blind from the consumer (legal, moral).
@@ -118,11 +118,14 @@ question is answered — *adapt, don't universalize* — and the diagnostic that
 
 ## Caveats kept honest
 
-D1 is data-limited (within-recording split; the 310 GB disjoint set is inaccessible). D4 is a genuine
-negative (intrinsic coupling), not a data gap. The music, KV-keys, and whale entries are *exploratory
-reconciliations* via the proxy probe — not sealed confirmations (whale is 11-dim with an imbalanced
-consumer; the audio-level DRI needs raw audio not to hand). The registration discipline caught its own
-over-reach twice (NEG-14 shortcut; the 035 estimated read operator) — which is the point of it.
+A **flip** is the sealed two-metric dissociation (read-preserving beats reconstruction-optimal downstream
+*while* reconstruction-optimal reconstructs better); an **(A2) verdict** is a one-metric family
+recommendation from the proxy probe — evidence consistent with the flip, not the sealed test. Whale is now
+a **sealed flip** (`GO-P-2026-038`, held-out R 0.934 > O 0.883, 300/300), promoted from its earlier verdict;
+**music and KV-keys remain (A2) verdicts.** D1 is data-limited (within-recording split; the 310 GB disjoint
+set is inaccessible); D4 is a genuine negative (intrinsic coupling), not a data gap; the audio-level DRI
+needs raw audio not to hand. The registration discipline caught its own over-reach twice (NEG-14 shortcut;
+the 035 estimated read operator) — which is the point of it.
 
 ## Registry
 
