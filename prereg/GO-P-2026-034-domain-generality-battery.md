@@ -109,3 +109,26 @@ Recorded *before scoring any held-out flip*, from inspection of the accessible 5
   reference). Recorded in `claims/LEDGER.md` (GO-B-RaDICaL) and
   [`results/GO-RaDICaL-radar.json`](../results/GO-RaDICaL-radar.json). Not a clean confirm; not a null
   either — the core flip + recon-trade replicate, the anti control and disjoint held-out do not.
+
+**A2 · D2 second acoustic corpus (AV16.3) · 2026-07-18 · per-domain config FREEZE (pre-confirm seal).**
+This is the config freeze the battery requires of each domain before its held-out run — sealed here,
+*before* any held-out sequence is scored.
+- **Dataset (accessible, verified).** AV16.3 (Lathoud, Odobez, Gatica-Perez, MLMI'04; CC-BY, cite the
+  paper). **8-mic uniform circular array1** (r=0.1 m; mic coordinates from the corpus README formula),
+  16 kHz. **5 single-speaker (1p) sequences** pulled from the open glat.info host (the Zenodo mirror is
+  access-restricted; the original host serves per-channel WAVs directly). Ground truth = the corpus's
+  camera-tracked **3D mouth location** (max err 1.2 cm) → absolute azimuth at the array-1 centre.
+  A genuinely **independent** corpus (different array, room, speakers) from LOCATA (`033`).
+- **Sealed D2 protocol HONORED — no reference amendment.** Unlike D1, the 8-mic array resolves azimuth
+  and the tracked-GT cross-check is strong (uncompressed MUSIC vs mouth azimuth **corr +0.74–0.76**),
+  so the flip is scored against the **absolute tracked GT** ("tracked source DOA"), as sealed. (The
+  relative-reference flip vs the uncompressed estimate is reported alongside as corroboration.)
+- **Consumer.** Incoherent **wideband MUSIC** generalised to the 2D circular geometry (single
+  source/window; the speaker moves, so DOA is estimated per 0.75 s window synced to the GT time).
+  Reuses the bit-identical `compress3` (pq / lloyd / anti) from `033`.
+- **Split & frozen config.** Calibration = {seq01, seq02}; **held-out = DISJOINT {seq03, seq11,
+  seq15}** (a real disjoint-recording held-out, which D1 could not get). Config selected on
+  calibration and **frozen**: `win=0.75 s, band 500–2500 Hz, budget=64 bits`. Calibration (vs tracked
+  GT): clean flip **234/295 (79%)**, anti worst **240/295 (81%)**, recon-trade **294/295 (100%)**,
+  median flip_fail 0.12°. All three sealed bars cleared with margin. Held-out outcome recorded below
+  after the confirm run. Harness: `experiments/av163_flip.py`.
