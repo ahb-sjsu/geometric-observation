@@ -59,3 +59,24 @@ A pass makes the flip's domain-dependence *predictable from a single validated s
 the blind-probe read operator is needed. The `035→036` arc becomes an instance of the rule rather than a
 one-off fix. Sealed per REG-1; the git commit is the binding timestamp; the diagnostic rule is
 prospective for every future embedding-consumer domain.
+
+## Outcome — the DIAGNOSTIC RULE is REFUTED (the reconciliation stands), 2026-07-19
+First prospective test, on synthetic embeddings dialled between regimes (probe_quotient, cosine, 1 bit):
+
+| domain | tangential | unit_disp | 1-bit polar vs per_channel | rule predicts | holds? |
+|---|---|---|---|---|---|
+| moral (real) | 0.943 | 1.195 | polar 0.994 > 0.956 | generic flip | ✓ |
+| legal (real) | 1.000 | 0.927 | per_channel ≥ polar | needs blind-probe | ✓ |
+| synth isotropic dc=0 | 0.988 | 1.416 | polar 0.849 > 0.600 | generic flip | ✓ |
+| **synth concentrated dc=6** | 0.995 | **0.649** | **polar 0.722 > 0.346** | needs blind-probe | **✗** |
+
+The `unit_displacement` threshold is **REFUTED**: the concentrated synthetic has `unit_disp=0.649` (< 1.0)
+yet generic polar *wins*. Diagnosis — the synthetic concentration is a **per-dimension (axis-aligned)
+offset**, which is a different structure from legal's **shared-direction** anisotropy; `unit_displacement`
+cannot distinguish them, but `probe_quotient` (the full polar-vs-per_channel test) can. **Conclusion:**
+the *reconciliation* of the flip to `a2_probe` stands and is solid — moral and legal are both correctly
+characterised by `probe_quotient`, and the (A2) tangential_fraction correctly flags both as angular
+consumers. But the *predictive shortcut* (a single summary statistic standing in for the probe) does
+**not** generalise. The reliable diagnostic is `probe_quotient` itself, run at low bits, per domain —
+there is no one-number substitute. Recorded honestly (NEG-14) in `claims/LEDGER.md`; the discipline
+caught the over-simple rule on its first prospective test.
