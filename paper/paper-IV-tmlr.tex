@@ -1,12 +1,13 @@
-\documentclass[11pt]{article}
+\documentclass[10pt]{article} % TMLR submission format
+\usepackage{tmlr}             % anonymizes the byline in submission mode (auto)
+% Camera-ready: \usepackage[accepted]{tmlr} | Preprint/de-anon: \usepackage[preprint]{tmlr}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{xcolor}
-\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{hyperref}
+\usepackage{url}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
@@ -26,12 +27,13 @@
 \newcommand{\kalign}{\kappa}
 \newcommand{\seal}[1]{\texttt{GO-P-2026-#1}}
 
-\title{\textbf{The Consumer-Relative Flip Across Domains}\\[2pt]
-\large Preserve what the reader reads: a reconstruction--downstream dissociation
-across acoustic, seismic, neural, and biological signals}
-\author{Andrew H. Bond,~\emph{Senior Member, IEEE}\\ \small Department of Computer Engineering, San Jos\'e State University\\
-\small \texttt{andrew.bond@sjsu.edu} ~\textbar~ ORCID: 0009-0003-2599-6158}
-\date{July 2026 --- \emph{Preprint (registration-first; every empirical claim resolves to a sealed ledger row).}}
+\title{The Consumer-Relative Flip Across Domains:\\ Preserve What the Reader Reads}
+
+% Byline hidden automatically by tmlr in submission mode; shown in [accepted]/[preprint].
+\author{\name Andrew H. Bond, \emph{Senior Member, IEEE} \email andrew.bond@sjsu.edu \\
+      \addr Department of Computer Engineering \\
+      San Jos\'e State University \\
+      ORCID: 0009-0003-2599-6158}
 
 \begin{document}
 \maketitle
@@ -478,9 +480,10 @@ which is what forces the regime to be characterised, not asserted.
 fidelity is the special case $\PC=I$ places the flip inside rate--distortion theory as its
 consumer-relative generalisation (the COST paper). Independent arrival at the same object
 is telling: a bioacoustics decoder-robustness index --- the public name for the read-
-operator-distortion measure whose provenance we footnote\footnote{Originally the ``Bond
-Index'' in the ethics setting; renamed the Decoder Robustness Index (DRI) as the public
-index name in the bioacoustic setting.} --- measures precisely read-operator distortion
+operator-distortion measure whose provenance we footnote\footnote{Introduced under a
+different name in an earlier ethics setting and renamed the Decoder Robustness Index (DRI)
+as the public index name in the bioacoustic setting; the original name (which identifies the
+authors) is restored in the non-anonymized version.} --- measures precisely read-operator distortion
 (invariant acoustic transforms leave the decoder's read unchanged; stress transforms move
 it), i.e.\ the same methodology reached from a different field.
 
