@@ -226,21 +226,28 @@ $\Delta = d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R})\to0$. Away fro
 coupling, $\Delta$ can be positive.
 \end{proposition}
 
-\begin{remark}[what $\kalign$ does and does not predict --- honest negative]\label{rem:kappa}
-The natural strengthening --- that $\Delta$ is \emph{monotone} decreasing in $\kalign$,
-so that $\kalign$ reads off the flip magnitude as a single ex-ante number --- is
-\textbf{not supported}. In honest simulation the flip magnitude is confounded by two
-effects: (i) with the correct signal-scaled reconstruction-optimal quantizer, a
-low-energy read subspace ($\kalign\to0$) carries little signal, so its absolute distortion
---- and $\Delta$ --- washes out, making $\Delta$ peaked in $\kalign$ rather than monotone;
-and (ii) the flip magnitude depends on the quantizer-range regime (a shared/noise-floor
-range, as in array direction-finding, versus a per-direction signal-scaled range, as in
-embeddings). No tested normalization of $\Delta$ is monotone in $\kalign$. What survives
-is the \emph{ordinal} prediction of Proposition~\ref{prop:kappa}: $\kalign\to1$ forbids
-the flip (the gradient-coupling null), and the large-flip domains sit at small $\kalign$.
-$\kalign$ is a coupling-null predictor, not a magnitude dial. We record this as an honest
-negative (\texttt{results/GO-kappa-law.json}); a faithful magnitude law would require a
-signal model matched to the quantizer regime and is left open.
+\begin{remark}[what $\kalign$ does and does not predict --- honest negative, with a sharpening]\label{rem:kappa}
+The natural strengthening --- that $\Delta$ is \emph{monotone} decreasing in $\kalign$, so
+that $\kalign$ reads off the flip magnitude as a single ex-ante number --- is \textbf{not
+supported}, and pursuing the salvage yields a precise reason rather than another failure.
+We built the faithful coupling model (concentrated flat-block signal energy, read
+dimension equal to the energy-block dimension, and the scale-free relative flip
+$\Delta_{\mathrm{rel}}=1-d_{\mathcal C}(\mathrm R)/d_{\mathcal C}(\mathrm O)$) and swept
+$\kalign$ from $1$ to $0$. Two facts emerge. \emph{(a) The coupling null is exact under an
+identifiable condition:} $\Delta_{\mathrm{rel}}\to0$ at $\kalign=1$ \emph{iff} the signal
+support equals the read support (the background energy vanishes) --- which is precisely the
+gradient-compression condition, where the Hessian's support coincides with the $X^\top X$
+energy. \emph{(b) In that same sharp-null regime the sweep degenerates:} once the
+background energy is small enough to make the null sharp, dialing $\kalign$ downward moves
+the read subspace into the vanishing-energy background, so $\Delta_{\mathrm{rel}}\approx0$
+for all $\kalign>0$ and jumps only at $\kalign=0$ --- the flip lands on negligible signal.
+A sharp null at $\kalign=1$ and a meaningful flip at small $\kalign$ are
+\emph{irreconcilable} in this model class, because $\kalign$ small \emph{means} the read
+subspace is low-energy. $\kalign$ is therefore a coupling-null predictor with an exact null
+condition (read support $=$ signal support), not a magnitude dial; the flip magnitude is
+governed by where the read-subspace \emph{signal} sits relative to the reconstruction
+allocation, which is not a single scalar. Recorded as an honest negative
+(\texttt{results/GO-kappa-law.json}).
 \end{remark}
 
 \noindent The endpoints of the ordinal prediction are fixed \emph{analytically}, not fit:
@@ -525,9 +532,11 @@ $\Delta$, $\Delta/\tr(\PCbar\Sx)$, or $d_{\mathcal C}(\mathrm O)/d_{\mathcal C}(
 --- is monotone), because a low-energy read subspace carries little signal and because the
 result depends on the quantizer-range regime (Remark~\ref{rem:kappa}). The
 \emph{ordinal} content survives --- the $\kalign\approx0.80$ gradient anchor is the
-empirical null (flip $27\%$), the $\kalign\approx0.006$ array read is a large flip --- so
-$\kalign$ is reported as a coupling-null predictor. The prospective magnitude seal
-\seal{040} was \textbf{not} taken: the law it would have tested did not survive
-validation. A magnitude law matched to the quantizer regime is left as open work.
+empirical null (flip $27\%$), the $\kalign\approx0.006$ array read is a large flip. The
+faithful coupling salvage (Remark~\ref{rem:kappa}) then pins the null to an exact
+condition (read support $=$ signal support) and shows why no magnitude dial exists in this
+model class. The prospective magnitude seal \seal{040} was \textbf{not} taken: the law it
+would have tested did not survive validation. A magnitude law matched to the quantizer
+regime remains open.
 
 \end{document}

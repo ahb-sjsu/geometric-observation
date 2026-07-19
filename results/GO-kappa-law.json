@@ -1,6 +1,6 @@
 {
   "status": "exploratory",
-  "finding": "EXPLORATORY / honest negative. The naive alignment law (flip magnitude delta monotone DECREASING in kappa) is NOT supported by honest simulation. Two confounds: (1) with the correct signal-scaled recon-optimal quantizer, a low-energy read subspace (kappa->0) carries little signal, so absolute distortion -- and delta -- washes out; the flip is not monotone but peaked/U-shaped. (2) A rank-r read projector vs a smoothly-decaying Sigma_x spectrum makes the kappa->1 coupling null fail to manifest (O spreads bits, R concentrates them, so dO != dR even at kappa=1). No tested normalization (delta, delta/read_energy, dO/dR) is monotone in kappa. ROBUST content that survives: the kappa->1 coupling null is real in the ANALYTIC anchors (gradient-D4 kappa~0.80, empirically flip 27% ~ null) and DOA sits at kappa~0.006 with a large flip -- so kappa PREDICTS THE NULL (high kappa => no flip) as an ordinal/sign law, but not the full magnitude. A faithful magnitude law needs Sigma_x with rank-r-concentrated energy (to model coupling) and a shared/uniform quantizer range (the DOA noise-floor regime), not the signal-scaled embedding regime. GO-P-2026-040 was NOT sealed: sealing a prospective magnitude prediction on an unvalidated law would violate the discipline.",
+  "finding": "EXPLORATORY / honest negative, with a SHARPENING. The naive alignment law (flip magnitude delta monotone DECREASING in kappa) is NOT supported. The salvage attempt (faithful coupling model: concentrated flat-block energy, m=r, relative flip delta_rel=1-dR/dO) converges on a precise characterization rather than a magnitude law: (a) the kappa=1 coupling null is SHARP (delta_rel->0) exactly when the signal support equals the read support (background beta->0) -- which is precisely the D4 coupling condition (Hessian support = X^TX energy support); (b) but in that sharp-null regime the sweep DEGENERATES (delta_rel~0 for all kappa>0, jumping only at kappa=0), because dialing kappa down puts the read subspace in the vanishing-energy background, so the flip lands on negligible signal. A sharp null at kappa=1 AND a meaningful flip at low kappa are IRRECONCILABLE in this model class. Robust conclusion: kappa is an ordinal coupling-null predictor with an EXACT null condition (read support = signal support), not a cross-regime magnitude dial; the flip magnitude is governed by where the read-subspace SIGNAL sits relative to O's bit allocation, which is not a single scalar. Anchors: gradient-D4 kappa~0.80 (empirical flip 27% ~ null), synthetic-DOA kappa~0.006 (large flip). GO-P-2026-040 NOT sealed: no clean magnitude law exists to predict.",
   "synthetic_sweep": [
     {
       "phi": 0.0,
@@ -124,6 +124,422 @@
       "recon_trade": true
     }
   ],
+  "faithful_coupling_salvage": {
+    "beta_2e-01": [
+      {
+        "k": 16,
+        "kappa": 1.0,
+        "dO": 10.65514241400533,
+        "dR": 1.334426045824729,
+        "delta_rel": 0.8747622515048947,
+        "recon_trade": false
+      },
+      {
+        "k": 15,
+        "kappa": 0.94140625,
+        "dO": 10.233754928569846,
+        "dR": 1.257026248805209,
+        "delta_rel": 0.8771686191843489,
+        "recon_trade": false
+      },
+      {
+        "k": 14,
+        "kappa": 0.8828125,
+        "dO": 9.804923124388685,
+        "dR": 1.1767654409580102,
+        "delta_rel": 0.8799821858846671,
+        "recon_trade": false
+      },
+      {
+        "k": 13,
+        "kappa": 0.82421875,
+        "dO": 9.380206816866139,
+        "dR": 1.1011998176486648,
+        "delta_rel": 0.8826038871905633,
+        "recon_trade": true
+      },
+      {
+        "k": 12,
+        "kappa": 0.765625,
+        "dO": 8.95199302364921,
+        "dR": 1.0222395564491156,
+        "delta_rel": 0.8858087183771723,
+        "recon_trade": true
+      },
+      {
+        "k": 11,
+        "kappa": 0.70703125,
+        "dO": 8.520663114944698,
+        "dR": 0.9449436651006675,
+        "delta_rel": 0.8890997505295923,
+        "recon_trade": true
+      },
+      {
+        "k": 10,
+        "kappa": 0.6484375,
+        "dO": 8.096530037510584,
+        "dR": 0.8651888475132451,
+        "delta_rel": 0.8931407845700697,
+        "recon_trade": true
+      },
+      {
+        "k": 9,
+        "kappa": 0.58984375,
+        "dO": 7.678097758015285,
+        "dR": 0.78686036884154,
+        "delta_rel": 0.8975188394781606,
+        "recon_trade": true
+      },
+      {
+        "k": 8,
+        "kappa": 0.53125,
+        "dO": 7.235381630313737,
+        "dR": 0.7068589607200969,
+        "delta_rel": 0.9023052277216999,
+        "recon_trade": true
+      },
+      {
+        "k": 7,
+        "kappa": 0.47265625,
+        "dO": 6.829445710700272,
+        "dR": 0.6308086283235627,
+        "delta_rel": 0.9076339932924247,
+        "recon_trade": true
+      },
+      {
+        "k": 6,
+        "kappa": 0.4140625,
+        "dO": 6.383827619210656,
+        "dR": 0.5511765741600844,
+        "delta_rel": 0.9136604859909679,
+        "recon_trade": true
+      },
+      {
+        "k": 5,
+        "kappa": 0.35546875,
+        "dO": 5.9606802476786225,
+        "dR": 0.4744874043755964,
+        "delta_rel": 0.9203971049176166,
+        "recon_trade": true
+      },
+      {
+        "k": 4,
+        "kappa": 0.296875,
+        "dO": 5.5385346567227005,
+        "dR": 0.3967981595274133,
+        "delta_rel": 0.9283568336896154,
+        "recon_trade": true
+      },
+      {
+        "k": 3,
+        "kappa": 0.23828125,
+        "dO": 5.10844041186388,
+        "dR": 0.31782028081802915,
+        "delta_rel": 0.9377852621947158,
+        "recon_trade": true
+      },
+      {
+        "k": 2,
+        "kappa": 0.1796875,
+        "dO": 4.686794621565127,
+        "dR": 0.23988553406309748,
+        "delta_rel": 0.9488167173019865,
+        "recon_trade": true
+      },
+      {
+        "k": 1,
+        "kappa": 0.12109375,
+        "dO": 4.260310376385174,
+        "dR": 0.16129946967756448,
+        "delta_rel": 0.9621390332094947,
+        "recon_trade": true
+      },
+      {
+        "k": 0,
+        "kappa": 0.0625,
+        "dO": 3.8247612534696493,
+        "dR": 0.08337325997794184,
+        "delta_rel": 0.9782017086942854,
+        "recon_trade": true
+      }
+    ],
+    "beta_1e-03": [
+      {
+        "k": 16,
+        "kappa": 1.0,
+        "dO": 1.3355504992994613,
+        "dR": 1.3355504992994605,
+        "delta_rel": 6.661338147750939e-16,
+        "recon_trade": false
+      },
+      {
+        "k": 15,
+        "kappa": 0.937515625,
+        "dO": 1.2509465699529438,
+        "dR": 1.2499761992458551,
+        "delta_rel": 0.000775709155288129,
+        "recon_trade": true
+      },
+      {
+        "k": 14,
+        "kappa": 0.8750312499999999,
+        "dO": 1.169102047966193,
+        "dR": 1.1671544508912461,
+        "delta_rel": 0.0016658914235374578,
+        "recon_trade": true
+      },
+      {
+        "k": 13,
+        "kappa": 0.812546875,
+        "dO": 1.0887616123886348,
+        "dR": 1.0857919605293307,
+        "delta_rel": 0.002727550113370558,
+        "recon_trade": true
+      },
+      {
+        "k": 12,
+        "kappa": 0.7500625,
+        "dO": 1.00329319958791,
+        "dR": 0.9993844172207382,
+        "delta_rel": 0.003895952218929799,
+        "recon_trade": true
+      },
+      {
+        "k": 11,
+        "kappa": 0.6875781249999999,
+        "dO": 0.9249234802254256,
+        "dR": 0.9200421099204461,
+        "delta_rel": 0.005277593670548586,
+        "recon_trade": true
+      },
+      {
+        "k": 10,
+        "kappa": 0.62509375,
+        "dO": 0.8427423090092063,
+        "dR": 0.8368734147190675,
+        "delta_rel": 0.006964043726532143,
+        "recon_trade": true
+      },
+      {
+        "k": 9,
+        "kappa": 0.562609375,
+        "dO": 0.7576810144132555,
+        "dR": 0.7508277684630775,
+        "delta_rel": 0.009045027946866457,
+        "recon_trade": true
+      },
+      {
+        "k": 8,
+        "kappa": 0.500125,
+        "dO": 0.6728488233965546,
+        "dR": 0.6650211465606789,
+        "delta_rel": 0.011633633832279666,
+        "recon_trade": true
+      },
+      {
+        "k": 7,
+        "kappa": 0.43764062500000006,
+        "dO": 0.5931689176267576,
+        "dR": 0.5843387637156534,
+        "delta_rel": 0.014886406972289157,
+        "recon_trade": true
+      },
+      {
+        "k": 6,
+        "kappa": 0.37515625,
+        "dO": 0.5105545036845204,
+        "dR": 0.5007548410131459,
+        "delta_rel": 0.01919415576721617,
+        "recon_trade": true
+      },
+      {
+        "k": 5,
+        "kappa": 0.31267187500000004,
+        "dO": 0.42782820545739586,
+        "dR": 0.4170440745450358,
+        "delta_rel": 0.02520668524140579,
+        "recon_trade": true
+      },
+      {
+        "k": 4,
+        "kappa": 0.25018750000000006,
+        "dO": 0.34575260964182275,
+        "dR": 0.3340270781300285,
+        "delta_rel": 0.033913067276458486,
+        "recon_trade": true
+      },
+      {
+        "k": 3,
+        "kappa": 0.18770312500000005,
+        "dO": 0.26216242467039613,
+        "dR": 0.24945538197832598,
+        "delta_rel": 0.04847011431194259,
+        "recon_trade": true
+      },
+      {
+        "k": 2,
+        "kappa": 0.12521875000000002,
+        "dO": 0.1807503701829537,
+        "dR": 0.16705422146896645,
+        "delta_rel": 0.0757738349311492,
+        "recon_trade": true
+      },
+      {
+        "k": 1,
+        "kappa": 0.062734375,
+        "dO": 0.09846693478094139,
+        "dR": 0.0837564478820713,
+        "delta_rel": 0.14939519475848806,
+        "recon_trade": true
+      },
+      {
+        "k": 0,
+        "kappa": 0.00025,
+        "dO": 0.016058389524825075,
+        "dR": 0.0003336696391487894,
+        "delta_rel": 0.9792214755637256,
+        "recon_trade": true
+      }
+    ],
+    "beta_1e-06": [
+      {
+        "k": 16,
+        "kappa": 1.0,
+        "dO": 1.3341484700303545,
+        "dR": 1.3341484700303545,
+        "delta_rel": 0.0,
+        "recon_trade": true
+      },
+      {
+        "k": 15,
+        "kappa": 0.937500015625,
+        "dO": 1.2489411311240506,
+        "dR": 1.2489401542959029,
+        "delta_rel": 7.821250525008594e-07,
+        "recon_trade": true
+      },
+      {
+        "k": 14,
+        "kappa": 0.8750000312499999,
+        "dO": 1.1658388758299845,
+        "dR": 1.165836923664755,
+        "delta_rel": 1.6744725792605664e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 13,
+        "kappa": 0.8125000468749999,
+        "dO": 1.0839923166983052,
+        "dR": 1.083989368503935,
+        "delta_rel": 2.719755781255273e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 12,
+        "kappa": 0.7500000625,
+        "dO": 1.0010370963633428,
+        "dR": 1.0010331839743478,
+        "delta_rel": 3.908335674318586e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 11,
+        "kappa": 0.687500078125,
+        "dO": 0.9160221106342895,
+        "dR": 0.9160171913257464,
+        "delta_rel": 5.370294544171372e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 10,
+        "kappa": 0.62500009375,
+        "dO": 0.8346217850559748,
+        "dR": 0.8346159002544722,
+        "delta_rel": 7.0508601716090524e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 9,
+        "kappa": 0.562500109375,
+        "dO": 0.7494965195411343,
+        "dR": 0.7494896604837229,
+        "delta_rel": 9.151553386210765e-06,
+        "recon_trade": true
+      },
+      {
+        "k": 8,
+        "kappa": 0.500000125,
+        "dO": 0.6679724936230189,
+        "dR": 0.667964668415095,
+        "delta_rel": 1.1714865504997007e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 7,
+        "kappa": 0.43750014062500003,
+        "dO": 0.5813735749823352,
+        "dR": 0.581364791140528,
+        "delta_rel": 1.5108773747662951e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 6,
+        "kappa": 0.37500015625,
+        "dO": 0.5002520580474594,
+        "dR": 0.5002422604439676,
+        "delta_rel": 1.9585333701721552e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 5,
+        "kappa": 0.312500171875,
+        "dO": 0.4168599251427016,
+        "dR": 0.41684912464374124,
+        "delta_rel": 2.590918029998779e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 4,
+        "kappa": 0.2500001875,
+        "dO": 0.33328593878134,
+        "dR": 0.33327417051277003,
+        "delta_rel": 3.530982619004419e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 3,
+        "kappa": 0.18750020312500001,
+        "dO": 0.24979429300478276,
+        "dR": 0.24978156787041192,
+        "delta_rel": 5.0942454360214384e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 2,
+        "kappa": 0.12500021875000003,
+        "dO": 0.16639321788211303,
+        "dR": 0.16637949298746046,
+        "delta_rel": 8.248469996108287e-05,
+        "recon_trade": true
+      },
+      {
+        "k": 1,
+        "kappa": 0.062500234375,
+        "dO": 0.08353234737131392,
+        "dR": 0.08351760794247196,
+        "delta_rel": 0.0001764517496011253,
+        "recon_trade": true
+      },
+      {
+        "k": 0,
+        "kappa": 2.5e-07,
+        "dO": 1.604428142536817e-05,
+        "dR": 3.330733252997425e-07,
+        "delta_rel": 0.9792403712906028,
+        "recon_trade": true
+      }
+    ]
+  },
   "anchors": [
     {
       "domain": "synthetic-DOA",

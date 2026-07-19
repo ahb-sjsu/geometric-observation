@@ -71,6 +71,36 @@ def synthetic_kappa_point(phi, d=64, r=8, n=20000, base_bits=1.0, decay=0.85):
                 recon_trade=bool(recon_O <= recon_R))
 
 
+def faithful_coupling_point(k, d=128, m=32, r=16, nu=4.0, beta=0.25, n=40000, base_bits=1.0):
+    """Faithful coupling model (fixes both confounds of the naive sweep).
+    Energy CONCENTRATED and FLAT-within-block: nuisance block dims 0..m-1 variance nu (high),
+    background dims m..d-1 variance beta (low). Read subspace = r axis-aligned dirs: k drawn from the
+    nuisance block (0..k-1), r-k from the background (m..m+(r-k)-1). Dialing k=r->0 moves the read
+    subspace from INSIDE the high-energy block (kappa=1, coupling null) to the low-energy background
+    (kappa small). Flat-within-block means at k=r the O-allocation (by variance) and R-allocation (by
+    read membership) coincide on the read dims -> genuine null. Report the SCALE-FREE relative flip
+    delta_rel = 1 - d_C(R)/d_C(O), since absolute delta inherently scales with read-subspace energy."""
+    var = np.full(d, beta); var[:m] = nu
+    read_idx = list(range(k)) + list(range(m, m + (r - k)))
+    Pc_diag = np.zeros(d); Pc_diag[read_idx] = 1.0
+    Sx = np.diag(var)
+    Pc = np.diag(Pc_diag)                                   # axis-aligned read projector (rank r)
+    top_r = np.sort(var)[::-1][:r].sum()
+    kappa = (Pc_diag * var).sum() / top_r
+
+    X = RNG.standard_normal((n, d)) * np.sqrt(var)
+    ranges = 4 * np.sqrt(var)                               # signal-scaled range (the embedding regime)
+    bO = alloc(var, base_bits, d)                           # recon-optimal: bits by variance
+    bR = alloc(np.clip(Pc_diag, 1e-9, None), base_bits, d)  # read-preserving: bits by read membership
+    SdO = quant_error_cov(X, bO, ranges)
+    SdR = quant_error_cov(X, bR, ranges)
+    dO = float((Pc_diag * np.diag(SdO)).sum())             # tr(Pc Sd) for diagonal Pc
+    dR = float((Pc_diag * np.diag(SdR)).sum())
+    return dict(k=int(k), kappa=float(kappa), dO=dO, dR=dR,
+                delta_rel=float(1 - dR / (dO + 1e-18)),
+                recon_trade=bool(np.trace(SdO) <= np.trace(SdR)))
+
+
 def anchor_doa(M=16, snr_db=10.0, theta0=0.2):
     """Synthetic lambda/2 ULA. Read direction ghat = P_a^perp a'(theta0); Sigma_x = P_s a a^H + sigma^2 I.
     kappa (r=1) = (ghat^H Sx ghat / |ghat|^2) / lambda_1(Sx)."""
@@ -110,7 +140,15 @@ def anchor_gradient():
 
 def main():
     sweep = [synthetic_kappa_point(phi) for phi in np.linspace(0.0, np.pi / 2, 11)]
+    # Salvage attempt: faithful coupling model (concentrated flat-block energy, m=r, relative flip).
+    faithful = {f"beta_{b:.0e}": [faithful_coupling_point(k, m=16, r=16, d=64, nu=4.0, beta=b)
+                                   for k in range(16, -1, -1)] for b in (0.25, 1e-3, 1e-6)}
     anchors = [anchor_doa(), anchor_gradient()]
+    print("=== faithful coupling salvage: delta_rel at kappa=1 (null) vs kappa~0 (max), by background beta ===")
+    for b, rows in faithful.items():
+        print(f"  {b}: kappa=1 delta_rel={rows[0]['delta_rel']:.4f}  kappa~0 delta_rel={rows[-1]['delta_rel']:.4f}")
+    print("  (sharp null delta_rel->0 at kappa=1 only when beta->0 = signal support == read support = D4;")
+    print("   but then the sweep degenerates: delta_rel~0 for all kappa>0 -> no magnitude dial.)\n")
     print("=== synthetic kappa-sweep (phi 0->pi/2 : read top-energy -> bottom-energy) ===")
     print(f"{'kappa':>7} {'delta':>11} {'delta_norm':>11} {'ratio dO/dR':>12}")
     for s in sweep:
@@ -129,23 +167,24 @@ def main():
     for a in anchors:
         print(f"  {a['domain']:16s} kappa={a['kappa']:.4f}  ({a['note']})")
     finding = (
-        "EXPLORATORY / honest negative. The naive alignment law (flip magnitude delta monotone "
-        "DECREASING in kappa) is NOT supported by honest simulation. Two confounds: (1) with the "
-        "correct signal-scaled recon-optimal quantizer, a low-energy read subspace (kappa->0) carries "
-        "little signal, so absolute distortion -- and delta -- washes out; the flip is not monotone but "
-        "peaked/U-shaped. (2) A rank-r read projector vs a smoothly-decaying Sigma_x spectrum makes the "
-        "kappa->1 coupling null fail to manifest (O spreads bits, R concentrates them, so dO != dR even "
-        "at kappa=1). No tested normalization (delta, delta/read_energy, dO/dR) is monotone in kappa. "
-        "ROBUST content that survives: the kappa->1 coupling null is real in the ANALYTIC anchors "
-        "(gradient-D4 kappa~0.80, empirically flip 27% ~ null) and DOA sits at kappa~0.006 with a large "
-        "flip -- so kappa PREDICTS THE NULL (high kappa => no flip) as an ordinal/sign law, but not the "
-        "full magnitude. A faithful magnitude law needs Sigma_x with rank-r-concentrated energy (to model "
-        "coupling) and a shared/uniform quantizer range (the DOA noise-floor regime), not the "
-        "signal-scaled embedding regime. GO-P-2026-040 was NOT sealed: sealing a prospective magnitude "
-        "prediction on an unvalidated law would violate the discipline."
+        "EXPLORATORY / honest negative, with a SHARPENING. The naive alignment law (flip magnitude delta "
+        "monotone DECREASING in kappa) is NOT supported. The salvage attempt (faithful coupling model: "
+        "concentrated flat-block energy, m=r, relative flip delta_rel=1-dR/dO) converges on a precise "
+        "characterization rather than a magnitude law: (a) the kappa=1 coupling null is SHARP "
+        "(delta_rel->0) exactly when the signal support equals the read support (background beta->0) -- "
+        "which is precisely the D4 coupling condition (Hessian support = X^TX energy support); (b) but in "
+        "that sharp-null regime the sweep DEGENERATES (delta_rel~0 for all kappa>0, jumping only at "
+        "kappa=0), because dialing kappa down puts the read subspace in the vanishing-energy background, "
+        "so the flip lands on negligible signal. A sharp null at kappa=1 AND a meaningful flip at low "
+        "kappa are IRRECONCILABLE in this model class. Robust conclusion: kappa is an ordinal "
+        "coupling-null predictor with an EXACT null condition (read support = signal support), not a "
+        "cross-regime magnitude dial; the flip magnitude is governed by where the read-subspace SIGNAL "
+        "sits relative to O's bit allocation, which is not a single scalar. Anchors: gradient-D4 "
+        "kappa~0.80 (empirical flip 27% ~ null), synthetic-DOA kappa~0.006 (large flip). GO-P-2026-040 "
+        "NOT sealed: no clean magnitude law exists to predict."
     )
-    out = dict(status="exploratory", finding=finding, synthetic_sweep=sweep, anchors=anchors,
-               spearman_kappa_delta_norm=float(rho))
+    out = dict(status="exploratory", finding=finding, synthetic_sweep=sweep,
+               faithful_coupling_salvage=faithful, anchors=anchors, spearman_kappa_delta_norm=float(rho))
     with open("results/GO-kappa-law.json", "w") as f:
         json.dump(out, f, indent=2)
     print("\n" + finding)
