@@ -1,0 +1,14 @@
+{
+  "id": "music-a2-reconciliation",
+  "domain": "music aesthetics (FMA CLAP-PCA embeddings) -- a2_probe reconciliation of the existing signflip_music.json",
+  "data": "/archive/results_aesthetics/music_clap_features.parquet: 24801 FMA tracks, 64-dim CLAP-PCA (proj_0..63), genre_top labels",
+  "consumer": "genre classification (16 genres); held-out logistic-regression acc 0.680 (majority 0.292) -- a working angular consumer",
+  "a2_diagnostics": {"tangential_fraction": 0.976, "unit_displacement": 1.431, "regime": "ISOTROPIC-angular (moral-like; NOT the direction-concentration regime of legal/KV-keys)"},
+  "probe_quotient_genre_logit_with_whitening": {
+    "bits1": {"polar": 0.784, "per_channel": 0.719, "whitened": 0.785, "recommend": "whitened"},
+    "bits2": {"polar": 0.801, "per_channel": 0.784, "whitened": 0.797, "recommend": "polar"},
+    "bits3": {"polar": 0.942, "per_channel": 0.943, "whitened": 0.936, "recommend": "per_channel (tie; too light)"}
+  },
+  "reconciliation": "signflip_music.json (6-sigma negative-quadratic flip on CLAP-PCA compression) is the ISOTROPIC-ANGULAR regime: angular families (polar/whitened) preserve the genre-logit ranking better than recon-oriented per-channel at heavy compression -> the flip is visible to a generic angular code (moral-like, not legal/KV-keys concentration). New SPD-whitened candidate competitive (tops at bits=1).",
+  "note": "exploratory reconciliation; signflip used listens/favorites aesthetic rating, this uses genre -- both angular consumers on the same CLAP embeddings."
+}

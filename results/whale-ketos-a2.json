@@ -1,0 +1,15 @@
+{
+  "id": "whale-ketos-a2",
+  "domain": "cetacean communication (sperm whale codas, DSWP/Sharma 2024, eris-ketos) -- a2_probe flip characterization + DRI=Bond-Index reconciliation",
+  "data": "DominicaCodas.csv (sw-combinatoriality): 8718 codas; ICI rhythm features (nClicks, Duration, ICI1..9); labels CodaType/Clan/Unit",
+  "consumer": "Clan (dialect) classification from coda rhythm -- held-out acc 0.977 (majority 0.893; 2 clans EC1/EC2, imbalanced); 11-dim features",
+  "a2_diagnostics": {"tangential_fraction": 0.799, "unit_displacement": 1.410, "regime": "isotropic BUT cross-channel-correlated (ICIs temporally correlated) -> WHITENING-FRIENDLY"},
+  "probe_quotient_clan_logit_with_whitening": {
+    "bits1": {"polar": 0.727, "per_channel": 0.413, "whitened": 0.829, "recommend": "whitened"},
+    "bits2": {"polar": 0.785, "per_channel": 0.798, "whitened": 0.854, "recommend": "whitened"},
+    "bits3": {"polar": 0.934, "per_channel": 0.888, "whitened": 0.970, "recommend": "whitened"}
+  },
+  "finding": "The SPD-whitened family (the a2_probe candidate added in turboquant-pro PR #159) WINS AT EVERY bit level -- the clearest domain for it -- because the coda ICI rhythm features are cross-channel CORRELATED, which the diagonal per-channel code cannot decorrelate but ZCA whitening does. New regime point: isotropic (unit_disp 1.41) yet correlated -> whitening-friendly (distinct from KV-keys concentrated-correlated and legal channel-structured).",
+  "dri_reconciliation": "eris-ketos DecoderRobustnessIndex is EXPLICITLY 'Bond Index (ethics) -> DRI (bioacoustics)' -- the same consumer-relative distortion methodology: invariant acoustic transforms must not change the decoder read (ker P_C); stress transforms do (the read direction). eris-ketos already instantiates observation theory for whale decoders; the DRI acts on audio, the a2_probe flip on the extracted coda features.",
+  "caveats": "11-dim features (low); Clan consumer imbalanced (89% EC1); audio-level DRI needs raw audio (only coda features available); CodaType is near-tautological from ICIs (unusable consumer)."
+}
