@@ -8,6 +8,18 @@ the book may not assert what this ledger cannot show. Classes: `[proved]`,
 > **Post-publication, this ledger is the living erratum** (§10). Failures
 > downgrade a claim before print; the book's tables carry IDs that resolve here.
 
+> **A2 disambiguation** (U0 gate; one word each, so "A2" is never over-read).
+> "A2" names two different, unequal results — keep them distinct:
+> - **A2-anchor** = GO-P-2026-021 (real-Llama rematch). One word: **worse-arm.**
+>   It is reconstruction-invisible *worse-arm* discrimination on **one** consumer
+>   with recon-tied arms — **not** a two-consumer verdict **inversion**. The full
+>   two-consumer inversion ("the flip") is carried by the physical/real-corpus
+>   sweep rows (DOA 031/033, seismic/acoustic 034, legal 036, whale 038).
+> - **A2-probe** = the `a2_probe` reconciliation rows (GO-P-2026-037: moral, music,
+>   KV-keys). One word: **verdict.** A one-metric quantizer-family *recommendation*
+>   consistent with the flip — **not** a sealed two-metric flip. Whale (038) was
+>   promoted out of this class into a sealed flip; moral/music/KV remain verdicts.
+
 ## The falsifiable core (GO-1 … GO-5)
 
 Risk-bearing claims (§2). `pending` = registry entry and/or run not yet complete.
