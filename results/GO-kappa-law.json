@@ -1,0 +1,140 @@
+{
+  "status": "exploratory",
+  "finding": "EXPLORATORY / honest negative. The naive alignment law (flip magnitude delta monotone DECREASING in kappa) is NOT supported by honest simulation. Two confounds: (1) with the correct signal-scaled recon-optimal quantizer, a low-energy read subspace (kappa->0) carries little signal, so absolute distortion -- and delta -- washes out; the flip is not monotone but peaked/U-shaped. (2) A rank-r read projector vs a smoothly-decaying Sigma_x spectrum makes the kappa->1 coupling null fail to manifest (O spreads bits, R concentrates them, so dO != dR even at kappa=1). No tested normalization (delta, delta/read_energy, dO/dR) is monotone in kappa. ROBUST content that survives: the kappa->1 coupling null is real in the ANALYTIC anchors (gradient-D4 kappa~0.80, empirically flip 27% ~ null) and DOA sits at kappa~0.006 with a large flip -- so kappa PREDICTS THE NULL (high kappa => no flip) as an ordinal/sign law, but not the full magnitude. A faithful magnitude law needs Sigma_x with rank-r-concentrated energy (to model coupling) and a shared/uniform quantizer range (the DOA noise-floor regime), not the signal-scaled embedding regime. GO-P-2026-040 was NOT sealed: sealing a prospective magnitude prediction on an unvalidated law would violate the discipline.",
+  "synthetic_sweep": [
+    {
+      "phi": 0.0,
+      "kappa": 1.0,
+      "dO": 0.4725869715720688,
+      "dR": 0.00041204236448701327,
+      "delta": 0.4721749292075818,
+      "delta_rel": 0.9991281131510769,
+      "delta_norm": 0.09735438756302876,
+      "ratio": 1146.9378179437808,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.15707963267948966,
+      "kappa": 0.9755309879091929,
+      "dO": 0.45726465364474694,
+      "dR": 0.051104035909142864,
+      "delta": 0.4061606177356041,
+      "delta_rel": 0.8882396977271411,
+      "delta_norm": 0.08584388156733383,
+      "ratio": 8.947720967650453,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.3141592653589793,
+      "kappa": 0.9045191490258513,
+      "dO": 0.4258162980697103,
+      "dR": 0.0620447523293598,
+      "delta": 0.3637715457403505,
+      "delta_rel": 0.8542922086085659,
+      "delta_norm": 0.08292081561370883,
+      "ratio": 6.8630509765343914,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.47123889803846897,
+      "kappa": 0.793915616908451,
+      "dO": 0.37310073142595035,
+      "dR": 0.06367782696217832,
+      "delta": 0.309422904463772,
+      "delta_rel": 0.8293280564751564,
+      "delta_norm": 0.08035829594818673,
+      "ratio": 5.8591938390374985,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.6283185307179586,
+      "kappa": 0.6545470359007654,
+      "dO": 0.30762099642299867,
+      "dR": 0.0593298940591639,
+      "delta": 0.24829110236383478,
+      "delta_rel": 0.807133145169361,
+      "delta_norm": 0.07821191170998672,
+      "ratio": 5.184924080785539,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.7853981633974483,
+      "kappa": 0.500055773749829,
+      "dO": 0.23539865657404183,
+      "dR": 0.05050541134827959,
+      "delta": 0.18489324522576223,
+      "delta_rel": 0.7854473254685751,
+      "delta_norm": 0.07623514036985368,
+      "ratio": 4.660860099645531,
+      "recon_trade": true
+    },
+    {
+      "phi": 0.9424777960769379,
+      "kappa": 0.3455645115988924,
+      "dO": 0.16251947598054123,
+      "dR": 0.038940547881999785,
+      "delta": 0.12357892809854144,
+      "delta_rel": 0.7603945764172744,
+      "delta_norm": 0.0737340168204569,
+      "ratio": 4.173528232546828,
+      "recon_trade": true
+    },
+    {
+      "phi": 1.0995574287564276,
+      "kappa": 0.20619593059120733,
+      "dO": 0.09749944454839134,
+      "dR": 0.026242870593946845,
+      "delta": 0.07125657395444449,
+      "delta_rel": 0.7308408194915128,
+      "delta_norm": 0.07125206455205352,
+      "ratio": 3.7152736090984346,
+      "recon_trade": true
+    },
+    {
+      "phi": 1.2566370614359172,
+      "kappa": 0.09559239847380734,
+      "dO": 0.045398065304822904,
+      "dR": 0.014262837319735721,
+      "delta": 0.031135227985087183,
+      "delta_rel": 0.685827199360711,
+      "delta_norm": 0.06715545514432014,
+      "ratio": 3.182961726613953,
+      "recon_trade": true
+    },
+    {
+      "phi": 1.413716694115407,
+      "kappa": 0.024580559590465557,
+      "dO": 0.01202426002971565,
+      "dR": 0.004800562017966822,
+      "delta": 0.007223698011748828,
+      "delta_rel": 0.6007602957101796,
+      "delta_norm": 0.06059271624735387,
+      "ratio": 2.5047608972050135,
+      "recon_trade": true
+    },
+    {
+      "phi": 1.5707963267948966,
+      "kappa": 0.00011154749965823541,
+      "dO": 0.0005395051411798265,
+      "dR": 4.5014298320365295e-08,
+      "delta": 0.0005394601268815061,
+      "delta_rel": 0.9999165618734633,
+      "delta_norm": 0.9971307617771961,
+      "ratio": 11984.928708908497,
+      "recon_trade": true
+    }
+  ],
+  "anchors": [
+    {
+      "domain": "synthetic-DOA",
+      "kappa": 0.006211180124223607,
+      "note": "ghat perp steering => kappa~0"
+    },
+    {
+      "domain": "gradient-D4",
+      "kappa": 0.7993695637526196,
+      "note": "H and X^TX share eigenstructure => kappa~1"
+    }
+  ],
+  "spearman_kappa_delta_norm": 0.5
+}

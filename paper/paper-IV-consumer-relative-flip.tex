@@ -52,11 +52,13 @@ sperm-whale dialect. The flip reproduces wherever the consumer's read operator i
 \textbf{identifiable} --- given by the geometry, or recovered blind from the consumer by
 probing what its output is sensitive to --- and fails, informatively, exactly where the
 read operator is \emph{coupled} to the signal's own energy or the consumer does not
-function. We derive the failure modes as the four degeneracies of $\PC$ and collapse the
-central one into a continuous, ex-ante dial: a read--energy alignment coefficient
-$\kalign=\tr(\PCbar\Sx)/\sum_{i\le r}\lambda_i(\Sx)$ whose endpoints are fixed
-analytically (a coupling null at $\kalign\to1$; a maximal flip at $\kalign\to0$) and
-whose interior is a registered prediction. Which code best exposes the flip is set not
+function. We derive the failure modes as the four degeneracies of $\PC$ and give the
+central one an ex-ante \emph{sign} predictor: a read--energy alignment coefficient
+$\kalign=\tr(\PCbar\Sx)/\sum_{i\le r}\lambda_i(\Sx)$ that near $1$ forbids the flip
+before any code is built (the gradient-coupling null). We tested, and report as an honest
+negative, the stronger claim that $\kalign$ reads off the flip \emph{magnitude}: it does
+not --- the magnitude is confounded by read-subspace energy and the quantizer regime, so
+$\kalign$ is a coupling-null predictor, not a continuous dial. Which code best exposes the flip is set not
 by one statistic but by two axes of the representation's geometry --- concentration and
 correlation --- a diagnostic that also selects the code at deployment and whose
 single-statistic shortcut we pre-register and refute. Reconstruction fidelity is the
@@ -109,9 +111,9 @@ energy (as it is for gradient compression under a curvature metric, whose high-c
 and high-energy directions coincide), the flip provably cannot appear --- and it does
 not. These failures are not noise; they are the theory's scope conditions. We show they
 are exactly the four ways the operator $\PC$ can degenerate, and that the central one
---- coupling --- is not a bucket but a \emph{continuous} coordinate, a read--energy
-alignment coefficient $\kalign$ whose extremes we fix in closed form and whose interior
-we register as a prediction. Which encoding best exposes the flip, in turn, lives on two
+--- coupling --- is read off before any code is built by a read--energy alignment
+coefficient $\kalign$ that near $1$ forbids the flip (though, as we report, it does not
+predict the flip's magnitude). Which encoding best exposes the flip, in turn, lives on two
 axes --- how \emph{concentrated} a representation's directions are and how
 \emph{correlated} its channels are --- and no single summary statistic (we pre-register
 one and refute it) can stand in for the full two-axis diagnostic.
@@ -127,9 +129,10 @@ its ground truth, turning a failed retrieval test into a confirmation on the ide
 held-out set, and confirmed a second time on a fully virgin split --- the identifiability
 boundary made constructive.
 \item The failure modes derived as the \textbf{four degeneracies of $\PC$}, and the
-coupling degeneracy collapsed into the \textbf{$\kalign$ alignment law} --- a continuous,
-ex-ante predictor of flip magnitude with analytically fixed endpoints and a registered
-interior point.
+coupling degeneracy given an ex-ante \textbf{sign predictor} $\kalign$ that forbids the
+flip when the read subspace aligns with the signal's energy --- together with the honest
+negative that $\kalign$ does \emph{not} predict the flip magnitude, which we tested and
+report rather than claim.
 \item A \textbf{two-axis regime map} (concentration $\times$ correlation) that predicts
 the winning code per domain, with a validated diagnostic and a refuted single-statistic
 shortcut.
@@ -216,16 +219,31 @@ energy eigenspace of $\Sx$; $\kalign$ is small when the read subspace lies in th
 signal's low-energy directions.
 \end{definition}
 
-\begin{proposition}[alignment law, informal]\label{prop:kappa}
-At matched bits, the flip magnitude
-$\Delta \;=\; d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R})$
-is non-increasing in $\kalign$. At $\kalign=1$ (full coupling, D1) reverse water-filling
-already spends its budget on the read directions, so $\Delta\to0$: the coupling null. As
-$\kalign\to0$ the reconstruction-optimal code starves the read directions and $\Delta$ is
-maximal.
+\begin{proposition}[coupling null]\label{prop:kappa}
+At $\kalign=1$ (full coupling, D1) the read subspace is the top-energy subspace, reverse
+water-filling already spends its budget on the read directions, and the flip vanishes:
+$\Delta = d_{\mathcal C}(\mathrm{O}) - d_{\mathcal C}(\mathrm{R})\to0$. Away from
+coupling, $\Delta$ can be positive.
 \end{proposition}
 
-\noindent The two endpoints are fixed \emph{analytically}, not fit:
+\begin{remark}[what $\kalign$ does and does not predict --- honest negative]\label{rem:kappa}
+The natural strengthening --- that $\Delta$ is \emph{monotone} decreasing in $\kalign$,
+so that $\kalign$ reads off the flip magnitude as a single ex-ante number --- is
+\textbf{not supported}. In honest simulation the flip magnitude is confounded by two
+effects: (i) with the correct signal-scaled reconstruction-optimal quantizer, a
+low-energy read subspace ($\kalign\to0$) carries little signal, so its absolute distortion
+--- and $\Delta$ --- washes out, making $\Delta$ peaked in $\kalign$ rather than monotone;
+and (ii) the flip magnitude depends on the quantizer-range regime (a shared/noise-floor
+range, as in array direction-finding, versus a per-direction signal-scaled range, as in
+embeddings). No tested normalization of $\Delta$ is monotone in $\kalign$. What survives
+is the \emph{ordinal} prediction of Proposition~\ref{prop:kappa}: $\kalign\to1$ forbids
+the flip (the gradient-coupling null), and the large-flip domains sit at small $\kalign$.
+$\kalign$ is a coupling-null predictor, not a magnitude dial. We record this as an honest
+negative (\texttt{results/GO-kappa-law.json}); a faithful magnitude law would require a
+signal model matched to the quantizer regime and is left open.
+\end{remark}
+
+\noindent The endpoints of the ordinal prediction are fixed \emph{analytically}, not fit:
 \begin{itemize}\itemsep2pt
 \item \textbf{$\kalign\to0$ (maximal flip).} For direction finding the read direction is
 $\hat g = P_a^{\perp}a'(\theta_0)$, the array-manifold derivative orthogonalised against
@@ -241,14 +259,14 @@ anti-probe stays maximal --- the read operator governs the task, but the flip ca
 appear.
 \end{itemize}
 
-Proposition~\ref{prop:kappa} converts boundary condition (D1) from a bucket into an
-ex-ante coordinate. Its endpoints are settled; its interior is the paper's registered
-prediction. We measure $\kalign$ retrospectively across the twelve domains (labelled
-retrospective) and register one prospective point at intermediate $\kalign$,
-\seal{040}, predicting an intermediate $\Delta$ before the run
-(Appendix~\ref{app:kappa}). \emph{This paper reports the analytic endpoints and the
-registered protocol; the interior measurement is the one quantitative result still in
-flight, and is marked as such wherever it appears.}
+Proposition~\ref{prop:kappa} makes boundary condition (D1) an ex-ante \emph{sign}
+coordinate: given the read operator and the signal covariance, $\kalign$ near $1$ predicts
+\emph{no} flip before any code is built, which is what the gradient-compression null
+(\S\ref{sec:results}) confirms. Remark~\ref{rem:kappa} is equally load-bearing: the
+attempt to promote this to a continuous magnitude law was made and \emph{failed} the
+honest test, so we do not claim it. The prospective magnitude seal we had reserved
+(\seal{040}) is accordingly \textbf{not sealed} --- registering a magnitude prediction on
+an unvalidated law is exactly the over-reach the protocol exists to prevent.
 
 \subsection{Recovering the read operator}\label{sec:probe}
 
@@ -460,11 +478,10 @@ it), i.e.\ the same methodology reached from a different field.
 
 \paragraph{Limitations.} The two reconciliations are (A2) verdicts, not sealed flips;
 radar is data-limited; each domain uses a single model and dataset; the audio-level
-decoder-robustness measurement was not run. The one quantitative piece still in flight is
-the \emph{interior} of the $\kalign$ law: its endpoints are analytic and its protocol is
-registered (\seal{040}), but the cross-domain $\kalign$ measurement is pending and is
-marked as such wherever it appears --- we do not report $\kalign$ values we have not
-measured.
+decoder-robustness measurement was not run. And the $\kalign$ coordinate delivers less
+than we first hoped: it robustly predicts the coupling \emph{null} ($\kalign\to1\Rightarrow$
+no flip) but not the flip magnitude (Remark~\ref{rem:kappa}), a limitation we found by
+testing the stronger claim and reporting its failure rather than the claim.
 
 \paragraph{Outlook.} The operational reading is direct: for compression under a known
 consumer, \emph{measure the regime and adapt the code} --- certify what the consumer reads
@@ -497,15 +514,20 @@ git ancestor of its result. The supersession chains
 ($035\to036\to039$, $032\to033$, $020\to021$, and the earlier core iterations) carry every
 miss at equal prominence with its correction.
 
-\section{The $\kalign$ measurement protocol (\seal{040})}\label{app:kappa}
-The retrospective analysis computes $\kalign$ (Definition~\ref{def:kappa}) for each of the
-twelve domains from its read operator $\PC$ and signal second moment $\Sx$, and tests
-Proposition~\ref{prop:kappa} (flip magnitude $\Delta$ non-increasing in $\kalign$) with the
-analytic endpoints as anchors ($\kalign\approx0$ for the DOA/synthetic reads,
-$\kalign\approx1$ for the gradient Hessian). The prospective seal \seal{040} fixes, before
-the run, a domain engineered or selected to sit at intermediate $\kalign\approx0.5$ and
-predicts an intermediate $\Delta$ bounded away from both the coupling null and the maximal
-flip; the falsification is $\Delta$ landing at either extreme. This appendix is a protocol,
-not a result: the $\kalign$ values are reported only once measured.
+\section{The $\kalign$ measurement (\texttt{results/GO-kappa-law.json})}\label{app:kappa}
+We computed $\kalign$ (Definition~\ref{def:kappa}) for the two analytic anchors
+($\kalign\approx0.006$ for the synthetic-ULA read $\hat g=P_a^\perp a'$;
+$\kalign\approx0.80$ for the gradient Hessian on \texttt{load\_digits}), and ran a
+controlled synthetic sweep dialing $\kalign$ from $0$ to $1$ with real matched-bit
+quantization to test whether the flip magnitude $\Delta$ is monotone in $\kalign$. It is
+not: $\Delta$ is peaked rather than monotone (no tested normalization ---
+$\Delta$, $\Delta/\tr(\PCbar\Sx)$, or $d_{\mathcal C}(\mathrm O)/d_{\mathcal C}(\mathrm R)$
+--- is monotone), because a low-energy read subspace carries little signal and because the
+result depends on the quantizer-range regime (Remark~\ref{rem:kappa}). The
+\emph{ordinal} content survives --- the $\kalign\approx0.80$ gradient anchor is the
+empirical null (flip $27\%$), the $\kalign\approx0.006$ array read is a large flip --- so
+$\kalign$ is reported as a coupling-null predictor. The prospective magnitude seal
+\seal{040} was \textbf{not} taken: the law it would have tested did not survive
+validation. A magnitude law matched to the quantizer regime is left as open work.
 
 \end{document}
