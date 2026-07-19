@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 plt.rcParams.update({
@@ -38,7 +39,7 @@ def fig1():
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.6, 2.9))
 
     a1.bar(x - w/2, dn_R, w, color=R_COL, label="read-preserving (R)")
-    a1.bar(x + w/2, dn_O, w, color=O_COL, label="recon-optimal (O)")
+    a1.bar(x + w/2, dn_O, w, color=O_COL, label="recon-oriented (O)")
     for xi, r, o in zip(x, dn_R, dn_O):
         a1.text(xi - w/2, r + .004, f"{r:.3f}", ha="center", va="bottom", fontsize=7.5, color=R_COL)
         a1.text(xi + w/2, o + .004, f"{o:.3f}", ha="center", va="bottom", fontsize=7.5, color=O_COL)
@@ -64,38 +65,42 @@ def fig1():
 
 # ---------------------------------------------------------------- Fig 2: domain sweep
 def fig2():
-    # (label, physics, k, n, tier) -- held-out flip fraction; A2 keys = worse-arm 16/16
-    rows = [
-        ("Synthetic ULA", "synthetic", 6, 6, "sealed"),
-        ("LLM keys (Llama-3.2)", "neural", 16, 16, "sealed"),
-        ("LOCATA acoustic", "acoustic", 11, 13, "sealed"),
-        ("AV16.3 acoustic", "acoustic", 148, 201, "sealed"),
-        ("PDAR seismic", "seismic", 13, 17, "sealed"),
-        ("Legal retrieval", "retrieval", 200, 200, "sealed"),
-        ("Whale codas", "bioacoustic", 300, 300, "sealed"),
-        ("RaDICaL radar", "EM/radar", 25, 25, "partial"),
-        ("Gradient optim.", "optimization", 82, 300, "null"),
+    # DESCRIPTIVE flip fraction over each domain's independent unit. No binomial CI:
+    # units are clustered (windows in recordings) or bootstrap resamples (legal, whale),
+    # so a common Wilson interval has no valid interpretation (see App. A). LLM keys are
+    # NOT plotted here -- that result is a mechanism confirmation, not a flip.
+    rows = [  # (label, unit, k, n, tier)  fraction is descriptive
+        ("Synthetic ULA", "6 configs", 6, 6, "sealed"),
+        ("LOCATA acoustic", "13 recordings", 11, 13, "sealed"),
+        ("AV16.3 acoustic", "201 windows / 3 rec.", 148, 201, "sealed"),
+        ("PDAR seismic", "17 events", 13, 17, "sealed"),
+        ("Legal retrieval", "bootstrap (n=1342)", 200, 200, "sealed"),
+        ("Whale codas", "bootstrap (n=2907)", 300, 300, "sealed"),
+        ("RaDICaL radar", "25 frames / 1 rec.", 25, 25, "partial"),
+        ("Gradient optim.", "300 steps / 1 traj.", 82, 300, "null"),
     ]
     rows = rows[::-1]
-    fig, ax = plt.subplots(figsize=(6.6, 3.8))
-    for i, (lab, phys, k, n, tier) in enumerate(rows):
-        p, lo, hi = wilson(k, n)
-        ax.plot([lo, hi], [i, i], color=TIER[tier], lw=1.6, zorder=1, solid_capstyle="round")
-        ax.scatter([p], [i], s=34, color=TIER[tier], zorder=3, edgecolor="white", linewidth=.6)
+    fig, ax = plt.subplots(figsize=(6.6, 3.6))
+    for i, (lab, unit, k, n, tier) in enumerate(rows):
+        p = k / n
+        boot = "bootstrap" in unit
+        ax.scatter([p], [i], s=44, color=TIER[tier], zorder=3, edgecolor="white", linewidth=.7,
+                   marker="D" if boot else "o")
         ax.text(1.015, i, f"{k}/{n}", va="center", fontsize=7.3, color="#555")
         ax.text(-0.02, i, f"{lab}  ", va="center", ha="right", fontsize=8.2)
-        ax.text(hi + 0.0, i + 0.28, phys, va="center", fontsize=6.3, color="#999", style="italic")
+        ax.text(p, i + 0.30, unit, va="center", ha="center", fontsize=6.0, color="#999", style="italic")
     ax.axvline(0.5, color="#bbb", ls=":", lw=0.8, zorder=0)
-    ax.text(0.5, len(rows) - 0.3, "chance", fontsize=6.5, color="#999", ha="center")
-    ax.set_xlim(0, 1.14); ax.set_ylim(-0.7, len(rows) - 0.2)
-    ax.set_yticks([]); ax.set_xlabel("held-out flip fraction (Wilson 95% CI)")
+    ax.text(0.5, len(rows) - 0.25, "chance", fontsize=6.5, color="#999", ha="center")
+    ax.set_xlim(0, 1.14); ax.set_ylim(-0.7, len(rows) - 0.1)
+    ax.set_yticks([]); ax.set_xlabel("held-out flip fraction (descriptive; per-unit inference in App. A)")
     ax.set_xticks([0, .25, .5, .75, 1.0])
     ax.spines[["top", "right", "left"]].set_visible(False)
-    leg = [Patch(color=TIER["sealed"], label="sealed confirmation"),
+    leg = [Patch(color=TIER["sealed"], label="flip confirmation"),
            Patch(color=TIER["partial"], label="partial (data-limited)"),
-           Patch(color=TIER["null"], label="sealed null (coupling)")]
-    ax.legend(handles=leg, frameon=False, fontsize=7.6, loc="upper left", bbox_to_anchor=(0.0, 0.62))
-    ax.set_title("The flip across nine pre-registered domains", fontsize=10)
+           Patch(color=TIER["null"], label="sealed null"),
+           Line2D([0], [0], marker="D", color="#888", ls="", ms=6, label="bootstrap (stability, not a sample size)")]
+    ax.legend(handles=leg, frameon=False, fontsize=7.0, loc="upper left", bbox_to_anchor=(0.0, 0.55))
+    ax.set_title("The flip across eight pre-registered domains", fontsize=10)
     fig.tight_layout()
     fig.savefig(os.path.join(HERE, "fig2_sweep.pdf"), bbox_inches="tight")
     plt.close(fig)
@@ -108,7 +113,7 @@ def fig3():
     x = np.arange(3)
     fig, ax = plt.subplots(figsize=(4.7, 3.0))
     ax.plot(x, R, "-o", color=R_COL, lw=1.8, ms=6, label="read-preserving (R)")
-    ax.plot(x, O, "-s", color=O_COL, lw=1.8, ms=5.5, label="recon-optimal (O)")
+    ax.plot(x, O, "-s", color=O_COL, lw=1.8, ms=5.5, label="recon-oriented (O)")
     for xi, r, o in zip(x, R, O):
         ax.annotate(f"{r:.3f}", (xi, r), textcoords="offset points", xytext=(0, 7), ha="center", fontsize=7.3, color=R_COL)
         ax.annotate(f"{o:.3f}", (xi, o), textcoords="offset points", xytext=(0, -12), ha="center", fontsize=7.3, color=O_COL)
