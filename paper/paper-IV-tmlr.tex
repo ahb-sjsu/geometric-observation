@@ -529,6 +529,23 @@ already exact. Radar is the data limit: the flip and reconstruction-trade hold
 8-element array and the disjoint-recording held-out is inaccessible (the full set is
 310\,GB) --- recorded as a partial, not inflated to a confirmation.
 
+\paragraph{A blind, non-oracle prospective test.} The sweep's confirmations recover the read
+operator, but each is scored after the read direction is known. We therefore ran one
+\emph{fully prospective} test (\seal{041}) on a fresh, untouched domain (20-Newsgroups
+\texttt{sci.space} vs \texttt{rec.autos}, frozen LSA embedding fit on the training split
+only): recover $\PC$ \emph{non-oracle} by finite-differencing the classifier's margin (no
+labels, no ground-truth direction), freeze the code on an internal split, and \textbf{commit
+the winning code, the sign of the reversal, and a magnitude band before opening the test
+split}. Outcome --- \textbf{partial, reported in full}: the blind prediction of the
+\emph{winning code} held (test AUROC R\,$0.975>$\,O\,$0.910$, anti worst), so the framework
+discovered the operative geometry and chose the better code before seeing any downstream
+label; but the reconstruction-trade collapsed to a tie on held-out (O\,$0.528\approx$\,R\,$0.526$)
+--- a mechanism confirmation, not a full flip --- and the observed gap ($0.064$) exceeded the
+sealed magnitude band $[0.015,0.045]$ (predicted sign correct, point magnitude
+under-estimated). The prospective \emph{direction} is recoverable blind; the two-metric flip
+and the point magnitude are not calibrated by an internal split alone, which is the honest
+frontier (\S\ref{sec:discussion}).
+
 \section{An exploratory regime map}\label{sec:regime}
 
 This map is \emph{exploratory}: a descriptive summary with few natural domains per cell and
@@ -638,10 +655,15 @@ authors) is restored in the non-anonymized version.} --- measures precisely read
 (invariant acoustic transforms leave the decoder's read unchanged; stress transforms move
 it), i.e.\ the same methodology reached from a different field.
 
-\paragraph{Limitations.} The three (A2) diagnostics (music, moral, keys) are one-metric,
-not sealed flips; the array read operators are oracle-informed proxies (Methods); radar is
-data-limited; each domain uses a single model and dataset; the clustered/hierarchical
-re-analysis (App.~\ref{app:domains}) and an independent replication remain open. And the $\kalign$ coordinate delivers less
+\paragraph{Limitations, and the open problem.} The three (A2) diagnostics (music, moral,
+keys) are one-metric, not sealed flips; the array read operators are oracle-informed proxies
+(Methods); radar is data-limited; each domain uses a single model and dataset; the
+clustered/hierarchical re-analysis (App.~\ref{app:domains}) and an independent replication
+remain open. The sharpest open problem is \emph{magnitude, prospectively}: the blind
+non-oracle test (\seal{041}) recovered the winning code's \emph{direction} on untouched data
+but missed the sealed magnitude band and lost the recon-trade on held-out. Predicting the
+effect size --- not just its sign --- from $\tr[\PC(\Sd^{\mathrm O}-\Sd^{\mathrm R})]$ across
+rate and domain, calibrated hierarchically, is the natural next contribution. And the $\kalign$ coordinate delivers less
 than we first hoped: it robustly predicts the coupling \emph{null} ($\kalign\to1\Rightarrow$
 no flip) but not the flip magnitude (Remark~\ref{rem:kappa}), a limitation we found by
 testing the stronger claim and reporting its failure rather than the claim.
@@ -731,7 +753,7 @@ a genericity claim.
 
 \section{Registry accounting}\label{app:registry}
 The ``no file drawer'' claim rests on the registration sequence having no unexplained holes.
-Table~\ref{tab:registry} gives every \texttt{GO-P-2026} identifier (001--039) a disposition:
+Table~\ref{tab:registry} gives every \texttt{GO-P-2026} identifier (001--041) a disposition:
 \emph{sweep} (a row of Table~\ref{tab:sweep}), \emph{core} (a falsifiable-core row of a
 companion paper), \emph{cost} (a companion theorem harness), \emph{sup$\to$NNN} (a miss
 superseded by a named successor, the miss still reported), or \emph{none} (never assigned).
@@ -774,7 +796,8 @@ ID & disposition & ID & disposition \\
 017 & core; sup$\to$018          & 037 & \textbf{sweep} M/K/Mu (NEG-14) \\
 018 & core; sup$\to$019          & 038 & \textbf{sweep} W (whale) \\
 019 & core (GO-5, refuted NEG-11)& 039 & \textbf{sweep} L (virgin split) \\
-020 & core; sup$\to$021 (NEG-12) &     & \\
+020 & core; sup$\to$021 (NEG-12) & 040 & \emph{void} ($\kalign$-magnitude, unsealed) \\
+    &                            & 041 & \textbf{sweep} blind non-oracle (partial) \\
 \bottomrule
 \end{tabular}
 \end{table}
