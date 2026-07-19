@@ -1,0 +1,26 @@
+{
+  "id": "GO-P-2026-034-D4",
+  "domain": "optimization -- gradient compression, curvature (Hessian) read operator, on a REAL model + task (optional stretch)",
+  "class": "honest negative (subtle flip) + robust anti-probe positive",
+  "prospective": true,
+  "harness": "experiments/d4_optim_flip.py (self-contained: sklearn load_digits, one-vs-rest logistic regression)",
+  "model": "one-vs-rest binary logistic regression on real handwritten-digit data (sklearn load_digits, 64 features + bias); read operator P_C = the exact loss Hessian H = (1/n) X' diag(p(1-p)) X at the step",
+  "consumer": "single-step update-direction distortion under the H-metric (delta' H delta / g' H g) -- the same metric as the confirmed synthetic Gate-B GO-P-2026-010 (delta'H delta)",
+  "protocol": "three matched-bit arms quantize the gradient in the H-eigenbasis over a global range: (R) read-preserving = bits to high-curvature; (O) recon-optimal = uniform bits (min ||delta||^2); (A) anti = bits to low-curvature. Matched total bits (max gap ~2e-13).",
+  "split": "calibration = one-vs-rest tasks digits 0-4; held-out = DISJOINT tasks digits 5-9 (60 mini-batch steps each -> n=300)",
+  "heldout": {
+    "n": 300,
+    "clean_flip": "82/300 (27%)",
+    "recon_trade": "82/300 (27%)",
+    "anti_worst": "300/300 (100%)",
+    "effect_recon_opt_downstream": "1.0x (near-tie R vs O)",
+    "effect_read_pres_recon": "1.0x",
+    "median_H_anisotropy": 8000
+  },
+  "sealed_bars": {
+    "clean_flip_ge_60pct": {"result": "82/300 = 27%", "pass": false},
+    "recon_trade_ge_60pct": {"result": "82/300 = 27%", "pass": false},
+    "anti_worst_ge_70pct": {"result": "300/300 = 100%", "pass": true}
+  },
+  "verdict": "NOT CONFIRMED (honest negative on the subtle flip) -- mirrors the LOCATA GO-P-2026-032 pattern. ROBUST POSITIVE: the anti-probe is worst on 300/300 held-out steps -- the curvature read operator genuinely governs the update distortion (starving high-curvature directions is catastrophic). REGISTERED NEGATIVE: the subtle read-vs-recon flip does NOT emerge (27%), and there is no clean reconstruction-vs-curvature trade-off (effect ~1.0x, near-tie). DIAGNOSIS: in a REAL trained model the Hessian's high-curvature directions COINCIDE with the high-gradient-energy directions (both come from the X'X data structure), so reconstruction-optimal already protects the read directions -- curvature and signal are COUPLED. The consumer-relative flip needs the read operator MISALIGNED with the signal's dominant energy: present in DOA (geometric decoupling of angle vs magnitude) and the synthetic Gate-B GO-P-2026-010 (planted-orthogonal subspaces VA/VB), ABSENT in vanilla gradient/curvature. This BOUNDS the flip; it does not overturn GO-P-2026-010 (which stands on its planted-decoupled construction). D4 was the battery's OPTIONAL stretch; the core prediction was already MET by D2+D3."
+}

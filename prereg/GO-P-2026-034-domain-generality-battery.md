@@ -184,4 +184,22 @@ confirmations on **disjoint held-out data against independent ground truth**, on
 keys, A3 LOCATA acoustic), the consumer-relative reconstruction-flip is now demonstrated across
 **≥5 independent domains spanning ≥3 distinct physics** (synthetic, acoustic, seismic) plus a
 non-physical consumer (LLM) and a partial electromagnetic (radar) — i.e. it behaves as a property of
-**observation**, not an artifact of the DOA/LLM regimes. D4 (optimization) remains an optional stretch.
+**observation**, not an artifact of the DOA/LLM regimes.
+
+**A4 · D4 optimization (optional stretch) · 2026-07-18 · HONEST NEGATIVE on the subtle flip + robust
+anti-probe.** Ran the optional D4 on a **real model** (one-vs-rest logistic regression on sklearn
+`load_digits`; read operator = the exact loss Hessian `H = (1/n)Xᵀ diag(p(1−p))X`; consumer = update
+distortion under the H-metric `δᵀHδ`, as in the confirmed synthetic Gate-B `GO-P-2026-010`). Three
+matched-bit arms quantize the gradient in the H-eigenbasis (R=high-curvature, O=uniform, A=low-curvature).
+Held-out DISJOINT tasks (digits 5–9, n=300): **anti worst 300/300 (100%)** ✓ but **clean flip 82/300
+(27%)** ✗ and **recon-trade 82/300 (27%)** ✗ — **NOT CONFIRMED (honest negative)**. This mirrors the
+LOCATA-`032` shape: the anti-probe confirms the curvature read operator genuinely governs the update
+distortion, but the *subtle* read-vs-recon flip does not emerge (effect ~1.0×, a near-tie). **Diagnosis:**
+in a real trained model the high-curvature directions **coincide** with the high-gradient-energy
+directions (both from `XᵀX`), so reconstruction-optimal already protects the read directions — curvature
+and signal are **coupled**. The flip needs the read operator **misaligned** with the signal's dominant
+energy (present in DOA — angle ⊥ magnitude — and in the synthetic Gate-B's planted-orthogonal subspaces,
+absent here). This **bounds** the flip; it does not overturn `GO-P-2026-010` (which stands on its
+decoupled construction). Recorded per the no-file-drawer commitment in `claims/LEDGER.md` (GO-B-optim-D4)
+and [`results/GO-D4-optim.json`](../results/GO-D4-optim.json). The core battery prediction was already
+MET by D2+D3; this optional stretch adds a scientifically-useful boundary condition.
