@@ -74,6 +74,97 @@ the *breadth*, not any single derivation.
 | **5** | The two-axis regime map | 3×2 grid (concentration × correlation), domains placed, cells coloured by winning code (polar / whitened / per-channel); inset: the refuted single-statistic shortcut (unit_disp) mispredicting the correlated-isotropic cell. | Two axes, not one; the diagnostic that decides the code. |
 | **6** | The biological case | sperm-whale codas: example ICI rhythm; the read-operator-distortion (DRI) framing; whitened-code win across bit budgets. Doubles as the paper's "reach" figure. | The dissociation reaches animal communication. |
 
+### Methods (draft)
+
+**A domain-general protocol.** Every domain is tested by the same design. On the domain's native
+representation we build **three codes at matched total bits per sample**: a *read-preserving* code (R)
+that allocates bits to the consumer's read directions; a *reconstruction-optimal* code (O) that minimises
+reconstruction error (Lloyd–Max, or the reconstruction-optimal bit allocation); and an *anti* code (A)
+that destroys the read directions. The consumer is the domain's own mature estimator, independent of the
+compressor. For each held-out instance we record the **downstream error** (the consumer's task error) and
+the **reconstruction error**. The per-instance **flip** is `error(R) ≤ error(O) + tol` *and*
+`reconMSE(O) ≤ reconMSE(R)` — O reconstructs better yet is downstream-worse; the **anti check** is
+`error(A) ≥ max(error(R), error(O))`. All configuration is chosen on a **calibration split** and frozen
+before the **held-out** run; each domain is pre-registered (a content hash sealed and git-timestamped
+before any held-out instance is scored), and outcomes are recorded regardless of sign.
+
+**The read operator and its provenance.** The consumer's read operator `P_C` enters three ways.
+*Geometric* — for sensor arrays it is the array-manifold derivative orthogonalised against the steering
+vector, `ĝ = P_a^⊥ a′(θ₀)`, known in closed form. *Planted* — in the synthetic and LLM-rematch anchors it
+is constructed from a known subspace and the prediction made blind to it. *Recovered* — on real learned
+representations it is obtained by the **blind probe**: perturb the consumer's input and read its output
+sensitivity. For a cosine-ranking consumer the margin sensitivity is `∂cos(a,b)/∂b ≈ â − cos(a,b)·b̂` (the
+query component orthogonal to the item), and the read operator is the top-*r* eigenspace of
+`S = ⟨g gᵀ⟩` — low-rank for robustness, with *r* and the rate selected on an internal calibration split so
+only a configuration that already generalises once is sealed.
+
+**The three matched-bit codes.** For the array/DOA and gradient domains, R/O/A are the bit-identical
+PolarQuant (angle-favouring) / Lloyd–Max / phase-destroy triple. For embedding consumers, all three
+quantise in a fixed eigenbasis over a shared per-direction range at equal total bits, differing only in
+allocation (bits by read-importance / by reconstruction variance / by the anti weight). Matched bits are
+audited (spread ≤ 1–2%).
+
+**The (A2) regime diagnostic.** For embedding consumers we additionally run `probe_quotient` (turboquant-
+pro): at matched bits it applies a polar (angular), a per-channel (reconstruction-oriented), and a
+ZCA-whitened proxy code and reports the Spearman rank agreement of the *declared consumer's* scores under
+each. Two summary statistics characterise the regime: `tangential_fraction` (≈1 ⇒ an angular consumer)
+and `median_unit_displacement` (√2 ⇒ isotropic directions; small ⇒ a concentrated offset cone).
+
+**Domains and data.** *Arrays* — a simulated λ/2 ULA; LOCATA (8 cm nested ULA, OptiTrack ground truth);
+AV16.3 (8-mic circular array, camera-tracked 3-D mouth); PDAR (13-element IMS seismic array, USGS
+catalogue back-azimuth, 34 teleseismic events); RaDICaL (8-element 77 GHz FMCW virtual array). *Neural* —
+Llama-3.2-3B attention keys (layers 8/16); a logistic-regression training step (loss Hessian as the read
+metric). *Learned representations* — CourtListener citation pairs with LaBSE (cosine ranking); ETHICS
+commonsense with a bert-base classifier fine-tuned to 0.74 (frozen embeddings sit at chance); FMA music
+with CLAP-PCA embeddings and a genre classifier; sperm-whale codas (DSWP / Sharma 2024) with a
+clan/dialect classifier on the inter-click-interval rhythm. *Statistics.* Flip fractions are on held-out
+instances (disjoint recordings/events/opinions where obtainable); bootstrap over query subsets for the
+retrieval/classifier consumers; the pre-existing music sign-flip carries a 6σ / Bonferroni gate.
+
+### Results (draft)
+
+**The flip reproduces across three physics.** On the physical arrays it holds under the mature
+subspace estimator and against independent ground truth: LOCATA **11/13** held-out recordings with the
+reconstruction-trade at **13/13** (Lloyd reconstructs better every time yet is downstream-worse); AV16.3
+**74%** of held-out windows with recon-trade **100%** and anti-worst **76%**, scored against the
+camera-tracked angle on *disjoint* recordings; PDAR seismic back-azimuth **76%** of held-out events,
+recon-trade **100%**, anti **76%**, against catalogue ground truth. The synthetic anchor flips 6/6 under
+two independent estimators; the Llama-3.2-3B key consumer shows the read-operator-projected error
+predicting the softmax-KL loser on **16/16** heads while exactly-tied reconstruction cannot. The battery's
+pre-registered prediction — a flip in ≥2 of its three core prospective domains — is met by the two
+confirmed arrays.
+
+**Recovering the read operator makes the flip transfer.** On real legal-citation retrieval an *estimated*
+read operator (document covariance) overfits: on held-out opinions reconstruction-optimal *beats*
+read-preserving (AUROC 0.773 vs 0.757), a registered miss. Replacing it with the blind-probe read
+operator — the only change — reverses the verdict on the identical held-out set (read-preserving 0.779 vs
+reconstruction-optimal 0.771; flip on **200/200** bootstraps) while reconstruction-optimal still
+reconstructs 2.6× better. Moral judgment shows the consumer precondition: frozen sentence embeddings
+classify at chance (0.58–0.60 vs 0.63 majority) and the flip is ill-posed; a classifier fine-tuned to 0.74
+makes it appear (the angular code preserves the class logit at 0.994 vs the reconstruction-oriented code's
+0.956 at 1 bit).
+
+**Two boundary conditions bound the claim.** Gradient compression under a curvature metric is the
+*coupling* boundary: the anti-probe is worst on **300/300** held-out steps — the Hessian read operator
+genuinely governs the update — yet the subtle read-vs-reconstruction flip sits at chance (**27%**), because
+the high-curvature and high-gradient-energy directions coincide (both from `XᵀX`), so reconstruction
+already protects the read directions. No read-operator recovery can rescue it; the read operator was
+already exact. Radar is the data limit: the flip and reconstruction-trade hold **25/25** on real 77 GHz
+FMCW returns, but the anti control reaches only 60% on the 8-element array and the disjoint-recording
+held-out is inaccessible (the full set is 310 GB) — recorded as a partial, not inflated to a confirmation.
+
+**The winning code is set by two axes, and no single statistic suffices.** Characterising every embedding
+consumer with `probe_quotient` places them on two independent axes — direction concentration and
+cross-channel correlation. Music (isotropic, low correlation) is preserved by the generic angular code and
+reconciles the pre-existing 6σ music sign-flip; legal (concentrated, channel-structured) needs the
+per-channel or blind-probe code; post-RoPE keys and sperm-whale codas both need the whitened code, but for
+different reasons — the keys are concentrated-correlated, the codas isotropic-correlated (their inter-click
+intervals are temporally correlated). Whale is the decisive case: isotropic like music yet whitening-
+dependent like the keys, so a single concentration statistic cannot predict it — indeed a pre-registered
+`unit_displacement` threshold is refuted on its first out-of-sample test. The whitened code, added to the
+diagnostic here, wins at every bit budget on the codas (0.83 / 0.85 / 0.97 vs the per-channel code's
+0.41 / 0.80 / 0.89) — the clearest of the correlated-regime gains.
+
 ---
 
 ## 2 · TurboQuant-Pro foundation paper ("Keep the Geometry")
