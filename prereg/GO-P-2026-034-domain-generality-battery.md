@@ -162,4 +162,26 @@ Sealed here, *before* any held-out event is scored.
   and **frozen**: `band 1.0–2.8 Hz, budget=64 bits, sharp_min=0`. Calibration (vs catalogue baz): clean
   flip **14/17 (82%)**, anti worst **14/17 (82%)**, recon-trade **17/17 (100%)**, median flip_fail 0.00°.
   All three sealed bars (flip ≥55%, recon ≥60%, anti ≥70%) cleared with margin. Held-out outcome recorded
-  below after the confirm. Harness: `experiments/seismic_flip.py`.
+  below after the confirm. Harness: `experiments/seismic_flip.py`. Frozen config sealed at commit `2de7927`.
+- **Outcome (CONFIRMED).** Held-out DISJOINT ~2018 events, n=17, frozen config, scored vs the **absolute
+  catalogue backazimuth**: clean flip **13/17 (76%)** ≥ 55% ✓, recon-trade **17/17 (100%)** ≥ 60% ✓
+  (Lloyd reconstructs better *every* event yet is downstream-worse), anti worst **13/17 (76%)** ≥ 70% ✓;
+  median flip_fail 0.00°. **All three sealed bars pass on disjoint held-out events against independent
+  catalogue GT → D3 CONFIRMED.** The consumer-relative flip replicates on a **third distinct physics**
+  (seismic elastic waves, natural sources). Recorded in `claims/LEDGER.md` (GO-B-PDAR) and
+  [`results/GO-PDAR-seismic.json`](../results/GO-PDAR-seismic.json).
+
+---
+
+## Battery result (core prospective domains {D1, D2, D3})
+**Prediction MET.** The flip was to replicate in **≥2 of the 3** core prospective domains. Outcome:
+**D2 (AV16.3 acoustic-2) CONFIRMED, D3 (PDAR seismic) CONFIRMED**, D1 (RaDICaL radar) **partial** — its
+core flip + recon-trade replicate (25/25 both) but the anti control misses the sealed bar and its
+held-out is data-limited (within-recording; the 310 GB disjoint set is inaccessible). Two clean
+confirmations on **disjoint held-out data against independent ground truth**, on **two distinct physics**
+(acoustic, seismic), each config-frozen-then-sealed before its held-out run, using the **bit-identical**
+`compress3` compressor from `033`. Combined with the three prior anchors (A1 synthetic, A2 LLM attention
+keys, A3 LOCATA acoustic), the consumer-relative reconstruction-flip is now demonstrated across
+**≥5 independent domains spanning ≥3 distinct physics** (synthetic, acoustic, seismic) plus a
+non-physical consumer (LLM) and a partial electromagnetic (radar) — i.e. it behaves as a property of
+**observation**, not an artifact of the DOA/LLM regimes. D4 (optimization) remains an optional stretch.

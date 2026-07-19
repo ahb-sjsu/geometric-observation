@@ -1,0 +1,21 @@
+{
+  "id": "GO-P-2026-034-D3",
+  "domain": "seismic array backazimuth (PDAR), teleseismic P -- GEOPHYSICS: elastic waves, natural earthquake sources",
+  "class": "CONFIRMED",
+  "prospective": true,
+  "harness": "experiments/seismic_flip.py (imports compress3 from rehab033.py -- bit-identical matched-bit three-arm compressor)",
+  "array": "PDAR (IMS network IM), 13-element short-period array PD01-PD13, aperture ~3.2 km; fetched via IRIS/EarthScope FDSN",
+  "consumer": "incoherent wideband MUSIC over BACKAZIMUTH at the theoretical teleseismic-P slowness (per-event taup/iasp91 ray parameter), single plane-wave source",
+  "ground_truth": "the event catalogue BACKAZIMUTH (great-circle from the array to the USGS epicentre). The sealed D3 protocol ('catalogue backazimuth') is HONORED -- NO reference amendment (the 13-element array resolves backazimuth to a few degrees).",
+  "data": "USGS catalogue M>=6.5 earthquakes, 2017-2018, teleseismic distance 30-95 deg; 34 events cached after the distance filter",
+  "config_frozen": {"band_hz": "1.0-2.8", "budget_bits": 64, "sharp_min": 0, "note": "a GT-free MUSIC-sharpness gate was available but the sweep found it unnecessary (sharp_min=0 = full event set performs best)", "arms": ["pq (angle-favoring PolarQuant)", "lloyd (Lloyd-Max recon-optimal)", "phase_destroy (anti)"], "sealed_commit": "2de7927 (frozen before the held-out confirm)"},
+  "split": "deterministic CHRONOLOGICAL split: calibration = 17 earlier events (~2017); held-out = 17 later events (~2018) -- DISJOINT events",
+  "calibration": {"n": 17, "flip": "14/17 (82%)", "anti_worst": "14/17 (82%)", "recon_trade": "17/17 (100%)", "median_flip_fail_deg": 0.0, "uncompressed_GT_err_deg": 7.1},
+  "heldout": {"n": 17, "flip": "13/17 (76%)", "anti_worst": "13/17 (76%)", "recon_trade": "17/17 (100%)", "median_flip_fail_deg": 0.0, "uncompressed_GT_err_deg": 15.9},
+  "sealed_bars": {
+    "clean_flip_ge_55pct": {"result": "13/17 = 76%", "pass": true},
+    "recon_trade_ge_60pct": {"result": "17/17 = 100%", "pass": true},
+    "anti_worst_ge_70pct": {"result": "13/17 = 76%", "pass": true}
+  },
+  "verdict": "CONFIRMED -- all three sealed bars pass against the ABSOLUTE catalogue backazimuth on DISJOINT held-out events. The consumer-relative flip (angle-favoring code beats reconstruction-optimal Lloyd-Max at matched bits on the downstream backazimuth task, while Lloyd reconstructs the raw signal better -- 17/17 recon-trade) replicates on a THIRD distinct physics: seismic elastic waves from natural earthquake sources. Config frozen + sealed (2de7927) before the confirm; no reference amendment (sealed protocol honored)."
+}
