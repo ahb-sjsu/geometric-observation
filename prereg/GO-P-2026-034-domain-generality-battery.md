@@ -140,3 +140,26 @@ This is the config freeze the battery requires of each domain before its held-ou
   GT → D2 CONFIRMED.** The consumer-relative flip replicates on a second, fully independent acoustic
   corpus. Recorded in `claims/LEDGER.md` (GO-B-AV163) and
   [`results/GO-AV163-doa.json`](../results/GO-AV163-doa.json).
+
+**A3 · D3 seismic array backazimuth (PDAR) · 2026-07-18 · per-domain config FREEZE (pre-confirm seal).**
+Sealed here, *before* any held-out event is scored.
+- **Dataset (accessible, verified).** **PDAR** (IMS network `IM`), a 13-element short-period seismic
+  array (PD01–PD13), aperture **~3.2 km**, fetched via IRIS/EarthScope FDSN. **Teleseismic P** waves
+  (distance 30–95°) from **catalogued earthquakes** (USGS, M≥6.5, 2017–2018): **34 events cached** after
+  the distance filter. GEOPHYSICS — elastic waves, natural sources: a genuinely different physics from
+  the acoustic/EM domains.
+- **Sealed D3 protocol HONORED — no reference amendment.** The 13-element array resolves backazimuth to
+  a few degrees on well-recorded events (median uncompressed error ~7°), so the flip is scored against
+  the **absolute catalogue backazimuth** (great-circle array→epicentre; the sealed "catalogue
+  backazimuth"), as sealed.
+- **Consumer.** Incoherent **wideband MUSIC over backazimuth** at the theoretical teleseismic-P slowness
+  (per-event `taup`/iasp91 ray parameter), single plane-wave source. A **GT-free MUSIC-sharpness gate**
+  was available (seismic analog of the acoustic energy / radar sharpness gate) but the sweep found it
+  unnecessary — the full event set at the chosen band performs best (`sharp_min=0`). Reuses the
+  bit-identical `compress3` (pq / lloyd / anti) from `033`.
+- **Split & frozen config.** Deterministic **chronological** split (calibration ≈ the 17 earlier events
+  ≈ 2017; **held-out ≈ the 17 later events ≈ 2018** — disjoint events). Config selected on calibration
+  and **frozen**: `band 1.0–2.8 Hz, budget=64 bits, sharp_min=0`. Calibration (vs catalogue baz): clean
+  flip **14/17 (82%)**, anti worst **14/17 (82%)**, recon-trade **17/17 (100%)**, median flip_fail 0.00°.
+  All three sealed bars (flip ≥55%, recon ≥60%, anti ≥70%) cleared with margin. Held-out outcome recorded
+  below after the confirm. Harness: `experiments/seismic_flip.py`.
