@@ -46,7 +46,19 @@ Chapters below are marked **[A]** (draftable now) or **[B]** (gated).
 | `ch14_the_falsifiable_core.md` | 14 — The Falsifiable Core | A | ✅ drafted |
 | `ch15_registration_first.md` | 15 — Registration-First | A | ✅ drafted |
 | `ch16_honest_negatives.md` | 16 — Honest Negatives | A | ✅ drafted |
-| `ch17…ch18`, `appendix_*` | Horizons + appendices | B/A | ⏳ planned |
+| `ch17_open_problems_and_the_keystone_theorem.md` | 17 — Open Problems & the Keystone Theorem | B | ✅ drafted |
+| `ch18_the_principle.md` | 18 — The Principle | B | ✅ drafted |
+| `appendix_a_related_work.md` | A — Related Work & Differentiation | A | ✅ drafted |
+| `appendix_b_cost_ledger.md` | B — The COST Ledger | B | ✅ drafted |
+| `appendix_c_reproduction_cookbook.md` | C — Reproduction Cookbook | A | ✅ drafted |
+| `appendix_d_the_registry.md` | D — The Registry | A | ✅ drafted |
+| `appendix_e_skeptics_appendix.md` | E — Skeptic's Appendix | A | ✅ drafted |
+| `appendix_f_mathematical_ledger.md` | F — Mathematical Ledger | A | ✅ drafted |
+
+**Full draft complete** (front matter + preface + 18 chapters + 6 appendices). Next:
+optional `.build/` pipeline (pandoc→HTML, shared Geometric-Series template) to serve
+this volume at the same look as the other volumes; figure insertion; a final
+tag-vs-ledger consistency pass.
 
 ---
 
