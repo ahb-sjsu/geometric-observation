@@ -197,5 +197,6 @@ weight alone.
 - D. The Registry: Every GO-P-2026 ID and Its Disposition
 - E. Skeptic's Appendix: Objections, Alternatives, and FAQ
 - F. Mathematical Ledger: Status of Formal Claims
+- G. A Hub-Mechanism Catalog: One Scalar, Many Observer-Induced Geometries
 
 *Bibliography · Table of Figures · Index*

@@ -54,6 +54,7 @@ Chapters below are marked **[A]** (draftable now) or **[B]** (gated).
 | `appendix_d_the_registry.md` | D — The Registry | A | ✅ drafted |
 | `appendix_e_skeptics_appendix.md` | E — Skeptic's Appendix | A | ✅ drafted |
 | `appendix_f_mathematical_ledger.md` | F — Mathematical Ledger | A | ✅ drafted |
+| `appendix_g_hub_mechanism_catalog.md` | G — Hub-Mechanism Catalog | A | ✅ drafted |
 
 **Full draft complete** (front matter + preface + 18 chapters + 6 appendices). Next:
 optional `.build/` pipeline (pandoc→HTML, shared Geometric-Series template) to serve
@@ -208,6 +209,12 @@ with Shannon the $P_C=I$ slice. What the framework does and does not license.
   read operator", the AI-self-grading objection.
 - **F. Mathematical Ledger [A]** — status of every formal claim, mirroring
   `claims/LEDGER.md`, one row per claim with its class and custody.
+- **G. Hub-Mechanism Catalog [A]** — the measured catalogue of hubness mechanisms
+  in high-dimensional embedding geometry (companion project `turboquant-pro`,
+  measured 2026-07-23/24, cited by path): one skewness scalar, many observer-induced
+  quotient geometries; the $\Theta(k)$ / $\sim 2.2k$ structural ceilings; the
+  materiality-guard abstention; training-objective-dependent cross-lingual
+  architecture; and the compression-destroys-the-remedy asymmetry.
 
 ---
 
