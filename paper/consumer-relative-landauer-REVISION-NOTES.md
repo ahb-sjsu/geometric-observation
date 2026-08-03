@@ -1,5 +1,13 @@
 # consumer-relative-landauer — R-IND-5 revision notes (2026-08-02)
 
+> **RESOLVED 2026-08-02.** All four sharpenings are folded into
+> `consumer-relative-landauer.tex` (S1 → Lemma 1 + Prop 1 hook; S2 → Thm 1
+> stated without closure, no time sharing; S3 → mixture-channel converse with
+> per-letter Markov sentence; S4 → Thm 3 / Prop 4 / Prop 2 fixes), plus a
+> sentence citing the GO-7 finite-n operational check after Thm 1. PDF rebuilt
+> on Atlas (pdflatex+bibtex, 0 errors, 0 undefined refs, 11 pp) and re-synced.
+> Kept below as the record of what changed and why.
+
 Fresh-context, derivation-grade adversarial pass on every result in
 `consumer-relative-landauer.pdf` (charter rule R-IND-5; ledger row VI-8; prereg
 GO-P-2026-042). **Verdict: 0 errors, 4 sharpenings, nothing unsalvageable.** All
