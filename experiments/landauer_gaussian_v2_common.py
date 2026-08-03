@@ -17,13 +17,22 @@ import numpy as np
 
 
 def binom_sf(k, N, p):
-    """P(X >= k) for X ~ Binom(N, p), exact, summed in log space."""
+    """P(X >= k) for X ~ Binom(N, p), exact, summed in log space.
+
+    BUGFIX (2026-08-03, post-hoc; see GO-landauer-gaussian-secondsettings-NOTES):
+    the degenerate branches previously ignored k, so with p = 1 (X == N, which
+    is exactly the case when a bin holds a single codeword and the "control"
+    is deterministic) P(X >= N+1) returned 1.0 instead of 0.0, driving
+    binom_cdf to 0 and failing the control gate of GO-P-2026-053/054 on cells
+    where there is nothing to test.  Both degenerate branches now respect k."""
     if k <= 0:
         return 1.0
-    if p <= 0.0:
+    if k > N:
         return 0.0
+    if p <= 0.0:
+        return 0.0          # X == 0 and k >= 1
     if p >= 1.0:
-        return 1.0
+        return 1.0          # X == N and 1 <= k <= N
     tot = 0.0
     lc = lgamma(N + 1)
     for i in range(int(k), int(N) + 1):
