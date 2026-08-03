@@ -84,7 +84,12 @@ conditional entropy, regardless of the consumer's lower-dimensional need. We
 extend the region to several consumers, identify the conditional total
 correlation saved by coordinated reset, derive the Landauer scaling of the
 Gaussian read-operator water-filling solution, and obtain a temperature-weighted
-water-filling rule for heterogeneous memory banks. Finally, for a stale Markov
+water-filling rule for heterogeneous memory banks. With jointly Gaussian reset
+side information, the scalar region collapses to a single corner whose
+rate--work gap grows to the full source--side-information mutual information as
+distortion vanishes, while the vector frontier reappears as a generalized
+water-filling in which the minimum-rate and minimum-work allocations differ.
+Finally, for a stale Markov
 record, predictive information lost with age is gained exactly as conditional
 erasure work. The results concern the reversible lower bound on reset work, not
 the total energy of sensing, communication, or finite-time operation.
@@ -180,7 +185,7 @@ entropy-constrained quantization \cite{chou1989,chou1990}; the new ingredient is
 that the entropy coordinate is conditional on information retained by the reset
 mechanism and is assigned a thermodynamic meaning.
 
-Five consequences follow. First, the lower boundary has a direct
+Six consequences follow. First, the lower boundary has a direct
 supporting-channel characterization, and even a two-bit source exhibits a
 strict tradeoff between description capacity and reset work. Second, a full
 digital record cannot be made thermodynamically cheap by compressing it after
@@ -194,7 +199,11 @@ priced by the joint consumer output; coordinated reset saves their conditional
 total correlation. Fourth, for a Gaussian source and the read operator
 $\PC$ of Observation Theory, the usual spectral water-filling rate becomes an
 isothermal work law. If eigenmodes are erased in memory banks at different
-temperatures, the water level is proportional to temperature. Fifth, for a
+temperatures, the water level is proportional to temperature. Fifth, with
+jointly Gaussian reset side information the scalar region is a single corner
+whose rate--work gap grows to $I(X;S)$ as distortion vanishes, and the
+tradeoff reappears in the vector case through the allocation of distortion
+across modes that the reset context knows unequally well. Sixth, for a
 stale Markov record, the loss of predictive information and the rise of
 conditional reset work are two sides of the same entropy identity.
 
@@ -274,6 +283,27 @@ finite time. It prices the logically irreversible reset of the memory state
 that the code actually produced. This distinction is essential: reversible
 computation can retain and uncompute intermediate information
 \cite{bennett1973}, whereas an overwritten record has been discarded.
+\end{remark}
+
+\begin{remark}[Semantic invariance of erasure]\label{rem:invariance}
+For a fixed joint state $p_{MS^n}$, fixed memory physics, temperature, and
+reset operation, the minimum reset work is independent of the identity,
+purpose, or loss function of any downstream consumer. The consumer enters
+this paper only by constraining the set of admissible codes through the
+distortion requirement. The causal chain is
+\begin{equation*}
+ \text{consumer requirement}\longrightarrow\text{code design}
+ \longrightarrow p_{MS^n}\longrightarrow\text{reset work},
+\end{equation*}
+and once the code and the physical state are fixed, the consumer drops out
+of the thermodynamic accounting. Two senses of ``observer'' must accordingly
+be kept distinct. The Observation-Theory \emph{consumer} is a downstream
+functional that defines the operative distortion. The \emph{reset agent} of
+conditional-erasure thermodynamics is a physical system holding the
+correlated state $S^n$ that participates in the erasure protocol
+\cite{delrio2011}. Theorem~\ref{thm:materialization} is the sharp form of
+this locality: a record already materialized cannot be made cheaper by a
+later declaration of irrelevance.
 \end{remark}
 
 \section{The rate--work--distortion region}\label{sec:region}
@@ -757,7 +787,7 @@ a common base representation with consumer-specific refinements. Shared
 consumer structure is not merely a compression opportunity; it is conditional
 entropy that need not be paid more than once at reset.
 
-\section{Gaussian read geometry and thermal water-filling}\label{sec:gaussian}
+\section{Gaussian read geometry, reset side information, and thermal water-filling}\label{sec:gaussian}
 
 The preceding results accept any bounded single-letter distortion. We now
 connect them to the local read geometry of Observation Theory. Let
@@ -781,7 +811,7 @@ $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$, where
 $r=\rank(\Sigma_X^{1/2}\PC\Sigma_X^{1/2})$. In an isothermal memory with no
 reset side information, rate and Landauer content coincide.
 
-\begin{corollary}[Isothermal consumer-relative Landauer law]\label{cor:gauss}
+\begin{corollary}[Isothermal read-operator work law]\label{cor:gauss}
 For $0<D<\sum_{i=1}^{r}\lambda_i$, let $\theta$ be chosen so that
 \begin{equation}
  D=\sum_{i=1}^{r}\min\{\lambda_i,\theta\}.
@@ -812,6 +842,137 @@ bits by $\kb T\ln2$ to obtain \eqref{eq:gaussian-work}.
 The final proviso is the materialization barrier in spectral form. A null
 read-direction is free to omit. It is not free to erase after it has been
 stored.
+
+Reset side information changes the Gaussian picture in a way the scalar case
+makes exact.
+
+\begin{proposition}[Scalar Gaussian corner]\label{prop:scalar-corner}
+Let $(X,S)$ be jointly Gaussian and zero mean with $\operatorname{Var}X=\sigma^2$
+and correlation coefficient $\rho\in(-1,1)$, let
+$d(x,\hat x)=(x-\hat x)^2$, and let $0<D<\sigma^2$. Then
+\begin{equation}
+ \RW(D)
+ =\Bigl\{(R,L):
+ R\ge\tfrac12\log_2\tfrac{\sigma^2}{D},\
+ L\ge\tfrac12\log_2\tfrac{\sigma^2(1-\rho^2)+\rho^2D}{D}
+ \Bigr\}.
+ \label{eq:scalar-corner}
+\end{equation}
+Both bounds are attained simultaneously by the classical reverse channel, so
+the scalar Gaussian problem has no rate--work tradeoff. The side-information
+discount
+\begin{equation}
+ R_{\min}-L_{\min}
+ =\tfrac12\log_2\frac{\sigma^2}{\sigma^2(1-\rho^2)+\rho^2D}
+ \label{eq:discount}
+\end{equation}
+is decreasing in $D$ and increases to $I(X;S)$ as $D\to0$.
+\end{proposition}
+
+\begin{proof}
+Normalize $\sigma=\sigma_S=1$, and assume $\E\hX=0$ without loss of
+generality; centering $\hX$ changes neither mutual information and does not
+increase the distortion. Under $\hX-X-S$,
+$\E[S\hX]=\E\bigl[\E[S\mid X]\,\E[\hX\mid X]\bigr]=\rho\,\E[X\hX]$, so with
+$c=\operatorname{Cov}(X,\hX)$ and $v=\operatorname{Var}\hX\ge c^2$ the second
+moments of $(X,\hX,S)$ are determined by $(c,v)$, and the distortion
+constraint reads $1-2c+v\le D$; together these force $c>0$ on the feasible
+set. For the work coordinate,
+$L=h(X\mid S)-h(X\mid\hX,S)$ and
+$h(X\mid\hX,S)\le\tfrac12\log2\pi e\,e_{\mathrm{lin}}$, where
+$e_{\mathrm{lin}}$ is the error of the best linear estimate of $X$ from
+$(\hX,S)$; the bound holds for any reproduction alphabet, discrete included.
+A direct computation gives
+$e_{\mathrm{lin}}=(1-\rho^2)(v-c^2)/(v-\rho^2c^2)$, hence
+\begin{equation}
+ L\ \ge\ \tfrac12\log_2\frac{v-\rho^2c^2}{v-c^2}.
+ \label{eq:moment-bound}
+\end{equation}
+The right side of \eqref{eq:moment-bound} decreases in $v$, so the distortion
+constraint binds, $v=D-1+2c$. On that line the stationarity condition of the
+ratio reduces to $(1-\rho^2)\,c\,(c+D-1)=0$; the root $c=0$ is infeasible,
+the interior point $c=1-D$ has positive second derivative, the boundary
+values diverge, and the minimum is $(1-\rho^2+\rho^2D)/D$. The
+rate converse is classical. The reverse channel $\hX=(1-D)X+W$ with
+$W\sim\mathcal N(0,D(1-D))$ independent of $(X,S)$ has $c=v=1-D$, distortion
+exactly $D$, and attains both bounds, so the region is the stated quadrant.
+Monotonicity of \eqref{eq:discount} and the limit
+$\tfrac12\log_2\frac1{1-\rho^2}=I(X;S)$ are elementary.
+\end{proof}
+
+Within the jointly Gaussian family, $L$ is in fact a function of $R$ alone,
+$L=\tfrac12\log_2\!\bigl(1+(1-\rho^2)(2^{2R}-1)\bigr)$; a scalar source
+offers no allocation freedom. The binary frontier of
+Proposition~\ref{prop:binary-frontier} came from allocating distortion
+between a component the reset context knows and one it does not. The next
+proposition restores exactly that mechanism.
+
+\begin{proposition}[Vector frontier and reset water-filling]\label{prop:vector-frontier}
+Let $X$ have independent components $X_i\sim\mathcal N(0,\sigma_i^2)$,
+$i=1,\ldots,r$, let $S=(S_1,\ldots,S_r)$ with $S_i$ jointly Gaussian with
+$X_i$ alone at correlation $\rho_i$, and let
+$d(x,\hat x)=\sum_i p_i(x_i-\hat x_i)^2$ with $p_i>0$, the read geometry of
+\eqref{eq:weighted-dist} with independently read and independently known
+modes. Write $c_i=\sigma_i^2(1-\rho_i^2)$. The lower Pareto boundary of
+$\RW(D)$ is traced by $\alpha\in[0,1]$ as follows. With $\mu>0$ chosen so
+that $\sum_i p_id_i=D$, allocate $d_i=\min\{\sigma_i^2,\delta_i(\mu)\}$,
+where $\delta_i(\mu)$ is the positive root of
+\begin{equation}
+ 2\mu p_i\rho_i^2\,\delta^2
+ +\bigl(2\mu p_ic_i-\alpha\rho_i^2\bigr)\,\delta
+ -c_i=0
+ \label{eq:alloc-quadratic}
+\end{equation}
+and $\delta_i=1/(2\mu p_i)$ when $\rho_i=0$; the frontier point is
+\begin{equation}
+ R=\sum_{i=1}^{r}\tfrac12\log_2\frac{\sigma_i^2}{d_i},
+ \qquad
+ L=\sum_{i=1}^{r}\tfrac12\log_2\frac{c_i+\rho_i^2d_i}{d_i}.
+ \label{eq:vector-frontier}
+\end{equation}
+At $\alpha=1$ the rule is classical reverse water-filling. At $\alpha=0$ it
+allocates distortion toward the modes the reset context knows least. A mode
+with $d_i=\sigma_i^2$ contributes zero to both coordinates.
+\end{proposition}
+
+\begin{proof}
+For independent pairs $(X_i,S_i)$ and any code with $\hX-X-S$, the
+componentwise analogue of Appendix~\ref{app:converse} gives
+$I(X;\hX)\ge\sum_iI(X_i;\hX_i)$ and
+$I(X;\hX\mid S)\ge\sum_iI(X_i;\hX_i\mid S_i)$.
+Proposition~\ref{prop:scalar-corner} bounds each mode at its own distortion
+$d_i=\E(X_i-\hX_i)^2$, so every achievable pair is dominated by the
+allocation program that minimizes
+$\alpha\sum_iR_i(d_i)+(1-\alpha)\sum_iL_i(d_i)$ over
+$\sum_ip_id_i\le D$, $0<d_i\le\sigma_i^2$. Each $R_i$ is convex in $d_i$, and
+\begin{equation*}
+ L_i''(d)\ \propto\ \frac1{d^2}-\frac{\rho_i^4}{(c_i+\rho_i^2d)^2}\ >\ 0
+ \quad\text{exactly when } c_i>0,
+\end{equation*}
+so the program is convex and its KKT condition
+\begin{equation}
+ \frac{\alpha}{2d_i}
+ +\frac{(1-\alpha)\,c_i}{2d_i\bigl(c_i+\rho_i^2d_i\bigr)}
+ =\mu p_i
+ \label{eq:alloc-kkt}
+\end{equation}
+is sufficient; clearing denominators gives \eqref{eq:alloc-quadratic}.
+Products of scalar reverse channels achieve every allocation, convexity of
+the per-mode objectives makes the achievable set convex, and the weighted-sum
+sweep therefore traces the entire lower boundary; strict convexity makes the
+minimizer unique at every $\alpha$, endpoints included. The last claim is the
+identity $c_i+\rho_i^2\sigma_i^2=\sigma_i^2$.
+\end{proof}
+
+Setting every $\rho_i=0$ gives $L\equiv R$ and recovers
+Corollary~\ref{cor:gauss}. The tradeoff lives entirely in the heterogeneity
+of the $\rho_i$ and $\sigma_i$. For two unit-variance modes with
+$\rho=(0.95,0)$, equal read weights, and $D=0.5$, the minimum-rate and
+minimum-work allocations differ by about $0.11$ bits of Landauer content and
+$0.13$ bits of rate at matched distortion; the reproducibility materials
+carry the exact frontier. This is the Gaussian analogue of the binary
+frontier, with the water level of \eqref{eq:alloc-kkt} playing the role of
+the allocation parameter $t$.
 
 The Landauer scale also changes the allocation rule when different components
 of the observation are reset against different reservoirs. Consider physically
@@ -959,8 +1120,16 @@ measurement and erasure in explicit thermodynamic accounting frameworks
 is governed by entropy conditioned on an observer's side information
 \cite{delrio2011}. Faist \emph{et al.} characterized the work cost of a general
 logical process through information discarded conditional on its output
-\cite{faist2015}. These results supply the physical accounting used here; this
-paper does not alter Landauer's principle.
+\cite{faist2015}. In an algorithmic, single-string setting, Zurek identified
+the thermodynamic cost of erasing a record with its compressed length
+\cite{zurek1989}, and Wolf sharpened the erasure principle to the
+compressibility of the string given the erasing agent's knowledge
+\cite{wolf2018}. The present paper is a block-coding, lossy, and
+consumer-constrained counterpart of that observation: the object whose
+conditional compressibility is priced is a description that must remain
+decodable by a consumer lacking the side information available at reset.
+These results supply the physical accounting used here; this paper does not
+alter Landauer's principle (Remark~\ref{rem:invariance}).
 
 On the source-coding side, Shannon's fidelity-constrained coding theorem
 introduced the rate--distortion function \cite{shannon1959}. Wyner and Ziv
@@ -1039,6 +1208,12 @@ survive for free. If it must itself be sensed, stored, transmitted, or erased,
 its lifecycle belongs in the optimization. A rate-limited erasure helper would
 produce a three-memory problem rather than the two-coordinate region studied
 here.
+
+\emph{General Gaussian coupling.} Proposition~\ref{prop:vector-frontier}
+assumes independently read and independently known modes. When $\Sigma_X$,
+$\Sigma_{X\mid S}$, and $\PC$ are not simultaneously diagonalizable, the
+allocation program becomes a joint semidefinite optimization and the frontier
+need not separate across modes; its characterization is left open.
 
 \emph{Sources with memory.} Proposition~\ref{prop:stale} uses memory directly,
 but the coding theorem is i.i.d. Information-spectrum methods should extend the
