@@ -59,7 +59,7 @@ file or a run (numbering skip); proven absent from git history.
 | 041 | Blind non-oracle prospective flip w/ magnitude prediction (fresh 20NG) | **sweep (blind)** | **PARTIAL** — blind winning-code prediction held (R 0.975 > O 0.910) but recon-trade tied on held-out + magnitude band missed | Paper IV sweep · LEDGER | GO-blind-clf.json |
 | 042 | Consumer-relative Landauer: rate–work–distortion region, theorem harness (COST) | cost | **ALL PASS** — every section at machine precision (Atlas, governed); R-IND-5 pass: 0 errors, 4 sharpenings (VI-8) | Paper V (Landauer) · LEDGER VI-8 | — (CI sentinel) |
 | 043 | Operational rate–work separation: finite-n conditional reset by random binning (Tier B, Atlas) | cost | **PASS 7/7 gated** → GO-7 `[demonstrated]` | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-operational.json |
-| 044 | Gaussian region with reset side information: scalar corner + vector reset water-filling, theorem harness | cost | see LEDGER VI-9 | Paper V (Landauer) §VI · LEDGER VI-9 | — (CI sentinel) |
+| 044 | Gaussian region with reset side information: scalar corner + vector reset water-filling, theorem harness | cost | **ALL PASS** (governed, Atlas, sealed 6dd944f); R-IND-5 CONFIRMED 0 errors (VI-9); net-design pilot miss logged in-prereg, redesigned pre-seal | Paper V (Landauer) §VI · LEDGER VI-9 | — (CI sentinel) |
 
 ## Completeness argument
 
