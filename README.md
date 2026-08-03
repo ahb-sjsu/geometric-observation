@@ -57,7 +57,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
 | [`chapters/`](chapters/) | Chapter → claim map and drafts |
 
-## Status — falsifiable core resolved; the flip is domain-general
+## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics
 
 | Claim | Class | Evidence |
 |---|---|---|
