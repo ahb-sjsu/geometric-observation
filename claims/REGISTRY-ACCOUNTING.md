@@ -61,6 +61,8 @@ file or a run (numbering skip); proven absent from git history.
 | 043 | Operational rate–work separation: finite-n conditional reset by random binning (Tier B, Atlas) | cost | **PASS 7/7 gated** → GO-7 `[demonstrated]` | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-operational.json |
 | 044 | Gaussian region with reset side information: scalar corner + vector reset water-filling, theorem harness | cost | **ALL PASS** (governed, Atlas, sealed 6dd944f); R-IND-5 CONFIRMED 0 errors (VI-9); net-design pilot miss logged in-prereg, redesigned pre-seal | Paper V (Landauer) §VI · LEDGER VI-9 | — (CI sentinel) |
 | 045 | GO-7 multi-codebook replication (5 codebooks/n, fresh seed 20260804) | cost | **PASS 6/6 gated** — separation on every draw (err spread 0.03 at r_b=0.26, n=32); GO-7 codebook caveat resolved | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-multicodebook.json |
+| 046 | GO-7 cross-source replication: scalar Gaussian (rho=0.98, MSE) | cost · superseded→047 | **MISS 4/6** — physics gates 4/4 PASS; two instrumentation-window design errors (R_mom ceiling anchored to analytic R(D) not the codebook rate; deep-decode bar on a float-epsilon boundary) | Paper V (Landauer) · [notes](../experiments/GO-landauer-gaussian-source-NOTES.md) | GO-landauer-gaussian-source.json |
+| 047 | GO-7 cross-source v2 (windows corrected, physics gates identical, fresh seed 20260806) | cost | **PASS 6/6 gated** → GO-7 `[replicated]` (two independent source families) | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-gaussian-source-v2.json |
 
 ## Completeness argument
 

@@ -44,3 +44,28 @@ decodes from side information at 0.35 of the measured description rate
 signature as the binary instance, now on the paper's own §VI scalar-corner
 setting ($\rho=0.98$, MSE, $D̂=0.29$, $L_{\mathrm{mom}}=0.083$ vs analytic
 0.081 at target $D$).
+
+## GO-P-2026-047 — corrected rerun (v2): **PASS 6/6** (unblinded 2026-08-03)
+
+Result: [`../results/GO-landauer-gaussian-source-v2.json`](../results/GO-landauer-gaussian-source-v2.json),
+harness [`landauer_gaussian_source_v2.py`](landauer_gaussian_source_v2.py)
+(imports the sealed 046 machinery; windows corrected, physics gates identical),
+fresh seed 20260806, sealed `a96bb34` pre-run.
+
+| gate | registered (v2) | result @ n=24 | pass? |
+|---|---|---|:--:|
+| G1 separation | ≤0.20 @ n=24, ≤0.30 @ n=20, trend | **0.17** / 0.11; trend 0.27→0.17 | ✅ |
+| G2 bin rate ≤ 0.50·R_mom | 0.36 ≤ 0.50·R_mom | R_mom=0.885 → 0.36 = **0.41·R_mom** | ✅ |
+| G3 converse | ≥0.30 all n≥12, ≥0.40 @ n=24 | 0.60→**0.79**, rising | ✅ |
+| G4 no-SI control | ≥0.90 all n≥16 | 1.00 everywhere | ✅ |
+| G5 channel window (corrected) | R_mom ∈ [0.72, 1.06] etc. | D̂=0.270, R_mom=0.885, L_mom=0.066 | ✅ |
+| G6 deep decode (corrected) | ≤0.035+ε | **0.01** | ✅ |
+
+**GO-7 is now held on two independent source families** — the binary two-bit
+source (043 + the 5-codebook 045) and the scalar Gaussian source (this run,
+the paper's own §VI scalar-corner setting) — meeting the PROTOCOL §1
+`[replicated]` bar. The physics gates passed under BOTH seeds (046's and
+047's); only the two v1 instrumentation windows changed. Remaining honest
+scope: one codebook per n on the Gaussian instance (codebook robustness
+established on the binary instance by 045); ideal-reset information
+accounting only, no physical work measured.

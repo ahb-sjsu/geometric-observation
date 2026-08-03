@@ -8,7 +8,7 @@ synthesizes:
 - **Paper II** — the compression-as-observation work ([`turboquant-pro`](https://github.com/ahb-sjsu/turboquant-pro)): keys/values asymmetry, rank certificates, the (A2) probe, operator-regime tracing.
 - **Paper III** — [**Observation Theory**](paper/observation-theory.pdf) ([source](paper/observation-theory.tex)): the information-theoretic synthesis — consumer-relative rate–distortion, the two-observer successive-refinement region ([`paper/two-observer-theorem.tex`](paper/two-observer-theorem.tex)), and the omission floor.
 - **Paper IV** — [**The consumer-relative flip**](paper/paper-IV-consumer-relative-flip.pdf) ([source](paper/paper-IV-consumer-relative-flip.tex), [TMLR build](paper/paper-IV-tmlr.tex)): the empirical spine — at matched bits, a code that preserves what the *consumer* reads beats a reconstruction-optimal code on the downstream task *while reconstructing the signal worse*, demonstrated across domains and physics.
-- **Paper V** — [**A Rate–Work–Distortion Region for Consumer-Relative Observation**](paper/consumer-relative-landauer.pdf): the thermodynamic extension — a stored description carries **two separate resources**, the rate a consumer needs ($I(X;\hat X)$) and the ideal Landauer work its reset costs against retained side information ($I(X;\hat X\mid S)$); the full achievable region, the materialize-then-project barrier, multi-consumer coordinated reset, thermal water-filling, and the staleness–work complement. Verified: R-IND-5 pass (0 errors, 4 sharpenings — [revision notes](paper/consumer-relative-landauer-REVISION-NOTES.md)), theorem harness `experiments/verify_consumer_landauer.py` (GO-P-2026-042, ALL PASS), operational finite-$n$ binning run `experiments/landauer_operational.py` (GO-P-2026-043).
+- **Paper V** — [**A Rate–Work–Distortion Region for Consumer-Relative Observation**](paper/consumer-relative-landauer.pdf) ([source](paper/consumer-relative-landauer.tex), [Overleaf zip](paper/consumer-relative-landauer-overleaf.zip)): the thermodynamic extension — a stored description carries **two separate resources**, the rate a consumer needs ($I(X;\hat X)$) and the ideal Landauer work its reset costs against retained side information ($I(X;\hat X\mid S)$); the full achievable region, the materialize-then-project barrier, multi-consumer coordinated reset, the Gaussian region with reset side information (scalar single-corner collapse with work discount $\to I(X;S)$; vector "reset water-filling" frontier), temperature-weighted water-filling, the staleness–work complement, and the semantic-invariance-of-erasure locality statement. Verified: **two** R-IND-5 fresh-context passes (0 errors total — ledger VI-8/VI-9; [revision notes](paper/consumer-relative-landauer-REVISION-NOTES.md)), theorem harnesses `verify_consumer_landauer.py` + `verify_gaussian_sideinfo.py` (GO-P-2026-042/044, both ALL PASS, CI-rerun), and the operational face **GO-7 `[replicated]`**: finite-$n$ random-binning reset (043, PASS 7/7), multi-codebook replication (045, PASS 6/6), and the cross-source scalar-Gaussian instance (047, PASS 6/6; its v1, 046, was a logged instrumentation-window miss with all physics gates passing).
 
 into one claim: **compression succeeds for a consumer exactly when it preserves
 what that consumer's functional distinguishes** — measured on the consumer's own
@@ -51,6 +51,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`PROTOCOL.md`](PROTOCOL.md) | Test protocol (governs every book claim) |
 | [`prereg/`](prereg/) | Dated, hashed prediction-registry entries — written *before* the runs they govern ([`TEMPLATE.md`](prereg/TEMPLATE.md)) |
 | [`claims/LEDGER.md`](claims/LEDGER.md) | One row per book claim; every table/figure resolves here |
+| [`claims/REGISTRY-ACCOUNTING.md`](claims/REGISTRY-ACCOUNTING.md) | Every assigned prereg ID with a disposition — the no-file-drawer proof |
 | [`DOMAIN-GENERALITY-SWEEP.md`](DOMAIN-GENERALITY-SWEEP.md) | The consumer-relative flip across domains, one row per sealed prereg + result |
 | [`experiments/`](experiments/) | The three-arm instance runs (§3) and scripts |
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
@@ -65,6 +66,8 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | **GO-3** certificate vacuity | `[demonstrated]` | derived EVT threshold locates retrieval death to ~5%, orders 14 corpora (ρ=0.99) |
 | **GO-4** budget inversion | `[replicated]` | fixed-budget verdict inverts under budget-matched observation on real embedding manifolds |
 | **GO-5** density quotient | `[refuted]` | 4 prospective misses; the density-nuisance mechanism is operator/spectral-confined (NEG-11) |
+| **GO-6** output ≤ surrogate ≤ recon | `[demonstrated]` | at matched rate the three coders order on the consumer metric; the gap is the $\ker P_C$ entropy share |
+| **GO-7** rate–work separation (Paper V) | `[replicated]` ✅ | the same stored code index decodes from reset side information at ~0.4·R̂, fails below its conditional content, fails absolutely without S — on **two independent source families** (binary two-bit 043/045, incl. 5 codebooks; scalar Gaussian 047 at the paper's §VI corner setting); 046 = logged instrumentation-window miss, physics gates 4/4 |
 
 **The flip is a property of observation, not of a regime.** The sealed cross-domain
 sweep ([`DOMAIN-GENERALITY-SWEEP.md`](DOMAIN-GENERALITY-SWEEP.md)) carries the
@@ -77,8 +80,12 @@ dialect (038). Radar (034·D1) is a data-limited partial; gradient/curvature
 optimization (034·D4) is an honest negative that *bounds* the flip to consumers whose
 read operator is misaligned with signal energy — no file drawer.
 
-Four faces of Observation Theory stand; the fifth is an honest negative. **40 sealed
-preregistrations**, every one timestamped before its measurement; standing negatives
-**NEG-1…14** (NEG-13, the omission floor, resolved to `[demonstrated]` downstream on a
-trained model — GO-027). Every claim resolves to a row in
-[`claims/LEDGER.md`](claims/LEDGER.md).
+Four faces of Observation Theory stand; the fifth is an honest negative. The COST
+face now extends to thermodynamics: Paper V's rate–work–distortion region separates
+what a consumer must receive from what a reset mechanism must irreversibly discard,
+with two 0-error fresh-context verification passes (VI-8/VI-9) and the GO-7
+operational demonstration behind it. **46 sealed preregistrations** (040 void,
+046 a logged instrumentation-window miss superseded by 047), every one timestamped
+before its measurement; standing negatives **NEG-1…14** (NEG-13, the omission floor,
+resolved to `[demonstrated]` downstream on a trained model — GO-027). Every claim
+resolves to a row in [`claims/LEDGER.md`](claims/LEDGER.md).
