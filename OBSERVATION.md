@@ -12,7 +12,7 @@ channel, and budget; they are ill-posed until all are specified.
 
 | Shadow | Question | Results | Papers · instruments |
 |---|---|---|---|
-| **COST** | what observation charges | R_C(D) achievability+converse; true-divergence reduction (the tilt is C); two-observer region, refinability = Loewner nesting, exact rate loss; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π) | Paper III (T-IT) |
+| **COST** | what observation charges | R_C(D) achievability+converse; true-divergence reduction (the tilt is C); two-observer region, refinability = Loewner nesting, exact rate loss; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π); **thermodynamic**: the rate–work–distortion region RW_C(D) — description rate I(X;X̂) vs conditional Landauer reset work I(X;X̂\|S) as separate resources; materialize-then-project barrier; multi-consumer coordinated reset saves TC(U₁;…;U_m\|S); thermal water-filling d*=min{λ,νT}; staleness–work complement | Paper III (T-IT) · Paper V (Landauer, GO-P-2026-042/043) |
 | **VALUE** | what preserving the read buys | the flip: reconstruction-tied codes rank oppositely per consumer; 12-domain sweep across 3 physics + trained models + classifiers; ZCA-whitened codes win end-to-end | Paper II · Paper IV · turboquant a2_probe / runtime_policy |
 | **LEGIBILITY** | what the quotient reveals | angle carries geodesics where radius carries density; recognizer names the manifold or certifies none; dimension emerges before shape (Weyl ordering); α=1 response sign = ker-P_C membership test | Paper I · Paper I.5 · the recognizer |
 

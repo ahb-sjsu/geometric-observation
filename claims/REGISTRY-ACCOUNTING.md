@@ -57,6 +57,8 @@ file or a run (numbering skip); proven absent from git history.
 | 039 | Legal flip on a fresh virgin split (strengthens 036) | **sweep (L)** | **CONFIRMED** 4/4 (virgin eval-3, R 0.796 > O 0.780, margin 2× of 036) | Paper IV sweep · LEDGER | GO-legal-fresh-split.json |
 | 040 | κ magnitude-law prospective (reserved) | **void** | not sealed — the κ magnitude law failed validation (Paper IV Remark); reservation abandoned | Paper IV · GO-kappa-law.json | — |
 | 041 | Blind non-oracle prospective flip w/ magnitude prediction (fresh 20NG) | **sweep (blind)** | **PARTIAL** — blind winning-code prediction held (R 0.975 > O 0.910) but recon-trade tied on held-out + magnitude band missed | Paper IV sweep · LEDGER | GO-blind-clf.json |
+| 042 | Consumer-relative Landauer: rate–work–distortion region, theorem harness (COST) | cost | **ALL PASS** — every section at machine precision (Atlas, governed); R-IND-5 pass: 0 errors, 4 sharpenings (VI-8) | Paper V (Landauer) · LEDGER VI-8 | — (CI sentinel) |
+| 043 | Operational rate–work separation: finite-n conditional reset by random binning (Tier B, Atlas) | cost | **PASS 7/7 gated** → GO-7 `[demonstrated]` | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-operational.json |
 
 ## Completeness argument
 
