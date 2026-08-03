@@ -60,6 +60,7 @@ file or a run (numbering skip); proven absent from git history.
 | 042 | Consumer-relative Landauer: rate–work–distortion region, theorem harness (COST) | cost | **ALL PASS** — every section at machine precision (Atlas, governed); R-IND-5 pass: 0 errors, 4 sharpenings (VI-8) | Paper V (Landauer) · LEDGER VI-8 | — (CI sentinel) |
 | 043 | Operational rate–work separation: finite-n conditional reset by random binning (Tier B, Atlas) | cost | **PASS 7/7 gated** → GO-7 `[demonstrated]` | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-operational.json |
 | 044 | Gaussian region with reset side information: scalar corner + vector reset water-filling, theorem harness | cost | **ALL PASS** (governed, Atlas, sealed 6dd944f); R-IND-5 CONFIRMED 0 errors (VI-9); net-design pilot miss logged in-prereg, redesigned pre-seal | Paper V (Landauer) §VI · LEDGER VI-9 | — (CI sentinel) |
+| 045 | GO-7 multi-codebook replication (5 codebooks/n, fresh seed 20260804) | cost | **PASS 6/6 gated** — separation on every draw (err spread 0.03 at r_b=0.26, n=32); GO-7 codebook caveat resolved | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-multicodebook.json |
 
 ## Completeness argument
 

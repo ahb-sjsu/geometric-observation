@@ -78,3 +78,18 @@ weakness of the theorem.
 - Ideal-reset accounting only: this demonstrates the *information* coordinate
   $H(M\mid S^n)$ is operationally attainable/blocked at the registered rates;
   no physical work is measured (the paper's own scope, §II Remark 1).
+
+## Multi-codebook replication (GO-P-2026-045, 2026-08-03)
+
+The registered few-cluster caveat (one codebook per n) is resolved:
+`experiments/landauer_multicodebook.py` reran the sealed Part-A design with
+five independent codebooks per blocklength under a fresh seed (20260804).
+**PASS 6/6 gated.** Per codebook at n=32: separation error at r_b=0.26 =
+{0.01, 0.03, 0.02, 0.04, 0.03} (spread 0.03 vs the 0.10 stability bar);
+below-content error at r_b=0.03 = {0.63, 0.72, 0.75, 0.64, 0.69}; the no-SI
+control errs 1.00 everywhere; realized channels R^ in [0.658, 0.675], L^ in
+[0.075, 0.089], D^ in [0.207, 0.213] — all inside the sealed windows. The
+effect is a property of the random-coding ensemble, not of a codebook draw.
+Result: [`../results/GO-landauer-multicodebook.json`](../results/GO-landauer-multicodebook.json).
+Scope unchanged: same synthetic source, so GO-7 remains `[demonstrated]`;
+a cross-source/domain run would be the `[replicated]` bar.
