@@ -86,8 +86,10 @@ Four faces of Observation Theory stand; the fifth is an honest negative. The COS
 face now extends to thermodynamics: Paper V's rate–work–distortion region separates
 what a consumer must receive from what a reset mechanism must irreversibly discard,
 with two 0-error fresh-context verification passes (VI-8/VI-9) and the GO-7
-operational demonstration behind it. **54 sealed preregistrations** (040 void,
-046/048/051/052 logged instrumentation misses, each superseded and rerun), every one timestamped
-before its measurement; standing negatives **NEG-1…14** (NEG-13, the omission floor,
-resolved to `[demonstrated]` downstream on a trained model — GO-027). Every claim
+operational demonstration behind it. **57 sealed preregistrations** (040 void,
+046/048/051/052 logged instrumentation misses, each superseded and rerun), every one
+timestamped before its measurement; standing negatives **NEG-1…15** — NEG-13 (the
+omission floor) resolved to `[demonstrated]` downstream on a trained model (GO-027),
+and **NEG-15** records the Bell boundary: retrieval geometry does not weaken Bell
+([notes](experiments/HUBNESS-BELL-NOTES.md)). Every claim
 resolves to a row in [`claims/LEDGER.md`](claims/LEDGER.md).
