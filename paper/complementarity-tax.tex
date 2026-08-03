@@ -1,0 +1,707 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,fullpage}
+\newtheorem{theorem}{Theorem}\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}\newtheorem{definition}{Definition}
+\newcommand{\E}{\mathbb{E}}\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\hX}{\widehat X}\newcommand{\hY}{\widehat Y}
+\newcommand{\kb}{k_{\mathrm B}}
+% STATUS: collaborative draft v0.3. R-IND-5 fresh-context derivation-grade
+% pass COMPLETED 2026-08-03 (ledger VI-10): 1 ERROR (isotropic regime
+% condition needed 1-|cos theta|; obtuse-angle counterexample theta=120,
+% D=0.7 exhibited numerically) and 5 sharpenings, ALL folded in. Verifier ran
+% independent nets (seeds 774421-774426): 8000 Gaussian + 70 quantized
+% channels, zero violations of Thms 1/4; 135-instance exactness-iff net +
+% boundary bracket; joint-channel searches never beat the per-coordinate
+% optimum. NOVELTY-CHECK sweeps COMPLETED 2026-08-03 (four independent
+% web-search agents; record at complementarity-tax-NOVELTY.md) with a MAJOR
+% RESCOPING folded into this revision: after the read-plane reduction, Thm 1
+% is Gray 1973's conditional-RD lower bound (Gaussian evaluation) and Prop 2
+% is the known low-distortion branch of the bivariate individual-distortion
+% RDF (Xiao-Luo 2005 Thm 6; Lapidoth-Tinguely 2010; SDC form Stylianou et al.
+% 2021, Chen et al. 2026) -- both now presented as ATTRIBUTED results with
+% proofs for completeness. Still no prior found: the tax quantity CT_R, the
+% read-operator/kappa packaging, and the ENTIRE work side (Thm 4, Cor 5,
+% CT_W). One manual follow-up flagged: Kastner-Schlatter, Mathematics 12:206
+% (2024) full text (fetch 403-blocked; snippet suggests qualitative only).
+% Remaining before sealing: the C3 governed harness (prereg DRAFT-GO10).
+% Earlier pre-seal SANITY run (author-side, seed 20260803) is disclosed in
+% the prereg draft and is not evidence.
+
+\title{A Landauer Test for Consumer Complementarity:\\
+Rate and Reset-Work Floors for Serving Two Read Operators}
+\author{Andrew H. Bond}
+\date{Working draft v0.1 --- August 2026}
+\begin{document}\maketitle
+
+\begin{abstract}
+Two consumers read the same Gaussian source through different rank-one read
+operators. We ask what a description that serves both must cost, in bits
+materialized and in ideal Landauer work at reset, beyond what the more
+expensive consumer costs alone --- the \emph{complementarity tax}. The rate
+side, restricted to the read plane, is classical and we claim no novelty for
+it: the product bound $D_A D_B \ge \kappa\,2^{-2R}$, with
+$\kappa=(u^{\mathsf T}\Sigma_x u)(v^{\mathsf T}\Sigma_x v)(1-\rho_{AB}^2)$
+and $\rho_{AB}$ the source correlation of the two reads, is the Gaussian
+evaluation of Gray's conditional rate--distortion lower bound
+\cite{gray1973}, and it is \emph{exactly} the joint rate--distortion
+function precisely when $\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma_x
+B$, $B=[u\;v]$ --- the low-distortion branch of the bivariate
+individual-distortion problem \cite{xiaoluo2005,lapidothtinguely2010}, in
+the semidefinite-condition form of the recent vector literature
+\cite{stylianou2021,chen2026}. We repackage these facts consumer-relatively
+--- two rank-one reads of a $d$-dimensional source, the pair's geometry
+entering only through the incompatibility invariant
+$\kappa=\det(B^{\mathsf T}\Sigma_xB)$ --- and prove what our prior-art
+sweeps did not find. First, the complementarity tax itself: on the
+incompatibility-dominated regime it has a closed form, and no prior
+isolation of the excess of simultaneous service over the more expensive
+single consumer surfaced under any name. Second, and principally, the
+thermodynamic half: the reset-work coordinate of the consumer-relative
+Landauer region obeys the same product bound with $\Sigma_x$ replaced by
+$\Sigma_{X\mid S}$, so the work floor is discounted from the rate floor by
+exactly $I(u^{\mathsf T}X, v^{\mathsf T}X; S)$, the side information the
+reset context holds about the read plane.
+Erasure pays for consumer incompatibility only to the extent that the reset
+context does not already resolve it. A worked two-consumer instance gives
+exact tax values and an exact rate-tax/work-tax gap that grows to
+$I(X;S)$-type quantities as distortion vanishes; these are the registered
+targets of the GO-10 falsification harness and its operational face.
+\end{abstract}
+
+\section{Setup}\label{sec:setup}
+$X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, i.i.d.\
+copies. Consumers $A$ and $B$ have read directions $u,v\in\mathbb R^d$,
+linearly independent, with read operators $P_A=uu^{\mathsf T}$,
+$P_B=vv^{\mathsf T}$ and distortions
+$d_A(x,\hat x)=\bigl(u^{\mathsf T}(x-\hat x)\bigr)^2$,
+$d_B(x,\hat x)=\bigl(v^{\mathsf T}(x-\hat x)\bigr)^2$ --- the rank-one case of
+the consumer-relative quadratic distortion $d_{\mathcal C}(x,\hat x)=
+(x-\hat x)^{\mathsf T}P_{\mathcal C}(x-\hat x)$ of Observation Theory
+\cite{bond2026observation}. Write
+\[
+B:=[\,u\ \ v\,]\in\mathbb R^{d\times2},\qquad
+Y:=B^{\mathsf T}X=\begin{pmatrix}u^{\mathsf T}X\\ v^{\mathsf T}X\end{pmatrix},
+\qquad \Sigma_Y:=B^{\mathsf T}\Sigma_x B\succ0 .
+\]
+$Y$ is what the two consumers, jointly, can ever be judged on. Its covariance
+carries the incompatibility of the pair: with
+$\sigma_u^2=u^{\mathsf T}\Sigma_x u$, $\sigma_v^2=v^{\mathsf T}\Sigma_x v$,
+and read correlation
+$\rho_{AB}=u^{\mathsf T}\Sigma_x v/(\sigma_u\sigma_v)$,
+\begin{equation}
+\kappa:=\det\Sigma_Y
+=\sigma_u^2\sigma_v^2\bigl(1-\rho_{AB}^2\bigr)\ >0,
+\label{eq:kappa}
+\end{equation}
+the squared area of the parallelogram spanned by $\Sigma_x^{1/2}u$ and
+$\Sigma_x^{1/2}v$ (strictly positive under the standing hypotheses
+$\Sigma_x\succ0$, $u,v$ linearly independent). For $\Sigma_x=\sigma^2 I$ and
+unit $u,v$ at angle $\theta$, $\kappa=\sigma^4\sin^2\theta$. As the
+consumers align, $\kappa\to0$;
+consumers whose reads are uncorrelated under the source have maximal
+$\kappa$.
+
+For the thermodynamic coordinate we adopt the model of the consumer-relative
+Landauer paper \cite{bondlandauerV}: descriptions are stored in a memory
+whose later reset may consult retained side information $S$, jointly
+Gaussian with $X$, with the Markov structure $\hX-X-S$ (side information is
+never available to the consumers). By the multi-consumer region
+(\emph{Shared observation for several consumers}, \cite{bondlandauerV}), a
+shared memory serving reproductions
+% [VI-10 sharpening] That theorem is proved in the source for finite
+% alphabets and bounded distortion; its Gaussian/quadratic use here is the
+% standard abstract-alphabet extension, inherited exactly as the source's own
+% Gaussian sections inherit it, and flagged rather than re-proved. Every
+% inequality proved in the present note is alphabet-agnostic.
+$(\hX_A,\hX_B)$ at distortions $(D_A,D_B)$ has achievable rate--work pairs
+characterized by
+\begin{equation}
+R\ \ge\ I(X;\hX_A,\hX_B),
+\qquad
+L\ \ge\ I(X;\hX_A,\hX_B\mid S),
+\label{eq:coords}
+\end{equation}
+over joint test channels meeting both distortion constraints; the ideal
+isothermal reset work is $W^\star=\kb T\ln2\cdot L$ with $L$ in bits. All
+logarithms are base 2. Define the conditional analogues
+\begin{equation}
+\Sigma_{X\mid S}:=\E\bigl[\Cov(X\mid S)\bigr],\qquad
+\kappa_S:=\det\bigl(B^{\mathsf T}\Sigma_{X\mid S}B\bigr)
+=\det\Sigma_{Y\mid S}.
+\label{eq:kappaS}
+\end{equation}
+Since $(X,S)$ is jointly Gaussian, $\Sigma_{X\mid S}$ is the (deterministic)
+conditional covariance and $\Sigma_{Y\mid S}=B^{\mathsf T}\Sigma_{X\mid S}B$.
+
+\begin{definition}[Joint and single-consumer optima]\label{def:optima}
+For $0<D_A\le\sigma_u^2$, $0<D_B\le\sigma_v^2$,
+\begin{align*}
+R_{AB}(D_A,D_B)&:=\min\bigl\{I(X;\hX_A,\hX_B):\E d_A(X,\hX_A)\le D_A,\
+\E d_B(X,\hX_B)\le D_B\bigr\},\\
+L_{AB}(D_A,D_B\mid S)&:=\min\bigl\{I(X;\hX_A,\hX_B\mid S):\text{same
+constraints},\ (\hX_A,\hX_B)-X-S\bigr\},
+\end{align*}
+and $R_A(D_A),L_A(D_A\mid S)$ (resp.\ $B$) the same programs with only one
+constraint. The single-consumer rate is classical rank-one reverse
+water-filling (\emph{Isothermal read-operator work law},
+\cite{bondlandauerV}):
+$R_A(D_A)=\tfrac12\log(\sigma_u^2/D_A)$.
+\end{definition}
+
+\begin{definition}[Complementarity tax]\label{def:tax}
+\[
+\mathrm{CT}_R(D_A,D_B):=R_{AB}(D_A,D_B)-\max\bigl(R_A(D_A),R_B(D_B)\bigr),
+\quad
+\mathrm{CT}_W(D_A,D_B\mid S):=L_{AB}-\max\bigl(L_A,L_B\bigr).
+\]
+Both are $\ge0$ trivially (a joint code contains a code for each consumer).
+The content of this note is \emph{how large} they must be, and how retained
+side information separates them.
+\end{definition}
+
+\begin{remark}[Common reconstruction is without loss for these programs]
+\label{rem:common}
+By Lemma~\ref{lem:cm} below, replacing $(\hX_A,\hX_B)$ by the single
+reproduction $\hX=\E[X\mid\hX_A,\hX_B]$ weakly improves both distortions
+while $I(X;\hX)\le I(X;\hX_A,\hX_B)$ (and conditionally on $S$ likewise,
+since $\hX$ is a function of the pair); the improvement step uses the
+equality clause of Lemma~\ref{lem:cm}. Hence $R_{AB}$ equals the
+simultaneous-service value $R(D_1,D_2)$ of
+\cite[\emph{Simultaneous service}, \S7]{bondtwoobserver}: the max-det
+program
+$\max\{\log\det\Sigma:\ \Sigma\preceq\Sigma_x,\ \tr(P_A\Sigma)\le D_A,\
+\tr(P_B\Sigma)\le D_B\}$. Everything exact below is therefore checkable
+against an SDP.
+\end{remark}
+
+\section{Three lemmas}
+\begin{lemma}[Conditional mean serves every observer
+{\cite[Lem.~1]{bondtwoobserver}}]\label{lem:cm}
+For any $P\succeq0$, any random variable $V$ jointly distributed with $X$,
+and any estimator $g(V)$,
+$\E[(X-g(V))^{\mathsf T}P(X-g(V))]\ \ge\
+\E[(X-\E[X\mid V])^{\mathsf T}P(X-\E[X\mid V])]\ =\
+\tr\bigl(P\,\Sigma(V)\bigr)$, where
+$\Sigma(V):=\E[\Cov(X\mid V)]$; the conditional mean attains the bound.
+\end{lemma}
+
+\begin{lemma}[Plane information bound]\label{lem:plane}
+Let $V$ be any random variable jointly distributed with $X$, and
+$Y=B^{\mathsf T}X$ as above. Then
+\[
+I(X;V)\ \ge\ I(Y;V)\ \ge\
+\tfrac12\log\det\Sigma_Y-\tfrac12\log\det\bigl(B^{\mathsf T}\Sigma(V)B\bigr).
+\]
+If moreover $(X,S)$ is jointly Gaussian --- no Markov structure between $V$
+and $S$ is required ---
+\[
+I(X;V\mid S)\ \ge\ I(Y;V\mid S)\ \ge\
+\tfrac12\log\det\Sigma_{Y\mid S}
+-\tfrac12\log\det\bigl(\E[\Cov(Y\mid V,S)]\bigr),
+\]
+and $\E[\Cov(Y\mid V,S)]\preceq \E[\Cov(Y\mid V)]=B^{\mathsf T}\Sigma(V)B$.
+\end{lemma}
+\begin{proof}
+$Y$ is a deterministic function of $X$, so
+$I(X;V)=I(Y;V)+I(X;V\mid Y)\ge I(Y;V)$, and identically with all mutual
+informations conditioned on $S$. For the entropy bound,
+$I(Y;V)=h(Y)-h(Y\mid V)$ with $h(Y)=\tfrac12\log\bigl[(2\pi
+e)^2\det\Sigma_Y\bigr]$ exactly ($Y$ Gaussian). For each $v$,
+$h(Y\mid V=v)\le\tfrac12\log\bigl[(2\pi e)^2\det\Cov(Y\mid V=v)\bigr]$
+(Gaussian entropy maximization); averaging over $V$ and applying Jensen to
+the concave map $\Sigma\mapsto\log\det\Sigma$ on the positive semidefinite
+cone gives
+$h(Y\mid V)\le\tfrac12\log\bigl[(2\pi e)^2\det\E[\Cov(Y\mid V)]\bigr]$.
+Finally $\E[\Cov(Y\mid V)]=B^{\mathsf T}\E[\Cov(X\mid V)]B$. The conditional
+case is identical with $(V,S)$ in place of $V$ and
+$h(Y\mid S)=\tfrac12\log[(2\pi e)^2\det\Sigma_{Y\mid S}]$ exact because
+$(Y,S)$ is jointly Gaussian with constant conditional covariance. The
+ordering $\E[\Cov(Y\mid V,S)]\preceq\E[\Cov(Y\mid V)]$ is refined
+conditioning (law of total covariance), and $\det$ is monotone on the
+positive semidefinite order.
+\end{proof}
+
+\begin{lemma}[Read-frame Hadamard]\label{lem:hadamard}
+Let $\Sigma_W\in\mathbb S^2_{+}$ have $(\Sigma_W)_{11}\le D_A$,
+$(\Sigma_W)_{22}\le D_B$. Then $\det\Sigma_W\le D_A D_B$, with equality iff
+$\Sigma_W=\mathrm{diag}(D_A,D_B)$.
+\end{lemma}
+\begin{proof}
+$\det\Sigma_W=(\Sigma_W)_{11}(\Sigma_W)_{22}-(\Sigma_W)_{12}^2
+\le(\Sigma_W)_{11}(\Sigma_W)_{22}\le D_AD_B$; equality forces
+$(\Sigma_W)_{12}=0$ and both diagonal entries at their caps.
+\end{proof}
+
+\section{The rate relation}
+The results of this section are, in the reduced coordinates $Y=B^{\mathsf
+T}X$, known: Theorem~\ref{thm:rate} is the Gaussian evaluation of Gray's
+conditional rate--distortion lower bound \cite{gray1973} (equivalently, the
+vector Shannon lower bound), and Proposition~\ref{prop:exact} is the
+low-distortion branch of the joint rate--distortion function of a bivariate
+Gaussian under individual square-error criteria, solved by Xiao and Luo
+\cite[Thm.~6]{xiaoluo2005}, re-derived with explicit regime boundaries by
+Lapidoth and Tinguely \cite[Thm.~III.1]{lapidothtinguely2010}, and stated as
+a semidefinite condition in the vector case
+\cite{stylianou2021,chen2026}. We state and prove them in the
+consumer-relative form --- the source is $d$-dimensional and only the two
+rank-one functionals are judged, with the reduction carried by
+Lemma~\ref{lem:plane} and the geometry by $\kappa$ --- both for completeness
+and because the work-side results of Section~4, which we did not find in
+prior literature, reuse every step. See Section~7 for the full delineation.
+
+\begin{theorem}[Consumer complementarity relation; classical after
+reduction]\label{thm:rate}
+Let $(\hX_A,\hX_B)$ be jointly distributed with $X$ and satisfy
+$\E d_A(X,\hX_A)\le D_A$, $\E d_B(X,\hX_B)\le D_B$. Then
+\begin{equation}
+I(X;\hX_A,\hX_B)\ \ge\ \tfrac12\log\frac{\kappa}{D_AD_B},
+\qquad\text{equivalently}\qquad
+D_A\,D_B\ \ge\ \kappa\;2^{-2I(X;\hX_A,\hX_B)} .
+\label{eq:ratebound}
+\end{equation}
+In particular $R_{AB}(D_A,D_B)\ge\tfrac12\log^+\!\bigl(\kappa/(D_AD_B)\bigr)$
+and, in normalized precisions,
+$\dfrac{D_A}{\sigma_u^2}\cdot\dfrac{D_B}{\sigma_v^2}\ \ge\
+\bigl(1-\rho_{AB}^2\bigr)\,2^{-2R}$ at any achievable rate $R$.
+\end{theorem}
+\begin{proof}
+Set $V=(\hX_A,\hX_B)$ and $\Sigma_W:=B^{\mathsf T}\Sigma(V)B$. The estimator
+$g(V)=\hX_A$ and Lemma~\ref{lem:cm} with $P=P_A$ give
+$(\Sigma_W)_{11}=u^{\mathsf T}\Sigma(V)u\le\E d_A\le D_A$; likewise
+$(\Sigma_W)_{22}\le D_B$. Lemma~\ref{lem:plane} gives
+$I(X;V)\ge\tfrac12\log\det\Sigma_Y-\tfrac12\log\det\Sigma_W$, and
+Lemma~\ref{lem:hadamard} gives $\det\Sigma_W\le D_AD_B$. Combine with
+$\det\Sigma_Y=\kappa$.
+\end{proof}
+
+The bound is not merely an envelope; on a named regime it is the exact
+answer --- in the reduced coordinates, the known low-distortion branch
+\cite{xiaoluo2005,lapidothtinguely2010,stylianou2021}.
+
+\begin{proposition}[Exactness on the incompatibility-dominated regime;
+transport of \cite{xiaoluo2005,lapidothtinguely2010,stylianou2021}]
+\label{prop:exact}
+Let $\Delta:=\mathrm{diag}(D_A,D_B)$ with $0<D_A\le\sigma_u^2$,
+$0<D_B\le\sigma_v^2$. Then
+\[
+R_{AB}(D_A,D_B)=\tfrac12\log\frac{\kappa}{D_AD_B}
+\qquad\Longleftrightarrow\qquad
+\Delta\ \preceq\ \Sigma_Y .
+\]
+For $\Sigma_x=\sigma^2I$, unit reads at angle $\theta\in(0,\pi)$, and
+$D_A=D_B=D$, the condition reads $D\le\sigma^2(1-\lvert\cos\theta\rvert)$.
+\end{proposition}
+\begin{proof}
+($\Leftarrow$, achievability.) Suppose $\Delta\preceq\Sigma_Y$. Take the
+backward channel on the read plane: $\hY$ jointly Gaussian with
+$\Cov(\hY)=\Sigma_Y-\Delta\succeq0$ and $Y=\hY+Z$,
+$Z\sim\mathcal N(0,\Delta)$ independent of $\hY$, generated from $Y$ by a
+test channel (so $\hY-Y-X$ is Markov). Set the common reproduction
+$\hX:=B(B^{\mathsf T}B)^{-1}\hY$, so that $B^{\mathsf T}\hX=\hY$ exactly.
+Then $u^{\mathsf T}(X-\hX)=e_1^{\mathsf T}(Y-\hY)=Z_1$, so
+$\E d_A=\Delta_{11}=D_A$, and likewise $\E d_B=D_B$. The rate is
+$I(X;\hX)\le I(X;\hY)=I(Y;\hY)=h(Y)-h(Z)
+=\tfrac12\log\bigl(\det\Sigma_Y/\det\Delta\bigr)
+=\tfrac12\log\bigl(\kappa/(D_AD_B)\bigr)$, using the Markov chain and the
+fact that $Y-\hY=Z$ is Gaussian and independent of $\hY$. With
+Theorem~\ref{thm:rate} this pins $R_{AB}$ at the stated value.
+
+($\Rightarrow$, necessity.) The minimum defining $R_{AB}$ is attained: by
+Remark~\ref{rem:common} it equals the max-det program's value, whose optimum
+exists (compact feasible set, upper semicontinuous objective) and is realized
+by the Gaussian backward channel. So let an admissible $V=(\hX_A,\hX_B)$
+attain
+$I(X;V)=\tfrac12\log(\kappa/(D_AD_B))$; then every inequality in the proof of
+Theorem~\ref{thm:rate} is tight; in particular Lemma~\ref{lem:hadamard} is
+tight, so $B^{\mathsf T}\Sigma(V)B=\Delta$. But
+$\E[\Cov(Y\mid V)]=\Sigma_Y-\Cov\bigl(\E[Y\mid V]\bigr)\preceq\Sigma_Y$
+always, hence $\Delta\preceq\Sigma_Y$. For the isotropic instance,
+$\Sigma_Y=\sigma^2\bigl(\begin{smallmatrix}1&\cos\theta\\
+\cos\theta&1\end{smallmatrix}\bigr)$ has eigenvalues
+$\sigma^2(1\pm\cos\theta)$, so
+$\Sigma_Y-DI\succeq0$ iff $D\le\sigma^2(1-\lvert\cos\theta\rvert)$
+--- symmetric in $\theta\mapsto\pi-\theta$, as it must be since $v\mapsto-v$
+changes neither consumer.
+\end{proof}
+
+\begin{remark}
+Outside the regime, $R_{AB}$ is still exactly computable as the
+simultaneous-service max-det program (Remark~\ref{rem:common});
+\eqref{eq:ratebound} remains a valid, now strict, floor. The VI-10
+verification nets found the floor active and exact at
+$\theta\in\{30^\circ,\dots,90^\circ\}$, $D=0.1$, $\sigma=1$; inactive at
+$\theta=15^\circ$ where $D>\sigma^2(1-\cos\theta)$; strictly loose at the
+obtuse probe $\theta=120^\circ$, $D=0.7$ (gap $+0.061$ bits), which is what
+forced the $\lvert\cos\theta\rvert$ in the statement; and switching exactly
+at a bracket around the boundary $\theta^\star=\arccos(1-D/\sigma^2)$.
+\end{remark}
+
+\begin{corollary}[Complementarity tax, closed form]\label{cor:taxrate}
+On the regime $\Delta\preceq\Sigma_Y$, with $M\in\{A,B\}$ the consumer of
+larger single-rate and $m$ the other,
+\[
+\mathrm{CT}_R(D_A,D_B)
+=\tfrac12\log\frac{\kappa}{\sigma_M^2\,D_m}
+=\tfrac12\log\frac{\sigma_m^2\bigl(1-\rho_{AB}^2\bigr)}{D_m}
+\quad(\text{exact}),
+\]
+which is positive iff $D_m<\sigma_m^2(1-\rho_{AB}^2)$. For the isotropic
+equal-distortion instance,
+$\mathrm{CT}_R=\tfrac12\log\bigl(\sigma^2\sin^2\theta/D\bigr)$.
+\end{corollary}
+\begin{proof}
+Subtract $\max_j R_j=\tfrac12\log(\sigma_M^2/D_M)$ from
+Proposition~\ref{prop:exact} and use
+$\kappa=\sigma_u^2\sigma_v^2(1-\rho_{AB}^2)$.
+\end{proof}
+
+\begin{remark}[Recovery of the orthogonal-observers extreme]
+At $\theta=\pi/2$, $\Sigma_x=\sigma^2I_2$:
+$\mathrm{CT}_R=\tfrac12\log(\sigma^2/D)=R_m$, i.e.\
+$R_{AB}=R_A+R_B$ --- zero reuse. This is the \emph{value} of the
+orthogonal-observers example of \cite[\S6]{bondtwoobserver} recovered from
+the product bound (that example is stated for successive refinement, where
+the minimal two-stage total is likewise $R_1(D_1)+R_2(D_2)$; the
+simultaneous-service optimum coincides there, $\Sigma^{\mathrm s}=
+\mathrm{diag}(D_1,D_2)$). The present corollary interpolates the extreme
+continuously in $\theta$.
+\end{remark}
+
+\section{The work relation and the side-information discount}
+\begin{theorem}[Complementarity relation at reset]\label{thm:work}
+Let $(X,S)$ be jointly Gaussian, let $(\hX_A,\hX_B)-X-S$ be Markov, and let
+the pair satisfy the two distortion constraints. Then
+\begin{equation}
+I(X;\hX_A,\hX_B\mid S)\ \ge\ \tfrac12\log\frac{\kappa_S}{D_AD_B},
+\qquad
+D_A\,D_B\ \ge\ \kappa_S\;2^{-2I(X;\hX_A,\hX_B\mid S)} .
+\label{eq:workbound}
+\end{equation}
+Hence $L_{AB}(D_A,D_B\mid S)\ge\tfrac12\log^+\!\bigl(\kappa_S/(D_AD_B)\bigr)$
+and the ideal reset work of any admissible shared memory obeys
+$W^\star\ \ge\ \kb T\ln2\cdot\tfrac12\log^+\!\bigl(\kappa_S/(D_AD_B)\bigr)$.
+\end{theorem}
+\begin{proof}
+Identical to Theorem~\ref{thm:rate} via the conditional half of
+Lemma~\ref{lem:plane}: with $V=(\hX_A,\hX_B)$,
+$I(X;V\mid S)\ge\tfrac12\log\det\Sigma_{Y\mid S}
+-\tfrac12\log\det\E[\Cov(Y\mid V,S)]$, and
+$\det\E[\Cov(Y\mid V,S)]\le\det\bigl(B^{\mathsf T}\Sigma(V)B\bigr)\le
+D_AD_B$ by the ordering in Lemma~\ref{lem:plane} and
+Lemma~\ref{lem:hadamard}. Note the distortion constraints bound the
+\emph{unconditional} error covariance --- the consumers never see $S$ ---
+while the erasure mechanism does; this asymmetry is exactly the model of
+\cite{bondlandauerV}. The Markov hypothesis is not used in the derivation
+--- inequality \eqref{eq:workbound} holds for arbitrary joints of
+$(X,\hX_A,\hX_B,S)$ with $(X,S)$ jointly Gaussian; it scopes the model in
+which $I(X;\hX_A,\hX_B\mid S)$ \emph{is} the operational reset-work
+coordinate \eqref{eq:coords}.
+\end{proof}
+
+\begin{corollary}[The discount is the plane side information]
+\label{cor:discount}
+The rate floor and the work floor of
+\eqref{eq:ratebound},\,\eqref{eq:workbound} differ by
+\[
+\tfrac12\log\frac{\kappa}{\kappa_S}
+=\tfrac12\log\frac{\det\Sigma_Y}{\det\Sigma_{Y\mid S}}
+=I(Y;S)
+=I\bigl(u^{\mathsf T}X,\,v^{\mathsf T}X;\;S\bigr),
+\]
+exactly, for jointly Gaussian $(X,S)$. Consequently: (i) $\kappa_S\le\kappa$
+always --- erasure never pays more incompatibility than materialization;
+(ii) if $S$ determines some direction in $\mathrm{span}\{u,v\}$ (e.g.\ $S$
+retains one consumer's read exactly), then $\kappa_S=0$ and the work floor
+is vacuous: the reset context has already resolved the read-plane
+incompatibility; (iii) if $S$ is independent of $Y$ (a mismatched or
+shuffled reset context), $\kappa_S=\kappa$ and the two floors coincide ---
+a useless context discounts nothing.
+\end{corollary}
+\begin{proof}
+$I(Y;S)=h(Y)-h(Y\mid S)$ with both entropies Gaussian-exact. (i) is
+$\Sigma_{Y\mid S}\preceq\Sigma_Y$ and monotonicity of $\det$; (ii)--(iii)
+are the degenerate and independent cases of the same identity.
+\end{proof}
+
+\begin{remark}[Tightness of the work floor]\label{rem:worktight}
+Unlike Theorem~\ref{thm:rate}, the floor \eqref{eq:workbound} is generally
+not attained at $D>0$: the consumer cannot condition on $S$, so its test
+channel leaves residual correlation with $S$ that the erasure integral
+counts. This is the same $D>0$ gap exhibited by the scalar Gaussian corner
+(\emph{Scalar Gaussian corner}, \cite{bondlandauerV}), whose work coordinate
+exceeds
+$\tfrac12\log(\sigma^2_{X\mid S}/D)$ by exactly the discount shortfall
+$\tfrac12\log\bigl[(\sigma^2_{X\mid S}+(\sigma^2-\sigma^2_{X\mid
+S})D/\sigma^2)/\sigma^2_{X\mid S}\bigr]$, vanishing as $D\to0$. The worked
+instance below inherits this: the work floor is asymptotically tight as
+$D\to0$, and the \emph{exact} finite-$D$ work tax is computed there by
+per-coordinate reduction. Characterizing the exact two-consumer
+rate--work--distortion region with side information (the $S$-analogue of
+the simultaneous-service SDP) is open and flagged for the sequel.
+\end{remark}
+
+\section{Worked instance: the GO-10 targets}\label{sec:instance}
+Let $\Sigma_x=I_2$, $u=e_1$, $v=(\cos\theta,\sin\theta)$, equal distortions
+$D_A=D_B=D$, and reset side information $S=u^{\mathsf T}X+N$,
+$N\sim\mathcal N(0,\tau^2)$ independent of $(X,\hX_A,\hX_B)$. Write
+$s^2:=\Var(X_1\mid S)=\tau^2/(1+\tau^2)$.
+
+\paragraph{Rate side ($\theta$-sweep).} $\kappa=\sin^2\theta$. For
+$D\le1-\lvert\cos\theta\rvert$ (Proposition~\ref{prop:exact}; all sweep
+angles below are acute),
+\[
+R_{AB}=\tfrac12\log\frac{\sin^2\theta}{D^2},
+\qquad
+\mathrm{CT}_R=\tfrac12\log\frac{\sin^2\theta}{D}\quad(\text{exact}).
+\]
+At $D=0.1$: $\mathrm{CT}_R=0.661,\ 1.161,\ 1.453,\ 1.611,\ 1.661$ bits at
+$\theta=30^\circ,45^\circ,60^\circ,75^\circ,90^\circ$; at $\theta=15^\circ$
+the regime condition fails ($1-\cos15^\circ\approx0.034<0.1$) and the exact
+value is the SDP's ($\mathrm{CT}_R\approx0.122$ bits), strictly above the
+now-inactive floor. Aligned consumers, $\theta\to0$: tax $\to0$.
+
+\paragraph{Work side ($\theta=90^\circ$, $\tau$-sweep).} Here the two source
+coordinates are independent, $S$ is correlated with $X_1$ only, and the
+distortion functionals separate, so both joint programs split
+per-coordinate (converse: condition coordinate-wise and apply the scalar
+corner converse of \cite{bondlandauerV} to
+$(X_1,u^{\mathsf T}\hX_A,S)$, which is Markov-compatible because $S$ depends
+on $X$ only through $X_1$; achievability: independent per-coordinate reverse
+channels). With all quantities in bits:
+\[
+L_A=\tfrac12\log\frac{s^2+(1-s^2)D}{D},\qquad
+L_B=\tfrac12\log\frac1D,\qquad
+L_{AB}=L_A+L_B,
+\]
+\begin{equation}
+\mathrm{CT}_W=L_A
+=\tfrac12\log\frac{s^2+(1-s^2)D}{D},
+\qquad
+\mathrm{CT}_R-\mathrm{CT}_W
+=\tfrac12\log\frac{1}{s^2+(1-s^2)D}
+\ \nearrow\ I(X_1;S)\ \text{as }D\to0 .
+\label{eq:taxgap}
+\end{equation}
+The tax gap \eqref{eq:taxgap} is exact at every $D$, monotone in the
+staleness/quality of $S$, equals $0$ when $S$ is useless ($s^2=1$), and
+approaches the full retained information $I(X_1;S)=\tfrac12\log(1/s^2)$ as
+$D\to0$ --- the two-consumer face of the Paper~V separation between what a
+consumer must be sent and what a reset must destroy. Representative exact
+values ($s^2=0.2$): $\mathrm{CT}_R-\mathrm{CT}_W=0.661,\ 1.029,\ 1.147$
+bits at $D=0.25,\ 0.05,\ 0.005$, against $I(X_1;S)=1.161$.
+
+\paragraph{Controls.} (i) Mismatched reset context (an independent copy
+$S'$): $\kappa_{S'}=\kappa$, discount $=0$, $\mathrm{CT}_W=\mathrm{CT}_R$
+--- Corollary~\ref{cor:discount}(iii). (ii) $S$ aligned with the read plane
+but orthogonal to both reads is impossible for $d=2$; for $d\ge3$, $S$
+correlated only with $\ker B^{\mathsf T}$ directions discounts nothing ---
+same control, geometric version.
+
+\section{Interpretation}
+Theorem~\ref{thm:rate} has the shape, though not the substance, of an
+uncertainty relation: the product of two achievable precisions is floored by
+$2^{-2R}$ times an incompatibility functional of the two observables ---
+here $1-\rho_{AB}^2$, the fraction of either read's variance that the other
+read cannot linearly explain. The resource is description rate rather than
+$\hbar$, and the obstruction is statistical (the source cannot be
+simultaneously well-resolved along non-collinear directions with too few
+bits) rather than operator noncommutativity. We therefore call it a
+\emph{complementarity relation} and claim no quantum content. The analogy
+has a precise nearest neighbor: Hall's information exclusion principle
+\cite{hall1995} bounds $I_X+I_P\le\log_2(\Delta X\,\Delta P/\hbar)$ ---
+rearranged, a product of spreads floored by a scale times an exponential of
+information gained --- and the memory-assisted entropic uncertainty
+relations \cite{berta2010}, in which side information relaxes the floor
+through a conditional entropy, parallel the discount $\kappa\to\kappa_S$
+below. But every relation in that literature is a sum of entropies or
+accessible informations against quantum overlap constants; our sweeps found
+no rate-constrained exclusion relation, no rate--distortion form, and no
+product-of-distortions floor there. The Fisher-information route to
+classical uncertainty (Stam; Dembo--Cover--Thomas) involves no coding rate,
+and the one classical compression ``uncertainty principle'' we found
+\cite{safaryan2021} concerns a single compressed vector with no
+incompatibility functional. The substance of \eqref{eq:ratebound} is,
+rather, classical source coding (Section~7); what the uncertainty shape adds
+is the reading of $\kappa$ as an incompatibility functional and the
+observation that the same shape survives at reset with a side-information
+discount --- which is where the prior literature ends.
+Theorem~\ref{thm:work} is the thermodynamic half: at reset, the same product
+bound holds against the conditional incompatibility $\kappa_S$, and
+Corollary~\ref{cor:discount} prices the difference at exactly the side
+information the reset context holds about the read plane. Materialization
+pays for consumer incompatibility against the prior; erasure pays only for
+the part the reset context has not already resolved.
+
+\section{Delineation}\label{sec:delineation}
+The prior-art sweeps flagged in earlier drafts were executed on 2026-08-03
+(four independent searches; record at
+\texttt{paper/complementarity-tax-NOVELTY.md}). Their findings are folded
+in below; ``no prior found'' always means no prior statement found under the
+recorded queries, not provable novelty.
+
+\textbf{Gaussian coding under individual fidelity criteria (the governing
+prior line).} Restricted to the read plane, Section~3 is not new.
+Inequality \eqref{eq:ratebound} is Gray's conditional rate--distortion lower
+bound \cite{gray1973}, $R_{X_1X_2}(D_1,D_2)\ge
+R_{X_1}(D_1)+R_{X_2}(D_2)-I(X_1;X_2)$, evaluated for a bivariate Gaussian
+(equivalently, the vector Shannon lower bound). The exactness
+formula-plus-regime of Proposition~\ref{prop:exact} is the low-distortion
+branch of the joint rate--distortion function under individual square-error
+criteria: closed form by Xiao and Luo \cite[Thm.~6]{xiaoluo2005} (their
+scalar regime condition $\rho^2\le(1-D_1)(1-D_2)$ is
+$\Delta\preceq\Sigma_Y$ written in scalars), explicit three-regime display
+by Lapidoth and Tinguely \cite[Thm.~III.1]{lapidothtinguely2010},
+matrix-ordering (``semidefinite condition'') statement, max-det program,
+and multivariate extension by Stylianou, Charalambous, and Charalambous
+\cite{stylianou2021}, with the package treated as known and the
+condition-violated regime analyzed by Chen et al.\ \cite{chen2026}; see
+also \cite{nayak2008} for the restatement with the backward-channel
+tightness structure. What we did not find stated in that line: the
+$d$-dimensional two-rank-one-read formulation with
+$\kappa=\det(B^{\mathsf T}\Sigma_xB)$ as the invariant (the reduction of
+Lemma~\ref{lem:plane} is folklore for a single projection); the tax
+$\mathrm{CT}_R=R_{AB}-\max(R_A,R_B)$ under any name --- the nearest
+quantity, the rate penalty of universal representations \cite{nguyen2025},
+prices one-at-a-time universality rather than simultaneous constraints and
+vanishes in its Gaussian setting; and anything thermodynamic.
+
+\textbf{Two-observer theorem \cite{bondtwoobserver}.} The
+simultaneous-service proposition there (\S7) characterizes $R_{AB}$ as a
+max-det SDP for arbitrary PSD read operators; the orthogonal-observers
+example (\S6) computes the extreme value; neither contains the closed-form
+floor or the regime characterization, which --- as established above ---
+were already in \cite{xiaoluo2005,lapidothtinguely2010,stylianou2021}.
+Relative to both, the contributions of this note are the tax quantity and
+its closed form (Corollary~\ref{cor:taxrate}) and the entire work side
+(Section~4). \textbf{Consumer-relative Landauer \cite{bondlandauerV}.} The
+multi-consumer theorem supplies the coordinates \eqref{eq:coords}; the
+coordinated-reset corollary (conditional total correlation) prices
+resetting \emph{several existing records} jointly versus separately --- the
+GO-9 face. The tax is a different comparison: one record serving two
+consumers versus the more expensive consumer alone. Both reduce to
+conditional-information accounting, but neither implies the other.
+\textbf{Common reconstruction (Steinberg).} Supplies the work-only endpoint
+semantics in \cite{bondlandauerV}; not a two-consumer statement.
+\textbf{Multiple descriptions (El Gamal--Cover).} Distinct problem: there,
+two \emph{channels} may fail independently and every subset of descriptions
+must decode; here one shared memory serves two \emph{distortion
+functionals}. No degraded-message structure is imposed.
+
+\textbf{Thermodynamics of erasure with side information.} The conditional
+coordinate belongs to the conditional-erasure tradition in which retained
+context discounts Landauer work: classically Sagawa--Ueda, quantumly del
+Rio et al.\ \cite{delrio2011} and, most sharply, Berta, Brand\~ao, Majenz,
+and Wilde \cite{bbmw2018}, where conditional mutual information exactly
+prices decoupling given a retained system. All price the erasure of one
+record against one knowledge context; the sweep found no two-consumer or
+two-observable erasure floor, no product bound of the form
+\eqref{eq:workbound}, and no discount identity of the form
+Corollary~\ref{cor:discount}. At the level of floors, the discount is a
+two-consumer Gaussian instance of the gap between rate--distortion and
+conditional rate--distortion functions \cite{gray1973}; its content here is
+the operational asymmetry --- the reset mechanism holds $S$, the consumers
+never see it --- which turns Gray's coding gap into a statement about what
+erasure, and only erasure, gets to discount. Finally, despite the name,
+Theorem~\ref{thm:work} is \emph{not} a thermodynamic uncertainty relation
+in the Barato--Seifert sense \cite{baratoseifert2015}: TURs bound
+fluctuations of time-integrated currents by entropy production in
+nonequilibrium steady states; our relation bounds a product of mean-square
+distortions by conditional information at an ideal isothermal reset. One
+manual follow-up remains open: Kastner and Schlatter (Mathematics 12:206,
+2024) pair ``complementarity'' with ``erasure cost'' in a quantum
+foundational register; the accessible material indicates a qualitative
+argument with no quantitative floor, but the full text resisted retrieval
+and should be read before submission.
+
+\section{Verification plan}\label{sec:verify}
+\textbf{C3 falsification harness} (prereg \texttt{DRAFT-GO10}, to be sealed
+before the governed run): random-channel nets for
+\eqref{eq:ratebound} and \eqref{eq:workbound} ($d\in\{2,3,4\}$, rank-varying
+channels and side information); SDP-vs-floor exactness on and off the regime
+of Proposition~\ref{prop:exact} including the boundary
+$D=\sigma^2(1-\lvert\cos\theta\rvert)$ and the obtuse-angle probe that
+exposed the VI-10 error; the discount identity of
+Corollary~\ref{cor:discount} to numerical precision; the exact instance
+values of Sec.~\ref{sec:instance} including \eqref{eq:taxgap} and both
+controls. \textbf{Fresh-context pass (R-IND-5): COMPLETED} 2026-08-03,
+ledger incident VI-10, record at
+\texttt{paper/complementarity-tax-VERIFICATION.md}: one error (the
+isotropic regime condition, corrected in this revision to
+$1-\lvert\cos\theta\rvert$) and five sharpenings, all folded in; the prime
+suspect (the exactness ``iff'') survived a 135-instance net and a boundary
+bracket. \textbf{Novelty sweeps: COMPLETED} 2026-08-03 (four independent
+searches, record at \texttt{paper/complementarity-tax-NOVELTY.md});
+findings folded into the abstract, Section~3 attributions, and
+Section~\ref{sec:delineation}; one manual follow-up open
+(Kastner--Schlatter 2024 full text).
+\textbf{Operational face (GO-10).} Codebook-level demonstration in the
+GO-7/8/9 harness style: materialized joint and single-consumer codes at
+matched distortion, decode-threshold instrumentation for the work
+coordinate, $\theta$- and $\tau$-sweeps against the exact predictions of
+Sec.~\ref{sec:instance}, shuffled-context null. Bars to be fixed at seal;
+the book may not cite this note above $[\mathrm{predicted}]$ until then.
+
+\begin{thebibliography}{99}
+\bibitem{bond2026observation} A.~H. Bond, Observation theory: consumer-relative
+rate--distortion, this repository, \texttt{paper/observation-theory.pdf}.
+\bibitem{bondtwoobserver} A.~H. Bond, Two observers, one source: an exact
+characterization of successive refinement across read operators, this
+repository, \texttt{paper/two-observer-theorem.tex}, working draft v0.1.
+\bibitem{bondlandauerV} A.~H. Bond, A rate--work--distortion region for
+consumer-relative observation, this repository,
+\texttt{paper/consumer-relative-landauer.tex} (Paper V); theorem and
+proposition numbers cited as of the VI-9 verified revision.
+\bibitem{steinberg2009} Y.~Steinberg, Coding and common reconstruction,
+\emph{IEEE Trans. Inf. Theory} 55(11):4995--5010, 2009.
+\bibitem{elgamalcover} A.~El Gamal, T.~Cover, Achievable rates for multiple
+descriptions, \emph{IEEE Trans. Inf. Theory} 28(6):851--857, 1982.
+\bibitem{hall1995} M.~J.~W. Hall, Information exclusion principle for
+complementary observables, \emph{Phys. Rev. Lett.} 74:3307, 1995.
+\bibitem{landauer1961} R.~Landauer, Irreversibility and heat generation in
+the computing process, \emph{IBM J. Res. Dev.} 5:183--191, 1961.
+\bibitem{gray1973} R.~M. Gray, A new class of lower bounds to information
+rates of stationary sources via conditional rate-distortion functions,
+\emph{IEEE Trans. Inf. Theory} 19(4):480--489, 1973.
+\bibitem{xiaoluo2005} J.-J. Xiao, Z.-Q. Luo, Compression of correlated
+Gaussian sources under individual distortion criteria, \emph{Proc. 43rd
+Allerton Conf. Commun., Control, Comput.}, pp. 438--447, 2005. (Theorem 6
+verified through the verbatim restatements in \cite{nayak2008} and
+\cite{stylianou2021}; primary PDF not openly retrievable --- see the novelty
+record.)
+\bibitem{lapidothtinguely2010} A.~Lapidoth, S.~Tinguely, Sending a bivariate
+Gaussian over a Gaussian MAC, \emph{IEEE Trans. Inf. Theory}
+56(6):2714--2752, 2010.
+\bibitem{nayak2008} J.~Nayak, E.~Tuncel, D.~G\"und\"uz, E.~Erkip, Successive
+refinement of vector sources under individual distortion criteria,
+\emph{IEEE Trans. Inf. Theory} 54(4):1769--1781, 2008. (Page range to
+verify at splice time.)
+\bibitem{stylianou2021} E.~Stylianou, C.~D. Charalambous, T.~Charalambous,
+Joint rate distortion function of a tuple of correlated multivariate
+Gaussian sources with individual fidelity criteria, \emph{Proc. IEEE ISIT},
+2021 (arXiv:2102.07236); explicit formulas in arXiv:2508.16301, 2025.
+\bibitem{chen2026} S.~Chen, J.~Gao, Y.~Shi, Y.~Wu, G.~Caire, H.~V. Poor,
+W.~Zhang, Joint lossy compression for a vector Gaussian source under
+individual distortion criteria, arXiv:2602.06464, 2026.
+\bibitem{nguyen2025} N.~Nguyen, T.~Nguyen, T.~Nguyen, B.~Bose, Universal
+rate-distortion-classification representations for lossy compression,
+arXiv:2504.09025, 2025.
+\bibitem{berta2010} M.~Berta, M.~Christandl, R.~Colbeck, J.~M. Renes,
+R.~Renner, The uncertainty principle in the presence of quantum memory,
+\emph{Nature Physics} 6:659--662, 2010.
+\bibitem{safaryan2021} M.~Safaryan, E.~Shulgin, P.~Richt\'arik, Uncertainty
+principle for communication compression in distributed and federated
+learning and the search for an optimal compressor, \emph{Inf. Inference}
+11(2):557--580, 2022 (arXiv:2002.08958).
+\bibitem{delrio2011} L.~del Rio, J.~\r Aberg, R.~Renner, O.~Dahlsten,
+V.~Vedral, The thermodynamic meaning of negative entropy, \emph{Nature}
+474:61--63, 2011.
+\bibitem{bbmw2018} M.~Berta, F.~G.~S.~L. Brand\~ao, C.~Majenz, M.~M. Wilde,
+Deconstruction and conditional erasure of quantum correlations, \emph{Phys.
+Rev. A} 98:042320, 2018.
+\bibitem{baratoseifert2015} A.~C. Barato, U.~Seifert, Thermodynamic
+uncertainty relation for biomolecular processes, \emph{Phys. Rev. Lett.}
+114:158101, 2015.
+\end{thebibliography}
+\end{document}
