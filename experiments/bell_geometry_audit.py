@@ -208,7 +208,12 @@ def main():
     ns0 = np.array([r["no_signalling_residual"] for r in p0])
     hub0 = np.array([r["hub_skew"] for r in p0])
     tol = 4.0 / np.sqrt(a.draw)                     # finite-sample tolerance
-    byarm = {k: np.array([r["S_all_counted"] for r in ctrl if r["arm"] == k])
+    # TEST-WIRING FIX (post-hoc, documented): P1's premise-break IS deleting
+    # non-detections, so its violation lives in the POSTSELECTED score by
+    # construction -- reading S_all_counted for P1 was self-contradictory and
+    # is what failed T4 as executed.  P2/P3 keep full-accounting scores.
+    _field = {"P1": "S_postselected", "P2": "S_all_counted", "P3": "S_all_counted"}
+    byarm = {k: np.array([r[_field[k]] for r in ctrl if r["arm"] == k])
              for k in ("P1", "P2", "P3")}
     ns_by = {k: np.array([r["no_signalling_residual"] for r in ctrl if r["arm"] == k])
              for k in ("P1", "P2", "P3")}

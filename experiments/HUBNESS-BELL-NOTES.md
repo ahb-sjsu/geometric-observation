@@ -87,3 +87,77 @@ And one claim in my first analysis pass was wrong and is corrected here: I said 
 contextual shift was saturated and therefore could not covary with $S$; the exact
 estimator shows it ranges 0.083–0.883, so the near-zero correlation is a real null,
 not a ceiling artifact.
+
+---
+
+# GO-P-2026-057 — Bell geometry audit (constraint-first, **sealed**): ALL PASS 6/6
+
+Harness [`bell_geometry_audit.py`](bell_geometry_audit.py) · prereg
+[GO-P-2026-057](../prereg/GO-P-2026-057-bell-geometry-audit.md) (sealed `6e825d8`)
+· result [`GO-bell-geometry-audit.json`](../results/GO-bell-geometry-audit.json)
+· as-executed [`…-asexecuted.json`](../results/GO-bell-geometry-audit-asexecuted.json)
+· seed 20260817, 72 P0 configurations + 72 controls, CPU.
+
+Unlike the exploratory probe above, this one was **designed from the constraints**
+and preregistered with an **expected null**.
+
+## The null, cleanly
+
+| test | result |
+|---|---|
+| **T1** P0 respects the bound | **max S = 2.00000** across all 72 configs (tol 0.0089) ✅ |
+| **T2** no-signalling (by construction) | max residual **0.00464**, pure finite-sample ✅ |
+| **T5** geometry irrelevant | **corr(S, hub skew) = −0.036** ✅ |
+| **T3** angular law is the sawtooth, not the cosine | RMS vs scaled sawtooth 0.20–0.45 **<** RMS vs −cos θ 0.61–0.72 ✅ |
+| **T6** same data, postselected instead of counted | **2.7308** ✅ |
+| **T4** positive controls fire | P1 **2.748**, P2 **2.386**, P3 **3.174** ✅ |
+
+**Dimension 3→128, Zipf skew, concentrated cores, hub skew, query concentration:
+none of it moves S off 2.00000.** The correlation with hub skew is −0.036. This is
+the computational demonstration that retrieval geometry does not weaken Bell.
+
+**The controls are what make the null mean anything.** Break one premise and the
+instrument sees it immediately: deleting non-detections gives 2.748 with
+no-signalling *intact* (0.0022) — the signature of a pure accounting artifact;
+measurement dependence gives 2.386; broken locality gives 3.174 with a
+no-signalling residual of **1.03**, i.e. it announces itself. Any future geometric
+conjecture must declare which column it occupies.
+
+**The before/after that makes the point sharpest:** identical model, identical
+geometry, identical trials — S = **2.00000** counting everything, **2.7308**
+deleting non-detections. The entire "violation" is the accounting.
+
+## ⚠ Test-wiring correction, on the record
+
+As executed the run scored **5/6**: T4 failed because the verdict read
+`S_all_counted` for **all** controls, including P1 — whose premise-break *is*
+deleting non-detections, so its violation cannot appear in an all-data score. That
+was self-contradictory wiring on my part, not a physics result, and the substantive
+requirement behind T4 was already independently met by T6 (2.7308 from P0's own
+data), P2 and P3. Fixed to read `S_postselected` for P1 only; **rerun at the same
+seed reproduced the simulation data bit-identically** (P0, controls and angular
+blocks all compare equal), so only the verdict field changed. The as-executed JSON
+is committed unchanged.
+
+That is now the **seventh** instrument-side defect in this session against zero
+failed physics predictions — the standing lesson: unit-test the *scoring* against
+each arm's definition, not just the simulation.
+
+## Caveats
+
+- P2's crude tilt breaks no-signalling too (residual 0.27), so it does not isolate
+  measurement dependence as cleanly as Hall-type models do; it is a positive
+  control, not a faithful superdeterministic model.
+- Bounds **this** preregistered family only. Adversarial postselection
+  constructions reach S = 4.
+- Nothing here is new physics. The contribution is an audited, reusable
+  falsification harness plus the explicit geometric null.
+
+## Status
+
+`[demonstrated]` as a **negative/harness** result. Per PROTOCOL Rule 1.2 it belongs
+in Honest Negatives, not the umbrella. It supports the note the author sketched —
+*"Hubness Does Not Weaken Bell: A Retrieval-Geometric Audit of Setting-Dependent
+Sampling"* — for which the deliverables now exist: the analytic argument, the
+geometric null, the postselection demonstration, the no-signalling failure, the
+misleading-coarse-measure lesson, and the harness itself.
