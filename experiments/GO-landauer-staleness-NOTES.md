@@ -36,6 +36,24 @@ within one grid step at every age; the same bin rate (0.175) flips from 1%
 error at age 0 to 100% at age 32. Relevance lost to time is gained as
 conditional erasure work — measured.
 
-## GO-P-2026-049 — corrected rerun (v2)
+## GO-P-2026-049 — corrected rerun (v2): **PASS 5/5** (unblinded 2026-08-03)
 
-*(filled after the governed run — see result JSON `GO-landauer-staleness-v2.json`)*
+Result: [`../results/GO-landauer-staleness-v2.json`](../results/GO-landauer-staleness-v2.json),
+fresh seed 20260808, sealed `389e234` pre-run; physics gates identical to 048,
+control gate pooled over ages per bin rate at 4σ.
+
+| gate | result | pass? |
+|---|---|:--:|
+| S1 monotone | 0.100→0.175→0.325→0.400→0.550 (→ flat) | ✅ |
+| S2 tracks prediction | devs 0.036 / 0.007 / 0.078 / 0.043 / 0.081 / 0.015 | ✅ |
+| S3 fixed-r_b age flip | 0.175: decodable at t=0, dead by t≥32 | ✅ |
+| S4 channel | d̂ = 0.1148 | ✅ |
+| S5 pooled control | within 4σ of chance at every r_b | ✅ |
+
+**The staleness-work complement, operationally, under two seeds** (048's
+physics gates also passed 4/4): one fixed record, one fixed bin assignment,
+and the decodable reset threshold climbs from 0.10 to 0.55 bits/symbol as
+the retained side information ages, tracking $R_c-1+h_2(\hat d*q_t)$ within
+one grid step at all eight ages. Relevance lost to time is gained as
+conditional erasure work — measured, and the exchange is the paper's
+Fig.-3 identity read operationally.
