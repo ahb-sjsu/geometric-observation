@@ -1,0 +1,231 @@
+{
+ "claim": "KV-cache serving flip: at identical bits AND identical reconstruction error, the geometry of the error relative to what attention reads decides long-context task score",
+ "prereg": "GO-P-2026-055",
+ "mode": "pilot",
+ "model": "Qwen/Qwen2.5-1.5B-Instruct",
+ "task": "passage_retrieval_en",
+ "n_eval": 24,
+ "n_calib": 4,
+ "r_sub": 16,
+ "bits_swept": [
+  4,
+  3,
+  2
+ ],
+ "seed": 20260814,
+ "geometry": {
+  "layers": 28,
+  "q_heads": 12,
+  "kv_heads": 2,
+  "grp": 6,
+  "head_dim": 128
+ },
+ "arms": [
+  {
+   "arm": "fp16_baseline",
+   "mode": null,
+   "n": 24,
+   "score": 0.2916666666666667,
+   "seconds": 311.1,
+   "preds": [
+    "Paragraph 13\n\nThis problem requires identifying the paragraph that",
+    "Paragraph 25\n\nCan you provide a detailed analysis of",
+    "Paragraph 3",
+    "Paragraph 10\n\nBased on the provided context, the",
+    "Paragraph 27\n\nThis problem requires identifying the specific paragraph"
+   ],
+   "ref_bits": 0
+  },
+  {
+   "arm": "preserve_read@4b",
+   "mode": "preserve",
+   "n": 24,
+   "score": 0.25,
+   "seconds": 322.5,
+   "preds": [
+    "Paragraph 13\n\nThis problem involves identifying the correct paragraph",
+    "Paragraph 25\n\nThe provided text is a detailed biography",
+    "Paragraph 3",
+    "Paragraph 10\n\nBased on the provided context, the",
+    "Paragraph 28\n\nThis paragraph does not match the content"
+   ],
+   "recon_ratio_delta_over_ref": 0.999999999363469,
+   "mean_ref_err_norm": 2.0912565528951337,
+   "ref_bits": 4
+  },
+  {
+   "arm": "destroy_read@4b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.4583333333333333,
+   "seconds": 318.3,
+   "preds": [
+    "Paragraph 3\nTo determine which paragraph contains the abstract,",
+    "Paragraph 27\n\nThe following is an abstract of one",
+    "Paragraph 1",
+    "Paragraph 12\n\nThe paragraph you provided describes the path",
+    "Paragraph 27\n\nThis paragraph is the abstract of the"
+   ],
+   "recon_ratio_delta_over_ref": 1.0,
+   "mean_ref_err_norm": 2.1111821600077567,
+   "ref_bits": 4
+  },
+  {
+   "arm": "shuffle_control@4b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.20833333333333334,
+   "seconds": 319.4,
+   "preds": [
+    "Paragraph 13\n\nThis problem involves identifying the correct paragraph",
+    "Paragraph 28\n\nExplain your reasoning:\nTo determine",
+    "Paragraph 30",
+    "Paragraph 10\n\nBased on the provided paragraph, here",
+    "Paragraph 25\n\nThis passage describes the outcome of a"
+   ],
+   "recon_ratio_delta_over_ref": 1.0000000018012138,
+   "mean_ref_err_norm": 2.0939361861391332,
+   "ref_bits": 4
+  },
+  {
+   "arm": "preserve_read@3b",
+   "mode": "preserve",
+   "n": 24,
+   "score": 0.16666666666666666,
+   "seconds": 326.2,
+   "preds": [
+    "Paragraph 30\n\nThis paragraph contains an abstract of information",
+    "Paragraph 14\n\nBased on the information provided in the",
+    "Paragraph 1\n\nThis paragraph discusses the controversy surrounding the rape",
+    "Paragraph 10\n\nExplain how you arrived at your",
+    "Paragraph 28\n\nThis paragraph describes a football game between"
+   ],
+   "recon_ratio_delta_over_ref": 1.000000001280261,
+   "mean_ref_err_norm": 4.5059070296528585,
+   "ref_bits": 3
+  },
+  {
+   "arm": "destroy_read@3b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.0,
+   "seconds": 337.8,
+   "preds": [
+    "Paragraph 1.\n Paragraph 2: The abstract of the",
+    "1, 1999\n\nparagraphs.",
+    "the answer is the answer, the answer is the answer,",
+    "Paragraph 19: 1979\u20131",
+    "The answer is only answered only by the answer.\nParagraph"
+   ],
+   "recon_ratio_delta_over_ref": 1.0000000018941422,
+   "mean_ref_err_norm": 4.450562378583179,
+   "ref_bits": 3
+  },
+  {
+   "arm": "shuffle_control@3b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.16666666666666666,
+   "seconds": 323.9,
+   "preds": [
+    "Paragraph 1\n\nThe provided text contains three distinct paragraphs,",
+    "Paragraph 2\n\nPlease provide a detailed analysis of the impact",
+    "Paragraph 29.",
+    "Paragraph 11\n\nPlease provide the text of the abstract",
+    "Paragraph 29\nParagraph 19"
+   ],
+   "recon_ratio_delta_over_ref": 1.000000001277327,
+   "mean_ref_err_norm": 4.516185590780607,
+   "ref_bits": 3
+  },
+  {
+   "arm": "preserve_read@2b",
+   "mode": "preserve",
+   "n": 24,
+   "score": 0.041666666666666664,
+   "seconds": 330.9,
+   "preds": [
+    "The article discusses the Mi-8AMT SHV Hel",
+    "1999, the 1999",
+    "Paragraph 17: Bianca's sexual assault was concerned",
+    "Paragraph 30.\n\nParagraph 31: The Abstract",
+    "Paragraph 27: Which paragraph is the answer to which"
+   ],
+   "recon_ratio_delta_over_ref": 1.0000000013578765,
+   "mean_ref_err_norm": 10.455951822442811,
+   "ref_bits": 2
+  },
+  {
+   "arm": "destroy_read@2b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.0,
+   "seconds": 322.8,
+   "preds": [
+    "Asia to,., a is and to to to nd",
+    "t and and and0 p and ( \n and and and",
+    "the Steven\u00a0and ^ to to\\ ; la then bed",
+    "um c,, the the,, the\\. to",
+    "\u2014,ally. (_ be.,, etc,"
+   ],
+   "recon_ratio_delta_over_ref": 1.000000000813727,
+   "mean_ref_err_norm": 10.904985407974717,
+   "ref_bits": 2
+  },
+  {
+   "arm": "shuffle_control@2b",
+   "mode": "destroy",
+   "n": 24,
+   "score": 0.0,
+   "seconds": 322.7,
+   "preds": [
+    "of. .\n, the. the. , the",
+    "the in the.``\u2026 the. chosen the.G",
+    "the\n the the. the. a the. and the",
+    "Answer Answer Answer the to a side to the run the.",
+    "the\n.\nV. \n The St. st. st"
+   ],
+   "recon_ratio_delta_over_ref": 1.0000000006618481,
+   "mean_ref_err_norm": 10.726456362145978,
+   "ref_bits": 2
+  }
+ ],
+ "per_bits": {
+  "4": {
+   "preserve": 0.25,
+   "destroy": 0.4583333333333333,
+   "shuffle": 0.20833333333333334,
+   "preserve_minus_destroy": -0.20833333333333331,
+   "preserve_minus_shuffle": 0.04166666666666666,
+   "destroy_drop_vs_fp16": -0.16666666666666663,
+   "recon_ratio_preserve": 0.999999999363469,
+   "recon_ratio_destroy": 1.0,
+   "ref_err_norm": 2.1111821600077567
+  },
+  "3": {
+   "preserve": 0.16666666666666666,
+   "destroy": 0.0,
+   "shuffle": 0.16666666666666666,
+   "preserve_minus_destroy": 0.16666666666666666,
+   "preserve_minus_shuffle": 0.0,
+   "destroy_drop_vs_fp16": 0.2916666666666667,
+   "recon_ratio_preserve": 1.000000001280261,
+   "recon_ratio_destroy": 1.0000000018941422,
+   "ref_err_norm": 4.450562378583179
+  },
+  "2": {
+   "preserve": 0.041666666666666664,
+   "destroy": 0.0,
+   "shuffle": 0.0,
+   "preserve_minus_destroy": 0.041666666666666664,
+   "preserve_minus_shuffle": 0.041666666666666664,
+   "destroy_drop_vs_fp16": 0.2916666666666667,
+   "recon_ratio_preserve": 1.0000000013578765,
+   "recon_ratio_destroy": 1.000000000813727,
+   "ref_err_norm": 10.904985407974717
+  }
+ },
+ "fp16_score": 0.2916666666666667,
+ "recon_matched_audit_ok": true,
+ "seconds_total": 3239.7
+}
