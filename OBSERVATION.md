@@ -31,7 +31,14 @@ channel, and budget; they are ill-posed until all are specified.
 read operator misaligned with signal energy and a working consumer:
 coupling (D4) is a true null; no-consumer is a precondition; the density
 quotient outside diffusion is refuted (GO-5); fixed-scale uniform-in-m for
-the commute filter is refuted (S¹); every verdict is budget-relative.
+the commute filter is refuted (S¹); every verdict is budget-relative. **Bell marks the outer boundary:** consumer-relative reading of one global
+latent measure cannot produce non-classical correlations, whatever the latent
+geometry — hubness included. An `[exploratory]` probe confirmed the mechanism side
+is empty ([notes](experiments/HUBNESS-BELL-NOTES.md)): setting-*independent*
+sampling gives S = 2.00000 exactly at any hubness, and the only route past it in
+that family was the detection loophole, which additionally signalled. What survives
+is a vocabulary — settings act as queries, so query-relative accessibility is the
+natural language for Bell's measurement-independence premise — not a mechanism.
 
 **Method.** Registration-first: sealed predictions, ex-ante bars, misses
 published at equal prominence, fresh-context verification, no file drawer.
