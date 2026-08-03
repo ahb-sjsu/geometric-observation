@@ -84,3 +84,66 @@ multiplicity alone does not determine even the *sign* of the projected drift.
 G4 (conserved defect) remains the arm most likely to produce a "success" that is
 really inserted field theory — its gate must be that the mediator's universal
 coupling is *derived*, not assumed.
+
+---
+
+# Estimator certification — **PASSED**, and the Jacobian trap is now quantified
+
+Harness [`fiberg_estimator_cert.py`](fiberg_estimator_cert.py) · result
+[`GO-fiberg-estimator-cert.json`](../results/GO-fiberg-estimator-cert.json) ·
+seed 20260819, 12M steps, CPU, 73 s.
+
+The pilot left the estimator **uncertified** (an injected 1/r² came back as
+−0.897). Re-run in the **linear-response regime** — injected drift at 5% of the
+diffusion step, fit window [0.30, 0.90] clear of both boundaries, exiting walkers'
+steps *recorded* and only their next start resampled:
+
+| injected law | recovered exponent | verdict |
+|---|---|---|
+| b_r ∝ −r^−2 | **−2.035** | ✅ |
+| b_r ∝ −r^−1 | **−0.997** | ✅ |
+| b_r ∝ −r^+1 | **+0.990** | ✅ |
+
+All three recovered to better than 0.04, and cleanly separated. **The estimator is
+certified to detect an inverse-square law**, so the C1 gate on FIBER-G is lifted.
+The earlier −0.897 was entirely the injection strength, not the method.
+
+## The Jacobian trap — a real hazard for this whole research direction
+
+Two radial estimators are **not** the same quantity:
+
+$$\mathbb E[\Delta x\cdot\hat u]=b_r\,dt \qquad\text{vs}\qquad
+\mathbb E[\Delta|x|]=b_r\,dt+\frac{(n_{\rm obs}-1)\sigma^2}{2r}dt$$
+
+The second carries a spurious **outward 1/r** term that is pure coordinate
+Jacobian. Measured against the analytic prediction it matched to **0.2–0.6%** in
+all three arms. Its effect on inference is severe:
+
+| injected law | clean estimator | naive \|x\| estimator |
+|---|---|---|
+| −r^−2 | −2.035 | **−3.004** |
+| −r^+1 (harmonic) | +0.990 | **+2.692** |
+
+So a researcher measuring E[Δ|x|] would report an exponent wrong by a full power,
+and — critically — **this spurious term has exactly the 1/r outward form that the
+gravity note derives as the "naive entropic force."** At least part of that
+much-discussed 1/r term is not a force at all; it is the radial coordinate change.
+Any FIBER-G arm, and any entropic-gravity toy model of this kind, must either use
+the Cartesian-projection estimator or subtract $(n_{\rm obs}-1)\sigma^2/2r$
+explicitly. This is now a standing requirement for the campaign.
+
+## Sample floors for the NRP manifest (measured, not guessed)
+
+At σ = 0.01 with a 5%-of-σ signal, SE per bin ≈ 1.2e−05 and signal/SE ≈ 26–55×.
+For a **10σ** determination per radial bin:
+
+| law | N per bin |
+|---|---|
+| inverse square | 9.6e4 |
+| inverse r | 5.9e4 |
+| harmonic | 2.5e4 |
+
+With 12 bins that is ~1.2M recorded transitions per configuration for the hardest
+law — trivial per job, so the eventual campaign is **bounded by configuration
+count, not by per-configuration cost**. That is the resource envelope P0 was
+supposed to produce.
