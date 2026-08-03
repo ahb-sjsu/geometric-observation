@@ -161,3 +161,54 @@ in Honest Negatives, not the umbrella. It supports the note the author sketched 
 Sampling"* — for which the deliverables now exist: the analytic argument, the
 geometric null, the postselection demonstration, the no-signalling failure, the
 misleading-coarse-measure lesson, and the harness itself.
+
+---
+
+## Why the audit's baseline is exactly 2.00000 (asked at review, answered from the code)
+
+A reviewer correctly objected that Bell's argument gives an inequality, so a
+generic local model sits strictly inside the bound, and equality to five decimals
+invites suspicion of clipping or a construction that forces the answer.
+
+The reason is that **the CHSH integrand is a constant for the registered setting
+geometry.** All four measurement directions lie in one plane, and a sign response
+depends only on the angle of the state's projection into that plane. With one
+side's directions at 0 and π/2 and the other's at ±π/4, the combination
+K(φ) = A₀(B₀+B₁) + A₁(B₀−B₁) equals **−2 in every one of the eight sectors of
+width π/4**, so it is independent of φ and therefore of the state distribution
+entirely.
+
+Verified directly:
+
+| check | result |
+|---|---|
+| distinct values of K over 2e6 sampled angles | **{−2}**, one element |
+| ambient d = 3, 8, 128 | unique K = {−2}, S = 2.0000000000 |
+| strongly anisotropic cored distribution, d = 32 | unique K = {−2}, S = 2.0000000000 |
+
+Two consequences, both now stated in the article. The measured null is a check
+that the code implements the intended construction rather than a discovery, since
+the value is forced. And the audit is **maximally sensitive**, because the baseline
+carries no statistical scatter at all, so any departure from local realistic
+behaviour moves the combination away from a noiseless reference instead of a noisy
+one. That is a desirable property for a falsification net and was not by design.
+
+## Other review items applied to the article
+
+- **Efficiency threshold corrected.** The two thirds figure is not a general
+  requirement. For the symmetric case with maximally entangled states the critical
+  value is 2(√2−1) ≈ 0.83 (Garg and Mermin), while two thirds belongs to Eberhard
+  style tests using nonmaximally entangled states in the Clauser and Horne form.
+  The conclusion is unchanged because every violating configuration sat below 0.40.
+- **Formal section added** defining the all trials statistic with registration
+  indicators and the coincidence conditioned measure
+  ρ_xy ∝ ρ·η_A(x,·)·η_B(y,·), which is where query dependent accessibility enters.
+- **Sealed and exploratory evidence separated** into a status table.
+- **Two claims narrowed.** "The entire excess comes from which trials were counted"
+  is now scoped to the paired rescoring, and the claim about the only route past
+  the bound is scoped to the model family under test, with the controls noted as
+  demonstrating other routes exist.
+- **Related work section and references added**, with a standing note that the
+  bibliographic details need checking against published records before submission.
+- **Subtitle sharpened** to the reviewer's wording but rendered without a colon,
+  since the standing prose standard forbids colons in headings.
