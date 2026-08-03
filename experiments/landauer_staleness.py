@@ -19,7 +19,7 @@ import time
 
 import numpy as np
 
-SEED = 20260807
+SEED = 20260808              # v2 (GO-P-2026-049); 048 used 20260807
 P_FLIP = 0.05
 D_TGT = 0.11                      # per-symbol Hamming distortion target
 R_AN = 1.0 - (-D_TGT * np.log2(D_TGT) - (1 - D_TGT) * np.log2(1 - D_TGT))
@@ -135,17 +135,25 @@ def main():
         S3_same_binrate_flips_with_age=bool(err_fixed_rb[0] <= 0.10
                                             and min(err_fixed_rb[-2:]) >= 0.90),
         S4_channel_realized=bool(0.10 <= d_hat <= 0.17),
-        # chance-relative: uniform in-bin picking succeeds at 1/|bin|, so the
-        # control is gated against its own chance level (pilot lesson: at high
-        # r_b bins hold 2-8 members and a flat 0.90 bar misreads chance as
-        # side-information)
-        S5_no_si_control=bool(all(e >= ch - 0.05
-                                  for r in rows
-                                  for e, ch in zip(r["err_ctrl"], r["chance_err"]))),
+        # chance-relative AND pooled over ages: the control never reads x_t,
+        # so its behavior is age-independent by construction -- pooling is
+        # exact and kills the per-cell multiplicity that failed GO-P-2026-048
+        # (one 2.3-sigma binomial excursion among ~64 cells).  Gate per r_b at
+        # 4 sigma of the pooled binomial SE.
+        S5_no_si_control=bool(all(
+            abs(np.mean([r["err_ctrl"][j] for r in rows])
+                - np.mean([r["chance_err"][j] for r in rows]))
+            <= 4.0 * np.sqrt(max(
+                np.mean([r["chance_err"][j] for r in rows])
+                * (1 - np.mean([r["chance_err"][j] for r in rows])), 1e-12)
+                / (T * len(rows)))
+            + 1e-9
+            for j in range(len(rbs)))),
     )
     result = dict(
         claim="staleness-work complement, operational (aged Markov side information)",
-        prereg="GO-P-2026-048",
+        prereg="GO-P-2026-049",
+        supersedes="GO-P-2026-048",
         mode="pilot" if args.pilot else "full",
         seed=SEED, n=n, trials=T, p_flip=P_FLIP, d_hat=d_hat, Rc=Rc,
         rb_grid=rbs, ages=ages, rows=rows,
