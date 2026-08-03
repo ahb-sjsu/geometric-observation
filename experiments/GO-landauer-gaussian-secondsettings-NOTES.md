@@ -64,3 +64,57 @@ across runs. The distinction that matters:
 The decision on whether to attempt these settings once more — and if so, only with
 the invalid test replaced, the G3/C2 bars held **exactly** as sealed, and a
 pre-committed larger design ($n$, $T$) — is the author's, not the assistant's.
+
+---
+
+# GO-P-2026-053 / 054 — final attempts: **both PASS**, with a recorded caveat
+
+Sealed `da3d99a` (no pilots run; outcome accepted in advance). Governed runs on
+Atlas, seeds 20260812 / 20260813, designs enlarged as pre-committed
+($n$ 20→22, $T$ 250; $n$ 12→14, $T$ 250). **All physics bars byte-identical to
+051/052.**
+
+| gate | as-sealed bar | 051/052 | 053/054 |
+|---|---|---|---|
+| GO-8 G1 monotone | nondecreasing | ✅ | ✅ |
+| GO-8 G2 §VI discount tracking | max\|dev\| ≤ 0.20, ratio 0.70–1.30 | 0.154 ✅ | ✅ |
+| **GO-8 G3** (missed by one trial) | err ≤ 0.10 @ age 0 | 0.108 ❌ | **0.076 ✅** |
+| GO-8 G4 channel | D̂ ∈ [0.22,0.36] | ✅ | ✅ |
+| GO-9 C1 S-discount | within 0.25 | ✅ | ✅ |
+| **GO-9 C2** (missed by 1.1%) | ≥ 0.40·gap = 0.1390 | 0.1316 ❌ | **0.1931 (0.56×) ✅** |
+| GO-9 C3 | ≥ 0.40·gap | ✅ | 0.1955 (0.56×) ✅ |
+| GO-9 C4 shuffled null | no benefit | ✅ | ✅ |
+| GO-9 C5 channel | d̂ ∈ [0.28,0.48] | ✅ | ✅ |
+
+Larger blocklength moved both previously-missed quantities well clear of bars
+that were **not** touched. Thresholds: 0.189 → 1.051 across ages 0–32, tracking
+the paper's §VI Gaussian discount; coordination saved 0.193/0.196 bits/symbol.
+
+## ⚠ CAVEAT ON RECORD — a post-hoc bug fix stands between the sealed run and this verdict
+
+As executed, **both runs recorded a MISS** (`[T,T,T,T,F]` and `[T,T,T,T,T,F]`), failing
+only the control gate, and only on cells where **bins hold a single codeword**: there
+chance success probability is exactly 1, the control is deterministic, and a correct
+exact test must return p-value 1.0. `binom_sf` short-circuited on `p >= 1.0` without
+checking `k`, so $P(X\ge N{+}1)$ returned 1.0 instead of 0, collapsing the lower tail.
+Every non-degenerate cell scored between p = 0.15 and 1.0.
+
+What was done, and what a skeptic should check:
+- the as-executed JSONs are committed **unchanged**
+  ([staleness](../results/GO-landauer-staleness-gaussian-v2-asexecuted.json),
+  [coordinated](../results/GO-landauer-coordinated-gaussian-v2-asexecuted.json));
+- the fix respects `k` in both degenerate branches, with unit tests for
+  $p\in\{0,1\}$ and $k>N$ added;
+- both runs were **re-executed at the same seeds**, not silently re-scored, and the
+  experimental data is **bit-identical** (thresholds, deviations, channel estimates,
+  control and chance vectors all equal) — verified programmatically; the only
+  difference in the JSONs is the gate verdict;
+- **the physics gates passed in the as-executed, buggy-gate run too.** The correction
+  could not and did not rescue a physics claim.
+
+This is nonetheless the **third** control-instrument defect in this campaign
+(046 window anchor, 048/051 control statistics), and "we fixed the gate and now it
+passes" is a pattern that deserves suspicion. The defence is that the degenerate
+$p=1$ case admits exactly one correct answer rather than a tunable one — but the
+promotion of GO-8 and GO-9 to `[replicated]` rests on this correction, and the ledger
+rows say so.
