@@ -147,3 +147,60 @@ With 12 bins that is ~1.2M recorded transitions per configuration for the hardes
 law — trivial per job, so the eventual campaign is **bounded by configuration
 count, not by per-configuration cost**. That is the resource envelope P0 was
 supposed to produce.
+
+---
+
+# G3 locality probe — transition geometry alone produces **no exterior field at all**
+
+Harness [`fiberg_g3_locality.py`](fiberg_g3_locality.py) · result
+[`GO-fiberg-g3-locality.json`](../results/GO-fiberg-g3-locality.json) · seed
+20260820 · uses the certified estimator.
+
+## The argument, stated before the run
+
+Family B modifies how motion passes among states while holding the state count
+fixed. The anti-circularity contract forbids the modification from referencing
+distance to the source or direction toward it, so the conductance can only be a
+**local** function of the source, c(x) = f(ρ(x)). For a reversible walk with a
+uniform stationary law the projected drift is proportional to ∇log c(x), hence to
+(f′/f)·∇ρ(x).
+
+Outside the compact support of ρ the density is zero and constant, so **∇ρ vanishes
+and the drift is identically zero.** The exterior field is not wrong in exponent.
+It does not exist. That is a support argument, not a numerical accident.
+
+## Measured, with a live positive control
+
+| conductance law | drift in the source shell (∇ρ ≠ 0) | drift outside the source |
+|---|---|---|
+| c = exp(3ρ) | **213.2 σ** | **1.3 σ** (max \|b\| 1.6e−05, SE 1.1e−05) |
+| c = 1 + 3ρ | **82.0 σ** | **1.4 σ** (max \|b\| 1.5e−05, SE 1.1e−05) |
+
+The estimator resolves a 213σ signal where the density gradient is nonzero and
+sees nothing outside the source. So the exterior null is a bounded measurement
+against a demonstrably live instrument, not an absence of sensitivity.
+
+## What this prunes
+
+The campaign had three candidate families. Two are now closed on the evidence
+gathered here.
+
+**Family A, fiber multiplicity.** P1 showed two chains with bit-identical
+stationary laws whose drifts differ by 3.00× and disagree in *sign* at 32 of 40
+states. Occupancy does not determine even the direction of motion, so multiplicity
+alone cannot carry the mechanism.
+
+**Family B, transition geometry.** Closed by the support argument above and
+confirmed at 1.3σ. Any purely local modification of conductance gives zero
+exterior field.
+
+**Family C, conserved defect or flux.** The only route left, and the one the plan
+already identified as carrying the highest burden. A long range law requires the
+source to modify something that *propagates* away from it. Once a mediator is
+sourced by mass and coupled universally to probes, the structure of a field theory
+has been assumed rather than derived, so Family C's gate must be that the mediator
+and its universal coupling follow from the same microstate architecture that
+produces the observed geometry, not from a postulate.
+
+Reducing three families to one is the useful outcome. It is also the plan's own
+stated aim, since sprawl was named as the failure mode.
