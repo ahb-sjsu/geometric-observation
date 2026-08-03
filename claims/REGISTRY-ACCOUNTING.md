@@ -65,6 +65,7 @@ file or a run (numbering skip); proven absent from git history.
 | 047 | GO-7 cross-source v2 (windows corrected, physics gates identical, fresh seed 20260806) | cost | **PASS 6/6 gated** → GO-7 `[replicated]` (two independent source families) | Paper V (Landauer) · LEDGER GO-7 | GO-landauer-gaussian-source-v2.json |
 | 048 | Staleness-work complement operational (aged Markov side information) | cost · superseded→049 | **MISS 4/5** — physics gates 4/4 PASS (threshold 0.10→0.55 tracking prediction); control gate failed on per-cell multiplicity (one 2.3σ binomial cell of ~64) | Paper V (Landauer) · [notes](../experiments/GO-landauer-staleness-NOTES.md) | GO-landauer-staleness.json |
 | 049 | Staleness operational v2 (pooled 4σ control gate, fresh seed 20260808) | cost | **PASS 5/5 gated** → GO-8 `[demonstrated]` | Paper V (Landauer) · LEDGER GO-8 | GO-landauer-staleness-v2.json |
+| 050 | Coordinated reset operational (two records, shared component, shuffled null) | cost | **PASS 6/6 gated** → GO-9 `[demonstrated]` (discounts 0.60/0.45 vs 0.476 predicted) | Paper V (Landauer) · LEDGER GO-9 | GO-landauer-coordinated.json |
 
 ## Completeness argument
 
