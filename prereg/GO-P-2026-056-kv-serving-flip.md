@@ -1,4 +1,4 @@
-# GO-P-2026-055 — KV-cache serving flip: at identical bits AND identical reconstruction error, where the error lands decides the task
+# GO-P-2026-056 — KV-cache serving flip: at identical bits AND identical reconstruction error, where the error lands decides the task
 
 Registers the **end-to-end long-context benchmark** on a deployed-class model: does the
 *geometry* of KV quantization error relative to what softmax attention reads decide
@@ -43,7 +43,7 @@ shippable quantizer.
    which is why the governed run uses the 7B.
 
 ```yaml
-id: GO-P-2026-055
+id: GO-P-2026-056
 date: 2026-08-03
 retrospective: false
 kind: end-to-end benchmark (Tier B, Atlas GPU 1; operational GO-2 on a deployed-class model)
@@ -90,8 +90,8 @@ scope: real model, real long-context workload, real per-token KV quantization in
   generation loop, end-to-end task metric. NOT a throughput/latency serving benchmark --
   no QPS or TTFT claim is made. Keys only; values remain bf16 so the read operator is
   unambiguous.
-amendments: []
-hash: sha256:1b84e1256bc5e028b1e8f7f184cf4021d76ef6e78a4c3cc73b1fae4d75dfe399
+amendments: ["2026-08-03: renumbered GO-P-2026-055 -> GO-P-2026-056 BEFORE the governed run. Reason: registry ID collision -- 055 was already bound by the complementarity-tax C3 seal (commit e1e9dfe, which predates this file's seal 2d5794a). No prediction, bar, design, or scope field changed. Prior sealed hash preserved for the audit trail: sha256:1b84e1256bc5e028b1e8f7f184cf4021d76ef6e78a4c3cc73b1fae4d75dfe399"]
+hash: sha256:9f40590ade14ada50ae589d84033145ca4143513878371daf81988ad3a4f2015
 ```
 
 ## Falsification

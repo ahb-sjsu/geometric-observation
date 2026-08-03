@@ -1,4 +1,5 @@
-# Mechanism diagnostic for the KV steering construction (GO-P-2026-055 pre-work).
+# Mechanism diagnostic for the KV steering construction (GO-P-2026-056 pre-work;
+# prereg sealed as 055, renumbered pre-run -- see the dated prereg amendment).
 #
 # The task-score pilot at 1.5B was uninformative (floor effects, n=24, +-0.13
 # noise) AND its point estimate ran against prediction.  Before spending GPU

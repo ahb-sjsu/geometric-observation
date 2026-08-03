@@ -1,5 +1,7 @@
 # End-to-end KV-cache benchmark on a real long-context serving workload
-# (GO-P-2026-055): does WHERE the quantization error lands decide task
+# (GO-P-2026-056; sealed as 055, renumbered pre-run per the dated prereg
+# amendment -- ID collision with the complementarity-tax seal e1e9dfe):
+# does WHERE the quantization error lands decide task
 # outcome, at IDENTICAL bits and IDENTICAL reconstruction error?
 #
 # This is the operational form of GO-2 on a deployed-class model.  The arm
@@ -90,6 +92,7 @@ PROMPTS = {
         "{context}\n\nQuestion: {input}\nAnswer:",
 }
 MAXNEW = {"passage_retrieval_en": 12, "hotpotqa": 32}
+PREFILL_CHUNK = 1024        # bounds SDPA math-backend attention memory on Volta
 
 
 # --------------------------------------------------- post-RoPE q/k capture
@@ -208,20 +211,34 @@ def run_arm(model, tok, items, task, cache_cls, subspaces, mode, device,
         prompt = tmpl.format(context=it['context'], input=it['input'])
         enc = tok(prompt, return_tensors='pt', truncation=True, max_length=15000)
         ids = enc.input_ids.to(device)
-        amask = enc.attention_mask.to(device)
         cache = cache_cls()
         cache.subspaces = subspaces or {}
         cache.mode = mode
         cache.bits = bits
         cache.stats = stats if mode is not None else None
+        # CHUNKED PREFILL.  Volta (sm_70) has no flash kernel, so SDPA falls back
+        # to the math backend and materializes S x S attention -- 21.7 GB at
+        # S=14k x 28 heads.  Chunking bounds it to chunk x S and is what
+        # production serving does anyway.  Then a manual greedy decode, so the
+        # steering cache is the only cache in play.
+        S = ids.shape[1]
+        gen = []
         with torch.no_grad():
-            out = model.generate(ids, attention_mask=amask, past_key_values=cache,
-                                 max_new_tokens=mx, do_sample=False,
-                                 pad_token_id=tok.eos_token_id)
-        txt = tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True).strip()
+            for s0 in range(0, S, PREFILL_CHUNK):
+                chunk = ids[:, s0:s0 + PREFILL_CHUNK]
+                o = model(input_ids=chunk, past_key_values=cache, use_cache=True)
+            nxt = int(o.logits[0, -1].argmax())
+            for _ in range(mx):
+                gen.append(nxt)
+                if nxt == tok.eos_token_id:
+                    break
+                o = model(input_ids=torch.tensor([[nxt]], device=device),
+                          past_key_values=cache, use_cache=True)
+                nxt = int(o.logits[0, -1].argmax())
+        txt = tok.decode(gen, skip_special_tokens=True).strip()
         preds.append(txt)
         scores.append(scorer(txt, it['answers']))
-        del cache, out, ids, amask
+        del cache, o, ids
         if torch.cuda.is_available():
             torch.cuda.empty_cache()   # allocator grew to 28 GB without this
     res = dict(arm=label, mode=mode, n=len(items), score=float(np.mean(scores)),
@@ -340,7 +357,7 @@ def main():
         claim='KV-cache serving flip: at identical bits AND identical reconstruction '
               'error, the geometry of the error relative to what attention reads '
               'decides long-context task score',
-        prereg='GO-P-2026-055', mode='pilot' if a.pilot else 'full',
+        prereg='GO-P-2026-056', mode='pilot' if a.pilot else 'full',
         model=a.model, task=a.task, n_eval=len(items), n_calib=len(calib),
         r_sub=a.rsub, bits_swept=bits_list, seed=a.seed,
         geometry=dict(layers=n_layers, q_heads=n_q, kv_heads=n_kv, grp=grp, head_dim=d),
