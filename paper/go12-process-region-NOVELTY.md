@@ -195,6 +195,54 @@ read of Gray 1973 (IEEE 403/418-blocked in the sweep) and of Pinsker's
 contains a Toeplitz-limit Gaussian conditional formula, novelty
 rescopes to items (2)–(4), which stand regardless.
 
+**Pinsker pull RESOLVED (2026-08-05): DOES NOT CONTAIN — high
+confidence.** The Feinstein translation (Holden-Day 1964; archive.org
+scan `informationinfor0000pins`, lending-restricted) was checked via
+Open Library's full-text-search index over the actual scan's OCR, with
+verified AND-of-phrases semantics (nonsense-phrase + book-unique-anchor
+control). The words "fidelity", "distortion", "reproduction",
+"accuracy", "message", "epsilon" occur NOWHERE in the book — it
+contains no ε-entropy or fidelity-criterion quantity of any kind. Ch. 9
+§9.3 is conditional MUTUAL INFORMATION of Gaussian variables; Ch. 10 is
+spectral mutual-information RATES of Gaussian process pairs; §10.5
+"entropy rate of one stationary gaussian process with respect to
+another" is a KL-DIVERGENCE rate (terminology trap: Pinsker's "entropy
+of X w.r.t. Y" always means relative entropy). Secondary corroboration:
+Gray's *Entropy and Information Theory* attributes nothing RD-flavored
+to Pinsker; conditional RD is standardly attributed to Gray 1972/73.
+Residual caveat on record: verdict rests on whole-book term-absence
+over OCR + reconstructed ToC + secondary attribution, not page-by-page
+reading (a 1-hour archive.org borrow of pp. 159–201 would close the
+last gap).
+
+**Gray-1973 pull RESOLVED (2026-08-05): DOES NOT CONTAIN — high
+confidence, journal text itself unobtainable.** The published T-IT
+paper could not be legitimately obtained (exhaustive: Gray's Stanford
+page + full Wayback CDX sweep — the 1973 paper was never hosted there;
+Unpaywall/S2/OpenAlex all closed; DTIC down; no infringing sources
+used). Verdict rests on four lines: (1) Gray's own companion report
+SEL-72-047 — his self-described "complete background reference" for
+the paper, read cover to cover — contains ONLY the scalar-pair
+Gaussian conditional-variance result and explicitly cross-references
+it as "the examples of [8]"; zero spectral/Toeplitz content anywhere;
+(2) the paper's abstract: lower bounds for stationary sources with
+single-letter vector distortions, conditioning as a bounding device;
+(3) Gibson (Entropy 2017, CC-BY, read in full), who built his career
+on Gray 1973, constructs Gaussian-memory conditional bounds himself
+via finite correlation matrices — he would have used a spectral
+formula had one existed; (4) pair-process side information first
+enters this line in the SEPARATE Leiner–Gray 1974 correspondence +
+Leiner's dissertation. **Consequences:** cede to Gray 1972/73 the
+definition, equal-slope decomposition, sandwich inequality,
+innovations reduction, and static scalar Gaussian conditional RDF;
+the spectral pair-process formula and coupled water levels remain
+claimable. **Residual obligations before final claim wording:** (a)
+an institutional pull of T-IT 19(4) closes the last Gray-1973 risk in
+minutes (Syed's access — flag for the venue package); (b) the same
+page-level treatment of **Leiner–Gray 1974** (+ Leiner's Stanford
+dissertation, + the Wyner 1976–78 Gaussian-SI line) — the natural
+next places a spectral conditional formula could first appear.
+
 ## Standing after the four sweeps
 
 - Fact 1: ours as a packaged finite-n lemma; ingredients + asymptotic
