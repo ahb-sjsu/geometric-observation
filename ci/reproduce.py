@@ -47,6 +47,9 @@ REPRODUCIBLE = [
     # GO-11 v0.11 theorems: m=2 frontier system + binary CR function
     # (GO-P-2026-064), governed seed 20260910, ~3 min.
     ("verify_go11_m2sys_binary.py", "GO11MB-JSON","GO11-m2sys-binary.json",        "GO11MB_supported"),
+    # GO-12 opening control: Delta-invariance + slice tax (GO-P-2026-065),
+    # governed seed 20260915, ~2 s.
+    ("go12_delta_invariance.py",    "GO12DI-JSON","GO12-delta-invariance.json",    "GO12DI_supported"),
 ]
 
 failures: list[str] = []

@@ -12,7 +12,7 @@
 \title{The dynamic conditional region: rate, reset work, and the aging
 context\\[2pt]\large A problem statement (GO-12)}
 \author{Geometric Observation program}
-\date{Problem statement v0.1 --- August 2026}
+\date{Problem statement v0.2 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -88,28 +88,70 @@ pair of Lagrange prices. The $m=2$ process region takes the same form
 with the matrix water levels of GO-11's Theorem~9 per frequency.
 \end{conjecture}
 
+\begin{fact}[$\Delta$-invariance under path access; settled and netted,
+GO-P-2026-065]\label{lem:recoding}
+In the circulant embedding, with $P$ the cyclic shift and
+$S^{(\Delta)}=P^\Delta V+U$: the joint laws satisfy the \emph{recoding
+identity} $(Y,V,S^{(\Delta)})\overset d=(Y,V,P^\Delta S^{(0)})$
+(all three cross-covariances match because $P$ commutes with every
+circulant matrix, e.g.\ $\mathrm{Cov}(Y,S^{(\Delta)})=\rho C_VP^{-\Delta}$,
+and $P^\Delta(C_V+\tau^2I)P^{-\Delta}=C_V+\tau^2I$); since $P^\Delta$ is
+a deterministic bijection, $\sigma(S^{(\Delta)})$ carries the same
+information as $\sigma(S^{(0)})$, so \emph{every conditional functional
+that depends on $S$ only through $\sigma(S)$} --- conditional mutual
+information, the conditional rate--distortion coordinate $L(D)$,
+conditional entropy, MMSE --- is exactly $\Delta$-invariant at every
+finite $n$. (Note $\Sigma_{Y\mid S}$-invariance alone is weaker: the
+conditional-mean \emph{map} does depend on $\Delta$, so label-aligned
+functionals like $\mathbb E[Y_tS_t]$ are not invariant; the recoding
+identity is the airtight form.) Finite Toeplitz windows deviate only
+through edge terms, $O(1/n)$ at fixed $\Delta$ (empirically $\approx$
+linear in $\Delta$ over the probed range). Governed harness
+GO-P-2026-065: circulant invariance to $3.3\times10^{-16}$, edge ratio
+$0.5000000000$ under $n$-doubling.
+\end{fact}
+
+\begin{fact}[Slice access: the exact staleness tax, with encoder access
+width; settled and netted, GO-P-2026-065]\label{lem:slice}
+If the eraser instead sees only the time-local context sample
+$S=V_{t\pm\Delta}+U$ (GO-8's situation), the single-record conditional
+coordinate is GO-11's static quadratic-root CR function with the
+substitution determined by the \emph{encoder's} access:
+(B) records built from $(Y_t,V_t)$ alone --- per-symbol codebooks ---
+pay the quadratic at $\rho$ unchanged, $s\to s/a^{2\Delta}$
+(write $S=a^\Delta V_t+(W+U)$, $W\perp(Y_t,V_t)$, rescale); (A) records
+granted the context-epoch latent $V_{t\pm\Delta}$ (equivalently, by
+pair sufficiency, any path encoder with a single-symbol target) pay the
+strictly smaller value at $\rho\to\rho a^\Delta$, $\tau^2$ unchanged
+--- the gap reaches $0.053$ bits on the probe grid, so the tax has an
+encoder-side access-width component as well. Both are strictly
+increasing in $\Delta$ ($P(1)<0$, $P(1/D)>0$ bracket the root;
+$dg^\star/d\rho^2<0$, $dg^\star/ds>0$) with common limit
+$\tfrac12\log_2(1/D)$. An R-IND-5 pass refuted the first draft of this
+fact (it asserted the (A) formula for (B) records); the corrected
+pairing is what the governed harness nets, both substitutions against
+their own direct channel programs to $\le2.4\times10^{-13}$.
+\end{fact}
+
 \begin{remark}
-The parenthetical is the honest core: for $S_t=V_{t-\Delta}+U_t$ with
-white $U$, pure delay changes no second-order conditional statistic of a
-\emph{noncausal} observer --- $S_{Y\mid S}$ is $\Delta$-invariant, so
-$L$ cannot depend on $\Delta$ at all in this model, and the GO-8
-staleness effect must come entirely from (a) causal/filtered contexts,
-(b) non-invertible aging (subsampling, fading memory kernels,
-$\mathrm{AR}$ dynamics in $U$), or (c) the operational decode-threshold
-instrument. Sorting which is a \emph{prediction opportunity}: the theory
-says noncausal block erasure with pure-delay context shows \emph{zero}
-staleness tax, an analytically-zero control of exactly the 061/062 kind.
+Facts~\ref{lem:recoding}--\ref{lem:slice} settle the causal-origin
+question the cheap way: the staleness tax is an \emph{access-width}
+phenomenon --- at the eraser (path vs slice) and at the encoder
+(context-epoch latent vs time-$t$ variables) --- not a delay
+phenomenon. GO-8's measured age-dependence is the operational face of
+the slice regime.
 \end{remark}
 
-\begin{conjecture}[The staleness tax has a causal origin]
+\begin{conjecture}[The causal-path eraser interpolates]
 \label{conj:causal}
-Under a causal context filter (the eraser at time $t$ sees only
+Fact~\ref{lem:recoding} (full path: zero tax) and
+Fact~\ref{lem:slice} (single slice: the exact static tax) are the two
+ends. For the \emph{causal-path} eraser (at time $t$ it sees
 $S_{\le t}$, $S_t=V_{t-\Delta}+U_t$), the per-symbol conditional
-coordinate becomes $\Delta$-dependent, strictly increasing in $\Delta$
-for positively correlated sources, with AR(1) rate
-$L(D,\Delta)-L(D,0)\;\asymp\;\tfrac12\log_2\!\bigl(1/(1-a^{2\Delta}
-\eta)\bigr)$ terms ($a$ the AR pole, $\eta$ a $D$-dependent factor), and
-the GO-8 measured age-dependence is its operational face.
+coordinate lies strictly between, is strictly increasing in $\Delta$
+for $a\in(0,1)$, and approaches the slice value as the context process
+decorrelates; its exact form (plausibly a Kalman/innovations
+water-filling) is the open object of this rung.
 \end{conjecture}
 
 \begin{conjecture}[Spectral tilt]\label{conj:tilt}
@@ -140,7 +182,9 @@ numerics?
 What is the right operational face? Candidate: 058-lineage decode
 thresholds on materialized codebooks for AR(1) pairs at three staleness
 values, with the noncausal-zero control of
-Remark 1 as the physics gate separating causal from noncausal erasure.
+Fact~\ref{lem:recoding} as the physics gate separating path from slice
+erasure, and the (A)-vs-(B) encoder gap of Fact~\ref{lem:slice} as a
+second measurable face.
 \end{question}
 
 \section{Verification obligations}
@@ -148,9 +192,12 @@ Remark 1 as the physics gate separating causal from noncausal erasure.
 House rules apply unchanged: R-IND-5 fresh-context verification before
 any assertion; novelty sweeps before any novelty language; PROTOCOL
 \S5.1 power/pilot fields at any seal; every eventual theorem
-harness-netted and CI-enforced. The first registration out of this
-document should be the noncausal $\Delta$-invariance control
-(Remark 1): it is cheap, sharp, and either kills or confirms the causal
-origin of the staleness tax before any heavy theory is attempted.
+harness-netted and CI-enforced. The first registration
+(GO-P-2026-065, sealed and run at v0.2) settled the opening control:
+Facts~\ref{lem:recoding}--\ref{lem:slice} passed their governed
+harness ALL PASS 4/4 (seed 20260915), after an R-IND-5 pass refuted
+and corrected the slice fact's first draft. The open theory objects
+are Conjectures~\ref{conj:spectral} and~\ref{conj:causal}; the novelty
+sweeps remain an obligation before any novelty language.
 
 \end{document}
