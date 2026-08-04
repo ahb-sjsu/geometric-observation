@@ -176,10 +176,47 @@ Run for every instance (X, O, Q-family) the book cites as evidence.
 
 ## 5. Statistical standards
 
+- **5.1 Power before bars (binding; adopted 2026-08-04).** A registration may
+  not seal a numeric gate without stating, in the prereg, how the bar was
+  sized. Concretely:
+  - **Binary/count gates:** a power statement is mandatory — the probability
+    that a true effect exactly at the bar clears its own gate, at the
+    registered n (exact test or Monte Carlo; method named). Designs below 80%
+    power at the bar may still seal, but the prereg must carry the number, and
+    a miss is then reported as *"effect below the bar, unresolvable at this
+    n"* — never as absence.
+  - **Continuous gates** (thresholds, discounts, gaps): the bar must be stated
+    as a multiple of the expected noise scale or of a pilot-measured value,
+    with the margin printed (house floor: ≥ 1.3× over the pilot-measured value
+    for pass-bars; bars within ~1σ of a pilot value may not seal — the 052
+    lesson).
+  - **Pilots are the default, and they are logged.** One pre-seal pilot at a
+    distinct, disclosed seed is the expected path for any new instrument; its
+    full values go in the prereg PILOT NOTE, and every bar changed between
+    pilot and seal is itemized with its reason. Sealing a novel instrument
+    with no pilot requires an explicit "NO pilot was run" declaration
+    (053/054 style, for designs inheriting a piloted predecessor's instrument
+    unchanged).
+  - **Instrument-vs-physics separation in the falsification clause:** every
+    prereg names which gates are physics (a miss refutes the claim) and which
+    are instrument/validity (a miss voids the run — logged instrumentation
+    miss, rerun only under a dated amendment). The GO-P-2026-056 convention
+    (K1/K2 void, K3–K5 refute) is the model.
+  - **Prefer continuous co-primaries.** Where a continuous quantity carries
+    more information per unit of data than the binary endpoint (agreement,
+    divergence, threshold position), it should be primary or co-primary; a
+    binary endpoint alone must justify itself against the power table.
+  - *Provenance: eleven instrument/design defects against zero failed
+    mechanism predictions (GO-KV-SERVING-POWER-NOTE, GO-P-2026-056 addendum);
+    the pre-verdict power note of 056 (commit 936e699); the pilot-caught
+    defects of GO-P-2026-044/055/058/059. Binds registrations sealed after
+    adoption; `[exploratory]` work exempt.*
 - **Clustering:** resample at the independent unit (rules over seeds; models over
   tasks; corpora over queries). Report naive and clustered; claims live on clustered.
   Fewer than 8 clusters ⇒ mandatory few-cluster caveat; wild-cluster bootstrap where
-  feasible.
+  feasible. Control statistics use exact tests from the start where cell counts
+  can be small (the 051/053 lesson); a normal approximation must justify its
+  validity range in the prereg.
 - **Pair-resampling CIs** are optimistic floors (shared anchors) — label as such.
 - **Errors-in-variables** note whenever the abscissa is estimated.
 - **Multiplicity:** GO-1…5 and the vignette battery follow a registered family-wise
@@ -280,6 +317,11 @@ probe_output:
 prediction:
   arm_ordering: a > b > c on <downstream metric>
   effect_floor: ...        # [set at registration]
+  power: ...               # §5.1: how each gated bar was sized — exact/MC power
+                           # at the bar, or pilot value × margin; "inherited
+                           # from GO-P-XXXX" allowed when the instrument is unchanged
+  pilot: ...               # §5.1: seed + disposition of the logged pilot, or
+                           # the explicit declaration "NO pilot was run"
 design:
   n: ...
   clusters: ...            # independent unit

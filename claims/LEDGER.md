@@ -84,6 +84,11 @@ The Honest Negatives chapter carries these with the same prominence as positives
 
 ## Verification incidents (R-IND-5)
 
+*This table's pattern — instrument and design defects, never failed mechanism
+predictions — is the provenance of PROTOCOL §5.1 ("power before bars",
+adopted 2026-08-04): power statements and logged pilots are now binding on
+every registration sealed after that date.*
+
 | Incident | Verifier | Claim | Finding | Caught by | Disposition |
 |---|---|---|---|---|---|
 | VI-1 (founding) | (prior) | — | — | — | the original false-pass; see program charter |
