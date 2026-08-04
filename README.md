@@ -88,7 +88,7 @@ what a consumer must receive from what a reset mechanism must irreversibly disca
 with two 0-error fresh-context verification passes (VI-8/VI-9) and the GO-7
 operational demonstration behind it. **57 sealed preregistrations** (040 void,
 046/048/051/052 logged instrumentation misses, each superseded and rerun), every one
-timestamped before its measurement; standing negatives **NEG-1…15** — NEG-13 (the
+timestamped before its measurement; standing negatives **NEG-1…16** — NEG-13 (the
 omission floor) resolved to `[demonstrated]` downstream on a trained model (GO-027),
 and **NEG-15** records the Bell boundary: retrieval geometry does not weaken Bell
 ([notes](experiments/HUBNESS-BELL-NOTES.md)). Every claim
