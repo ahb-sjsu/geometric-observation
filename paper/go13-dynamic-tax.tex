@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+﻿\documentclass[11pt]{article}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{fullpage}
 \usepackage[hidelinks]{hyperref}
@@ -12,7 +12,7 @@
 \title{The dynamic complementarity tax\\[2pt]\large A problem
 statement (GO-13)}
 \author{Geometric Observation program}
-\date{Problem statement v0.2 --- August 2026}
+\date{Problem statement v0.3 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -83,22 +83,54 @@ $3.6\times10^{-15}$, universality triples to $7\times10^{-12}$;
 governed harness 067 ALL PASS 4/4, seed 20260921.]
 \end{theorem}
 
-\begin{conjecture}[The tax curve; monotone clause REFUTED, shape open]
-\label{conj:taxflow}
-$\mathrm{CT}_W(q)$ runs continuously from GO-10's work tax to
-$\mathrm{CT}_R$ as $q\to1$ (both endpoints now proven,
-Theorem~\ref{thm:matq}). The v0.1 monotone clause is \textbf{refuted}:
-the R-IND-5 pass exhibited a regime with the tax monotone
-\emph{increasing} by $0.16$ nats ($\rho$'s $=(-0.2,0.5,0.6)$,
-$D=(0.3,0.5)$, $w=0.5$) and a non-monotone instance with a kink
-exactly where $\arg\max(L_A,L_B)$ switches consumers --- the curve is
-continuous but only piecewise smooth. Near-invariance (variation
-$<5\times10^{-4}$ bits) holds at one-dominant-consumer instances but
-is not generic. The open object is the \emph{characterization}: which
-$(\rho_{AB},\rho_{AV},\rho_{BV},D_A,D_B,w)$ regimes make staleness
-raise, lower, or leave the tax --- with the max-switch locus as the
-organizing boundary.
-\end{conjecture}
+\begin{theorem}[The tax-curve characterization; settled and netted,
+GO-P-2026-068]\label{thm:taxcurve}
+Convention: $q$ increasing means staler access. All of $J$, $L_A$,
+$L_B$ are individually nondecreasing in $q$ unconditionally (the
+$q$-sensitivity $f_q=(Ac)^{\mathsf T}M_1^{-1}(Ac)\ge0$ pointwise), so
+only their difference can decrease. At any $q$ where the optimum is
+attained, the solution set is locally bounded, and the
+context-coupling sensitivity is constant on the solution set
+(uniqueness of the optimal channel suffices, but is not necessary ---
+a slack-constraint instance with a non-singleton argmin and constant
+sensitivity is on record), Danskin gives
+\[
+\frac{dJ}{dq}=\frac{1-w}{2\ln2}\,(Ac)^{\mathsf T}M_1^{-1}(Ac),\qquad
+\frac{dL_i}{dq}=\frac{1-w}{2\ln2}\,\frac{(u^{\mathsf T}c)^2}{Q_1+n},
+\]
+at the optimal channels (otherwise only the one-sided derivatives,
+$J'(q\pm)=\min/\max$ of the sensitivity over the argmin). Away from
+the max-switch locus, with the binding consumer any argmax of
+$(L_A,L_B)$ (their sensitivities agreeing at ties),
+\[
+\frac{d\,\mathrm{CT}_W}{dq}=\frac{1-w}{2\ln2}\Bigl[(Ac)^{\mathsf T}
+M_1^{-1}(Ac)-s_{\mathrm{binding}}\Bigr]:
+\]
+\textbf{staleness raises the tax iff the joint record's context
+coupling, in the $M_1^{-1}$ metric, exceeds the binding consumer's.}
+At an interior max-switch crossing the curve is continuous with a
+kink that is \emph{always downward}: the right derivative subtracts
+the \emph{larger} sensitivity (that consumer binds beyond $q^\star$),
+the left the smaller, magnitude $\tfrac{1-w}{2\ln2}|s_A-s_B|$ (zero
+allowed at sensitivity ties; interior crossings require asymmetric
+distortions or variances). At $w=1$ the curve is identically flat,
+and $\mathrm{CT}_W\ge0$ everywhere. [R-IND-5: PASS --- 21 derivative
+checks to $1.5\times10^{-9}$, both signs realized, the kink's
+one-sided slopes to $2.6\times10^{-9}$, the $067$ instance's
+reference-dependence confirmed ($+0.177$ max-based vs $-0.0007$
+$A$-referenced); governed harness 068.]
+\end{theorem}
+
+\begin{remark}
+Theorem~\ref{thm:taxcurve} closes the question the 067 pass opened
+and explains its instances: I2's increasing tax is a
+joint-coupling-dominant regime; the near-invariant curves arise when
+the binding consumer carries almost all the context coupling
+($s_{\mathrm{binding}}\approx s_J$). Open residue: the global regime
+map over $(\rho_{AB},\rho_{AV},\rho_{BV},D_A,D_B,w)$ --- for which the
+sign law is now the instrument --- and the operational face
+(Question~3).
+\end{remark}
 
 \section{Questions}
 
@@ -136,8 +168,10 @@ novelty language (flanks listed in Question~1 and in
 theorems harness-netted and CI-enforced. The first registration
 (GO-P-2026-067, sealed and run at v0.2) settled
 Theorem~\ref{thm:matq} with the equal-$q$ universality control, and
-its R-IND-5 pass refuted Conjecture~\ref{conj:taxflow}'s v0.1
-monotone clause; the tax-curve characterization is the open object,
-with the max-switch locus the organizing boundary.
+its R-IND-5 pass refuted the v0.1 monotone clause. The second
+registration (GO-P-2026-068, sealed and run at v0.3) settled the
+tax-curve characterization as Theorem~\ref{thm:taxcurve}'s envelope
+sign law, including the 067 label clarification as an instrumented
+gate. Open: the global regime map and the operational face.
 
 \end{document}
