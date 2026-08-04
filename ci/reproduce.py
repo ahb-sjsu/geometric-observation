@@ -53,6 +53,8 @@ REPRODUCIBLE = [
     # GO-12 Thm 1: conditional-variance reduction (GO-P-2026-066),
     # governed seed 20260918, ~3 s.
     ("go12_prefix_family.py",       "GO12PF-JSON","GO12-prefix-family.json",       "GO12PF_supported"),
+    # GO-13 Thm 1: matrix-q reduction (GO-P-2026-067), seed 20260921, ~25 s.
+    ("go13_matrixq.py",             "GO13MQ-JSON","GO13-matrixq.json",             "GO13MQ_supported"),
 ]
 
 failures: list[str] = []
