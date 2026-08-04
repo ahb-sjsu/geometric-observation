@@ -81,3 +81,64 @@ model/task.
   `/tmp/kv7bgov.log`, PID 3954870, GPU 1, ~4.7 h wall.
 - Sentinel JSON extracted verbatim to `results/GO-KV-serving-flip-7B.json`;
   gates evaluated by script against the sealed bars.
+
+---
+
+## Addendum — paired significance on the co-primary, and the strongest single result
+
+Added after the report above. Nothing here changes a gate or a verdict. It supplies
+the paired tests that the report leaves as point values, and it records one harness
+defect.
+
+**Exact two-sided McNemar, preserve against destroy, from the committed per-item
+data.**
+
+| condition | statistic | discordant | p |
+|---|---|---|---|
+| 3 bit | task score | 3 to 0 | 0.250 |
+| 3 bit | fp16 agreement | **7 to 0** | **0.016** |
+| 4 bit | task score | 0 to 0 | 1.000 |
+| 4 bit | fp16 agreement | **16 to 3** | **0.0044** |
+
+**The 4-bit condition carries the strongest result in the run, and the report above
+understates it.** The report correctly calls 4 bit inert, which it is on task score,
+where all three arms tie fp16 at 0.925. On what the model actually emits it is not
+inert at all.
+
+| 4-bit agreement with the fp16 generation | value |
+|---|---|
+| preserve_read | **0.550** |
+| shuffle_control | 0.300 |
+| destroy_read | **0.225** |
+
+Token F1 against the fp16 generation orders the same way, 0.741 against 0.572
+against 0.494. So in a condition where the bit budget, the per-token reconstruction
+error, and the task score are all identical to six decimal places or exactly, the
+output distribution differs at p = 0.0044, and the wrong head's subspace again sits
+between the complement and the correct subspace.
+
+That is the cleanest available statement of the mechanism reaching serving
+behaviour, because it removes task score from the argument entirely rather than
+relying on it. It is a behavioural claim and not a task-quality claim. Nothing here
+rescues K3, which remains a registered miss, and the report's reading of the
+falsification clause stands unchanged.
+
+**Specificity holds on the co-primary at both bit-widths**, preserve above shuffle
+above destroy, which the task score could only show at 3 bit and only within noise.
+
+## Defect — the harness emitted no verdict dict
+
+The governed run produced no self-scored gates. A per-bits refactor dropped the
+verdict block, so the sealed bars had to be applied to the run data afterwards.
+Evaluating one's own gates after seeing the numbers is precisely what the
+registration discipline exists to prevent, even when the bars are transcribed
+unchanged and the data is untouched, because nothing in the artifact proves that.
+
+Fixed. The harness now computes the six sealed gates itself and prints them, the
+block is checked to reproduce the hand evaluation exactly on the committed data,
+and the verdict together with a note on how it was produced is now written into
+[`GO-KV-serving-flip-7B.json`](../results/GO-KV-serving-flip-7B.json) so the result
+file is self-describing.
+
+This is the eleventh instrument or design defect recorded in this campaign against
+zero failed mechanism predictions.
