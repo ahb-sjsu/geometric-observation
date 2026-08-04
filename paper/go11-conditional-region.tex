@@ -5,34 +5,49 @@
 \newcommand{\E}{\mathbb{E}}\newcommand{\tr}{\operatorname{tr}}
 \newcommand{\Cov}{\operatorname{Cov}}\newcommand{\hX}{\widehat X}
 \newcommand{\hY}{\widehat Y}
-% STATUS: PROBLEM STATEMENT ONLY (GO-11 candidate). Nothing here is proved
-% beyond Fact 1 (a two-line chain-rule identity); everything labeled
-% Conjecture or Question is open and at most [predicted]-class once a
-% registration exists. Per PROTOCOL 5.1 (power before bars, adopted
-% 2026-08-04) any eventual harness registration requires power/pilot fields.
-% [NOVELTY-CHECK] flags mark mandatory prior-art sweeps BEFORE any claim of
-% novelty is written down -- in particular the distortion-constrained
-% Gaussian information bottleneck reduction of Sec. 3 may already exist in
-% the IB or remote-source-coding literatures.
+% STATUS: PROBLEM STATEMENT v0.2. Nothing here is claimed as new except the
+% posing of the specific extremal problem; every Conjecture/Question is open
+% and at most [predicted]-class once a registration exists. NOVELTY-CHECK
+% sweeps COMPLETED 2026-08-04 (four passes: IB/privacy-utility; secrecy/
+% equivocation; SI placements + in-repo Paper V delineation; targeted
+% common-reconstruction pass for Question 1 -- record at
+% go11-conditional-region-NOVELTY.md). Consequences folded into this
+% revision: Fact 1 re-attributed (folklore in the secrecy literature;
+% verbatim inside Paper V's achievability proof); the one-constraint region
+% recognized as fully solved by Paper V; the scalar single-distortion
+% instance of the beta-frontier recognized as prior art (Wang et al. RDC
+% 2024/25; Gunlu et al. 2023 for the conditional-leakage coordinate under
+% degradedness); conjectures reframed as expected-by-analogy. Per PROTOCOL
+% 5.1 any eventual harness registration carries power/pilot fields.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.1 --- August 2026}
+\date{Problem statement v0.2 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
 The complementarity-tax note proved \emph{floors} for the joint description
-of two consumers whose reset may consult side information: the work
-coordinate obeys $D_AD_B\ge\kappa_S\,2^{-2L}$, and the rate and work floors
-differ by exactly $I(u^{\mathsf T}X,v^{\mathsf T}X;S)$. Those floors are
-tight only as $D\to0$. This document poses the exact-region problem, records
-the one organizing identity that shapes it --- per test channel, the
-rate--work gap is \emph{exactly} $I(\hX;S)$, so the Pareto frontier is a
-distortion-constrained information bottleneck with $S$ as relevance ---
-states the conjectured Gaussian solution, and lays out the verification
-obligations a future registration must meet. Nothing beyond Fact~1 is
-claimed.
+of two consumers whose reset may consult side information; those floors are
+tight only as $D\to0$. This document poses the exact-region problem. The
+coordinate pair itself is not new: per test channel the rate--work gap is
+$I(\hX;S)$ (a chain-rule identity that is working folklore in the
+rate--distortion--equivocation literature since Yamamoto, and appears inside
+Paper V's achievability proof), and exact scalar-Gaussian regions carrying a
+conditional-information coordinate with \emph{one} distortion constraint
+exist in print --- most sharply G\"unl\"u et al.'s conditional-leakage
+region under a degradedness ordering, and Wang et al.'s
+rate--distortion--classification function, which is the scalar instance of
+our frontier. What our sweeps did not find, and what GO-11 asks for, is the
+region when (i) the source is a vector read through \emph{two} simultaneous
+weighted-quadratic consumer distortions, (ii) $S$ is arbitrary jointly
+Gaussian --- neither aligned with the read modes nor degraded relative to
+any decoder observation --- and (iii) the frontier comes with the
+semidefinite condition under which the complementarity-tax work floor is
+attained. Even the single-consumer vector endpoint (a vector-Gaussian
+common-reconstruction function) has no published solution. We state the
+conjectured structure, the first decidable step, and the verification
+obligations a registration must meet.
 \end{abstract}
 
 \section{The problem}
@@ -49,27 +64,41 @@ the union over joint test channels with $\E\,d_A\le D_A$, $\E\,d_B\le D_B$.
 
 \textbf{Problem (GO-11).} Characterize $\mathcal{RW}(D_A,D_B\mid S)$
 exactly --- its Pareto frontier, the optimal channel family, and the
-condition under which the complementarity-tax floors
-\cite{bondtaxnote} are attained.
+condition under which the complementarity-tax floors \cite{bondtaxnote} are
+attained.
 
-\textbf{What is known.}
-(i) The rate-only projection is the simultaneous-service max-det program
-(\cite{bondtwoobserver}; after the read-plane reduction, the Xiao--Luo /
-semidefinite-condition literature). (ii) The single-consumer scalar case is
-Paper V's scalar Gaussian corner (single-corner quadrant, no tradeoff);
-independent read modes give its reset water-filling frontier
-\cite{bondlandauerV}. (iii) The two-consumer floors
-$R\ge\tfrac12\log^+(\kappa/(D_AD_B))$,
-$L\ge\tfrac12\log^+(\kappa_S/(D_AD_B))$, with floor difference exactly
-$I(Y;S)$, $Y=B^{\mathsf T}X$; the rate floor is exact iff
-$\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma_xB$, and the work floor
-is generally strict at $D>0$ \cite{bondtaxnote}. (iv) Operationally, decode
+\textbf{What is known (post-sweep accounting).}
+(i) \emph{The one-constraint pair-region is solved, in general.} Paper V's
+main region theorem characterizes
+$\{(I(X;\hX),I(X;\hX\mid S))\}$ under a single distortion constraint for
+general alphabets, and its Pareto-channel equation is a Blahut--Arimoto-type
+fixed point for the weighted objective
+$\alpha I(X;\hX)+(1-\alpha)I(X;\hX\mid S)+\beta\,\E d$ --- which, by
+Fact~\ref{fact:gap}, \emph{is} the scalarization \eqref{eq:dcib} below with
+$\beta'=1-\alpha$. Its solved Gaussian instances: the scalar corner (any
+jointly Gaussian scalar $S$) and the mode-aligned vector case (independent
+modes, per-mode $S$, one aggregated constraint) with its reset-water-filling
+frontier \cite{bondlandauerV}. (ii) \emph{The rate-only projection} is the
+simultaneous-service max-det program (\cite{bondtwoobserver}; after the
+read-plane reduction, the Xiao--Luo / semidefinite-condition literature).
+(iii) \emph{The floors}: $R\ge\tfrac12\log^+(\kappa/(D_AD_B))$,
+$L\ge\tfrac12\log^+(\kappa_S/(D_AD_B))$, floor difference exactly $I(Y;S)$,
+$Y=B^{\mathsf T}X$; rate floor exact iff
+$\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma_xB$; work floor generally
+strict at $D>0$ \cite{bondtaxnote}. (iv) \emph{Operationally}, decode
 thresholds realize $0.4$--$0.8\times$ of the floor-level gaps at finite $n$
-on two source families (GO-P-2026-058/059) --- an exact region would say
-what the remaining fraction is made of.
+on two source families (GO-P-2026-058/059); an exact region would say what
+the remaining fraction is made of. (v) \emph{Scalar exact regions with one
+distortion constraint exist in the secrecy literature} --- see
+Section~\ref{sec:delineation} --- including the conditional-leakage
+coordinate itself under degradedness (G\"unl\"u et al.) and with the
+non-degraded scalar Gaussian converse explicitly left open
+(Villard--Piantanida). GO-11's open content is therefore exactly: general
+(non-aligned, non-degraded) Gaussian $S$ --- already for \emph{one}
+consumer --- and everything two-consumer beyond Paper V's structural union.
 
 \section{The organizing identity}
-\begin{fact}\label{fact:gap}
+\begin{fact}[chain rule; folklore]\label{fact:gap}
 For any test channel with $(\hX_A,\hX_B)-X-S$ Markov, writing
 $\hX=(\hX_A,\hX_B)$,
 \[
@@ -81,46 +110,70 @@ $I(\hX;S)=I(\hX;X,S)-I(\hX;X\mid S)=I(\hX;X)+I(\hX;S\mid X)-I(\hX;X\mid S)$,
 and $I(\hX;S\mid X)=0$ by the Markov chain.
 \end{proof}
 
-So every channel contributes the corner $(R,L)=(I,\,I-I(\hX;S))$ with
-$I=I(X;\hX)$: the region is generated by a \emph{single curve} of corners,
-and its lower-left frontier is traced by
+\begin{remark}[attribution]
+Fact~\ref{fact:gap} is not ours: it is used verbatim inside Paper V's
+achievability proof (the binning step) and is working folklore throughout
+the rate--distortion--equivocation lineage (Yamamoto; Villard--Piantanida's
+region manipulations). What it \emph{organizes} here is the observation
+that the region is generated by a single curve of corners
+$(R,L)=(I,\,I-I(\hX;S))$, so the frontier is the scalarization
 \begin{equation}
-\min_{p(\hat x\mid x)}\ I(X;\hX)-\beta\, I(\hX;S)
+\min_{p(\hat x\mid x)}\ I(X;\hX)-\beta'\, I(\hX;S)
 \quad\text{s.t.}\quad \E d_A\le D_A,\ \E d_B\le D_B,
-\qquad \beta\in[0,1],
+\qquad \beta'\in[0,1],
 \label{eq:dcib}
 \end{equation}
-a \emph{distortion-constrained information bottleneck} with the reset
-context $S$ playing relevance: $\beta=0$ recovers the simultaneous-service
-rate program; $\beta=1$ is the work-only endpoint. The unconstrained
-Gaussian tradeoff of \eqref{eq:dcib} is the solved Gaussian information
-bottleneck (eigen-structured linear encoders with a critical-$\beta$
-phase structure) \cite{gib2005}; the open content of GO-11 is the
-interaction of that structure with two simultaneous weighted-quadratic
-distortion constraints.
-% [NOVELTY-CHECK] Mandatory before any novelty claim: (a) distortion- or
-% MSE-constrained IB variants (the "IB with side constraints" literature;
-% privacy funnel with utility constraints is the sign-flipped cousin);
-% (b) remote/indirect source coding with side information at the decoder
-% vs at the eraser; (c) Steinberg's common reconstruction with two decoders
-% and successive refinement with side information (Steinberg--Merhav).
+a distortion-constrained information bottleneck with the reset context $S$
+as relevance --- equivalently, in equivocation coordinates, a
+maximize-the-leakage member of the Yamamoto family with the orientation
+that \emph{helps} the $S$-holding party. $\beta'=0$ recovers the
+simultaneous-service rate program; $\beta'=1$ the work-only endpoint.
+\end{remark}
 
-\section{Conjectures}
+\begin{remark}[convexity boundary --- a warning]\label{rem:convex}
+For $\beta'\in[0,1]$, \eqref{eq:dcib} is the convex combination
+$\alpha I(X;\hX)+(1-\alpha)I(X;\hX\mid S)$ of the two coordinates
+($\alpha=1-\beta'$), each convex in the channel (the conditional coordinate
+by the per-$s$ decomposition verified in VI-8), so the scalarization stays
+convex and traces the entire frontier. The difference form
+$I(X;\hX)-\beta' I(\hX;S)$ is \emph{not} manifestly convex on its own
+($I(\hX;S)$ is convex in the channel, not concave); any argument pushing
+$\beta'>1$ leaves the convex regime and must be justified separately.
+\end{remark}
+
+\section{Conjectures and questions}
+The sweeps (Section~\ref{sec:delineation}) make the following
+\emph{expected by analogy} rather than surprising: every ingredient exists
+separately in print; no assembled solution does.
+
 \begin{conjecture}[Gaussian sufficiency]\label{conj:gauss}
 The frontier of \eqref{eq:dcib} is attained by jointly Gaussian channels
 $\hX = KX+W$; consequently the region is the closure of
 $\{(R(\Sigma),\,R(\Sigma)-I_{\Sigma}(\hX;S))\}$ over error covariances
 $0\preceq\Sigma\preceq\Sigma_x$ meeting the trace constraints, with both
-coordinates explicit determinant functionals of $\Sigma$.
+coordinates explicit determinant functionals of $\Sigma$. \emph{Expected
+route: extend the conditional-EPI arguments that prove Gaussian optimality
+in the degraded scalar cases (G\"unl\"u et al.; Sankar et al.'s
+simultaneous rate-and-leakage optimality) and the linear-policy optimality
+machinery of the mixed-quadratic Gaussian literature; the open difficulty
+is precisely the non-degraded, non-aligned coupling, where
+Villard--Piantanida's scalar converse is already open.}
 \end{conjecture}
 
-\begin{conjecture}[Two-consumer reset water-filling]\label{conj:frontier}
+\begin{conjecture}[Two-consumer reset water-filling --- possibly
+optimistic]\label{conj:frontier}
 In the $S$-whitened read frame, the frontier is traced by an
 $\alpha$-parametrized allocation program generalizing Paper V's reset
 water-filling: the $\alpha=1$ endpoint re-derives the max-det rate optimum,
 the $\alpha=0$ endpoint tilts distortion toward the directions of the read
-plane that $S$ resolves least, and for scalar-pair instances the program
-reduces to a two-mode quadratic of the Paper V vector-frontier type.
+plane that $S$ resolves least (the operational allocation signature of
+GO-P-2026-058/059), and for scalar-pair instances the program reduces to a
+two-mode quadratic of the Paper V vector-frontier type. \emph{Caution: with
+$\Sigma_x$, $\Sigma_{X\mid S}$, and the read operators not simultaneously
+diagonalizable, three mutually non-commuting matrices compete; the
+analogous regime of the 2026 rate--distortion--deception work found no
+closed form. A clean water-filling may exist only under an alignment
+condition, with the general case a genuinely semidefinite frontier.}
 \end{conjecture}
 
 \begin{conjecture}[Exactness condition for the work floor]\label{conj:tight}
@@ -133,11 +186,26 @@ remark of \cite{bondtaxnote} and the scalar corner's $D>0$ gap), with
 equality exactly in the $D\to0$ limit.
 \end{conjecture}
 
-\begin{question}[Single-consumer vector case]\label{q:single}
-Even $m=1$ is open in general: for one rank-one read of a $d$-dimensional
-source with \emph{arbitrary} jointly Gaussian $S$ (not aligned with the
-read), what is $L_A(D\mid S)$? The scalar corner covers $S$ correlated with
-the read projection only; the general case is the natural first theorem.
+\begin{question}[Single-consumer vector case; endpoint = a vector-Gaussian
+common-reconstruction function]\label{q:single}
+Even $m=1$ is open: for one rank-one read of a $d$-dimensional source with
+\emph{arbitrary} jointly Gaussian $S$, what is the frontier --- and already
+its work-only endpoint $L_A(D\mid S)=\min I(X;\hX\mid S)$, which equals
+Steinberg's common-reconstruction rate--distortion function? The targeted
+sweep found \emph{no published vector-Gaussian CR function under any
+formulation} --- not even unweighted distortion, not even the mode-aligned
+case solved in Paper V. This is Paper V's declared ``general Gaussian
+coupling'' open item, specialized to rank-one reads.
+
+\emph{The first decidable step (rank-one $P=ww^{\mathsf T}$):} marginalize
+the channel onto $w^{\mathsf T}X$ and compare with Steinberg's scalar
+formula driven by the scalar statistic $\E[w^{\mathsf T}X\mid S]$.
+Marginalization changes the $\hX$--$S$ coupling ($\hX$ may correlate with
+$S$ through all of $X$, not only through the read), so the comparison is
+not vacuous: either the marginalized channel is always optimal --- and the
+rank-one case collapses to the scalar corner --- or a strict improvement
+exists, exhibiting the first genuinely vector obstruction. Settle this
+before anything else.
 \end{question}
 
 \begin{question}[Operational face]\label{q:oper}
@@ -148,27 +216,93 @@ instrument loss), with the first term predicted by
 Conjecture~\ref{conj:frontier}?
 \end{question}
 
+\section{Delineation (sweeps of 2026-08-04, record in
+\texttt{go11-conditional-region-NOVELTY.md})}\label{sec:delineation}
+
+\textbf{In-repo (Paper V).} The one-constraint pair-region is Paper V's,
+completely: main region theorem (general alphabets), Pareto-channel fixed
+point (= our scalarization at $\beta'=1-\alpha$), scalar corner, and
+mode-aligned reset water-filling. Paper V's multi-consumer theorem gives
+only the structural union for $m\ge2$; its ``general Gaussian coupling''
+limitation names Question~\ref{q:single}'s territory as open.
+
+\textbf{IB / task-oriented compression.} The unconstrained Gaussian
+tradeoff of \eqref{eq:dcib} is the solved Gaussian information bottleneck
+\cite{gib2005}. The \emph{scalar single-distortion instance of our
+frontier is prior art}: Wang et al.'s rate--distortion--classification
+function \cite{wang2024rdc} minimizes $I(X;\hX)$ under an MSE cap and an
+$I(\hX;S)$ floor (their $H(S\mid\hX)\le C$), with our Markov chain, solved
+in closed scalar/bivariate-Gaussian form --- including the
+one-constraint-active-at-a-time structure that matches the scalar corner.
+The strongest machinery match is Liu et al.'s semantic rate--distortion
+function \cite{liu2022semantic}: two \emph{simultaneous} quadratic
+constraints on a Gaussian source, solved as an error-covariance convex
+program with reverse water-filling --- but its second coordinate is an MSE
+on the state, not an information quantity. The sign-flipped
+(minimize-leakage) family has scalar Gaussian closed forms since
+Rebollo-Monedero et al.\ (2010) and Sankar et al.\ \cite{sankar2013}, and a
+special-case vector water-filling tilting distortion toward the modes that
+leak least \cite{tripathy2019} --- the mirror of
+Conjecture~\ref{conj:frontier}'s allocation.
+
+\textbf{Secrecy / equivocation (the same family, same orientation).}
+Maximizing source equivocation at an $S$-holding party is minimizing our
+$L$ up to $H(X\mid S)$, so the Yamamoto lineage \cite{yamamoto1983} is not
+a cousin but the family itself. Exact Gaussian regions exist and are all
+scalar with one distortion constraint: Villard--Piantanida
+\cite{villard2013} (exact only when the eavesdropper has no side
+information; the non-degraded scalar Gaussian converse \emph{explicitly
+left open}); Schieler--Cuff (Gaussian solved only without adversary side
+information); and, sharpest, G\"unl\"u--Schaefer--Boche--Poor
+\cite{gunlu2023}, whose privacy-leakage coordinate $I(X;W\mid S)$ \emph{is}
+our conditional coordinate, solved in closed scalar-Gaussian form via the
+conditional EPI under a degradedness ordering --- containing the scalar
+single-consumer corner. The only vector-Gaussian equivocation result found
+(Ekrem--Ulukus \cite{ekrem2013}) is tight only with the rate constraint
+removed. The only exact two-distortion-plus-equivocation region found
+(Tandon--Sankar--Poor) is discrete-alphabet, and it privatizes $S$ itself.
+
+\textbf{Common reconstruction (Question~\ref{q:single}'s endpoint).}
+Steinberg \cite{steinberg2009} and Lapidoth--Mal\"ar--Wigger
+\cite{lmw2014} solve the \emph{scalar} Gaussian CR function (the latter
+for arbitrary scalar jointly Gaussian $S$ via their $\xi$-reduction); the
+entire CR follow-up line (Heegard--Berger-with-CR, cascade, successive
+refinement, interactive, action-dependent) contains no vector Gaussian
+case. The general-coupling vector machinery that exists
+(Stylianou--Gkagkos--Charalambous's indirect/WZ RDFs with side information)
+derives its water-filling precisely from the estimator's \emph{use} of $S$
+--- the step the CR Markov constraint forbids.
+
+\textbf{Summary of the open set.} Under the recorded queries: no prior
+treats the pair $(I(X;\hX),\,I(X;\hX\mid S))$ as a two-coordinate region
+beyond Paper V's one-constraint solution; no exact Gaussian region combines
+two quadratic distortion constraints with a conditional-information
+coordinate; no non-degraded vector-Gaussian converse exists for any member
+of the family; no vector-Gaussian CR function is in print. Residual risks:
+IEEE-only venues without arXiv copies; the fast-moving RDC line
+\cite{wang2024rdc} producing a vector-Gaussian paper; the
+maximal-correlation area received the weakest coverage.
+
 \section{Line of attack and verification obligations}
-\textbf{Attack.} (1) Prove Question~\ref{q:single} by the scalar corner's
-moment/LMMSE method (the Markov identity
-$\Cov(S,\hX)=\rho\,\Cov(X,\hX)$-style parametrization) lifted to the
-$S$-whitened frame. (2) For Conjecture~\ref{conj:gauss}, the per-$s$
-convexity decomposition of $I(X;\hX\mid S)$ (VI-8) plus the entropy-power
-or eigen-alignment arguments of the Gaussian IB \cite{gib2005}. (3) For
-Conjecture~\ref{conj:frontier}, KKT of the two-determinant program;
-numerical falsification first (the 044/058 conditional Blahut--Arimoto
-fixed point brute-forces small discretized instances against the
-conjectured frontier \emph{before} any proof is attempted).
+\textbf{Attack.} (1) Question~\ref{q:single}'s marginalization dichotomy
+first --- it is decidable with scalar tools. (2) Then the endpoint via the
+scalar corner's moment/LMMSE method lifted to the $S$-whitened frame,
+watching the three-matrix non-commutativity of
+Remark in Conjecture~\ref{conj:frontier}. (3) For
+Conjecture~\ref{conj:gauss}, conditional-EPI/extremal-inequality arguments
+in the G\"unl\"u--Sankar style, plus the per-$s$ convexity decomposition
+(VI-8). (4) Numerical falsification \emph{before} proof: the 044/058
+conditional Blahut--Arimoto fixed point brute-forces small discretized
+instances against any conjectured frontier.
 
 \textbf{Obligations (house rules).} R-IND-5 fresh-context pass on any proof
-before assertion; C3 numerical falsification harness sealed under PROTOCOL
-\S5.1 (power and pilot fields mandatory; logged pilot; instrument-vs-physics
-gate separation); NOVELTY-CHECK sweeps of Sec.~3's flags resolved before
-any novelty language; ledger class no higher than $[\mathrm{predicted}]$
-until then. GO-11 is \emph{not yet registered}: this document reserves no
-ID and asserts no claim.
+before assertion; C3 harness sealed under PROTOCOL \S5.1 (power and pilot
+fields mandatory; logged pilot; instrument-vs-physics gate separation); the
+residual-risk sweeps above refreshed at claim time; ledger class no higher
+than $[\mathrm{predicted}]$ until then. GO-11 is \emph{not yet registered}:
+this document reserves no ID and asserts no claim.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{bondlandauerV} A.~H. Bond, A rate--work--distortion region for
 consumer-relative observation, this repository,
 \texttt{paper/consumer-relative-landauer.tex} (Paper V).
@@ -180,5 +314,35 @@ complementarity, this repository, \texttt{paper/complementarity-tax.tex}
 \bibitem{gib2005} G.~Chechik, A.~Globerson, N.~Tishby, Y.~Weiss,
 Information bottleneck for Gaussian variables, \emph{J. Mach. Learn. Res.}
 6:165--188, 2005.
+\bibitem{yamamoto1983} H.~Yamamoto, A source coding problem for sources
+with additional outputs to keep secret from the receiver or wiretappers,
+\emph{IEEE Trans. Inf. Theory} 29(6):918--923, 1983.
+\bibitem{villard2013} J.~Villard, P.~Piantanida, Secure multiterminal
+source coding with side information at the eavesdropper, \emph{IEEE Trans.
+Inf. Theory} 59(6):3668--3692, 2013.
+\bibitem{gunlu2023} O.~G\"unl\"u, R.~F. Schaefer, H.~Boche, H.~V. Poor,
+Secure and private source coding with private key and decoder side
+information, \emph{IEEE Trans. Inf. Forensics Security} 18:3803--3816,
+2023 (arXiv:2205.05068).
+\bibitem{sankar2013} L.~Sankar, S.~R. Rajagopalan, H.~V. Poor,
+Utility-privacy tradeoffs in databases: an information-theoretic approach,
+\emph{IEEE Trans. Inf. Forensics Security} 8(6):838--852, 2013.
+\bibitem{ekrem2013} E.~Ekrem, S.~Ulukus, Secure lossy transmission of
+vector Gaussian sources, \emph{IEEE Trans. Inf. Theory}, 2013
+(arXiv:1108.3544).
+\bibitem{wang2024rdc} Y.~Wang, Y.~Wu, S.~Ma, Y.-J.~A. Zhang, Task-oriented
+lossy compression with data, perception, and classification constraints,
+\emph{IEEE J. Sel. Areas Commun.}, 2024/25 (arXiv:2405.04144).
+\bibitem{liu2022semantic} J.~Liu, S.~Shao, W.~Zhang, H.~V. Poor, An
+indirect rate-distortion characterization for semantic sources: general
+model and the case of Gaussian observation, \emph{IEEE Trans. Commun.}
+70(9), 2022 (arXiv:2201.12477).
+\bibitem{tripathy2019} A.~Tripathy, Y.~Wang, P.~Ishwar, Privacy-preserving
+adversarial networks, \emph{Proc. Allerton}, 2019 (arXiv:1712.07008).
+\bibitem{steinberg2009} Y.~Steinberg, Coding and common reconstruction,
+\emph{IEEE Trans. Inf. Theory} 55(11):4995--5010, 2009.
+\bibitem{lmw2014} A.~Lapidoth, A.~Mal\"ar, M.~Wigger, Constrained source
+coding with side information, \emph{IEEE Trans. Inf. Theory} 60(6), 2014
+(arXiv:1301.5109).
 \end{thebibliography}
 \end{document}
