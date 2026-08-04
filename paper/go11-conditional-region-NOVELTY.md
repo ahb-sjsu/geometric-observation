@@ -167,10 +167,54 @@ assigned step PROVED, one sharpening, one error — all folded into v0.5:**
 
 **Standing after v0.5**: Question 1's endpoint SOLVED for rank-one reads
 (first vector-Gaussian CR-type function; the CR sweep found no prior).
-Open, in order: (1) the m=1 (R,L) frontier via the weighted moment method;
-(2) higher-rank reads; (3) m≥2 (pair sufficiency generalizes verbatim —
-two rank-one consumers collapse to ≤3 coordinates). House rules: these
-results remain manuscript-grade until a sealed C3 harness registration
+
+## VERIFICATION ADDENDUM 3 — Theorem 3 + Corollary 2 (the m=1 frontier), 2026-08-05
+
+**The m=1 frontier settled in v0.6**: Theorem 3 — the exact rate–work
+region for rank-one reads, Pareto frontier traced by the two-water-level
+stationarity system (a = 1 − αγ₀ − (1−α)γ₁; m = aρ/(s−(1−α)γ₁);
+b = (1−α)γ₁m; γᵢ = n/(Qᵢ+n); frontier point (½log₂1/γ₀, ½log₂1/γ₁)).
+Converse by the same moment method with a second determinant identity
+det Σ_T/det Σ_e0 = (Q₀+n)/n; endpoints = classical reverse channel (α=1)
+and Theorem 2 (α=0). Corollary 2 — **misalignment always opens a strict
+tradeoff**: for ρ²∈(0,1), τ²>0 the L-optimal moments have b≠0, the
+R-optimal moments have b=0 (both provably unique), so no channel attains
+both corners; excesses 0.0400/0.0349 bits at (0.75,0.5,0.3). Single-corner
+collapses are exactly ρ²→1 (Paper V's scalar corner) and ρ=0 (+ the
+τ²→∞ limit). Settles Conjecture 1 for m=1 rank-one.
+
+**Pre-assertion numerics (author, seed 20260806):** stationarity system
+holds at the multi-start optimum and weighted moment program agrees to
+1e-6 bits at 20 (ρ²,τ²,D,α) combos; anchors exact; E1's 0.0400
+reproduced; α-sweep monotone. Known artifact: discretized BA at α=0.75
+read 0.0015 BELOW the linear value — grid bias (discrete source easier
+to describe); the rigorous check is the exact moment program.
+
+**R-IND-5 pass (verifier seed 771177): CONFIRMED, 0 errors, 2 sharpenings
+(folded into v0.6):**
+- S1: Corollary 2's R-minimizer uniqueness was asserted, not proved —
+  verifier supplied the two-line proof (elimination b(1−ρ²)=0 at α=1,
+  then (a,n) forced) and the moment-route strictness inference (any
+  L_min-attaining channel carries the b≠0 moments → its rate ≥ B₀ there
+  > R_min). Both now in the corollary text.
+- S2: "traces the full Pareto boundary" weakened to
+  uniqueness-conditional (interior-α minimizer uniqueness is
+  numerics-supported — 625-initialization probes, exactly one root every
+  time — not proved; endpoint uniqueness IS proved).
+- Micro-notes folded: m defined; ρ=0 degeneracy phrased as
+  corner-collapse; D<½ scope on the τ²=0 formula; τ²→∞ limit noted.
+- Verifier numerics: 2 fresh instances × 5+41 α-points, three independent
+  routes (system roots / raw-log-det channel optimization / raw moment
+  program) agree to ≤5e-9 bits; strict monotonicity of R(α), L(α); both
+  quoted excesses confirmed (0.040046, 0.034949); ρ²→1 collapse probed.
+
+**Standing after v0.6**: the single-consumer (m=1, rank-one) problem is
+now FULLY solved — endpoint (Thm 2) + entire frontier (Thm 3) + strict
+two-corner separation (Cor 2). Open, in order: (1) higher-rank reads;
+(2) m≥2 (pair sufficiency generalizes verbatim — two rank-one consumers
+collapse to ≤3 coordinates; the moment method's determinant identities
+are the candidate mechanism); (3) interior-α uniqueness (S2) as a lemma.
+House rules: manuscript-grade until a sealed C3 harness registration
 (PROTOCOL §5.1) — not yet ledger-bearing.
 
 ## Query coverage

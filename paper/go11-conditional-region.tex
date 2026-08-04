@@ -46,11 +46,22 @@
 % unlike Paper V's scalar case. Pre-assertion numerics (seed 20260805) +
 % verifier numerics (seed 20260804: 8 fresh instances to 3e-9, 25,500-pt
 % uniqueness sweep). R-IND-5 record: NOVELTY addendum.
+% v0.6 (2026-08-05): the m=1 FRONTIER is SETTLED (Theorem 3 + Cor. 2):
+% the exact rate-work region for rank-one reads, Pareto frontier traced by
+% a two-water-level stationarity system (a = 1 - alpha*g0 - (1-alpha)*g1;
+% frontier point (1/2 log2 1/g0, 1/2 log2 1/g1)); converse by the same
+% moment method (second determinant identity det Sig_T/det Sig_e0 =
+% (Q0+n)/n); endpoints = classical reverse channel / Theorem 2. Cor. 2:
+% misalignment ALWAYS opens a strict tradeoff (rho^2 in (0,1)); the
+% single-corner collapses are exactly rho^2 -> 1 (Paper V scalar corner)
+% and rho = 0. Settles Conjecture 1 for m=1 rank-one. Pre-assertion
+% numerics seed 20260806 (20 combos to 1e-6; E1's 0.0400 reproduced).
+% R-IND-5 pass on Sec. 7 frontier part: NOVELTY addendum 3.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.4 --- August 2026}
+\date{Problem statement v0.6 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -444,6 +455,97 @@ $m\ge2$ case, for which the pair-sufficiency argument generalizes
 verbatim (``$(P$-read components, $\gamma^{\mathsf T}X)$ suffice''),
 collapsing two rank-one consumers to at most three coordinates.
 \end{remark}
+
+\subsection*{The $m=1$ frontier}
+
+\begin{theorem}[The exact rate--work region, $m=1$, rank-one read]
+\label{thm:frontier}
+For $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, the region
+$\{(R,L)\}$ of Section~1 restricted to one consumer is the closed convex
+set whose Pareto frontier is traced by $\alpha\in[0,1]$ as follows. Let
+$(\gamma_0,\gamma_1)\in(0,1]^2$ solve, together with
+$(a,b,n)$, the stationarity system
+\[
+a=1-\alpha\gamma_0-(1-\alpha)\gamma_1,\qquad
+m=\frac{a\rho}{s-(1-\alpha)\gamma_1},\qquad
+b=(1-\alpha)\gamma_1 m,
+\]
+\[
+n=D-h(a,b),\qquad
+\gamma_0=\frac{n}{Q_0+n},\qquad
+\gamma_1=\frac{n}{Q_1+n},
+\]
+where $h(a,b)=(1-a)^2-2(1-a)b\rho+b^2$,
+$Q_0=a^2+b^2+2ab\rho$, $Q_1=Q_0-(a\rho+b)^2/s$, and $m:=(a\rho+b)/s$
+(solution attained by the weighted optimum; at $\alpha\in\{0,1\}$ the
+minimizing moments are provably unique --- $P(1)<0$ at $\alpha=0$; the
+elimination $b(1-\rho^2)=0$ then $(a,n)=(1{-}D,D(1{-}D))$ at $\alpha=1$ ---
+and unique on every tested interior $\alpha$; completeness of the trace
+holds wherever the weighted minimizer is unique). The frontier point is
+\[
+\bigl(R(\alpha),L(\alpha)\bigr)
+=\Bigl(\tfrac12\log_2\tfrac1{\gamma_0},\ \tfrac12\log_2\tfrac1{\gamma_1}\Bigr),
+\]
+achieved by $\hY=aY+bV+N$, $N\sim\mathcal N(0,n)$. Endpoints:
+$\alpha=1$ recovers the classical reverse channel
+($b=0$, $a=1-D$, $R=\tfrac12\log_2\tfrac1D$); $\alpha=0$ recovers
+Theorem~\ref{thm:cubic}'s channel and value.
+\end{theorem}
+\begin{proof}[Proof (converse mechanism as in Theorem~\ref{thm:cubic})]
+Both coordinates are convex in the channel (the conditional coordinate by
+the per-$s$ decomposition, VI-8), so the scalarization
+$\alpha R+(1-\alpha)L$ traces the full Pareto boundary. For any admissible
+channel with moments $(c,q,v)$, both max-entropy bounds hold on the same
+three moments:
+$R\ge\tfrac12\log_2(\det\Sigma_T/\det\Sigma_{e0})$ (estimation from $\hY$
+alone) and $L\ge\tfrac12\log_2(\det\Sigma_{T\mid S}/\det\Sigma_{e1})$
+(from $(\hY,S)$, with the Markov moment identity $\E[S\hY]=q$). The two
+determinant identities
+\[
+\frac{\det\Sigma_T}{\det\Sigma_{e0}}=\frac{Q_0+n}{n},
+\qquad
+\frac{\det\Sigma_{T\mid S}}{\det\Sigma_{e1}}=\frac{Q_1+n}{n}
+\]
+(the first by the same Schur computation as the second) make the weighted
+moment program identical to the weighted linear-channel program; it is
+coercive on its boundaries, and its first-order system --- using
+$Q_{0,a}-h_a=2$, $Q_{0,b}-h_b=2\rho$, $Q_{1,a}-h_a=2(1-\rho m)$,
+$Q_{1,b}-h_b=2(\rho-m)$ --- reduces linearly to the displayed relations.
+Achievability is the stated Gaussian channel, which meets both bounds with
+equality. [Numerics logged pre-assertion, seed 20260806: the system holds
+at the multi-start optimum and the moment program agrees to $10^{-6}$
+bits at 20 $(\rho^2,\tau^2,D,\alpha)$ combinations; the $\alpha$-sweep is
+monotone between the corners.]
+\end{proof}
+
+\begin{corollary}[Misalignment always opens a tradeoff]\label{cor:sep}
+For $\rho^2\in(0,1)$ and $\tau^2>0$ the frontier is nondegenerate. The
+$L$-optimal moments are unique with $b\ne0$ (Theorem~\ref{thm:cubic};
+$b=(g^\star{-}1)\rho/(g^\star k)\ne0$), and the $R$-optimal moments are
+unique with $b=0$ (at $\alpha=1$ the elimination gives $b(1-\rho^2)=0$,
+and then $(a,n)=(1{-}D,\,D(1{-}D))$ is forced). Hence any channel
+attaining $L_{\min}$ carries the $b\ne0$ moments, so its rate is at least
+$B_0$ evaluated there, which strictly exceeds $R_{\min}$ ($B_0$'s argmin
+being unique with $b=0$) --- and symmetrically. Both endpoint excesses
+are strictly positive (at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$:
+$R(0)-R_{\min}=0.0400$, $L(1)-L_{\min}=0.0349$ bits). The single-corner
+collapses within the parameter space are exactly the alignment
+degeneracies: $\rho^2\to1$ (Paper V's scalar corner) and $\rho=0$ (the
+frontier collapses to the single corner $L_{\min}=R_{\min}$; $\tau^2\to
+\infty$ is the same collapse in the limit). Closed-form endpoint values:
+$L(1)=\tfrac12\log_2\bigl[((1-D)(1-\rho^2/s)+D)/D\bigr]$ and $R(0)$ from
+Theorem~\ref{thm:cubic}'s channel. The same strictness holds in the
+$\tau^2=0$ instance computations of Proposition~\ref{prop:marg} for
+$D<\tfrac12$
+(e.g.\ $R(0)=\tfrac12\log_2[(1-D)/(D(1-2D))]>\tfrac12\log_2(1/D)$), so
+even a fully $X$-measurable context trades rate against work once
+misaligned.
+\end{corollary}
+
+This settles Conjecture~\ref{conj:gauss} affirmatively for $m=1$,
+rank-one reads (Gaussian sufficiency for the whole frontier), and
+replaces Conjecture~\ref{conj:frontier}'s $m=1$ shadow with the explicit
+two-water-level system; the $m\ge2$ statements remain open.
 
 \begin{corollary}[Answer to the refined question]\label{cor:kaspi}
 (i) \emph{Structurally yes}: the value is driven entirely by the
