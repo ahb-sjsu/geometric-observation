@@ -84,7 +84,7 @@
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.8 --- August 2026}
+\date{Problem statement v0.9 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -500,11 +500,10 @@ n=D-h(a,b),\qquad
 \]
 where $h(a,b)=(1-a)^2-2(1-a)b\rho+b^2$,
 $Q_0=a^2+b^2+2ab\rho$, $Q_1=Q_0-(a\rho+b)^2/s$, and $m:=(a\rho+b)/s$
-(solution attained by the weighted optimum; at $\alpha\in\{0,1\}$ the
-minimizing moments are provably unique --- $P(1)<0$ at $\alpha=0$; the
-elimination $b(1-\rho^2)=0$ then $(a,n)=(1{-}D,D(1{-}D))$ at $\alpha=1$ ---
-and unique on every tested interior $\alpha$; completeness of the trace
-holds wherever the weighted minimizer is unique). The frontier point is
+(solution attained by the weighted optimum and \emph{unique at every}
+$\alpha$: $P(1)<0$ at $\alpha=0$, Proposition~\ref{rem:uniq} for
+$\alpha\in(0,1]$ --- so the trace of the Pareto boundary is
+unconditionally complete). The frontier point is
 \[
 \bigl(R(\alpha),L(\alpha)\bigr)
 =\Bigl(\tfrac12\log_2\tfrac1{\gamma_0},\ \tfrac12\log_2\tfrac1{\gamma_1}\Bigr),
@@ -881,6 +880,139 @@ general-instance frontier is nondegenerate ($R$ spans $2.2539$--$2.2942$,
 $L$ $1.9838$--$2.0175$ bits at $D_A=D_B=0.2$): the misalignment tradeoff
 of Corollary~\ref{cor:sep} persists at $m=2$.
 \end{remark}
+
+\section{Vector side information and higher-rank reads}\label{sec:rungs}
+
+Both remaining structural rungs reduce to the machinery already built,
+one of them completely.
+
+\begin{theorem}[Vector $S$, $m=1$ rank-one: solved]\label{thm:vecS}
+Let $S=\Gamma^{\mathsf T}X+U\in\mathbb R^r$, $U\sim\mathcal N(0,\Sigma_U)$,
+$\Sigma_U\succ0$, with $X,U$ and all channel randomness mutually
+independent; assume $\Sigma_T\succ0$ (degenerate instances reduce by
+dropping dependent context components, as in Theorem~\ref{thm:m2});
+reproductions are scalar WLOG by the data-processing reduction of
+Section~\ref{sec:marg}, which is generic in $S$.
+(i) \emph{$(1{+}r)$-sufficiency:} the channel may depend on
+$X$ only through $T=(Y,\Gamma^{\mathsf T}X)$ (the resampling proof of
+Theorem~\ref{thm:pair} applies verbatim with the vector kernel
+$p(s\mid t,\hat y)=p_U(s-v)$). (ii) \emph{Whitened form:} congruence-
+diagonalize the pair --- $\Sigma_T\to I$, $\Sigma_{T\mid S}\to
+\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_{1+r})$,
+$0\prec\Lambda\preceq I$ --- so the read is a unit vector $y_0$, the
+record $\hY=u^{\mathsf T}Z+N(0,n)$, and
+\[
+R=\tfrac12\log_2\frac{|u|^2+n}{n},\qquad
+L=\tfrac12\log_2\frac{u^{\mathsf T}\Lambda u+n}{n},\qquad
+|y_0-u|^2+n\le D .
+\]
+(iii) \emph{The frontier}, traced by $\alpha\in[0,1]$, is the generalized
+two-water-level system: with $\gamma_0=n/(|u|^2{+}n)$,
+$\gamma_1=n/(u^{\mathsf T}\Lambda u{+}n)$,
+\begin{equation}
+u\;=\;\bigl(1-\alpha\gamma_0-(1-\alpha)\gamma_1\bigr)\,
+\Bigl[\bigl(1-(1-\alpha)\gamma_1\bigr)I+(1-\alpha)\gamma_1\Lambda
+\Bigr]^{-1}y_0,
+\qquad n=D-|y_0-u|^2,
+\label{eq:vecfoc}
+\end{equation}
+per-mode explicit given the two scalars; Theorem~\ref{thm:frontier} is the
+$r=1$ case, and the $\alpha=0$ endpoint gives the vector-$S$ CR function
+as a one-dimensional root problem. \emph{Converse:} the determinant
+identities are dimension-free (the same Schur double-count as
+Theorems~\ref{thm:cubic} and~\ref{thm:m2}, with the Markov moment identity
+$\E[S\hY]=\E[V\hY]=\Gamma^{\mathsf T}\E[X\hY]$ --- the $V$-block of
+$\E[T\hY]$ --- holding componentwise), so the weighted
+moment program is again identical to the whitened channel program;
+coercivity and the linear-in-$u$ first-order system pin the optimum as
+before.
+\end{theorem}
+\begin{proof}[Proof sketch and verification status]
+(i) is Theorem~\ref{thm:pair}'s proof with $v\in\mathbb R^r$. (ii) is the
+standard simultaneous congruence ($\Sigma_{T\mid S}\preceq\Sigma_T$;
+$\operatorname{Var}Y=1$ gives $|y_0|=1$; the distortion form is exact
+because $Z$ is white). (iii): substituting $n=D-h$ and differentiating,
+the $Q_0$-gradient term collapses ($u+(y_0-u)=y_0$), yielding
+$\alpha\gamma_0y_0+(1-\alpha)\gamma_1\bigl(y_0+(\Lambda-I)u\bigr)
+=(y_0-u)$, which rearranges to \eqref{eq:vecfoc}. Pre-assertion numerics
+(seed 20260904): \eqref{eq:vecfoc} holds at the multi-start optimum at
+$r\in\{1,2,3\}$ with fully general couplings, all tested $\alpha$;
+$r{=}1$ reproduces Theorem~\ref{thm:frontier}'s values to $2\times10^{-3}$
+bits; the moment program agrees to $5\times10^{-7}$; unrestricted
+conditional-BA never beats the system (window). Fresh-context pass: see
+the NOVELTY addendum.
+\end{proof}
+
+\begin{theorem}[Higher-rank reads: the matrix program, and when it
+decomposes]\label{thm:rankk}
+For a $k$-dimensional read $Y=W^{\mathsf T}X$ with trace distortion
+$\E|Y-\hat{\mathbf Y}|^2\le D$ and (scalar or vector) Gaussian context,
+$(k{+}r)$-sufficiency holds, and the region equals the
+$k\times(k{+}r)$-parameter matrix program of Theorem~\ref{thm:m2}'s form
+(the identities are dimension-free). If additionally $\Sigma_T$ and
+$\Sigma_{T\mid S}$ are simultaneously block-diagonal, with each block
+pairing one read mode with its own context components (in a read basis
+with $\Sigma_Y=I$), the program \emph{decomposes exactly}: the frontier
+is the per-mode family of Theorem~\ref{thm:vecS} systems coupled only
+through the distortion budget --- a water-filling over modes. For
+misaligned couplings the joint program is strictly better than every
+forced per-mode decomposition (numerically: gap $0.0057$ bits at the test
+instance, seed 20260904; the aligned equality is exact, matched by the
+solver to $3\times10^{-4}$).
+\end{theorem}
+\begin{proof}[Proof of the decomposition]
+With independent blocks $(T_i,S_i)$:
+$h(T\mid S)=\sum_i h(T_i\mid S_i)$ and
+$h(T\mid\hat{\mathbf Y},S)\le\sum_i h(T_i\mid\hY_i,S_i)$ (subadditivity;
+conditioning reduces entropy), so
+$I(T;\hat{\mathbf Y}\mid S)\ge\sum_i I(T_i;\hY_i\mid S_i)$, and
+identically for the rate coordinate. Each pair $(T_i,\hY_i)$ inherits the
+per-mode Markov moment identity ($U\perp$ everything), so
+Theorem~\ref{thm:vecS}'s converse prices mode $i$ at its own distortion
+$D_i=\E(Y_i-\hY_i)^2$ with $\sum_iD_i\le D$; each per-mode value is
+convex in $D_i$, so the allocation is a water-filling, and independent
+per-mode optimal channels achieve it.
+\end{proof}
+
+\begin{proposition}[Interior-$\alpha$ uniqueness: the S2 debt discharged]
+\label{rem:uniq}
+For $0\prec\Lambda\preceq I$, $|y_0|=1$, $D\in(0,1)$, and every
+$\alpha\in(0,1]$, the weighted program has a \emph{unique} minimizer, and
+every solution of \eqref{eq:vecfoc} with $n>0$ is that minimizer.
+Consequently Theorem~\ref{thm:frontier}'s trace of the Pareto boundary is
+unconditionally complete, and its ``unique on every tested interior
+$\alpha$'' hedge is retired ($\alpha=0$ remains covered by
+Theorem~\ref{thm:cubic}'s $P(1)<0$).
+\end{proposition}
+\begin{proof}[Proof (matrix-convexity; completed by the fresh-context
+pass)]
+Work in moment coordinates $c=\E[Z\hY]$, $v=\operatorname{Var}\hY$ on
+$\{v>|c|^2,\ 1-2y_0^{\mathsf T}c+v\le D\}$, where the program equals
+$\min\,\alpha B_0+(1-\alpha)B_1$ with
+$B_0=-\tfrac12\log\det(I-cc^{\mathsf T}/v)$ and
+$B_1=\tfrac12\log\det\Lambda-\tfrac12\log\det(\Lambda-(\Lambda c)
+(\Lambda c)^{\mathsf T}/s)$, $s=v-c^{\mathsf T}(I-\Lambda)c$.
+\emph{Key fact:} if $a(z)$ is affine and $s(z)$ concave positive, then
+$z\mapsto a(z)a(z)^{\mathsf T}/s(z)$ is matrix-convex --- average the two
+Schur certificates $\bigl[\begin{smallmatrix}W&a\\a^{\mathsf T}&s
+\end{smallmatrix}\bigr]\succeq0$ and use concavity of $s$ to raise the
+corner. Applied to $W_0=cc^{\mathsf T}/v$ and
+$W_1=(\Lambda c)(\Lambda c)^{\mathsf T}/s$, the error matrices
+$I-W_0$ and $\Lambda-W_1$ are matrix-concave, and $-\log\det$ is convex
+antitone, so $B$ is \emph{convex}. On the feasible set $D<1$ forces
+$y_0^{\mathsf T}c\ge(1-D)/2>0$ (so $c\ne0$, coercivity as $n\downarrow0$),
+and $B$ strictly decreases in $v$ at fixed $c$, so minimizers lie on the
+active slice $v=D-1+2y_0^{\mathsf T}c$; there $B$ is convex in $u=c$, its
+stationary points are exactly \eqref{eq:vecfoc}, and every stationary
+point is global. Strictness: on a segment of minimizers each $B_i$ is
+affine, which forces (concavity--equality plus
+$\mathrm{tr}[(\bar\Sigma^{-1}\bar\Sigma')^2]=0$) $W_0$ constant, hence
+$c(t)=\tau(t)e$ with $\tau$ affine and $v=\tau^2/(e^{\mathsf T}W_0e)$
+affine --- so $\tau$ is constant. Unique. [Verifier's convexity
+spot-check: 400 finite-difference Hessian probes across
+$r\le4$, $\lambda_{\min}$ down to $0.01$, $D$ up to $0.98$: minimum
+eigenvalue $+0.36$; fixed-point hunts: one root in all 2160 runs.]
+\end{proof}
 
 \section{Line of attack and verification obligations}
 \textbf{Attack.} (1) Question~\ref{q:single}'s marginalization dichotomy

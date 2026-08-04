@@ -305,6 +305,54 @@ residue: Conjecture 3's iff; interior-α uniqueness lemma; higher-rank
 reads; vector S. House rules: all manuscript-grade until a sealed C3
 harness registration (PROTOCOL §5.1) — not yet ledger-bearing.
 
+## VERIFICATION ADDENDUM 6 — the last theory rungs (v0.9), 2026-08-05
+
+**All three remaining rungs settled in v0.9:**
+- **Theorem 7 (vector S, m=1 rank-one: SOLVED).** (1+r)-sufficiency
+  (resampling verbatim); whitening by the pair (Σ_T, Σ_{T|S}) → the
+  generalized two-water-level system with per-mode closed form
+  u = (1−αγ₀−(1−α)γ₁)·[(1−(1−α)γ₁)I + (1−α)γ₁Λ]⁻¹y₀; Theorem 3 = r=1
+  case; converse dimension-free.
+- **Theorem 8 (higher-rank reads).** (k+r)-sufficiency + the k×(k+r)
+  matrix program; EXACT decomposition under simultaneous block-diagonality
+  (superadditivity proof supplied by the verifier); misalignment strictly
+  helps (numerical exhibit 0.0057 bits).
+- **Proposition (interior-α uniqueness): the S2 debt DISCHARGED.** The
+  verifier PROVED the assigned lemma: aa'/s is matrix-convex (Schur-
+  certificate averaging), so the weighted objective is convex in moment
+  coordinates on the active slice; every eq:vecfoc solution is the unique
+  global minimizer, at every α ∈ (0,1]. Theorem 3's uniqueness hedge and
+  the trace-completeness caveat are retired unconditionally.
+
+**Pre-assertion numerics (author, seed 20260904):** FOC holds at r∈{1,2,3}
+fully general couplings (after correcting the author's first drafted FOC —
+caught by the author's own sanity run: values matched Thm 3 exactly while
+the drafted formula failed, forcing the re-derivation with the y₀-collapse);
+moment program to 5e-7; BA never below; aligned decomposition to 8e-4;
+misaligned strict.
+
+**R-IND-5 pass (verifier seed 314159): CONFIRMED + assigned lemma PROVED;
+4 sharpenings folded:** Σ_T≻0 hypothesis + scalar-record cross-reference
+(thm:vecS); the ill-typed Markov identity Γ'E[TŶ] corrected to
+Γ'E[XŶ] (V-block); thm:rankk's alignment condition restated as
+simultaneous block-diagonality with the decomposition proof attached
+(was numerics-only in a theorem environment — fair adversarial objection).
+Verifier numerics: FOC to 3.9e-9 at 5 fresh instances incl. r=4 and
+λ_min=0.02 at D=0.92; r=1 ↔ Thm 3 algebraic + numeric match; vector det
+identity to 1.1e-11; 2160-run uniqueness hunt: single optimum everywhere
+(dispersion ≤3e-8); 400 Hessian probes: min eigenvalue +0.36.
+
+**Standing after v0.9**: the m=1 theory is CLOSED — endpoint, frontier,
+floor-iff, vector S, uniqueness — with higher-rank reads exactly
+characterized (program + alignment decomposition) and m=2 as the matrix
+program. Every named open item from v0.1 is now settled, withdrawn-with-
+reason, or reduced to a computable program. Remaining GO-11 work is
+operational/editorial: further tilt families if ever wanted; paperization
+(Syed). Manuscript-grade beyond the 060/061/062-netted content: the v0.9
+theorems (7, 8, uniqueness) are not yet under a sealed harness — a future
+registration (or an 060 successor) could net eq:vecfoc and the
+decomposition the way 060 netted Thms 1–5.
+
 ## Query coverage
 
 ~60 distinct WebSearch queries + ~20 page-level fetches across four sweeps
