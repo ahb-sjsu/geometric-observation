@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\newtheorem{fact}{Fact}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\title{The dynamic conditional region: rate, reset work, and the aging
+context\\[2pt]\large A problem statement (GO-12)}
+\author{Geometric Observation program}
+\date{Problem statement v0.1 --- August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+GO-11 closed the static consumer-relative rate--work region: the $m=1$
+theory in full, the $m=2$ frontier as a matrix water-level system, and
+the binary pair in closed form. Every source there was memoryless and
+every context simultaneous. This problem statement opens the dynamic
+extension: jointly stationary source--context \emph{processes}, a
+context that \emph{ages}, and per-symbol rate--work coordinates. The
+organizing guess is that the water level takes its third promotion ---
+from scalars ($m=1$), to $2\times2$ matrices ($m=2$), to \emph{spectra}
+(processes) --- with the GO-8 staleness law emerging as a limit. Nothing
+in this document is a claim; the conjectures are gates for future
+registrations, and the novelty obligations are listed.
+\end{abstract}
+
+\section{The problem}
+
+Let $(Y_t,V_t)_{t\in\mathbb Z}$ be a jointly stationary Gaussian pair
+process with spectral density matrix
+$\mathbf S(\omega)=\begin{pmatrix}S_Y&S_{YV}\\S_{YV}^*&S_V\end{pmatrix}$,
+coherence $\kappa(\omega)=|S_{YV}|^2/(S_YS_V)$. The eraser's side
+information is the \emph{aged, noisy} context
+\[
+S_t\;=\;V_{t-\Delta}+U_t,\qquad U_t\ \text{white},\ \mathrm{Var}\,U=
+\tau^2,\qquad\Delta\ge0\ \text{the staleness},
+\]
+observed as the full process $S^n$. A block code produces the
+reproduction process $\hat Y^n$ with per-symbol Hamming--free (MSE)
+distortion $\tfrac1n\sum E(Y_t-\hat Y_t)^2\le D$, and the coordinates of
+interest are the per-symbol limits
+\[
+R(D)=\lim_n\tfrac1n I(T^n;\hat Y^n),\qquad
+L(D,\Delta)=\lim_n\tfrac1n I(T^n;\hat Y^n\mid S^n),
+\]
+with $kT\ln2\cdot L$ the ideal per-symbol reset work, exactly as in
+GO-10/GO-11 but per unit time. Consumers never see $S$; Markov
+$\hat Y^n-X^n-S^n$ throughout.
+
+\section{Anchors already in the ledger}
+
+(i) $\Delta$-degeneracy: for memoryless pairs and $\Delta=0$ this is
+GO-11's static theory (Theorems 1--10 there). (ii) The GO-8 staleness
+law: decode thresholds track an age-dependent discount on AR(1) sources
+--- measured, $[$replicated$]$ with the 053 caveat --- but GO-8 had no
+exact region behind it; GO-12 is where that region would live. (iii) The
+work side at $\Delta\to\infty$ must collapse to the marginal
+rate--distortion function of the $Y$ process (the context decorrelates),
+and at $\tau^2\to\infty$ likewise.
+
+\section{Conjectures}
+
+\begin{conjecture}[Spectral CR function; the third promotion]
+\label{conj:spectral}
+For the rank-one read of the pair process,
+\[
+L(D,\Delta)\;=\;\int_{-\pi}^{\pi}\tfrac12\log_2
+g^\star\!\bigl(\omega;\,D(\omega)\bigr)\,\tfrac{d\omega}{2\pi},
+\]
+where $g^\star(\omega;\cdot)$ is GO-11's static quadratic-root CR
+function applied per frequency with effective parameters
+$\rho^2(\omega)=\kappa(\omega)$ (staleness entering only through the
+lag-$\Delta$ phase and the noise floor: the conditional spectrum
+$S_{Y\mid S}(\omega)=S_Y(1-\kappa\,\tfrac{S_V}{S_V+\tau^2})$ is
+$\Delta$-free for linear aging of this form --- the nontrivial content
+is which \emph{aging models} break this), and $D(\omega)$ is a
+distortion allocation determined by \emph{two coupled spectral water
+levels} $\gamma_0(\omega),\gamma_1(\omega)$ solving the weighted
+stationarity system of GO-11's Theorem~3 per frequency under a common
+pair of Lagrange prices. The $m=2$ process region takes the same form
+with the matrix water levels of GO-11's Theorem~9 per frequency.
+\end{conjecture}
+
+\begin{remark}
+The parenthetical is the honest core: for $S_t=V_{t-\Delta}+U_t$ with
+white $U$, pure delay changes no second-order conditional statistic of a
+\emph{noncausal} observer --- $S_{Y\mid S}$ is $\Delta$-invariant, so
+$L$ cannot depend on $\Delta$ at all in this model, and the GO-8
+staleness effect must come entirely from (a) causal/filtered contexts,
+(b) non-invertible aging (subsampling, fading memory kernels,
+$\mathrm{AR}$ dynamics in $U$), or (c) the operational decode-threshold
+instrument. Sorting which is a \emph{prediction opportunity}: the theory
+says noncausal block erasure with pure-delay context shows \emph{zero}
+staleness tax, an analytically-zero control of exactly the 061/062 kind.
+\end{remark}
+
+\begin{conjecture}[The staleness tax has a causal origin]
+\label{conj:causal}
+Under a causal context filter (the eraser at time $t$ sees only
+$S_{\le t}$, $S_t=V_{t-\Delta}+U_t$), the per-symbol conditional
+coordinate becomes $\Delta$-dependent, strictly increasing in $\Delta$
+for positively correlated sources, with AR(1) rate
+$L(D,\Delta)-L(D,0)\;\asymp\;\tfrac12\log_2\!\bigl(1/(1-a^{2\Delta}
+\eta)\bigr)$ terms ($a$ the AR pole, $\eta$ a $D$-dependent factor), and
+the GO-8 measured age-dependence is its operational face.
+\end{conjecture}
+
+\begin{conjecture}[Spectral tilt]\label{conj:tilt}
+The encoder-side tilt (GO-11, 061/062) becomes spectral: the $L$-optimal
+record concentrates its precision in frequency bands where the context
+coherence $\kappa(\omega)\tfrac{S_V}{S_V+\tau^2}$ is largest --- records
+written in the bands the eraser's context can read --- with an
+analytically-zero control in any band of zero coherence.
+\end{conjecture}
+
+\section{Questions}
+
+\begin{question}
+Does Gray's conditional-RD theory for stationary sources (or any
+successor) already contain Conjecture~\ref{conj:spectral}'s noncausal
+form? Novelty sweep obligation: conditional/two-sided RD for processes,
+remote-source RD with delayed side information, causal RD
+(Neuhoff--Gilbert lineage), zero-delay work. No claim before the sweep.
+\end{question}
+
+\begin{question}
+Is there a process analog of Theorem 10 (binary pair process with
+Markov flips) in closed form, or does the discrete side stop at
+numerics?
+\end{question}
+
+\begin{question}
+What is the right operational face? Candidate: 058-lineage decode
+thresholds on materialized codebooks for AR(1) pairs at three staleness
+values, with the noncausal-zero control of
+Remark 1 as the physics gate separating causal from noncausal erasure.
+\end{question}
+
+\section{Verification obligations}
+
+House rules apply unchanged: R-IND-5 fresh-context verification before
+any assertion; novelty sweeps before any novelty language; PROTOCOL
+\S5.1 power/pilot fields at any seal; every eventual theorem
+harness-netted and CI-enforced. The first registration out of this
+document should be the noncausal $\Delta$-invariance control
+(Remark 1): it is cheap, sharp, and either kills or confirms the causal
+origin of the staleness tax before any heavy theory is attempted.
+
+\end{document}
