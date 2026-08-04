@@ -379,6 +379,10 @@ def main():
     result = dict(
         verdict=verdict,
         gates_passed=int(sum(verdict.values())) if verdict else None,
+        # summary flag, house convention (*_supported == all(verdict)); the
+        # ci/reproduce.py tamper check pairs THIS with the verdict dict, so
+        # audit booleans like recon_matched_audit_ok stay plain data
+        KVSF_supported=bool(verdict and all(verdict.values())),
         claim='KV-cache serving flip: at identical bits AND identical reconstruction '
               'error, the geometry of the error relative to what attention reads '
               'decides long-context task score',

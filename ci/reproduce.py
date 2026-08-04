@@ -30,6 +30,9 @@ REPRODUCIBLE = [
     ("go2_gradient_curvature.py",   "GO2GB-JSON", "GO2-gradient-curvature.json",   "GO2_mechanism_generalizes"),
     ("go3_certificate_vacuity_v3.py","GO3-JSON",  "GO3-certificate-vacuity-v3.json","GO3_supported"),
     ("go5_diffusion_distance.py",   "GO5-JSON",   "GO5-diffusion-distance.json",   "GO5_supported"),
+    # GO-10 operational face (GO-P-2026-058): pure numpy, deterministic at the
+    # governed seed 20260820; default (no-arg) invocation IS the governed mode.
+    ("go10_operational_tax.py",     "GO10OP-JSON","GO10-operational-tax.json",     "GO10OP_supported"),
 ]
 
 failures: list[str] = []
@@ -143,14 +146,22 @@ for path in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))):
         continue
     verdict = d.get("verdict")
     flags = [k for k, v in d.items() if isinstance(v, bool)]
-    if isinstance(verdict, dict) and verdict and len(flags) == 1:
-        summary = d[flags[0]]
+    # The summary flag is the boolean named *_supported (house convention).
+    # Fall back to a lone boolean only when no *_supported key exists --
+    # auxiliary booleans (audit gates like recon_matched_audit_ok, mode flags
+    # like pilot) must not be mistaken for the run summary (the GO-P-2026-056
+    # lesson: an honest MISS verdict next to a passing audit flag is
+    # consistent, not tampered).
+    supp = [k for k in flags if k.endswith("_supported")]
+    key = supp[0] if len(supp) == 1 else (flags[0] if len(flags) == 1 else None)
+    if isinstance(verdict, dict) and verdict and key is not None:
+        summary = d[key]
         expect = all(bool(v) for v in verdict.values())
         if summary != expect:
-            failures.append(f"{name}: {flags[0]}={summary} but all(verdict)={expect}")
-            print(f"  FAIL {name}: {flags[0]}={summary} inconsistent with verdict")
+            failures.append(f"{name}: {key}={summary} but all(verdict)={expect}")
+            print(f"  FAIL {name}: {key}={summary} inconsistent with verdict")
         else:
-            print(f"  ok   {name:34s} {flags[0]}={summary}")
+            print(f"  ok   {name:34s} {key}={summary}")
     else:
         print(f"  ok   {name:34s} (parsed; no single-flag/verdict pair to cross-check)")
 
