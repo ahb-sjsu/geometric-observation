@@ -361,3 +361,36 @@ Villard–Piantanida, Sankar et al., Günlü et al.; SI placements + in-repo
 Paper V delineation; targeted CR pass with page-level reads of
 Lapidoth–Malär–Wigger). Full per-sweep query lists in the session transcript
 and reproduced in each agent report.
+
+## Verification addendum 7 — Theorem 9 (the m=2 frontier system), v0.10
+
+2026-08-04. Pre-assertion numerics (seed 20260907, `sanity_m2sys.py`): the
+FOC-N off-diagonal identity and the per-mode resolvent formula hold at the
+80-start m=2 program optimum to ≤2e-7 at two scalar-context instances and
+one vector-context instance (r=2, d_T=4), all three weights w ∈ {0, ½, 1};
+w=1 read-span anchor to 1.4e-8.
+
+**R-IND-5 pass: PASS — no mathematical errors; 7 sharpenings folded.**
+Independent verifier re-derived both gradients (FD-checked to ≤1.1e-9),
+Newton-polished the raw KKT system (non-circular: the polish never uses
+the theorem's identities) and confirmed (i)–(v) to ≤3.3e-16. Sharpenings
+folded into v0.10: (1) "traces the frontier" → containment language
+(frontier ⊆ solution set; every solution achievable; compare by objective);
+(2) bracket-invertibility lemma (= wM₀⁻¹+(1−w)λⱼM₁⁻¹+diag(μ) ≻ 0);
+(3) LICQ automatic — disjoint constraint supports; (4) symmetric-
+differentiation convention note (constraints diagonal-only, factor 2
+cancels); (5) constraints active WLOG but strict complementarity NOT
+assumed — verifier exhibited a slack instance with an exactly flat
+minimizer ray (J constant to 8 decimals over a +44 bump in (Σ_N)₂₂), so
+μᵢ=0 degeneracy gives non-isolated solutions; (6) eleven-scalar count
+demoted to bookkeeping; (7) w=1 anchor STRENGTHENED: μᵢ = 1/Dᵢ and
+EEᵀ+Σ_N = diag(D) hold without symmetry (verifier: exact to 4.4e-16 in
+generic asymmetric instances; folded with the Hadamard/backward-channel
+and envelope-theorem arguments on the Xiao–Luo regime).
+
+**Standing after v0.10**: the two-water-level structure SURVIVES m=2 —
+water levels promoted to 2×2 matrices (M₀, M₁), with per-mode 2×2
+resolvent formula in any context dimension; the frontier conjecture
+(withdrawn as scalar water-filling at v0.7) partially rehabilitated as
+matrix-resolvent water-filling. Open at m=2:
+uniqueness of the system solution.

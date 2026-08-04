@@ -84,7 +84,7 @@
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.9 --- August 2026}
+\date{Problem statement v0.10 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -1013,6 +1013,113 @@ spot-check: 400 finite-difference Hessian probes across
 $r\le4$, $\lambda_{\min}$ down to $0.01$, $D$ up to $0.98$: minimum
 eigenvalue $+0.36$; fixed-point hunts: one root in all 2160 runs.]
 \end{proof}
+
+\section{The $m=2$ frontier system: matrix water levels}\label{sec:m2sys}
+
+Theorem~\ref{thm:m2} characterized the $m{=}2$ region as a nine-parameter
+program; the $m{=}1$ closure now begs the structural question of whether
+the two-water-level form survives a second consumer. It does --- the
+water levels become $2\times2$ matrices.
+
+\begin{theorem}[The $m=2$ frontier system]\label{thm:m2sys}
+Whiten as in Theorem~\ref{thm:vecS} ($\Sigma_T\to I$,
+$\Sigma_{T\mid S}\to\Lambda$, reads the rows of
+$\widetilde Y=[y_A^{\mathsf T};y_B^{\mathsf T}]$, record
+$\hat{\mathbf Y}=AZ+N$, $N\sim\mathcal N(0,\Sigma_N)$, $A\in\mathbb
+R^{2\times(2+r)}$). Write $M_0=AA^{\mathsf T}+\Sigma_N$,
+$M_1=A\Lambda A^{\mathsf T}+\Sigma_N$ (both $2\times2$), and let
+$\mu=(\mu_A,\mu_B)\succeq0$ be the distortion multipliers. Assume an
+optimum is attained with $\Sigma_N\succ0$; the constraints may be taken
+active without loss (the objective is non-increasing in each noise
+diagonal, since $\Sigma_N\preceq M_0,M_1$ gives
+$[\Sigma_N^{-1}]_{ii}\ge[M_k^{-1}]_{ii}$), though strict complementarity
+$\mu_i>0$ is \emph{not} assumed. Every
+Pareto-optimal channel of the weighted program (weight $w\in[0,1]$ on the
+rate coordinate) satisfies
+\begin{equation}
+\Sigma_N^{-1}\;=\;wM_0^{-1}+(1-w)M_1^{-1}+\mathrm{diag}(\mu)
+\label{eq:focn}
+\end{equation}
+--- including its off-diagonal entry, a parameter-free structural
+prediction --- and, \emph{per mode} $j$,
+\begin{equation}
+a_j\;=\;\bigl[\Sigma_N^{-1}+(1-w)(\lambda_j-1)M_1^{-1}\bigr]^{-1}
+\mathrm{diag}(\mu)\,\tilde y_j,
+\label{eq:permode}
+\end{equation}
+where $a_j$, $\tilde y_j$ are the $j$-th columns of $A$, $\widetilde Y$;
+the bracket in \eqref{eq:permode} is automatically invertible, since by
+\eqref{eq:focn} it equals
+$wM_0^{-1}+(1-w)\lambda_jM_1^{-1}+\mathrm{diag}(\mu)\succ0$ for every
+$w\in[0,1]$, $\lambda_j>0$, $\mu\succeq0$. KKT necessity requires no
+constraint-qualification hypothesis: $\nabla c_A$ and $\nabla c_B$ have
+disjoint supports (row $1$ of $A$ and $(\Sigma_N)_{11}$ versus row $2$
+and $(\Sigma_N)_{22}$), so LICQ holds identically. The system closes in
+eleven scalars
+($M_0,M_1,\Sigma_N\in\mathbb S^2$, $\mu\in\mathbb R^2$, with their three
+defining equations, \eqref{eq:focn}, and the two active distortion
+constraints) --- a bookkeeping count, not a well-posedness claim: when
+some $\mu_i=0$ the solution set can be non-isolated (verified
+numerically: a slack-constraint instance exhibits an exactly flat ray of
+minimizers). The $m{=}1$ system of
+Theorems~\ref{thm:frontier}/\ref{thm:vecS} is its scalar shadow
+(substituting scalars reproduces \eqref{eq:vecfoc} exactly). At $w=1$
+the record is confined to the read span, $A=\Sigma_N\,\mathrm{diag}(\mu)
+\widetilde Y$, recovering the rate-only (Xiao--Luo) structure; on the
+Xiao--Luo regime (where the two-consumer rate bound
+$\tfrac12\log_2\!\bigl[\det\Sigma_{\mathbf Y}/(D_AD_B)\bigr]$ is tight)
+the $w{=}1$ error covariance is forced to
+$EE^{\mathsf T}+\Sigma_N=\mathrm{diag}(D_A,D_B)$ ($E=\widetilde Y-A$; the
+Hadamard/backward-channel equality condition in the Xiao--Luo converse)
+and $\mu_i=1/D_i$ \emph{without any symmetry assumption} (envelope
+theorem on $J^*=\ln[\det\Sigma_{\mathbf Y}/(D_AD_B)]$).
+Consequently: the Pareto frontier is \emph{contained in} the solution
+set of \eqref{eq:focn}--\eqref{eq:permode}, and every solution of the
+system is an achievable point; solutions must be compared by objective
+value, since uniqueness of the $m{=}2$ system
+solution is left open (the $m{=}1$ convexity proof of
+Proposition~\ref{rem:uniq} uses the scalar record).
+\end{theorem}
+\begin{proof}
+Matrix differentiation of
+$J=w\log\det M_0+(1-w)\log\det M_1-\log\det\Sigma_N$ with the KKT terms
+of the two constraints $c_i=|y_i-A_{i\cdot}|^2+(\Sigma_N)_{ii}$. For the
+$\Sigma_N$-gradient, parameterize $\Sigma_N$ by its three entries; the
+symmetric-differentiation factor of $2$ on the off-diagonal multiplies
+every $\log\det$ term identically and cancels, and the constraints touch
+only the \emph{diagonal} entries with coefficient $1$, so no convention
+mismatch is possible: stationarity gives \eqref{eq:focn}, including its
+off-diagonal row. The $A$-gradient gives
+$wM_0^{-1}A+(1-w)M_1^{-1}A\Lambda=\mathrm{diag}(\mu)(\widetilde Y-A)$.
+Adding $\mathrm{diag}(\mu)A$ to both sides and substituting
+$\mathrm{diag}(\mu)$ from \eqref{eq:focn} collapses the $M_0$ terms:
+\[
+(1-w)M_1^{-1}A(\Lambda-I)+\Sigma_N^{-1}A=\mathrm{diag}(\mu)\widetilde Y,
+\]
+which is \eqref{eq:permode} column-wise ($\Lambda$ diagonal). Coercivity
+and interior $\Sigma_N$ are as in Theorem~\ref{thm:m2}; any system
+solution is achievable (it is its own Gaussian channel). [Pre-assertion
+numerics, seed 20260907: \eqref{eq:focn}'s off-diagonal and
+\eqref{eq:permode} hold at the 80-start program optimum to
+$\le2\times10^{-7}$ at two scalar-context instances and one
+vector-context instance ($r{=}2$, $d_T{=}4$), all three weights; the
+$w{=}1$ read-span anchor to $1.4\times10^{-8}$. An independent
+fresh-context verification pass re-derived every identity and confirmed
+them at Newton-polished KKT points to $\le3.3\times10^{-16}$, including
+a slack-constraint instance where the system degrades gracefully
+($\mu_B\to0$, identities intact) while exhibiting the non-isolated
+minimizer ray noted in the statement.]
+\end{proof}
+
+\begin{remark}[Conjecture~\ref{conj:frontier}, partially rehabilitated]
+The withdrawal in Remark~\ref{rem:noclosed} stands for \emph{scalar}
+water-filling: no per-mode scalar formula exists. But
+\eqref{eq:permode} is a \emph{matrix-resolvent water-filling} --- the
+record's mode-$j$ coefficients are a fixed $2\times2$ resolvent of the
+water matrices applied to the read column --- so the structural content
+of the conjecture survives with the water levels promoted from scalars to
+$2\times2$ matrices, in any context dimension.
+\end{remark}
 
 \section{Line of attack and verification obligations}
 \textbf{Attack.} (1) Question~\ref{q:single}'s marginalization dichotomy
