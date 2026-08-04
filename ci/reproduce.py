@@ -33,6 +33,8 @@ REPRODUCIBLE = [
     # GO-10 operational face (GO-P-2026-058): pure numpy, deterministic at the
     # governed seed 20260820; default (no-arg) invocation IS the governed mode.
     ("go10_operational_tax.py",     "GO10OP-JSON","GO10-operational-tax.json",     "GO10OP_supported"),
+    # GO-10 second source family (GO-P-2026-059), same conventions, seed 20260822.
+    ("go10_operational_tax_binary.py","GO10OPB-JSON","GO10-operational-tax-binary.json","GO10OPB_supported"),
 ]
 
 failures: list[str] = []
