@@ -394,3 +394,37 @@ resolvent formula in any context dimension; the frontier conjecture
 (withdrawn as scalar water-filling at v0.7) partially rehabilitated as
 matrix-resolvent water-filling. Open at m=2:
 uniqueness of the system solution.
+
+## Verification addendum 8 — Theorem 10 (binary conditional CR function), v0.11
+
+2026-08-04. The discrete rung, closed with an elementary self-contained
+proof: DSBS(p) pair, S = V⊕Bern(q); L(D) attained in the symmetric
+(d₀,d₁) family; closed form L = h₂(u) − (1−p)h₂(d₀) − p·h₂(d₁) with
+u = a∗q, a = (1−p)d₀ + p(1−d₁); tilt equation
+ℓ(d₀) − ℓ(d₁) = 2(1−2q)ℓ(u); Fact-1 face R−L = 1−h₂(u); anchors Gray
+(q=0, D≤p) and marginal RD (q=½). Proof route: DPI makes binary
+reproduction definitional; L convex in the channel (per-s decomposition,
+shared channel); ℤ₂ symmetrization lands exactly on the family;
+convexity on the affine slice makes the tilt equation sufficient.
+Pre-assertion numerics (seed 20260908): unconditional Lagrangian
+certificates ≤6e-15 against alphabets 2/4/6 at four instances; anchors
+exact; monotone in q.
+
+**R-IND-5 pass: PASS — every step confirmed; 3 sharpenings folded.**
+Verifier re-derived (g1)–(g6) independently; global 4-parameter channel
+optima match family+tilt to ≤6.6e-14 at six instances incl. extreme
+corners (q=0.001, D=0.49); |Z|=4 records no better (≤3.2e-14); DSBS
+flip-covariance of S=V⊕W checked; H(Ŷ|S)=h₂(u) justified via
+σ-invariance of the (Ŷ,S) joint (deviation 6e-16 over 300 channels).
+Folded: (1) regime qualification — the tilt/active-constraint claim
+restricted to q∈(0,½] ∪ {q=0, D≤p}; in the sliver q=0, D>p, L=0 with
+inactive constraint and non-unique optimum (the tilt system's degenerate
+root d₁=1−d₀ still evaluates to 0); (2) positivity proof completed with
+the explicit a=½ branch (L ≥ 1−h₂(D) > 0); (3) erratum 0.5860 → 0.5862
+in the 062 retro-derivation remark. Cross-net: Thm 10 retro-derives
+062's formula-less noisy-face discount as 1−h₂(1/6)=0.3500 vs measured
+0.3432, bias −0.0067 pairing with the explained face's −0.0080.
+
+**Standing after v0.11**: both structural rungs beyond the closed m=1
+theory are settled — the m=2 frontier system (Thm 9) and the discrete
+CR function (Thm 10). Next rung: dynamic/process extension (GO-12-shaped).

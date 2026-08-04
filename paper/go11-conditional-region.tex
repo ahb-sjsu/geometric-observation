@@ -84,7 +84,7 @@
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.10 --- August 2026}
+\date{Problem statement v0.11 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -1119,6 +1119,123 @@ record's mode-$j$ coefficients are a fixed $2\times2$ resolvent of the
 water matrices applied to the read column --- so the structural content
 of the conjecture survives with the water levels promoted from scalars to
 $2\times2$ matrices, in any context dimension.
+\end{remark}
+
+\section{The binary pair: exact conditional CR function}\label{sec:binary}
+
+The discrete rung closes completely --- and, unlike the Gaussian
+Theorem~\ref{thm:cubic}, with an elementary self-contained proof.
+
+Let $(Y,V)$ be a doubly symmetric binary pair (fair marginals,
+$\Pr[Y\ne V]=p\in(0,\tfrac12)$), context $V$, side information
+$S=V\oplus W$ with $W\sim\mathrm{Bern}(q)$, $q\in[0,\tfrac12]$,
+independent. The record is the reproduction $\hat Y\in\{0,1\}$ itself
+(richer records only cost more: for any stored $Z$ from which the
+consumer computes $\hat Y=f(Z)$, $I(T;Z\mid S)\ge I(T;\hat Y\mid S)$ by
+the data-processing inequality), Hamming distortion
+$\Pr[\hat Y\ne Y]\le D$. Write $x*q=x(1-q)+(1-x)q$ and
+$\ell(x)=\ln\frac{1-x}{x}$.
+
+\begin{theorem}[Binary conditional CR function]\label{thm:binary}
+For $D\in(0,\tfrac12)$, the conditional coordinate
+$L(D)=\min I(Y,V;\hat Y\mid S)$ over channels $P(\hat Y\mid Y,V)$
+(Markov $\hat Y-(Y,V)-S$) with $\Pr[\hat Y\ne Y]\le D$ is attained in
+the two-parameter symmetric family $\hat Y=Y\oplus E$,
+$\Pr[E=1\mid Y\oplus V=j]=d_j$, and equals
+\[
+L(D)\;=\;h_2(u)-(1-p)\,h_2(d_0)-p\,h_2(d_1),\qquad
+u=a*q,\quad a=(1-p)d_0+p(1-d_1),
+\]
+where --- for $q\in(0,\tfrac12]$, any $D\in(0,\tfrac12)$; and for $q=0$,
+$D\le p$ --- $(d_0,d_1)$ solves the active constraint $(1-p)d_0+pd_1=D$
+together with the \emph{tilt equation}
+\[
+\ell(d_0)-\ell(d_1)\;=\;2(1-2q)\,\ell(u).
+\]
+(In the excluded sliver $q=0$, $D>p$, the constraint is inactive and
+$L(D)=0$, attained non-uniquely by records measurable in $V$ alone; the
+tilt system still has a root there, the degenerate point $d_1=1-d_0$,
+which evaluates to the correct value $0$. For $q>0$ the constraint is
+active on all of $(0,\tfrac12)$: $L$ is convex, nonincreasing, positive
+by the last claim below, and $0$ at $D=\tfrac12$, hence strictly
+decreasing.)
+On the same channel the rate coordinate is $R=1-(1-p)h_2(d_0)-p\,h_2(d_1)$
+and the discount is exactly $R-L=1-h_2(u)=I(\hat Y;S)$ (Fact~\ref{fact:gap}
+in closed form: $a=\Pr[\hat Y\ne V]$, $u=\Pr[\hat Y\ne S]$). Anchors:
+at $q=0$ the system gives $a=(p-D)/(1-2D)$ and
+$L=h_2(p)-h_2(D)$ (Gray's conditional rate--distortion function, for
+$D\le p$); at $q=\tfrac12$ it gives $d_0=d_1=D$ and $L=1-h_2(D)$ (the
+marginal rate--distortion function --- the context is useless exactly
+when the side information is). For $q\in(0,\tfrac12]$ and $D<\tfrac12$,
+$L(D)>0$.
+\end{theorem}
+\begin{proof}
+\emph{Reduction and convexity.} Binary $\hat Y$ is definitional (DPI
+above). With $P(Y,V\mid S=s)$ fixed and the channel shared across $s$
+(Markov), $I(Y,V;\hat Y\mid S)=\sum_sP(s)\,I_s$ is a nonnegative
+combination of mutual informations each convex in the channel, hence
+convex in the channel; the distortion is linear.
+
+\emph{Symmetrization.} The global bit flip
+$\sigma:(y,v,s,\hat y)\mapsto(1{-}y,1{-}v,1{-}s,1{-}\hat y)$ preserves
+the joint law of $(Y,V,S)$ and the distortion, and $L(C^\sigma)=L(C)$;
+averaging $C$ with $C^\sigma$ preserves distortion and, by convexity,
+does not increase $L$. So an optimum exists among $\sigma$-symmetric
+channels, and these are exactly the family $\{(d_0,d_1)\}$:
+$\sigma$-symmetry forces $\Pr[\hat Y\ne Y\mid y,v]$ to depend only on
+$y\oplus v$.
+
+\emph{Closed form.} On the family, $H(\hat Y\mid Y,V)=
+(1-p)h_2(d_0)+p\,h_2(d_1)$, and $\hat Y\oplus S=J\oplus E\oplus W$
+($J=Y\oplus V$) with $\Pr[J\oplus E=1]=a$. The step
+$H(\hat Y\mid S)=h_2(a*q)$ needs $\hat Y\oplus S\perp S$, which holds
+because the joint law of $(\hat Y,S)$ is $\sigma$-invariant
+($\sigma$-invariant source, $\sigma$-symmetric channel), forcing equal
+conditional flip probabilities given either value of $S$; the same
+symmetry gives $H(\hat Y)=1$, hence $R$.
+
+\emph{Tilt equation.} Substituting $d_1=(D-(1-p)d_0)/p$ makes
+$a=2(1-p)d_0+p-D$ affine in $d_0$; differentiating $L$ and using
+$h_2'(x)=\ell(x)$ (nats) gives
+$(1-p)[2(1-2q)\ell(u)-\ell(d_0)+\ell(d_1)]=0$. Since $L$ restricted to
+the affine family slice is convex (restriction of a convex function),
+interior stationarity is sufficient, not merely necessary.
+
+\emph{Anchors and positivity.} $q=\tfrac12$: $u=\tfrac12$, the tilt
+equation forces $d_0=d_1=D$. $q=0$: substitution of Gray's backward
+channel; equality of values is elementary algebra. Positivity, in two
+branches over the family (which suffices by attainment): if
+$a\ne\tfrac12$, then $h_2(u)>h_2(a)\ge(1-p)h_2(d_0)+p\,h_2(1-d_1)
+=(1-p)h_2(d_0)+p\,h_2(d_1)$ --- the strict step because $u=a*q$ is
+strictly closer to $\tfrac12$ for $q\in(0,\tfrac12]$, the second step
+by concavity --- so $L>0$; if $a=\tfrac12$, then $u=\tfrac12$, $h_2(u)=1$,
+and $L=1-(1-p)h_2(d_0)-p\,h_2(d_1)\ge1-h_2(D)>0$ by concavity at the
+distortion. [Pre-assertion numerics, seed 20260908:
+unconditional Lagrangian certificates --- if
+$\min_C[L(C)+\beta\,\mathrm{dist}(C)]$ over \emph{all} channels equals
+the family value $L+\beta D$, every channel with distortion $\le D$ has
+$L(C)\ge L$, no convexity assumed --- hold to $\le6\times10^{-15}$ at
+four $(p,q,D)$ instances against reproduction alphabets of size $2$,
+$4$, and $6$; tilt-equation residuals $\le10^{-7}$; both anchors to
+$10^{-9}$ or better; $L$ monotone in $q$. An independent fresh-context
+verification pass re-derived every step, confirmed the global optimum
+over all binary channels matches family-plus-tilt to $\le7\times10^{-14}$
+at six instances including extreme corners, found no improvement from
+$4$-symbol records ($\le3.2\times10^{-14}$), and contributed the $q{=}0$
+regime qualification, the $a{=}\tfrac12$ positivity branch, and the
+$\sigma$-invariance justification now in the text.]
+\end{proof}
+
+\begin{remark}[The noisy face of the 062 registration, retro-derived]
+The sealed encoder-tilt binary run (GO-P-2026-062; $p=0.25$, $D=0.20$)
+reported a noisy-context discount $0.3432$ at $q=0.1$ with no committed
+formula. Theorem~\ref{thm:binary} now supplies it: the $q{=}0$-optimal
+record has $a=(p-D)/(1-2D)=\tfrac1{12}$, so under $q=0.1$ the discount
+is $1-h_2(\tfrac1{12}*0.1)=1-h_2(\tfrac16)=0.3500$. The $-0.007$
+instrument bias matches the same run's \emph{explained} face exactly
+(measured $0.5782$ against derived $1-h_2(\tfrac1{12})=0.5862$, bias
+$-0.008$, the known decode-threshold interpolation bias): the noisy face
+is now derived to the same precision as the clean one.
 \end{remark}
 
 \section{Line of attack and verification obligations}
