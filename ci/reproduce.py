@@ -42,6 +42,8 @@ REPRODUCIBLE = [
     ("go11_encoder_tilt.py",        "GO11ET-JSON","GO11-encoder-tilt.json",        "GO11ET_supported"),
     # GO-11 binary tilt family (GO-P-2026-062), governed seed 20260902, ~2 min.
     ("go11_encoder_tilt_binary.py", "GO11ETB-JSON","GO11-encoder-tilt-binary.json","GO11ETB_supported"),
+    # GO-11 v0.9 closing theorems (GO-P-2026-063), governed seed 20260906, ~1 min.
+    ("verify_go11_rungs.py",        "GO11R-JSON", "GO11-rungs.json",               "GO11R_supported"),
 ]
 
 failures: list[str] = []
