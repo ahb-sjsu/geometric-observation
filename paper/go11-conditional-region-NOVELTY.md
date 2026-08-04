@@ -118,6 +118,61 @@ should tilt *toward* the reset context's X-measurable directions — the
 encoder-side complement of the eraser-side allocation tilt measured in
 GO-P-2026-058/059. A future GO-11 operational face can gate on this.
 
+## VERIFICATION ADDENDUM 2 — Theorems 1–2, Corollary 1 (refined question settled), 2026-08-05
+
+The refined question was settled in v0.4/v0.5 (Sec. 7): **Theorem 1** (pair
+sufficiency — the d-dimensional rank-one-read problem collapses to
+T = (w'X, γ'X) for every d, by channel resampling); **Theorem 2** (exact
+single-consumer CR function: L(D) = ½log₂ g*, g* the larger root of
+P(g) = Dsg² − (D+s−ρ²)g + (1−ρ²), s = 1+τ², in closed form; uniqueness via
+P(1) = (D−1)τ² < 0; achievability by the explicit linear channel; converse
+by the Paper-V second-moment method); **Corollary 1** (Kaspi verdict:
+structurally yes — only (ρ,τ²) matter; formula-wise no — instances with
+identical (Y,S) margins give different L: 1.1610 vs 1.2105 bits at D=0.1).
+
+**Pre-assertion numerics (author-side, seed 20260805, logged):** cubic =
+60-start SLSQP direct optimum with exact coefficients (a,b) = ((g−1)/g,
+(g−1)ρ/(gk)); moment-converse bound = cubic to 1e-6 at 12 instances;
+unrestricted conditional-BA never below (grid error only); anchor algebra
+(classical/Gray/Steinberg) exact; margin-pair distinguisher confirmed.
+
+**R-IND-5 fresh-context pass (verifier seed 20260804): CONFIRMED with the
+assigned step PROVED, one sharpening, one error — all folded into v0.5:**
+- **Task-3 obligation DISCHARGED**: the converse's final minimization was
+  proved analytically. Key: the determinant identity
+  det Σ_{T|S}/det Σ_e = (Var(aY+bV|S)+n)/n (the S-column of the moment
+  matrix = V-column + τ²e_S), so the moment program IS the linear-channel
+  program; B → ∞ on the PSD and distortion boundaries; FOCs linear in
+  (a,b); P(1) < 0 pins the unique stationary g* > 1. Converse closed.
+- **Sharpening S1**: the drafted cubic factors as k × quadratic — the k
+  factor is spurious (root 1/(1+τ²) < 1, never feasible). v0.5 states the
+  quadratic closed form and the uniqueness proof (upgrading the drafted
+  "unique on every tested instance" hedge to a theorem).
+- **ERROR E1 (overclaim, corrected)**: the drafted Scope remark said
+  Theorem 2 "settles Conjectures 1–2 for m=1 rank-one". False: it settles
+  the WORK-ONLY ENDPOINT. The verifier exhibited strict rate excess in the
+  L-optimal channel (0.0400 bits at (ρ²,τ²,D)=(0.75,0.5,0.3); 0.0204 at
+  (0.75,0.5,0.1)) — so the m=1 (R,L) frontier is a genuinely nontrivial
+  curve, no single channel attains both corners, UNLIKE Paper V's scalar
+  corner. Recorded in v0.5 as a finding in its own right; the weighted-
+  objective extension of the moment method is the named next step.
+- **E2 (typo)**: "Fact~\ref{thm:pair}" collided with Fact 1; fixed to
+  Theorem refs. Setup sharpened to state MUTUAL independence (the S-kernel
+  argument needs the joint form, not pairwise).
+- **Verifier numerics**: 8 fresh instances (incl. ρ²=0.95, τ²=5, D∈{0.05,
+  0.9}) — quadratic = direct = raw 3-variable moment program to ≤3e-9
+  bits; 25,500-point feasible-root-uniqueness sweep: exactly one root
+  everywhere (497 float64 flags at τ²=1e-6 resolved by 50-digit mpmath);
+  Gray-floor/Steinberg-margin sandwich: 0 violations.
+
+**Standing after v0.5**: Question 1's endpoint SOLVED for rank-one reads
+(first vector-Gaussian CR-type function; the CR sweep found no prior).
+Open, in order: (1) the m=1 (R,L) frontier via the weighted moment method;
+(2) higher-rank reads; (3) m≥2 (pair sufficiency generalizes verbatim —
+two rank-one consumers collapse to ≤3 coordinates). House rules: these
+results remain manuscript-grade until a sealed C3 harness registration
+(PROTOCOL §5.1) — not yet ledger-bearing.
+
 ## Query coverage
 
 ~60 distinct WebSearch queries + ~20 page-level fetches across four sweeps

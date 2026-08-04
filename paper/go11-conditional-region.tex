@@ -3,6 +3,7 @@
 \newtheorem{fact}{Fact}\newtheorem{conjecture}{Conjecture}
 \newtheorem{question}{Question}\newtheorem{remark}{Remark}
 \newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}\newtheorem{corollary}{Corollary}
 \newcommand{\E}{\mathbb{E}}\newcommand{\tr}{\operatorname{tr}}
 \newcommand{\Cov}{\operatorname{Cov}}\newcommand{\hX}{\widehat X}
 \newcommand{\hY}{\widehat Y}
@@ -28,11 +29,28 @@
 % (linear 40-start SLSQP to 2e-4; unrestricted conditional-BA to grid
 % error). R-IND-5 fresh-context pass on Prop. 1: see the VERIFICATION
 % addendum in go11-conditional-region-NOVELTY.md.
+% v0.4/v0.5 (2026-08-05): the REFINED QUESTION is SETTLED (Sec. 7):
+% Theorem 1 (pair sufficiency -- the d-dimensional problem collapses to
+% (Y, V) for every d), Theorem 2 (exact single-consumer CR function for
+% rank-one reads: L = 1/2 log2 g*, g* in CLOSED FORM as the larger root of
+% the quadratic P(g) = Dsg^2 - (D+s-rho^2)g + (1-rho^2), s = 1+tau^2;
+% uniqueness proved via P(1) < 0; achievability complete; converse PROVED
+% -- the fresh-context pass closed the final minimization analytically via
+% the determinant identity det(Sig_{T|S})/det(Sig_e) = (Q+n)/n, which
+% makes the moment program identical to the linear-channel program),
+% Corollary 1 (Kaspi verdict: structurally yes / formula-wise no).
+% ANSWERS Question 1's work-only endpoint for rank-one reads. Does NOT
+% settle Conjectures 1-2 (verifier finding E1): the m=1 (R,L) frontier is
+% a genuinely nontrivial curve -- the L-optimal channel pays strict rate
+% excess (0.040 bits at (0.75, 0.5, 0.3)) -- no single-corner collapse,
+% unlike Paper V's scalar case. Pre-assertion numerics (seed 20260805) +
+% verifier numerics (seed 20260804: 8 fresh instances to 3e-9, 25,500-pt
+% uniqueness sweep). R-IND-5 record: NOVELTY addendum.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.3 --- August 2026}
+\date{Problem statement v0.4 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -302,13 +320,146 @@ $X$-measurable directions --- the encoder-side complement of the
 eraser-side allocation tilt measured in GO-P-2026-058/059.
 \end{remark}
 
-\begin{question}[Refined form of Question~\ref{q:single}]\label{q:refined}
+\begin{question}[Refined form of Question~\ref{q:single} --- settled in
+Section~\ref{sec:refined}]\label{q:refined}
 For $S=\gamma^{\mathsf T}X+U$, is the vector CR function exactly a
 Kaspi-type encoder-side-information object driven by the
 encoder-accessible statistic $\gamma^{\mathsf T}X$ --- reducing to Gray at
 $\tau^2=0$ (Proposition~\ref{prop:marg}) and to Steinberg's scalar formula
-when $\gamma\parallel w$?
+when $\gamma\parallel w$? \emph{Answer
+(Theorem~\ref{thm:pair}--Corollary~\ref{cor:kaspi}): structurally yes ---
+only the pair $(w^{\mathsf T}X,\gamma^{\mathsf T}X)$ matters, in any
+dimension; formula-wise no --- the value is a new closed-form interpolating
+family \eqref{eq:quadratic}, provably not a functional of the $(Y,S)$
+margin.}
 \end{question}
+
+\section{The refined question, settled: pair sufficiency and the cubic
+family}\label{sec:refined}
+
+Normalize $\operatorname{Var}(w^{\mathsf T}X)=1$ (rescaling $D$), write
+$Y=w^{\mathsf T}X$, $V=\gamma^{\mathsf T}X/\sigma_{\gamma}$ with
+$\rho:=\E[YV]$, $|\rho|<1$, and rescale $S$ (invariantly for all mutual
+informations) to $S=V+U$, $U\sim\mathcal N(0,\tau^2)$, $\tau^2>0$, with $X$, $U$, and all channel
+randomness (including any resampling randomness below) \emph{mutually}
+independent --- the joint form is what the $S$-kernel argument uses.
+
+\begin{theorem}[Pair sufficiency]\label{thm:pair}
+In the single-consumer problem
+$L(D)=\min\{I(X;\hY\mid S):\hY-X-S,\ \E(Y-\hY)^2\le D\}$, it is without
+loss of optimality to let the channel depend on $X$ only through
+$T=(Y,V)$, and then $I(X;\hY\mid S)=I(T;\hY\mid S)$. Consequently $L(D)$
+depends on $(\Sigma_x,w,\gamma,\tau^2)$, in any ambient dimension $d$,
+only through $(\rho,\tau^2)$.
+\end{theorem}
+\begin{proof}
+Given an admissible $p(\hat y\mid x)$, draw $\hY'$ from the conditional
+law $p(\hat y\mid T=t)$ using fresh randomness. (a) $(T,\hY')\overset{d}=
+(T,\hY)$, so the distortion (a functional of $(Y,\hY)$) is unchanged.
+(b) $S=V+U$ with $U$ independent of $(X,\hY)$ and of $(X,\hY')$, so in
+both joints $p(s\mid t,\hat y)=p_U(s-v)$: hence
+$(T,\hY',S)\overset{d}=(T,\hY,S)$. (c) Given $T$, $\hY'$ is independent
+of $(X,S)$, so $I(X;\hY'\mid S)=I(T;\hY'\mid S)+I(X;\hY'\mid T,S)
+=I(T;\hY\mid S)\le I(X;\hY\mid S)$, the last step because $T$ is a
+function of $X$. (d) $\hY'-X-S$ holds since $\hY'$ is a function of
+$(X,\text{fresh noise})$ with the noise independent of $(X,U)$. The same
+computation applied to a $T$-channel directly gives
+$I(X;\hY\mid S)=I(T;\hY\mid S)$.
+\end{proof}
+
+\begin{theorem}[The exact single-consumer CR function, rank-one read]
+\label{thm:cubic}
+Write $s=1+\tau^2$. For $0<D<1$,
+\begin{equation}
+L(D)=\tfrac12\log_2 g^\star,\qquad
+g^\star=\frac{(D+s-\rho^2)+\sqrt{(D+s-\rho^2)^2-4Ds(1-\rho^2)}}{2Ds},
+\label{eq:quadratic}
+\end{equation}
+the larger root of $P(g)=Dsg^2-(D+s-\rho^2)g+(1-\rho^2)$; since
+$P(1)=(D-1)\tau^2<0$, exactly one root exceeds $1$, so $g^\star$ is
+well defined and unique. The optimum is attained by the jointly Gaussian
+channel $\hY=aY+bV+N$, $a=\dfrac{g^\star-1}{g^\star}$,
+$b=\dfrac{(g^\star-1)\rho}{g^\star k}$, $k=g^\star(1{+}\tau^2)-1$,
+$N\sim\mathcal N\bigl(0,\;Q/(g^\star-1)\bigr)$,
+$Q=a^2+b^2+2ab\rho-(a\rho+b)^2/(1{+}\tau^2)$. Anchors, algebraically:
+$P$ factors as $(Dg-1)(sg-1)$ at $\rho=0$ (classical, $g^\star=1/D$); as
+$(g-1)(Dg-(1-\rho^2))$ at $\tau^2\to0$ (Gray, matching
+Proposition~\ref{prop:marg}, including the achieving channel); and gives
+$g^\star=(D+\tau^2)/(D(1{+}\tau^2))$ at $\rho^2\to1$ (Steinberg's corner
+at $\rho_{YS}^2=1/(1{+}\tau^2)$).
+\end{theorem}
+\begin{proof}[Proof (complete; converse closed by the verification pass)]
+\emph{Achievability.} For the stated channel,
+$I(T;\hY\mid S)=\tfrac12\log_2\bigl(\operatorname{Var}(\hY\mid S)/
+\operatorname{Var}N\bigr)$ (jointly Gaussian; $S\perp N$ given $T$), and
+$P(g^\star)=0$ is the statement that the distortion equals $D$ while
+$\operatorname{Var}(\hY\mid S)/\operatorname{Var}N=g^\star$.
+
+\emph{Converse.} By Theorem~\ref{thm:pair} restrict to $T$-channels. For
+any admissible joint, with $c=\E[Y\hY]$, $q=\E[V\hY]$,
+$v=\operatorname{Var}\hY$ (WLOG $\E\hY=0$): mutual independence of
+$(X,U,\text{channel noise})$ forces the moment identity
+$\E[S\hY]=\E[V\hY]=q$ (Gaussian Markovity at the second-moment level);
+the distortion constraint reads $1-2c+v\le D$; and
+$L\ge B(c,q,v):=\tfrac12\log_2
+\bigl(\det\Sigma_{T\mid S}/\det\Sigma_e(c,q,v)\bigr)$, with $\Sigma_e$
+the error covariance of the best \emph{linear} estimate of $T$ from
+$(\hY,S)$ --- valid for arbitrary reproduction alphabets by Gaussian
+entropy maximization. The minimization of $B$ closes exactly: in the
+variables $(a,b)=\Sigma_T^{-1}(c,q)^{\mathsf T}$,
+$n=v-(a^2+b^2+2ab\rho)$, the determinant identity
+\[
+\frac{\det\Sigma_{T\mid S}}{\det\Sigma_e}
+=\frac{\operatorname{Var}(a Y+bV\mid S)+n}{n}
+\]
+holds (the $S$-column of the moment matrix equals the $V$-column plus
+$\tau^2 e_S$), so the moment program \emph{is} the linear-channel program;
+$B\to\infty$ on the PSD boundary $n\to0$ and at the distortion boundary,
+the first-order system is linear in $(a,b)$ at fixed $g$ with the unique
+solution above, and $P(1)<0$ pins the unique stationary $g^\star>1$.
+Hence $\min B=\tfrac12\log_2 g^\star$, matched by achievability.
+[Derivation completed analytically by the fresh-context verification
+pass; record and instance-level numerics (agreement to $3\times10^{-9}$
+bits at eight fresh instances; 25{,}500-point root-uniqueness sweep) in
+the NOVELTY addendum.]
+\end{proof}
+
+\begin{remark}[Scope --- what is and is not settled]
+Theorem~\ref{thm:cubic} answers Question~\ref{q:single}'s \emph{work-only
+endpoint} for rank-one reads in full generality of
+$(d,\Sigma_x,\gamma,\tau^2)$: by Theorem~\ref{thm:pair} the ambient
+problem is exhausted by $(\rho,\tau^2)$, and Gaussian channels suffice
+\emph{at that endpoint}. It does \emph{not} settle
+Conjectures~\ref{conj:gauss}--\ref{conj:frontier}: the full $(R,L)$
+frontier for $m=1$ is a genuinely nontrivial curve --- the $L$-optimal
+channel pays strict excess rate over $R_{\min}=\tfrac12\log_2(1/D)$
+(e.g.\ $0.040$ bits at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$; verification
+pass), so \emph{no single channel attains both corners}. This is itself a
+finding: unlike Paper V's scalar corner, the rank-one-read problem with
+non-aligned side information has a real rate--work tradeoff already at
+$m=1$. The moment method visibly extends to the weighted objective
+$\alpha R+(1-\alpha)L$ (both max-entropy bounds hold with the same three
+moments) --- tracing that frontier is the named next step, before the
+$m\ge2$ case, for which the pair-sufficiency argument generalizes
+verbatim (``$(P$-read components, $\gamma^{\mathsf T}X)$ suffice''),
+collapsing two rank-one consumers to at most three coordinates.
+\end{remark}
+
+\begin{corollary}[Answer to the refined question]\label{cor:kaspi}
+(i) \emph{Structurally yes}: the value is driven entirely by the
+encoder-accessible statistic $\gamma^{\mathsf T}X$ (pair sufficiency),
+reducing to Gray at $\tau^2=0$ and to Steinberg at $\gamma\parallel w$.
+(ii) \emph{Formula-wise no}: $L$ is \emph{not} a functional of the joint
+law of $(Y,S)$ --- the instances $(\rho^2,\tau^2)=(\tfrac12,0)$ and
+$(\tfrac34,\tfrac12)$ have identical $(Y,S)$ margins
+($\rho_{YS}^2=\tfrac12$) yet $L=1.1610$ vs $1.2105$ bits at $D=0.1$
+($0.3685$ vs $0.5228$ at $D=0.3$), both strictly below the
+Steinberg value of the margin ($1.2297$; $0.5577$). In particular the
+vector CR function is not Steinberg's formula composed with any modified
+pair, nor any known scalar object: it is the new interpolating family
+\eqref{eq:quadratic}, monotone (observed) in the encoder-access split
+$\tau^2$ at fixed margin.
+\end{corollary}
 
 \begin{question}[Operational face]\label{q:oper}
 Do decode thresholds track the exact frontier (not just the floors) --- in
