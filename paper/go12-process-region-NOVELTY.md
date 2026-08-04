@@ -243,6 +243,25 @@ page-level treatment of **Leiner–Gray 1974** (+ Leiner's Stanford
 dissertation, + the Wyner 1976–78 Gaussian-SI line) — the natural
 next places a spectral conditional formula could first appear.
 
+**Leiner–Gray/Wyner check RESOLVED (2026-08-05): claim SUSTAINED.**
+Leiner–Gray 1974: DOES NOT CONTAIN (abstract page-verified via
+Wayback/Xplore + 9 citers' contexts — abstract-ergodic existence/coding
+theorem + inequalities; no citer ever attributes a Gaussian evaluation
+to it). Wyner–Ziv 1976: finite-alphabet i.i.d. (abstract
+page-verified). Wyner 1978: Gaussian case is SCALAR memoryless
+(abstract page-verified + the 2024 Entropy structural-properties paper,
+read in full via PMC, which derives the multivariate I.I.D. conditional
+water-filling as a NEW 2020–2024 contribution and cites no
+stationary-process spectral antecedent — the decisive structural
+corroboration). Gray 1972 TR re-verified full-text on the archive.org
+DTIC mirror (AD-753260): zero occurrences of spectr/Toeplitz/water.
+Named residual checks before print: page-read the 4-pp LG74 body via
+IEEE-subscribed library; Leiner dissertation via ProQuest/Stanford
+(never entered DTIC); Gray-73 body; a post-1990 flank sweep
+(Oohama/Zamir/WZ-video surveys). Nothing found contradicts the claim;
+the spectral conditional RDF for jointly stationary Gaussian pairs
+remains unwritten in everything reachable.
+
 ## Standing after the four sweeps
 
 - Fact 1: ours as a packaged finite-n lemma; ingredients + asymptotic
