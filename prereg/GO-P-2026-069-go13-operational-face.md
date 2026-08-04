@@ -68,8 +68,24 @@ controls: [equal-q analytic-equality (V2), paired flat contrast
   never a bare sign gate (V4), shuffled-context null (V5),
   exact-binomial uniform cells (V6), pre-instrument design freeze at
   commit b1984fb]
-amendments: []
-hash: sha256:e70170ba2081c05a94587265866f723919b93de0a738c3cf2476c09a10679303
+amendments:
+  - date: 2026-08-05
+    what: "Governed run (seed 20260927) FAILED V6 only -- one
+      uniform-control cell of 216 (rising q=0.65, consumer-B curve,
+      rb=0.95: pooled control error 0.805 vs chance 0.875, control
+      luckier than chance at z~4.2). Physics gates 5/5 PASS
+      (dCT_rise +0.084, universality 0.009/0.005, flat -0.002,
+      shuffled 0.011). Per this prereg's falsification clause V6 is
+      an instrument gate: logged instrumentation miss, dated-
+      amendment rerun ONLY -- all bars held unchanged, no code
+      change; as-executed artifact preserved at
+      results/GO13-operational-face-asexecuted.json. Rerun governed
+      seed 20260928. Known-fragility note for FUTURE registrations
+      (not this one): 216 cells at per-cell alpha=5e-4 carries
+      family-wise false-positive mass ~0.1; successors should
+      family-correct. Prior hash:
+      e70170ba2081c05a94587265866f723919b93de0a738c3cf2476c09a10679303"
+hash: sha256:4c7ee404e441ed8bc4191a0227c0943cff9e9edece257cf938b1421c5425330c
 ```
 
 ## Falsification
