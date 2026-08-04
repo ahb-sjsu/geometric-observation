@@ -50,6 +50,9 @@ REPRODUCIBLE = [
     # GO-12 opening control: Delta-invariance + slice tax (GO-P-2026-065),
     # governed seed 20260915, ~2 s.
     ("go12_delta_invariance.py",    "GO12DI-JSON","GO12-delta-invariance.json",    "GO12DI_supported"),
+    # GO-12 Thm 1: conditional-variance reduction (GO-P-2026-066),
+    # governed seed 20260918, ~3 s.
+    ("go12_prefix_family.py",       "GO12PF-JSON","GO12-prefix-family.json",       "GO12PF_supported"),
 ]
 
 failures: list[str] = []

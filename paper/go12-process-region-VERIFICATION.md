@@ -52,9 +52,37 @@ encoder-access ordering; both pilots disclosed in GO-P-2026-065
 dichotomy is *stronger* than the draft: access width matters at the
 eraser (path vs slice) AND at the encoder (context epoch vs time-t).
 
-## Governed run
+## Governed run (065)
 
 GO-P-2026-065, seed 20260915, ALL PASS 4/4 (artifact
 `results/GO12-delta-invariance.json`, CI-enforced). Facts 1–2 citable
-at `[predicted]`-grade. Open: the causal-path eraser (Conjecture 2′),
-the spectral program (Conjecture 1), novelty sweeps.
+at `[predicted]`-grade.
+
+## Pass 2 — Theorem 1 (conditional-variance reduction), pre-seal, 2026-08-05
+
+Fresh-context R-IND-5 verifier, independent numerics. **VERDICT:
+PASS** — all four parts confirmed: the reduction at machine precision
+(16 combos, 2 instances × 8 access classes incl. asymmetric {−1,+3},
+gapped {−5,+2,+7}, far slice; max residual 1.7e-13); the sufficiency
+step proven channel-agnostic ((T,Ŷ) ⊥⊥ G | V̂ for every randomized
+record, so the min transfers term-by-term); Kalman fixed-lag and
+Wiener closed forms to 9e-16; the verifier DERIVED the exact
+prefix–path gap C^{2Δ}(P_f − q_∞) — strict at every finite Δ, never
+zero, geometrically below float resolution past
+Δ ≈ log ε/log C². Five sharpenings folded into v0.4: (1) σ-algebra
+scope corrected (observation subsets, or any G jointly Gaussian with V
+and independent of the noises — G correlated with N_t breaks
+sufficiency); (2) q_G < 1 with the continuous extension ½log₂(1/D) at
+empty access; (3) active regime D ∈ (0,1) stated; (4) exact gap
+formula + float-resolution flag; (5) a ∈ (0,1) load-bearing (at a=0
+the classes coincide/degenerate). Provenance qualification on record:
+record-class optimality is IMPORTED from the static theorem's converse
+via the channel-agnostic reduction, not re-proved.
+
+## Governed run (066)
+
+GO-P-2026-066, seed 20260918, ALL PASS 4/4 (artifact
+`results/GO12-prefix-family.json`, CI-enforced). Theorem 1 citable at
+`[predicted]`-grade. Open: the process-rate causal object
+(Conjecture 2′ v0.4), the spectral program (Conjecture 1, pending the
+Gray-1973 and Pinsker library pulls).
