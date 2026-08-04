@@ -83,6 +83,41 @@ Question 1's first decidable step recorded).
 - The Zaidi–Estella Aguerri–Shamai IB survey was verified at abstract level,
   not by reading all 51 pages.
 
+## VERIFICATION ADDENDUM — Proposition 1 (marginalization dichotomy), 2026-08-04
+
+The dichotomy recorded as Question 1's first decidable step in v0.2 was
+**settled the same day** (v0.3, Proposition 1): marginalization is strictly
+suboptimal. Canonical instance X ~ N(0,I₂), Y = X₁, S = X₁+X₂:
+L_marg(D) = ½log₂((1+D)/(2D)) (scalar corner) vs
+L_vec(D) = ½log₂⁺(1/(2D)) = Gray's R_{Y|S}(D) exactly (converse via Gray;
+achievability by Ŷ = (1−D)X₁ + DX₂ + N, and Ŷ = S/2 for D ≥ ½). Strict gap
+½log₂(1+D) at every D ∈ (0,½]. Mechanism: an X-measurable S is implicitly
+known to the encoder, so the CR Markov constraint costs nothing beyond
+conditional RD — "writing the record in ink the eraser can read."
+
+**Pre-assertion numerics (author-side, logged):** closed forms reproduced by
+40-start SLSQP over linear channels (2e-4) and unrestricted discretized
+conditional-BA (grid error; 0.372 vs 0.368 at D=0.3, 0.005 vs 0 at D=0.5).
+
+**R-IND-5 fresh-context pass: CONFIRMED, 0 errors, 2 wording sharpenings**
+(verifier seed 91724; own parametrizations): (a) 2M-sample MC of the named
+channel at four D values; (b) exhaustive 1251×1001 linear grid — argmin
+exactly (1−D, D); (c) 35k-parameter Adam over unrestricted p(ŷ|y,s) at four
+multipliers — never below the Gray floor; (d) marginalized-class BA never
+below the corner. Sharpenings folded into v0.3: (iii)'s "widening" → "equal
+to the full marginalized value" (the absolute gap decreases on [½,1)); and
+Conjecture 3's "when S is informative" corrected to "when S has an
+X-independent component (τ²>0)" — forced by Prop 1 itself, which exhibits a
+maximally informative X-measurable S attaining the single-consumer
+conditional floor at every D ≤ ½. Verifier also confirmed no contradiction
+with the tax note's floors (different instance: two-consumer product floor
+vs single-consumer, non-X-measurable vs X-measurable S).
+
+**New operational prediction recorded (Remark):** optimal joint records
+should tilt *toward* the reset context's X-measurable directions — the
+encoder-side complement of the eraser-side allocation tilt measured in
+GO-P-2026-058/059. A future GO-11 operational face can gate on this.
+
 ## Query coverage
 
 ~60 distinct WebSearch queries + ~20 page-level fetches across four sweeps

@@ -2,6 +2,7 @@
 \usepackage{amsmath,amssymb,amsthm,fullpage}
 \newtheorem{fact}{Fact}\newtheorem{conjecture}{Conjecture}
 \newtheorem{question}{Question}\newtheorem{remark}{Remark}
+\newtheorem{proposition}{Proposition}
 \newcommand{\E}{\mathbb{E}}\newcommand{\tr}{\operatorname{tr}}
 \newcommand{\Cov}{\operatorname{Cov}}\newcommand{\hX}{\widehat X}
 \newcommand{\hY}{\widehat Y}
@@ -19,11 +20,19 @@
 % 2024/25; Gunlu et al. 2023 for the conditional-leakage coordinate under
 % degradedness); conjectures reframed as expected-by-analogy. Per PROTOCOL
 % 5.1 any eventual harness registration carries power/pilot fields.
+% v0.3 (2026-08-04): the marginalization dichotomy of Question 1 is SETTLED
+% (Prop. 1, Sec. 6): strictly vector -- marginalized channels are
+% suboptimal at every D in the canonical instance, with exact closed forms
+% on both sides (converse via Gray; achievability linear) and the
+% encoder-knows-S mechanism identified. Numerics logged pre-assertion
+% (linear 40-start SLSQP to 2e-4; unrestricted conditional-BA to grid
+% error). R-IND-5 fresh-context pass on Prop. 1: see the VERIFICATION
+% addendum in go11-conditional-region-NOVELTY.md.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.2 --- August 2026}
+\date{Problem statement v0.3 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -181,9 +190,13 @@ The work floor $\tfrac12\log(\kappa_S/(D_AD_B))$ is attained iff a
 semidefinite condition of the form
 $\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma_{X\mid S}B$ holds
 \emph{and} the optimal channel decouples from $S$'s residual --- expected
-to fail at every $D>0$ when $S$ is informative (matching the strictness
-remark of \cite{bondtaxnote} and the scalar corner's $D>0$ gap), with
-equality exactly in the $D\to0$ limit.
+to fail at every $D>0$ when $S$ has an $X$-independent component
+($\tau^2>0$; matching the strictness remark of \cite{bondtaxnote} and the
+scalar corner's $D>0$ gap), with equality exactly in the $D\to0$ limit.
+The qualifier is forced by Proposition~\ref{prop:marg}: an $X$-measurable
+$S$ is maximally informative yet the single-consumer conditional floor is
+attained there at every $D\le\tfrac12$ --- the strictness belongs to the
+encoder's ignorance of $S$'s residual, not to informativeness.
 \end{conjecture}
 
 \begin{question}[Single-consumer vector case; endpoint = a vector-Gaussian
@@ -197,15 +210,104 @@ formulation} --- not even unweighted distortion, not even the mode-aligned
 case solved in Paper V. This is Paper V's declared ``general Gaussian
 coupling'' open item, specialized to rank-one reads.
 
-\emph{The first decidable step (rank-one $P=ww^{\mathsf T}$):} marginalize
-the channel onto $w^{\mathsf T}X$ and compare with Steinberg's scalar
-formula driven by the scalar statistic $\E[w^{\mathsf T}X\mid S]$.
-Marginalization changes the $\hX$--$S$ coupling ($\hX$ may correlate with
-$S$ through all of $X$, not only through the read), so the comparison is
-not vacuous: either the marginalized channel is always optimal --- and the
-rank-one case collapses to the scalar corner --- or a strict improvement
-exists, exhibiting the first genuinely vector obstruction. Settle this
-before anything else.
+\emph{The first decidable step (rank-one $P=ww^{\mathsf T}$) is now
+settled} --- see Proposition~\ref{prop:marg}: marginalization is strictly
+suboptimal, the rank-one case does \emph{not} collapse to the scalar
+corner, and the mechanism (the encoder's implicit knowledge of the
+$X$-measurable part of $S$) reshapes what the general answer must look
+like.
+\end{question}
+
+\section{The marginalization dichotomy, settled}\label{sec:marg}
+
+Throughout this section $m=1$: one rank-one read $Y=w^{\mathsf T}X$,
+distortion $\E(Y-\hY)^2\le D$. Two reductions first. \emph{(WLOG scalar
+reproduction.)} Replacing $\hX$ by $\hY:=w^{\mathsf T}\hX$ leaves the
+distortion unchanged and can only decrease $I(X;\cdot\mid S)$ (conditional
+data processing), and $\hY-X-S$ persists; so reproductions are scalar.
+\emph{(Marginalized class $=$ scalar corner.)} If the channel depends on
+$X$ only through $Y$ (i.e., $\hY-Y-(X,S)$), then given $(Y,S)$, $\hY$ is
+independent of $X$, so $I(X;\hY\mid S)=I(Y;\hY\mid S)$, and the class
+optimum is exactly the scalar corner value of \cite{bondlandauerV} for the
+pair $(Y,S)$ --- the corner's converse applies to every $p(\hat y\mid y)$,
+discrete or not.
+
+\begin{proposition}[Marginalization is strictly suboptimal]\label{prop:marg}
+Let $d=2$, $X\sim\mathcal N(0,I_2)$, $Y=X_1$, and $S=X_1+X_2$ (so
+$\rho^2_{YS}=\tfrac12$ and $S$ is $X$-measurable). For $0<D<1$:
+\begin{enumerate}
+\item[(i)] the marginalized-class optimum is the scalar corner
+$L_{\mathrm{marg}}(D)=\tfrac12\log_2\!\frac{1+D}{2D}$;
+\item[(ii)] the vector problem has the exact value
+\[
+L_{\mathrm{vec}}(D)\;=\;\tfrac12\log_2^{+}\!\frac{1}{2D}
+\;=\;R_{Y\mid S}(D),
+\]
+Gray's conditional rate--distortion function of $(Y,S)$
+($\operatorname{Var}(Y\mid S)=\tfrac12$), attained by the linear channel
+$\hY=(1-D)X_1+DX_2+N$, $N\sim\mathcal N(0,D(1-2D))$, for $D\le\tfrac12$,
+and by $\hY=S/2$ (zero conditional content) for $D\ge\tfrac12$;
+\item[(iii)] hence the strict gap
+$L_{\mathrm{marg}}(D)-L_{\mathrm{vec}}(D)=\tfrac12\log_2(1+D)>0$ on
+$(0,\tfrac12]$, and equal to the full marginalized value on
+$[\tfrac12,1)$ (where $L_{\mathrm{vec}}=0$; the absolute gap is decreasing
+there, but it is all of $L_{\mathrm{marg}}$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) is the reduction above with Paper V's scalar-corner formula at
+$\sigma^2=1$, $\rho^2=\tfrac12$.
+
+(ii) \emph{Converse.} For any admissible $\hY$ (Markov $\hY-X-S$),
+$I(X;\hY\mid S)\ge I(Y;\hY\mid S)$, and the induced conditional channel
+$p(\hat y\mid y,s)$ is feasible for Gray's conditional problem at the same
+distortion, so $I(Y;\hY\mid S)\ge R_{Y\mid S}(D)=\tfrac12\log_2^{+}
+\bigl(\operatorname{Var}(Y\mid S)/D\bigr)=\tfrac12\log_2^{+}(1/(2D))$.
+\emph{Achievability.} For $D\le\tfrac12$ take
+$\hY=(1-D)X_1+DX_2+N$: distortion $D^2+D^2+D(1-2D)=D$;
+$\operatorname{Var}(\hY)=1-D$, $\Cov(\hY,S)=1$,
+$\operatorname{Var}(\hY\mid S)=1-D-\tfrac12=\tfrac12-D$, so
+$I(X;\hY\mid S)=\tfrac12\log_2\frac{(1-2D)/2}{D(1-2D)}
+=\tfrac12\log_2\frac1{2D}$. For $D\ge\tfrac12$, $\hY=S/2$ is a
+deterministic function of $X$, has distortion
+$\E\bigl((X_1-X_2)/2\bigr)^2=\tfrac12\le D$, and is constant given $S$, so
+$I(X;\hY\mid S)=0$.
+
+(iii) Subtract. Numerical falsification (pre-assertion, logged): the
+closed forms reproduce under direct minimization over all linear channels
+(40-start SLSQP, five $D$ values, agreement $2\times10^{-4}$), and a
+discretized conditional Blahut--Arimoto optimizer over \emph{unrestricted}
+channels matches $L_{\mathrm{vec}}$ within grid error
+($0.372$ vs $0.368$ at $D=0.3$; $0.005$ vs $0$ at $D=0.5$) while the
+$Y$-only optimizer matches the corner ($0.560$ vs $0.558$; $0.293$ vs
+$0.293$).
+\end{proof}
+
+\begin{remark}[The mechanism: writing in ink the eraser can read]
+\label{rem:mechanism}
+When $S$ is $X$-measurable, the encoder implicitly \emph{knows} $S$, and
+the common-reconstruction Markov constraint costs nothing beyond Gray's
+conditional problem: the optimal channel deliberately correlates the
+record with $S$ --- at $D\ge\tfrac12$ the record \emph{is} a function of
+the reset context, erasure-free by construction. Steinberg's scalar
+strictness (CR $>$ conditional RD at $D>0$) is thus not intrinsic to the
+CR constraint; it is the price of an encoder that cannot see $S$'s
+non-read directions. General jointly Gaussian $S=\gamma^{\mathsf T}X+U$
+($\operatorname{Var}U=\tau^2>0$) interpolates: the encoder commands the
+$X$-part $\gamma^{\mathsf T}X$ but not $U$, suggesting the refined
+question below. Operationally this is a new prediction for any GO-11
+face: optimal joint records should tilt \emph{toward} the reset context's
+$X$-measurable directions --- the encoder-side complement of the
+eraser-side allocation tilt measured in GO-P-2026-058/059.
+\end{remark}
+
+\begin{question}[Refined form of Question~\ref{q:single}]\label{q:refined}
+For $S=\gamma^{\mathsf T}X+U$, is the vector CR function exactly a
+Kaspi-type encoder-side-information object driven by the
+encoder-accessible statistic $\gamma^{\mathsf T}X$ --- reducing to Gray at
+$\tau^2=0$ (Proposition~\ref{prop:marg}) and to Steinberg's scalar formula
+when $\gamma\parallel w$?
 \end{question}
 
 \begin{question}[Operational face]\label{q:oper}
