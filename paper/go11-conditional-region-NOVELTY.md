@@ -254,6 +254,48 @@ sharpenings (both folded into v0.7):**
   channels: worst domination margin +0.073 ≥ 0; determinant identities to
   1e-10; rem:c3's 0.0293 gap reproduced independently.
 
+## VERIFICATION ADDENDUM 5 — Theorem 6 (work-floor exactness iff), 2026-08-05
+
+**Conjecture 3 SETTLED WITH A CORRECTION in v0.8 (Theorem 6):** the work
+floor ½log₂(det Σ_{Y|S}/det Δ) is attained iff (a) τ²=0 and Δ ⪯ Σ_{Y|V},
+or (b) β=0 and Δ ⪯ Σ_Y; strict in every other case, with the explicit
+deficit sandwich 0 < L_min − floor ≤ ½log₂[det(I−Σ_{Y|S}⁻¹Δ)/
+det(I−Σ_{Y|V}⁻¹Δ)] → 0 as Δ→0 on the misaligned branch. **The correction:**
+the conjectured condition used Σ_{Y|S}; the attainable branch requires the
+encoder-accessible Σ_{Y|V} — the same S-vs-V substitution Prop 1/Thm 2
+forced everywhere. Necessity mechanism: floor tightness pins the error
+moments (Cov Z = Δ, Z ⊥ (Ŷ,S) ⟹ Z ⊥ V), and the no-V-leakage step
+evaluates to [Δ 0]M⁻¹[β; Var V] = 0 ⟺ β=0 or τ²=0. m=1 corollary: on the
+active-floor regime D ≤ Var(Y|V), attained iff ρτ=0 (P(g_f) = −ρ²τ²/s).
+
+**Pre-assertion numerics (author, seed 20260809):** iff verified on
+inside/outside/boundary probes in both branches (incl. a barely-inside
+instance det margin 0.002 — attained, as predicted); sandwich holds at 8
+strict points; inconsistency functional zero exactly on the (a)/(b)
+branches (|q| = 4.6e-2 vs ≤2e-17).
+
+**R-IND-5 pass (verifier seed 271828): CONFIRMED, 0 errors, 2 sharpenings
+(folded into v0.8):**
+- Key step re-derived exactly (partial covariance = [Δ 0]M⁻¹[β;1] to
+  1e-12; no accidental cancellation possible — Δ diagonal ≻ 0 acts
+  componentwise; M ≻ 0 inside scope).
+- S1: the m=1 corollary glossed the clamp sliver (τ=0, D > 1−ρ²: g_f
+  becomes the SMALLER root; floor negative, L=0) — fixed by scoping to the
+  active-floor regime D ≤ Var(Y|V), the m=1 shadow of condition (a).
+- S2: "Otherwise (τ²>0 and β≠0)" mislabeled the complement (which also
+  contains the SDC-violating cases, both verified strict: gaps 0.0059 /
+  0.0019) — restated; plus two rigor one-liners folded (boundary 0/0 via
+  Δ_t↑Δ limit; strictness needs L_min attained — compactness + LSC).
+- Verifier numerics: 11 fresh configurations incl. exact-boundary
+  attainment, small-τ² continuity (gap 0.000471 vs sandwich 0.000473 —
+  nearly tight!), large-β near-singular Σ_{Y|V}; doc's 0.0293 gap
+  reproduced independently.
+
+**Standing after v0.8**: Conjectures 1 (m≤2 rank-one), 2 (withdrawn/
+replaced), and 3 (Theorem 6) are all resolved. Remaining open in the
+manuscript: interior-α uniqueness lemma; higher-rank reads; vector S;
+operational faces.
+
 **Standing after v0.7**: GO-11's original problem is now settled at every
 level the tools reach — one-constraint region (Paper V, attributed), m=1
 fully solved (Thms 2–3, Cor 2), m=2 exactly characterized as a

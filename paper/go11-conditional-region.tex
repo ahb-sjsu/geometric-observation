@@ -69,11 +69,22 @@
 % D>0, gap -> 0 as D -> 0 (numerically); iff still open. Pre-assertion
 % numerics seed 20260807 (Xiao-Luo anchor to 1e-5; floors; coarse BA).
 % R-IND-5 pass on Sec. 8: NOVELTY addendum 4.
+% v0.8 (2026-08-05): CONJECTURE 3 SETTLED WITH A CORRECTION (Theorem 6):
+% the work floor is attained iff (a) tau^2 = 0 and diag(D) <= Sigma_{Y|V},
+% or (b) beta = 0 and diag(D) <= Sigma_Y; otherwise strict at every D > 0
+% with an explicit deficit sandwich -> 0 as D -> 0. The conjectured
+% condition used Sigma_{Y|S}; the truth is the ENCODER-ACCESSIBLE
+% Sigma_{Y|V} -- the same S-vs-V substitution as Prop 1 / Thm 2. m=1
+% corollary: floor attained iff rho*tau = 0 (P(g_f) = -rho^2 tau^2/s).
+% Pre-assertion numerics seed 20260809 (iff verified on inside/outside/
+% boundary probes; sandwich holds at 8 strict points; inconsistency
+% functional zero exactly on the (a)/(b) branches). R-IND-5 pass on
+% Theorem 6: NOVELTY addendum 5.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.7 --- August 2026}
+\date{Problem statement v0.8 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -767,18 +778,108 @@ orthogonality ($\rho_{AB}=\rho_{BV}=0$) --- it is exactly the coupling
 that Proposition~\ref{prop:marg} shows can fail in general.
 \end{proof}
 
-\begin{remark}[Conjecture~\ref{conj:tight}, numerically]\label{rem:c3}
-At the misaligned test instance
+\begin{theorem}[Work-floor exactness: Conjecture~\ref{conj:tight} settled,
+with a correction]\label{thm:c3}
+Write $\Sigma_Y$ for the read-pair covariance, $\beta=\Cov(Y,V)\in\mathbb
+R^2$, $\Sigma_{Y\mid V}=\Sigma_Y-\beta\beta^{\mathsf T}$,
+$\Sigma_{Y\mid S}=\Sigma_Y-\beta\beta^{\mathsf T}/(1{+}\tau^2)$,
+$\Delta=\mathrm{diag}(D_A,D_B)\succ0$. The work floor
+$\tfrac12\log_2\bigl(\det\Sigma_{Y\mid S}/\det\Delta\bigr)$ is attained by
+the $m{=}2$ program iff
+\[
+\text{(a) } \tau^2=0 \text{ and } \Delta\preceq\Sigma_{Y\mid V},
+\qquad\text{or}\qquad
+\text{(b) } \beta=0 \text{ and } \Delta\preceq\Sigma_Y .
+\]
+In every other case the floor is strict --- both on the misaligned branch
+($\tau^2>0$ and $\beta\ne0$, at every positive $(D_A,D_B)$) and outside
+the semidefinite conditions of (a)/(b) --- with, on the misaligned branch
+for $\Delta\prec\Sigma_{Y\mid V}$, the deficit sandwich
+\[
+0\;<\;L_{\min}-\mathrm{floor}\;\le\;
+\tfrac12\log_2\frac{\det\bigl(I-\Sigma_{Y\mid S}^{-1}\Delta\bigr)}
+{\det\bigl(I-\Sigma_{Y\mid V}^{-1}\Delta\bigr)}
+\;=\;\tfrac12\,\tr\bigl[(\Sigma_{Y\mid V}^{-1}-\Sigma_{Y\mid S}^{-1})
+\Delta\bigr]\log_2 e+O(\|\Delta\|^2)\;\longrightarrow\;0
+\ \ (\Delta\to0).
+\]
+\emph{The correction:} Conjecture~\ref{conj:tight} guessed the condition
+$\Delta\preceq\Sigma_{Y\mid S}$; the attainable branch in fact requires
+the \emph{encoder-accessible} conditional $\Sigma_{Y\mid V}$ --- the same
+$S$-vs-$V$ substitution that Proposition~\ref{prop:marg} and
+Theorem~\ref{thm:cubic} forced everywhere else in this program.
+\end{theorem}
+\begin{proof}
+\emph{Necessity.} Suppose the floor is attained. Equality in the floor's
+chain forces, at the moment level (max-entropy tightness makes the joint
+WLOG Gaussian): $E_S:=\E[\Cov(Y\mid\hat{\mathbf Y},S)]=\Delta$ with
+per-consumer equality, so $Z:=Y-\hat{\mathbf Y}$ has $\Cov Z=\Delta$,
+$\Cov(Z,\hat{\mathbf Y})=0$, $\Cov(Z,S)=0$; the latter with the Markov
+moment identity gives $\Cov(Z,V)=0$, hence
+$\Cov(\hat{\mathbf Y},V)=\beta$. Since $E_S\preceq\Sigma_{Y\mid S}$ always,
+$\Delta\preceq\Sigma_{Y\mid S}$ is necessary; at $\tau^2=0$ this is
+$\Delta\preceq\Sigma_{Y\mid V}$. Tightness of
+$I(T;\hat{\mathbf Y}\mid S)=I(Y;\hat{\mathbf Y}\mid S)$ additionally
+requires $\Cov(V,\hat{\mathbf Y}\mid Y,S)=0$; with the pinned moments this
+evaluates to
+$[\Delta\ \ 0]\,M^{-1}\bigl[\beta;\ \Cov(S,V)\bigr]=0$, $M=\Cov(Y,S)$,
+which (for $\Delta\succ0$) holds iff $\beta=0$ or
+$\Cov(S,V)=\operatorname{Var}S$, i.e.\ $\tau^2=0$. \emph{Sufficiency (a).}
+At $\tau^2=0$ take $Z\sim\mathcal N(0,\Delta)$ jointly Gaussian with
+$\Cov(Z,Y)=\Delta$, $\Cov(Z,V)=0$ --- existent iff
+$\Delta-\Delta\Sigma_{Y\mid V}^{-1}\Delta\succeq0
+\Leftrightarrow\Delta\preceq\Sigma_{Y\mid V}$ (Schur) --- and set
+$\hat{\mathbf Y}=Y-Z$: then $\Cov(\hat{\mathbf Y}\mid S)
+=\Sigma_{Y\mid S}-\Delta$ and
+$\Cov(\hat{\mathbf Y}\mid T,S)=\Delta-\Delta\Sigma_{Y\mid V}^{-1}\Delta$,
+and at $\tau^2=0$ ($\Sigma_{Y\mid S}=\Sigma_{Y\mid V}=:\Sigma_c$)
+\[
+L=\tfrac12\log_2\frac{\det(\Sigma_c-\Delta)}
+{\det\Delta\,\det(I-\Sigma_c^{-1}\Delta)}
+=\tfrac12\log_2\frac{\det\Sigma_c}{\det\Delta}=\mathrm{floor}.
+\]
+\emph{Sufficiency (b).} At $\beta=0$, $\Sigma_{Y\mid S}=\Sigma_Y$ and a
+plane-only channel has $\hat{\mathbf Y}\perp S$, so $L=I(Y;\hat{\mathbf
+Y})$, attained at the floor iff $\Delta\preceq\Sigma_Y$ (the rate-side
+exactness of \cite{bondtaxnote}); necessity of $\Delta\preceq\Sigma_Y$ is
+the $E_S\preceq\Sigma_{Y\mid S}=\Sigma_Y$ bound. \emph{Sandwich.} The same
+$Z$-construction at $\tau^2>0$ is admissible whenever
+$\Delta\prec\Sigma_{Y\mid V}$ and yields
+$L\le\tfrac12\log_2[\det(\Sigma_{Y\mid S}-\Delta)/\det(\Delta-
+\Delta\Sigma_{Y\mid V}^{-1}\Delta)]=\mathrm{floor}
++\tfrac12\log_2[\det(I-\Sigma_{Y\mid S}^{-1}\Delta)/\det(I-
+\Sigma_{Y\mid V}^{-1}\Delta)]$; the ratio is $\ge1$ because
+$\Sigma_{Y\mid S}\succeq\Sigma_{Y\mid V}$ (congruence by $\Delta^{1/2}$
+keeps both factors in the PSD order where $\det$ is monotone), and $\to1$
+as $\Delta\to0$. Strictness ($>0$) is the necessity direction, using that
+$L_{\min}$ is \emph{attained} (compact feasible $(A,\Sigma_N)$ set, lower
+semicontinuity); at the non-strict boundary of
+$\Delta\preceq\Sigma_{Y\mid V}$ in case (a), where the displayed ratio is
+$0/0$, attainment follows by $\Delta_t\uparrow\Delta$ feasibility and
+floor continuity. \emph{(m=1 corollary.)} For one consumer, on the
+active-floor regime $D\le\operatorname{Var}(Y\mid V)$, the floor
+$\tfrac12\log_2(\operatorname{Var}(Y\mid S)/D)$ is attained iff
+$\rho\tau=0$: substituting $g_f=(s-\rho^2)/(Ds)$ into
+Theorem~\ref{thm:cubic}'s quadratic gives $P(g_f)=-\rho^2\tau^2/s$, which
+is $<0$ (hence $g^\star>g_f$ strictly) exactly when $\rho\tau\ne0$. (The
+regime qualifier is the m=1 shadow of condition (a): for $\tau=0$,
+$D>1-\rho^2$ the clamped floor and $L=0$ meet trivially while $g_f<1$
+becomes the quadratic's \emph{smaller} root.)
+\end{proof}
+
+\begin{remark}[Conjecture~\ref{conj:tight}: former numerical status]
+\label{rem:c3}
+(Superseded by Theorem~\ref{thm:c3}; retained as the numerical record
+that motivated it.) At the misaligned test instance
 $(\rho_{AB},\rho_{AV},\rho_{BV},\tau^2)=(0.3,0.7,0.2,0.4)$ the work floor
-$\tfrac12\log_2(\kappa_S/(D_AD_B))$ is strictly loose at every $D>0$
+is strictly loose at every $D>0$
 (gap $0.0664\to0.0293\to0.0090\to0.0035$ bits as
-$D=0.3\to0.15\to0.05\to0.02$), decreasing toward $0$ as $D\to0$ ---
-Conjecture~\ref{conj:tight}'s predicted shape. Its ``iff'' remains open;
-the region program now makes it a checkable statement about the
-program's optimizer, the natural next lemma. The general-instance
-frontier is nondegenerate ($R$ spans $2.2539$--$2.2942$, $L$
-$1.9838$--$2.0175$ bits at $D_A=D_B=0.2$): the misalignment tradeoff of
-Corollary~\ref{cor:sep} persists at $m=2$.
+$D=0.3\to0.15\to0.05\to0.02$), decreasing toward $0$ as $D\to0$ --- now
+explained exactly by Theorem~\ref{thm:c3} ($\beta\ne0$, $\tau^2>0$), with
+the measured gaps inside the deficit sandwich at every probe. The
+general-instance frontier is nondegenerate ($R$ spans $2.2539$--$2.2942$,
+$L$ $1.9838$--$2.0175$ bits at $D_A=D_B=0.2$): the misalignment tradeoff
+of Corollary~\ref{cor:sep} persists at $m=2$.
 \end{remark}
 
 \section{Line of attack and verification obligations}
