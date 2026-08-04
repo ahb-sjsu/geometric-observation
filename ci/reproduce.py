@@ -64,10 +64,18 @@ def extract_json(stdout: str, sentinel: str) -> dict:
     lines = stdout.splitlines()
     try:
         start = next(i for i, l in enumerate(lines) if l.strip() == f"==={sentinel}===")
-        end = next(i for i in range(start + 1, len(lines)) if lines[i].strip() == "===END===")
     except StopIteration:
-        raise RuntimeError(f"sentinel {sentinel} / ===END=== not found in stdout")
-    return json.loads("\n".join(lines[start + 1:end]))
+        raise RuntimeError(f"sentinel {sentinel} not found in stdout")
+    # Parse the JSON object that starts on the next line; tolerate either
+    # the ===END=== terminator (house convention) or trailing verdict text
+    # (the sealed 064 harness omits the terminator -- instrumentation
+    # tolerance, no sealed harness is modified for CI's convenience).
+    tail = "\n".join(lines[start + 1:])
+    try:
+        obj, _ = json.JSONDecoder().raw_decode(tail)
+    except ValueError as e:
+        raise RuntimeError(f"no parseable JSON after sentinel {sentinel}: {e}")
+    return obj
 
 
 print("=" * 68)
