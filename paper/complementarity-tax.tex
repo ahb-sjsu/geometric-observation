@@ -669,6 +669,14 @@ deliberately left unregistered (2026-08-04): its predictions are the
 attributed rate theory of Section~\ref{sec:delineation}, already verified
 exactly by the C3 harness, so an operational version would test only
 random-coding covering losses --- at most an exploratory demo, not a claim.
+The committed demo (\texttt{experiments/go10\_rate\_face.py}), run once
+exploratorily at seed 20260824 ($T=400$, unregistered), bore this out:
+increments of the measured tax across $\theta$ track the $\sin^2\theta$ law
+within one grid step (largest residual $0.076$ against the $0.125$
+bits/symbol grid), the aligned control $v=u$ collapses to $-0.03$, and the
+monotone chain holds --- while the \emph{absolute} covering offsets
+($+0.03$ to $+0.14$, $\theta$-dependent) confirm that only rate
+\emph{differences} are instrument-clean at $n=8$.
 
 \begin{thebibliography}{99}
 \bibitem{bond2026observation} A.~H. Bond, Observation theory: consumer-relative
