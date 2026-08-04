@@ -57,11 +57,23 @@
 % and rho = 0. Settles Conjecture 1 for m=1 rank-one. Pre-assertion
 % numerics seed 20260806 (20 combos to 1e-6; E1's 0.0400 reproduced).
 % R-IND-5 pass on Sec. 7 frontier part: NOVELTY addendum 3.
+% v0.7 (2026-08-05): the m=2 REGION is SETTLED as a matrix program
+% (Sec. 8): Theorem 4 ((m+1)-sufficiency, resampling verbatim), Theorem 5
+% (exact region = 9-parameter program over (A, Sigma_N); Gaussian
+% sufficiency for m=2 rank-one -- Conjecture 1 settled; determinant
+% identities generalize by the same Schur computation). Conjecture 2
+% WITHDRAWN as stated (no water-filling closed form; three non-commuting
+% forms -- the caution was right); replaced by the program. Corollary:
+% the GO-10 worked instance decomposes EXACTLY (tax gap formula derived
+% from the region; 4 decimals). Conjecture 3: floor strictly loose at
+% D>0, gap -> 0 as D -> 0 (numerically); iff still open. Pre-assertion
+% numerics seed 20260807 (Xiao-Luo anchor to 1e-5; floors; coarse BA).
+% R-IND-5 pass on Sec. 8: NOVELTY addendum 4.
 
 \title{GO-11 (problem statement): The Exact Two-Consumer\\
 Rate--Work Region with Reset Side Information}
 \author{Andrew H. Bond}
-\date{Problem statement v0.6 --- August 2026}
+\date{Problem statement v0.7 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -637,6 +649,137 @@ of the family; no vector-Gaussian CR function is in print. Residual risks:
 IEEE-only venues without arXiv copies; the fast-moving RDC line
 \cite{wang2024rdc} producing a vector-Gaussian paper; the
 maximal-correlation area received the weakest coverage.
+
+\section{The $m=2$ region, settled as a matrix program}\label{sec:m2}
+
+Two rank-one consumers ($Y_A=u^{\mathsf T}X$, $Y_B=v^{\mathsf T}X$,
+normalized unit variances, read correlation $\rho_{AB}$), scalar jointly
+Gaussian reset context $S=V+U$ as before, correlations
+$(\rho_{AV},\rho_{BV})$; WLOG scalar reproductions
+$(\hY_A,\hY_B)$ (per-coordinate data processing, as in
+Section~\ref{sec:marg}).
+
+\begin{theorem}[$(m{+}1)$-sufficiency]\label{thm:triple}
+For $m$ rank-one consumers, it is without loss of optimality to let the
+joint channel depend on $X$ only through
+$T=(Y_1,\ldots,Y_m,V)$, and then both coordinates equal their
+$T$-versions. The proof of Theorem~\ref{thm:pair} applies verbatim: the
+resampled channel preserves the joint law of $(T,\hat{\mathbf Y},S)$ because
+$S=V+U$ with $U$ jointly independent of $(X,\text{all channel
+randomness})$, and distortions are functionals of $(Y_i,\hY_i)$ pairs.
+For $m=2$ the ambient problem, in any dimension $d$, is exhausted by
+$(\rho_{AB},\rho_{AV},\rho_{BV},\tau^2)$.
+\end{theorem}
+
+\begin{theorem}[The exact $m=2$ region]\label{thm:m2}
+Assume $\Sigma_T\succ0$ (degenerate instances reduce: if $V$ is
+$Y_A$-measurable, drop $V$ and run the identities on the reduced pair
+with $\Sigma_{T'\mid S}$ in place of $\Sigma_{T\mid S}$). Let $\Sigma_T$
+be the $3\times3$ correlation matrix of $T$ and
+$\Sigma_{T\mid S}=\Sigma_T-\sigma_{TS}\sigma_{TS}^{\mathsf T}/(1+\tau^2)$,
+$\sigma_{TS}=\Sigma_T e_V$. Then
+\[
+\mathcal{RW}(D_A,D_B\mid S)=\operatorname{cl}\!\!
+\bigcup_{\substack{A\in\mathbb R^{2\times3},\ \Sigma_N\succeq0\\
+(e_i-A_{i\cdot})^{\mathsf T}\Sigma_T(e_i-A_{i\cdot})+(\Sigma_N)_{ii}\le D_i}}
+\Bigl\{(R,L):\,
+R\ge\tfrac12\log_2\tfrac{\det(A\Sigma_TA^{\mathsf T}+\Sigma_N)}{\det\Sigma_N},\
+L\ge\tfrac12\log_2\tfrac{\det(A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N)}{\det\Sigma_N}
+\Bigr\}:
+\]
+jointly Gaussian channels $\hat{\mathbf Y}=AT+N$, $N\sim\mathcal N(0,\Sigma_N)$,
+exhaust the region, whose frontier is a nine-parameter matrix program ---
+the work-coordinate analog of the simultaneous-service max-det program of
+\cite{bondtwoobserver}.
+\end{theorem}
+\begin{proof}
+\emph{Converse.} By Theorem~\ref{thm:triple} restrict to $T$-channels.
+For any admissible channel let $C=\Cov(T,\hat{\mathbf Y})$ ($3\times2$),
+$\Sigma_{\hat Y}=\Cov(\hat{\mathbf Y})$, and set $A:=C^{\mathsf T}\Sigma_T^{-1}$,
+$\Sigma_N:=\Sigma_{\hat Y}-A\Sigma_TA^{\mathsf T}$ (the Schur complement;
+joint PSD $\Leftrightarrow\Sigma_N\succeq0$). The Markov chain and joint
+independence of $U$ force $\Cov(S,\hat{\mathbf Y})=\Cov(V,\hat{\mathbf Y})$
+(the $V$-row of $C$). Max-entropy bounds on these shared moments give
+$R\ge\tfrac12\log_2(\det\Sigma_T/\det\Sigma_{e0})$ and
+$L\ge\tfrac12\log_2(\det\Sigma_{T\mid S}/\det\Sigma_{e1})$, and the two
+determinant identities generalize by the same Schur computation:
+$\det\Sigma_T/\det\Sigma_{e0}
+=\det(A\Sigma_TA^{\mathsf T}+\Sigma_N)/\det\Sigma_N$ and likewise
+conditionally (the $S$-column of the moment matrix is the $V$-column plus
+$\tau^2e_S$). The distortion constraints are exactly the displayed moment
+constraints. \emph{Achievability.} The Gaussian channel with parameters
+$(A,\Sigma_N)$ realizes those moments and attains both bounds with
+equality. \emph{Numerics (pre-assertion, seed 20260807):} the $\alpha=1$
+projection reproduces the on-regime Xiao--Luo value
+$\tfrac12\log_2\bigl((1-\rho_{AB}^2)/(D_AD_B)\bigr)$ to $10^{-5}$;
+the tax-note floors hold at every computed point; a coarse unrestricted
+conditional-BA with two-dimensional reproduction never materially beats
+the program (grid bias disclosed in the NOVELTY record).
+\end{proof}
+
+\begin{remark}[No closed form: Conjecture~\ref{conj:frontier} withdrawn
+as stated]\label{rem:noclosed}
+The $m=1$ collapse to a scalar quadratic does not persist: the frontier
+program couples three mutually non-commuting quadratic forms
+($\Sigma_T$, $\Sigma_{T\mid S}$, and the constraint directions), and no
+water-filling closed form emerged --- precisely the outcome
+Conjecture~\ref{conj:frontier}'s caution anticipated. We therefore
+\emph{withdraw Conjecture~\ref{conj:frontier} as stated} and replace it
+with Theorem~\ref{thm:m2}'s program, which is the honest $m=2$ endpoint
+of this line: exact, finite-dimensional, solver-computable. Alignment
+degeneracies still collapse it (next corollary), and
+Conjecture~\ref{conj:gauss} is settled affirmatively for $m=2$ rank-one
+by Theorem~\ref{thm:m2} itself.
+\end{remark}
+
+\begin{corollary}[The GO-10 worked instance, exactly]\label{cor:go10}
+For orthogonal reads ($\rho_{AB}=0$) with $S$ aligned to consumer $A$
+($V=Y_A$), the region is the single-corner quadrant at
+$\bigl(R_A+R_B,\ L_A+L_B\bigr)$ with $R_A=R_B=\tfrac12\log_2(1/D)$,
+$L_B=R_B$, and $L_A$ Steinberg's corner at $\rho_s^2=1/(1+\tau^2)$;
+consequently the complementarity-tax gap is exactly
+\[
+\mathrm{CT}_R-\mathrm{CT}_W=\tfrac12\log_2\frac1{s^2+(1-s^2)D},
+\qquad s^2=\frac{\tau^2}{1+\tau^2},
+\]
+the formula of \cite[Sec.~5]{bondtaxnote}, now derived from the exact
+region rather than the per-coordinate reduction (numerically: all four
+quantities to $4$ decimals at $D\in\{0.25,0.1\}$, $\tau^2=0.25$, and at
+$\tau^2=0.6$, $D=0.15$, with the $\alpha=0$ and $\alpha=1$ optima
+coinciding --- corner degeneracy --- as alignment requires).
+\end{corollary}
+\begin{proof}
+This instance is $\Sigma_T$-degenerate ($V=Y_A$); apply
+Theorem~\ref{thm:m2}'s reduced form on $T'=(Y_A,Y_B)$, $\Sigma_{T'}=I_2$,
+$\Sigma_{T'\mid S}=\mathrm{diag}(s^2,1)$. \emph{Achievability}:
+independent per-consumer channels. \emph{Super-additivity converse}:
+$(Y_A,S)\perp Y_B$ (since $S=Y_A+U$, $Y_B\perp Y_A$, $U$ jointly
+independent), so for any admissible channel
+$I(T';\hat{\mathbf Y}\mid S)=I(Y_A;\hat{\mathbf Y}\mid S)
++I(Y_B;\hat{\mathbf Y}\mid Y_A,S)\ge
+I(Y_A;\hat{\mathbf Y}\mid S)+I(Y_B;\hat{\mathbf Y}\mid S)$, and each
+induced marginal channel \emph{is} Markov
+($\hat{\mathbf Y}=f(Y_A,W)$ with $W=(Y_B,\text{noise})\perp(Y_A,S)$, and
+symmetrically), so Steinberg's scalar converse prices the $A$-term and
+the classical converse the $B$-term; the same decomposition without $S$
+handles $R$. The Markov step holds \emph{only} by the instance's double
+orthogonality ($\rho_{AB}=\rho_{BV}=0$) --- it is exactly the coupling
+that Proposition~\ref{prop:marg} shows can fail in general.
+\end{proof}
+
+\begin{remark}[Conjecture~\ref{conj:tight}, numerically]\label{rem:c3}
+At the misaligned test instance
+$(\rho_{AB},\rho_{AV},\rho_{BV},\tau^2)=(0.3,0.7,0.2,0.4)$ the work floor
+$\tfrac12\log_2(\kappa_S/(D_AD_B))$ is strictly loose at every $D>0$
+(gap $0.0664\to0.0293\to0.0090\to0.0035$ bits as
+$D=0.3\to0.15\to0.05\to0.02$), decreasing toward $0$ as $D\to0$ ---
+Conjecture~\ref{conj:tight}'s predicted shape. Its ``iff'' remains open;
+the region program now makes it a checkable statement about the
+program's optimizer, the natural next lemma. The general-instance
+frontier is nondegenerate ($R$ spans $2.2539$--$2.2942$, $L$
+$1.9838$--$2.0175$ bits at $D_A=D_B=0.2$): the misalignment tradeoff of
+Corollary~\ref{cor:sep} persists at $m=2$.
+\end{remark}
 
 \section{Line of attack and verification obligations}
 \textbf{Attack.} (1) Question~\ref{q:single}'s marginalization dichotomy

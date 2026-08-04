@@ -210,12 +210,58 @@ to describe); the rigorous check is the exact moment program.
 
 **Standing after v0.6**: the single-consumer (m=1, rank-one) problem is
 now FULLY solved — endpoint (Thm 2) + entire frontier (Thm 3) + strict
-two-corner separation (Cor 2). Open, in order: (1) higher-rank reads;
-(2) m≥2 (pair sufficiency generalizes verbatim — two rank-one consumers
-collapse to ≤3 coordinates; the moment method's determinant identities
-are the candidate mechanism); (3) interior-α uniqueness (S2) as a lemma.
-House rules: manuscript-grade until a sealed C3 harness registration
-(PROTOCOL §5.1) — not yet ledger-bearing.
+two-corner separation (Cor 2).
+
+## VERIFICATION ADDENDUM 4 — the m=2 region (Theorems 4–5, Cor. 3), 2026-08-05
+
+**The m=2 region settled in v0.7 as a matrix program**: Theorem 4
+((m+1)-sufficiency — m consumers + context collapse to m+1 coordinates,
+resampling verbatim); Theorem 5 (the exact region = closure of quadrant
+union over a 9-parameter Gaussian family (A ∈ R^{2×3}, Σ_N ⪰ 0) — Gaussian
+sufficiency for m=2 rank-one, settling Conjecture 1 there; determinant
+identities generalize by the same Schur double-count; Markov moment
+identity Cov(S,Ŷ)=Cov(V,Ŷ) row-wise). **Conjecture 2 WITHDRAWN as
+stated** (no water-filling closed form emerged; three non-commuting forms;
+the program is the honest endpoint — the caution written into v0.2 was
+correct). Corollary: the GO-10 worked instance decomposes exactly, deriving
+the tax-gap formula ½log₂(1/(s²+(1−s²)D)) from the region itself.
+Conjecture 3: floor strictly loose at D>0, gap → 0 as D→0 (0.0664→0.0035
+across D=0.3→0.02) — predicted shape, iff still open, now a checkable
+statement about the program's optimizer.
+
+**Pre-assertion numerics (author, seed 20260807):** GO-10 anchor exact to
+4 decimals (region, corner degeneracy, tax gap); α=1 rate = Xiao–Luo to
+1e-5; floors hold; frontier monotone and nondegenerate at the misaligned
+instance (misalignment tradeoff persists at m=2); coarse unrestricted BA
+(9³ grid) below by 0.033 — grid bias, disclosed (the rigorous converse is
+the moment method).
+
+**R-IND-5 pass (verifier seed 20260808): CONFIRMED, 0 errors, 2
+sharpenings (both folded into v0.7):**
+- S1: Theorem 5 implicitly required Σ_T ≻ 0 and the flagship corollary
+  instance (V=Y_A) violates it — hypothesis added + degenerate-reduction
+  clause; verifier confirmed both routes land on the same value
+  (2.190412 vs 2.190411 at ρ_AV = 1−1e-6).
+- S2: the corollary's single-corner sum needed an unstated super-additivity
+  converse — verifier supplied the 4-line proof ((Y_A,S) ⊥ Y_B; chain rule;
+  the induced marginal channels ARE Markov, but only by the instance's
+  double orthogonality — exactly the Prop-1 coupling subtlety); now a
+  written proof in the corollary.
+- Verifier numerics: fresh instance (0.45, 0.55, −0.25, 0.8) with D_A≠D_B —
+  Xiao–Luo anchor to 7e-13, floors strict (+0.0881), frontier monotone;
+  cor:go10 at (τ²=0.6, D=0.15) all four closed forms to 1e-6;
+  exhaustiveness probe with 10 genuinely non-Gaussian noisy-quantizer
+  channels: worst domination margin +0.073 ≥ 0; determinant identities to
+  1e-10; rem:c3's 0.0293 gap reproduced independently.
+
+**Standing after v0.7**: GO-11's original problem is now settled at every
+level the tools reach — one-constraint region (Paper V, attributed), m=1
+fully solved (Thms 2–3, Cor 2), m=2 exactly characterized as a
+finite matrix program (Thm 5) with the alignment degeneracies in closed
+form (Cor 3) and the GO-10 tax formula derived from the region. Open
+residue: Conjecture 3's iff; interior-α uniqueness lemma; higher-rank
+reads; vector S. House rules: all manuscript-grade until a sealed C3
+harness registration (PROTOCOL §5.1) — not yet ledger-bearing.
 
 ## Query coverage
 
