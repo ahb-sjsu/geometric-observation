@@ -44,6 +44,9 @@ REPRODUCIBLE = [
     ("go11_encoder_tilt_binary.py", "GO11ETB-JSON","GO11-encoder-tilt-binary.json","GO11ETB_supported"),
     # GO-11 v0.9 closing theorems (GO-P-2026-063), governed seed 20260906, ~1 min.
     ("verify_go11_rungs.py",        "GO11R-JSON", "GO11-rungs.json",               "GO11R_supported"),
+    # GO-11 v0.11 theorems: m=2 frontier system + binary CR function
+    # (GO-P-2026-064), governed seed 20260910, ~3 min.
+    ("verify_go11_m2sys_binary.py", "GO11MB-JSON","GO11-m2sys-binary.json",        "GO11MB_supported"),
 ]
 
 failures: list[str] = []
