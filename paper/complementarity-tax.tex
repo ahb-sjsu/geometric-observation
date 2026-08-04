@@ -25,14 +25,19 @@
 % read-operator/kappa packaging, and the ENTIRE work side (Thm 4, Cor 5,
 % CT_W). One manual follow-up flagged: Kastner-Schlatter, Mathematics 12:206
 % (2024) full text (fetch 403-blocked; snippet suggests qualitative only).
-% Remaining before sealing: the C3 governed harness (prereg DRAFT-GO10).
+% v0.4 (2026-08-04): OPERATIONAL RESULTS FOLDED IN. C3 harness sealed+run
+% as GO-P-2026-055 (ALL PASS 7/7, governed seed 20260810); operational face
+% GO-P-2026-058 Gaussian (ALL PASS 6/6) + GO-P-2026-059 binary (ALL PASS
+% 6/6) -> GO-10 [replicated] on two source families. Theta-sweep rate face
+% deliberately unregistered (attributed theory, exactly verified at the
+% information level; exploratory demo only). Abstract + Sec. 8 updated.
 % Earlier pre-seal SANITY run (author-side, seed 20260803) is disclosed in
-% the prereg draft and is not evidence.
+% the sealed prereg and is not evidence.
 
 \title{A Landauer Test for Consumer Complementarity:\\
 Rate and Reset-Work Floors for Serving Two Read Operators}
 \author{Andrew H. Bond}
-\date{Working draft v0.1 --- August 2026}
+\date{Working draft v0.4 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
@@ -66,8 +71,13 @@ reset context holds about the read plane.
 Erasure pays for consumer incompatibility only to the extent that the reset
 context does not already resolve it. A worked two-consumer instance gives
 exact tax values and an exact rate-tax/work-tax gap that grows to
-$I(X;S)$-type quantities as distortion vanishes; these are the registered
-targets of the GO-10 falsification harness and its operational face.
+$I(X;S)$-type quantities as distortion vanishes. These predictions have
+been confirmed: a preregistered falsification harness passed every gate
+(GO-P-2026-055), and the tax has been \emph{measured} on materialized
+codebook records on two independent source families --- Gaussian and binary,
+each with its own derived floor --- with mismatched reset contexts saving
+nothing and the joint eraser allocating its budget to the record its
+context cannot resolve (GO-P-2026-058/059, all gates passed).
 \end{abstract}
 
 \section{Setup}\label{sec:setup}
@@ -636,12 +646,29 @@ searches, record at \texttt{paper/complementarity-tax-NOVELTY.md});
 findings folded into the abstract, Section~3 attributions, and
 Section~\ref{sec:delineation}; one manual follow-up open
 (Kastner--Schlatter 2024 full text).
-\textbf{Operational face (GO-10).} Codebook-level demonstration in the
-GO-7/8/9 harness style: materialized joint and single-consumer codes at
-matched distortion, decode-threshold instrumentation for the work
-coordinate, $\theta$- and $\tau$-sweeps against the exact predictions of
-Sec.~\ref{sec:instance}, shuffled-context null. Bars to be fixed at seal;
-the book may not cite this note above $[\mathrm{predicted}]$ until then.
+\textbf{Operational face (GO-10): COMPLETED, two source families, all gates
+passed.} Codebook-level demonstrations in the GO-7/8/9 decode-threshold
+lineage, each sealed with a logged pre-seal pilot and run once at a governed
+seed. \emph{Gaussian} (GO-P-2026-058, the instance of
+Sec.~\ref{sec:instance}): measured rate-tax/work-tax gap $0.266/0.094$
+bits at $s^2=0.2/0.5$ --- $0.57\times/0.37\times$ of the asymptotic
+\eqref{eq:taxgap}, the strong side matching GO-9's known finite-$n$
+realized fraction --- against shuffled-context nulls of
+$0.001/{-0.003}$; single-record discounts track
+$\tfrac12\log_2(1/(s^2+(1-s^2)\hat d))$ within $0.11$ bits; the joint
+eraser's coordinated-split allocation tilts its bin budget to the
+$S$-opaque record (reset water-filling, observed). \emph{Binary}
+(GO-P-2026-059): floor derived pre-seal from the BSC cascade,
+$\mathrm{GAP}_{\rm pred}(q)=1-h_2(\hat d * q)$; measured $0.207/0.043$ bits
+at $q=0.1/0.25$ ($0.77\times/0.43\times$ of the floor, tracking within
+$0.039$ bits) with the same null and allocation signatures. Ledger class:
+GO-10 $[\mathrm{replicated}]$ on two independent source families; result
+records \texttt{results/GO10-operational-tax\{,-binary\}.json}, both
+re-derived in CI on every push. The $\theta$-sweep rate face was
+deliberately left unregistered (2026-08-04): its predictions are the
+attributed rate theory of Section~\ref{sec:delineation}, already verified
+exactly by the C3 harness, so an operational version would test only
+random-coding covering losses --- at most an exploratory demo, not a claim.
 
 \begin{thebibliography}{99}
 \bibitem{bond2026observation} A.~H. Bond, Observation theory: consumer-relative
