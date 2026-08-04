@@ -12,7 +12,7 @@
 \title{The dynamic conditional region: rate, reset work, and the aging
 context\\[2pt]\large A problem statement (GO-12)}
 \author{Geometric Observation program}
-\date{Problem statement v0.2 --- August 2026}
+\date{Problem statement v0.3 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -86,6 +86,29 @@ levels} $\gamma_0(\omega),\gamma_1(\omega)$ solving the weighted
 stationarity system of GO-11's Theorem~3 per frequency under a common
 pair of Lagrange prices. The $m=2$ process region takes the same form
 with the matrix water levels of GO-11's Theorem~9 per frequency.
+
+\emph{Attribution} (novelty sweep, 2026-08-05; Gray's 1972 report
+page-verified in full): the functional $L$ coincides at the
+single-letter level with \emph{Gray's conditional rate--distortion
+function} \cite{gray72,gray73}, whose operational meaning is side
+information at both encoder and decoder; existence of the per-symbol
+limit for stationary-ergodic pairs is Leiner--Gray \cite{leinergray}.
+The scalar Gaussian evaluation at conditional variance is
+\cite[Thm.~7]{gray72}; vector-Gaussian conditional/Wyner--Ziv
+water-filling with a \emph{single} water level over the conditional
+covariance's eigenvalues is \cite{gkagkos,stylianou}; single-level
+spectral water-filling for remote sources is \cite{kipnis}. Our
+allocation structure generalizes Gray's equal-slope decomposition
+\cite[Thm.~5]{gray72} from a discrete conditioning alphabet to the
+frequency domain. Not found in the sweep: the spectral conditional RDF
+for jointly stationary Gaussian pairs, the two coupled water levels,
+the third-party (neither-encoder-nor-consumer) conditioning semantics,
+or the delayed-noisy side process. Two library pulls are MANDATORY
+before any novelty language ships on this conjecture: the full text of
+\cite{gray73} (paywalled at sweep time) and Pinsker's conditional
+$\varepsilon$-entropy chapter --- either could contain a Toeplitz-limit
+Gaussian conditional formula, which would rescope the novelty to the
+coupled water levels and framing only.
 \end{conjecture}
 
 \begin{fact}[$\Delta$-invariance under path access; settled and netted,
@@ -109,6 +132,19 @@ through edge terms, $O(1/n)$ at fixed $\Delta$ (empirically $\approx$
 linear in $\Delta$ over the probed range). Governed harness
 GO-P-2026-065: circulant invariance to $3.3\times10^{-16}$, edge ratio
 $0.5000000000$ under $n$-doubling.
+
+\emph{Attribution} (novelty sweeps, 2026-08-05): invariance of
+conditional functionals under bijective recoding of the conditioning
+variable is classical folklore, and circulant--Toeplitz $O(1/n)$
+asymptotics are standard \cite{grayToeplitz}. The rate-level
+\emph{phenomenon} is also in print for memoryless pairs: Simeone and
+Permuter \cite[Lemma~1]{simeonepermuter} note that noncausal
+availability makes zero-delay conditional RD delay-proof (while
+positive causal delay makes memoryless side information useless), and
+Matsuta and Uyematsu \cite{matsuta} characterize when unknown delay
+leaves the Wyner--Ziv function unchanged. Ours is only the packaged
+finite-$n$ recoding identity, for a conditioner that is neither encoder
+nor decoder.
 \end{fact}
 
 \begin{fact}[Slice access: the exact staleness tax, with encoder access
@@ -131,6 +167,24 @@ $\tfrac12\log_2(1/D)$. An R-IND-5 pass refuted the first draft of this
 fact (it asserted the (A) formula for (B) records); the corrected
 pairing is what the governed harness nets, both substitutions against
 their own direct channel programs to $\le2.4\times10^{-13}$.
+
+\emph{Attribution} (novelty sweeps, 2026-08-05; mandatory rescope): the
+substitution \emph{device} --- Markov decay absorbed into the side
+channel --- is published. Simeone and Permuter
+\cite[Eq.~(49), test channel Eq.~(67)]{simeonepermuter} obtain
+$R_d(D)=\tfrac12\log_2\!\bigl((1-\rho^{2d}+\sigma_N^2)/D\bigr)$ for a
+hidden Gauss--Markov source with noiselessly delayed decoder side
+information --- our $s\to s/a^{2\Delta}$ in a different normalization
+--- and Sun and Cyr \cite[Eq.~(7)]{suncyr} give the conditional-MI
+staleness form $-\tfrac12\log_2(1-a^{2\Delta})$ for AR(1) in the
+age-of-information literature. In the jointly Gaussian block setting,
+Wyner--Ziv no-rate-loss additionally makes encoder-side availability of
+$S$ rate-irrelevant \cite{wynerziv}. What is new here is confined to:
+the noisy delayed slice held by a \emph{third-party} conditioner, and
+the \emph{encoder-access dichotomy} --- whether $a^\Delta$ enters the
+read correlation or the effective side-information noise is decided by
+which variable the record may depend on, which none of the found
+sources states.
 \end{fact}
 
 \begin{remark}
@@ -139,7 +193,32 @@ question the cheap way: the staleness tax is an \emph{access-width}
 phenomenon --- at the eraser (path vs slice) and at the encoder
 (context-epoch latent vs time-$t$ variables) --- not a delay
 phenomenon. GO-8's measured age-dependence is the operational face of
-the slice regime.
+the slice regime. The two nearest prior statements sit in opposite
+corners and are both attributed: for \emph{noiseless} Markov sampling
+the causal path collapses to the freshest sample
+\cite[Lemma~1]{suncyr} (width collapses), and for \emph{memoryless}
+pairs noncausal access collapses delay
+\cite[Lemma~1]{simeonepermuter}; the dissociation itself --- exact zero
+under path access versus a strictly increasing closed-form tax under
+slice access, on the same source --- is not found in the swept
+literature.
+\end{remark}
+
+\begin{remark}[Physics scoping]
+On the thermodynamic side the framing is hemmed by known work, all of
+which we inherit rather than claim: static conditional erasure work is
+set by the conditional entropy given a reference (del Rio et al.
+\cite{delrio}; Sagawa--Ueda \cite{sagawaueda}); that retaining stale,
+non-predictive information is thermodynamically penalized is the
+``nostalgia'' of Still, Sivak, Bell and Crooks \cite{still}; and
+delay-degraded \emph{work extraction} is quantified in the
+time-delayed-feedback-demon literature \cite{rosinberg}. Our claim is
+confined to the erasure side of the ledger: the exact dynamic
+conditional-Landauer curve $W(\Delta)$ for resetting a record against a
+reference decorrelated by $a^\Delta$, which the sweeps did not find
+written down. (No co-occurrence of age-of-information and Landauer
+erasure was found at the arXiv-metadata level as of August 2026; that
+bridge claim carries a metadata-only caveat.)
 \end{remark}
 
 \begin{conjecture}[The causal-path eraser interpolates]
@@ -148,10 +227,27 @@ Fact~\ref{lem:recoding} (full path: zero tax) and
 Fact~\ref{lem:slice} (single slice: the exact static tax) are the two
 ends. For the \emph{causal-path} eraser (at time $t$ it sees
 $S_{\le t}$, $S_t=V_{t-\Delta}+U_t$), the per-symbol conditional
-coordinate lies strictly between, is strictly increasing in $\Delta$
-for $a\in(0,1)$, and approaches the slice value as the context process
-decorrelates; its exact form (plausibly a Kalman/innovations
-water-filling) is the open object of this rung.
+coordinate --- \emph{defined via Markov-constrained causal conditioning
+in the sense of Lev--Khina \cite{levkhina}, a deliberate choice: the
+Kostina--Hassibi causally-conditioned-DI definition \cite{kostina}
+provably collapses to the full-path endpoint in Gaussian settings, so
+the interpolation is only well-posed under the Markov-constrained
+form} --- lies strictly between the ends, is strictly increasing in
+$\Delta$ for $a\in(0,1)$, and approaches the slice value as the context
+process decorrelates. The nearest known object is Gauss--Markov
+tracking with causal decoder side information \cite{levkhina}, where
+the exact value is explicitly open even without delay; ours differs in
+the third-party conditioner and the delay inside the side process. The
+interpolation is nontrivial precisely because the slice is noisy: at
+$\tau^2=0$ the causal path collapses to the freshest sample
+\cite[Lemma~1]{suncyr}. Honesty caveat, on record from the sweep: under
+causal-prefix conditioning the mathematical core may reduce to the
+classical Kalman filtering-vs-smoothing gap; the operational definition
+and the strict-interpolation theorem must carry the weight. Candidate
+form: a Kalman/innovations recursion --- with the caution that the
+vector NRDF ``dynamic reverse water-filling'' closed forms were refuted
+in general \cite{stavrou}, so only scalar closed forms should be
+expected cheaply \cite{tatikonda,derpich}.
 \end{conjecture}
 
 \begin{conjecture}[Spectral tilt]\label{conj:tilt}
@@ -197,7 +293,115 @@ harness-netted and CI-enforced. The first registration
 Facts~\ref{lem:recoding}--\ref{lem:slice} passed their governed
 harness ALL PASS 4/4 (seed 20260915), after an R-IND-5 pass refuted
 and corrected the slice fact's first draft. The open theory objects
-are Conjectures~\ref{conj:spectral} and~\ref{conj:causal}; the novelty
-sweeps remain an obligation before any novelty language.
+are Conjectures~\ref{conj:spectral} and~\ref{conj:causal}. All four
+novelty sweeps are complete ($\sim$63 queries, 10 page-verified
+documents including Gray's 1972 report in full; record in
+\texttt{go12-process-region-NOVELTY.md}), with attributions folded
+above at v0.3. Outstanding sweep debts, on record: page-level reads of
+\cite{gray73} and of Pinsker's conditional $\varepsilon$-entropy
+chapter before Conjecture~\ref{conj:spectral} carries novelty
+language, and the stochastic-thermodynamics information-flow flank
+(Hartich--Barato--Seifert; Horowitz--Esposito) before the
+\emph{causal}-measurement physics framing does.
+
+\begin{thebibliography}{99}\small
+
+\bibitem{simeonepermuter} O.~Simeone and H.~H. Permuter, ``Source
+coding when the side information may be delayed,'' \emph{IEEE Trans.
+Inf.\ Theory}, 59(5):3607--3618, 2013 (arXiv:1109.1293). Page-verified:
+Lemma~1; Eqs.~(49), (67).
+
+\bibitem{matsuta} T.~Matsuta and T.~Uyematsu, ``On the Wyner--Ziv
+source coding problem with unknown delay,'' \emph{IEICE Trans.
+Fundamentals}, E97-A(12):2288--2299, 2014; and E102-A(12), 2019.
+
+\bibitem{suncyr} Y.~Sun and B.~Cyr, ``Information aging through
+queues: a mutual information perspective,'' \emph{Proc.\ IEEE SPAWC},
+2018. Page-verified: Lemma~1, Eq.~(7).
+
+\bibitem{weissman} T.~Weissman and A.~El~Gamal, ``Source coding with
+limited-look-ahead side information at the decoder,'' \emph{IEEE
+Trans.\ Inf.\ Theory}, 52(12):5218--5239, 2006.
+
+\bibitem{levkhina} O.~Lev and A.~Khina, ``Gauss--Markov source
+tracking with side information: lower bounds,'' \emph{Proc.\ IEEE
+ISIT}, 2020 (arXiv:2004.08409). Page-verified in full.
+
+\bibitem{kostina} V.~Kostina and B.~Hassibi, ``Rate-cost tradeoffs in
+control,'' \emph{IEEE Trans.\ Autom.\ Control}, 64(11), 2019.
+
+\bibitem{tatikonda} S.~Tatikonda, A.~Sahai, and S.~Mitter,
+``Stochastic linear control over a communication channel,'' \emph{IEEE
+Trans.\ Autom.\ Control}, 49(9):1549--1561, 2004; the scalar
+Gauss--Markov sequential RDF closed form goes back to Gorbunov and
+Pinsker (1974).
+
+\bibitem{derpich} M.~S. Derpich and J.~{\O}stergaard, ``Improved upper
+bounds to the causal quadratic rate-distortion function for Gaussian
+stationary sources,'' \emph{IEEE Trans.\ Inf.\ Theory},
+58(5):3131--3152, 2012.
+
+\bibitem{stavrou} P.~A. Stavrou, T.~Tanaka, and S.~Tatikonda, on the
+sequential/nonanticipative Gaussian RDF (arXiv:1711.09853):
+counterexample refuting the general dynamic reverse-water-filling
+closed forms; the general object is semidefinite representable (Tanaka,
+Kim, Parrilo, Mitter, \emph{IEEE Trans.\ Autom.\ Control}, 2017).
+
+\bibitem{wynerziv} A.~D. Wyner and J.~Ziv, ``The rate-distortion
+function for source coding with side information at the decoder,''
+\emph{IEEE Trans.\ Inf.\ Theory}, 22(1):1--10, 1976 (quadratic-Gaussian
+no-rate-loss).
+
+\bibitem{grayToeplitz} R.~M. Gray, \emph{Toeplitz and Circulant
+Matrices: A Review}, Foundations and Trends in Communications and
+Information Theory, 2006. (Cited for the standard circulant--Toeplitz
+asymptotics; not page-verified in the sweep session.)
+
+\bibitem{delrio} L.~del~Rio, J.~{\AA}berg, R.~Renner, O.~Dahlsten, and
+V.~Vedral, ``The thermodynamic meaning of negative entropy,''
+\emph{Nature}, 474:61--63, 2011.
+
+\bibitem{sagawaueda} T.~Sagawa and M.~Ueda, ``Minimal energy cost for
+thermodynamic information processing,'' \emph{Phys.\ Rev.\ Lett.},
+102:250602, 2009.
+
+\bibitem{still} S.~Still, D.~A. Sivak, A.~J. Bell, and G.~E. Crooks,
+``Thermodynamics of prediction,'' \emph{Phys.\ Rev.\ Lett.},
+109:120604, 2012.
+
+\bibitem{rosinberg} M.~L. Rosinberg, T.~Munakata, and G.~Tarjus,
+``Stochastic thermodynamics of Langevin systems under time-delayed
+feedback control,'' \emph{Phys.\ Rev.\ E}, 91:042114, 2015; see also
+the exactly solvable delayed-feedback demon of arXiv:2405.05123 and
+Kolchinsky--Wolpert mismatch cost (arXiv:1607.00956).
+
+\bibitem{gray72} R.~M. Gray, \emph{Conditional Rate-Distortion
+Theory}, Stanford ISL Tech.\ Report 6502-2 / SU-SEL-72-047, Oct.\
+1972. Page-verified in full (Wayback scan).
+
+\bibitem{gray73} R.~M. Gray, ``A new class of lower bounds to
+information rates of stationary sources via conditional
+rate-distortion functions,'' \emph{IEEE Trans.\ Inf.\ Theory},
+19(4):480--489, 1973. (Abstract-verified only; full-text pull
+mandatory before Conjecture~1 novelty language.)
+
+\bibitem{leinergray} B.~M. Leiner and R.~M. Gray, ``Rate-distortion
+theory for ergodic sources with side information (Corresp.),''
+\emph{IEEE Trans.\ Inf.\ Theory}, 20(5):672--675, 1974.
+
+\bibitem{gkagkos} M.~Gkagkos and C.~D. Charalambous, structural
+solutions of the vector-Gaussian Wyner--Ziv and conditional RDF with a
+single water level, \emph{Entropy}, 26(4):306, 2024. Page-verified.
+
+\bibitem{stylianou} E.~Stylianou, M.~Gkagkos, and C.~D. Charalambous,
+indirect vector-Gaussian RDF with side information, arXiv:2108.13488,
+2021. Page-verified; explicitly finite-dimensional.
+
+\bibitem{kipnis} A.~Kipnis, A.~J. Goldsmith, Y.~C. Eldar, and
+T.~Weissman, ``Distortion-rate function of sub-Nyquist sampled
+Gaussian sources,'' \emph{IEEE Trans.\ Inf.\ Theory}, 62(1):401--429,
+2016.
+
+\end{thebibliography}
 
 \end{document}
