@@ -353,7 +353,32 @@ def main():
               flush=True)
     recon_ok = all(abs(r.get('recon_ratio_delta_over_ref', 1.0) - 1.0) <= 1e-4
                    for r in out if r['mode'] is not None)
+    # DEFECT FIX (post-run, documented): the per-bits refactor dropped the
+    # verdict dict, so the governed run emitted no self-scored gates and they
+    # had to be evaluated by hand from the committed data.  A harness that does
+    # not score itself invites exactly the after-the-fact judgement the protocol
+    # exists to prevent.  Gates below are the SEALED bars of GO-P-2026-056,
+    # transcribed unchanged.
+    p3 = by[f'preserve_read@3b'] if 'preserve_read@3b' in by else None
+    verdict = {}
+    if p3 is not None:
+        d3, s3 = by['destroy_read@3b'], by['shuffle_control@3b']
+        verdict = dict(
+            K1_recon_matched_audit=bool(recon_ok),
+            K2_fp16_competence=bool(by['fp16_baseline']['score'] >= 0.50),
+            K3_task_flip_3bit=bool((p3['score'] - d3['score']) >= 0.15),
+            K4_specificity_3bit=bool((s3['score'] - d3['score']) >= 0.10),
+            K5_agreement_3bit=bool((p3.get('fp16_agreement', 0.0)
+                                    - d3.get('fp16_agreement', 0.0)) >= 0.15),
+            K6_preserve_usable=bool(p3['score'] >= 0.50 * by['fp16_baseline']['score']),
+        )
+        print('SEALED GATES: ' + '  '.join(
+            f"{k.split('_')[0]}={'PASS' if v else 'MISS'}" for k, v in verdict.items()))
+        print(f"  {sum(verdict.values())} of {len(verdict)} pass")
+
     result = dict(
+        verdict=verdict,
+        gates_passed=int(sum(verdict.values())) if verdict else None,
         claim='KV-cache serving flip: at identical bits AND identical reconstruction '
               'error, the geometry of the error relative to what attention reads '
               'decides long-context task score',
