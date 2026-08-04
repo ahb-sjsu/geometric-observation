@@ -55,6 +55,8 @@ REPRODUCIBLE = [
     ("go12_prefix_family.py",       "GO12PF-JSON","GO12-prefix-family.json",       "GO12PF_supported"),
     # GO-13 Thm 1: matrix-q reduction (GO-P-2026-067), seed 20260921, ~25 s.
     ("go13_matrixq.py",             "GO13MQ-JSON","GO13-matrixq.json",             "GO13MQ_supported"),
+    # GO-13 Thm 2: tax-curve sign law (GO-P-2026-068), seed 20260924, ~45 s.
+    ("go13_taxcurve.py",            "GO13TC-JSON","GO13-taxcurve.json",            "GO13TC_supported"),
 ]
 
 failures: list[str] = []
