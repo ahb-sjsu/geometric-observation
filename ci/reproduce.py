@@ -35,6 +35,9 @@ REPRODUCIBLE = [
     ("go10_operational_tax.py",     "GO10OP-JSON","GO10-operational-tax.json",     "GO10OP_supported"),
     # GO-10 second source family (GO-P-2026-059), same conventions, seed 20260822.
     ("go10_operational_tax_binary.py","GO10OPB-JSON","GO10-operational-tax-binary.json","GO10OPB_supported"),
+    # GO-11 region theorems (GO-P-2026-060): deterministic at governed seed
+    # 20260826 (default invocation); ~6 min, keeps the job under its 20-min cap.
+    ("verify_go11_region.py",       "GO11-JSON",  "GO11-region.json",              "GO11_supported"),
 ]
 
 failures: list[str] = []
