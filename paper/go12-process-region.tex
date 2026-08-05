@@ -13,7 +13,7 @@
 \title{The dynamic conditional region: rate, reset work, and the aging
 context\\[2pt]\large A problem statement (GO-12)}
 \author{Geometric Observation program}
-\date{Problem statement v0.5 --- August 2026}
+\date{Problem statement v0.6 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -141,6 +141,52 @@ $n\ge64$; classical anchor $4.2\times10^{-9}$; finite Toeplitz
 windows converge $O(1/n)$ from above with $n\cdot$gap constant to
 three digits --- numerical support for the transfer, not a proof.
 Harness 070 governed: ALL PASS 4/4, seed 20261001.]
+\end{theorem}
+
+\begin{theorem}[The weighted spectral theorem; Conjecture~\ref{conj:spectral}
+closed at circulant scope; settled and netted, GO-P-2026-071]
+\label{thm:wspectral}
+Same scope and conventions as Theorem~\ref{thm:spectral}, weight
+$w\in[0,1]$, records jointly Gaussian (the all-records per-mode import
+chain is available at every $w$: the static weighted converse is
+moment-based and the Markov moment identity holds for any record built
+from the source plus independent noise). Then cross-mode records gain
+nothing at every $w$ (chain rule + conditioning inequalities hold for
+the SAME record, so every convex combination inherits them;
+$J_{w,k}$'s monotonicity closes mean-$\le$ vs mean-$=$), and
+\[
+J_{w,n}(D)=\min_{\frac1n\sum_kD_k=D}\ \frac1n\sum_kJ_{w,k}(D_k),
+\]
+with $J_{w,k}$ the per-mode static weighted value. $J_{w,k}$ is convex
+in $D_k$: the uniqueness Proposition of GO-11 proves the weighted
+objective convex on the \emph{full} moment region $\{v>|c|^2\}$ (not
+merely the active slice --- the slice enters only for uniqueness), the
+moment region is convex with the distortion affine in moments, the
+moment and channel programs agree at every $D$ (determinant identities
++ realizability), and the value of a convex program is convex in its
+right-hand side; the extension past saturation ($\equiv0$ for
+$D_k\ge S_{Y,k}$, continuous with finite left-slope) and the affine
+rescaling $D_k/S_{Y,k}$ preserve convexity; $w=0$ cites the
+work-endpoint convexity proof separately (the Proposition covers
+$w\in(0,1]$). The allocation is equal-slope with \emph{one} common
+distortion price $\mu$; per mode the optimum carries the two-water-level
+system $(\gamma_0(\omega),\gamma_1(\omega))$ of GO-11 Theorem~3 ---
+per-frequency profiles, NOT common quantities. Conjecture
+\ref{conj:spectral}'s ``common pair of Lagrange prices'' is thereby
+\emph{refuted as phrased} (one distortion constraint, one price) and
+holds as the pair (scalarization weight $w$, price $\mu$). Anchors:
+$w{=}1$ = classical reverse water-filling of $S_Y$; $w{=}0$ =
+Theorem~\ref{thm:spectral}; $n{=}1$ = the static weighted value; the
+value is continuous, increasing, concave in $w$. Toeplitz transfer:
+unchanged imported-with-lemmas, with lemma (2) additionally needing
+continuity of the weighted static value in its parameters (numerically
+smooth, unique system root everywhere probed). [R-IND-5: PASS ---
+two independent per-mode engines agree to $8.2\times10^{-15}$ over 120
+configs; decomposition gaps $\le5.6\times10^{-16}$ at $n=4,5$, two
+parameter sets, saturated configs closed by direct construction;
+per-mode two-water-level residuals $2.2\times10^{-16}$; single-price
+reconstruction of the allocation to $2.6\times10^{-8}$; anchors to
+$1.1\times10^{-16}$.]
 \end{theorem}
 
 \emph{Attribution} (novelty sweep, 2026-08-05; Gray's 1972 report
