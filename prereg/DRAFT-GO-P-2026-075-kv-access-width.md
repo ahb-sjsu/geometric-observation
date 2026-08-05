@@ -57,6 +57,18 @@ CONF-KV, ForesightKV, KVpop — as a matched CONTROL, nowhere);
 verified-empty). Claimable: the access-width framing + closed-form
 tax, the age-resolved matched-budget design, P2, the Landauer
 interpretation. Full 21-entry attribution list in the sweep report.
-Residual before seal: a 10-minute Semantic Scholar/DBLP pass in a
-fresh session (rate-limited this session) for non-arXiv systems
-venues.
+**Residual pass EXECUTED (2026-08-05, DBLP/OpenAlex/Zenodo + one
+S2 query; report in session task output): CLEAR TO SEAL.** All three
+verdicts HOLD. Conditional citations to add at seal: ICIC 2026 (DOI
+10.1007/978-981-92-3417-2_11 — matched-budget history-vs-recency
+TOST-equivalence on hybrid-attention Qwen3.5, NOT age-resolved; the
+closest non-arXiv neighbor); arXiv:2607.11942 (matched-budget-audit
+genre, query-visibility axis); MemDecay arXiv:2607.10582 (age-resolved
+attention half-lives, no width dissociation); CONF-KV + RetentiveKV
+as the uncertainty-AS-SIGNAL family (distinct from our control);
+EVOKE (Zenodo 10.5281/zenodo.21285585) "reversible eviction"
+terminology footnote (engineering recoverability, not
+thermodynamics). Logged channel gap: S2 full-text Landauer query
+never succeeded (429) and WebSearch was budget-blocked — two
+independent full-text nulls stand; the seal record carries this as a
+disclosed unexecuted channel, residual risk low.
