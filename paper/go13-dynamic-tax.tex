@@ -12,7 +12,7 @@
 \title{The dynamic complementarity tax\\[2pt]\large A problem
 statement (GO-13)}
 \author{Geometric Observation program}
-\date{Problem statement v0.6 --- August 2026}
+\date{Problem statement v0.7 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -183,10 +183,11 @@ phrasing at $m=2$ after its $m=1$ refutation. \emph{Scoping}: equal
 slopes is KKT \emph{necessity} (interior modes, complementary
 slackness for slack modes --- a slack $D_B$ collapses to the $m=1$
 one-price structure exactly, verifier-checked to $1.4\times10^{-14}$);
-\emph{sufficiency} of the two-price rule needs joint convexity of
-$V^{(9)}_k$, unproven while $m=2$ uniqueness is open --- numerically
-audited only (minimum FD-Hessian eigenvalue $+0.33$ over three
-covariance families, zero Jensen violations). Anchors: $n{=}1$ $=$
+\emph{sufficiency} of the two-price rule is now PROVEN via
+Theorem~\ref{thm:m2conv} (the weighted program is convex in moments,
+$V^{(9)}_k$ jointly convex by perturbation, KKT sufficient given a
+Slater point; the allocation is globally optimal, unique under
+full-rank active records). Anchors: $n{=}1$ $=$
 static Theorem~9; $w{=}1$ $=$ the two-constraint rate face;
 $\tau^2\to\infty$ $=$ the rate face; Toeplitz transfer inherits
 Theorem~\ref{thm:matq}-lineage lemma debts. [R-IND-5: PASS --- mode
@@ -250,6 +251,36 @@ classes tuned to equal $q$ (the universality control), and (ii) the
 monotone tax curve across staleness levels. Instrument bias budget per
 PROTOCOL \S5.1, with the paired-bias device of the 064 cross-net.
 \end{question}
+
+\begin{theorem}[The $m$-record moment-convexity lemma; Theorem~9's
+uniqueness resolved; settled and netted, GO-P-2026-074]
+\label{thm:m2conv}
+For any $P\succeq Q\succeq0$ and any record dimension $m$, on
+$\Omega=\{(C,V):V-C^{\mathsf T}PC\succ0\}$ the face
+$G(C,V)=\log\det(V-C^{\mathsf T}QC)-\log\det(V-C^{\mathsf T}PC)$ is
+jointly convex: with $R=P-Q$ and
+$Z=R^{1/2}CM_Q^{-1}C^{\mathsf T}R^{1/2}$,
+$G=-\log\det(I-Z)=\mathrm{tr}\,f(Z)$ with $f(z)=-\log(1-z)$; $M_Q$ is
+jointly matrix-concave, $CM^{-1}C^{\mathsf T}$ jointly matrix-convex
+and monotone (the classical matrix-fractional Schur certificate ---
+the block lift of the $m{=}1$ $aa^{\mathsf T}\!/s$ argument), so $Z$
+is jointly matrix-convex and $\mathrm{tr}f$ finishes with scalar
+convexity alone. Hessian decomposition: $d^2G=\mathrm{tr}[(I-Z)^{-1}
+\ddot Z]+\sum_{ij}|\dot Z_{ij}|^2/((1-\lambda_i)(1-\lambda_j))$ ---
+flats of $G$ are exactly level flats of $Z$. Corollaries: the
+weighted $m{=}2$ program is CONVEX in moment coordinates (a sum of
+two instances); $V^{(9)}$ is jointly convex in $(D_A,D_B)$; the
+optimal invariants $(Z_1,Z_2)$ are unconditionally unique; $(C,V)$ is
+unique for $w\in(0,1]$, $S_1\succ0$, optimal $C$ of full column rank
+(failure modes: a shut-off record --- exactly the water-filling
+price-out --- or a kernel of $S_1$ meeting the column space); the
+GL$(m)$ record gauge does not break constrained uniqueness (gauge
+orbits are curved, convex minimizer sets flat). GO-11 Theorem~9's
+uniqueness flag is resolved in this form. [Prover-grade R-IND-5:
+PROVED, four elementary steps, no operator convexity; identities and
+the Hessian decomposition verified to $10^{-13}$; seven instance
+families including $m>d_T$, zero violations.]
+\end{theorem}
 
 \section{Verification obligations}
 
