@@ -75,8 +75,18 @@ design:
 controls: [both-signs requirement (s1), max-vs-A-reference paired
   disambiguation at the sealed 067 instance (s2), independent kink
   locus vs the verifier's (s3), exact w=1 zero (s4)]
-amendments: []
-hash: sha256:16b537c9284aa649b59e71861c5e920c7c268ca24046d8b66e3edde1fd6df241
+amendments:
+  - date: 2026-08-05
+    what: "Defensive numerical guard added to the harness objective
+      (det <= 1e-280 -> penalty 90.0, the 064-lineage convention that
+      was omitted here): the CI runner's scipy walked SLSQP through a
+      degenerate probe our local runs never visited, crashing with a
+      math domain error at the 070 seal-commit CI run. The guard
+      cannot alter any finite objective value; reruns under the
+      governed seed reproduce the sealed artifact's values and
+      verdicts BIT-IDENTICALLY (checked field-by-field). No bar, seed,
+      gate, or measurement path changed. Prior hash: 16b537c9284aa649b59e71861c5e920c7c268ca24046d8b66e3edde1fd6df241"
+hash: sha256:be1ce4fdc3f0709c1dbe37b1415c53aa92d4fa45cba6d3c421e4ed7ba0647339
 ```
 
 ## Falsification

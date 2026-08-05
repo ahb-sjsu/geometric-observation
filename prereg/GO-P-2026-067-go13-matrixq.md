@@ -81,8 +81,18 @@ controls: [gapped-straddle access class (s1), equal-q tuning across
   DIFFERENT class types (s2), marginal-program endpoint anchor (s3),
   tax curve reported unaged so Conjecture 2 stays falsifiable by a
   future registration rather than absorbed here (s4)]
-amendments: []
-hash: sha256:d3d5cde8d724431a4a2e418b28a30c3beffe95c90f4bc2c5c52f4cf5202732ae
+amendments:
+  - date: 2026-08-05
+    what: "Defensive numerical guard added to the harness objective
+      (det <= 1e-280 -> penalty 90.0, the 064-lineage convention that
+      was omitted here): the CI runner's scipy walked SLSQP through a
+      degenerate probe our local runs never visited, crashing with a
+      math domain error at the 070 seal-commit CI run. The guard
+      cannot alter any finite objective value; reruns under the
+      governed seed reproduce the sealed artifact's values and
+      verdicts BIT-IDENTICALLY (checked field-by-field). No bar, seed,
+      gate, or measurement path changed. Prior hash: d3d5cde8d724431a4a2e418b28a30c3beffe95c90f4bc2c5c52f4cf5202732ae"
+hash: sha256:d7cddf7913dd8ae61638033ed865df739fd07a4adb1ff0bd5f0c609dc1d0748c
 ```
 
 ## Falsification

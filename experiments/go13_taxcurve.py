@@ -53,8 +53,11 @@ def prog2(SigT, cvec, q, DA, DB, W, starts=60, ret_ch=False):
         M0 = A @ SigT @ A.T + SN
         M1 = A @ SigTc @ A.T + SN
         dn = np.linalg.det(SN)
-        return (W * math.log(np.linalg.det(M0) / dn)
-                + (1 - W) * math.log(np.linalg.det(M1) / dn))
+        d0_, d1_ = np.linalg.det(M0), np.linalg.det(M1)
+        if dn <= 1e-280 or d0_ <= 1e-280 or d1_ <= 1e-280:
+            return 90.0
+        return (W * math.log(d0_ / dn)
+                + (1 - W) * math.log(d1_ / dn))
 
     cons = []
     for i, Dv in ((0, DA), (1, DB)):
