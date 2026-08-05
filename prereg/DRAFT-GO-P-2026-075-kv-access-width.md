@@ -11,12 +11,16 @@ the GO-12/13 access-width theory behind it).** KV-cache entries are
 records; the model's rolling context is the aging reference; eviction
 and recomputation are erasure. The access-width dichotomy predicts:
 
-- P1 (path vs slice, the 065 analog): a KV-eviction policy with
-  access to the FULL attention history of an entry (path) pays no
-  staleness penalty in downstream task quality at matched
-  recomputation budget, while a policy restricted to the entry's most
-  recent attention snapshot (slice) pays a penalty growing with entry
-  age — measured on the consumer's task metric, never reconstruction.
+- P1 (RESCOPED per the 2026-08-05 novelty sweep): NOT the directional
+  claim "full history beats snapshot" — A2SF (arXiv:2407.20485,
+  full-text verified) already swept a history-width knob and found
+  less history can win, adverse prior art for the directional form.
+  P1 is the QUANTITATIVE prediction no one has tested: at matched
+  recomputation budget, the quality gap between full-history and
+  snapshot policies, RESOLVED BY ENTRY AGE, follows the theory's
+  closed-form staleness tax (rising with age under slice access,
+  age-flat under path access) — a shape prediction that accommodates
+  the A2SF regime.
 - P2 (equal-q universality, the 067/069 analog): two structurally
   different access policies calibrated to equal predictive uncertainty
   about an entry's future attention mass score equal task quality —
@@ -38,7 +42,21 @@ mapping from q_G to attention-mass predictive variance (needs an
 exploratory calibration run, disclosed); eval-set choice (long-context
 QA vs retrieval); runtime budget (~hours on GPU 1, thermally capped).
 
-Novelty flank owed before any seal: KV-eviction/compression
-literature (H2O, StreamingLLM, SnapKV lineage, attention-sink work)
-— the access-width FRAMING and the equal-uncertainty control appear
-unclaimed, but the sweep must run first.
+**Novelty flank SWEPT (2026-08-05, arXiv-API mode; report in the
+session task output).** Verdicts: history-width axis ADJACENT-KNOWN
+(A2SF's sweep, adverse-direction; SnapKV never compares against full
+history; matched-budget age-resolved dissociation absent everywhere);
+KV-as-rate-distortion KNOWN including a sequential Wyner-Ziv
+side-information formalization (Kim, arXiv:2605.25085 — the closest
+theory neighbor, must be DISCUSSED not just cited) — staleness/aging
+absent from that wave; age-as-signal thoroughly known
+(LRU/Marconi/EntropyCache), age-vs-width dissociation absent;
+**equal-uncertainty control NOVEL** (uncertainty-as-signal exists:
+CONF-KV, ForesightKV, KVpop — as a matched CONTROL, nowhere);
+**Landauer framing for cache eviction NOVEL** (arXiv null result,
+verified-empty). Claimable: the access-width framing + closed-form
+tax, the age-resolved matched-budget design, P2, the Landauer
+interpretation. Full 21-entry attribution list in the sweep report.
+Residual before seal: a 10-minute Semantic Scholar/DBLP pass in a
+fresh session (rate-limited this session) for non-arXiv systems
+venues.
