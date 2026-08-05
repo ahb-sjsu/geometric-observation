@@ -10,6 +10,8 @@ synthesizes:
 - **Paper IV** — [**The consumer-relative flip**](paper/paper-IV-consumer-relative-flip.pdf) ([source](paper/paper-IV-consumer-relative-flip.tex), [TMLR build](paper/paper-IV-tmlr.tex)): the empirical spine — at matched bits, a code that preserves what the *consumer* reads beats a reconstruction-optimal code on the downstream task *while reconstructing the signal worse*, demonstrated across domains and physics.
 - **Paper V** — [**A Rate–Work–Distortion Region for Consumer-Relative Observation**](paper/consumer-relative-landauer.pdf) ([source](paper/consumer-relative-landauer.tex), [Overleaf zip](paper/consumer-relative-landauer-overleaf.zip)): the thermodynamic extension — a stored description carries **two separate resources**, the rate a consumer needs ($I(X;\hat X)$) and the ideal Landauer work its reset costs against retained side information ($I(X;\hat X\mid S)$); the full achievable region, the materialize-then-project barrier, multi-consumer coordinated reset, the Gaussian region with reset side information (scalar single-corner collapse with work discount $\to I(X;S)$; vector "reset water-filling" frontier), temperature-weighted water-filling, the staleness–work complement, and the semantic-invariance-of-erasure locality statement. Verified: **two** R-IND-5 fresh-context passes (0 errors total — ledger VI-8/VI-9; [revision notes](paper/consumer-relative-landauer-REVISION-NOTES.md)), theorem harnesses `verify_consumer_landauer.py` + `verify_gaussian_sideinfo.py` (GO-P-2026-042/044, both ALL PASS, CI-rerun), and three operational faces, each now `[replicated]` on two independent source families: **GO-7** (rate–work separation — 043 PASS 7/7, 045 multi-codebook PASS 6/6, 047 cross-source Gaussian PASS 6/6), **GO-8** (staleness: the reset threshold climbs with the age of the retained side information, tracking the predicted exchange — binary 049, Gaussian AR(1) 053), and **GO-9** (coordinated reset saves the shared-structure information — binary 050, Gaussian 054). ⚠ The GO-8/GO-9 Gaussian verdicts rest on a post-hoc bugfix to a control statistic, recorded in their ledger rows. Archived release: [doi:10.5281/zenodo.21776291](https://doi.org/10.5281/zenodo.21776291) (all versions; v1.2 = tag `paper-v-1.2`); one-click replication: [`notebooks/`](notebooks/).
 
+- **Papers VI & VII** — *in preparation* (skeletons + full evidence package for venue work: [`paper/PAPER-VI-VII-EVIDENCE-INDEX.md`](paper/PAPER-VI-VII-EVIDENCE-INDEX.md)): **Paper VI**, the spectral conditional rate–distortion function and the aging context ([skeleton](paper/paper-VI-spectral-conditional.tex); source manuscript [GO-12](paper/go12-process-region.tex)) — staleness is access width, the conditional-variance reduction and the dynamic Landauer curve W(Δ), and the spectral pair (070/071) that four novelty sweeps and three library checks say was never written down; **Paper VII**, the dynamic complementarity tax ([skeleton](paper/paper-VII-dynamic-tax.tex); source manuscript [GO-13](paper/go13-dynamic-tax.tex)) — matrix-q universality, the tax-curve sign law, the binary twin (universality exactly Gaussian, approximately binary), the spectral m=2 theorem with two common prices, the m-record moment-convexity lemma (a candidate standalone communication), and a measured operational face (+0.090 vs +0.086 predicted). Every theorem: sealed prereg, governed harness, CI re-run, fresh-context adversarial verification.
+
 into one claim: **compression succeeds for a consumer exactly when it preserves
 what that consumer's functional distinguishes** — measured on the consumer's own
 metric, never on reconstruction error.
@@ -57,7 +59,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
 | [`chapters/`](chapters/) | Chapter → claim map and drafts |
 
-## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the complementarity tax and its region are replicated
+## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the tax and its region are replicated; the dynamic theory is closed through the spectral pair and the m=2 endgame
 
 | Claim | Class | Evidence |
 |---|---|---|
@@ -101,7 +103,9 @@ netted by 064), and the dynamic extension is open with its first control settled
 conditional-variance reduction settles the causal-prefix eraser).
 GO-13 (the dynamic
 complementarity tax) is open with its Theorem 1 netted (067). Campaign
-archive: tag `go10-go11-1.2` under the same concept DOI. **73 sealed
+archive: tags `go10-go11-1.2` and `go12-go13-1.0/1.1/1.2` under the same concept
+DOI; Papers VI/VII skeletons and the evidence-package index are staged for venue
+work. **73 sealed
 preregistrations** (040 void, 046/048/051/052 logged instrumentation misses, each
 superseded and rerun; 069's V6 a one-cell exact-binomial instrumentation miss,
 amended and rerun with physics 5/5 both times; 056 a registered honest miss at its effect floors → NEG-16),
