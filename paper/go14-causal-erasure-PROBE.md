@@ -169,3 +169,46 @@ seal: full-space min at n=16-24, Delta=0..2 (does the non-diag
 optimum approach the causal-spectral value?); diag Delta=5-6 at
 n=32-40 to pin the diag constant. Then R-IND-5 -> tex fold ->
 prereg 078.
+
+## Full-space discrimination (2026-08-05): both closed forms UNSUPPORTED; constant pinned; the mechanism found
+
+New exact interleaved-Cholesky L_a evaluator (agrees with sealed
+harness to 1.9e-11; identity residual <= 3.6e-12 everywhere).
+TRACK 1 (general (Ay, Av, B) records, n=16/24, Delta=0..2): GATE
+PASS -- n=16 Delta=0 winner 0.5667581 beats the 076 verifier record
+0.567353 by 5.9e-4; all basins (diag-embed, random tilt,
+block-embed, cross-n Toeplitz) converge to the same value <= 1e-7,
+status 0, distortion active. Process-limit (two-point 1/n,
+calibrated <= 5e-6): L_fs^inf = 0.562725/0.536400/0.531049 at
+Delta=0/1/2 -- plateaus +0.0148/+0.0041/+0.0008 ABOVE the
+causal-spectral candidate (80-400x the extrapolation error) with the
+WRONG shape (drifting rate, not the candidate's clean lambda law):
+BOTH closed-form candidates (c_spec 0.019, c_static 0.0267) are too
+small at every Delta -- the process rate is NOT single-letterized by
+any tested causal-conditioning spectrum; the gap is genuine
+cross-cell code value (winner cuts leakage 0.033->0.024 by paying
+block penalty the per-frequency relaxations cannot express).
+TRACK 2 (diag Delta=4/5/6, n=24..48, block-calibrated 1.3e-7):
+E_inf = 2.661e-5/3.477e-6/4.210e-7; per-lag ratios
+5.18->5.93->6.87->7.65+/-0.15->8.26+/-1.07 REACH lambda_s^-2=7.955
+within error at Delta=5->6; c_diag = 0.111 +/- 0.006 (bracket
+[0.105,0.125]); full-family c_fs in [0.09,0.125].
+MECHANISM (the discovery): the full-space optimizer's Ay and noise
+kernels are time-SYMMETRIC (<5e-5); ALL causal structure lives in
+the V-coupling Av, whose kernel CHANGES SIGN EXACTLY AT LAG Delta --
+horizon-matched V-cancellation: the record aligns V-content with the
+span the eraser will hold and anti-correlates V beyond the access
+horizon, suppressing smoothing leakage. Exactly what the
+symmetric-by-class diag family cannot express (explains the 076
+beat). Falsifiable per-cell at any n.
+CONJECTURE v0.2 on record (session task output): (1) limit exists
+O(1/n); (2) rate lambda_s^{2Delta} with c_diag = 0.111+/-0.006, c NOT
+an available single-letter invariant; (3) the sign-boundary-at-Delta
+mechanism clause, testable; (4) reproducible anchors: family min
+L_a(0) <= 0.5667581 at n=16, diag ladder E_inf(4/5/6). Scope: family-
+conditional (U-coupled records = open definitional question for
+R-IND-5); equality-unsupported is an evidence verdict -- the natural
+next theory face is a LOWER BOUND via the convexity-lemma machinery
+on the interleaved-chol representation (sum of log-ratios of nested
+Schur complements). NEXT LOOP: R-IND-5 on v0.2 -> tex v0.3 -> seal
+prereg 078 -> governed.
