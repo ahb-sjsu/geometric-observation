@@ -63,6 +63,8 @@ REPRODUCIBLE = [
      "GO13-operational-face.json", "GO13OP_supported"),
     # GO-12 spectral conditional RDF (GO-P-2026-070), seed 20261001, ~2 min.
     ("go12_spectral_crdf.py",       "GO12SP-JSON","GO12-spectral-crdf.json",       "GO12SP_supported"),
+    # GO-12 weighted spectral (GO-P-2026-071), seed 20261004, ~4 min.
+    ("go12_weighted_spectral.py",   "GO12WS-JSON","GO12-weighted-spectral.json",   "GO12WS_supported"),
 ]
 
 failures: list[str] = []
