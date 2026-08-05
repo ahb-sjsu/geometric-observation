@@ -35,3 +35,35 @@ Next loop (when picked up): R-IND-5 verifier on the identity +
 sandwich; GO-14 tex v0.2; seal GO-P-2026-076 (ID after 075); pilot;
 governed. Novelty sweep owed for the causally-conditioned-CMI
 framing (Kramer/Lev-Khina line mapped in GO-12 novelty record).
+
+## R-IND-5 pass 1 (2026-08-05): PASS conditional -- sharpenings on record
+
+Identity/sandwich/monotonicity/pole/bookkeeping all survive
+adversarial re-derivation (identity residual 1.1e-14; all 20+ probe
+numbers reproduced to every quoted digit; independence premise and
+per-term identity verified, not assumed). MANDATORY restatements
+before the 076 seal:
+1. (ii) REFUTED AS WORDED -- counterexamples: N-only records (Yhat
+   built from N = Y - rho V) collapse EXACTLY while carrying 1.43
+   bits; a feasible boundary-V record collapses at Delta=6, n=16,
+   D=0.3. Correct statement: for tau2>0, D < rho^2(n-Delta-1)/n, and
+   Delta <= n-2, every D-feasible collapsing record must be V-free on
+   cells t <= n-Delta-1, which the budget forbids; strictness of
+   min L_a > block routes through block-optimality + C_Delta > 0 at
+   the (unique per-mode) block optimizer, NOT through universal
+   non-collapse.
+2. Quoted minima are CLASS-CONDITIONAL (stationary-symmetric/diagonal
+   records, local certificates) -- state in the theorem, pending the
+   full-space search closure.
+3. Spectral-gain constant is n-PINNED: 0.0213/0.0263/0.0280 at
+   n=8/16/24, -> ~0.0313 at infinity (block(inf) = 0.52991 by
+   frequency waterfilling); state gap_n -> static(q_path) - block_n.
+4. Pole wording: per-lag ratio -> lambda_s^{-2} = 7.955 WITH the
+   (n-Delta)/(n-Delta-1) finite-window prefactor (measured 5.51->9.18
+   through Delta=0..8 at n=16); sandwich and monotonicity restricted
+   to Delta <= n-2; block-opt leak (2.7e-6) vs min-L_a gap (2.37e-6)
+   not to be conflated.
+5. Tex v0.1 SIGN ERROR: the conjecture says "strictly increasing in
+   Delta"; definition (a) gives strictly DECREASING. Fix at v0.2.
+Two INCOMPLETE sub-checks (n=40 pole plateau; full-space non-diagonal
+search) being closed by the resumed verifier before seal.
