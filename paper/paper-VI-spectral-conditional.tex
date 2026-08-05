@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\todo}[1]{\textbf{[TODO: #1]}}
+
+\title{The Spectral Conditional Rate--Distortion Function\\and the
+Aging Context\\[4pt]\large Paper VI skeleton --- v0.1, for venue work}
+\author{A.~Bond \and S.~\todo{Syed's full name}}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Gray's conditional rate--distortion function --- side information at
+both encoder and decoder --- has been known in scalar and
+finite-vector Gaussian forms since 1972, yet its spectral form for
+jointly stationary Gaussian pair processes has, to the best of a
+four-sweep, three-library-check search, never been written down. We
+supply it: at the work endpoint, $L(D)$ is the equal-slope allocation
+of per-frequency quadratic-root values over the conditional spectrum,
+recovering classical Kolmogorov--Pinsker reverse water-filling as the
+uninformative-context limit; the weighted rate--work version carries
+per-frequency two-water-level profiles under a single distortion
+price. En route we prove that the staleness of the conditioning
+context is an \emph{access-width} phenomenon, not a delay phenomenon
+--- pure delay is information-free under path access (an exact
+finite-$n$ recoding identity), while time-local access pays a closed
+staleness tax whose substitution rule depends on the encoder's epoch
+of access --- and that every observation access class enters through
+one conditional variance, making the ideal reset work of a stored
+record against an aging reference an exact Kalman-family curve
+$W(\Delta)$. \todo{compress to 150 words for the venue.}
+\end{abstract}
+
+\section{Introduction and related work}
+\todo{Narrative: Gray 1972/73 $\to$ Leiner--Gray 1974 $\to$ the
+static vector line (Gkagkos/Stylianou--Charalambous) $\to$ the gap.
+Attribution spine drafted in
+\texttt{go12-process-region-NOVELTY.md}; use the demanded sentences
+verbatim. Position the third-party conditioner (eraser) against
+Simeone--Permuter, Heegard--Berger, and the vending-machine line.}
+
+\section{Model and coordinates}
+\todo{Transplant from \texttt{go12-process-region.tex} \S The
+problem; pin: circulant embedding (load-bearing), orthonormal DFT,
+mean-distortion normalization, Gaussian-record provenance.}
+
+\section{Staleness is access width}
+\todo{Facts 1--2 (recoding identity; slice dichotomy with the
+encoder-access substitution rule). Include the R-IND-5 refutation of
+the first draft's pairing as a worked caution (referees like this).}
+
+\section{The conditional-variance reduction and the dynamic Landauer
+curve}
+\todo{Theorem 1 (q$_{\mathcal G}$); slice/prefix/path = single-sample
+/ Kalman fixed-lag / noncausal Wiener; exact gap
+$C^{2\Delta}(P_f-q_{\mathrm{path}})$; $W(\Delta)$. Physics scoping
+remark (del Rio, Sagawa--Ueda, Still et al., delayed-feedback
+demons).}
+
+\section{The spectral conditional RDF}
+\todo{Theorem 2-spectral + the weighted theorem (Conjecture 1 closed;
+the $(w,\mu)$ rescope of the ``pair of prices''). Anchors as
+subsections. Convexity proof (verifier's inverted-quadratic argument)
+in-line; saturation KKT constant $e_k$.}
+
+\section{The Toeplitz transfer}
+\todo{DECISION POINT: either prove Lemmas T1--T4 (joint
+diagonalization; value continuity; two-sided sandwich; window
+pinning) --- bounded project, $O(1/n)$ numerics clean, $n\cdot$gap
+constant to three digits --- or state as conjecture with the
+numerical support and ship circulant-scoped. Draft both texts; Syed
+picks per venue.}
+
+\section{Open problems}
+\todo{Process-rate causal object (Conjecture 2$'$, with the
+Lev--Khina definitional fork made explicit); aging models that break
+$\Delta$-invariance; AoI--Landauer bridge (metadata-only caveat).}
+
+\section*{Reproducibility}
+Every theorem: sealed preregistration, governed harness, CI re-run on
+every push, fresh-context adversarial verification. Map:
+\texttt{PAPER-VI-VII-EVIDENCE-INDEX.md}; archived releases
+go12-go13-1.0/1.1/1.2 under the concept DOI.
+
+\todo{Bibliography: transplant the 20-entry list from
+go12-process-region.tex and extend per the attribution spine.}
+
+\end{document}
