@@ -57,13 +57,19 @@ REPRODUCIBLE = [
     ("go13_matrixq.py",             "GO13MQ-JSON","GO13-matrixq.json",             "GO13MQ_supported"),
     # GO-13 Thm 2: tax-curve sign law (GO-P-2026-068), seed 20260924, ~45 s.
     ("go13_taxcurve.py",            "GO13TC-JSON","GO13-taxcurve.json",            "GO13TC_supported"),
+    # GO-13 operational face (GO-P-2026-069), amended-rerun governed
+    # seed 20260928 (see the dated amendment in the prereg), ~20 s.
+    ("go13_operational_face.py --seed 20260928", "GO13OP-JSON",
+     "GO13-operational-face.json", "GO13OP_supported"),
 ]
 
 failures: list[str] = []
 
 
 def run(rel_path: str, timeout: int = 600) -> str:
-    p = subprocess.run([PY, os.path.join(ROOT, rel_path)], capture_output=True,
+    parts = rel_path.split()
+    p = subprocess.run([PY, os.path.join(ROOT, parts[0])] + parts[1:],
+                       capture_output=True,
                        text=True, timeout=timeout, cwd=ROOT)
     if p.returncode != 0:
         raise RuntimeError(f"{rel_path} exited {p.returncode}\nSTDERR tail:\n{p.stderr[-1500:]}")

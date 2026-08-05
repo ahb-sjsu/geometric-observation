@@ -218,8 +218,10 @@ def run_instance(rng, name, rvec, DA, DB, n, T, do_univ, do_shuf,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pilot", action="store_true")
+    ap.add_argument("--seed", type=int, default=None)
     a = ap.parse_args()
-    SEED = 20260926 if a.pilot else 20260927
+    SEED = a.seed if a.seed is not None else (20260926 if a.pilot
+                                              else 20260927)
     rng = np.random.default_rng(SEED)
     n, T = N_BLK, (TRIALS_PILOT if a.pilot else TRIALS_GOV)
     t0 = time.time()
