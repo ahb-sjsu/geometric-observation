@@ -67,3 +67,27 @@ before the 076 seal:
    Delta"; definition (a) gives strictly DECREASING. Fix at v0.2.
 Two INCOMPLETE sub-checks (n=40 pole plateau; full-space non-diagonal
 search) being closed by the resumed verifier before seal.
+## R-IND-5 pass 1 closure (2026-08-05): both INCOMPLETE sub-checks done
+
+(1) POLE CONFIRMED with structure: per-cell (interior t=12, n=32)
+leak ratio -> lambda_s^{-2} = 7.955 within 0.3-1% at the tail;
+aggregate ratio carries the (n-Delta-1)/(n-Delta-2) cell-count
+prefactor (measured within 1.5% of prediction over Delta=6..11).
+Wording fixed: never quote a constant measured ratio.
+
+(2) DIAGONAL CLASS BEATEN for L_a: min L_a(0) <= 0.567353 <
+0.572255 (improvement 4.9e-3 bits) via two independent non-diagonal
+parameterizations agreeing to 8e-5, with a failed first-order
+certificate at the diagonal optimum (directional derivative 8.6e-3
+vs 1e-6 noise). Diagonal optimality REMAINS PROVEN for the block
+coordinate; REFUTED for L_a. HARD REQUIREMENT for the 076 seal: all
+quoted minima are diagonal-class upper bounds; the interpolation is
+stated as block/n < min L_a(Delta) <= diag-class value; the
+overstatement is bounded by min L_a - block per lag (<= 1.07e-3 at
+Delta=2, <= 2.4e-6 at Delta=5). Verdict remains PASS under the
+class-conditional phrasing; any seal presenting 0.572255 as THE
+minimum must FAIL.
+
+076 loop queued: tex v0.2 (five restatements + sign fix + true-min
+bracketing), harness netting the identity/sandwich/pole-per-cell/
+class-bracket, pilot, seal, governed.
