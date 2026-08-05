@@ -61,6 +61,8 @@ REPRODUCIBLE = [
     # seed 20260928 (see the dated amendment in the prereg), ~20 s.
     ("go13_operational_face.py --seed 20260928", "GO13OP-JSON",
      "GO13-operational-face.json", "GO13OP_supported"),
+    # GO-12 spectral conditional RDF (GO-P-2026-070), seed 20261001, ~2 min.
+    ("go12_spectral_crdf.py",       "GO12SP-JSON","GO12-spectral-crdf.json",       "GO12SP_supported"),
 ]
 
 failures: list[str] = []
