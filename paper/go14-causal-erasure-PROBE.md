@@ -110,3 +110,24 @@ GO-14 now [predicted] in LEDGER/README. NEXT for GO-14: the novelty
 sweep (OWED before any novelty language), then the open faces
 (full-space min, process limit + innovations form, reset protocol,
 rwf pole characterization).
+
+## Novelty sweep (2026-08-05, arXiv-API only -- S2 429'd throughout, WebSearch budget exhausted): L_a + chain rule NOVEL conditional on four citations
+
+Coordinate L_a(Delta) and the block+leakage chain rule with the
+Kalman-pole characterization: NOT FOUND under any phrasing tried
+(null set on record: causally-conditioned+erasure, delayed directed
+information, smoothing leakage, sequential erasure, quantum state
+smoothing+thermodynamic, chain rule+Landauer in our sense). MUST-CITE
+adjacents wherever novelty is claimed: (i) Berta et al. 1609.06994/
+1808.00135 (conditional erasure cost = CMI -- static conditioning);
+(ii) Boyd-Mandal-Crutchfield 1708.03030 modularity dissipation +
+1612.08616 retrodictive generators (smoothed-vs-causal has thermo
+consequences); (iii) Venkat-Weissman-Carmon-Shamai 1302.2167
+(Gaussian lookahead: the existing Delta-knob between filter and
+smoother, estimation-theoretic, no erasure face); (iv) Sandberg et
+al. 1402.1010 (Kalman-Bucy demon: Landauer against a FILTERED
+reference -- no smoothing side, no lag coordinate). Related-work:
+del Rio 1009.1630, Rosinberg et al. 1412.5138/1612.04945 (delayed
+feedback), Asnani-Weissman 1105.5755, Naiss-Permuter 1012.5071.
+RESIDUAL: hold headline novelty wording until the owed S2/DBLP pass
+(non-arXiv venues unswept). Process-limit probe in flight.
