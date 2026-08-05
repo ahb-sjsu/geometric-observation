@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+﻿\documentclass[11pt]{article}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{fullpage}
 \usepackage[hidelinks]{hyperref}
@@ -13,7 +13,7 @@
 \title{The dynamic conditional region: rate, reset work, and the aging
 context\\[2pt]\large A problem statement (GO-12)}
 \author{Geometric Observation program}
-\date{Problem statement v0.4 --- August 2026}
+\date{Problem statement v0.5 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -87,6 +87,57 @@ levels} $\gamma_0(\omega),\gamma_1(\omega)$ solving the weighted
 stationarity system of GO-11's Theorem~3 per frequency under a common
 pair of Lagrange prices. The $m=2$ process region takes the same form
 with the matrix water levels of GO-11's Theorem~9 per frequency.
+\end{conjecture}
+
+\begin{theorem}[The spectral conditional RDF; work endpoint, circulant
+embedding; settled and netted, GO-P-2026-070]\label{thm:spectral}
+Source = the \emph{pair} process $(V,Y)$ (the formula is provably not
+the $Y$-only program); circulant embedding of period $n$ (spectral
+samples renormalized to mean $1$); orthonormal real DFT; per-symbol
+MSE, i.e.\ MEAN normalization $\tfrac1n\sum_kD_k=D$; records jointly
+Gaussian (the all-records converse is imported per mode from the
+static theorem's converse plus the independence/data-processing
+chain). Then the DFT modes are independent static triples with
+$S_{Y,k}=\rho^2\lambda_k+(1-\rho^2)$, $\rho^2_k=\rho^2\lambda_k/S_{Y,k}$,
+$s_k=1+\tau^2/\lambda_k$ (all machine-verified block-diagonalizations),
+cross-mode records gain nothing, and
+\[
+L_n(D)=\min_{\frac1n\sum_kD_k=D}\ \frac1n\sum_k\tfrac12\log_2
+g^\star\!\bigl(\rho^2_k,\,s_k,\,D_k/S_{Y,k}\bigr)
+\;\xrightarrow[n\to\infty]{}\;
+\min_{\int D(\omega)\frac{d\omega}{2\pi}=D}\int\tfrac12\log_2
+g^\star\!\bigl(\rho^2(\omega),s(\omega),D(\omega)/S_Y(\omega)\bigr)
+\tfrac{d\omega}{2\pi}.
+\]
+The per-mode value $\varphi_k$ is \emph{provably} strictly convex
+decreasing on $(0,S_{Y,k}]$ (verifier proof via the inverted quadratic:
+$d^2D/dr^2=4x(D'+xD'')>0$), with a finite left-slope at saturation:
+mode $k$ saturates iff the water level
+$\mu<e_k=(s_k-1)/\bigl(2(s_k-1+\rho^2_k)S_{Y,k}\bigr)$ nats; every mode
+receives $D_k>0$; the allocation exists always and is unique iff
+$D<\tfrac1n\sum_kS_{Y,k}$. Anchors: $\tau^2\to\infty$ recovers
+classical reverse water-filling of $S_Y(\omega)$ exactly; flat spectrum
+recovers the static theorem. This is Gray's equal-slope decomposition
+\cite[Thm.~5]{gray72} pushed to the frequency continuum --- the third
+promotion of the water level, completed for the single-consumer work
+endpoint. \emph{Scoped open}: (a) the WEIGHTED version needs two named
+extra ingredients (Gaussian-scalar optimality and convexity in $D_k$
+of the weighted scalar value); (b) the \emph{Toeplitz transfer} to
+finite windows is imported-with-lemmas, NOT proven here --- (1) joint
+diagonalization reduces to single-sequence Toeplitz theory (all
+covariances affine in $T_n(f_V)$, spectra bounded below), (2)
+continuity of the allocation value under weak spectral convergence,
+(3) a two-sided sandwich transplanting circulant-optimal records with
+corner-perturbation control and a blocking lower bound (the
+conditioning set grows with $n$), (4) window-vs-infinite-path
+definition pinning. [R-IND-5: PASS --- mode mapping to
+$2.2\times10^{-15}$; convexity upgraded from numerical to proven;
+reduction inequalities re-derived; circulant$\to$integral to
+$2\times10^{-16}$ at $n\ge64$; classical anchor $4.2\times10^{-9}$;
+the verifier's own cross-mode numerics were incomplete at report time
+--- that gate is carried by harness 070's s1
+($2.6\times10^{-14}$ at the pilot).]
+\end{theorem}
 
 \emph{Attribution} (novelty sweep, 2026-08-05; Gray's 1972 report
 page-verified in full): the functional $L$ coincides at the
@@ -118,7 +169,6 @@ venue package), and the same page-level treatment of Leiner--Gray
 1974 \cite{leinergray} plus the Wyner 1976--78 Gaussian-SI line ---
 the natural next places a spectral conditional formula could first
 appear.
-\end{conjecture}
 
 \begin{fact}[$\Delta$-invariance under path access; settled and netted,
 GO-P-2026-065]\label{lem:recoding}
