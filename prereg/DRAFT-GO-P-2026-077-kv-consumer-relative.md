@@ -39,10 +39,27 @@ through u:
 **Inherited novelty record (075 draft, two sweeps + residual pass,
 CLEAR TO SEAL there):** history-width axis adjacent-known (A2SF
 adverse-direction, cited); equal-uncertainty CONTROL novel; Landauer
-framing novel; 21-entry citation list carried over. OWED BEFORE
-SEAL: one flank check on the u-matching-by-degradation device
-(noise-calibrated scorer equivalence) — if published, cite; the
-control's use as an analytic-equality gate is still ours.
+framing novel; 21-entry citation list carried over.
+
+**Degradation-device flank check EXECUTED (2026-08-05, arXiv-API +
+ar5iv full-text mode; report in session task output). Verdicts:**
+noise-degradation-to-match as a control device ADJACENT-KNOWN — cite
+arXiv:1802.05399 (Lykouris–Vassilvitskii: Gaussian-noise-degraded
+oracle predictions in caching experiments, FULL-TEXT VERIFIED — the
+mechanism precedent, used for curve-tracing from an oracle, NOT for
+titrating one live scorer to a second live scorer's measured
+uncertainty followed by an equality test); matched-uncertainty
+eviction comparison NOVEL (null set on record); attention-mass
+prediction with uncertainty calibration NOVEL (predictor existence
+already covered by ForesightKV/KVpop citations). Citations to add at
+seal: arXiv:1802.05399; arXiv:2607.11942 (matched-budget
+query-visibility audit — the nearest access-structure comparison,
+already surfaced in the 075 sweep, now upgraded to must-discuss);
+lineage options arXiv:1706.06969, arXiv:2603.22219, arXiv:1610.02413
+(re-verify ID at seal). DISCLOSED CHANNEL GAP: the session WebSearch
+budget was exhausted pre-check and Semantic Scholar 429'd on all
+attempts — coverage is arXiv-API title/abstract + targeted ar5iv
+full text; residual risk low, same class as the 075 S2 gap.
 
 **Instrument**: experiments/kv_access_width_v2.py (056/075 lineage;
 Qwen2.5-7B-Instruct, LongBench passage_retrieval_en, prefill-reuse,
