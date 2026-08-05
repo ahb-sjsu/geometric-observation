@@ -167,13 +167,56 @@ def full_program(n, D, starts=10):
         E = np.hstack([np.eye(n), np.zeros((n, n))]) - A
         return (np.trace(E @ SigZ @ E.T) + np.trace(SN)) / n
 
+    # deterministic block-diagonal warm start: per-mode 3-parameter
+    # channels (aY_k + bV_k + noise) solved independently at the
+    # equal-slope allocation targets, then assembled.  This makes the
+    # allocation value reachable by pure polish in ANY environment;
+    # the gate's physics direction (full < alloc refutes) never
+    # depends on multistart luck.
+    _, Dks = alloc_value(n, D)
+    warmA = np.zeros((n, 2 * n))
+    warm_sn = np.full(n, -2.0)
+    for k in range(n):
+        def ok(p, k=k):
+            av, bv, nv = p[0], p[1], math.exp(min(p[2], 15))
+            q1 = (av * av * SigZcS[k, k]
+                  + 2 * av * bv * SigZcS[k, n + k]
+                  + bv * bv * SigZcS[n + k, n + k])
+            return math.log(max(q1, 0.0) + nv) - math.log(nv)
+
+        def dk(p, k=k):
+            av, bv, nv = p[0], p[1], math.exp(min(p[2], 15))
+            e0, e1 = 1 - av, -bv
+            return (e0 * e0 * SigZ[k, k]
+                    + 2 * e0 * e1 * SigZ[k, n + k]
+                    + e1 * e1 * SigZ[n + k, n + k] + nv)
+
+        bk = None
+        for a0 in (0.3, 0.6, 0.85):
+            r = minimize(ok, np.array([a0, 0.1, -2.0]),
+                         constraints=[{"type": "ineq", "fun":
+                                       lambda p, k=k: Dks[k] - dk(p)}],
+                         method="SLSQP",
+                         options={"maxiter": 1500, "ftol": 1e-14})
+            if r.success and (bk is None or r.fun < bk[0]):
+                bk = (r.fun, r.x)
+        if bk is not None:
+            warmA[k, k], warmA[k, n + k] = bk[1][0], bk[1][1]
+            warm_sn[k] = min(bk[1][2], 15)
+    warm_p = np.concatenate([warmA.ravel(), np.zeros(n * (n + 1) // 2)])
+    tri_diag = np.cumsum(np.arange(1, n + 1)) - 1
+    warm_p[2 * n * n + tri_diag] = warm_sn
+
     best = None
-    for _ in range(starts):
-        A0 = np.hstack([np.diag(rng.uniform(0.3, 0.9, n)),
-                        np.zeros((n, n))])
-        p0 = np.concatenate([
-            (A0 + rng.normal(0, 0.03, (n, 2 * n))).ravel(),
-            rng.normal(-2.0, 0.3, n * (n + 1) // 2)])
+    for i in range(starts + 1):
+        if i == 0:
+            p0 = warm_p
+        else:
+            A0 = np.hstack([np.diag(rng.uniform(0.3, 0.9, n)),
+                            np.zeros((n, n))])
+            p0 = np.concatenate([
+                (A0 + rng.normal(0, 0.03, (n, 2 * n))).ravel(),
+                rng.normal(-2.0, 0.3, n * (n + 1) // 2)])
         r = minimize(obj, p0, constraints=[
             {"type": "ineq", "fun": lambda p: D - dist(p)}],
             method="SLSQP", options={"maxiter": 4000, "ftol": 1e-13})

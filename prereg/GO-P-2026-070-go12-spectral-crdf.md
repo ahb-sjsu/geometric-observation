@@ -74,8 +74,22 @@ design:
 controls: [full cross-mode record matrix with dense Sigma_N (s1),
   convexity probe alongside the slope gate (s2), Cauchy-ordered
   n-sweep (s3), two independent classical anchors (s4)]
-amendments: []
-hash: sha256:735dcaf44f478432b0a8c0235d8b0253b004fb3d7d244f46242801ae012d8e6e
+amendments:
+  - date: 2026-08-05
+    what: "Instrumentation: the guard-commit CI run showed s1's SLSQP
+      multistart landing on a worse local optimum under the runner's
+      scipy (harness exit 1, gate failure, no crash). Physics
+      direction unaffected: the decomposition is refuted only by
+      full < alloc; full > alloc is optimizer weakness. Fix: a
+      deterministic block-diagonal warm start assembled from per-mode
+      3-parameter channels at the equal-slope allocation targets,
+      making the allocation value reachable by pure polish in any
+      environment; random multistart retained. Rerun under the SAME
+      governed seed 20261001: ALL PASS 4/4, verdicts identical, s1
+      gap 5.6e-14 (was 2.6e-13; optimizer-noise digits only). The
+      as-executed artifact is preserved in git history at f337a46.
+      No bar, seed, or gate changed. Prior hash: 735dcaf44f478432b0a8c0235d8b0253b004fb3d7d244f46242801ae012d8e6e"
+hash: sha256:f7c76eb6fb850c0824c514f34a846700918d01b4ce6b6d12e942f19201eb3b4e
 ```
 
 ## Falsification
