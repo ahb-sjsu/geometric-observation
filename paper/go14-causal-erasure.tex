@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
+\large A problem statement (GO-14)}
+\author{Geometric Observation program}
+\date{Problem statement v0.1 --- August 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+GO-12 settled the single-record causal-prefix eraser (the Kalman
+family); the process-rate object --- block records erased cell by
+cell, each against only the causal prefix of an aging reference ---
+remains open, and its nearest published neighbor (Gauss--Markov
+tracking with causal decoder side information, Lev--Khina 2020)
+is explicitly open even without delay. This statement promotes it
+from GO-12 residue to its own campaign. Nothing here is a claim.
+\end{abstract}
+
+\section{The problem}
+Sources and observations as in GO-12 ($Y=\rho V+N$, $V$ AR(1),
+$S_s=V_s+U_s$). A block record $\hat Y^n$ is produced noncausally by
+the encoder; the eraser resets cell $t$ at time $t+\Delta$ holding
+only $\sigma(S_{\le t+\Delta})$ (and, definitional fork, possibly the
+already-erased cells). The process-rate coordinate is a per-symbol
+limit of summed per-cell conditional informations.
+
+\begin{question}[The definitional fork --- part of the problem]
+Candidate coordinates: (a) Markov-constrained causal conditioning in
+the sense of Lev--Khina, $\tfrac1n\sum_tI(T^n;\hat Y_t\mid
+S^{t+\Delta},\hat Y^{t-1})$; (b) the same without record memory;
+(c) Kostina--Hassibi causally-conditioned DI --- \emph{known} to
+collapse to the full-path endpoint in Gaussian settings, so the
+interpolation is well-posed only under (a)/(b). Which definition is
+the thermodynamically operational one (a reset protocol realizes it)
+is itself a question the campaign must settle first.
+\end{question}
+
+\begin{conjecture}[Strict interpolation with an innovations form]
+Under the operational definition, the process-rate causal coordinate
+lies strictly between GO-12's slice and path endpoints for
+$\tau^2>0$, is strictly increasing in $\Delta$, and admits a
+Kalman/innovations characterization --- with the caution that vector
+NRDF water-filling closed forms were refuted in general
+(Stavrou--Tanaka--Tatikonda), so only scalar closed forms should be
+expected cheaply.
+\end{conjecture}
+
+\begin{question}
+The honesty caveat inherited from the GO-12 sweep: does the object
+reduce to the classical filtering-vs-smoothing gap plus bookkeeping,
+or does record memory ($\hat Y^{t-1}$ in the conditioning) create
+genuinely new structure? The first probe is numerical: compute
+(a)/(b) at small $n$ against the 066 endpoints.
+\end{question}
+
+House rules apply: novelty sweeps before novelty language (the
+Lev--Khina/Kostina--Hassibi/nonanticipative-RDF line is mapped in the
+GO-12 novelty record; a dedicated sweep is owed before any claim);
+R-IND-5 before assertion; \S5.1 at every seal.
+\end{document}
