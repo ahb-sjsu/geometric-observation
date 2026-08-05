@@ -72,3 +72,20 @@ thermodynamics). Logged channel gap: S2 full-text Landauer query
 never succeeded (429) and WebSearch was budget-blocked — two
 independent full-text nulls stand; the seal record carries this as a
 disclosed unexecuted channel, residual risk low.
+
+**CALIBRATION EXECUTED (2026-08-05, exploratory, disclosed; Atlas GPU
+1, 612 s, peak 78 C, Erebus untouched; artifact
+results/GO13-kvaw-calibration-exploratory.json; 12 LongBench prompts
+[indices in the artifact] EXCLUDED from all pilot/governed sets).**
+Instrument: experiments/kv_access_width.py (056 conventions;
+prefill-reuse; age-band eviction with cache_position-correct decode;
+in-script thermal gate). Findings: u-curves place the equal-u
+crossing below path width 1024 (finer QBLK width grid = pre-seal
+instrument extension, disclosed); age bins [32,512)/[512,2k)/
+[2k,8k)/8k+ recommended (old entries carry 64% of future mass);
+rho=0.25 too generous (ceiling 1.00) -- pilot sweeps rho in
+{0.05,0.10,0.15,0.25} on 16 fresh prompts to find rho* with
+fp16-drop headroom 0.2-0.4; governed sizing n=64 with token-F1
+co-primary, ~1.5-2 h. PRE-SEAL DECISIONS: fix the P2 pairing
+statistic (mean vs median u -- they currently disagree) and the
+equal-u tolerance from pilot bootstrap SEs.
