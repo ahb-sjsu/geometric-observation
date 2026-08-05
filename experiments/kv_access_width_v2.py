@@ -92,7 +92,12 @@ V1_PILOT_EXCLUDE = {175, 69, 10, 96, 40, 140, 150, 25, 101, 128, 162, 197,
 # seed 20260810)
 V2_PILOT1_EXCLUDE = {154, 3, 26, 165, 48, 85, 138, 133, 80, 168, 112, 13,
                      104, 89, 194, 68}
-EXCLUDE = CAL_EXCLUDE | V1_PILOT_EXCLUDE | V2_PILOT1_EXCLUDE
+# Provenance: GO13-kvaw2-pilot2-disclosed.json v2_pilot_indices (v2 pilot 2,
+# seed 20260811)
+V2_PILOT2_EXCLUDE = {103, 149, 59, 55, 21, 146, 0, 75, 34, 41, 187, 190, 73,
+                     160, 37, 62, 46, 27, 181, 152, 188, 155, 42, 176, 93,
+                     153, 135, 110, 139, 5, 19, 130}
+EXCLUDE = CAL_EXCLUDE | V1_PILOT_EXCLUDE | V2_PILOT1_EXCLUDE | V2_PILOT2_EXCLUDE
 
 # ------------------------------------------------------------------ scoring
 def _norm(s):
@@ -564,11 +569,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--model', default='Qwen/Qwen2.5-7B-Instruct')
     ap.add_argument('--task', default='passage_retrieval_en')
-    ap.add_argument('--n', type=int, default=16)
+    ap.add_argument('--n', type=int, default=64)
     ap.add_argument('--maxlen', type=int, default=15000)
     ap.add_argument('--decode-steps', type=int, default=48)
-    ap.add_argument('--seed', type=int, default=20260810)
-    ap.add_argument('--out', default='/home/claude/kvaw2_pilot.json')
+    ap.add_argument('--seed', type=int, default=20260812)
+    ap.add_argument('--out', default='/home/claude/kvaw2_governed.json')
+    ap.add_argument('--band-phase', action='store_true',
+                    help='band-restricted decode phase (pilots only; the '
+                         'sealed governed design DROPS it -- statistic dead '
+                         'at n=32, pre-recorded in GO-P-2026-077)')
     ap.add_argument('--max-minutes', type=float, default=150.0)
     a = ap.parse_args()
 
@@ -605,20 +614,24 @@ def main():
     per_prompt, sweep_rows, store = [], [], []
     t_start = time.time()
     timing = {}
+    try:
+        with open(os.path.abspath(__file__), 'rb') as f:
+            import hashlib
+            inst_sha = hashlib.sha256(f.read()).hexdigest()
+    except Exception:
+        inst_sha = None
     result = dict(
-        prereg='GO-P-2026-075-DRAFT', phase='pilot_v2',
-        disclosure='V2 PILOT, disclosed, pilot_only. Consumer-relative '
-                   'redesign after the v1 pilot instrument failure (raw '
-                   'cumulative-mass scoring = broken consumer proxy; '
-                   'equal-u control unconstructible on the width axis). '
-                   'All arms score by windowed future-attention prediction; '
-                   'w32deg is the degradation-constructed equal-u control. '
-                   'sigma* is bisected OFFLINE (CPU, no extra GPU decodes) '
-                   'from THIS run\'s phase-A telemetry because the v1 pilot '
-                   'artifact retains only aggregated u statistics, not the '
-                   'per-cell (score, future-mass) arrays a noised-score u '
-                   'computation needs. NOT the governed run; no gate '
-                   'verdicts.',
+        prereg='GO-P-2026-077', phase='governed',
+        disclosure='GOVERNED SINGLE RUN under sealed GO-P-2026-077 (hash '
+                   'sha256:79a731c9...). Fixed design: seed 20260812, n=64 '
+                   'fresh prompts (76 prior indices excluded with '
+                   'provenance), arms x rho {0.03 measured-only, 0.05, '
+                   '0.10}, NO band-restricted decode phase (dropped '
+                   'pre-seal on its n=32 replication failure). sigma* '
+                   'recalibrated in-run from phase-A telemetry per the '
+                   'sealed V5 health gates. Gate verdicts V1-V6 computed '
+                   'by the analysis, not by this script.',
+        instrument_sha256=inst_sha,
         model=a.model, task=a.task, seed=a.seed, n_prompts_planned=a.n,
         maxlen=a.maxlen, decode_steps=a.decode_steps, rhos=RHOS, arms=ARMS,
         windows=WINDOWS, bands=[list(b) for b in BANDS], rho_band=RHO_BAND,
@@ -859,46 +872,49 @@ def main():
     result['drop_table'] = drop_table
     dump('after_sweep')
 
-    # ------------------------------- phase D (GPU): band-restricted decodes
-    tD = time.time()
-    band_rows = []
-    for pi, st in enumerate(store):
-        if (time.time() - t_start) / 60 > a.max_minutes:
-            print(f"  [budget] reached in phase D at prompt {pi}", flush=True)
-            break
-        thermal_gate(temps)
-        for band in BANDS:
-            for arm in BAND_ARMS:
-                btxt, n_band, n_evict = band_pruned_decode(
-                    model, tok, TelemetryCache, st['kv'], st[arm],
-                    st['S'], band, RHO_BAND, st['first_logits'], a.task,
-                    n_layers, device)
-                band_rows.append(dict(
-                    prompt=pi, band=list(band), arm=arm,
-                    task_score=float(scorer(btxt, st['answers'])),
-                    pred=btxt[:60], band_n=n_band, band_evicted=n_evict))
-        temps.append(gpu_temp())
-        print(f"  [D {pi}] bands done temp={temps[-1]}C", flush=True)
-    result['band_rows'] = band_rows
-    timing['sec_phase_d'] = round(time.time() - tD, 1)
+    # -------- phase D (GPU): band-restricted decodes -- PILOTS ONLY.
+    # The sealed governed design (GO-P-2026-077) drops this phase: the
+    # statistic failed its own n=32 replication test, recorded pre-seal.
+    if a.band_phase:
+        tD = time.time()
+        band_rows = []
+        for pi, st in enumerate(store):
+            if (time.time() - t_start) / 60 > a.max_minutes:
+                print(f"  [budget] reached in phase D at prompt {pi}", flush=True)
+                break
+            thermal_gate(temps)
+            for band in BANDS:
+                for arm in BAND_ARMS:
+                    btxt, n_band, n_evict = band_pruned_decode(
+                        model, tok, TelemetryCache, st['kv'], st[arm],
+                        st['S'], band, RHO_BAND, st['first_logits'], a.task,
+                        n_layers, device)
+                    band_rows.append(dict(
+                        prompt=pi, band=list(band), arm=arm,
+                        task_score=float(scorer(btxt, st['answers'])),
+                        pred=btxt[:60], band_n=n_band, band_evicted=n_evict))
+            temps.append(gpu_temp())
+            print(f"  [D {pi}] bands done temp={temps[-1]}C", flush=True)
+        result['band_rows'] = band_rows
+        timing['sec_phase_d'] = round(time.time() - tD, 1)
 
-    band_table = []
-    for band in BANDS:
-        cols = {}
-        for arm in BAND_ARMS:
-            v = [r['task_score'] for r in band_rows
-                 if r['band'] == list(band) and r['arm'] == arm]
-            cols[arm] = np.array(v)
-        n = min((len(v) for v in cols.values()), default=0)
-        if n:
-            g = cols[BAND_ARMS[0]][:n] - cols[BAND_ARMS[-1]][:n]
-            band_table.append(dict(
-                band=list(band), n=int(n),
-                **{f'{arm}_mean': float(cols[arm][:n].mean()) for arm in BAND_ARMS},
-                **{f'{arm}_drop': float((base[:n] - cols[arm][:n]).mean())
-                   for arm in BAND_ARMS},
-                gap_mean=float(g.mean()), gap_se=boot_se(g)))
-    result['band_table'] = band_table
+        band_table = []
+        for band in BANDS:
+            cols = {}
+            for arm in BAND_ARMS:
+                v = [r['task_score'] for r in band_rows
+                     if r['band'] == list(band) and r['arm'] == arm]
+                cols[arm] = np.array(v)
+            n = min((len(v) for v in cols.values()), default=0)
+            if n:
+                g = cols[BAND_ARMS[0]][:n] - cols[BAND_ARMS[-1]][:n]
+                band_table.append(dict(
+                    band=list(band), n=int(n),
+                    **{f'{arm}_mean': float(cols[arm][:n].mean()) for arm in BAND_ARMS},
+                    **{f'{arm}_drop': float((base[:n] - cols[arm][:n]).mean())
+                       for arm in BAND_ARMS},
+                    gap_mean=float(g.mean()), gap_se=boot_se(g)))
+        result['band_table'] = band_table
 
     dump('final')
     print('===KVAW2-JSON===')
