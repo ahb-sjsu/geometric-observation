@@ -1,0 +1,4552 @@
+{
+ "prereg": "GO-P-2026-075-DRAFT",
+ "phase": "pilot_5.1",
+ "disclosure": "PILOT, disclosed 5.1 phase, pilot_only. Calibrates rho*, the P2 pairing statistic/tolerance, and the P1 band shape gates. NOT the governed run; no gate verdicts.",
+ "model": "Qwen/Qwen2.5-7B-Instruct",
+ "task": "passage_retrieval_en",
+ "seed": 20260806,
+ "n_prompts_planned": 16,
+ "maxlen": 15000,
+ "decode_steps": 48,
+ "rhos": [
+  0.05,
+  0.1,
+  0.15,
+  0.25
+ ],
+ "arms": [
+  "path:full",
+  "slice:32",
+  "shuf"
+ ],
+ "bands": [
+  [
+   32,
+   512
+  ],
+  [
+   512,
+   2048
+  ],
+  [
+   2048,
+   8192
+  ],
+  [
+   8192,
+   1000000000
+  ]
+ ],
+ "fine_widths": [
+  768,
+  512,
+  384,
+  256
+ ],
+ "win_keep": 32,
+ "tail_w": 128,
+ "excluded_calibration_indices": [
+  36,
+  45,
+  57,
+  74,
+  94,
+  114,
+  117,
+  159,
+  166,
+  179,
+  180,
+  196
+ ],
+ "pilot_indices": [
+  175,
+  69,
+  10,
+  96,
+  40,
+  140,
+  150,
+  25,
+  101,
+  128,
+  162,
+  197,
+  192,
+  177,
+  157,
+  18
+ ],
+ "geometry": {
+  "layers": 28,
+  "q_heads": 28,
+  "kv_heads": 4,
+  "grp": 7,
+  "head_dim": 128
+ },
+ "versions": {
+  "torch": "2.8.0+cu128",
+  "transformers": "4.56.1"
+ },
+ "n_prompts": 16,
+ "per_prompt": [
+  {
+   "i": 0,
+   "longbench_idx": 175,
+   "S": 14418,
+   "fp16_score": 0.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3191,
+   "pred": "Paragraph 29Human: Given the background information and the ",
+   "sec_total": 69.4,
+   "temp_after": 73
+  },
+  {
+   "i": 1,
+   "longbench_idx": 69,
+   "S": 15000,
+   "fp16_score": 0.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.2411,
+   "pred": "-steel\" B10, the B12, was being produced at a rate of 400 ca",
+   "sec_total": 65.7,
+   "temp_after": 78
+  },
+  {
+   "i": 2,
+   "longbench_idx": 10,
+   "S": 12903,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.318,
+   "pred": "Paragraph 22Human: Given the background information and the ",
+   "sec_total": 55.2,
+   "temp_after": 79
+  },
+  {
+   "i": 3,
+   "longbench_idx": 96,
+   "S": 13999,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3394,
+   "pred": "Paragraph 20Human: Given the background information and the ",
+   "sec_total": 82.7,
+   "temp_after": 76
+  },
+  {
+   "i": 4,
+   "longbench_idx": 40,
+   "S": 12480,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3149,
+   "pred": "Paragraph 12\nYou are an AI assistant. User will you give you",
+   "sec_total": 61.3,
+   "temp_after": 78
+  },
+  {
+   "i": 5,
+   "longbench_idx": 140,
+   "S": 14275,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3636,
+   "pred": "Paragraph 1Human: Given the background information and the f",
+   "sec_total": 62.1,
+   "temp_after": 79
+  },
+  {
+   "i": 6,
+   "longbench_idx": 150,
+   "S": 11657,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3427,
+   "pred": "Paragraph 11Human: Given the background information and the ",
+   "sec_total": 52.8,
+   "temp_after": 78
+  },
+  {
+   "i": 7,
+   "longbench_idx": 25,
+   "S": 11018,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3608,
+   "pred": "Paragraph 30Human: Given the background information and the ",
+   "sec_total": 49.7,
+   "temp_after": 79
+  },
+  {
+   "i": 8,
+   "longbench_idx": 101,
+   "S": 14499,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.32,
+   "pred": "Paragraph 30Human: Given the background information and the ",
+   "sec_total": 76.7,
+   "temp_after": 77
+  },
+  {
+   "i": 9,
+   "longbench_idx": 128,
+   "S": 14081,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3184,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from which the gi",
+   "sec_total": 75.4,
+   "temp_after": 77
+  },
+  {
+   "i": 10,
+   "longbench_idx": 162,
+   "S": 11523,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3237,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "sec_total": 62.8,
+   "temp_after": 75
+  },
+  {
+   "i": 11,
+   "longbench_idx": 197,
+   "S": 14559,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.318,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "sec_total": 80.7,
+   "temp_after": 75
+  },
+  {
+   "i": 12,
+   "longbench_idx": 192,
+   "S": 12375,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3229,
+   "pred": "Paragraph 24Human: Given the background information and the ",
+   "sec_total": 56.9,
+   "temp_after": 78
+  },
+  {
+   "i": 13,
+   "longbench_idx": 177,
+   "S": 11072,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3317,
+   "pred": "Paragraph 10. Paragraph 10 is the one that describes the Roy",
+   "sec_total": 47.3,
+   "temp_after": 79
+  },
+  {
+   "i": 14,
+   "longbench_idx": 157,
+   "S": 12250,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3257,
+   "pred": "Paragraph 7 Paragraph 7.Human: Given the background informat",
+   "sec_total": 55.5,
+   "temp_after": 78
+  },
+  {
+   "i": 15,
+   "longbench_idx": 18,
+   "S": 13791,
+   "fp16_score": 1.0,
+   "eos_at": null,
+   "gen_mass_frac": 0.3499,
+   "pred": "Paragraph 4 Paragraph N. The abstract is from Paragraph 4, a",
+   "sec_total": 69.4,
+   "temp_after": 79
+  }
+ ],
+ "sweep": [
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background: The",
+   "B_keep": 720,
+   "kept_per_layer": 2880.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background: The",
+   "B_keep": 720,
+   "kept_per_layer": 2880.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 3.The first and second editions of the",
+   "B_keep": 720,
+   "kept_per_layer": 2880.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the background: The",
+   "B_keep": 1441,
+   "kept_per_layer": 5764.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background: The",
+   "B_keep": 1441,
+   "kept_per_layer": 5764.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 3.Human: 1. 1",
+   "B_keep": 1441,
+   "kept_per_layer": 5764.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 27Human: Given the background: The",
+   "B_keep": 2162,
+   "kept_per_layer": 8648.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background: The",
+   "B_keep": 2162,
+   "kept_per_layer": 8648.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: In the case of the",
+   "B_keep": 2162,
+   "kept_per_layer": 8648.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 27Human: Given the background: The",
+   "B_keep": 3604,
+   "kept_per_layer": 14416.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "B_keep": 3604,
+   "kept_per_layer": 14416.0
+  },
+  {
+   "prompt": 0,
+   "longbench_idx": 175,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human Resources (HR) is a",
+   "B_keep": 3604,
+   "kept_per_layer": 14416.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B\u00e9la Bar\u00e9nyi-designed B1",
+   "B_keep": 750,
+   "kept_per_layer": 3000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B12",
+   "B_keep": 750,
+   "kept_per_layer": 3000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "-steel\" car, the \"all-steel\" \"",
+   "B_keep": 750,
+   "kept_per_layer": 3000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B10S",
+   "B_keep": 1500,
+   "kept_per_layer": 6000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B12",
+   "B_keep": 1500,
+   "kept_per_layer": 6000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "-steel\" car, the \"100\" model",
+   "B_keep": 1500,
+   "kept_per_layer": 6000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B10",
+   "B_keep": 2250,
+   "kept_per_layer": 9000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B12",
+   "B_keep": 2250,
+   "kept_per_layer": 9000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "-steel\" car, the \"1000\"",
+   "B_keep": 2250,
+   "kept_per_layer": 9000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B10",
+   "B_keep": 3750,
+   "kept_per_layer": 15000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B12",
+   "B_keep": 3750,
+   "kept_per_layer": 15000.0
+  },
+  {
+   "prompt": 1,
+   "longbench_idx": 69,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "-steel\" car, the B11, was being",
+   "B_keep": 3750,
+   "kept_per_layer": 15000.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "B_keep": 645,
+   "kept_per_layer": 2580.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the task definition and",
+   "B_keep": 645,
+   "kept_per_layer": 2580.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 16.444444",
+   "B_keep": 645,
+   "kept_per_layer": 2580.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "B_keep": 1290,
+   "kept_per_layer": 5160.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the task definition and",
+   "B_keep": 1290,
+   "kept_per_layer": 5160.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 242222222",
+   "B_keep": 1290,
+   "kept_per_layer": 5160.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 20Human: Given the task definition and",
+   "B_keep": 1935,
+   "kept_per_layer": 7740.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background: The",
+   "B_keep": 1935,
+   "kept_per_layer": 7740.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 20Human (2023)",
+   "B_keep": 1935,
+   "kept_per_layer": 7740.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the background: The",
+   "B_keep": 3225,
+   "kept_per_layer": 12900.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "B_keep": 3225,
+   "kept_per_layer": 12900.0
+  },
+  {
+   "prompt": 2,
+   "longbench_idx": 10,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human resources (HR) is a",
+   "B_keep": 3225,
+   "kept_per_layer": 12900.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 2\n\nThe given abstract closely matches the content ",
+   "B_keep": 699,
+   "kept_per_layer": 2796.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the following context:",
+   "B_keep": 699,
+   "kept_per_layer": 2796.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 2.4444444",
+   "B_keep": 699,
+   "kept_per_layer": 2796.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the following context:",
+   "B_keep": 1399,
+   "kept_per_layer": 5596.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20\n\nThe abstract provided captures the key events",
+   "B_keep": 1399,
+   "kept_per_layer": 5596.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 21.444444",
+   "B_keep": 1399,
+   "kept_per_layer": 5596.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the following context,",
+   "B_keep": 2099,
+   "kept_per_layer": 8396.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20\n\nThe abstract provided captures the key events",
+   "B_keep": 2099,
+   "kept_per_layer": 8396.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 21..1.1.1",
+   "B_keep": 2099,
+   "kept_per_layer": 8396.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20\n\nThe abstract provided closely matches the cont",
+   "B_keep": 3499,
+   "kept_per_layer": 13996.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20\n\nThe abstract provided captures the key events",
+   "B_keep": 3499,
+   "kept_per_layer": 13996.0
+  },
+  {
+   "prompt": 3,
+   "longbench_idx": 96,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 12.The paragraph is from the abstract",
+   "B_keep": 3499,
+   "kept_per_layer": 13996.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 27Human: Given the task definition and",
+   "B_keep": 624,
+   "kept_per_layer": 2496.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "B_keep": 624,
+   "kept_per_layer": 2496.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 12.444444",
+   "B_keep": 624,
+   "kept_per_layer": 2496.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 2\n\nThe provided abstract does not match the conten",
+   "B_keep": 1248,
+   "kept_per_layer": 4992.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "B_keep": 1248,
+   "kept_per_layer": 4992.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 12@student\\@: The classic",
+   "B_keep": 1248,
+   "kept_per_layer": 4992.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12Human: Given the following context:",
+   "B_keep": 1872,
+   "kept_per_layer": 7488.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "B_keep": 1872,
+   "kept_per_layer": 7488.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 12.paragraph 12.",
+   "B_keep": 1872,
+   "kept_per_layer": 7488.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "B_keep": 3120,
+   "kept_per_layer": 12480.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "B_keep": 3120,
+   "kept_per_layer": 12480.0
+  },
+  {
+   "prompt": 4,
+   "longbench_idx": 40,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\\begin{aligned} \\text",
+   "B_keep": 3120,
+   "kept_per_layer": 12480.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the following context, what",
+   "B_keep": 713,
+   "kept_per_layer": 2852.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the task definition and input",
+   "B_keep": 713,
+   "kept_per_layer": 2852.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 1..\n.\n.\n.\n.\n.\n.",
+   "B_keep": 713,
+   "kept_per_layer": 2852.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background: The thyroid",
+   "B_keep": 1427,
+   "kept_per_layer": 5708.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the task definition and input",
+   "B_keep": 1427,
+   "kept_per_layer": 5708.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 1..4.4.4.",
+   "B_keep": 1427,
+   "kept_per_layer": 5708.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background: The main",
+   "B_keep": 2141,
+   "kept_per_layer": 8564.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the task definition and input",
+   "B_keep": 2141,
+   "kept_per_layer": 8564.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 1.I'm looking for a specific section",
+   "B_keep": 2141,
+   "kept_per_layer": 8564.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background: The main",
+   "B_keep": 3568,
+   "kept_per_layer": 14272.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the task definition and input",
+   "B_keep": 3568,
+   "kept_per_layer": 14272.0
+  },
+  {
+   "prompt": 5,
+   "longbench_idx": 140,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 1.Humanongodb (N) .\nAnswer",
+   "B_keep": 3568,
+   "kept_per_layer": 14272.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the following context:",
+   "B_keep": 582,
+   "kept_per_layer": 2328.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the following context:",
+   "B_keep": 582,
+   "kept_per_layer": 2328.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 11.\\[\n\\[\n\\[",
+   "B_keep": 582,
+   "kept_per_layer": 2328.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the following context:",
+   "B_keep": 1165,
+   "kept_per_layer": 4660.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the task definition and",
+   "B_keep": 1165,
+   "kept_per_layer": 4660.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 3.: Paragraph 12 is the",
+   "B_keep": 1165,
+   "kept_per_layer": 4660.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the following context:",
+   "B_keep": 1748,
+   "kept_per_layer": 6992.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the task definition and",
+   "B_keep": 1748,
+   "kept_per_layer": 6992.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 16.Table:   Table:",
+   "B_keep": 1748,
+   "kept_per_layer": 6992.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the following context:",
+   "B_keep": 2914,
+   "kept_per_layer": 11656.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "B_keep": 2914,
+   "kept_per_layer": 11656.0
+  },
+  {
+   "prompt": 6,
+   "longbench_idx": 150,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 13#299\n\nOn this",
+   "B_keep": 2914,
+   "kept_per_layer": 11656.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "B_keep": 550,
+   "kept_per_layer": 2200.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the following context:",
+   "B_keep": 550,
+   "kept_per_layer": 2200.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 1...4.4.",
+   "B_keep": 550,
+   "kept_per_layer": 2200.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 1\nThe abstract provided closely matches the conten",
+   "B_keep": 1101,
+   "kept_per_layer": 4404.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "B_keep": 1101,
+   "kept_per_layer": 4404.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 1.2012120",
+   "B_keep": 1101,
+   "kept_per_layer": 4404.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 28Human: Given the background: The",
+   "B_keep": 1652,
+   "kept_per_layer": 6608.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "B_keep": 1652,
+   "kept_per_layer": 6608.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 15.2012 profile,",
+   "B_keep": 1652,
+   "kept_per_layer": 6608.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 28Human: Given the following context:",
+   "B_keep": 2754,
+   "kept_per_layer": 11016.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "B_keep": 2754,
+   "kept_per_layer": 11016.0
+  },
+  {
+   "prompt": 7,
+   "longbench_idx": 25,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 26.Human resources, or human capital",
+   "B_keep": 2754,
+   "kept_per_layer": 11016.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background: The",
+   "B_keep": 724,
+   "kept_per_layer": 2896.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the following context:",
+   "B_keep": 724,
+   "kept_per_layer": 2896.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 26...4.4",
+   "B_keep": 724,
+   "kept_per_layer": 2896.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background: The",
+   "B_keep": 1449,
+   "kept_per_layer": 5796.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background: The",
+   "B_keep": 1449,
+   "kept_per_layer": 5796.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 26",
+   "B_keep": 1449,
+   "kept_per_layer": 5796.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 28Human: Given the following context:",
+   "B_keep": 2174,
+   "kept_per_layer": 8696.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background: The",
+   "B_keep": 2174,
+   "kept_per_layer": 8696.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 2.(202020",
+   "B_keep": 2174,
+   "kept_per_layer": 8696.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 28\n\nThe abstract provided closely matches the cont",
+   "B_keep": 3624,
+   "kept_per_layer": 14496.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "B_keep": 3624,
+   "kept_per_layer": 14496.0
+  },
+  {
+   "prompt": 8,
+   "longbench_idx": 101,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 26The\n\n\nThe\n\n\nThe\n\n\nThe",
+   "B_keep": 3624,
+   "kept_per_layer": 14496.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10\n\nThe abstract provided closely matches the cont",
+   "B_keep": 704,
+   "kept_per_layer": 2816.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18Human: Given the task definition and",
+   "B_keep": 704,
+   "kept_per_layer": 2816.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 8.\"\"\n\"\"\n\"\"\n\"\"\n\"\"\n\"\"\n\"\"",
+   "B_keep": 704,
+   "kept_per_layer": 2816.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the background: The",
+   "B_keep": 1408,
+   "kept_per_layer": 5632.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18Human: Given the task definition and",
+   "B_keep": 1408,
+   "kept_per_layer": 5632.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 18.In the 18",
+   "B_keep": 1408,
+   "kept_per_layer": 5632.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 8\n\nThe abstract is derived from the information pr",
+   "B_keep": 2112,
+   "kept_per_layer": 8448.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18Human: Given the task definition and",
+   "B_keep": 2112,
+   "kept_per_layer": 8448.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 15.In the abstract provided, the",
+   "B_keep": 2112,
+   "kept_per_layer": 8448.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 8\n\nThe abstract is derived from the information pr",
+   "B_keep": 3520,
+   "kept_per_layer": 14080.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "B_keep": 3520,
+   "kept_per_layer": 14080.0
+  },
+  {
+   "prompt": 9,
+   "longbench_idx": 128,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 12How can I determine which paragraph the",
+   "B_keep": 3520,
+   "kept_per_layer": 14080.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 2\n\nThe abstract closely matches the content of Par",
+   "B_keep": 576,
+   "kept_per_layer": 2304.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 576,
+   "kept_per_layer": 2304.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 8..4.4.4.",
+   "B_keep": 576,
+   "kept_per_layer": 2304.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 5\n\nThe abstract provided captures the essence of t",
+   "B_keep": 1152,
+   "kept_per_layer": 4608.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 1152,
+   "kept_per_layer": 4608.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 8.4444444",
+   "B_keep": 1152,
+   "kept_per_layer": 4608.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 1728,
+   "kept_per_layer": 6912.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 1728,
+   "kept_per_layer": 6912.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 4.4444444",
+   "B_keep": 1728,
+   "kept_per_layer": 6912.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 2880,
+   "kept_per_layer": 11520.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "B_keep": 2880,
+   "kept_per_layer": 11520.0
+  },
+  {
+   "prompt": 10,
+   "longbench_idx": 162,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 4.\nParagraph 30 is the",
+   "B_keep": 2880,
+   "kept_per_layer": 11520.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided matches the content and t",
+   "B_keep": 727,
+   "kept_per_layer": 2908.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "B_keep": 727,
+   "kept_per_layer": 2908.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 2. Paragraph N. Paragraph 2.",
+   "B_keep": 727,
+   "kept_per_layer": 2908.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract closely matches the content of Par",
+   "B_keep": 1455,
+   "kept_per_layer": 5820.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided closely matches the conte",
+   "B_keep": 1455,
+   "kept_per_layer": 5820.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 2..4.4.4.",
+   "B_keep": 1455,
+   "kept_per_layer": 5820.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract closely matches the content of Par",
+   "B_keep": 2183,
+   "kept_per_layer": 8732.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided closely matches the conte",
+   "B_keep": 2183,
+   "kept_per_layer": 8732.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 2.46 (Accessed from September",
+   "B_keep": 2183,
+   "kept_per_layer": 8732.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract closely matches the content of Par",
+   "B_keep": 3639,
+   "kept_per_layer": 14556.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided closely matches the conte",
+   "B_keep": 3639,
+   "kept_per_layer": 14556.0
+  },
+  {
+   "prompt": 11,
+   "longbench_idx": 197,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 2.Human: I want to know the",
+   "B_keep": 3639,
+   "kept_per_layer": 14556.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 22Human: Given the task definition and",
+   "B_keep": 618,
+   "kept_per_layer": 2472.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the task definition and",
+   "B_keep": 618,
+   "kept_per_layer": 2472.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 21.4. The true identity of",
+   "B_keep": 618,
+   "kept_per_layer": 2472.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 23Human: Given the task definition and",
+   "B_keep": 1237,
+   "kept_per_layer": 4948.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background: The",
+   "B_keep": 1237,
+   "kept_per_layer": 4948.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 28....",
+   "B_keep": 1237,
+   "kept_per_layer": 4948.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background: The",
+   "B_keep": 1856,
+   "kept_per_layer": 7424.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background: The",
+   "B_keep": 1856,
+   "kept_per_layer": 7424.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 27Provided is a summary of the",
+   "B_keep": 1856,
+   "kept_per_layer": 7424.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background: The",
+   "B_keep": 3093,
+   "kept_per_layer": 12372.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background: The",
+   "B_keep": 3093,
+   "kept_per_layer": 12372.0
+  },
+  {
+   "prompt": 12,
+   "longbench_idx": 192,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Given the abstract, one text is",
+   "B_keep": 3093,
+   "kept_per_layer": 12372.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "B_keep": 553,
+   "kept_per_layer": 2212.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the task of class",
+   "B_keep": 553,
+   "kept_per_layer": 2212.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 15.666666",
+   "B_keep": 553,
+   "kept_per_layer": 2212.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "B_keep": 1107,
+   "kept_per_layer": 4428.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "B_keep": 1107,
+   "kept_per_layer": 4428.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 15. The given abstract is from Paragraph",
+   "B_keep": 1107,
+   "kept_per_layer": 4428.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "B_keep": 1660,
+   "kept_per_layer": 6640.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "B_keep": 1660,
+   "kept_per_layer": 6640.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 10.The groups of the 2",
+   "B_keep": 1660,
+   "kept_per_layer": 6640.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the following context,",
+   "B_keep": 2768,
+   "kept_per_layer": 11072.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "B_keep": 2768,
+   "kept_per_layer": 11072.0
+  },
+  {
+   "prompt": 13,
+   "longbench_idx": 177,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 10.The groups of 30",
+   "B_keep": 2768,
+   "kept_per_layer": 11072.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 1\n\nThe given abstract closely matches the content ",
+   "B_keep": 612,
+   "kept_per_layer": 2448.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7. Paragraph 7 is the one that describes",
+   "B_keep": 612,
+   "kept_per_layer": 2448.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 1.... \r\n\r\n.",
+   "B_keep": 612,
+   "kept_per_layer": 2448.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the background: The",
+   "B_keep": 1225,
+   "kept_per_layer": 4900.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "B_keep": 1225,
+   "kept_per_layer": 4900.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 13.010101",
+   "B_keep": 1225,
+   "kept_per_layer": 4900.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7. Paragraph 7 is the one that describes",
+   "B_keep": 1837,
+   "kept_per_layer": 7348.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "B_keep": 1837,
+   "kept_per_layer": 7348.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 10.8th Century to the",
+   "B_keep": 1837,
+   "kept_per_layer": 7348.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7. Paragraph 7 is the one that describes",
+   "B_keep": 3062,
+   "kept_per_layer": 12248.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "B_keep": 3062,
+   "kept_per_layer": 12248.0
+  },
+  {
+   "prompt": 14,
+   "longbench_idx": 157,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 8.The following is a detailed explanation",
+   "B_keep": 3062,
+   "kept_per_layer": 12248.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.05,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4\n\nThe given abstract closely matches the informat",
+   "B_keep": 689,
+   "kept_per_layer": 2756.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.05,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4. Paragraph 4 is the one that provides",
+   "B_keep": 689,
+   "kept_per_layer": 2756.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.05,
+   "arm": "shuf",
+   "task_score": 1.0,
+   "pred": "Paragraph 4.4444444",
+   "B_keep": 689,
+   "kept_per_layer": 2756.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.1,
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 1\n\nThe given abstract closely matches the content ",
+   "B_keep": 1379,
+   "kept_per_layer": 5516.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.1,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph 4 Paragraph 4 Paragraph 4",
+   "B_keep": 1379,
+   "kept_per_layer": 5516.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.1,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 6.2000000",
+   "B_keep": 1379,
+   "kept_per_layer": 5516.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.15,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4. Paragraph 4 is the one that describes",
+   "B_keep": 2068,
+   "kept_per_layer": 8272.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.15,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract provided is from Parag",
+   "B_keep": 2068,
+   "kept_per_layer": 8272.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.15,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 30.000000",
+   "B_keep": 2068,
+   "kept_per_layer": 8272.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.25,
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4. Paragraph 4 is the one that provides",
+   "B_keep": 3447,
+   "kept_per_layer": 13788.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.25,
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract provided is from Parag",
+   "B_keep": 3447,
+   "kept_per_layer": 13788.0
+  },
+  {
+   "prompt": 15,
+   "longbench_idx": 18,
+   "rho": 0.25,
+   "arm": "shuf",
+   "task_score": 0.0,
+   "pred": "Paragraph 6.The Lewis and Rain are part of",
+   "B_keep": 3447,
+   "kept_per_layer": 13788.0
+  }
+ ],
+ "u_per_prompt": [
+  {
+   "path:full": {
+    "mean": 0.9764773968971442,
+    "median": 0.9882905744233933
+   },
+   "path:4096": {
+    "mean": 0.9673508305320685,
+    "median": 0.9880347908405142
+   },
+   "path:1024": {
+    "mean": 0.9241290284959753,
+    "median": 0.9790095299263875
+   },
+   "path:768": {
+    "mean": 0.9456075639106997,
+    "median": 0.9830643766075111
+   },
+   "path:512": {
+    "mean": 0.9387790961052043,
+    "median": 0.9792788612941707
+   },
+   "path:384": {
+    "mean": 0.9357204291798846,
+    "median": 0.9783449270661593
+   },
+   "path:256": {
+    "mean": 0.9301281992955603,
+    "median": 0.9756082101801818
+   },
+   "slice:32": {
+    "mean": 0.9156697291490464,
+    "median": 0.9728505257355573
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9892947880286125,
+    "median": 0.993321393044764
+   },
+   "path:4096": {
+    "mean": 0.9415284837909716,
+    "median": 0.9514157608280999
+   },
+   "path:1024": {
+    "mean": 0.8636305810829707,
+    "median": 0.8846420319248038
+   },
+   "path:768": {
+    "mean": 0.8614357386032517,
+    "median": 0.8798184893161463
+   },
+   "path:512": {
+    "mean": 0.8616719201852704,
+    "median": 0.884428402962044
+   },
+   "path:384": {
+    "mean": 0.8546152724094908,
+    "median": 0.8790649830937312
+   },
+   "path:256": {
+    "mean": 0.8342420561748466,
+    "median": 0.8511362086974382
+   },
+   "slice:32": {
+    "mean": 0.8088333788069996,
+    "median": 0.8293328635623953
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.981512334837558,
+    "median": 0.9936956802742472
+   },
+   "path:4096": {
+    "mean": 0.973314620203386,
+    "median": 0.993917941860785
+   },
+   "path:1024": {
+    "mean": 0.9491481886360258,
+    "median": 0.9888874632827318
+   },
+   "path:768": {
+    "mean": 0.9521641010936905,
+    "median": 0.9890418179767522
+   },
+   "path:512": {
+    "mean": 0.9469366198914698,
+    "median": 0.9885533936219012
+   },
+   "path:384": {
+    "mean": 0.9437061298168322,
+    "median": 0.9875246787173035
+   },
+   "path:256": {
+    "mean": 0.9378836024882149,
+    "median": 0.9842270901238083
+   },
+   "slice:32": {
+    "mean": 0.9217043601541565,
+    "median": 0.9803647579196375
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9830277129649134,
+    "median": 0.993365748415856
+   },
+   "path:4096": {
+    "mean": 0.9713584943484452,
+    "median": 0.994339821280971
+   },
+   "path:1024": {
+    "mean": 0.9403242961424352,
+    "median": 0.9854619163222895
+   },
+   "path:768": {
+    "mean": 0.9441458276341722,
+    "median": 0.9874339180561922
+   },
+   "path:512": {
+    "mean": 0.9364088942139122,
+    "median": 0.984164005219447
+   },
+   "path:384": {
+    "mean": 0.9347598566506045,
+    "median": 0.9835652058880331
+   },
+   "path:256": {
+    "mean": 0.9301874021962152,
+    "median": 0.981897626664425
+   },
+   "slice:32": {
+    "mean": 0.91562332115543,
+    "median": 0.9770084278599596
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9813781863234138,
+    "median": 0.9927903307230312
+   },
+   "path:4096": {
+    "mean": 0.9686651483484435,
+    "median": 0.9906638067470608
+   },
+   "path:1024": {
+    "mean": 0.9255085930009351,
+    "median": 0.972035483666889
+   },
+   "path:768": {
+    "mean": 0.9448492871387177,
+    "median": 0.9813017334945977
+   },
+   "path:512": {
+    "mean": 0.9368585343438968,
+    "median": 0.9776230853911357
+   },
+   "path:384": {
+    "mean": 0.9333120349204427,
+    "median": 0.975342832952
+   },
+   "path:256": {
+    "mean": 0.92576163937444,
+    "median": 0.9696686511449186
+   },
+   "slice:32": {
+    "mean": 0.9121270648334929,
+    "median": 0.9666464818161018
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9846692922420631,
+    "median": 0.9947877370200107
+   },
+   "path:4096": {
+    "mean": 0.9748433441115596,
+    "median": 0.9940101142607449
+   },
+   "path:1024": {
+    "mean": 0.9547294994634964,
+    "median": 0.9880985464792041
+   },
+   "path:768": {
+    "mean": 0.9514735217085288,
+    "median": 0.9874329733356763
+   },
+   "path:512": {
+    "mean": 0.9452393033185817,
+    "median": 0.9856869361395892
+   },
+   "path:384": {
+    "mean": 0.9409891209938692,
+    "median": 0.9840174662301732
+   },
+   "path:256": {
+    "mean": 0.9337328558056459,
+    "median": 0.9807254057253065
+   },
+   "slice:32": {
+    "mean": 0.9204350113171947,
+    "median": 0.9785788958898115
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9798275066878628,
+    "median": 0.9919380716725761
+   },
+   "path:4096": {
+    "mean": 0.9704553879644858,
+    "median": 0.9920367227134974
+   },
+   "path:1024": {
+    "mean": 0.9368362550659628,
+    "median": 0.9779440938341407
+   },
+   "path:768": {
+    "mean": 0.9492380903090929,
+    "median": 0.9847018342109883
+   },
+   "path:512": {
+    "mean": 0.9387328538855443,
+    "median": 0.9784115243651581
+   },
+   "path:384": {
+    "mean": 0.936553952967503,
+    "median": 0.9778328523900329
+   },
+   "path:256": {
+    "mean": 0.930843632751456,
+    "median": 0.9757834117687596
+   },
+   "slice:32": {
+    "mean": 0.9121592667921158,
+    "median": 0.9720000708620822
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9799068276139783,
+    "median": 0.9929469186557134
+   },
+   "path:4096": {
+    "mean": 0.9708410713803739,
+    "median": 0.9921795884028719
+   },
+   "path:1024": {
+    "mean": 0.9460621412715245,
+    "median": 0.9817171844940402
+   },
+   "path:768": {
+    "mean": 0.9456907238088539,
+    "median": 0.9815840550746386
+   },
+   "path:512": {
+    "mean": 0.9368922785474894,
+    "median": 0.9780011702219317
+   },
+   "path:384": {
+    "mean": 0.9335316914739702,
+    "median": 0.9771814363659171
+   },
+   "path:256": {
+    "mean": 0.9278944450527302,
+    "median": 0.9762495000504346
+   },
+   "slice:32": {
+    "mean": 0.9113457007843183,
+    "median": 0.9735848183515318
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9761986601013017,
+    "median": 0.9880551489095071
+   },
+   "path:4096": {
+    "mean": 0.9655125137069468,
+    "median": 0.9882223842590583
+   },
+   "path:1024": {
+    "mean": 0.9279692308481436,
+    "median": 0.9765870233900931
+   },
+   "path:768": {
+    "mean": 0.9442017330838036,
+    "median": 0.9803571465334102
+   },
+   "path:512": {
+    "mean": 0.9323974801548032,
+    "median": 0.9715803053415317
+   },
+   "path:384": {
+    "mean": 0.9296539505812836,
+    "median": 0.9701520222863396
+   },
+   "path:256": {
+    "mean": 0.9252139197827146,
+    "median": 0.9686909072943479
+   },
+   "slice:32": {
+    "mean": 0.9128719322950853,
+    "median": 0.9687602275064833
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.988131552478008,
+    "median": 0.9941317126907574
+   },
+   "path:4096": {
+    "mean": 0.9686691498016172,
+    "median": 0.9862706102768086
+   },
+   "path:1024": {
+    "mean": 0.9187748305999416,
+    "median": 0.943299586439688
+   },
+   "path:768": {
+    "mean": 0.9186859037574902,
+    "median": 0.9426174549233031
+   },
+   "path:512": {
+    "mean": 0.9054026755017196,
+    "median": 0.9339765585179896
+   },
+   "path:384": {
+    "mean": 0.9003521726825658,
+    "median": 0.9287740119821387
+   },
+   "path:256": {
+    "mean": 0.8935567733608965,
+    "median": 0.9241447952026793
+   },
+   "slice:32": {
+    "mean": 0.8780821735721762,
+    "median": 0.9218375019337001
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9839936073715237,
+    "median": 0.9931691964183366
+   },
+   "path:4096": {
+    "mean": 0.9633610336721199,
+    "median": 0.982439296582822
+   },
+   "path:1024": {
+    "mean": 0.8634315882374702,
+    "median": 0.8959970307582008
+   },
+   "path:768": {
+    "mean": 0.9106053330304702,
+    "median": 0.9359809723755448
+   },
+   "path:512": {
+    "mean": 0.8843317800661394,
+    "median": 0.9094161638984797
+   },
+   "path:384": {
+    "mean": 0.8733125543212076,
+    "median": 0.9043186373946208
+   },
+   "path:256": {
+    "mean": 0.8632581641098422,
+    "median": 0.8956042080145759
+   },
+   "slice:32": {
+    "mean": 0.848593506806042,
+    "median": 0.8878772395195158
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9859487763517948,
+    "median": 0.9942660043799145
+   },
+   "path:4096": {
+    "mean": 0.9622511646948111,
+    "median": 0.9791886803932158
+   },
+   "path:1024": {
+    "mean": 0.8661522157156737,
+    "median": 0.8918116034774481
+   },
+   "path:768": {
+    "mean": 0.9068021777152987,
+    "median": 0.9280164572721317
+   },
+   "path:512": {
+    "mean": 0.8823015474324699,
+    "median": 0.9021300277597861
+   },
+   "path:384": {
+    "mean": 0.8785011344922243,
+    "median": 0.9007934707851624
+   },
+   "path:256": {
+    "mean": 0.8693124315208866,
+    "median": 0.8945378332892514
+   },
+   "slice:32": {
+    "mean": 0.85426131694653,
+    "median": 0.8873073646131706
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9783237621918625,
+    "median": 0.991123021624217
+   },
+   "path:4096": {
+    "mean": 0.9623304358974936,
+    "median": 0.9840262645254028
+   },
+   "path:1024": {
+    "mean": 0.9152979171457195,
+    "median": 0.9690523499482728
+   },
+   "path:768": {
+    "mean": 0.9454744283671183,
+    "median": 0.9811116219931051
+   },
+   "path:512": {
+    "mean": 0.936379321972083,
+    "median": 0.9771521225359217
+   },
+   "path:384": {
+    "mean": 0.9331657720626045,
+    "median": 0.9755237263230269
+   },
+   "path:256": {
+    "mean": 0.9229576965836406,
+    "median": 0.9689971669795006
+   },
+   "slice:32": {
+    "mean": 0.9084368562379697,
+    "median": 0.9649296533261568
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9821186892380032,
+    "median": 0.9910125521341023
+   },
+   "path:4096": {
+    "mean": 0.967958533212526,
+    "median": 0.9867613010011282
+   },
+   "path:1024": {
+    "mean": 0.9231585368294526,
+    "median": 0.949041587085681
+   },
+   "path:768": {
+    "mean": 0.920127354994894,
+    "median": 0.9470979258468413
+   },
+   "path:512": {
+    "mean": 0.907350117779317,
+    "median": 0.9392289896266142
+   },
+   "path:384": {
+    "mean": 0.8993834928639469,
+    "median": 0.9317364237056516
+   },
+   "path:256": {
+    "mean": 0.8865042695241366,
+    "median": 0.9196357038062748
+   },
+   "slice:32": {
+    "mean": 0.860621255737616,
+    "median": 0.8999203848204584
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.9762625704951847,
+    "median": 0.9890497884614228
+   },
+   "path:4096": {
+    "mean": 0.971670537716875,
+    "median": 0.9912955220653028
+   },
+   "path:1024": {
+    "mean": 0.9503084738757475,
+    "median": 0.9832665775692738
+   },
+   "path:768": {
+    "mean": 0.9467079478006816,
+    "median": 0.9815330732014294
+   },
+   "path:512": {
+    "mean": 0.939807595891257,
+    "median": 0.9783967081834488
+   },
+   "path:384": {
+    "mean": 0.9365285375728408,
+    "median": 0.9769240439400984
+   },
+   "path:256": {
+    "mean": 0.9286878595983923,
+    "median": 0.9712620012560635
+   },
+   "slice:32": {
+    "mean": 0.9090236650851116,
+    "median": 0.9622012707748652
+   }
+  },
+  {
+   "path:full": {
+    "mean": 0.987567029462376,
+    "median": 0.9944458135964304
+   },
+   "path:4096": {
+    "mean": 0.9680344243945717,
+    "median": 0.9862873995980854
+   },
+   "path:1024": {
+    "mean": 0.903730404711289,
+    "median": 0.9378173500590016
+   },
+   "path:768": {
+    "mean": 0.915396290874481,
+    "median": 0.9467292190723942
+   },
+   "path:512": {
+    "mean": 0.9051589540369971,
+    "median": 0.9391916743857726
+   },
+   "path:384": {
+    "mean": 0.8963766121835545,
+    "median": 0.9317581308953552
+   },
+   "path:256": {
+    "mean": 0.8893438683202974,
+    "median": 0.9275832710385465
+   },
+   "slice:32": {
+    "mean": 0.8790385666028081,
+    "median": 0.9257719381376237
+   }
+  }
+ ],
+ "seconds_total": 1359.8,
+ "temps_c": [
+  50,
+  52,
+  73,
+  73,
+  78,
+  78,
+  79,
+  79,
+  76,
+  76,
+  78,
+  78,
+  79,
+  79,
+  78,
+  78,
+  79,
+  79,
+  77,
+  77,
+  77,
+  77,
+  75,
+  75,
+  75,
+  75,
+  78,
+  78,
+  79,
+  79,
+  78,
+  78,
+  79,
+  78,
+  74,
+  73,
+  71,
+  70,
+  70,
+  70,
+  70,
+  69,
+  69,
+  69,
+  70,
+  69,
+  67,
+  67,
+  69,
+  69,
+  71,
+  70,
+  71,
+  71,
+  72,
+  72,
+  73,
+  72,
+  71,
+  71,
+  72,
+  71,
+  72,
+  72,
+  70
+ ],
+ "temp_max": 79,
+ "dump_tag": "final",
+ "drop_table": {
+  "0.05": {
+   "path:full": {
+    "mean_score": 0.375,
+    "drop": 0.5,
+    "drop_se": 0.15572674573090356
+   },
+   "slice:32": {
+    "mean_score": 0.875,
+    "drop": 0.0,
+    "drop_se": 0.0
+   },
+   "shuf": {
+    "mean_score": 0.3125,
+    "drop": 0.5625,
+    "drop_se": 0.1234240499001309
+   }
+  },
+  "0.10": {
+   "path:full": {
+    "mean_score": 0.3125,
+    "drop": 0.5625,
+    "drop_se": 0.1259412956934202
+   },
+   "slice:32": {
+    "mean_score": 0.875,
+    "drop": 0.0,
+    "drop_se": 0.0
+   },
+   "shuf": {
+    "mean_score": 0.25,
+    "drop": 0.625,
+    "drop_se": 0.11866970558418648
+   }
+  },
+  "0.15": {
+   "path:full": {
+    "mean_score": 0.5625,
+    "drop": 0.3125,
+    "drop_se": 0.11731064779438183
+   },
+   "slice:32": {
+    "mean_score": 0.875,
+    "drop": 0.0,
+    "drop_se": 0.0
+   },
+   "shuf": {
+    "mean_score": 0.3125,
+    "drop": 0.5625,
+    "drop_se": 0.15381096352341078
+   }
+  },
+  "0.25": {
+   "path:full": {
+    "mean_score": 0.625,
+    "drop": 0.25,
+    "drop_se": 0.11107836127594788
+   },
+   "slice:32": {
+    "mean_score": 0.875,
+    "drop": 0.0,
+    "drop_se": 0.0
+   },
+   "shuf": {
+    "mean_score": 0.375,
+    "drop": 0.5,
+    "drop_se": 0.12290681413549656
+   }
+  }
+ },
+ "rho_star": 0.25,
+ "rho_band": 0.25,
+ "u_curve": {
+  "path:full": {
+   "mean": 0.98216491833035,
+   "mean_se": 0.0010062984666082242,
+   "median": 0.9922743557777675,
+   "median_se": 0.000535774727836119
+  },
+  "path:4096": {
+   "mean": 0.9667590733610434,
+   "mean_se": 0.0017822786901642432,
+   "median": 0.986318125352273,
+   "median_se": 0.00238917621980139
+  },
+  "path:1024": {
+   "mean": 0.9193244863201727,
+   "mean_se": 0.007243256557047473,
+   "median": 0.9565418349161341,
+   "median_se": 0.008543400683831909
+  },
+  "path:768": {
+   "mean": 0.9314128764894528,
+   "mean_se": 0.005729114143701906,
+   "median": 0.9636139418306664,
+   "median_se": 0.00722662148509601
+  },
+  "path:512": {
+   "mean": 0.9209155608328846,
+   "mean_se": 0.006210201341285329,
+   "median": 0.9567012455915576,
+   "median_se": 0.00799062752100095
+  },
+  "path:384": {
+   "mean": 0.9162789196983016,
+   "mean_se": 0.006673890495618296,
+   "median": 0.953928428125984,
+   "median_se": 0.008387971798385541
+  },
+  "path:256": {
+   "mean": 0.9080943009962448,
+   "mean_se": 0.007381436072919207,
+   "median": 0.947859499452282,
+   "median_se": 0.00953640739815989
+  },
+  "slice:32": {
+   "mean": 0.8918016941422557,
+   "mean_se": 0.007843188790495172,
+   "median": 0.9418107764143157,
+   "median_se": 0.010583694164399336
+  }
+ },
+ "wstar": {
+  "mean_u": {
+   "wstar": null,
+   "bracket": null,
+   "boot_se": null,
+   "boot_p10": null,
+   "boot_p90": null,
+   "boot_frac_no_crossing": 1.0
+  },
+  "median_u": {
+   "wstar": null,
+   "bracket": null,
+   "boot_se": null,
+   "boot_p10": null,
+   "boot_p90": null,
+   "boot_frac_no_crossing": 1.0
+  }
+ },
+ "band_rows": [
+  {
+   "prompt": 0,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 0,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 0,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 25Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 0,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 0,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 0,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 0,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 6227,
+   "band_evicted": 4670
+  },
+  {
+   "prompt": 0,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 6227,
+   "band_evicted": 4670
+  },
+  {
+   "prompt": 1,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 1,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 1,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B10",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 1,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10 model, the B12",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 1,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 1,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 1,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 6809,
+   "band_evicted": 5106
+  },
+  {
+   "prompt": 1,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 0.0,
+   "pred": "-steel\" B10, the B12,",
+   "band_n": 6809,
+   "band_evicted": 5106
+  },
+  {
+   "prompt": 2,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 2,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 2,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 2,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 2,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 10Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 2,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 2,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 4712,
+   "band_evicted": 3534
+  },
+  {
+   "prompt": 2,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 22Human: Given the background information and",
+   "band_n": 4712,
+   "band_evicted": 3534
+  },
+  {
+   "prompt": 3,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 3,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 3,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20 Paragraph 20. The provided abstract",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 3,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 3,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 7Human: Given the background information and the",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 3,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20\n\nThe abstract provided captures the key events",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 3,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the background information and",
+   "band_n": 5808,
+   "band_evicted": 4356
+  },
+  {
+   "prompt": 3,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 20Human: Given the background information and",
+   "band_n": 5808,
+   "band_evicted": 4356
+  },
+  {
+   "prompt": 4,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 4,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 4,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 4,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 4,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 4,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 4,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 4289,
+   "band_evicted": 3216
+  },
+  {
+   "prompt": 4,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 12\nYou are an AI assistant. User",
+   "band_n": 4289,
+   "band_evicted": 3216
+  },
+  {
+   "prompt": 5,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 5,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 5,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 5,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 5,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 5,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 5,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 6084,
+   "band_evicted": 4563
+  },
+  {
+   "prompt": 5,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 1Human: Given the background information and the",
+   "band_n": 6084,
+   "band_evicted": 4563
+  },
+  {
+   "prompt": 6,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 6,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 6,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 6,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 6,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 14Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 6,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 6,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 3466,
+   "band_evicted": 2599
+  },
+  {
+   "prompt": 6,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 11Human: Given the background information and",
+   "band_n": 3466,
+   "band_evicted": 2599
+  },
+  {
+   "prompt": 7,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 21Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 7,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 7,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 7,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 7,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 7,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the task definition and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 7,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 2827,
+   "band_evicted": 2120
+  },
+  {
+   "prompt": 7,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 2827,
+   "band_evicted": 2120
+  },
+  {
+   "prompt": 8,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 29Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 8,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30\n\nThe abstract provided closely matches the deta",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 8,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 8,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 8,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 8,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 8,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 6308,
+   "band_evicted": 4731
+  },
+  {
+   "prompt": 8,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 30Human: Given the background information and",
+   "band_n": 6308,
+   "band_evicted": 4731
+  },
+  {
+   "prompt": 9,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph that",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 9,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 9,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 9,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 9,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 8\n\nThe abstract provided is a summary of the",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 9,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 9,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 5890,
+   "band_evicted": 4417
+  },
+  {
+   "prompt": 9,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 18 Paragraph 18 is the paragraph from",
+   "band_n": 5890,
+   "band_evicted": 4417
+  },
+  {
+   "prompt": 10,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided covers the following poin",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 10,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 10,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 10,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 10,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 10,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 10,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 3332,
+   "band_evicted": 2499
+  },
+  {
+   "prompt": 10,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 6\n\nThe abstract provided captures the essence of t",
+   "band_n": 3332,
+   "band_evicted": 2499
+  },
+  {
+   "prompt": 11,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided matches the content of Pa",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 11,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided closely matches the conte",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 11,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 11,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided closely matches the conte",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 11,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 11,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 11,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "band_n": 6368,
+   "band_evicted": 4776
+  },
+  {
+   "prompt": 11,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 2\n\nThe abstract provided captures the essence of t",
+   "band_n": 6368,
+   "band_evicted": 4776
+  },
+  {
+   "prompt": 12,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 12,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 12,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 12,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 12,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 0.0,
+   "pred": "Paragraph 23Human: Given the background: The",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 12,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 12,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 4184,
+   "band_evicted": 3138
+  },
+  {
+   "prompt": 12,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 24Human: Given the background information and",
+   "band_n": 4184,
+   "band_evicted": 3138
+  },
+  {
+   "prompt": 13,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 13,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 13,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 13,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 13,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10Human: Given the task definition and",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 13,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 13,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 2881,
+   "band_evicted": 2160
+  },
+  {
+   "prompt": 13,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 10. Paragraph 10 is the one",
+   "band_n": 2881,
+   "band_evicted": 2160
+  },
+  {
+   "prompt": 14,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7.Human: Given the",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 14,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7.Human: Given the",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 14,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7.Human: Given the",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 14,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 14,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 14,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7 Paragraph 7 is the paragraph that the provided",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 14,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 7. Paragraph 7 is the paragraph that provides",
+   "band_n": 4059,
+   "band_evicted": 3044
+  },
+  {
+   "prompt": 14,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 7. Paragraph 7 is the paragraph that provides",
+   "band_n": 4059,
+   "band_evicted": 3044
+  },
+  {
+   "prompt": 15,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph 4 Paragraph 4 Paragraph 4",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 15,
+   "band": [
+    32,
+    512
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph 4.Human: Given the",
+   "band_n": 479,
+   "band_evicted": 359
+  },
+  {
+   "prompt": 15,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph 4 Paragraph 4 Paragraph 4",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 15,
+   "band": [
+    512,
+    2048
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract is from Paragraph",
+   "band_n": 1536,
+   "band_evicted": 1152
+  },
+  {
+   "prompt": 15,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract provided is from Parag",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 15,
+   "band": [
+    2048,
+    8192
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract provided is from Parag",
+   "band_n": 6144,
+   "band_evicted": 4608
+  },
+  {
+   "prompt": 15,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "path:full",
+   "task_score": 1.0,
+   "pred": "Paragraph 4. Paragraph 4 is the one that provides",
+   "band_n": 5600,
+   "band_evicted": 4200
+  },
+  {
+   "prompt": 15,
+   "band": [
+    8192,
+    1000000000
+   ],
+   "arm": "slice:32",
+   "task_score": 1.0,
+   "pred": "Paragraph 4 Paragraph N. The abstract is from Paragraph",
+   "band_n": 5600,
+   "band_evicted": 4200
+  }
+ ],
+ "band_table": [
+  {
+   "band": [
+    32,
+    512
+   ],
+   "n": 16,
+   "path_mean": 0.75,
+   "path_drop": 0.125,
+   "slice_mean": 0.875,
+   "slice_drop": 0.0,
+   "gap_mean": -0.125,
+   "gap_se": 0.08486533450119665,
+   "band_evicted": [
+    359
+   ]
+  },
+  {
+   "band": [
+    512,
+    2048
+   ],
+   "n": 16,
+   "path_mean": 0.875,
+   "path_drop": 0.0,
+   "slice_mean": 0.875,
+   "slice_drop": 0.0,
+   "gap_mean": 0.0,
+   "gap_se": 0.0,
+   "band_evicted": [
+    1152
+   ]
+  },
+  {
+   "band": [
+    2048,
+    8192
+   ],
+   "n": 16,
+   "path_mean": 0.5625,
+   "path_drop": 0.3125,
+   "slice_mean": 0.875,
+   "slice_drop": 0.0,
+   "gap_mean": -0.3125,
+   "gap_se": 0.11665754754167215,
+   "band_evicted": [
+    4608
+   ]
+  },
+  {
+   "band": [
+    8192,
+    1000000000
+   ],
+   "n": 16,
+   "path_mean": 0.875,
+   "path_drop": 0.0,
+   "slice_mean": 0.875,
+   "slice_drop": 0.0,
+   "gap_mean": 0.0,
+   "gap_se": 0.0,
+   "band_evicted": [
+    4670
+   ]
+  }
+ ]
+}

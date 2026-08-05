@@ -89,3 +89,34 @@ fp16-drop headroom 0.2-0.4; governed sizing n=64 with token-F1
 co-primary, ~1.5-2 h. PRE-SEAL DECISIONS: fix the P2 pairing
 statistic (mean vs median u -- they currently disagree) and the
 equal-u tolerance from pilot bootstrap SEs.
+**PILOT EXECUTED (2026-08-05, seed 20260806, 16 fresh prompts, 1360 s,
+peak 79 C; artifact results/GO13-kvaw-pilot-disclosed.json). VERDICT:
+DESIGN FAILURE -- SEAL BLOCKED, redesign required.** Findings, all
+disclosed:
+1. P2 INFEASIBLE AS DESIGNED: the equal-uncertainty crossing does not
+   exist -- every path width (mean u 0.908-0.982, incl. the finer
+   grid 256-768) sits ABOVE slice:32 (0.892); bootstrap no-crossing
+   fraction 1.0 under BOTH statistics. Striking standalone
+   observation: the 32-query snapshot predicts future attention mass
+   BETTER (lower unexplained variance) than cumulative history at any
+   width -- aligned with A2SF's direction and explaining the drops.
+2. P1's mapping confounded: path:full drops 0.31-0.56 across rho
+   (near the shuffled null at rho <= 0.10) while slice:32 drops 0.0
+   at EVERY budget -- cumulative attention mass is a poor consumer
+   proxy on this task (it hoards sinks/old entries, calibration
+   showed 64% of future mass in 8k+, and evicts the young content
+   the task reads). The age-resolved shape exists (path failures
+   concentrate in [2k,8k) drop 0.3125 and [32,512) drop 0.125) but
+   it is the shape of the path arm's proxy failure, not a clean
+   staleness-tax face. fp16 baseline itself 0.875 on this prompt set.
+3. Thermal/runtime clean (79 C max, ~85 s/prompt with arms).
+DISPOSITION per house rules: pilot recorded as a disclosed
+design-phase failure; NO bars set, NO seal, the governed GPU
+authorization NOT spent. Redesign directions for a 075-v2 design
+freeze: (a) score-side fix -- consumer-relative (query-aware) entry
+scoring per the program's own thesis, rather than raw cumulative
+attention mass; (b) P2 rebuilt on the predictor side where the
+u-ordering is monotone within the path family; (c) eval set with
+fp16 ceiling and per-band sensitivity (qasper/narrativeqa per 056
+lineage). The A2SF-aligned u-curve inversion (snapshot beats history
+as a predictor) is itself a candidate registered finding.
