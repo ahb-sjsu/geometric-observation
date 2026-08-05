@@ -76,3 +76,33 @@ bootstrap SE, drop table, band table) → P1/P2 bars with ≥1.3×
 margins (P2 tolerance from bootstrap SEs; P1 ordering margins from
 pilot gaps) → degradation-device flank check → seal → ONE governed
 run.
+
+**PILOT 1 EXECUTED (2026-08-05, seed 20260810, 16 fresh prompts,
+21.0 min, peak 79C script / one 81C external transient; instrument
+experiments/kv_access_width_v2.py; artifact
+results/GO13-kvaw2-pilot-disclosed.json). THE REDESIGN WORKS; THE
+QUALITY FACE IS CEILING-SATURATED — one more disclosed iteration
+ordered, NO seal yet.** Findings: (1) equal-u control CONSTRUCTIBLE
+as designed — sigma* = 2.4625e-4 bisected offline (14 CPU evals,
+zero extra GPU decodes), u(w32deg) matches u(w256) to +1.6e-5,
+bootstrap SE(sigma*) ~9% (39.8% of resamples non-bracketing on the
+cached grid, recorded); disclosed deviation: v1 telemetry kept only
+aggregated u, so sigma* is calibrated on this run's own phase-A
+telemetry, not v1's. (2) v1 pathology GONE: no consumer-relative arm
+near the shuffled null (shuf drops 0.69-0.81; all family arms within
+0.125 of fp16 = 0.9375). (3) u-ordering clean at 4-7 SE:
+w1024 0.942 > w256 0.910 > w32 0.893; quality never inverts it, but
+rho in {0.10, 0.15} leaves w256/w32/w32deg AT the fp16 ceiling —
+P1's decode effect unresolved (w1024 +0.125 +/- 0.080 only), P2
+passes trivially (0.938 == 0.938 exactly). (4) The width axis is
+SHARP in telemetry: w1024 recency-hoards (0.917 retention <512,
+0.014-0.016 in 2048+ bands, oracle-miss 0.88 vs w32's 0.49); the
+band-restricted decode localizes the entire gap to [512,2048)
+(-0.1875 +/- 0.097). PILOT 2 (seed 20260811, disclosed pre-seal
+iteration, in flight): n=32, rho {0.03, 0.05, 0.10}, band-restricted
+[512,2048) gap promoted to P1's decode statistic, oracle-miss gap in
+2048+ bands as P1's telemetry statistic, same task (no new
+calibration surface), sigma* recalibrated and stability vs pilot 1
+reported. Bars set only from pilot 2; if the ceiling persists at
+rho=0.03 the P1 decode face is dropped and P1 seals telemetry-only —
+recorded here before the data lands.
