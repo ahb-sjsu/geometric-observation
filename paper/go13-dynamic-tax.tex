@@ -12,7 +12,7 @@
 \title{The dynamic complementarity tax\\[2pt]\large A problem
 statement (GO-13)}
 \author{Geometric Observation program}
-\date{Problem statement v0.4 --- August 2026}
+\date{Problem statement v0.5 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -160,13 +160,50 @@ of the Simeone--Permuter line, must be swept before any novelty
 language.
 \end{question}
 
-\begin{question}
-The binary twin: GO-11 Theorem~10's tilt-equation family under aged
-context --- does the $(d_0,d_1)$ family absorb access classes through
-a single effective $q$ the way the Gaussian theory does (the
-$u=a*q$-convolution structure suggests yes, with $q$ entering the
-convolution parameter)?
-\end{question}
+\begin{theorem}[The binary twin; settled and netted, GO-P-2026-072]
+\label{thm:bintwin}
+DSBS($p$) pair at epoch $t$; context a stationary symmetric binary
+Markov chain (per-step flip $f$, lag-$k$ crossover $\delta_k$);
+observations $S_s=V_s\oplus\mathrm{Bern}(q)$; records
+$P(\hat Y\mid Y,V_t)$; access class $\mathcal G$ a \emph{finite}
+subset of observations. Then: (i) \textbf{slice collapse is exact} ---
+$\{S_{t\pm\Delta}\}$ reduces to Theorem~10 at $q_{\mathrm{eff}}
+=q*\delta_\Delta$ (chain reversibility + BSC composition, both time
+directions); (ii) the $\sigma$-symmetric family remains optimal for
+every finite $\mathcal G$ (the joint flip fixes noise realizations
+pointwise, so the involution consumes no condition on $q$ and covers
+asymmetric classes; convexity of the shared-channel conditional MI +
+symmetrization verbatim), with closed form
+\[
+L_{\mathcal G}(d_0,d_1)=\mathbb E_r\bigl[h_2(a*r)\bigr]
+-(1-p)h_2(d_0)-p\,h_2(d_1),
+\]
+$r$ the \emph{posterior reliability distribution} of $V_t$ given
+$\mathcal G$ --- the per-atom step holds because
+$J=\hat Y\oplus V_t$ is $\mathrm{Bern}(a)$ \emph{independent of}
+$(V_t,\mathcal G)$ on the family (not by atom pairing; pairing
+belongs to the symmetrization lemma alone); (iii) the
+\textbf{generalized tilt equation}
+$\ell(d_0)-\ell(d_1)=2\,\mathbb E_r[(1-2r)\,\ell(a*r)]$ is sufficient
+--- the family is affine in $(d_0,d_1)$ and MI is convex in the
+channel, so slice convexity is a \emph{proof}, not an assertion;
+interior solutions may have $d_j\in(0,1)$ (at $q=0$, $d_1\to1$ as
+$D\to p$). (iv) \textbf{Universality is a Gaussian privilege}: no
+single $q_{\mathrm{eff}}$ reproduces a general class's curve --- at
+$p{=}0.25$, $f{=}0.15$, $q{=}0.1$, class $\{S_{t-1},S_{t+1}\}$, the
+one-point-fit gaps are $+7.1\times10^{-5}$ ($D{=}0.05$) and
+$-8.9\times10^{-5}$ ($D{=}0.15$), real at 50-digit precision --- yet
+the family is \emph{numerically near-universal}: over
+$D\in[0.02,0.40]$ the probed envelope is $\le2.1\times10^{-4}$
+(one-point fit) and $\le1.7\times10^{-4}$ (min-sup fit) --- a
+numerical observation, not a theorem. Anchors: $\Delta{=}0$ slice
+$=$ Theorem~10; $r\equiv\tfrac12$ $=$ marginal $1-h_2(D)$; $q=0$
+regime $D\le p$ confirmed. [R-IND-5: PASS --- joints to
+$1.4\times10^{-17}$, closed form as an identity to
+$2.8\times10^{-16}$, direct optima on-family to $9\times10^{-15}$,
+non-collapse at 50 digits; six sharpenings folded, including the two
+numeric corrections now in this statement.]
+\end{theorem}
 
 \begin{question}
 The operational face: 058-lineage decode-threshold instruments with
