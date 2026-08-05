@@ -12,7 +12,7 @@
 \title{The dynamic complementarity tax\\[2pt]\large A problem
 statement (GO-13)}
 \author{Geometric Observation program}
-\date{Problem statement v0.5 --- August 2026}
+\date{Problem statement v0.6 --- August 2026}
 
 \begin{document}
 \maketitle
@@ -150,15 +150,53 @@ and a paired flat contrast.
 
 \section{Questions}
 
-\begin{question}
-The spectral $m=2$ program: matrix water levels per frequency ---
-GO-12 Conjecture~1 and GO-11 Theorem~9 jointly. Blocked on the same
-library debt (Leiner--Gray 1974 / Wyner 1976--78 checks) plus a
-multiterminal novelty flank: CEO/Heegard--Berger with degraded or
-stale side information at two decoders, and the multi-decoder variants
-of the Simeone--Permuter line, must be swept before any novelty
-language.
-\end{question}
+\begin{theorem}[The spectral $m=2$ theorem; settled and netted,
+GO-P-2026-073]\label{thm:specm2}
+Circulant embedding (load-bearing: the verifier's Toeplitz control
+breaks the mode mapping at $O(0.1)$; $\lambda_k$ are the periodic
+AR(1) eigenvalues, mean $1$); CI embedding with temporally
+\emph{white} residual coupling (colored residuals change the mapping);
+jointly Gaussian linear records with two rows per symbol (hypothesis);
+noise $Q=I$ WLOG by scale invariance; bits/symbol, per-symbol mean
+distortions; $w\in[0,1]$. Then the DFT modes are independent triples
+($S_{A,k}=\rho_{AV}^2\lambda_k+(1-\rho_{AV}^2)$, cross-read covariance
+$(\rho_{AB}-\rho_{AV}\rho_{BV})+\rho_{AV}\rho_{BV}\lambda_k$, context
+column $\propto\lambda_k$, conditional by the rank-one $S$-mode
+correction), cross-mode records gain nothing, and
+\[
+J_{w,n}(D_A,D_B)=\min_{\substack{\frac1n\sum_kD_{A,k}=D_A\\
+\frac1n\sum_kD_{B,k}=D_B}}\ \frac1n\sum_kV^{(9)}_k(D_{A,k},D_{B,k}),
+\]
+$V^{(9)}_k$ the static weighted matrix-water-level value of GO-11
+Theorem~9 at mode $k$ --- \textbf{the static kernel is not ours}: the
+rate-face endpoint is Xiao--Luo (Allerton 2005), and the static
+tuple's reduction to pairwise subproblems with an implicit
+two-water-level system is Stylianou--Charalambous--Charalambous (ISIT
+2021/2024); what this theorem adds is the \emph{spectral lift}, the
+conditional/weighted face, and the third-party conditioner. At the
+allocation optimum the interior-mode partial slopes are equal per
+consumer: \textbf{two common prices} $(\mu_A,\mu_B)$, one per
+distortion constraint, generically distinct (a measure-zero
+coincidence set is possible) --- this is where a ``common pair of
+Lagrange prices'' genuinely lives, vindicating GO-12 Conjecture~1's
+phrasing at $m=2$ after its $m=1$ refutation. \emph{Scoping}: equal
+slopes is KKT \emph{necessity} (interior modes, complementary
+slackness for slack modes --- a slack $D_B$ collapses to the $m=1$
+one-price structure exactly, verifier-checked to $1.4\times10^{-14}$);
+\emph{sufficiency} of the two-price rule needs joint convexity of
+$V^{(9)}_k$, unproven while $m=2$ uniqueness is open --- numerically
+audited only (minimum FD-Hessian eigenvalue $+0.33$ over three
+covariance families, zero Jensen violations). Anchors: $n{=}1$ $=$
+static Theorem~9; $w{=}1$ $=$ the two-constraint rate face;
+$\tau^2\to\infty$ $=$ the rate face; Toeplitz transfer inherits
+Theorem~\ref{thm:matq}-lineage lemma debts. [R-IND-5: PASS --- mode
+mapping $2.7\times10^{-15}$ for $n\le8$; full-vs-allocation
+$7.4\times10^{-14}$ over five settings and 100+ starts; prices
+$(-2.80690,-2.88527)$ with spreads $\le3.4\times10^{-7}$; five
+sharpenings folded. Novelty flank swept (record in the GO-13 novelty
+file): the spectral lift with two prices and the third-party
+conditioner remain claimable; language gated per the sweep.]
+\end{theorem}
 
 \begin{theorem}[The binary twin; settled and netted, GO-P-2026-072]
 \label{thm:bintwin}
