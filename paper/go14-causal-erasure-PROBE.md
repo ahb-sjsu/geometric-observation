@@ -131,3 +131,41 @@ del Rio 1009.1630, Rosinberg et al. 1412.5138/1612.04945 (delayed
 feedback), Asnani-Weissman 1105.5755, Naiss-Permuter 1012.5071.
 RESIDUAL: hold headline novelty wording until the owed S2/DBLP pass
 (non-arXiv venues unswept). Process-limit probe in flight.
+
+## Process-limit probe (2026-08-05, diag-class, CPU): limit exists, closure law scoped, a new closed-form candidate survives
+
+Cross-validated against every sealed 076 number first (block_16,
+UB(0), excess(2), block_inf, chain-rule residual <= 3.6e-12).
+(1) LIMIT EXISTS: clean O(1/n) (Richardson quad rms <= 3.5e-8,
+calibrated on the block face to 1.4e-7): L_a^inf(Delta) =
+0.568571/0.537401/0.531206/0.529977 (+/- <= 1.2e-5) at Delta=0/1/2/4;
+excess over block_inf: 0.038621/0.007451/0.001256/2.75e-5.
+(2) CLOSURE LAW SCOPED: per-lag ratios 5.18 -> 5.93 -> 6.87 rise
+TOWARD lambda_s^-2 = 7.955 from below -- rate supported as a
+Delta->infinity asymptotic, CONSTANT NOT IDENTIFIED through Delta=4
+(genuine small-Delta record-reshaping transient; two-term ladder
+fails; rwf pole excluded at 210% resid). Excess ~5:1 leak-dominated.
+(3) NEW CANDIDATE SURVIVES -- causal-spectral allocation: equal-slope
+per-frequency conditional quadratics with conditioning spectrum =
+Delta-lag causal Wiener error spectrum S_e^(Delta) (min-phase
+factorization 1.2e-14; reproduces block_inf to 1.6e-10 at two-sided;
+own excess obeys lambda_s^{2Delta} cleanly, c_spec = 0.0190 +/-
+0.0007). Also surviving: block_inf + c_static*lambda_s^{2Delta},
+c_static = G*'(q_path)(P_f - P_s_inf) = 0.026668. REFUTED as
+expressions of the min (above the diag UB at every Delta): slice,
+static_filter, static_prefix(Delta) (misses by the spectral gain
+0.0313 at Delta->inf, 0.0180 at Delta=0). Scalar fixed-lag law exact:
+(P_s(Delta)-P_s_inf)/lambda_s^{2Delta} = P_f - P_s_inf to 6 digits.
+(4) Per-cell stationarity PASS; the diag kernel is exactly
+time-symmetric BY CLASS -- it cannot express causal asymmetry, which
+is plausibly exactly why non-diagonal records beat it for L_a.
+CONJECTURE v0.1 recorded in the probe report (session task output):
+(i) limit exists O(1/n); (ii) innovations rate lambda_s^{2Delta}
+scoped as asymptotic, c unclaimed; (iii) HEADLINE to net or refute:
+L_a^inf = the causal-spectral allocation (consistent-with, not
+demonstrated -- discrimination REQUIRES the full-space search, since
+the diag class is structurally symmetric). NEXT NUMERICS before any
+seal: full-space min at n=16-24, Delta=0..2 (does the non-diag
+optimum approach the causal-spectral value?); diag Delta=5-6 at
+n=32-40 to pin the diag constant. Then R-IND-5 -> tex fold ->
+prereg 078.
