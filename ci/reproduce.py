@@ -65,6 +65,8 @@ REPRODUCIBLE = [
     ("go12_spectral_crdf.py",       "GO12SP-JSON","GO12-spectral-crdf.json",       "GO12SP_supported"),
     # GO-12 weighted spectral (GO-P-2026-071), seed 20261004, ~4 min.
     ("go12_weighted_spectral.py",   "GO12WS-JSON","GO12-weighted-spectral.json",   "GO12WS_supported"),
+    # GO-13 Thm 3: binary twin (GO-P-2026-072), seed 20261007, ~4 s.
+    ("go13_binary_twin.py",         "GO13BT-JSON","GO13-binary-twin.json",         "GO13BT_supported"),
 ]
 
 failures: list[str] = []
