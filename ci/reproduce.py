@@ -69,6 +69,8 @@ REPRODUCIBLE = [
     ("go13_binary_twin.py",         "GO13BT-JSON","GO13-binary-twin.json",         "GO13BT_supported"),
     # GO-13 Thm 4: spectral m=2 (GO-P-2026-073), seed 20261010, ~6 min.
     ("go13_spectral_m2.py",         "GO13SM-JSON","GO13-spectral-m2.json",         "GO13SM_supported"),
+    # m-record moment-convexity lemma (GO-P-2026-074), seed 20261013, ~1 s.
+    ("go13_m2_convexity.py",        "GO13MC-JSON","GO13-m2-convexity.json",        "GO13MC_supported"),
 ]
 
 failures: list[str] = []
