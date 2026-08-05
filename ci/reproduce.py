@@ -71,6 +71,8 @@ REPRODUCIBLE = [
     ("go13_spectral_m2.py",         "GO13SM-JSON","GO13-spectral-m2.json",         "GO13SM_supported"),
     # m-record moment-convexity lemma (GO-P-2026-074), seed 20261013, ~1 s.
     ("go13_m2_convexity.py",        "GO13MC-JSON","GO13-m2-convexity.json",        "GO13MC_supported"),
+    # GO-14 Thm 1: causal erasure (GO-P-2026-076), seed 20261102, ~75 s.
+    ("go14_causal_erasure.py",      "GO14CE-JSON","GO14-causal-erasure.json",      "GO14CE_supported"),
 ]
 
 failures: list[str] = []

@@ -91,3 +91,22 @@ minimum must FAIL.
 076 loop queued: tex v0.2 (five restatements + sign fix + true-min
 bracketing), harness netting the identity/sandwich/pole-per-cell/
 class-bracket, pilot, seal, governed.
+
+## 076 loop CLOSED (2026-08-05): sealed a843fb7a, governed ALL PASS 12/12
+
+Tex v0.2 shipped (all five restatements + the sign fix + the
+class-conditional Remark as a hard term). Harness
+experiments/go14_causal_erasure.py; pilot phase = THREE disclosed
+runs (json bug; s4 gated at the wrong channel — the pole is
+CELL-LOCAL, rwf shows its own stable ~3.93/lag ≈ lambda_s^2/rho^2
+empirically, now scoped into the theorem and recorded ungated; s6's
+closed-form per-frequency g* generalization exposed WRONG (0.656 vs
+0.530) against the exact per-mode decomposition and replaced by
+direct per-frequency Lagrangian minimization -> block_inf 0.52995 vs
+verifier 0.52991). Governed seed 20261102: ALL PASS 12/12, identity
+7.2e-12, UB(0) 0.572255 with the 2.4e-3 non-diagonal beat netted in
+s5, pole relerr 1.7e-4, prefactor 8.0e-3, gap_inf 0.03131.
+GO-14 now [predicted] in LEDGER/README. NEXT for GO-14: the novelty
+sweep (OWED before any novelty language), then the open faces
+(full-space min, process limit + innovations form, reset protocol,
+rwf pole characterization).

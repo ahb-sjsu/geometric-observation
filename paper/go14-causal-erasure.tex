@@ -2,12 +2,16 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{fullpage}
 \usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{question}{Question}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large A problem statement (GO-14)}
+\large GO-14 statement v0.2 --- the definitional fork settled}
 \author{Geometric Observation program}
-\date{Problem statement v0.1 --- August 2026}
+\date{v0.2 --- August 2026 (v0.1 problem statement superseded; sign
+error in the v0.1 conjecture corrected here)}
 \begin{document}
 \maketitle
 
@@ -15,51 +19,140 @@
 GO-12 settled the single-record causal-prefix eraser (the Kalman
 family); the process-rate object --- block records erased cell by
 cell, each against only the causal prefix of an aging reference ---
-remains open, and its nearest published neighbor (Gauss--Markov
-tracking with causal decoder side information, Lev--Khina 2020)
-is explicitly open even without delay. This statement promotes it
-from GO-12 residue to its own campaign. Nothing here is a claim.
+is promoted here from problem statement to a first theorem. The
+definitional fork of v0.1 is settled: the operational coordinate is
+the $\Delta$-lagged \emph{causally-conditioned} CMI with record
+memory (definition (a)); the memoryless variant (b) is rejected (it
+floors $0.0136$ bits above the netted block coordinate and violates
+the chain rule). All numerical minima quoted below are
+\emph{class-conditional upper bounds} (the diagonal record class is
+provably \emph{not} optimal for $L_a$); nothing here relies on them
+being global.
 \end{abstract}
 
-\section{The problem}
-Sources and observations as in GO-12 ($Y=\rho V+N$, $V$ AR(1),
-$S_s=V_s+U_s$). A block record $\hat Y^n$ is produced noncausally by
-the encoder; the eraser resets cell $t$ at time $t+\Delta$ holding
-only $\sigma(S_{\le t+\Delta})$ (and, definitional fork, possibly the
-already-erased cells). The process-rate coordinate is a per-symbol
-limit of summed per-cell conditional informations.
+\section{Setting}
+Sources as in GO-12: $V$ AR(1) with pole $a$, unit stationary
+variance; $Y_t=\rho V_t+N_t$ with $\operatorname{Var}(Y)=1$;
+reference $S_t=V_t+U_t$, $\operatorname{Var}(U)=\tau^2$. A block
+record $\hat Y^n$ of $Y^n$ (jointly Gaussian, per-symbol distortion
+$\tfrac1n\sum_tE(Y_t-\hat Y_t)^2\le D$) is erased cell by cell; the
+eraser of cell $t$ holds $S^{t+\Delta}$ and the already-erased cells
+$\hat Y^{t-1}$. The coordinate is
+\[
+L_a(\Delta)\;=\;\frac1n\sum_{t=1}^{n}
+I\!\left(T^n;\hat Y_t\,\middle|\,S^{t+\Delta},\hat Y^{t-1}\right),
+\qquad T=(V,Y).
+\]
 
-\begin{question}[The definitional fork --- part of the problem]
-Candidate coordinates: (a) Markov-constrained causal conditioning in
-the sense of Lev--Khina, $\tfrac1n\sum_tI(T^n;\hat Y_t\mid
-S^{t+\Delta},\hat Y^{t-1})$; (b) the same without record memory;
-(c) Kostina--Hassibi causally-conditioned DI --- \emph{known} to
-collapse to the full-path endpoint in Gaussian settings, so the
-interpolation is well-posed only under (a)/(b). Which definition is
-the thermodynamically operational one (a reset protocol realizes it)
-is itself a question the campaign must settle first.
+\section{The theorem}
+Write $\lambda_s=a(1-K)$ for the steady-state Kalman
+\emph{smoothing} pole ($K$ the steady Kalman gain of $S$ on $V$);
+at the netted parameters $(a,\rho^2,\tau^2)=(0.8,0.49,0.4)$,
+$\lambda_s=0.354554$, $\lambda_s^{-2}=7.955$.
+
+\begin{theorem}[Causal erasure, first netting --- GO-P-2026-076]
+\label{thm:main}
+For every jointly Gaussian record on the window $t=1,\dots,n$:
+\begin{enumerate}
+\item[(i)] \textbf{Exact chain rule.}
+$n\,L_a(\Delta)=I(T^n;\hat Y^n\mid S^n)+C_\Delta$ with
+\[
+C_\Delta=\sum_t I\!\left(\hat Y_t;S_{>t+\Delta}\,\middle|\,
+S^{t+\Delta},\hat Y^{t-1}\right)\;\ge\;0
+\]
+the \emph{smoothing-leakage charge}; $C_\Delta=0$ iff the record is
+$\Delta$-lag causally simulatable from $S$. The identity is exact
+for every record and every $\Delta$ (numerical residual
+$\sim10^{-14}$).
+\item[(ii)] \textbf{Collapse is a feasibility face, not an
+impossibility.} Records that collapse ($C_\Delta=0$) while carrying
+information exist --- e.g.\ any $V$-free ($N$-only) record --- so
+universal non-collapse is \emph{false as first conjectured}. The
+correct statement: for $\tau^2>0$, $\Delta\le n-2$ and
+\[
+D\;<\;\rho^2\,\frac{n-\Delta-1}{n},
+\]
+every $D$-feasible collapsing record must be $V$-free on all cells
+$t\le n-\Delta-1$, which the distortion budget forbids; at
+$D\ge\rho^2(n-\Delta-1)/n$ a feasible collapsing boundary record
+exists (exhibited at $\Delta=6$, $n=16$, $D=0.3$). Strictness of
+$\min L_a>\mathrm{block}/n$ in the sub-boundary regime routes
+through block-optimality plus $C_\Delta>0$ at the (per-mode unique)
+block optimizer --- not through universal non-collapse.
+\item[(iii)] \textbf{Class-conditional sandwich, strictly
+decreasing.} With $\mathrm{block}_n=\min\,\tfrac1nI(T^n;\hat
+Y^n\mid S^n)$ and $\mathrm{slice}(\Delta)$ the netted single-letter
+slice coordinate,
+\[
+\mathrm{block}_n\;<\;\min_{\text{records}} L_a(\Delta)\;\le\;
+L_a^{\mathrm{diag}}(\Delta)\;<\;\mathrm{slice}(\Delta),
+\]
+where $L_a^{\mathrm{diag}}$ is the diagonal-class value; the upper
+bounds are \emph{strictly decreasing in $\Delta$} (v0.1 said
+increasing --- a sign error: more prefix access can only cheapen
+causal erasure), and the lower margin closes geometrically at rate
+$\lambda_s^{2\Delta}$ (overstatement of the diag-class bound over
+the true minimum $\le1.07\times10^{-3}$ at $\Delta=2$,
+$\le2.4\times10^{-6}$ at $\Delta=5$; $n=16$, $D=0.3$).
+\item[(iv)] \textbf{The smoothing pole --- cell-local scope.} For
+\emph{time-local} (cell-diagonal) records, the per-interior-cell
+leakage ratio $\mathrm{leak}_t(\Delta)/\mathrm{leak}_t(\Delta+1)\to
+\lambda_s^{-2}$ in the window interior; the \emph{aggregate}
+per-symbol ratio carries the finite-window cell-count prefactor
+$(n-\Delta-1)/(n-\Delta-2)$. The exponent is \emph{record-dependent}:
+code-mixing records measurably decay slower (the reverse-water-filling
+record shows a stable $\approx0.255$/lag, empirically
+$\approx\lambda_s^2/\rho^2$ --- characterization open). No constant
+measured ratio is quoted --- the pole is an asymptotic with a named
+prefactor and a named scope.
+\item[(v)] \textbf{Not bookkeeping.} $L_a$ is not the fixed-lag
+static quadratic: the deficit of the bookkeeping candidate is
+$n$-pinned, $\mathrm{gap}_n=\mathrm{static}(q_{\mathrm{path}})-
+\mathrm{block}_n=0.0213/0.0263/0.0280$ at $n=8/16/24$, converging to
+the spectral gain $\approx0.0313$
+($\mathrm{block}_\infty=0.52991$ by per-frequency equal-slope
+allocation). Record memory and cross-cell code structure carry real
+value.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Class scoping --- load-bearing]
+The diagonal (stationary-symmetric) class is \emph{provably
+suboptimal} for $L_a$: at $\Delta=0$, $n=16$, $D=0.3$ the
+first-order optimality certificate fails at the diagonal optimum
+(feasible projected slope $8.6\times10^{-3}$ against
+$10^{-6}$ noise) and explicit non-diagonal records achieve
+$\min L_a(0)\le0.567353<0.572255$ (an improvement of
+$4.9\times10^{-3}$ bits, two independent parameterizations agreeing
+to $8\times10^{-5}$). Diagonal optimality \emph{remains proven} for
+the block coordinate. Every quoted minimum is therefore a
+diagonal-class upper bound inside the bracket of (iii); presenting
+$0.572255$ as \emph{the} minimum would be an error.
+\end{remark}
+
+\begin{remark}[Rejected definition]
+Definition (b) (memoryless eraser) is monotone but has the wrong
+$\Delta\to\infty$ invariant (floors $0.0136$ bits above the netted
+block coordinate) and is chain-rule-inconsistent; (c)
+(Kostina--Hassibi causally-conditioned DI) collapses to the
+full-path endpoint in Gaussian settings. Definition (a) is the
+thermodynamically operational coordinate pending a reset-protocol
+construction (open).
+\end{remark}
+
+\begin{question}[Open]
+(1) The full-space (non-diagonal) minimum of $L_a$ and whether the
+$\lambda_s^{2\Delta}$ closure rate survives it; (2) the
+$n\to\infty$ process-rate limit of $\min L_a(\Delta)$ and its
+innovations characterization (vector NRDF closed forms were refuted
+in general --- Stavrou--Tanaka--Tatikonda --- so only scalar forms
+are expected cheaply); (3) the reset protocol realizing (a).
 \end{question}
 
-\begin{conjecture}[Strict interpolation with an innovations form]
-Under the operational definition, the process-rate causal coordinate
-lies strictly between GO-12's slice and path endpoints for
-$\tau^2>0$, is strictly increasing in $\Delta$, and admits a
-Kalman/innovations characterization --- with the caution that vector
-NRDF water-filling closed forms were refuted in general
-(Stavrou--Tanaka--Tatikonda), so only scalar closed forms should be
-expected cheaply.
-\end{conjecture}
-
-\begin{question}
-The honesty caveat inherited from the GO-12 sweep: does the object
-reduce to the classical filtering-vs-smoothing gap plus bookkeeping,
-or does record memory ($\hat Y^{t-1}$ in the conditioning) create
-genuinely new structure? The first probe is numerical: compute
-(a)/(b) at small $n$ against the 066 endpoints.
-\end{question}
-
-House rules apply: novelty sweeps before novelty language (the
-Lev--Khina/Kostina--Hassibi/nonanticipative-RDF line is mapped in the
-GO-12 novelty record; a dedicated sweep is owed before any claim);
-R-IND-5 before assertion; \S5.1 at every seal.
+House rules: the novelty sweep for the causally-conditioned-CMI
+framing (Kramer / Lev--Khina / nonanticipative-RDF line) is
+\emph{owed before any novelty language}; nothing above claims
+novelty. R-IND-5 pass 1 + closure on record
+(\texttt{go14-causal-erasure-PROBE.md}); \S5.1 seal GO-P-2026-076
+governs the numerical faces.
 \end{document}
