@@ -212,3 +212,46 @@ next theory face is a LOWER BOUND via the convexity-lemma machinery
 on the interleaved-chol representation (sum of log-ratios of nested
 Schur complements). NEXT LOOP: R-IND-5 on v0.2 -> tex v0.3 -> seal
 prereg 078 -> governed.
+
+## R-IND-5 pass on Conjecture v0.2 (2026-08-05): READY TO SEAL 078 conditional on SIX mandatory restatements
+
+Independent verifier (own evaluators, 2 routes agreeing 2e-10,
+sealed anchors reproduced exactly; full report in session task
+output; code scratchpad rind5/). PER-CLAIM: LIMIT PASS (O(1/n)
+survives model attack, alpha=0.996-1.001; new n=32 full-space point
+0.56474187 closes the two-point hole; limits confirmed to 1.2e-6).
+RATE PASS/CONSTANT RESTATE (ratios rise 5.18->7.65 from below,
+NOT converged at Delta=6; c(Delta) still rising 0.107/0.112/0.117 --
+quote bracket [0.105,0.125] ONLY, drop +/-0.006; c_fs data-supported
+(0.07,0.125]). PLATEAUS CONFIRMED (+0.014781/+0.004057/+0.000795,
+160-3000x error). MECHANISM PASS (sign boundary exactly at lag
+Delta, no drift, 7 adversarial starts -> same record, KKT certificate
+8.4e-6; define time-symmetric = TRANSPOSE symmetry, persymmetry
+fails 6% at edges). ANCHORS PASS except E_inf(6) REFUTED as 4-digit
+(pair-sensitivity +/-10% around ~4.4e-7; quote raw La(48,6) =
+0.5316222730 instead).
+**LOAD-BEARING (d): U-COUPLED RECORDS BREAK EVERYTHING** -- chain
+rule FALSE outside U-independent family (random U-coupled residuals
+0.015-0.40; optimizer endpoint 4.59 bits); identity extends exactly
+iff U-coupling is Delta-lag causal (Au[t,s]=0 for s>t+Delta); minima
+collapse: trivial Delta-causal U-record hits 0.539536 < 0.566758,
+general U-coupled certified-feasible record hits L_a(0) = 0.092864
+(< block_16 -- sandwich INVERTED). U-independence = numbered hard
+hypothesis in Thm 1 AND 078; U-coupled variant = a different,
+far cheaper coordinate, OPEN.
+(e) causal-spectral allocation VERIFIED to 7 digits by an
+independent route BUT is neither UB nor LB (no achievability map, no
+DPI direction) -- reword to "not matched by any tested
+causal-conditioning spectrum"; label it a reference construction.
+ERRATA to fix: tex v0.2 item (v) block_inf 0.52991 -> 0.529950
+(propagated from pass-1 coarse waterfilling; gap 0.0313 unaffected);
+PROBE process-limit excess(4) 2.75e-5 -> 2.66e-5 (stageC.json).
+SIX RESTATEMENTS (verbatim list in task output): 1 U-independence
+hard hypothesis + counter-values on record; 2 c bracket only;
+3 raw-La anchors, E_inf(6) +/-10%; 4 "no tested spectrum" rewording,
+reference-construction label; 5 transpose-symmetry definition;
+6 errata + ratio "unresolved beyond Delta~6" + c_fs bracket scoping.
+ANY SEAL WITHOUT HYPOTHESIS 1 MUST FAIL.
+NEXT: tex v0.3 with all six + errata; harness netting anchors/
+ladder/mechanism/U-counter-values; pilot; seal 078; STOP for
+governed go-ahead (not yet authorized).
