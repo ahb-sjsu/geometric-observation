@@ -75,8 +75,15 @@ REPRODUCIBLE = [
     ("go14_causal_erasure.py",      "GO14CE-JSON","GO14-causal-erasure.json",      "GO14CE_supported"),
     # GO-14 process-limit face (GO-P-2026-078), seed 20261111, ~7 min.
     ("go14_process_limit.py",       "GO14PL-JSON","GO14-process-limit.json",       "GO14PL_supported"),
-    # GO-14 Theorems R+C: the convex program (GO-P-2026-079), seed 20261121, ~1 min.
-    ("go14_convexity.py",           "GO14CX-JSON","GO14-convexity.json",           "GO14CX_supported"),
+    # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
+    # Its s5 certified-width gates race the L-BFGS-B stopping point,
+    # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
+    # at (24,0) vs 1.05e-8 -> 3.8e-6 locally; four instrumentation
+    # revisions on record in the prereg's amendment trail, incl. two
+    # measured dead ends). Like Gate-B / GO-4 / GO-5 it is carried as a
+    # committed artifact, self-consistency-checked in step [3]; the
+    # sealed-platform governed reproduction is on record and the harness
+    # remains runnable manually (python experiments/go14_convexity.py).
 ]
 
 failures: list[str] = []

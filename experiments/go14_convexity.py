@@ -513,26 +513,29 @@ def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36, wbar=None):
     rn_target = (max(wbar / (1.5 * Rbox_c), 1e-9) if wbar is not None
                  else 4e-8)
     if rn > rn_target:
-        val, grd = lagr_vg(x)
-        for _ in range(400):
-            gn2 = float(np.dot(grd, grd))
-            if np.sqrt(gn2) <= rn_target:
+        # rev 4: deterministic jittered L-BFGS-B restarts, keep-best.
+        # (rev 3's gradient descent stalled at rn ~ 5.8e-8 on the
+        # runner -- too slow at this conditioning; Newton-CG with FD
+        # Hessian-vector products cannot descend below the ~1e-8
+        # gradient-noise floor either. The runner's own L-BFGS-B
+        # reaches 1.4e-8 at other anchors, so a stuck anchor is a
+        # line-search bad-exit: tiny deterministic jitter breaks the
+        # exit state and the solver re-converges. Local rnorms are
+        # already under every target, so this loop never engages
+        # locally -- bit-identity preserved.)
+        rj = np.random.default_rng(977100 + 1000 * n + Delta)
+        best = (rn, x, v_, d_, gh_, gg_)
+        for _ in range(6):
+            if best[0] <= rn_target:
                 break
-            t = 1.0
-            while t > 1e-12:
-                v2, g2 = lagr_vg(x - t * grd)
-                if v2 <= val - 0.5 * t * gn2:
-                    x = x - t * grd
-                    val, grd = v2, g2
-                    break
-                t *= 0.5
-            else:
-                break
+            xj = best[1] + 1e-6 * rj.standard_normal(best[1].shape)
+            xt, vt, dt, ght, ggt = solve(mu, xj, maxit1)
+            rnt = float(np.sqrt(np.sum((ght + mu * gDH) ** 2)
+                                + np.sum((ggt + mu * gDG) ** 2)))
+            if rnt < best[0]:
+                best = (rnt, xt, vt, dt, ght, ggt)
+        rn, x, v_, d_, gh_, gg_ = best
         H_, G_ = unpack(x)
-        v_, gh_, gg_ = f_and_grad(M, H_, G_, Delta)
-        d_ = dist_HG(M, H_, G_)
-        rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
-                           + np.sum((gg_ + mu * gDG) ** 2)))
     lag = v_ + mu * (d_ - D_TGT)
     H_, G_ = unpack(x)
     bG = (1.0 + np.sqrt(n * D_TGT)) ** 2

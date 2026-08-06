@@ -142,3 +142,18 @@ giving 1.5x headroom by construction at every anchor. Local rnorms
 (1.05-2.15e-8) remain under every per-anchor target
 (1.6e-8..3.9e-8), so the local governed run stays bit-identical
 (verified, ALL PASS 14/14). No bar changed at any revision.**
+**Amendment revision 4 (same date): rev 3's gradient descent stalled
+at rn ~ 5.8e-8 on the runner (first-order too slow at this
+conditioning; Newton-CG with FD Hessian-vector products cannot pass
+the ~1e-8 gradient-noise floor either -- both measured). Since the
+runner's own L-BFGS-B reaches 1.4e-8 at other anchors, the stuck
+anchor is a line-search bad-exit: rev 4 = deterministic jittered
+restarts (local generator, keep-best, up to 6 rounds, engaged only
+when rn exceeds the width-aware target). Local run remains
+bit-identical (verified). IF the runner still cannot reach the
+target, the recorded endgame is honest reclassification: move this
+harness from CI's re-run tier to the artifact-self-consistency tier
+(the established house category for harnesses CI cannot faithfully
+re-run -- Gate-B, GO-4, GO-5), with the platform-sensitivity of
+certified-width RACES documented; the sealed verdict stands on the
+sealed platform either way.**
