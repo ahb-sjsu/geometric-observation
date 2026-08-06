@@ -75,6 +75,11 @@ REPRODUCIBLE = [
     ("go14_causal_erasure.py",      "GO14CE-JSON","GO14-causal-erasure.json",      "GO14CE_supported"),
     # GO-14 process-limit face (GO-P-2026-078), seed 20261111, ~7 min.
     ("go14_process_limit.py",       "GO14PL-JSON","GO14-process-limit.json",       "GO14PL_supported"),
+    # GO-14 transfer face (GO-P-2026-080), seed 20261131, ~6 min.
+    # In the re-run tier BY DESIGN: no gate races an optimizer stopping
+    # point (identities, set identities, fat-margin inequalities, and
+    # committed-value reproduction only -- the 079 lesson).
+    ("go14_transfer.py",            "GO14TR-JSON","GO14-transfer.json",            "GO14TR_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
