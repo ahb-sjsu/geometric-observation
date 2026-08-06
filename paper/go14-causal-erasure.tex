@@ -3,15 +3,19 @@
 \usepackage{fullpage}
 \usepackage[hidelinks]{hyperref}
 \newtheorem{theorem}{Theorem}
+\newtheorem{hypothesis}{Hypothesis}
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{question}{Question}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.2 --- the definitional fork settled}
+\large GO-14 statement v0.3 --- the process-limit face, under the
+U-independence hypothesis}
 \author{Geometric Observation program}
-\date{v0.2 --- August 2026 (v0.1 problem statement superseded; sign
-error in the v0.1 conjecture corrected here)}
+\date{v0.3 --- August 2026 (v0.2 superseded: process-limit conjecture
+added, the record family promoted to a numbered hard hypothesis,
+dated erratum to Theorem~1(v); the v0.1 sign error was corrected at
+v0.2)}
 \begin{document}
 \maketitle
 
@@ -19,22 +23,26 @@ error in the v0.1 conjecture corrected here)}
 GO-12 settled the single-record causal-prefix eraser (the Kalman
 family); the process-rate object --- block records erased cell by
 cell, each against only the causal prefix of an aging reference ---
-is promoted here from problem statement to a first theorem. The
-definitional fork of v0.1 is settled: the operational coordinate is
-the $\Delta$-lagged \emph{causally-conditioned} CMI with record
-memory (definition (a)); the memoryless variant (b) is rejected (it
-floors $0.0136$ bits above the netted block coordinate and violates
-the chain rule). All numerical minima quoted below are
-\emph{class-conditional upper bounds} (the diagonal record class is
-provably \emph{not} optimal for $L_a$); nothing here relies on them
-being global.
+was promoted to a first theorem at v0.2 (netted, GO-P-2026-076).
+This revision adds the process-limit face: the $n\to\infty$ limit of
+the coordinate exists at $O(1/n)$, closes at the smoothing-pole rate
+$\lambda_s^{2\Delta}$ with a constant that is \emph{not} matched by
+any tested causal-conditioning spectrum, and is driven by an
+explicit, testable record mechanism (horizon-matched
+$V$-cancellation). Two scoping results are now load-bearing and
+stated as hard terms: (i) the record family --- jointly Gaussian
+with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
+numbered hypothesis on the chain rule and on every minimum quoted
+here (U-coupled records break the identity and invert the sandwich);
+(ii) all numerical minima remain \emph{class-conditional or
+finite-$n$ upper bounds}; nothing here relies on them being global.
 \end{abstract}
 
 \section{Setting}
 Sources as in GO-12: $V$ AR(1) with pole $a$, unit stationary
 variance; $Y_t=\rho V_t+N_t$ with $\operatorname{Var}(Y)=1$;
 reference $S_t=V_t+U_t$, $\operatorname{Var}(U)=\tau^2$. A block
-record $\hat Y^n$ of $Y^n$ (jointly Gaussian, per-symbol distortion
+record $\hat Y^n$ of $Y^n$ (per-symbol distortion
 $\tfrac1n\sum_tE(Y_t-\hat Y_t)^2\le D$) is erased cell by cell; the
 eraser of cell $t$ holds $S^{t+\Delta}$ and the already-erased cells
 $\hat Y^{t-1}$. The coordinate is
@@ -44,6 +52,31 @@ I\!\left(T^n;\hat Y_t\,\middle|\,S^{t+\Delta},\hat Y^{t-1}\right),
 \qquad T=(V,Y).
 \]
 
+\begin{hypothesis}[U-independence --- hard, load-bearing]
+\label{hyp:uind}
+The record family $\mathcal F_0$: $\hat Y^n$ jointly Gaussian with
+$(V^n,Y^n)$ and \emph{independent of $U^n$ given $(V^n,Y^n)$};
+concretely $\hat Y=A_yY+A_vV+Z$ with $Z\perp(V,N,U)$ (no
+$U$-coupling, $A_u=0$). Theorem~\ref{thm:main} (the chain rule and
+every item), Conjecture~\ref{conj:proc}, and \emph{every minimum
+quoted in this document} are stated under this hypothesis; no seal
+of the process-limit face is valid without it.
+\end{hypothesis}
+
+\noindent\textbf{Extension and counter-values (R-IND-5, on record).}
+The chain rule of Theorem~\ref{thm:main}(i) extends \emph{exactly}
+to $U$-coupled records $\hat Y=A_yY+A_vV+A_uU+Z$ if and only if the
+$U$-coupling is $\Delta$-lag causal, $A_u[t,s]=0$ for $s>t+\Delta$.
+Outside that: the identity is \emph{false} (measured residuals
+$0.015$--$0.40$ at random $U$-couplings; $4.59$ bits at an optimizer
+endpoint), and the minima collapse --- the trivial $\Delta$-causal
+$U$-record $\hat Y_t=0.54\,Y_t+0.23\,S_t+\mathcal N(0,0.1625)$ is
+$D$-feasible and achieves $L_a(0)=0.539536<0.566758$ (the family
+min), and a general $U$-coupled certified-feasible record achieves
+$L_a(0)=0.092864<\mathrm{block}_{16}=0.534968$: the sandwich of
+item~(iii) is \emph{inverted}. The $U$-coupled variant is a
+different, far cheaper coordinate and is \emph{open}.
+
 \section{The theorem}
 Write $\lambda_s=a(1-K)$ for the steady-state Kalman
 \emph{smoothing} pole ($K$ the steady Kalman gain of $S$ on $V$);
@@ -52,7 +85,8 @@ $\lambda_s=0.354554$, $\lambda_s^{-2}=7.955$.
 
 \begin{theorem}[Causal erasure, first netting --- GO-P-2026-076]
 \label{thm:main}
-For every jointly Gaussian record on the window $t=1,\dots,n$:
+For every jointly Gaussian record on the window $t=1,\dots,n$
+satisfying Hypothesis~\ref{hyp:uind}:
 \begin{enumerate}
 \item[(i)] \textbf{Exact chain rule.}
 $n\,L_a(\Delta)=I(T^n;\hat Y^n\mid S^n)+C_\Delta$ with
@@ -62,8 +96,9 @@ S^{t+\Delta},\hat Y^{t-1}\right)\;\ge\;0
 \]
 the \emph{smoothing-leakage charge}; $C_\Delta=0$ iff the record is
 $\Delta$-lag causally simulatable from $S$. The identity is exact
-for every record and every $\Delta$ (numerical residual
-$\sim10^{-14}$).
+for every record in $\mathcal F_0$ and every $\Delta$ (numerical
+residual $\sim10^{-14}$); for the exact $U$-coupled extension and
+its failure outside the family see the counter-values above.
 \item[(ii)] \textbf{Collapse is a feasibility face, not an
 impossibility.} Records that collapse ($C_\Delta=0$) while carrying
 information exist --- e.g.\ any $V$-free ($N$-only) record --- so
@@ -110,9 +145,10 @@ static quadratic: the deficit of the bookkeeping candidate is
 $n$-pinned, $\mathrm{gap}_n=\mathrm{static}(q_{\mathrm{path}})-
 \mathrm{block}_n=0.0213/0.0263/0.0280$ at $n=8/16/24$, converging to
 the spectral gain $\approx0.0313$
-($\mathrm{block}_\infty=0.52991$ by per-frequency equal-slope
-allocation). Record memory and cross-cell code structure carry real
-value.
+($\mathrm{block}_\infty=0.529950$ by per-frequency equal-slope
+allocation; corrected value --- see the dated erratum,
+Remark~\ref{rem:erratum}). Record memory and cross-cell code
+structure carry real value.
 \end{enumerate}
 \end{theorem}
 
@@ -124,10 +160,13 @@ first-order optimality certificate fails at the diagonal optimum
 $10^{-6}$ noise) and explicit non-diagonal records achieve
 $\min L_a(0)\le0.567353<0.572255$ (an improvement of
 $4.9\times10^{-3}$ bits, two independent parameterizations agreeing
-to $8\times10^{-5}$). Diagonal optimality \emph{remains proven} for
-the block coordinate. Every quoted minimum is therefore a
-diagonal-class upper bound inside the bracket of (iii); presenting
-$0.572255$ as \emph{the} minimum would be an error.
+to $8\times10^{-5}$); the full-space search behind
+Conjecture~\ref{conj:proc} has since sharpened the beat to
+$\min L_a(0)\le0.5667581$ at $n=16$ (Remark~\ref{rem:anchors}).
+Diagonal optimality \emph{remains proven} for the block coordinate.
+Every quoted minimum is therefore a class-conditional or finite-$n$
+upper bound inside the bracket of (iii); presenting $0.572255$ as
+\emph{the} minimum would be an error.
 \end{remark}
 
 \begin{remark}[Rejected definition]
@@ -140,19 +179,140 @@ thermodynamically operational coordinate pending a reset-protocol
 construction (open).
 \end{remark}
 
+\section{The process limit}
+\label{sec:proc}
+Everything in this section is under Hypothesis~\ref{hyp:uind} and at
+the netted parameters, $D=0.3$. Status: probe + independent R-IND-5
+verification (two evaluator routes agreeing to $2\times10^{-10}$;
+all sealed 076 anchors reproduced); pre-registration (078) pending
+--- no numerical face here is sealed yet.
+
+\begin{conjecture}[Process limit of the causal-erasure coordinate ---
+v0.2, R-IND-5-scoped]
+\label{conj:proc}
+Let $L^{\mathrm{fs}}_n(\Delta)=\min L_a(\Delta)$ over the full
+(non-diagonal) family $\mathcal F_0$ on the window of length $n$,
+and $L^{\mathrm{diag}}_n(\Delta)$ the diagonal-class value.
+\begin{enumerate}
+\item[(1)] \textbf{Existence at $O(1/n)$.} Both coordinates converge
+as $n\to\infty$ with $O(1/n)$ finite-window drift (model attack:
+fitted exponent $\alpha=0.996$--$1.001$). Two-point $1/n$ limits,
+calibrated on the block face ($\le5\times10^{-6}$): full space
+$L^{\mathrm{fs}}_\infty(\Delta)=0.562725/0.536400/0.531049$ at
+$\Delta=0/1/2$ (three-$n$ consistency at $\Delta=0$:
+$0.5627253/0.5627259/0.5627265$ from $n=16/24/32$ pairs); diagonal
+class $0.568571/0.537401/0.531206/0.529977$ at $\Delta=0/1/2/4$
+($\pm\le1.2\times10^{-5}$).
+\item[(2)] \textbf{Closure rate, constant unclaimed.} The excess
+$E_\infty(\Delta)=L^{\mathrm{diag}}_\infty(\Delta)-
+\mathrm{block}_\infty$ obeys $E_\infty(\Delta)\sim
+c\,\lambda_s^{2\Delta}$ \emph{as a $\Delta\to\infty$ asymptotic
+only}: the per-lag ratio rises toward $\lambda_s^{-2}=7.955$
+\emph{from below} ($5.18\to5.93\to6.87\to7.65\to$ within error at
+$\Delta=5\to6$) and is \emph{unresolved beyond $\Delta\approx6$};
+the constant is quoted as the bracket
+$c_{\mathrm{diag}}\in[0.105,0.125]$ \emph{only} ---
+$c(\Delta)=0.107/0.112/0.117$ at $\Delta=4/5/6$, still rising,
+\emph{not converged through $\Delta=6$}. The full-family constant is
+data-supported only as $c_{\mathrm{fs}}\in(0.07,0.125]$. No
+single-letter identification of $c$ is claimed.
+\item[(3)] \textbf{Not matched by any tested causal-conditioning
+spectrum.} The full-space plateaus sit
+$+0.014781/+0.004057/+0.000795$ ($\Delta=0/1/2$) \emph{above} the
+causal-spectral allocation (Remark~\ref{rem:refcon}), $160$--$3000
+\times$ the calibrated extrapolation error, and with the wrong shape
+(drifting per-lag rate, not the allocation's clean $\lambda$-law);
+both closed-form candidates ($c_{\mathrm{spec}}=0.0190\pm0.0007$,
+$c_{\mathrm{static}}=0.026668$) are too small at every $\Delta$.
+This is an \emph{evidence verdict}: the process rate is not matched
+by any \emph{tested} causal-conditioning spectrum; no claim is made
+that no single-letter form exists. The gap is genuine cross-cell
+code value: the winner cuts leakage $0.033\to0.024$ by paying block
+penalty the per-frequency relaxations cannot express.
+\item[(4)] \textbf{Mechanism (testable).} At every full-space
+optimizer computed ($n=16/24/32$, $\Delta=0/1/2$; seven adversarial
+starts converge to the same record, KKT certificate
+$8.4\times10^{-6}$): the $Y$-coupling and noise kernels are
+time-symmetric, where \emph{time-symmetric means transpose symmetry
+$A_y=A_y^{\!\top}$} (relative residual $<5\times10^{-5}$; the
+stronger persymmetry $JA_y^{\!\top}J=A_y$ \emph{fails} at the
+$\approx6\%$ level at the window edges --- transpose symmetry is the
+invariant); \emph{all} causal structure lives in the $V$-coupling
+$A_v$, whose interior-row kernel \emph{changes sign exactly at lag
+$\Delta$} --- horizon-matched $V$-cancellation: the record aligns
+$V$-content with the span the eraser will hold and anti-correlates
+$V$ beyond the access horizon, suppressing smoothing leakage. This
+is exactly what the symmetric-by-class diagonal family cannot
+express (and explains the 076 beat). Falsifiable per-cell at any
+$n$.
+\end{enumerate}
+\end{conjecture}
+
+\begin{remark}[Reproducible anchors --- raw finite-$n$ values only]
+\label{rem:anchors}
+The anchors of record are \emph{raw finite-$n$ $L_a$ values}: family
+min $L_a(0)\le0.5667581$ at $n=16$ (beats the 076-recorded
+$0.567353$ by $5.9\times10^{-4}$; all start basins converge to it
+within $10^{-7}$); full-space $L_a(0)\le0.56474187$ at $n=32$; the
+diagonal ladder value $L_a^{\mathrm{diag}}(n{=}48,\Delta{=}6)
+=0.5316222730$. The extrapolated $E_\infty(6)$ is quoted \emph{only}
+with an explicit error bar --- $E_\infty(6)\approx4.4\times10^{-7}
+\pm10\%$ (two-point pair sensitivity); it is \emph{not} a four-digit
+anchor, the raw $L_a(48,6)$ above is.
+\end{remark}
+
+\begin{remark}[The causal-spectral allocation is a reference
+construction]
+\label{rem:refcon}
+The causal-spectral allocation: equal-slope per-frequency
+conditional quadratics with conditioning spectrum the $\Delta$-lag
+causal Wiener error spectrum $S_e^{(\Delta)}$. Values
+$0.547945/0.532344/0.530253$ at $\Delta=0/1/2$, verified to seven
+digits by an independent (time-domain) route; it reproduces
+$\mathrm{block}_\infty$ at the two-sided endpoint to
+$1.6\times10^{-10}$, and its own excess obeys the
+$\lambda_s^{2\Delta}$ law cleanly. It is a \emph{reference
+construction only}: it carries no achievability map (not an upper
+bound on $\min L_a$) and no data-processing direction (not a lower
+bound). Item (3) of Conjecture~\ref{conj:proc} is a statement about
+mismatch with the tested spectra, never a bound.
+\end{remark}
+
+\begin{remark}[Erratum --- dated 2026-08-05]
+\label{rem:erratum}
+v0.2 of this document quoted $\mathrm{block}_\infty=0.52991$ in
+Theorem~\ref{thm:main}(v), propagated from the pass-1 coarse
+frequency waterfilling; the converged per-frequency equal-slope
+value is $\mathrm{block}_\infty=0.529950$ (corrected in item (v)
+above; the spectral gain $\approx0.0313$ is unaffected). Same date,
+probe-record erratum: the process-limit probe's diagonal excess at
+$\Delta=4$ is $2.66\times10^{-5}$, not $2.75\times10^{-5}$.
+\end{remark}
+
 \begin{question}[Open]
-(1) The full-space (non-diagonal) minimum of $L_a$ and whether the
-$\lambda_s^{2\Delta}$ closure rate survives it; (2) the
-$n\to\infty$ process-rate limit of $\min L_a(\Delta)$ and its
-innovations characterization (vector NRDF closed forms were refuted
-in general --- Stavrou--Tanaka--Tatikonda --- so only scalar forms
-are expected cheaply); (3) the reset protocol realizing (a).
+(1) A \emph{lower bound} on $\min L_a$ via the convexity-lemma
+machinery on the interleaved-Cholesky representation (sum of
+log-ratios of nested Schur complements) --- the natural theory face
+after the equality-unsupported verdict of
+Conjecture~\ref{conj:proc}(3); (2) the $U$-coupled coordinate
+(Hypothesis~\ref{hyp:uind} dropped): a different, far cheaper
+object, definitionally open; (3) the reset protocol realizing
+definition (a); (4) identification of the closure constant beyond
+$\Delta\approx6$, and the innovations characterization of the limit
+(vector NRDF closed forms were refuted in general ---
+Stavrou--Tanaka--Tatikonda --- so only scalar forms are expected
+cheaply).
 \end{question}
 
-House rules: the novelty sweep for the causally-conditioned-CMI
-framing (Kramer / Lev--Khina / nonanticipative-RDF line) is
-\emph{owed before any novelty language}; nothing above claims
-novelty. R-IND-5 pass 1 + closure on record
+House rules: novelty language remains \emph{owed}: the arXiv-API
+sweep found no match for the $L_a(\Delta)$ coordinate + chain rule
+under any tried phrasing, conditional on four must-cite adjacents
+(Berta et al.; Boyd--Mandal--Crutchfield; Venkat--Weissman--Carmon--
+Shamai; Sandberg et al.), but the S2/DBLP pass is unswept ---
+nothing above claims novelty. R-IND-5 passes 1 (+closure) and the
+Conjecture-v0.2 pass are on record
 (\texttt{go14-causal-erasure-PROBE.md}); \S5.1 seal GO-P-2026-076
-governs the numerical faces.
+governs the theorem's numerical faces; the process-limit faces of
+\S\ref{sec:proc} await prereg 078 (harness
+\texttt{experiments/go14\_process\_limit.py}).
 \end{document}
