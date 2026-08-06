@@ -73,6 +73,8 @@ REPRODUCIBLE = [
     ("go13_m2_convexity.py",        "GO13MC-JSON","GO13-m2-convexity.json",        "GO13MC_supported"),
     # GO-14 Thm 1: causal erasure (GO-P-2026-076), seed 20261102, ~75 s.
     ("go14_causal_erasure.py",      "GO14CE-JSON","GO14-causal-erasure.json",      "GO14CE_supported"),
+    # GO-14 process-limit face (GO-P-2026-078), seed 20261111, ~7 min.
+    ("go14_process_limit.py",       "GO14PL-JSON","GO14-process-limit.json",       "GO14PL_supported"),
 ]
 
 failures: list[str] = []
