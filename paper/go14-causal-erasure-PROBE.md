@@ -255,3 +255,24 @@ ANY SEAL WITHOUT HYPOTHESIS 1 MUST FAIL.
 NEXT: tex v0.3 with all six + errata; harness netting anchors/
 ladder/mechanism/U-counter-values; pilot; seal 078; STOP for
 governed go-ahead (not yet authorized).
+
+## S2/DBLP/Crossref residual pass (2026-08-05/06): ALL FOUR OBJECTS HOLD-NOVEL -- the novelty gate is CLEARED
+
+Non-arXiv coverage closed: DBLP (authoritative for ISIT/ITW/IEEE-TIT
+-- all core phrasings null), Crossref (APS camera-only face reached;
+returns null-relevant), S2 still 429-walled (2/11 returns, null,
+low-value; the one unexercised channel = S2 with an API key,
+belt-and-suspenders only). Verdicts: (1) L_a as erasure-cost
+coordinate HOLDS-NOVEL; (2) chain rule + Kalman-pole leakage
+HOLDS-NOVEL ("smoothing leakage" exists once in DBLP, a 1989 image-
+diffusion paper); (3) sequential Landauer vs causally-growing
+reference HOLDS-NOVEL with ONE non-arXiv adjacent found: Anderson
+2018 (Springer, doi:10.1007/978-3-319-93458-7_2, conditional
+erasure, STATIC conditioning) -- joins the Berta line in must-cite/
+related-work; Ji-Gour-Wilde arXiv:2503.09012 (static QSI, feedback)
+-> related-work; ISITA 2024 distributed-erasure region optional;
+(4) horizon-matched record design HOLDS-NOVEL. WebSearch budget
+exhausted this session (disclosed). NET: the arXiv verdict (NOVEL
+conditional on four must-cites) STANDS with Anderson 2018 added as
+the fifth; headline novelty language may be promoted at the next tex
+revision with the five citations in force.
