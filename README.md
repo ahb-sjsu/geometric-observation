@@ -1,5 +1,9 @@
 ﻿# Geometric Observation
 
+[![CI](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/ahb-sjsu/geometric-observation?label=release)](https://github.com/ahb-sjsu/geometric-observation/releases/latest)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21776291.svg)](https://doi.org/10.5281/zenodo.21776291)
+
 The fourteenth work in the geometric series, and its **evidence repository**. The book
 synthesizes:
 

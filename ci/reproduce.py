@@ -88,7 +88,9 @@ def run(rel_path: str, timeout: int = 600) -> str:
                        capture_output=True,
                        text=True, timeout=timeout, cwd=ROOT)
     if p.returncode != 0:
-        raise RuntimeError(f"{rel_path} exited {p.returncode}\nSTDERR tail:\n{p.stderr[-1500:]}")
+        raise RuntimeError(f"{rel_path} exited {p.returncode}\n"
+                           f"STDOUT tail:\n{p.stdout[-2000:]}\n"
+                           f"STDERR tail:\n{p.stderr[-1500:]}")
     return p.stdout
 
 
