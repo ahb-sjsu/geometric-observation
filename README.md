@@ -7,6 +7,7 @@
 [![Sealed preregistrations](https://img.shields.io/badge/sealed_preregistrations-76-blue)](claims/REGISTRY-ACCOUNTING.md)
 [![No file drawer](https://img.shields.io/badge/registry-77_IDs_%C2%B7_gap--free-blue)](claims/REGISTRY-ACCOUNTING.md)
 [![Claims ledger](https://img.shields.io/badge/claims-LEDGER-blue)](claims/LEDGER.md)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-3776AB)](ci/requirements-ci.txt)
 [![Protocol](https://img.shields.io/badge/protocol-registration_precedes_measurement-8A2BE2)](PROTOCOL.md)
 
