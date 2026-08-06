@@ -134,3 +134,11 @@ rn <= 4e-8: platform-independent by convexity. Local rnorms are
 1.05e-8..2.15e-8, all under the target, so the local run remains
 bit-identical (verified); the descent engages only on
 early-stopping platforms.**
+**Amendment revision 3 (same date): rev 2's fixed 4e-8 target was
+insufficient by arithmetic (width ~ rn x Rbox; at (24,0), Rbox ~ 357
+means 4e-8 yields ~1.4e-5, still over the 8.6e-6 gate). The descent
+target is now width-aware: rn_target = width_gate/(1.5 x Rbox),
+giving 1.5x headroom by construction at every anchor. Local rnorms
+(1.05-2.15e-8) remain under every per-anchor target
+(1.6e-8..3.9e-8), so the local governed run stays bit-identical
+(verified, ALL PASS 14/14). No bar changed at any revision.**

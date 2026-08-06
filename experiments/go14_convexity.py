@@ -428,7 +428,7 @@ def legs(M, Ay, Av, Nc, Au, Delta):
 
 
 # ===================== certified-bracket machinery (s4/s5) ===============
-def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36):
+def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36, wbar=None):
     """Self-contained certified two-sided bracket at (n, Delta):
     mu-bisection on dist(x(mu)) = D over Lagrangian polishes (L-BFGS,
     analytic gradient) from a cold scalar-record start; LB by weak
@@ -487,13 +487,17 @@ def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36):
     rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
                        + np.sum((gg_ + mu * gDG) ** 2)))
     # DATED AMENDMENT 2026-08-06 (instrumentation, disclosed in the
-    # prereg; second revision -- the first tried L-BFGS-B restarts,
-    # which terminate immediately at the solver's own fixed point and
-    # were a measured no-op on the runner): residual-targeted Armijo
-    # gradient descent on the Lagrangian, which is convex and smooth,
-    # so descent to rn <= 4e-8 (the local as-sealed regime) is
-    # platform-independent. The bracket is valid at ANY rn -- only
-    # the WIDTH gate was BLAS-sensitive. Certificate math unchanged.
+    # prereg; third revision -- rev 1's L-BFGS-B restarts were a
+    # measured no-op at the solver's fixed point; rev 2's fixed 4e-8
+    # target was insufficient by arithmetic: width ~ rn*Rbox, so the
+    # target must be WIDTH-AWARE): residual-targeted Armijo gradient
+    # descent on the Lagrangian (convex, smooth -- descent is
+    # platform-independent) to rn_target = wbar/(1.5*Rbox), i.e. the
+    # gate width with 1.5x headroom. Local rnorms (1.05-2.15e-8) sit
+    # under every target, so the local run is bit-identical; the
+    # descent engages only on early-stopping platforms. The bracket
+    # is valid at ANY rn -- only the WIDTH gate was BLAS-sensitive.
+    # Certificate math unchanged.
     def lagr_vg(xv):
         Hx, Gx = unpack(xv)
         vx, ghx, ggx = f_and_grad(M, Hx, Gx, Delta)
@@ -502,11 +506,17 @@ def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36):
                               ((ggx + mu * gDG))[iu] * symw])
         return val, grd
 
-    if rn > 4e-8:
+    Hc, Gc = unpack(x)
+    bGc = (1.0 + np.sqrt(n * D_TGT)) ** 2
+    Rbox_c = float(np.sqrt(np.sum((np.sqrt(bGc) + np.abs(Hc)) ** 2)
+                           + np.sum((bGc + np.abs(Gc)) ** 2)))
+    rn_target = (max(wbar / (1.5 * Rbox_c), 1e-9) if wbar is not None
+                 else 4e-8)
+    if rn > rn_target:
         val, grd = lagr_vg(x)
         for _ in range(400):
             gn2 = float(np.dot(grd, grd))
-            if np.sqrt(gn2) <= 4e-8:
+            if np.sqrt(gn2) <= rn_target:
                 break
             t = 1.0
             while t > 1e-12:
@@ -715,7 +725,7 @@ print(f"  per-piece ({np_pairs} pairs): block viol {vb} worst "
 
 # -------------------------------------------- (16,0) certificate (for s4)
 print("[s4] tangent plane at the (16,0) winner ...", flush=True)
-c160 = certify(16, 0)
+c160 = certify(16, 0, wbar=2.0 * WIDTH_REF[(16, 0)])
 M16 = c160["M"]
 Hw, Gw = c160["H"], c160["G"]
 vw, gHw, gGw = f_and_grad(M16, Hw, Gw, 0)
@@ -746,7 +756,8 @@ print("[s5] certified anchor brackets (mu-bisection Lagrangian polish, "
       "cold starts) ...", flush=True)
 bracket = {(16, 0): c160}
 for (n, Delta) in ((16, 1), (24, 0), (32, 0)):
-    bracket[(n, Delta)] = certify(n, Delta)
+    bracket[(n, Delta)] = certify(n, Delta,
+                                  wbar=2.0 * WIDTH_REF[(n, Delta)])
 brk_ok = True
 for (n, Delta), c in bracket.items():
     wbar = 2.0 * WIDTH_REF[(n, Delta)]
