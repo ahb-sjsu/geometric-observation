@@ -11,15 +11,21 @@
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.4 --- Theorems R and C (the convex program
-behind the coordinate), certified two-sided anchors, under the
-U-independence hypothesis}
+\large GO-14 statement v0.5 --- Theorems R, C and T (the convex
+program, and the $n$-transfer lemma), certified two-sided anchors and
+a certified within-class ladder, under the U-independence hypothesis
+and the boundary-charge hypothesis (H$^\ast$)}
 \author{Geometric Observation program}
-\date{v0.4 --- August 2026 (v0.3 superseded: Theorems~R and~C added
-with the certified anchor table and the sandwich-margin interval;
-the ``no tested spectrum matches'' face reworded to its certified,
-$O(1/n)$-model-conditional form; seven R-IND-5 restatements in
-force. v0.2 history: process-limit conjecture, hard hypothesis,
+\date{v0.5 --- August 2026 (v0.4 superseded: Theorem~T added --- exact
+subadditivity, Fekete existence of the limit and the \emph{unconditional}
+lower transfer side --- together with the numbered hard hypothesis
+(H$^\ast$) carrying the boundary-charged reverse direction, the
+conditional $\Delta=0$ plateau corollary, and the executed within-class
+certification of the diagonal ladder; six R-IND-5 transfer restatements
+in force, including the refutation of ``$\le\kappa$ per side'' as an
+$\mathcal F_0$ lemma. v0.4 history: Theorems~R and~C with the certified
+anchor table and the sandwich-margin interval, seven R-IND-5
+restatements. v0.2 history: process-limit conjecture, hard hypothesis,
 dated erratum to Theorem~1(v); the v0.1 sign error was corrected at
 v0.2)}
 \begin{document}
@@ -44,6 +50,21 @@ computable lower bounds). All seven full-space anchors are now
 \emph{certified two-sided} (widths $3.45\times10^{-6}$--$1.7\times
 10^{-5}$), and the sandwich margin is a certified interval:
 $\min L_a(0)-\mathrm{block}_{16}\in[0.0317872,\,0.0317906]$.
+This revision adds the \emph{$n$-transfer} theory. Theorem~T is
+unconditional: block concatenation gives exact subadditivity
+$f(n_1+n_2)\le f(n_1)+f(n_2)$, so by Fekete the process limit
+$L^\infty=\lim_n\phi_n=\inf_n\phi_n$ \emph{exists}, and the lower
+transfer side $0\le\phi_n-L^\infty$ is a theorem --- every certified
+finite-$n$ value bounds the limit from above. The \emph{reverse}
+direction is not: the boundary charge is carried by a numbered hard
+hypothesis (H$^\ast$) on dyadic-chain optimizers, because
+``$\le\kappa$ per side'' is \emph{false} as a family statement
+($D$-feasible $U$-independent counterexamples reach $26\kappa$; no
+universal constant exists). Under (H$^\ast$) the $\Delta=0$ plateau
+over the causal-spectral allocation becomes a
+$3.65\times10^{-3}$-margin statement about the limit itself rather
+than about the $O(1/n)$ model. The diagonal ladder is now certified
+\emph{within class}.
 Two scoping results are load-bearing and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
@@ -374,7 +395,11 @@ statement. Consequently the diagonal ladder of
 strict subset of the family} (Remark on class scoping,
 \S2), not because of any slice non-convexity; and within-class
 values are certifiable by the same Lagrangian machinery restricted
-to the section --- an available upgrade path, not yet executed.
+to the section. \textbf{That upgrade path has since been executed}:
+all nine ladder cells and three block values are now certified
+two-sided \emph{class} values (\S\ref{sec:ladder}). Certifying the
+class does not certify the family --- the ladder remains an upper
+bound on $\min L_a$ because class $<$ family.
 \end{remark}
 
 \medskip\noindent\textbf{Certificates on record (per-$n$).}
@@ -486,8 +511,9 @@ $c(\Delta)=0.107/0.112/0.117$ at $\Delta=4/5/6$, still rising,
 data-supported only as $c_{\mathrm{fs}}\in(0.07,0.125]$. No
 single-letter identification of $c$ is claimed.
 \item[(3)] \textbf{Strictly above every tested causal-conditioning
-spectrum --- certified at every computed $n$,
-$O(1/n)$-model-conditional in the limit.} At every computed anchor
+spectrum --- certified at every computed $n$; in the limit
+conditional on (H$^\ast$) at $\Delta=0$ and on the $O(1/n)$ model at
+$\Delta=1,2$.} At every computed anchor
 ($n\in\{16,24,32\}$, $\Delta\in\{0,1,2\}$) the \emph{certified lower
 bracket end} of \S\ref{sec:anchors} sits strictly above the
 causal-spectral allocation value (Remark~\ref{rem:refcon}) --- a
@@ -497,11 +523,17 @@ optimizer report. In the limit, the plateaus
 $+0.014781/+0.004057/+0.000795$ ($\Delta=0/1/2$) above the
 allocation are $160$--$3000\times$ the calibrated extrapolation
 error and carry the wrong shape (drifting per-lag rate, not the
-allocation's clean $\lambda$-law), but the limit statement is
-\emph{conditional on the $O(1/n)$ finite-window model}; the
-unconditional limit awaits an $n$-monotonicity (superadditivity)
-lemma --- the \emph{named open face}
-(Question~\ref{q:open}). Both closed-form candidates
+allocation's clean $\lambda$-law). At $\Delta=1,2$ the limit
+statement remains \emph{conditional on the $O(1/n)$ finite-window
+model}. At $\Delta=0$ it is \emph{no longer} model-conditional:
+Corollary~\ref{cor:plateau} derives
+$L^\infty(0)\ge0.5515989>0.5479448$ from the certified $n=32$
+bracket and the transfer constant, \emph{conditional instead on
+Hypothesis~\ref{hyp:hstar} \textup{(H$^\ast$)}}. The subadditivity
+half of the old $n$-monotonicity face is now closed unconditionally
+(Theorem~\ref{thm:transfer}); what remains open is the boundary
+charge at optimizers (Question~\ref{q:open}). Both closed-form
+candidates
 ($c_{\mathrm{spec}}=0.0190\pm0.0007$,
 $c_{\mathrm{static}}=0.026668$) are too small at every $\Delta$. No
 claim is made that no single-letter form exists. The gap is genuine
@@ -534,8 +566,9 @@ $0.567353$ by $5.9\times10^{-4}$; all start basins converge to it
 within $10^{-7}$); full-space $L_a(0)\le0.56474187$ at $n=32$; the
 diagonal ladder value $L_a^{\mathrm{diag}}(n{=}48,\Delta{=}6)
 =0.5316222730$. The full-space upper ends are now \emph{certified
-two-sided} (\S\ref{sec:anchors}); the diagonal-ladder values remain
-class-conditional upper bounds
+two-sided} (\S\ref{sec:anchors}); the diagonal-ladder values are now
+certified two-sided \emph{within the class} (\S\ref{sec:ladder}) and
+remain class-conditional upper bounds on the family minimum
 (Remark~\ref{rem:diagsection}). The extrapolated $E_\infty(6)$ is quoted \emph{only}
 with an explicit error bar --- $E_\infty(6)\approx4.4\times10^{-7}
 \pm10\%$ (two-point pair sensitivity); it is \emph{not} a four-digit
@@ -568,18 +601,348 @@ value is $\mathrm{block}_\infty=0.529950$ (corrected in item (v)
 above; the spectral gain $\approx0.0313$ is unaffected). Same date,
 probe-record erratum: the process-limit probe's diagonal excess at
 $\Delta=4$ is $2.66\times10^{-5}$, not $2.75\times10^{-5}$.
+
+\emph{Dated 2026-08-06 (transfer note).} Three further corrections,
+all carried into \S\ref{sec:transfer}: (a) the constant was recorded
+as $c(1)\le1.1257$; the computed value is $1.1257294$, so the
+recorded bound is false in the fifth decimal and $c(1)\le1.1258$ is
+used throughout (Remark~\ref{rem:const}). (b) The transfer note cites
+a value $0.564729705$ for the certified lower end at $(32,0)$; no
+computation on record produces it. The sealed value is
+$\mathrm{LB}(32,0)=0.5647327869$
+(\texttt{results/GO14-convexity.json}, \texttt{s5\_32\_0}), and it is
+the only one used in Corollary~\ref{cor:plateau}; $0.564729705$ must
+not be cited. (c) The plateau margin is $215\times$ the quoted
+bracket width, not the $\approx250\times$ of the transfer note.
 \end{remark}
+
+\section{The $n$-transfer lemma: Theorem T and the hypothesis
+(H$^\ast$)}
+\label{sec:transfer}
+Status: prover + independent R-IND-5 verification (own \texttt{slogdet}
+evaluator, own certified anchors, own re-derivation of the constants
+and of the corollary arithmetic; six mandatory restatements, all in
+force in this revision). Harness
+\texttt{experiments/\allowbreak go14\_transfer.py}. Registration 080
+pending --- nothing in this section is sealed.
+
+Write $\phi_n(\Delta)=\inf_{\mathcal F_0}L_a(\Delta)$ for the family
+value on the window of length $n$ (certified two-sided in
+\S\ref{sec:anchors}) and $f(n)=n\,\phi_n(\Delta)$. Let
+\[
+\kappa\;=\;\tfrac12\log_2\frac{1}{1-a^2}\;=\;0.736966\ \text{bits}
+\]
+be the AR(1) boundary information at the netted pole $a=0.8$. For a
+split of the $n$-window into blocks $b_1,b_2$ define the \emph{per-side
+boundary charges}
+\[
+D_i\;=\;\sum_{t\in b_i}\Bigl[
+I\bigl(T^{b_i};\hat Y_t\mid \mathrm{own}C_t\bigr)
+-I\bigl(T^{b_i};\hat Y_t\mid \mathrm{big}C_t\bigr)\Bigr]\;\ge\;0,
+\]
+where $\mathrm{own}C_t$ is the conditioning set of cell $t$ inside its
+own block and $\mathrm{big}C_t=S^{se(t)},\hat Y^{t-1}$ is the
+big-window one; $D_i$ is exactly what the split loses at the boundary.
+Write $E=(S^{b_1},\hat Y^{b_1})$ for the block-1 record-and-reference
+history that the block-2 cells see in $\mathrm{big}C$ but not in
+$\mathrm{own}C$.
+
+\begin{namedthm}[T --- exact subadditivity, Fekete existence, and the
+lower transfer side; \emph{unconditional}]
+\label{thm:transfer}
+Fix $\Delta$ and assume Hypothesis~\ref{hyp:uind}.
+\begin{enumerate}
+\item[(i)] \textbf{Exact subadditivity.}
+$f(n_1+n_2)\le f(n_1)+f(n_2)$ for all $n_1,n_2\ge1$. Take
+$\varepsilon$-optimal records of the two windows, independent of each
+other, and concatenate: the result is a feasible record of the
+$(n_1+n_2)$-window (the distortion constraint is the cell average),
+and \emph{at every cell} the big-window per-cell term is at most the
+own-window term. The numerator
+$\operatorname{Var}(\hat Y_t\mid S^{se(t)},\hat Y^{t-1})$ can only
+shrink when the conditioning set grows from the own block to the whole
+window; the denominator
+$\operatorname{Var}(\hat Y_t\mid T^{n},S^{se(t)},\hat Y^{t-1})$ is
+\emph{unchanged}, because a block-diagonal record makes cell $t$
+conditionally independent of the other block given its own block's
+$T$ --- verified as an exact equality (relative deviation
+$2\times10^{-14}$ over all cells, including the unequal split
+$8+4\to12$). Letting $\varepsilon\downarrow0$ gives the inequality
+for the infima.
+\item[(ii)] \textbf{Fekete.} $\phi_n\ge0$, because each per-cell term
+is a conditional mutual information; hence $f\ge0$ is subadditive and
+\[
+L^\infty(\Delta)\;:=\;\lim_{n\to\infty}\phi_n(\Delta)
+\;=\;\inf_n\phi_n(\Delta)
+\]
+\emph{exists} in $[0,\infty)$.
+\end{enumerate}
+\end{namedthm}
+
+\noindent\emph{Hygiene (both steps were demanded by R-IND-5 and are
+stated, not assumed).} (a) The non-negativity $\phi_n\ge0$ is what
+makes Fekete's lemma give a finite limit rather than $-\infty$; it is
+immediate from the CMI form of the coordinate, but it is a hypothesis
+of the lemma and is recorded as such. (b) The concatenation argument
+is run on $\varepsilon$-optimal records and the limit
+$\varepsilon\downarrow0$ is taken at the end, so the theorem never
+needs $\phi_n$ to be \emph{attained}. (Attainment does hold, by
+Theorems~\ref{thm:repr} and~\ref{thm:cvx} plus the moment box, but it
+is not used.)
+
+\begin{corollary}[The lower transfer side is a theorem]
+\label{cor:lower}
+$0\le\phi_n(\Delta)-L^\infty(\Delta)$ for every $n$ --- unconditionally.
+Every certified finite-$n$ family value of \S\ref{sec:anchors} is
+therefore an upper bound on the limit; in particular
+$L^\infty(0)\le\phi_{32}(0)\le0.5647419677$.
+\end{corollary}
+
+\subsection{The reverse direction is hypothetical}
+The matching \emph{upper} transfer bound $\phi_n-L^\infty\le c/n$ needs
+the boundary charge to be controlled at the optimizers of the doubling
+chain. It is stated as a numbered hard hypothesis, and \emph{not} as a
+lemma, for the reason given immediately after it.
+
+\begin{hypothesis}[(H$^\ast$) --- boundary charge at dyadic-chain
+optimizers; hard, load-bearing]
+\label{hyp:hstar}
+Fix $\Delta$ and a base window length $n$. At every optimizer of the
+dyadic chain $n\cdot2^k$, $k=0,1,2,\dots$, the two per-side boundary
+charges of the split into halves satisfy
+\[
+D_1+D_2\;\le\;c(\Delta;n),\qquad
+c(\Delta;n)\;=\;\bigl(2-\mathbf 1\{\Delta=0\}\bigr)\,\kappa-I_n ,
+\qquad I_n=I\bigl(S^{b_1};S'^{\,1..\Delta+1}\bigr).
+\]
+\end{hypothesis}
+
+\begin{remark}[Why (H$^\ast$) is a hypothesis: ``$\le\kappa$ per side''
+is \emph{refuted} as an $\mathcal F_0$ lemma]
+\label{rem:refute}
+The natural lemma --- that each side's boundary charge is at most the
+AR(1) boundary information $\kappa$, uniformly over the family --- is
+\emph{false}, and its sharpened form $D_i\le\kappa-I_n$ is false too.
+Explicit $D$-feasible records in $\mathcal F_0$ (no $U$-coupling
+whatsoever; the whole budget respected) spend block-1 rows on copies of
+block-2 cells:
+\begin{itemize}
+\item two $V$-copy rows give $D_2=0.4563>0.4203=\kappa-I_8$: the
+\emph{sharpened} constant is exceeded by a mild, feasible
+perturbation;
+\item three $Y$-copy rows give $D_2=18.93$ bits $\approx26\kappa$ at
+distortion $0.2986$: the charge is not bounded by $\kappa$ at all.
+\end{itemize}
+Nothing stops the construction from being repeated: the worst case over
+the family is $\Theta(m)$ in the block length. \textbf{No universal
+constant exists, and no proof of the reverse direction can avoid using
+optimizer structure.} \emph{Therefore: this document never prints
+``$\le\kappa$ per side'' as an $\mathcal F_0$ lemma.}
+
+The two witnesses above are the verifier's; they are not in the
+repository, so the harness pins its own analytic records of the same
+class and measures $D_2=0.7749$ for two $V$-copy rows (distortion
+$0.2706$) and $D_2=13.94$ bits $\approx19\kappa$ for three $Y$-copy
+rows (distortion $0.2754$). Same refutation, independent witnesses;
+the refutation itself is a gated fact of the harness, not a remark.
+
+What \emph{is} measured is that the bound holds comfortably \emph{at
+optimizers}. At the $\Delta=0$ family optimizers the split charges are
+$D_2=0.076971$ at $m=8$ and $D_2=0.076926$ at $m=16$ ($D_1=0$ at
+$\Delta=0$, the block-1 extension set being empty), i.e.\ a factor
+$5.5$ inside $c(0)=0.4202858$; and the boundary information itself is
+$I(E;T^{b_2})=0.543057$, some $0.19$ bits under $\kappa$, stable
+between the two $m$. \textbf{These verifications were carried out at
+$m\in\{8,16\}$ only}; (H$^\ast$) asserts the behaviour along the whole
+chain, and that assertion is not verified.
+\end{remark}
+
+\begin{namedthm}[T$^\ast$ --- boundary-charged reverse direction and
+the two-sided bound; \emph{conditional on (H$^\ast$)}]
+\label{thm:transfer2}
+Fix $\Delta$ and a base $n$, and assume Hypothesis~\ref{hyp:hstar}
+along the chain $n\cdot2^k$. Then
+\begin{enumerate}
+\item[(ii)] $\displaystyle
+\phi_m(\Delta)-\phi_{2m}(\Delta)\;\le\;\frac{c(\Delta;n)}{2m}$
+for every $m=n\cdot2^k$;
+\item[(iii)] summing the geometric telescope,
+$\displaystyle 0\;\le\;\phi_n(\Delta)-L^\infty(\Delta)\;\le\;
+\frac{c(\Delta;n)}{n}$, the lower half being
+Corollary~\ref{cor:lower} and \emph{unconditional}.
+\end{enumerate}
+\emph{Exact superadditivity is refuted}, so (ii) cannot be sharpened to
+$c=0$: the certified anchors are strictly decreasing,
+$\phi_8>\phi_{12}>\phi_{16}>\phi_{24}>\phi_{32}$, with the new
+certified transfer anchors
+$\phi_8(0)\in[0.570790938,\,0.5707933842]$ and
+$\phi_{12}(0)\in[0.568030932,\,0.5681028134]$. The bound is not tight
+either: the measured drift $n\bigl(\phi_n-L^\infty\bigr)\approx0.0645$
+at $n=32$ sits $6.5\times$ inside $c(0)=0.4203$.
+\end{namedthm}
+
+\begin{remark}[The constants, and their $n$-uniformity]
+\label{rem:const}
+$I_n=I(S^{b_1};S'^{\,1..\Delta+1})$ is \emph{monotone increasing in
+$n$}, so $c(\Delta;n)=(2-\mathbf 1\{\Delta=0\})\kappa-I_n$ is the
+supremum of the per-step constants along the whole dyadic chain issuing
+from base $n$ --- which is precisely what the telescope in
+Theorem~\ref{thm:transfer2}(iii) requires, and why the constant must be
+built from $I_n$ and not from $I_\infty$. Numerically $I_n$ is
+converged to $I_{32}$ by $n=16$ (to $<10^{-12}$), and
+\[
+I_{32}=0.3166798\,/\,0.3482018\,/\,0.3520686
+\quad\text{at }\Delta=0/1/2,
+\]
+each equal to $I_\infty$ to below $10^{-15}$. Hence
+\[
+c(0)\le0.42029,\qquad \boxed{c(1)\le1.1258},\qquad c(2)\le1.1219 .
+\]
+\emph{Erratum:} the transfer note recorded $c(1)\le1.1257$; the
+computed value is $1.1257294$, so $1.1257$ is false in the fifth
+decimal. Use $1.1258$.
+\end{remark}
+
+\begin{remark}[The zero-claim and the marginalization step are
+$\mathcal F_0$-only]
+\label{rem:f0only}
+Two steps carry the whole cancellation. (a) The \emph{zero-claim}
+$I\bigl(E;S'_j\mid \mathrm{pfx}_j,T^{b_2}\bigr)=0$ makes the interleaved
+chain rule cancel the record--reference coupling exactly (residual
+$\le2\times10^{-14}$ over pinned $\mathcal F_0$ records). (b) The
+\emph{marginalization} step replaces the block-2 sub-record by an
+effective $8$-window record with the same law (deviation
+$2\times10^{-16}$; the effective noise is independent of both
+$W^{b_2}$ and $U^{b_2}$).
+\textbf{Both are tagged $\mathcal F_0$-only.} They fail outside the
+family, and the failure is not a technicality: with block-1 rows
+coupled to $U^{b_2}$ the zero-claim is violated by $0.2223$ bits, and
+with the coupling confined to \emph{block-2 rows only} it is still
+violated by $0.0950$ bits --- in the latter case the violation is
+induced purely through the conditioning, with no block-1 record
+touching $U$ at all. So $U$-independence is load-bearing here in the
+same way it is load-bearing in Theorem~\ref{thm:repr}
+(Remark~\ref{rem:ulegs}), and for a third time.
+\end{remark}
+
+\begin{corollary}[The $\Delta=0$ plateau over the causal-spectral
+allocation --- \emph{conditional on (H$^\ast$)}]
+\label{cor:plateau}
+Assume Hypothesis~\ref{hyp:hstar} at $\Delta=0$ with base $n=32$. With
+the sealed 079 certified lower end
+$\mathrm{LB}(32,0)=0.5647327869$ (harness
+\texttt{go14\_convexity.py}, entry \texttt{s5\_32\_0}) and
+$c(0)=0.4202858$,
+\[
+L^\infty(0)\;\ge\;0.5647327869-\frac{0.4202858}{32}
+\;=\;0.5515989\;>\;0.5479448,
+\]
+the right-hand side being the causal-spectral allocation at $\Delta=0$
+(Remark~\ref{rem:refcon}). The margin is $+3.654\times10^{-3}$:
+$215\times$ the $1.7\times10^{-5}$ bracket width quoted for $(32,0)$ in
+the anchor table of \S\ref{sec:anchors}, and $398\times$ the
+$9.18\times10^{-6}$ width the sealed harness actually achieved.
+\emph{This is a statement about the limit itself, not about the
+$O(1/n)$ finite-window model.}
+
+\emph{The margin is not slack in the constant, and the base matters.}
+Running the same arithmetic from base $n=24$ gives
+$0.5654101216-0.4202858/24=0.5478982<0.5479448$: it \emph{fails} by
+$4.7\times10^{-5}$. (H$^\ast$) is genuinely load-bearing, and so is the
+choice of base window. $\Delta=1$ and $\Delta=2$ remain
+$O(1/n)$-model-conditional: their constants are $2.7\times$ larger and
+their plateaus $3.6$/$18\times$ smaller, so a certified anchor at
+$n\approx260$ resp.\ $n\approx1320$, or a sharper constant, would be
+needed.
+\end{corollary}
+
+\begin{remark}[The repair path that would remove (H$^\ast$)]
+\label{rem:repair}
+What is missing is an \emph{optimizer-regularity} bound: any argument
+that bounds $I(E;T^{b_2})$ at the optimizers of the doubling chain ---
+for instance from the convex-program structure of
+Theorems~\ref{thm:repr} and~\ref{thm:cvx}, whose KKT system the
+optimizers satisfy globally --- would restore the unconditional label
+on Theorem~\ref{thm:transfer2} and Corollary~\ref{cor:plateau}
+\emph{with the same constants}. The measured evidence for such a bound
+is $I(E;T^{b_2})=0.543$, stable in $m$ and $0.19$ bits under $\kappa$.
+This is the natural next prover face; it is not a numerical gap but a
+missing theorem.
+\end{remark}
+
+\subsection{The within-class ladder, certified (the
+Remark~\ref{rem:diagsection} upgrade, executed)}
+\label{sec:ladder}
+The diagonal class is a convex \emph{linear} section of $\mathcal D$
+(Remark~\ref{rem:diagsection}), so the Lagrangian machinery of
+Theorem~\ref{thm:cvx} restricted to the section --- with a section
+moment box $R_{\mathrm{box}}=73$/$95$/$136$ at $n=24/32/48$, verified
+attained and hence tight --- certifies the ladder two-sided. All nine
+ladder cells and the three block values are now certified
+\emph{class} values (per cell the tighter of the two independent
+end-to-end computations):
+
+\begin{center}
+\begin{tabular}{lll}
+$(n,\Delta)$ & certified within-class bracket & width\\
+\hline
+$(24,4)$ & $[0.5333160113,\ 0.5333170450]$ & $1.0\times10^{-6}$\\
+$(24,5)$ & $[0.5332969026,\ 0.5332971560]$ & $2.5\times10^{-7}$\\
+$(24,6)$ & $[0.5332945088,\ 0.5332947270]$ & $2.2\times10^{-7}$\\
+$(32,4)$ & $[0.5324808853,\ 0.5324814627]$ & $5.8\times10^{-7}$\\
+$(32,5)$ & $[0.5324606031,\ 0.5324610143]$ & $4.1\times10^{-7}$\\
+$(32,6)$ & $[0.5324578912,\ 0.5324584264]$ & $5.4\times10^{-7}$\\
+$(48,4)$ & $[0.5316458819,\ 0.5316462767]$ & $3.9\times10^{-7}$\\
+$(48,5)$ & $[0.5316244073,\ 0.5316250208]$ & $6.1\times10^{-7}$\\
+$(48,6)$ & $[0.5316217661,\ 0.5316233575]$ & $1.6\times10^{-6}$\\
+$\mathrm{block}_{24}$ & $[0.5332936495,\ 0.5332949450]$
+  & $1.3\times10^{-6}$\\
+$\mathrm{block}_{32}$ & $[0.5324577110,\ 0.5324581027]$
+  & $3.9\times10^{-7}$\\
+$\mathrm{block}_{48}$ & $[0.5316214213,\ 0.5316220475]$
+  & $6.3\times10^{-7}$\\
+\end{tabular}
+\end{center}
+
+\noindent The $(48,6)$ cell is the loosest (its feasible-projection
+correction is $1.1\times10^{-6}$, still inside the bracket), which is
+the same cell the raw-anchor demotion of Remark~\ref{rem:anchors}
+concerns.
+
+\medskip\noindent\textbf{What this does \emph{not} certify.} The excess
+$E_\infty(\Delta)$ is a \emph{two-point $1/n$ extrapolation} of these
+class values against the block values, so the re-assembled
+$E_\infty$ intervals are \emph{$1/n$-model-conditional, not
+certificates}, and are tagged as such:
+$E_\infty(4)\in[2.50,2.75]\times10^{-5}$, confirming the
+$2.67\times10^{-5}$ of Conjecture~\ref{conj:proc} in bar;
+$E_\infty(5)\in[1.7,4.8]\times10^{-6}$, sign resolved positive by the
+tighter re-assembly and \emph{unresolved} by the looser one; and
+$E_\infty(6)\in[-3.2,1.5]\times10^{-6}$, whose bracket \emph{contains
+zero} at every achievable width. The last of these independently
+re-ratifies the R-IND-5 demotion of $E_\infty(6)$ to the raw anchor
+$L_a^{\mathrm{diag}}(48,6)=0.5316222730$
+(Remark~\ref{rem:anchors}). No claim is made here about how many
+optimizer endpoints were true class minima; the transfer note's
+``$4/9$ endpoints'' remark is \emph{withdrawn} as unverifiable from the
+record.
 
 \begin{question}[Open]
 \label{q:open}
-(1) The \emph{$n$-monotonicity (superadditivity) lemma} that would
-upgrade the limit faces of Conjecture~\ref{conj:proc} from
-$O(1/n)$-model-conditional to unconditional --- the named open face
-(the lower-bound face itself is now closed by
-Theorems~R and~C, which certify the finite-$n$ anchors two-sided);
-(2) per-cell convexity (Remark~\ref{rem:percell}), and the
+(1) The \emph{boundary charge at optimizers} --- what is left of the
+old $n$-monotonicity face after Theorem~\ref{thm:transfer} closed its
+subadditivity half unconditionally. An optimizer-regularity bound on
+$I(E;T^{b_2})$ along the doubling chain (Remark~\ref{rem:repair})
+would discharge Hypothesis~\ref{hyp:hstar} and make
+Theorem~\ref{thm:transfer2} and Corollary~\ref{cor:plateau}
+unconditional with the same constants; a \emph{uniform} family bound
+cannot exist (Remark~\ref{rem:refute}). Separately, certified anchors
+at $n\approx260$/$1320$ would carry the $\Delta=1,2$ plateaus without
+(H$^\ast$);
+(2) per-cell convexity (Remark~\ref{rem:percell}) --- the
 within-class certification of the diagonal ladder
-(Remark~\ref{rem:diagsection}) --- an upgrade path, not a gap;
+(Remark~\ref{rem:diagsection}) is no longer open, it is executed in
+\S\ref{sec:ladder};
 (3) the $U$-coupled coordinate (Hypothesis~\ref{hyp:uind} dropped):
 a different, far cheaper object, definitionally open; (4) the reset
 protocol realizing definition (a); (5) identification of the
@@ -596,8 +959,12 @@ adjacents (Berta et al.; Boyd--Mandal--Crutchfield;
 Venkat--Weissman--Carmon--Shamai; Sandberg et al.; Anderson 2018)
 --- headline novelty language may be promoted only with the five
 citations in force, and nothing above claims it yet. R-IND-5 passes
-1 (+closure), the Conjecture-v0.2 pass, and the Theorems-R+C pass
-(seven mandatory restatements, all in force in this revision) are
+1 (+closure), the Conjecture-v0.2 pass, the Theorems-R+C pass
+(seven mandatory restatements) and the $n$-transfer pass (six
+mandatory restatements --- the (H$^\ast$) demotion, the
+$\kappa$-per-side refutation, the constants, the
+$\mathcal F_0$-only tags, the corollary arithmetic and the
+ladder tagging --- all in force in this revision) are
 on record (\texttt{go14-causal-erasure-PROBE.md}); seal
 GO-P-2026-076 governs the theorem's numerical faces; the
 process-limit faces of \S\ref{sec:proc} await prereg 078 (harness
@@ -608,5 +975,18 @@ incl.\ non-staircase schedules, PSD/closed-form/Sylvester
 certificates, $4{,}200$-pair Jensen sweep, tangent plane, cold-start
 certified brackets at $(16,0)/(16,1)/(24,0)/(32,0)$ +
 $\mathrm{block}_{16}$, sandwich-margin window, and the two-leg /
-non-conflation $U$-gates).
+non-conflation $U$-gates); the transfer faces of \S\ref{sec:transfer}
+await prereg 080 (harness
+\texttt{experiments/go14\_transfer.py}: per-cell subadditivity with
+block-local denominators, the interleaved-prefix set identity, the
+$\mathcal F_0$-only zero-claim with its $U$-coupled counter-values,
+the (H$^\ast$) refutation netted as a gated fact, the optimizer
+charges at $m\in\{8,16\}$, the constants and the corollary
+arithmetic including the failing $n=24$ base, and reproduction of the
+transfer anchors and of the within-class ladder). The scope proposed
+for 080 is: Theorem~\ref{thm:transfer} and
+Corollary~\ref{cor:lower} (unconditional), the transfer anchors, the
+within-class ladder, and the conditional
+Theorem~\ref{thm:transfer2} / Corollary~\ref{cor:plateau} under
+(H$^\ast$).
 \end{document}
