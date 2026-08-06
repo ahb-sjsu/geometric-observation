@@ -5,15 +5,21 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{hypothesis}{Hypothesis}
 \newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
 \newtheorem{question}{Question}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
+\newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.3 --- the process-limit face, under the
+\large GO-14 statement v0.4 --- Theorems R and C (the convex program
+behind the coordinate), certified two-sided anchors, under the
 U-independence hypothesis}
 \author{Geometric Observation program}
-\date{v0.3 --- August 2026 (v0.2 superseded: process-limit conjecture
-added, the record family promoted to a numbered hard hypothesis,
+\date{v0.4 --- August 2026 (v0.3 superseded: Theorems~R and~C added
+with the certified anchor table and the sandwich-margin interval;
+the ``no tested spectrum matches'' face reworded to its certified,
+$O(1/n)$-model-conditional form; seven R-IND-5 restatements in
+force. v0.2 history: process-limit conjecture, hard hypothesis,
 dated erratum to Theorem~1(v); the v0.1 sign error was corrected at
 v0.2)}
 \begin{document}
@@ -24,12 +30,21 @@ GO-12 settled the single-record causal-prefix eraser (the Kalman
 family); the process-rate object --- block records erased cell by
 cell, each against only the causal prefix of an aging reference ---
 was promoted to a first theorem at v0.2 (netted, GO-P-2026-076).
-This revision adds the process-limit face: the $n\to\infty$ limit of
+v0.3 added the process-limit face: the $n\to\infty$ limit of
 the coordinate exists at $O(1/n)$, closes at the smoothing-pole rate
 $\lambda_s^{2\Delta}$ with a constant that is \emph{not} matched by
 any tested causal-conditioning spectrum, and is driven by an
 explicit, testable record mechanism (horizon-matched
-$V$-cancellation). Two scoping results are now load-bearing and
+$V$-cancellation). This revision adds the lower-bound theory: in
+moment coordinates $(H,\Gamma)$ the family optimization is a jointly
+convex program --- Theorem~R (a schedule-general moment-coordinate
+representation of $nL_a$) and Theorem~C (joint convexity, so every
+KKT point is the global family minimum and strong duality yields
+computable lower bounds). All seven full-space anchors are now
+\emph{certified two-sided} (widths $3.45\times10^{-6}$--$1.7\times
+10^{-5}$), and the sandwich margin is a certified interval:
+$\min L_a(0)-\mathrm{block}_{16}\in[0.0317872,\,0.0317906]$.
+Two scoping results are load-bearing and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
 numbered hypothesis on the chain rule and on every minimum quoted
@@ -179,6 +194,260 @@ thermodynamically operational coordinate pending a reset-protocol
 construction (open).
 \end{remark}
 
+\section{The convex program: Theorems R and C}
+\label{sec:convex}
+Status: lower-bound prover + independent R-IND-5 verification (own
+evaluator, own polish, own moment box, fresh seeds; representation
+identity to $2.0\times10^{-12}$ over 279 cells including edges; the
+composition chain of Theorem~\ref{thm:cvx} re-proved independently;
+$11{,}200$ verifier Jensen midpoints and $1{,}566$ curvature probes
+with zero violations, on top of the prover's $32{,}000$). Harness:
+\texttt{experiments/\allowbreak go14\_convexity.py}. Prereg 079
+pending --- nothing in this section is sealed yet.
+
+\emph{Moment coordinates.} Write $W=(V^n;Y^n)$ (so $T^n=W$),
+$\Sigma_W=\operatorname{Cov}(W)$, and for a record $\hat Y=AW+Z$ of
+the family $\mathcal F_0$ set
+\[
+H=\operatorname{Cov}(\hat Y,W)=A\Sigma_W\ \ (n\times2n),\qquad
+\Gamma=\operatorname{Cov}(\hat Y)\ \ (n\times n).
+\]
+The family in these coordinates is the convex cone
+\[
+\mathcal D=\{(H,\Gamma):\ \Gamma-H\Sigma_W^{-1}H^{\!\top}\succeq0\}
+\]
+(the slack is $N_{\mathrm{cov}}=\operatorname{Cov}(Z)$), and the
+distortion is \emph{affine}:
+$n\,\mathrm{dist}=\operatorname{tr}\Sigma_Y
+-2\operatorname{tr}(H\,\Sigma_W^{-1}\Sigma_{WY})
++\operatorname{tr}\Gamma$. Write $P=\Sigma_W^{-1}$ and
+$Q=\Sigma_W^{-1}\Sigma_{WS}\Sigma_S^{-1}\Sigma_{WS}^{\!\top}
+\Sigma_W^{-1}$.
+
+\begin{namedthm}[R --- moment-coordinate representation,
+schedule-general]
+\label{thm:repr}
+Assume Hypothesis~\ref{hyp:uind}. On the window $t=1,\dots,n$ let the
+eraser of cell $t$ hold $S^{se(t)}$ for an \emph{arbitrary
+nondecreasing access schedule} $se(\cdot)$, and define the
+schedule-general counts
+\[
+k(j)\;=\;\#\{t:\ se(t)<j\},\qquad 1\le j\le n
+\]
+(the number of record cells already erased when $S_j$ enters the
+interleaved order). Then for every $(H,\Gamma)\in
+\operatorname{int}\mathcal D$:
+\begin{align*}
+2\ln2\cdot n\,L_a
+&=\Bigl[\ln\det\bigl(\Gamma-HQH^{\!\top}\bigr)
+      -\ln\det\bigl(\Gamma-HPH^{\!\top}\bigr)\Bigr]\\
+&\quad+\sum_{j=1}^{n}\Bigl[\ln\operatorname{Var}(S_j\mid S^{j-1})
+      -\ln\operatorname{Var}\bigl(S_j\mid S^{j-1},\hat Y^{k(j)}
+      \bigr)\Bigr].
+\end{align*}
+\emph{Staircase reduction (explicit).} For the coordinate's own
+schedule $se(t)=\min(t+\Delta,n)$ the counts reduce to
+$k(j)=\max(0,\,j-\Delta-1)$. The reduced form is
+\emph{prefix-staircase-specific}: on non-staircase nondecreasing
+schedules only the general $k(j)=\#\{t: se(t)<j\}$ is correct ---
+blind use of the staircase formula deviates by up to $1.05$ bits
+(verifier-measured), and off-by-one variants of $k$ are detected at
+$0.1$--$0.7$ bits.
+\end{namedthm}
+
+\noindent\emph{Proof skeleton.} (1) Factor the joint
+$\ln\det$ of $(S^n,\hat Y^n)$ along the interleaved order twice:
+collecting the $\hat Y$-pivots gives $\sum_t\ln\operatorname{Var}
+(\hat Y_t\mid S^{se(t)},\hat Y^{t-1})$; collecting the $S$-pivots
+gives $\sum_j\ln\operatorname{Var}(S_j\mid S^{j-1},\hat Y^{k(j)})$
+--- this regrouping is the whole trick (and the reason single-cell
+convexity is never needed). (2) U-independence enters \emph{exactly
+once} as a premise --- the residuals $(U,Z)$ are independent given
+$W$ --- but is load-bearing in \emph{two} legs of the computation:
+$\operatorname{Cov}(S,\hat Y)=KH^{\!\top}$ with
+$K=\Sigma_{WS}^{\!\top}\Sigma_W^{-1}$ (numerator/leak leg, giving the
+$Q$-Schur complement $\Gamma-HQH^{\!\top}$ since
+$Q=K^{\!\top}\Sigma_S^{-1}K$), and
+$\ln\det\operatorname{Cov}(\hat Y\mid W,S^{\bullet})
+=\ln\det(\Gamma-HPH^{\!\top})$ (denominator leg: conditioning on $S$
+adds nothing given $W$). (3) The unconditional $S$-pivots telescope
+against $\ln\det\Sigma_S$. This re-proves the 076 chain rule of
+Theorem~\ref{thm:main}(i) in one line: the bracket is the block
+term $I(T^n;\hat Y^n\mid S^n)$ and the $j$-sum is the leakage charge
+$C_\Delta$ in its $S$-side (reversed) form. Verification: residual
+$1.15\times10^{-12}$ over 144 prover cells and $2.0\times10^{-12}$
+over 279 verifier cells including the edges
+$\Delta\in\{0,n-2,n-1,n\}$ and random non-staircase schedules.\hfill
+$\square$
+
+\begin{remark}[U-independence: one premise, two legs --- and the
+non-conflation rule]
+\label{rem:ulegs}
+Correcting only one leg does \emph{not} restore the identity: at
+fixed dense-$U$-coupled records ($n=12$) the leg-by-leg
+counter-values are $0.32$--$2.01$ bits (as-stated, numerator-only-
+corrected, and denominator-only-corrected all break; the harness's
+pinned record measures $2.68/3.51/0.83$ bits respectively), while
+correcting \emph{both} legs restores exactness for arbitrary $A_u$
+including anticausal couplings (residual at machine precision).
+Non-conflation: $\Delta$-lag-causal $U$-coupling
+($A_u[t,s]=0$ for $s>t+\Delta$) extends the \emph{record-space}
+chain rule of Theorem~\ref{thm:main}(i) exactly, but does
+\emph{not} rescue the moment-form Theorem~R as stated --- measured
+moment-form residuals $2.4$--$3.5$ bits at $\Delta$-causal
+couplings (harness pinned record: chain-rule residual
+$2\times10^{-16}$, moment-form residual $3.22$ bits at $\Delta=2$).
+The two extension results must not be conflated.
+\end{remark}
+
+\begin{namedthm}[C --- joint convexity; KKT points are global;
+strong duality]
+\label{thm:cvx}
+On $\mathcal D$: (i) the block bracket
+$B(H,\Gamma)=\ln\det(\Gamma-HQH^{\!\top})
+-\ln\det(\Gamma-HPH^{\!\top})$ equals $-\ln\det(I-Z)$ with
+$Z=R^{1/2}H^{\!\top}(\Gamma-HQH^{\!\top})^{-1}HR^{1/2}$ and
+\[
+R\;=\;P-Q\;=\;\Sigma_W^{-1}\Sigma_{W\mid S}\Sigma_W^{-1}
+\;\succeq\;0 ;
+\]
+under the mapping $C\leftrightarrow H^{\!\top}$,
+$V\leftrightarrow\Gamma$ this is \emph{exactly} the 074 convexity
+lemma's $G$-form (GO-13 Theorem~5, block Schur lift), so $Z$ is
+jointly matrix-convex on $\mathcal D$ with $Z\prec I$ on
+$\operatorname{int}\mathcal D$ (Sylvester:
+$\det(I-Z)=\det M_P/\det M_Q$), and $B$ is jointly convex. (ii) Each
+leak term $-\ln s_j$ is convex: the pivot
+$s_j=\operatorname{Var}(S_j\mid S^{j-1},\hat Y^{k(j)})$ is a Schur
+pivot of a joint covariance that is \emph{affine} in $(H,\Gamma)$,
+hence an infimum of affine functions of $(H,\Gamma)$ ---
+concave --- and bounded below by $\tau^2>0$ (the eraser never sees
+$U_j$ through a $U$-independent record). (iii) The distortion is
+affine and $\mathcal D$ is a convex cone. Hence $n\,L_a$ is jointly
+convex on $\mathcal D$; every KKT point of the
+distortion-constrained program is the \emph{global} family minimum;
+Slater's condition holds (interior scalar records), so strong
+duality makes lower bounds computable: any $\mu\ge0$ and any point
+$x_p$ give the certificate $p^\ast\ge\phi_\mu(x_p)-
+\|\nabla\phi_\mu(x_p)\|\,R_{\mathrm{box}}$, with
+$R_{\mathrm{box}}$ from the per-cell moment bounds
+$\Gamma_{tt}\le(1+\sqrt{nD})^2$, $|H_{tj}|\le\sqrt{\Gamma_{tt}}$
+(verifier: the box is valid and nearly tight --- an adversarial
+one-cell record reaches $10.1748$ against the box's $10.1818$).
+\end{namedthm}
+
+\noindent\emph{Proof skeleton.} (i) is the 074 lift verbatim after
+the transpose-convention check ($C^{\!\top}\!PC$ with $C=H^{\!\top}$
+is $HPH^{\!\top}$ --- mapping exact to $0.0$); $R\succeq0$ by the
+displayed closed form (verified to $1.7\times10^{-14}$;
+$\operatorname{eigmin}(Q)\ge-10^{-15}$, PSD to machine). (ii) is
+inf-of-affine concavity plus $-\ln$ composition on
+$[\tau^2,\infty)$. (iii) is inspection. Numerics on record: zero
+Jensen-midpoint violations (prover $32{,}000$ + verifier
+$11{,}200$ + $1{,}566$ curvature probes), tangent plane at the
+$(16,0)$ winner $400/400$ with min slack $+1.13\times10^{-2}$,
+analytic gradient vs FD $1.2\times10^{-10}$.\hfill$\square$
+
+\begin{remark}[Per-cell convexity is open --- the regrouping is the
+proof]
+\label{rem:percell}
+Theorem~\ref{thm:cvx} proves convexity of the \emph{regrouped}
+pieces (block bracket, $S$-side leak sum). Whether the individual
+per-cell CMI terms of $L_a$ are themselves convex in $(H,\Gamma)$
+remains \emph{open}: no violation was found in any sampling (prover
+and verifier both, zero hits), but no proof exists either. Nothing
+in this section relies on per-cell convexity.
+\end{remark}
+
+\begin{remark}[The diagonal class is a convex linear section ---
+its ladder is UB-only because class $<$ family]
+\label{rem:diagsection}
+In $(H,\Gamma)$ the diagonal (stationary-symmetric) class is a
+\emph{convex (linear) section} of $\mathcal D$: midpoints of
+diagonal records stay in class (verifier: off-diagonal mass in the
+$C_v$ eigenbasis at $(H,\Gamma)$-midpoints is $0$ to machine
+precision). The earlier ``non-convex slice'' wording is refuted as
+worded --- what is non-convex is the $(g,h,z)$ \emph{parameter
+chart} (explicit midpoint witness on record), a different
+statement. Consequently the diagonal ladder of
+\S\ref{sec:proc} is upper-bound-only \emph{because the class is a
+strict subset of the family} (Remark on class scoping,
+\S2), not because of any slice non-convexity; and within-class
+values are certifiable by the same Lagrangian machinery restricted
+to the section --- an available upgrade path, not yet executed.
+\end{remark}
+
+\medskip\noindent\textbf{Certificates on record (per-$n$).}
+$\operatorname{eigmin}(P-Q)=1.0382\times10^{-2}\,/\,
+5.5944\times10^{-3}\,/\,4.4309\times10^{-3}\,/\,
+3.9529\times10^{-3}$ at $n=8/16/24/32$ --- \emph{decreasing in
+$n$}; quoted as ``$\ge3.9\times10^{-3}$ for $n\le32$'' (no
+$n$-uniform floor is claimed; the earlier single-number quote is an
+erratum, corrected here). The noise-floor parameterization is
+inactive at every winner and every polished point.
+
+\subsection{Certified two-sided anchors}
+\label{sec:anchors}
+Lagrangian polish + moment-box tangent bound
+(Theorem~\ref{thm:cvx}), prover (P) and independent verifier (V)
+each end-to-end; per anchor the tighter certified width of the two
+is cited. Upper ends are the (feasibility-projected) winner values.
+
+\begin{center}
+\begin{tabular}{llll}
+$(n,\Delta)$ & certified bracket for $p^\ast$ & width & source\\
+\hline
+$(16,0)$ & $[0.566754682,\ 0.5667581350]$ & $3.45\times10^{-6}$ & V\\
+$(16,1)$ & $[0.5408029,\ \ \,0.5408064658]$ & $3.6\times10^{-6}$ & P\\
+$(16,2)$ & $[0.5358901,\ \ \,0.5358939352]$ & $3.8\times10^{-6}$ & P\\
+$(24,0)$ & $[0.5654096,\ \ \,0.5654138570]$ & $4.3\times10^{-6}$ & P\\
+$(24,1)$ & $[0.5393228,\ \ \,0.5393377781]$ & $1.5\times10^{-5}$ & P\\
+$(24,2)$ & $[0.5342628,\ \ \,0.5342788038]$ & $1.6\times10^{-5}$ & P\\
+$(32,0)$ & $[0.5647249,\ \ \,0.5647418676]$ & $1.7\times10^{-5}$ & P\\
+\end{tabular}
+\end{center}
+
+\noindent The 078 anchors are thereby \emph{certified family
+values}, no longer upper bounds alone; minimizer \emph{uniqueness}
+is still not claimed (no flat was found --- three polishes agree to
+$2.8\times10^{-14}$ in value and $2\times10^{-6}$ in coordinates ---
+but gauge flats are not excluded; ``an optimizer'', never
+``the''). The harness reproduces four of the brackets end-to-end
+from cold starts by $\mu$-bisection (convexity makes warm starts a
+convenience, not a dependence), at widths $4.0/3.0/3.8/9.2\times
+10^{-6}$ for $(16,0)/(16,1)/(24,0)/(32,0)$ and a
+$\mathrm{block}_{16}$ bracket of width $1.7\times10^{-6}$.
+
+\begin{corollary}[Certified sandwich margin at $n=16$, $D=0.3$]
+\label{cor:margin}
+\[
+\min L_a(0)-\mathrm{block}_{16}\;\in\;[0.0317872,\ 0.0317906]
+\]
+(verifier-tightened interval). The block side inherits the sealed
+$\mathrm{block}_{16}$ precision through the \emph{proven} diagonal
+optimality of the block coordinate.
+\end{corollary}
+
+\begin{remark}[Feasible projection of winner upper ends]
+\label{rem:proj}
+The stored winner endpoints are distortion-infeasible by
+$\sim4\times10^{-11}$ (raw optimizer termination). The one-line
+feasible projection (blend toward the near-copy record) corrects
+the upper ends by $\sim10^{-10}$ --- immaterial at the
+$3.5\times10^{-6}$ width scale; all upper ends above are to be read
+through this remark.
+\end{remark}
+
+\begin{remark}[``Certified'' means floating-point certificates]
+\label{rem:fpcert}
+All brackets here are \emph{floating-point} certificates: the
+weak-duality and tangent-bound inequalities are exact in real
+arithmetic and are evaluated in IEEE double precision without
+interval arithmetic. The certified widths exceed the $f64$
+evaluation error by roughly seven orders of magnitude; no claim of
+formally verified arithmetic is made.
+\end{remark}
+
 \section{The process limit}
 \label{sec:proc}
 Everything in this section is under Hypothesis~\ref{hyp:uind} and at
@@ -216,19 +485,28 @@ $c(\Delta)=0.107/0.112/0.117$ at $\Delta=4/5/6$, still rising,
 \emph{not converged through $\Delta=6$}. The full-family constant is
 data-supported only as $c_{\mathrm{fs}}\in(0.07,0.125]$. No
 single-letter identification of $c$ is claimed.
-\item[(3)] \textbf{Not matched by any tested causal-conditioning
-spectrum.} The full-space plateaus sit
-$+0.014781/+0.004057/+0.000795$ ($\Delta=0/1/2$) \emph{above} the
-causal-spectral allocation (Remark~\ref{rem:refcon}), $160$--$3000
-\times$ the calibrated extrapolation error, and with the wrong shape
-(drifting per-lag rate, not the allocation's clean $\lambda$-law);
-both closed-form candidates ($c_{\mathrm{spec}}=0.0190\pm0.0007$,
-$c_{\mathrm{static}}=0.026668$) are too small at every $\Delta$.
-This is an \emph{evidence verdict}: the process rate is not matched
-by any \emph{tested} causal-conditioning spectrum; no claim is made
-that no single-letter form exists. The gap is genuine cross-cell
-code value: the winner cuts leakage $0.033\to0.024$ by paying block
-penalty the per-frequency relaxations cannot express.
+\item[(3)] \textbf{Strictly above every tested causal-conditioning
+spectrum --- certified at every computed $n$,
+$O(1/n)$-model-conditional in the limit.} At every computed anchor
+($n\in\{16,24,32\}$, $\Delta\in\{0,1,2\}$) the \emph{certified lower
+bracket end} of \S\ref{sec:anchors} sits strictly above the
+causal-spectral allocation value (Remark~\ref{rem:refcon}) --- a
+certificate-strict gap (smallest exceedance $\approx4\times10^{-3}$
+bits at $(24,2)$, $\ge250\times$ the bracket width there), not an
+optimizer report. In the limit, the plateaus
+$+0.014781/+0.004057/+0.000795$ ($\Delta=0/1/2$) above the
+allocation are $160$--$3000\times$ the calibrated extrapolation
+error and carry the wrong shape (drifting per-lag rate, not the
+allocation's clean $\lambda$-law), but the limit statement is
+\emph{conditional on the $O(1/n)$ finite-window model}; the
+unconditional limit awaits an $n$-monotonicity (superadditivity)
+lemma --- the \emph{named open face}
+(Question~\ref{q:open}). Both closed-form candidates
+($c_{\mathrm{spec}}=0.0190\pm0.0007$,
+$c_{\mathrm{static}}=0.026668$) are too small at every $\Delta$. No
+claim is made that no single-letter form exists. The gap is genuine
+cross-cell code value: the winner cuts leakage $0.033\to0.024$ by
+paying block penalty the per-frequency relaxations cannot express.
 \item[(4)] \textbf{Mechanism (testable).} At every full-space
 optimizer computed ($n=16/24/32$, $\Delta=0/1/2$; seven adversarial
 starts converge to the same record, KKT certificate
@@ -255,7 +533,10 @@ min $L_a(0)\le0.5667581$ at $n=16$ (beats the 076-recorded
 $0.567353$ by $5.9\times10^{-4}$; all start basins converge to it
 within $10^{-7}$); full-space $L_a(0)\le0.56474187$ at $n=32$; the
 diagonal ladder value $L_a^{\mathrm{diag}}(n{=}48,\Delta{=}6)
-=0.5316222730$. The extrapolated $E_\infty(6)$ is quoted \emph{only}
+=0.5316222730$. The full-space upper ends are now \emph{certified
+two-sided} (\S\ref{sec:anchors}); the diagonal-ladder values remain
+class-conditional upper bounds
+(Remark~\ref{rem:diagsection}). The extrapolated $E_\infty(6)$ is quoted \emph{only}
 with an explicit error bar --- $E_\infty(6)\approx4.4\times10^{-7}
 \pm10\%$ (two-point pair sensitivity); it is \emph{not} a four-digit
 anchor, the raw $L_a(48,6)$ above is.
@@ -290,29 +571,42 @@ $\Delta=4$ is $2.66\times10^{-5}$, not $2.75\times10^{-5}$.
 \end{remark}
 
 \begin{question}[Open]
-(1) A \emph{lower bound} on $\min L_a$ via the convexity-lemma
-machinery on the interleaved-Cholesky representation (sum of
-log-ratios of nested Schur complements) --- the natural theory face
-after the equality-unsupported verdict of
-Conjecture~\ref{conj:proc}(3); (2) the $U$-coupled coordinate
-(Hypothesis~\ref{hyp:uind} dropped): a different, far cheaper
-object, definitionally open; (3) the reset protocol realizing
-definition (a); (4) identification of the closure constant beyond
-$\Delta\approx6$, and the innovations characterization of the limit
-(vector NRDF closed forms were refuted in general ---
-Stavrou--Tanaka--Tatikonda --- so only scalar forms are expected
-cheaply).
+\label{q:open}
+(1) The \emph{$n$-monotonicity (superadditivity) lemma} that would
+upgrade the limit faces of Conjecture~\ref{conj:proc} from
+$O(1/n)$-model-conditional to unconditional --- the named open face
+(the lower-bound face itself is now closed by
+Theorems~R and~C, which certify the finite-$n$ anchors two-sided);
+(2) per-cell convexity (Remark~\ref{rem:percell}), and the
+within-class certification of the diagonal ladder
+(Remark~\ref{rem:diagsection}) --- an upgrade path, not a gap;
+(3) the $U$-coupled coordinate (Hypothesis~\ref{hyp:uind} dropped):
+a different, far cheaper object, definitionally open; (4) the reset
+protocol realizing definition (a); (5) identification of the
+closure constant beyond $\Delta\approx6$, and the innovations
+characterization of the limit (vector NRDF closed forms were
+refuted in general --- Stavrou--Tanaka--Tatikonda --- so only
+scalar forms are expected cheaply).
 \end{question}
 
-House rules: novelty language remains \emph{owed}: the arXiv-API
-sweep found no match for the $L_a(\Delta)$ coordinate + chain rule
-under any tried phrasing, conditional on four must-cite adjacents
-(Berta et al.; Boyd--Mandal--Crutchfield; Venkat--Weissman--Carmon--
-Shamai; Sandberg et al.), but the S2/DBLP pass is unswept ---
-nothing above claims novelty. R-IND-5 passes 1 (+closure) and the
-Conjecture-v0.2 pass are on record
-(\texttt{go14-causal-erasure-PROBE.md}); \S5.1 seal GO-P-2026-076
-governs the theorem's numerical faces; the process-limit faces of
-\S\ref{sec:proc} await prereg 078 (harness
-\texttt{experiments/go14\_process\_limit.py}).
+House rules: the novelty gate is \emph{cleared} for the four
+objects swept (arXiv + DBLP + Crossref; S2 residual is
+belt-and-suspenders only), conditional on the five must-cite
+adjacents (Berta et al.; Boyd--Mandal--Crutchfield;
+Venkat--Weissman--Carmon--Shamai; Sandberg et al.; Anderson 2018)
+--- headline novelty language may be promoted only with the five
+citations in force, and nothing above claims it yet. R-IND-5 passes
+1 (+closure), the Conjecture-v0.2 pass, and the Theorems-R+C pass
+(seven mandatory restatements, all in force in this revision) are
+on record (\texttt{go14-causal-erasure-PROBE.md}); seal
+GO-P-2026-076 governs the theorem's numerical faces; the
+process-limit faces of \S\ref{sec:proc} await prereg 078 (harness
+\texttt{experiments/go14\_process\_limit.py}); the convex-program
+faces of \S\ref{sec:convex} await prereg 079 (harness
+\texttt{experiments/go14\_convexity.py}: representation identity
+incl.\ non-staircase schedules, PSD/closed-form/Sylvester
+certificates, $4{,}200$-pair Jensen sweep, tangent plane, cold-start
+certified brackets at $(16,0)/(16,1)/(24,0)/(32,0)$ +
+$\mathrm{block}_{16}$, sandwich-margin window, and the two-leg /
+non-conflation $U$-gates).
 \end{document}
