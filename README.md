@@ -109,7 +109,7 @@ erasure — the process-rate coordinate) is open with its Theorem 1 netted (076:
 the exact chain rule, the feasibility collapse face, the class-conditional
 decreasing sandwich, the cell-local smoothing pole, bookkeeping refuted).
 Campaign
-archive: tags `go10-go11-1.2` and `go12-go13-1.0/1.1/1.2` under the same concept
+archive: tags `go10-go11-1.2`, `go12-go13-1.0/1.1/1.2`, and `go12-go14-1.0` (through the GO-14 process-limit face + the 077 split verdict) under the same concept
 DOI; Papers VI/VII skeletons and the evidence-package index are staged for venue
 work. **75 sealed
 preregistrations** (040 void, 046/048/051/052 logged instrumentation misses, each
