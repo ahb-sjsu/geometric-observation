@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\title{Reference-Coupled Erasure: the Lookahead Discount\\[2pt]
+\large A problem statement (GO-15)}
+\author{Geometric Observation program}
+\date{Problem statement v0.1 --- August 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+GO-14's verification pass discovered that its own U-independence
+hypothesis fences off a different object: records permitted to
+correlate with the noise of the eraser's aging reference erase at a
+fraction of the reference-independent cost (probe: $0.079$ vs
+$0.567$ bits/symbol at $\Delta=0$, $n=16$, $D=0.3$ --- an $86\%$
+collapse). This statement promotes that object to its own campaign.
+The probe's operational verdict frames it: the collapse is gated by
+\emph{encoder lookahead past the eraser's access horizon}, and the
+realistic coordinate is the $S$-constructible family (the record
+writer reads the aging context), with general $U$-access a labeled
+fictitious relaxation. Nothing here is a claim; every probe number
+is a class-conditional upper bound with no lower-bound face yet.
+\end{abstract}
+
+\section{Setting}
+As in GO-14: $V$ AR(1), pole $a$; $Y=\rho V+N$; reference
+$S=V+U$, $\operatorname{Var}(U)=\tau^2$; per-cell erasure of
+$\hat Y^n$ against $(S^{t+\Delta},\hat Y^{t-1})$; coordinate
+$L_a(\Delta)$. Families: $\mathcal F_0$ (U-independent, GO-14's),
+$\mathcal F_{\Delta c}$ ($\Delta$-lag-causal $U$-coupling,
+$A_u[t,s]=0$ for $s>t+\Delta$ --- the chain-rule-preserving class),
+$\mathcal F_S$ ($\hat Y=A_yY+A_sS+Z$: the encoder reads the
+reference, with an explicit lookahead-window parameter), and
+$\mathcal F_U$ (general $U$-access --- fictitious: it resolves $S$
+into $V+U$).
+
+\begin{proposition}[Corrected identity --- from the GO-14 R-IND-5
+record, re-verified at 24 probe optimizers]
+$nL_a=\mathrm{block}+C_\Delta-\sum_t
+I(S_{>t+\Delta};\hat Y_t\mid T,S^{t+\Delta},\hat Y^{t-1})$; the
+correction vanishes iff the record is $\Delta$-lag causally
+$U$-coupled. At probe optimizers of $\mathcal F_{\Delta c}$ the
+correction is $0$ to $10^{-16}$; at the $\mathcal F_U$ winner it
+carries $74\times$ the final value (only the difference of the
+diverging terms is physical near the deterministic-record boundary).
+\end{proposition}
+
+\begin{conjecture}[Strict lookahead hierarchy]
+For all $n\ge8$, $\Delta\le n-2$, and any noise floor
+$\sigma_0^2\le10^{-2}$:
+$\min_{\mathcal F_U}<\min_{\mathcal F_S}<\min_{\mathcal F_{\Delta
+c}}<\min_{\mathcal F_0}$, with the $\Delta$-causal optimum
+essentially causally-$S$-constructible ($A_u\approx A_v$ measured)
+--- within-horizon $U$-coupling adds nothing beyond accessible $S$.
+Probe anchors at $(16,0)$: $0.079<0.290<0.522<0.567$.
+\end{conjecture}
+
+\begin{conjecture}[Horizon-matched anti-coupling]
+Optimizers concentrate $\ge60\%$ of their $U$-coupling mass,
+negatively, on the single first-beyond-horizon band $s=t+\Delta+1$
+(measured $63$--$93\%$ across all probe winners;
+$\operatorname{corr}(\hat Y_t,U_{t+1})\approx-0.245$): the record
+\emph{anticipates the first reference sample the eraser cannot
+see} --- GO-14's horizon-matched mechanism transplanted from
+$V$-cancellation to $U$-anticipation, and a cross-cell code effect
+(a lone band on a scalar record recovers almost none of it).
+\end{conjecture}
+
+\begin{conjecture}[$\Delta$-reversal]
+$\min_{\mathcal F_U}L_a(\Delta)$ is strictly increasing in $\Delta$,
+rejoining the block coordinate at $\Delta=n$ --- the lag knob
+reverses sign across the $U$-coupling boundary (the
+$\mathcal F_0$ coordinate strictly decreases; probe: $0.079\to
+0.201\to0.219$ vs $0.567\to0.536\to0.535$ at $n=16$). The
+$\mathcal F_S$ shape is open.
+\end{conjecture}
+
+\begin{conjecture}[Boundary attainment and the floor law]
+At $\sigma_0=0$ the infimum over $\mathcal F_U$ is attained only on
+the singular (deterministic-record) closure; $\sigma_0\mapsto\min
+L_a$ is continuous and increasing with the floor constraint active
+(probe: $0.079/0.105/0.149/0.366$ at
+$\sigma_0^2=10^{-8}/10^{-6}/10^{-4}/10^{-2}$, all below
+$\mathrm{block}_{16}=0.535$ --- the phenomenon survives realistic
+noise; the \emph{value} is floor-relative and every claim must
+carry its floor). The $\sigma_0\to0$ limit at fixed $n$ is open.
+\end{conjecture}
+
+\begin{question}[The lower-bound face --- the campaign gate]
+Extend Theorem R to the extended moment coordinates
+$(H_w,H_u,\Gamma)$: the denominator leg is already convex
+(inf-of-affine pivots, monotone composition); the numerator
+regrouping is the prover target. Until it lands, every number above
+is a class-conditional upper bound and no $n$-trend may be claimed
+(probe $n$-scan variance is optimization-depth, not physics).
+\end{question}
+
+\begin{question}[The Landauer face]
+The erasure cost of a record against a causally-growing reference
+is \emph{not encoder-independent}: it is gated by how far past the
+eraser's horizon the record-writer could read. What reset protocol
+realizes the lookahead discount, and what does the discount cost at
+write time? (The GO-9 coordinated-reset lane is the in-house
+exterior.)
+\end{question}
+
+House rules: novelty flank swept 2026-08-06 (claimable; citation
+spine in the probe record --- del~Rio, Sagawa--Ueda, Berta et al.,
+Cover--Chiang, Gelfand--Pinsker, arXiv:1507.04924, Ito--Sagawa,
+Cuff et al., Perarnau-Llobet et al.; two targeted re-sweeps owed
+pre-seal). R-IND-5 before assertion; \S5.1 at every seal; the
+$\mathcal F_U$ family is always labeled fictitious next to any
+headline number.
+\end{document}

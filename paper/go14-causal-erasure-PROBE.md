@@ -363,3 +363,88 @@ SEVEN MANDATORY RESTATEMENTS for tex v0.4 + 079:
 A seal carrying restatement-1 or -3 as-worded must FAIL.
 CHAIN (authorized end-to-end): tex v0.4 -> harness -> pilot -> seal
 079 -> governed -> package.
+
+## GO-14 closers (2026-08-06): the n-transfer lemma PROVED; the diag ladder certified within-class
+
+TASK 1 -- n-TRANSFER LEMMA (prover grade, R-IND-5 pending):
+kappa := (1/2)log2(1/(1-a^2)) = 0.736966 bits (the AR(1) boundary
+information). (i) EXACT SUBADDITIVITY f(n1+n2) <= f(n1)+f(n2) via
+block-concatenation (per-term inequality verified all cells;
+denominator equality 1.3e-15) => by Fekete, L^inf = lim = inf phi_n
+EXISTS UNCONDITIONALLY and every finite-n UB bounds the limit.
+(ii) boundary-charged superadditivity: phi_m - phi_2m <= c(Delta)/2m
+with c(0) <= 0.42029, c(1) <= 1.1257, c(2) <= 1.1219, always <=
+2 kappa; EXACT superadditivity REFUTED (phi_8 > phi_16 > phi_24 >
+phi_32 certificate-strict; new anchors phi_8(0) in [0.570790938,
+0.5707933842], phi_12(0) in [0.568030932, 0.5681028134]); the
+obstruction IS the split-boundary coupling, <= kappa per side. Key
+step: the interleaved chain rule cancels record-noise coupling
+EXACTLY inside the identity (zero-claim 4.8e-16) -- U-independence
+load-bearing TWICE (marginalization + the S-pivot zero-claim).
+(iii) two-sided: 0 <= phi_n - L^inf <= c/n (measured drift 0.0645
+sits 6.5x inside proven c(0) = 0.4203).
+COROLLARIES: L^inf(0) in [0.551591, 0.564742] UNCONDITIONAL;
+**the Delta=0 plateau over the causal-spectral allocation is now
+UNCONDITIONAL: L^inf(0) >= 0.5515910 > 0.5479448, margin +3.65e-3
+(~250x bracket width)** -- Conjecture v0.2 item (3) at Delta=0 no
+longer needs the O(1/n) model. Delta=1/2 stay model-conditional
+(would need certified anchors at n ~ 260/1320 or a sharper
+constant). Scope: FULL-FAMILY only (diag concatenation leaves the
+class); constant depends only on the pole.
+R-IND-5 attack list (from the prover): interleaved-prefix match;
+U-free zero-claim; marginal-law step; convexity-in-D; dropped
+negative term sign; sharpening monotonicity-in-m.
+
+TASK 2 -- DIAG LADDER CERTIFIED WITHIN-CLASS (the convex-section
+upgrade executed): all 9 ladder cells (24/32/48 x 4/5/6) + 3 block
+values now certified two-sided CLASS VALUES (widths 2.2e-7..1.6e-6;
+section moment box Rbox 73-136; 4/9 SLSQP endpoints were true class
+minima to 2e-11). E_inf(4) CONFIRMED in-bar (+/-4.4%); E_inf(5)
+sign now certificate-grade; E_inf(6) NOT resolvable at achievable
+widths (bracket contains 0) -- independently RATIFIES the R-IND-5
+demotion to the raw La(48,6) anchor. (48,6) cell flagged loosest
+(projection correction 1.1e-6, still brackets).
+NEXT: R-IND-5 on the transfer lemma -> tex v0.5 (Theorem T +
+unconditional Delta=0 plateau corollary + executed diagsection
+upgrade) -> registration 080.
+
+## R-IND-5 on the n-transfer lemma (2026-08-06): PASS on (i)+(iii)-lower; "kappa per side" REFUTED as an F0 lemma; plateau label DEMOTED to conditional
+
+THEOREMS (unconditional): (i) exact subadditivity + Fekete (set
+identity exact all cells incl. unequal blocks 8+4->12; phi_n >= 0
+hygiene + eps-optimal concatenation to state); (iii)-LOWER
+0 <= phi_n - L^inf. Anchors phi_8/phi_12 reproduced to 1.5e-10.
+REFUTED: I(E;T^{b2}) <= kappa as a universal F0 statement --
+D-feasible counterexamples: two V-copies D2 = 0.4563 > kappa - I =
+0.4203; three Y-copy rows D2 = 18.93 bits ~ 26 kappa; worst case
+Theta(m). NO universal constant exists; any proof must use
+optimizer structure. At optimizers the bound holds 5.5x-stable
+(D2 = 0.076971/0.076926, I(E;T^{b2}) = 0.543 at m=8/16 -- verified
+at those two m ONLY).
+MANDATORY RESTATEMENTS for tex v0.5 + 080: (1) (H*) numbered
+hypothesis "dyadic-chain optimizers have per-side boundary charge
+<= c(Delta;n)" with counter-values + optimizer verifications on
+record; (ii), (iii)-upper, and the plateau corollary carry
+"conditional on (H*)"; NEVER print "<= kappa per side" as an F0
+lemma. (2) c(Delta;n) = (2 - 1{Delta=0}) kappa - I_n, I_n MONOTONE
+INCREASING (uniform validity from base n); c(1) -> <= 1.1258 (5th
+decimal was false). (3) zero-claim + marginalization tagged F0-only
+with counter-values 0.2223/0.0950 bits (violation arises from
+block-2-only coupling via conditioning). (4) corollary uses the
+SEALED 079 LB(32,0) = 0.5647327869 -> L^inf(0) >= 0.5515989
+conditional on (H*); margin 215x (not ~250x); the prover's
+0.564729705 citation exists NOWHERE -- do not cite; base n=24
+FAILS by 5e-5 (no constant slack -- (H*) genuinely load-bearing).
+(5) Task-2 E_inf items are 1/n-MODEL-conditional, not certificates
+(tag); drop the unverifiable 4/9-endpoints claim or ship endpoints.
+(6) ladder spot-checks + section box PASS (box exactly attained --
+tight); E_inf demotion of Delta=6 re-ratified.
+REPAIR PATH (recorded): an optimizer-regularity bound on
+I(E;T^{b2}) via the Theorems R+C convex-program structure (measured
+0.543, stable in m, 0.19 under kappa) would restore the
+unconditional label with the same constants -- the natural next
+prover face. A seal carrying "plateau UNCONDITIONAL", the kappa
+lemma, or c(1) <= 1.1257 must FAIL.
+NEXT: tex v0.5 with all six restatements -> registration 080
+(scope: theorems (i)+(iii)-lower + anchors + within-class ladder +
+conditional corollary under (H*)).
