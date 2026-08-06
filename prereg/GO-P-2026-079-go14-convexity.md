@@ -112,3 +112,17 @@ carries its exact two-leg structure. Open and so marked: the
 n-monotonicity lemma (unconditional limit transfer), per-cell
 convexity, minimizer uniqueness, within-class certification of the
 diag ladder, the U-coupled coordinate, the reset protocol.
+
+## Amendment (dated 2026-08-06, instrumentation, post-seal, disclosed)
+
+CI's ubuntu BLAS stops the s5 L-BFGS-B polish earlier than the local
+platform, landing at a larger Lagrangian residual and hence a wider
+(still VALID) certificate: runner width 2.12e-5 at (24,0) vs the
+8.6e-6 gate (all other anchors passed on the runner). Fix: a
+residual-targeted refinement loop (repeat bounded polishes until
+rn <= 4e-8, the local as-sealed regime, or 8 rounds) -- the
+certificate mathematics is untouched; only the solver's stopping
+rule becomes platform-independent. Same-seed (20261121) local rerun:
+verdicts IDENTICAL, ALL PASS 14/14; changed vals keys listed in the
+commit. The original sealed body and hash are preserved in git
+history (sealed at commit a4bb4b5); no bar was changed.

@@ -486,6 +486,20 @@ def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36):
     x, v_, d_, gh_, gg_ = solve(mu, x, maxit1)
     rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
                        + np.sum((gg_ + mu * gDG) ** 2)))
+    # DATED AMENDMENT 2026-08-06 (instrumentation, disclosed in the
+    # prereg): residual-targeted refinement. L-BFGS-B's stopping point
+    # is BLAS-dependent (the runner landed at rn ~ 6e-8 -> width
+    # 2.1e-5 at (24,0) vs 3.8e-6 locally); the bracket is valid at ANY
+    # rn -- only the WIDTH gate is platform-sensitive. Repeat bounded
+    # polishes until rn <= 4e-8 (the local as-sealed regime) or 8
+    # rounds. Engages only where a platform stops early; the
+    # certificate mathematics is unchanged.
+    for _ in range(8):
+        if rn <= 4e-8:
+            break
+        x, v_, d_, gh_, gg_ = solve(mu, x, maxit1)
+        rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
+                           + np.sum((gg_ + mu * gDG) ** 2)))
     lag = v_ + mu * (d_ - D_TGT)
     H_, G_ = unpack(x)
     bG = (1.0 + np.sqrt(n * D_TGT)) ** 2
