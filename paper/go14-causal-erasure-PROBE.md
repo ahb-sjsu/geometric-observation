@@ -318,3 +318,48 @@ legitimacy + NF-floor inactivity; own-code Jensen/tangent reruns;
 weak-duality direction of the mu-fit bound) -> tex v0.4 (Theorems
 R+C, certified anchors, O(1/n)-conditional rewording of the
 no-spectrum-matches face) -> prereg 079.
+
+## R-IND-5 on Theorems R+C (2026-08-06): READY TO SEAL 079 conditional on SEVEN restatements
+
+Independent verifier (own evaluator/polish/box, fresh seeds; code
+scratchpad verifR5/). Theorem R PASS (identity to 2.0e-12 over 279
+cells incl. edges; k(j) convention CORRECT, shifted variants
+detected at 0.1-0.7 bits). Theorem C PASS (074 mapping exact to
+0.0e0; PSD legs closed-form-verified; composition chain RE-PROVED
+independently; 11,200 own-code Jensen midpoints + 1,566 curvature
+probes: ZERO violations). All seven anchor brackets recomputed
+end-to-end (mutually consistent, some tighter: (16,0) LB
+0.566754682 width 3.45e-6); moment box VALID (per-cell can grab the
+whole budget: sqrt(Gamma_tt) <= 1 + sqrt(nD); adversarial blowup
+reaches 10.1748 vs box 10.1818 -- nearly tight); bound direction
+correct link-by-link (400 pts, 0 violations); NF floor inactive;
+uniqueness probe: NO flat found (3 polishes agree to 2.8e-14 value,
+2e-6 coords) -- keep "an optimizer" wording anyway. Sandwich margin
+tightened: [0.0317872, 0.0317906].
+SEVEN MANDATORY RESTATEMENTS for tex v0.4 + 079:
+1 (R2) schedule-general k(j) = #{t: se(t) < j}; the printed
+  max(0, j-Delta-1) is staircase-specific (blind use deviates 1.05
+  bits) -- state both, reduction explicit.
+2 (R3) U-independence: single premise, load-bearing in TWO legs
+  (numerator/leak AND denominator; leg-by-leg counter-values 0.32-
+  2.01 bits at n=12; both corrected -> exact for arbitrary Au incl.
+  anticausal). Delta-lag-causal U-coupling does NOT rescue moment-
+  form Theorem R (2.4-3.5 bits) though it extends the record-space
+  chain rule -- the two extensions must not be conflated.
+3 (C3) "diag class = non-convex slice" REFUTED AS WORDED: in (H,
+  Gamma) it is a CONVEX (linear) section; diag ladder is UB-only
+  because class < family, and within-class values are certifiable by
+  the same Lagrangian machinery restricted to the section (upgrade
+  opportunity, noted).
+4 (C2) per-cell convexity stays OPEN (verifier also found zero
+  violations); never print "single terms are NOT convex".
+5 (C1) eigmin(P-Q) erratum: 5.5944e-3 at n=16, decreasing in n --
+  quote ">= 3.9e-3 for n <= 32" or per-n.
+6 (A1) winners distortion-infeasible by ~4e-11: one-line feasible-
+  projection remark (correction ~1e-10, immaterial at 3.5e-6).
+7 (A2) "certified" = floating-point certificates (no interval
+  arithmetic; widths exceed f64 error by ~7 orders); claim (c)
+  inherits block_16 precision via proven diag-optimality.
+A seal carrying restatement-1 or -3 as-worded must FAIL.
+CHAIN (authorized end-to-end): tex v0.4 -> harness -> pilot -> seal
+079 -> governed -> package.
