@@ -276,3 +276,45 @@ exhausted this session (disclosed). NET: the arXiv verdict (NOVEL
 conditional on four must-cites) STANDS with Anderson 2018 added as
 the fifth; headline novelty language may be promoted at the next tex
 revision with the five citations in force.
+
+## LOWER-BOUND PROVER (2026-08-06): JOINT CONVEXITY PROVED -- the family optimization is a convex program; all 078 anchors certified two-sided
+
+Theorem R (representation): in moment coordinates H = A Sigma_W =
+Cov(Yh,W), Gamma = Cov(Yh) on the convex cone D = {Gamma -
+H Sigma_W^-1 H' >= 0}, for ANY nondecreasing prefix-access schedule:
+2ln2 n L_a = [lndet(Gamma - HQH') - lndet(Gamma - HPH')] +
+sum_j [ln Var(S_j|S^{j-1}) - ln Var(S_j|S^{j-1}, Yh^{k(j)})],
+k(j) = max(0, j-Delta-1) -- the S-side (reversed) leakage form;
+re-proves the 076 chain rule in one line; U-independence enters
+EXACTLY once (step 2, residuals (U,Z) independent given W).
+Theorem C (convexity): block bracket = the exact 074 G-form (C<->H',
+V<->Gamma, P-Q = Sigma_W^-1 Sigma_{W|S} Sigma_W^-1 >= 0) -- convex by
+the 074 lift; each leak term = -ln of a concave inf-of-linear Schur
+pivot bounded below by tau2 -- convex; distortion AFFINE. So n L_a is
+jointly convex on D, every KKT point is the GLOBAL family minimum,
+strong duality gives computable lower bounds. The per-term trap
+avoided by the S-vs-Yh pivot regrouping (per-cell convexity open,
+not refuted -- 9600 samples, no violation).
+Sanity: representation residual 1.15e-12 over 144 cells; 32,000
+Jensen midpoints ZERO violations; tangent-plane at the winner 400/400
+(min slack +1.13e-2); analytic gradient vs FD 1.2e-10; eigmin(P-Q) >
+5.6e-3.
+CERTIFIED TWO-SIDED ANCHORS (Lagrangian polish + moment-box bound):
+p*(16,0) in [0.566751148, 0.5667581350] (width 7.0e-6); (16,1)
+3.6e-6; (16,2) 3.8e-6; (24,0/1/2) 4.3e-6/1.5e-5/1.6e-5; (32,0)
+1.7e-5. UPGRADES: (a) FIRES -- 078 anchors are certified family
+VALUES; (b) FIRES conditional on the O(1/n) model ONLY (certified
+strict gaps +0.01477/+0.00406/+0.00080 above the causal-spectral
+candidate at 300x/100x/14x bracket ratios; unconditional limit needs
+an n-monotonicity/superadditivity lemma -- NAMED OPEN FACE);
+(c) FIRES -- sandwich margin computable: minL_a(0) - block_16 in
+[0.0317836, 0.0317906]. SCOPE: family F0 only (U-coupled NOT
+covered); diag class = non-convex slice (its ladder stays UB-only);
+minimizer uniqueness NOT claimed (gauge flats not excluded --
+"an optimizer", never "the").
+NEXT LOOP (in flight): R-IND-5 with the prover's 5-point attack list
+(k(j) off-by-one; 074 sub-lemma transpose conventions; moment-box
+legitimacy + NF-floor inactivity; own-code Jensen/tangent reruns;
+weak-duality direction of the mu-fit bound) -> tex v0.4 (Theorems
+R+C, certified anchors, O(1/n)-conditional rewording of the
+no-spectrum-matches face) -> prereg 079.
