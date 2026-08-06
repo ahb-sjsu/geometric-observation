@@ -487,17 +487,40 @@ def certify(n, Delta, maxit1=1200, maxit2=300, nbis=36):
     rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
                        + np.sum((gg_ + mu * gDG) ** 2)))
     # DATED AMENDMENT 2026-08-06 (instrumentation, disclosed in the
-    # prereg): residual-targeted refinement. L-BFGS-B's stopping point
-    # is BLAS-dependent (the runner landed at rn ~ 6e-8 -> width
-    # 2.1e-5 at (24,0) vs 3.8e-6 locally); the bracket is valid at ANY
-    # rn -- only the WIDTH gate is platform-sensitive. Repeat bounded
-    # polishes until rn <= 4e-8 (the local as-sealed regime) or 8
-    # rounds. Engages only where a platform stops early; the
-    # certificate mathematics is unchanged.
-    for _ in range(8):
-        if rn <= 4e-8:
-            break
-        x, v_, d_, gh_, gg_ = solve(mu, x, maxit1)
+    # prereg; second revision -- the first tried L-BFGS-B restarts,
+    # which terminate immediately at the solver's own fixed point and
+    # were a measured no-op on the runner): residual-targeted Armijo
+    # gradient descent on the Lagrangian, which is convex and smooth,
+    # so descent to rn <= 4e-8 (the local as-sealed regime) is
+    # platform-independent. The bracket is valid at ANY rn -- only
+    # the WIDTH gate was BLAS-sensitive. Certificate math unchanged.
+    def lagr_vg(xv):
+        Hx, Gx = unpack(xv)
+        vx, ghx, ggx = f_and_grad(M, Hx, Gx, Delta)
+        val = vx + mu * (dist_HG(M, Hx, Gx) - D_TGT)
+        grd = np.concatenate([(ghx + mu * gDH).ravel(),
+                              ((ggx + mu * gDG))[iu] * symw])
+        return val, grd
+
+    if rn > 4e-8:
+        val, grd = lagr_vg(x)
+        for _ in range(400):
+            gn2 = float(np.dot(grd, grd))
+            if np.sqrt(gn2) <= 4e-8:
+                break
+            t = 1.0
+            while t > 1e-12:
+                v2, g2 = lagr_vg(x - t * grd)
+                if v2 <= val - 0.5 * t * gn2:
+                    x = x - t * grd
+                    val, grd = v2, g2
+                    break
+                t *= 0.5
+            else:
+                break
+        H_, G_ = unpack(x)
+        v_, gh_, gg_ = f_and_grad(M, H_, G_, Delta)
+        d_ = dist_HG(M, H_, G_)
         rn = float(np.sqrt(np.sum((gh_ + mu * gDH) ** 2)
                            + np.sum((gg_ + mu * gDG) ** 2)))
     lag = v_ + mu * (d_ - D_TGT)

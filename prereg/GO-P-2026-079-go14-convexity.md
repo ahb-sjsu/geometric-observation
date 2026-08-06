@@ -126,3 +126,11 @@ rule becomes platform-independent. Same-seed (20261121) local rerun:
 verdicts IDENTICAL, ALL PASS 14/14; changed vals keys listed in the
 commit. The original sealed body and hash are preserved in git
 history (sealed at commit a4bb4b5); no bar was changed.
+**Amendment revision (same date): the L-BFGS-B-restart refinement was
+a measured NO-OP on the runner (bit-identical width at (24,0)) --
+restarts terminate at the solver's own fixed point. Replaced by
+Armijo gradient descent on the (convex, smooth) Lagrangian to
+rn <= 4e-8: platform-independent by convexity. Local rnorms are
+1.05e-8..2.15e-8, all under the target, so the local run remains
+bit-identical (verified); the descent engages only on
+early-stopping platforms.**
