@@ -90,3 +90,91 @@ against a causally-growing reference is NOT encoder-independent;
 collapse gated by lookahead); Q7 process limit (blocked on
 equal-depth or LB). Probe artifacts in scratchpad go15probe/
 (winners4.npz, deepwin4b_16_0.npz, analyze4.out).
+
+## LB-face prover (2026-08-07): Theorem R+ and the DC form PROVED; convexity REFUTED with a canonical counterexample; the F_Dc face CERTIFIED -- and two probe numbers CORRECTED
+
+THEOREM R+ (extended moment representation, schedule-general):
+coordinates Hw = Cov(Yh,W), Hu = Cov(Yh,U) = tau^2 Au, Gamma;
+cone = the LMI N := Gamma - G Pe G' >= 0 (N IS Cov(Z)), with
+Pe = blkdiag(SigW^-1, tau^-2 I). Distortion is affine in (Hw,Gamma)
+and INDEPENDENT OF Hu (load-bearing). Then 2ln2 n L_a = [block
+bracket with Qe = F Cs^-1 F'] + [leak sum] + [sum_j ln Var(S_j | W,
+S^{j-1}, Yh^{k(j)}) - ln tau^2]. Verified 300 cells against TWO
+independent evaluators (worst 9.5e-9, typical 1e-14).
+LEG CURVATURE: block bracket CONVEX -- it is exactly GO-14 Thm R/C
+with the AUGMENTED source W+ = (W,U) (Sig_{W+} = blkdiag(SigW,
+tau^2 I) since U _|_ W), so the 074 lift applies verbatim once
+Re := Pe - Qe >= 0, closed form Sig_{W+}^-1 Sig_{W+|S} Sig_{W+}^-1
+(eigmin -3.6e-16..-2.4e-15; lift identity 1e-9; eigmax(Z) 0.999996
+< 1). Leak sum CONVEX (inf-of-affine pivots). **THE FAILING TERM is
+the S-side DENOMINATOR pivot sum -- concave, entering with a +
+sign.** So n L_a = L_a+ - Dterm where L_a+ is GO-14's coordinate for
+the augmented source: AN EXACT DC DECOMPOSITION, both pieces convex
+in closed form on a convex LMI cone. Dterm vanishes identically iff
+Hu is Delta-lag-causal (0.000e+00 vs -3.20/-6.56/-6.76/-11.37 bits
+dense). This ALSO REPAIRS GO-14 rem:ulegs: the EXTENDED moment form
+is exact at every Au, causal or not (the recorded "2.4-3.5 bits"
+failure was of the un-extended form).
+CONVEXITY REFUTED. Midpoint sweeps are the WRONG instrument (4,800
+pairs: ZERO violations -- the negative curvature lives in a thin
+Hu-subspace). Hessian scan: indefinite at 18-26 of ~28 interior
+points per (n,Delta) cell; worst rel eigmin -1.88e-1. CANONICAL
+COUNTEREXAMPLE (base = the GO-14 certified F0 optimizer at (16,0);
+since distortion is Hu-free, +/-eps on the U-block gives identical
+distortion with the F0 optimizer as EXACT midpoint; A = the
+first-beyond-horizon band, eps = 0.6): n L_a = 9.5031465571 /
+8.3974861139 / midpoint 9.0681306448 vs mean 8.9503163355 ->
+**JENSEN VIOLATION +1.178143e-01 bits** (+7.363e-03 per symbol),
+reproduced to the last digit by the independent definitional
+evaluator; all three feasible (cone slack 8.97e-2, dist-D -1.4e-8).
+In words: the U-INDEPENDENT record is strictly MORE EXPENSIVE than
+the average of two symmetric U-coupled records at the same
+distortion. CONTROLS at the same base point, same machinery:
+all-directions eigmin -3.85 (indefinite) | F0-only +0.261 (PSD --
+GO-14 Thm C reproduced) | F_Dc-only +0.260 (PSD) | pure-Hu -2.358
+(the whole defect). Same pattern at (8,0). Piece decomposition:
+convex part contributes -4.5034, the concave -Dterm +4.6212 -- the
+failing term carries the WHOLE violation. F_S also fails.
+**This refutes the natural reading of Q5**: the NUMERATOR
+regrouping is not the obstacle (block regroups perfectly, leak is
+convex); the DENOMINATOR's S-side pivot sum is, and no regrouping
+removes it.
+CERTIFIED LB FACE for F_Dc (the first for any U-coupled family --
+the section is LINEAR in the LMI cone and Dterm vanishes there, so
+079 machinery applies): (16,0) [0.522354033, 0.522356390] w 2.36e-6;
+(12,0) [0.523221769, 0.523224986]; (8,0) [0.524961127, 0.524962345];
+(16,2) [0.500749120, 0.500753370]. F0 CONTROLS reproduce GO-14's
+sealed brackets cold-start with an independent evaluator.
+TWO STRICT SEPARATIONS NOW THEOREMS: min F_S <= 0.1698616 <
+0.522354033 = LB(F_Dc) (margin 0.3525 ~ 1.5e5 bracket widths); and
+min F_Dc < min F_0 at four cells (margin 0.0444 at (16,0)).
+min F_U < min F_S remains CONJECTURAL (two UBs, no LB on F_S).
+NOT CERTIFIABLE (honest): any value for F_U or F_S. Best LB for the
+headline cell is 0 (CMI nonnegativity). All four routes vacuous:
+duality needs convexity (refuted); DC decoupling gives <= -12.056;
+numerator-floor minorant loses 9.966 bits/cell; the
+information-inequality relaxation is ITSELF non-convex and already
+negative at the winner. STRUCTURAL OBSTRUCTION: the floor-1e-6
+optimum 0.1043 sits inside block 6.0817 + leak 0.5279 - Dterm
+6.5053 -- a 62x CANCELLATION; every decoupling relaxation loses
+~(1/2)log2(1/sigma0^2) ~ 10 bits, i.e. 100x the quantity being
+bounded. No decoupled bound can work at any realistic floor.
+**TWO PROBE-RECORD CORRECTIONS OWED (folded into the tex):** at
+matched floor 1e-6, F_U UB = 0.1042575 (probe floor-law said
+0.1054) and **F_S UB = 0.1698616, far below the probe's floorless
+0.2898 -- the probe's F_S search was UNDER-CONVERGED**. So F_S
+captures **85.8%** of the collapse, NOT 57%, and direct
+U-resolution is load-bearing for only ~0.066 bits, not ~0.21. The
+QUALITATIVE verdict (collapse <=> encoder lookahead past the
+eraser's horizon) is UNTOUCHED; the quantitative split is not.
+Current hierarchy anchors for F_S/F_U are optimization-depth
+artefacts at the second decimal -- equal-depth matched-floor reruns
+are owed BEFORE any branch-and-bound target is set.
+SEALABLE NOW (three items, no value claim on the headline cell):
+Theorem R+ with the DC form; the non-convexity refutation with its
+canonical counterexample + three matched controls; the F_Dc
+certified two-sided face with the two strict separations. NEXT RUNG
+for the headline cell: spatial branch-and-bound on the Hu block over
+the DC form (distortion is Hu-free, so the branching variable is
+budget-unconstrained, and >=60% of optimizer Hu mass sits on one
+band) -- but ONLY after the equal-depth matched-floor reruns.
