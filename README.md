@@ -70,7 +70,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
 | [`chapters/`](chapters/) | Chapter → claim map and drafts |
 
-## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the tax and its region are replicated; the dynamic theory is closed through the spectral pair and the m=2 endgame; causal erasure is open with its first theorem netted
+## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the tax and its region are replicated; the dynamic theory is closed through the spectral pair and the m=2 endgame; causal erasure is netted through its convex program and an unconditional process limit; reference-coupled erasure is open
 
 | Claim | Class | Evidence |
 |---|---|---|
@@ -117,9 +117,17 @@ netted by 064), and the dynamic extension is open with its first control settled
 conditional-variance reduction settles the causal-prefix eraser).
 GO-13 (the dynamic
 complementarity tax) is open with its Theorem 1 netted (067). GO-14 (causal
-erasure — the process-rate coordinate) is open with its Theorem 1 netted (076:
-the exact chain rule, the feasibility collapse face, the class-conditional
-decreasing sandwich, the cell-local smoothing pole, bookkeeping refuted).
+erasure — the process-rate coordinate) is netted across four registrations: the
+exact chain rule and the class-conditional sandwich (076), the process-limit face
+with its horizon-matched mechanism (078), **Theorems R and C — the family
+optimization is a convex program, so every KKT point is the global minimum and
+the anchors are certified two-sided** (079), and the transfer face (080), where
+subadditivity plus Fekete give the **process limit unconditionally** while the
+proposed κ-per-side lemma is *refuted* and the remaining transfer results stand
+openly conditional on a numbered hypothesis. GO-15 (reference-coupled erasure)
+is open at `[exploratory]`: its opening probe found an 86% erasure discount
+gated by encoder lookahead past the eraser's horizon, with no lower-bound face
+yet — building one is that campaign's gate.
 Campaign
 archive: tags `go10-go11-1.2`, `go12-go13-1.0/1.1/1.2`, and `go12-go14-1.0` (through the GO-14 process-limit face + the 077 split verdict) under the same concept
 DOI; Papers VI/VII skeletons and the evidence-package index are staged for venue
@@ -128,7 +136,9 @@ preregistrations** (040 void, 046/048/051/052 logged instrumentation misses, eac
 superseded and rerun; 069's V6 a one-cell exact-binomial instrumentation miss,
 amended and rerun with physics 5/5 both times; 056 a registered honest miss at its effect floors → NEG-16;
 075 an ID burned honestly — a KV-serving design failure caught by its own
-disclosed pilot before any seal or governed run),
+disclosed pilot before any seal or governed run; 079's harness carried in the
+artifact-self-consistency tier because its certified-width gates race a
+BLAS-dependent solver stopping point, four disclosed revisions on record),
 every one timestamped before its measurement; standing negatives **NEG-1…16** —
 NEG-13 (the omission floor) resolved to `[demonstrated]` downstream on a trained
 model (GO-027), and **NEG-15** records the Bell boundary: retrieval geometry does
