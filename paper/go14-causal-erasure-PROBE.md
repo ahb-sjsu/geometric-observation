@@ -662,3 +662,209 @@ conversion proved, Xbar = 0.0650 at 1.80x); phi^sc_{2m} <= phi_m and
 plateau corollary CANNOT drop its hypothesis -- it trades (H**) for
 (D)+(F), margin +1.622e-3 (95x bracket) instead of +3.456e-3, with
 the base-24 control failing by 2.757e-3.
+
+## CORRECTIONS to the two prover reports (found by the v0.6/harness build, 2026-08-07)
+
+Independent re-measurement from the committed artifacts contradicts
+three statements recorded above. The corrected values are what tex
+v0.6 and the 081 harness carry:
+1. L2's TIGHTNESS is attained at the **two-V-copy** witness
+   (slack 5.67e-7), NOT the three-Y-copy witness (0.144 there). The
+   recorded VALUE 5.67e-7 is right; the attribution above is wrong.
+2. The refuting records' L_a values are **4.2187 / 4.7397**, not the
+   1.73 / 2.25 recorded above -- those two numbers are not
+   reproducible from any artifact.
+3. The feasible cold-start m=16 charge is **0.07691493**, not
+   0.0769152 (3e-7, immaterial, but the record should be exact).
+4. CAUTION netted in the harness: **(K2)/(K3) require the RECORD-
+   pivot Gram**; with the reference-pivot Gram they fail at 47% and
+   120%. Stated in the v0.6 proof skeleton.
+5. Scope note: the Delta=1,2 rows of the m-table are the prover's
+   and were NOT re-netted by the build; sK covers six of the seven
+   certified optimizers ((24,1) omitted).
+Pi-gains measured [-2.74, -0.31] on a different draw order vs the
+prover's [-3.11, -0.37]; both printed in v0.6.
+
+## SPECTRAL PROVER (2026-08-07): the COLLAPSE identity, the stationary system, lambda_s REFUTED as the pole -- and a BYPASS that would make the plateau unconditional (one step pending R-IND-5)
+
+**COLLAPSE IDENTITY (new, exact, unconditional).** Using
+prod_t sigma_t prod_j s_j = det J = det Sig_S det Cov(Yh|S), the
+S-side leak sum telescopes against lndet Cov(Yh|S), leaving
+**2 ln2 n L_a = sum_t ln sigma_t - lndet N**, every n, every
+schedule, every F0 record. Verified at ALL TEN certified optimizers
+(n=16/24/32/48 x Delta=0/1/2), rel residual <= 1.2e-14. It
+re-derives K1-K3 in five lines and makes the periodization argument
+below a one-liner.
+**STATIONARY SYSTEM.** In the shifted frame R_u := Yh_{u-Delta-1}
+the interleaved order becomes the plain simultaneous order of (R,S),
+and **Delta enters ONLY as the phase e^{-i(Delta+1)w} on the
+cross-spectrum** -- that is the entire content of the lag coordinate
+at stationarity. Symbols: K2 1/n(w) = theta + |v(w)|^2/sigma;
+K1 a_y = theta n (real, zero-phase, positive -- so "A_y symmetric
+PD" is a ONE-LINE stationary corollary); K3 a_v = -z^{-(Delta+1)}
+n v(1/z) v_s(z)/sigma. **NOT RATIONAL** at any finite order (the
+fixed point compounds degree; Hankel singular values fall
+geometrically rather than truncating) -- analytic in an annulus,
+hence geometric decay, but no finite-order closure.
+L^inf VALUES (10-digit stable across Nf 1024..8192, lag depth
+50..250): **0.562726496 / 0.536401378 / 0.531050020** at
+Delta=0/1/2 (then 0.530117530 / 0.529973408 at 3/4).
+**FIVE INDEPENDENT VALIDATIONS**: (1) Richardson on the certified
+anchors agrees to 5.0e-7/6.3e-7/8.2e-7; (2) n(phi_n - L^inf) FLAT
+(0.064507/0.064497/0.064495/0.064487 at n=16/24/32/48) -- the O(1/n)
+law with c(0) = 0.064495 +/- 3e-5 relative; (3) theta transfers
+(finite-n extrapolates to 3.086040 vs stationary 3.086038362, 1.6e-6);
+(4) kernels transfer ENTRYWISE (n=32 central row vs stationary: N
+1.7370e-1 vs 1.7364e-1; A_y 5.3538e-1 vs 5.3585e-1; A_v lag +1
+5.180e-2 vs 5.175e-2; lag -1 -1.578e-2 vs -1.576e-2 -- differences
+exactly the size of the O(1/n) theta drift); (5) a KKT-FREE direct
+minimization over FIR records (Powell + Nelder-Mead, 2 starts, no
+reference to K1-K3) returns 0.5627265093 vs the fixed point's
+0.5627264963 -- gap 1.3e-8.
+**THE 078 MECHANISM IS NOW AN EXACT STATIONARY COROLLARY**: the
+stationary a_v kernel is POSITIVE for j <= t+Delta and NEGATIVE for
+j > t+Delta at both Delta=0 and Delta=1 (sign flip one lag later),
+i.e. the sign boundary sits EXACTLY at the access horizon, and K3
+explains it -- the anticausal branch comes from v(1/z), the causal
+branch from z^{-(Delta+1)} v_s(z), and the shift places the
+crossover at lag Delta. Horizon-matched V-cancellation: corollary,
+not measurement.
+**lambda_s REFUTED AS THE POLE, UPHELD AS AN ENVELOPE.** The
+mechanism that would produce lambda_s CANCELS: det Phi_X = f_S
+Phi_{R|S} = tau^2 |g|^2 f_V + r f_S, so the f_S zero is NOT
+inherited. Measured dominant singularity (roots of u = theta sigma
++ v vtilde, whose zeros are the poles of n and a_y): modulus
+**rho* ~ 0.28 (band 0.26-0.29)**, a COMPLEX PAIR (0.2517+/-0.0530i
+etc.) -- which explains why the decay prover's per-lag ratios swept
+downward (.284->.200) and no single geometric rate fit. rho* is
+STRICTLY INSIDE lambda_s = 0.3545538, so **lambda_s remains a VALID
+CONSERVATIVE envelope -- hypothesis (D) and the conversion theorem
+stand, and Xbar = 0.065038 is LOOSE; re-deriving at rho* would
+tighten it materially.** Flagged conjecture (not a claim):
+a*lambda_s = 0.2836431 sits inside the band -- one a-sweep settles
+it. Caveat: a sub-dominant lambda_s component with small residue
+cannot be excluded below the ~1e-9 float64 floor (lags > 13).
+**THE BYPASS (GOAL 2) -- and it is NOT a dual multiplier.** Since
+dist is affine, the dual is ONE-DIMENSIONAL and feasibility is
+automatic; all content sits in an n-uniform lower bound on
+Omega_n(Theta)/n. The Collapse identity supplies it in two steps:
+**(A) PERIODIZATION => Omega_n/n SUBADDITIVE.** Repeat any n-record
+along Z with independent noise copies: distortion is EXACTLY
+preserved, lndet N is EXACTLY additive (block-diagonal), and every
+sigma_t only DECREASES (its conditioning set gains all earlier
+blocks). So L^process(D) <= phi_n for every n. **This is Theorem T
+in one line instead of a page, and it costs NO boundary charge
+because it goes the EASY way.**
+**(B) SHIFT-AVERAGING => stationary Gaussian records attain the
+process infimum.** On Z the functional is exactly shift-invariant
+and (Theorem C) convex in moment coordinates; the shift-average of a
+period-n record's moment functions is a STATIONARY pair in the same
+cone, and convexity gives value(average) <= average(value) = value.
+**(A)+(B) => phi_n >= Psi(D) for every n => L^inf = Psi(D)** -- the
+stationary spectral value, with **NO boundary charge, NO anchors, NO
+(H*)/(H**)/(H***), and NO decay estimate.**
+**MARGINS vs the causal-spectral bar:** Delta=0 **+0.0147817**
+(9.1x the current (H**)-conditional margin, 4.3x the (H*)-era one,
+~1600x the sealed n=32 bracket); Delta=1 **+0.0040584**; Delta=2
+**+0.0007960** -- and Delta=1,2 were PROVABLY UNREACHABLE by the
+transfer route (would need certified anchors at n ~ 260 / 1320).
+Consistency: L^inf < certified UB(32,0) = 0.5647420, and every
+certified LB(n) sits ABOVE L^inf, exactly as phi_n decreasing to
+L^inf requires.
+**STATUS, HONESTLY: (A) is solid (the existing subadditivity,
+trivial in collapse coordinates). (B) IS THE NEW STEP, prover-grade
+but NOT YET R-IND-5'd** -- two soft spots: (i) convexity + lower
+semicontinuity of the PROCESS-RATE functional in process-moment
+coordinates (inherited from Theorem C by per-symbol limits), and
+(ii) realisability of the shift-averaged moment pair in the cone.
+**Until (B) is verified, 0.5627265 is an IDENTIFICATION supported by
+five independent numerical routes, NOT a sealed theorem.**
+IF (B) SURVIVES: the Delta=0 plateau (the campaign's standing goal)
+becomes UNCONDITIONAL with no hypothesis at all; so do Delta=1,2;
+L^inf is IDENTIFIED rather than extrapolated; and (H*)/(H**)/
+(H***)/(D)/(F)/the boundary charge all become UNNECESSARY for the
+plateau (they remain of independent interest for T*).
+UNCONDITIONAL AND SEAL-ABLE NOW, independent of (B): the Collapse
+identity, the stationary K1-K3 symbol table, the exact mechanism
+corollary, and the rho* refutation with lambda_s retained as
+envelope.
+NEXT LOOP: (1) R-IND-5 step (B) -- highest leverage by a wide
+margin; (2) certify the stationary optimum TWO-SIDED (per-frequency
+Lagrangian + moment box) to make 0.5627265 quotable as a bracket
+rather than a 10-digit fixed point; (3) settle rho* by re-solving at
+a second a and testing rho* = a lambda_s, then re-run the conversion
+at rho* to sharpen Xbar; (4) finish the Delta-ladder at stationarity
+(Delta 5..9) to pin the closure constant the campaign left bracketed
+at [0.105, 0.125] -- c(Delta) = 0.0328/0.0513/0.0696/0.0843/0.0937
+at Delta=0..4 is still rising, so the bracket is reachable.
+
+### Spectral addendum (same day): the Delta-ladder settles the closure law and the constant -- and separates two objects the campaign had been conflating
+
+Delta = 0..9 at stationarity, fixed-point residual <= 9.8e-14:
+L^inf = 0.562726496 / 0.536401378 / 0.531050020 / 0.530117530 /
+0.529973408 / 0.529953058 / 0.529950369 / 0.529950029 /
+0.529949987 / 0.529949982; excess 3.278e-2 down to 7.38e-10;
+per-lag ratios 5.081 / 5.865 / 6.565 / 7.152 / 7.612 / 7.934 /
+8.111 / 8.148.
+1. **THE CLOSURE RATE IS CONFIRMED as lambda_s^-2 = 7.954917.** The
+   ratios rise monotonically FROM BELOW and cross lambda_s^-2 at
+   Delta ~ 6; the small overshoot at Delta=7,8 is inside numerical
+   error (excess 5.9e-9 / 7.4e-10 against a ~1e-11 floor). The
+   campaign's standing wording ("rate supported as an asymptotic,
+   constant NOT identified, unresolved beyond Delta~6") TIGHTENS:
+   the rate IS reached, and the reason it was unresolved beyond
+   Delta~6 is that FINITE-n ANCHORS RUN OUT OF PRECISION there --
+   not that the law bends.
+   **CRITICAL DISTINCTION the campaign had been conflating:** this
+   is lambda_s appearing where it GENUINELY BELONGS -- in the
+   Delta-CLOSURE EXPONENT -- as opposed to the KERNEL POLE, where
+   the same prover REFUTED it (true dominant singularity rho* ~
+   0.28, a complex pair). Two different objects; keep them apart in
+   all future wording.
+2. **THE FULL-FAMILY CONSTANT IS PINNED: c_fs ~ 0.098 +/- 0.004**
+   (plateau at Delta=5-7). Inside the recorded data-supported
+   bracket (0.07, 0.125], and STRICTLY BELOW the diagonal-class
+   c_diag = 0.111 +/- 0.006 -- as it MUST be, since the full family
+   beats the diagonal class and so has the smaller excess. That
+   ordering is a free consistency check on both numbers, and it
+   replaces the bracket [0.105, 0.125] (a DIAG-CLASS object) with a
+   FAMILY value.
+3. **ERRATUM: block_inf = 0.5299499808**, not 0.529950. The sealed
+   value is right to 6 digits and NOTHING downstream moves (the
+   0.0313 gap is unaffected), but the 7th digit should be corrected
+   in tex/registry -- same class as the earlier 0.52991 ->
+   0.529950 fix, and it matters here because the ladder's excess at
+   Delta >= 5 is smaller than the rounding of the reference.
+
+### Spectral addendum 2 (same day): pole estimates at Delta=1,2 -- rho* cross-checks at three Delta, and the a*lambda_s conjecture WEAKENS
+
+High-resolution roots (Nf=8192, P=250) of u = theta sigma + v vtilde
+across the reliable truncation range L=12..24. Dominant moduli:
+Delta=0: 0.272/0.287/0.288 (L=16/20/24); Delta=1:
+0.269/0.268/0.277; Delta=2: 0.254/0.264/0.265.
+1. **The kernel-pole refutation now holds at THREE Delta.** Every
+   estimate is in 0.25-0.29; none approaches lambda_s = 0.3545538.
+   Consolidated: **rho* = 0.27 +/- 0.02, UNIFORM in Delta** -- the
+   apparent downward drift with Delta is smaller than the
+   L-truncation scatter at fixed Delta, so NO Delta-dependence is
+   claimed. lambda_s remains a sound conservative envelope for
+   hypothesis (D); it is not the pole.
+2. **The complex pair is confirmed independently**: at Delta=2 the
+   whitening filter's own coefficients oscillate in sign from the
+   outset (1, -0.2054, -0.0485, +0.00035, +0.00066, -0.00032,
+   -0.000088, +8.2e-6, ...). That is WHY no single geometric
+   envelope ever fit the measured per-lag ratios and why the decay
+   prover saw ratios "decreasing with lag" -- **the sweep is the
+   cosine factor, not a changing rate.**
+3. **DOWNGRADE the rho* = a*lambda_s = 0.2836431 conjecture** to
+   "consistent but unsupported": it sits inside the Delta=0 band but
+   at the TOP EDGE of Delta=1 and OUTSIDE most Delta=2 estimates --
+   and a product of two model constants should show NO
+   Delta-dependence at all. The a-sweep remains the only way to
+   decide; if rho* fails to track a*lambda_s there, the constant is
+   genuinely DYNAMICALLY GENERATED by the KKT fixed point with no
+   closed form in the model parameters.
+**The two appearances of lambda_s are now cleanly separated and
+independently established: it IS the Delta-closure exponent
+(confirmed, lambda_s^-2 = 7.9549, addendum 1) and it is NOT the
+kernel pole (refuted at three Delta, rho* ~ 0.27, here).**

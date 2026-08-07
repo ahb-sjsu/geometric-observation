@@ -6,28 +6,44 @@
 \newtheorem{hypothesis}{Hypothesis}
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
 \newtheorem{question}{Question}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.5 --- Theorems R, C and T (the convex
-program, and the $n$-transfer lemma), certified two-sided anchors and
-a certified within-class ladder, under the U-independence hypothesis
-and the boundary-charge hypothesis (H$^\ast$)}
+\large GO-14 statement v0.6 --- Theorems R, C and T (the convex
+program, and the $n$-transfer lemma), the (H$^\ast$) \emph{repair}
+--- the cross-block read $X$, the lemma chain L1--L4, and the
+split-causal sub-family --- and T$^\ast$ v2, under the U-independence
+hypothesis and the cross-read hypothesis (H$^{\ast\ast}$)}
 \author{Geometric Observation program}
-\date{v0.5 --- August 2026 (v0.4 superseded: Theorem~T added --- exact
-subadditivity, Fekete existence of the limit and the \emph{unconditional}
-lower transfer side --- together with the numbered hard hypothesis
-(H$^\ast$) carrying the boundary-charged reverse direction, the
-conditional $\Delta=0$ plateau corollary, and the executed within-class
-certification of the diagonal ladder; six R-IND-5 transfer restatements
-in force, including the refutation of ``$\le\kappa$ per side'' as an
-$\mathcal F_0$ lemma. v0.4 history: Theorems~R and~C with the certified
-anchor table and the sandwich-margin interval, seven R-IND-5
-restatements. v0.2 history: process-limit conjecture, hard hypothesis,
-dated erratum to Theorem~1(v); the v0.1 sign error was corrected at
-v0.2)}
+\date{v0.6 --- August 2026 (v0.5 superseded: the H-repair lemma chain
+L1--L4 proves $D_1+D_2\le c(\Delta;m)+(2-\mathbf 1\{\Delta=0\})X$ for
+\emph{every} record of $\mathcal F_0$, $X$ the cross-block read, using
+no optimizer structure at all; consequently (H$^\ast$) is a
+\emph{theorem} on the split-causal sub-family
+$\mathcal F_0^{\mathrm{sc}}(m)$ with this document's own constants, and
+is demoted to a \emph{corollary} of the strictly weaker,
+better-margined, monotone-verified hypothesis (H$^{\ast\ast}$) on the
+single scalar $X$; added: the $\Pi$-retraction lemma, the certified
+$\phi^{\mathrm{sc}}$ brackets, the extended monotone $m\times\Delta$
+table that retires the ``$m\in\{8,16\}$ only'' caveat, the repaired
+per-block feasibility step of T$^\ast$(ii), the recomputed plateau
+corollary $0.5514005>0.5479448$, and the \emph{named} obstruction that
+replaces the old repair-path remark. v0.5 history: Theorem~T --- exact
+subadditivity, Fekete existence of the limit and the
+\emph{unconditional} lower transfer side --- with (H$^\ast$) carrying
+the boundary-charged reverse direction and the executed within-class
+certification of the diagonal ladder; six R-IND-5 transfer
+restatements in force, including the refutation of ``$\le\kappa$ per
+side'' as an $\mathcal F_0$ lemma. v0.4 history: Theorems~R and~C with
+the certified anchor table and the sandwich-margin interval, seven
+R-IND-5 restatements. v0.2 history: process-limit conjecture, hard
+hypothesis, dated erratum to Theorem~1(v); the v0.1 sign error was
+corrected at v0.2)}
 \begin{document}
 \maketitle
 
@@ -57,14 +73,58 @@ $L^\infty=\lim_n\phi_n=\inf_n\phi_n$ \emph{exists}, and the lower
 transfer side $0\le\phi_n-L^\infty$ is a theorem --- every certified
 finite-$n$ value bounds the limit from above. The \emph{reverse}
 direction is not: the boundary charge is carried by a numbered hard
-hypothesis (H$^\ast$) on dyadic-chain optimizers, because
+hypothesis on dyadic-chain optimizers, because
 ``$\le\kappa$ per side'' is \emph{false} as a family statement
 ($D$-feasible $U$-independent counterexamples reach $26\kappa$; no
-universal constant exists). Under (H$^\ast$) the $\Delta=0$ plateau
-over the causal-spectral allocation becomes a
-$3.65\times10^{-3}$-margin statement about the limit itself rather
-than about the $O(1/n)$ model. The diagonal ladder is now certified
+universal constant exists). The diagonal ladder is now certified
 \emph{within class}.
+This revision \emph{repairs} that hypothesis. Introducing the
+\emph{cross-block read} $X=I(\hat Y^{b_1};W^{b_2}\mid W^{b_1})$, a
+four-step lemma chain --- $\kappa$ is an \emph{identity} not a bound,
+$I(E;T^{b_2})\le\kappa+X$, and the two per-side charge bounds --- gives
+$D_1+D_2\le c(\Delta;m)+(2-\mathbf 1\{\Delta=0\})X$ for \emph{every}
+record of $\mathcal F_0$, with no optimizer structure anywhere. Three
+things follow. (a) The refutation is \emph{explained}: the
+counterexamples are exactly the records with enormous $X$ ($18.46$ and
+$29.27$ bits), and the bound $I(E;T^{b_2})\le\kappa+X$ is \emph{tight}
+to $5.7\times10^{-7}$ at one of them. (b) (H$^\ast$) is a
+\emph{theorem}, with this document's own constants, on the
+split-causal sub-family $\mathcal F_0^{\mathrm{sc}}(m)$ --- a convex
+linear section, so Theorem~C certifies it two-sided, at a
+split-causality value gap that is flat in $n$ ($\le0.0044$ bits, and
+$\approx0.0041$ at $n=16$), and onto which an explicit distortion- and
+block-law-preserving retraction $\Pi$ maps every record. (c) The
+transfer results
+become conditional on (H$^{\ast\ast}$): \emph{one scalar}, $X\le\bar X$
+at dyadic-chain optimizers, measured $6.3\times10^{-3}$ against an
+admissible $0.117$ ($18\times$ headroom, against (H$^\ast$)'s
+$5.5\times$) and monotone decreasing in $m$ over $m\in\{8,12,16,24\}$.
+The $\Delta=0$ plateau survives the larger constant at
+$0.5514005>0.5479448$ (margin $3.456\times10^{-3}$, $203\times$ the
+quoted bracket width) and the base-$24$ negative control still fails,
+now by $3.11\times10^{-4}$. A separate hole in T$^\ast$(ii), whose cost
+would have exceeded the whole repair term, is closed by convexity of
+the value function $D\mapsto\phi_m(D)$.
+Three further unconditional results are added. \emph{Theorem~K}: the
+KKT system of the convex program \emph{splits by column block},
+because $E[S\mid W]=V$ and $Y$ are both coordinate blocks of $W$, so
+the $Q$-factor and the distortion gradient have disjoint supports; it
+gives $A_y=\theta N$, $N^{-1}=\theta I+V\Sigma_s^{-1}V^{\!\top}$,
+$A_v=-NV\Sigma_s^{-1}V_S^{\!\top}$, hence the first $m$-uniform
+regularity of the program ($0\prec N\preceq I/\theta$,
+$0\prec A_y\preceq I$, $\theta\ge1.119$) and, as a \emph{corollary},
+the transpose symmetry that v0.3 could only measure.
+$\phi^{\mathrm{sc}}_{2m}\le\phi_m$ holds unconditionally, giving a
+third and preferable hypothesis (H$^{\ast\ast\ast}$) on the
+split-causality value gap --- preferable because that gap, unlike $X$,
+is \emph{two-sided certifiable} by Theorem~C ($27\times$ headroom).
+And the repair path itself is now executed rather than promised: an
+$m$-uniform conversion theorem reduces (H$^{\ast\ast}$) to kernel-decay
+envelopes plus a noise floor, yielding $\bar X=0.065038$ against an
+admissible $0.116930$; what remains is named exactly --- the operator
+whose inverse produces the optimizer is built \emph{from} the
+optimizer, so inverse-closedness returns its own hypothesis, and a
+fixed-point argument in a weighted Banach algebra is the missing step.
 Two scoping results are load-bearing and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
@@ -411,6 +471,81 @@ $n$-uniform floor is claimed; the earlier single-number quote is an
 erratum, corrected here). The noise-floor parameterization is
 inactive at every winner and every polished point.
 
+\subsection{Theorem K: the KKT system splits by column block}
+\label{sec:K}
+Two \emph{exact} structural facts of this model drive everything in
+this subsection, and both are checkable in one line:
+\[
+K=\Sigma_{WS}^{\!\top}\Sigma_W^{-1}=[\,I\ \ 0\,],
+\qquad
+\Sigma_W^{-1}\Sigma_{WY}=[\,0;\,I\,]
+\]
+(verified to $2\times10^{-15}$): the first because $E[S\mid W]=V$ and
+$V$ \emph{is} a coordinate block of $W$, so every $Q$-factor term lives
+only on the $V$-columns of $A=H\Sigma_W^{-1}=[A_v,A_y]$; the second
+because $Y$ is a coordinate block of $W$, so the distortion gradient
+lives only on the $Y$-columns. \textbf{The two supports are disjoint},
+so the stationarity condition splits by column block.
+
+\begin{namedthm}[K --- KKT structure; \emph{unconditional},
+$\mathcal F_0$, any $\Delta$, any nondecreasing schedule]
+\label{thm:K}
+Let $(H,\Gamma)$ be a KKT point of the distortion-constrained program
+with multiplier $\mu$, and write $N=\Gamma-H\Sigma_W^{-1}H^{\!\top}
+=\operatorname{Cov}(Z)$, $\theta=2\mu\ln2$, and
+$(v_t,v^S_t,\sigma_t)$ for the \emph{record} pivots of the interleaved
+order (cell $t$ predicted from $S^{se(t)},\hat Y^{t-1}$), collected
+into $V\Sigma_s^{-1}V^{\!\top}$ and $V\Sigma_s^{-1}V_S^{\!\top}$. Then
+\[
+\text{(K1)}\ \ A_y=\theta N,\qquad
+\text{(K2)}\ \ N^{-1}=\theta I+V\Sigma_s^{-1}V^{\!\top},\qquad
+\text{(K3)}\ \ A_v=-N\,V\Sigma_s^{-1}V_S^{\!\top}.
+\]
+Verified at every certified optimizer --- relative residuals
+$\le3.2\times10^{-8}$ at $(16,0)$, $(24,0)$, $(32,0)$, $(48,0)$,
+$(16,1)$, $(16,2)$, $(24,1)$ (prover), and $\le8.3\times10^{-8}$ over
+the six of those the harness recomputes from cold starts. The
+residuals track the polish accuracy of the optimizer, not the
+identities, which are exact; the harness gates them at $10^{-6}$ for
+that reason.
+\end{namedthm}
+
+\noindent\emph{Corollaries, unconditional and $m$-uniform.}
+\begin{enumerate}
+\item[(a)] $A_y=\theta N$ is \emph{symmetric positive definite}.
+\textbf{This upgrades the 078-era ``mechanism'' finding --- $A_y$ and
+the noise kernel transpose-symmetric, all causal asymmetry confined to
+$A_v$ --- from an empirical observation to a corollary of
+Theorem~\ref{thm:K}} (measured symmetry defect
+$1.2\times10^{-9}$--$1.4\times10^{-8}$, against the
+$5\times10^{-5}$ at which it was first reported; see
+Conjecture~\ref{conj:proc}(4)). And (K3) carries the causal asymmetry
+through $V_S$, whose column support ends \emph{exactly} at $t+\Delta$
+--- the structural candidate for the observed sign change at lag
+$\Delta$. \emph{This is a lead, not a claim}: no proof that the sign
+change must occur there is offered here.
+\item[(b)] $0\prec N\preceq I/\theta$ and $0\prec A_y\preceq I$,
+\emph{uniformly in $m$} --- the first $m$-uniform optimizer-regularity
+statement in the program.
+\item[(c)] $\theta\ge2\ln2\,\phi_n(D)/(1-D)\ge1.119$ (convexity of
+$D\mapsto\phi_n(D)$, Remark~\ref{rem:feas}, together with
+$\phi_n(1)=0$), hence $N\preceq0.894\,I$ unconditionally.
+\end{enumerate}
+
+\noindent\emph{Proof skeleton.} Stationarity in $\Gamma$ reads
+$M_Q^{-1}-N^{-1}+\partial_\Gamma\bigl(-\sum_j\ln s_j\bigr)=-\theta I$.
+The Cholesky decomposition of $J^{-1}$ along the interleaved order,
+$J=\operatorname{Cov}(S^n,\hat Y^n)$, splits the pivot Gram into a
+reference half and a record half summing to $J^{-1}$ (verified to
+$6\times10^{-16}$); since $(J^{-1})_{\hat Y\hat Y}=M_Q^{-1}$, the
+$M_Q^{-1}$ and reference-pivot terms combine into the record-pivot Gram
+--- which is (K2). Stationarity in $H$ then splits by the disjoint
+supports above: the $Y$-columns give $N^{-1}A_y=\theta I$, i.e.\ (K1);
+the $V$-columns give (K3). \emph{Caution on reading (K2) and (K3)}:
+the Gram must be the \emph{record}-pivot one --- substituting the
+reference-pivot Gram makes (K2) false at the $47\%$ level and (K3)
+false at the $120\%$ level.\hfill$\square$
+
 \subsection{Certified two-sided anchors}
 \label{sec:anchors}
 Lagrangian polish + moment-box tangent bound
@@ -527,34 +662,47 @@ allocation's clean $\lambda$-law). At $\Delta=1,2$ the limit
 statement remains \emph{conditional on the $O(1/n)$ finite-window
 model}. At $\Delta=0$ it is \emph{no longer} model-conditional:
 Corollary~\ref{cor:plateau} derives
-$L^\infty(0)\ge0.5515989>0.5479448$ from the certified $n=32$
-bracket and the transfer constant, \emph{conditional instead on
-Hypothesis~\ref{hyp:hstar} \textup{(H$^\ast$)}}. The subadditivity
+$L^\infty(0)\ge0.5514005>0.5479448$ from the certified $n=32$
+bracket and the repaired transfer constant, \emph{conditional instead
+on Hypothesis~\ref{hyp:hstarstar} \textup{(H$^{\ast\ast}$)}} --- or on
+(D)$+$(F), at the smaller margin recorded in
+Corollary~\ref{cor:plateau}. The subadditivity
 half of the old $n$-monotonicity face is now closed unconditionally
-(Theorem~\ref{thm:transfer}); what remains open is the boundary
-charge at optimizers (Question~\ref{q:open}). Both closed-form
+(Theorem~\ref{thm:transfer}); what remains open is the cross-block
+read at optimizers (Question~\ref{q:open}). Both closed-form
 candidates
 ($c_{\mathrm{spec}}=0.0190\pm0.0007$,
 $c_{\mathrm{static}}=0.026668$) are too small at every $\Delta$. No
 claim is made that no single-letter form exists. The gap is genuine
 cross-cell code value: the winner cuts leakage $0.033\to0.024$ by
 paying block penalty the per-frequency relaxations cannot express.
-\item[(4)] \textbf{Mechanism (testable).} At every full-space
-optimizer computed ($n=16/24/32$, $\Delta=0/1/2$; seven adversarial
+\item[(4)] \textbf{Mechanism --- \emph{the symmetry half is no longer
+a conjecture}.} At every full-space optimizer computed
+($n=16/24/32$, $\Delta=0/1/2$; seven adversarial
 starts converge to the same record, KKT certificate
 $8.4\times10^{-6}$): the $Y$-coupling and noise kernels are
 time-symmetric, where \emph{time-symmetric means transpose symmetry
-$A_y=A_y^{\!\top}$} (relative residual $<5\times10^{-5}$; the
-stronger persymmetry $JA_y^{\!\top}J=A_y$ \emph{fails} at the
-$\approx6\%$ level at the window edges --- transpose symmetry is the
-invariant); \emph{all} causal structure lives in the $V$-coupling
+$A_y=A_y^{\!\top}$} (relative residual $<5\times10^{-5}$ as first
+measured; the stronger persymmetry $JA_y^{\!\top}J=A_y$ \emph{fails}
+at the $\approx6\%$ level at the window edges --- transpose symmetry is
+the invariant); \emph{all} causal structure lives in the $V$-coupling
 $A_v$, whose interior-row kernel \emph{changes sign exactly at lag
 $\Delta$} --- horizon-matched $V$-cancellation: the record aligns
 $V$-content with the span the eraser will hold and anti-correlates
 $V$ beyond the access horizon, suppressing smoothing leakage. This
 is exactly what the symmetric-by-class diagonal family cannot
-express (and explains the 076 beat). Falsifiable per-cell at any
-$n$.
+express (and explains the 076 beat).
+\textbf{Status upgrade (v0.6).} The first half of this item is
+\emph{no longer conjectural}: $A_y=\theta N$ is symmetric positive
+definite at every KKT point by Theorem~\ref{thm:K}(K1), so the
+transpose symmetry of $A_y$ and of the noise kernel, and the
+confinement of all causal asymmetry to $A_v$, are \emph{corollaries},
+not measurements (measured symmetry defect now
+$1.2\times10^{-9}$--$1.4\times10^{-8}$, i.e.\ at polish accuracy). What
+remains conjectural is the \emph{sign change exactly at lag $\Delta$};
+Theorem~\ref{thm:K}(K3) supplies a structural candidate --- $A_v$
+inherits its asymmetry from $V_S$, whose column support ends exactly at
+$t+\Delta$ --- but no proof. Falsifiable per-cell at any $n$.
 \end{enumerate}
 \end{conjecture}
 
@@ -616,7 +764,7 @@ not be cited. (c) The plateau margin is $215\times$ the quoted
 bracket width, not the $\approx250\times$ of the transfer note.
 \end{remark}
 
-\section{The $n$-transfer lemma: Theorem T and the hypothesis
+\section{The $n$-transfer lemma: Theorem T, and the repair of
 (H$^\ast$)}
 \label{sec:transfer}
 Status: prover + independent R-IND-5 verification (own \texttt{slogdet}
@@ -624,7 +772,16 @@ evaluator, own certified anchors, own re-derivation of the constants
 and of the corollary arithmetic; six mandatory restatements, all in
 force in this revision). Harness
 \texttt{experiments/\allowbreak go14\_transfer.py}. Registration 080
-pending --- nothing in this section is sealed.
+pending --- nothing in this section is sealed. The repair material of
+\S\ref{sec:repair} (the lemma chain, the split-causal sub-family, the
+$\Pi$-retraction, the monotone table, the feasibility repair and the
+recomputed corollary) and Theorem~\ref{thm:K} of \S\ref{sec:K} are
+newer still: they carry their own harness,
+\texttt{experiments/\allowbreak go14\_hrepair.py}, and await
+registration 081. \textbf{Nothing in this revision contradicts a gate
+of 080}: every 080 gate is either untouched or --- in the case of the
+$\kappa$-per-side refutation --- \emph{explained} rather than
+overturned.
 
 Write $\phi_n(\Delta)=\inf_{\mathcal F_0}L_a(\Delta)$ for the family
 value on the window of length $n$ (certified two-sided in
@@ -698,31 +855,284 @@ therefore an upper bound on the limit; in particular
 $L^\infty(0)\le\phi_{32}(0)\le0.5647419677$.
 \end{corollary}
 
-\subsection{The reverse direction is hypothetical}
+\subsection{The reverse direction: the cross-block read $X$}
+\label{sec:repair}
 The matching \emph{upper} transfer bound $\phi_n-L^\infty\le c/n$ needs
 the boundary charge to be controlled at the optimizers of the doubling
-chain. It is stated as a numbered hard hypothesis, and \emph{not} as a
-lemma, for the reason given immediately after it.
+chain. At v0.5 that control was a bare hypothesis, because
+``$\le\kappa$ per side'' is refuted as a family lemma
+(Remark~\ref{rem:refute}). This revision \emph{repairs} it: a lemma
+chain, using no optimizer structure whatsoever, reduces the whole
+reverse direction to a single scalar.
 
-\begin{hypothesis}[(H$^\ast$) --- boundary charge at dyadic-chain
-optimizers; hard, load-bearing]
-\label{hyp:hstar}
-Fix $\Delta$ and a base window length $n$. At every optimizer of the
-dyadic chain $n\cdot2^k$, $k=0,1,2,\dots$, the two per-side boundary
-charges of the split into halves satisfy
+\begin{definition}[The cross-block read]
+\label{def:X}
+For a split of the $n$-window into $b_1=\{1,\dots,m\}$ and
+$b_2=\{m+1,\dots,n\}$ write $W^{b_i}=T^{b_i}=(V^{b_i},Y^{b_i})$,
+$E=(S^{b_1},\hat Y^{b_1})$ and $E'=S^{b_2,1..\Delta}$ (empty at
+$\Delta=0$). The \emph{cross-block read} of a record is
 \[
-D_1+D_2\;\le\;c(\Delta;n),\qquad
-c(\Delta;n)\;=\;\bigl(2-\mathbf 1\{\Delta=0\}\bigr)\,\kappa-I_n ,
-\qquad I_n=I\bigl(S^{b_1};S'^{\,1..\Delta+1}\bigr).
+X\;:=\;I\bigl(\hat Y^{b_1};\,W^{b_2}\ \big|\ W^{b_1}\bigr)\;\ge\;0 ,
 \]
+the information the block-1 \emph{rows} draw from block-2 sources
+beyond what block-1 sources already say. $X=0$ exactly when the record
+is \emph{split-causal} at $m$ (Definition~\ref{def:sc}).
+\end{definition}
+
+\begin{lemma}[L1 --- $\kappa$ is an \emph{identity}, not a bound]
+\label{lem:L1}
+$I(T^{b_1};T^{b_2})=\kappa$ \emph{exactly}, at every split and every
+$n$. \emph{Proof.} $V$ is AR(1), hence Markov, so
+$T^{b_1}\to(V_m,V_{m+1})\to T^{b_2}$ and both data-processing steps are
+\emph{equalities}; the surviving term is
+$I(V_m;V_{m+1})=\tfrac12\log_2\frac1{1-a^2}=\kappa$. Certificate:
+$\max_m|I-\kappa|=3.8\times10^{-14}$ over $m\in\{3,4,6,8,12,16\}$, and
+the spread over $m$ is $4.1\times10^{-14}$ --- the proof predicts a
+constant, and no drift in $m$ is observed.\hfill$\square$
+\end{lemma}
+
+\begin{lemma}[L2 --- the cross-read bound, and it is sharp]
+\label{lem:L2}
+$I(E;T^{b_2})\le\kappa+X$ and $I(E';E)\le\kappa+X$.
+\emph{Proof.} $S^{b_1}$ drops out of the numerator because
+$U\perp(W,\hat Y)$: conditionally on $W^{b_1}$ the reference noise
+carries nothing about $T^{b_2}$. What is left is
+$I(W^{b_1};T^{b_2})+I(\hat Y^{b_1};W^{b_2}\mid W^{b_1})=\kappa+X$ by
+Lemma~\ref{lem:L1} and Definition~\ref{def:X}; the second leg is the
+same computation with $E'$ in place of $T^{b_2}$.\hfill$\square$
+\emph{Sharpness (this is the point).} Over the pinned battery ---
+generic $\mathcal F_0$ records, split-causal records, and the two
+adversarial copy-row classes of Remark~\ref{rem:refute} --- the minimum
+slack is $+5.67\times10^{-7}$, attained \emph{at the two-$V$-copy
+counterexample}, i.e.\ the bound is tight exactly where the universal
+claim dies. (The second leg's minimum slack is $+0.365$.)
+\end{lemma}
+
+\begin{lemma}[L3 --- the block-2 charge]
+\label{lem:L3}
+$D_2\;\le\;I(E;T^{b_2})-I_m$. \emph{Proof.} The interleaved chain rule
+gives the exact identity
+\[
+D_2\;=\;I(E;T^{b_2})-I\bigl(E;T^{b_2}\mid S',\hat Y'\bigr)
+-\sum_{j}I\bigl(E;S'_j\mid \mathrm{pfx}_j\bigr) ,
+\]
+whose first subtracted term is a mutual information ($\ge0$); the
+second sum has every term $\ge0$, so it is at least its partial sum
+over $j\le\Delta+1$, which telescopes (there $\mathrm{pfx}_j=S'^{\,
+1..j-1}$, no record cell having been erased yet) to
+$I(E;S'^{\,1..\Delta+1})\ge I_m$ by data processing
+($E\supseteq S^{b_1}$). Certificates: identity residual
+$\le9.3\times10^{-11}$, chain-rule collapse $6.7\times10^{-16}$,
+$\min\bigl(I(E;S'^{\,1..\Delta+1})-I_m\bigr)=+1.47\times10^{-2}$ over
+the battery, and
+the resulting bound holds over the whole battery with minimum slack
+$+0.528$. The zero-claim of Remark~\ref{rem:f0only} enters here and is
+$\le2.5\times10^{-10}$ on $\mathcal F_0$.\hfill$\square$
+\end{lemma}
+
+\begin{lemma}[L4 --- the block-1 charge]
+\label{lem:L4}
+$D_1\le I(E';E)$, and $D_1=0$ \emph{exactly} at $\Delta=0$ (the
+block-1 extension set is empty --- measured $0$ to $0.0$).
+\hfill$\square$
+\end{lemma}
+
+\begin{namedthm}[H --- the repair inequality;
+\emph{unconditional on $\mathcal F_0$}]
+\label{thm:hrep}
+For every record of $\mathcal F_0$ and every split at $m$,
+\[
+\boxed{\;D_1+D_2\;\le\;c(\Delta;m)+\bigl(2-\mathbf 1\{\Delta=0\}\bigr)X\;}
+\qquad
+c(\Delta;m)=\bigl(2-\mathbf 1\{\Delta=0\}\bigr)\kappa-I_m ,
+\]
+$I_m=I(S^{b_1};S'^{\,1..\Delta+1})$: add Lemmas~\ref{lem:L3}
+and~\ref{lem:L4}, and bound each right-hand side by
+Lemma~\ref{lem:L2}. \emph{No optimizer structure is used anywhere in
+the chain} --- it is a deterministic, analytic statement about the
+family. Over the pinned battery (22 cells, \emph{including both
+refuting counterexamples}) there are zero violations, minimum slack
+$+0.768$. The index of $c$ is the \emph{block} length; since
+$I$ is monotone increasing (Remark~\ref{rem:const}) the base value is
+the supremum along the dyadic chain, and numerically
+$c(\Delta;8)=c(\Delta;32)$ to $2\times10^{-8}$ --- the constants of
+v0.5 are unchanged.
+\end{namedthm}
+
+\begin{definition}[The split-causal sub-family]
+\label{def:sc}
+$\mathcal F_0^{\mathrm{sc}}(m)\subset\mathcal F_0$ is the set of
+records whose block-1 cells read no block-2 source; in moment
+coordinates this is the \emph{linear} condition
+\[
+H[b_1,\mathrm{idx}_2]\;=\;H[b_1,\mathrm{idx}_1]\,
+\Sigma_{11}^{-1}\Sigma_{12},
+\]
+$\mathrm{idx}_i$ the source indices of block $i$ and
+$\Sigma=\Sigma_W$. Equivalently $X=0$.
+\end{definition}
+
+\begin{corollary}[(H$^\ast$) is a \emph{theorem} on
+$\mathcal F_0^{\mathrm{sc}}(m)$, with the same constants]
+\label{cor:scthm}
+On $\mathcal F_0^{\mathrm{sc}}(m)$, $X=0$ and hence
+$D_1+D_2\le c(\Delta;m)$ --- exactly the inequality (H$^\ast$)
+asserts, now proved, with this document's own constants. Numerically:
+$X$ vanishes to $1.0\times10^{-14}$ on projected records and the
+minimum slack of $D_1+D_2\le c(\Delta;m)$ over them is $+0.768$.
+Moreover $\mathcal F_0^{\mathrm{sc}}(m)$ is a \emph{convex linear
+section} of $\mathcal D$ (moment midpoints of split-causal records stay
+split-causal: residual $1.1\times10^{-16}$, midpoint $X\le
+5.1\times10^{-15}$), so the Lagrangian machinery of
+Theorem~\ref{thm:cvx} restricted to the section certifies
+$\phi^{\mathrm{sc}}$ two-sided exactly as it does for the diagonal
+section (Remark~\ref{rem:diagsection}).
+\end{corollary}
+
+\begin{center}
+\begin{tabular}{lll}
+$(n,\Delta)$ & certified bracket for $\phi^{\mathrm{sc}}_n$
+  & split-causality price $n\,\delta_n$ (bits)\\
+\hline
+$(16,0)$ & $[0.5669667555,\ 0.5670144753]$ & $0.004101$\ \ ($\le0.004165$)\\
+$(24,0)$ & $[0.5655717237,\ 0.5655854048]$ & $0.004117$\ \ ($\le0.004207$)\\
+$(32,0)$ & $[0.5647601440,\ 0.5648697385]$ & $0.004089$\ \ ($\le0.004382$)\\
+$(16,1)$ & $[0.5414842536,\ 0.5414911968]$ & $0.010954$\ \ ($\le0.011002$)\\
+$(16,2)$ & $[0.5367829566,\ 0.5367912904]$ & $0.014358$\ \ ($\le0.014408$)\\
+\end{tabular}
+\end{center}
+
+\noindent Here $\delta_n=\phi^{\mathrm{sc}}_n-\phi_n$ and the
+parenthesised figure is the certified (LB-to-UB) upper bound on the
+price. \textbf{The price is flat in $n$} at $\approx0.0041$ bits at
+$\Delta=0$ across $n=16,24,32$: split-causality costs a pure
+\emph{boundary} constant, not a rate --- which is what makes it a
+plausible object for a transfer argument in the first place.
+
+\begin{lemma}[$\Pi$ --- the split-causal retraction]
+\label{lem:pi}
+Let $\Pi$ replace the block-1 rows of a record by their
+$W^{b_1}$-conditional means plus independent noise matched to restore
+$\operatorname{Cov}(\hat Y^{b_1})$. Then $\Pi$ maps $\mathcal F_0$ onto
+$\mathcal F_0^{\mathrm{sc}}(m)$ and
+\begin{enumerate}
+\item[(i)] preserves the per-cell \emph{distortion} exactly
+(measured $1.1\times10^{-16}$);
+\item[(ii)] preserves the entire block-1 joint law
+$(W^{b_1},S^{b_1},\hat Y^{b_1})$ exactly ($6.7\times10^{-16}$), hence
+every own-window block-1 term;
+\item[(iii)] kills the cross-read, $X(\Pi R)\le2.1\times10^{-14}$;
+\item[(iv)] \emph{strictly improves} generic records --- over the
+pinned generic battery ($n\in\{12,16,20\}$, three styles,
+$\Delta\in\{0,2\}$) the gain $n\bigl(L_a(\Pi R)-L_a(R)\bigr)$ lies in
+$[-2.74,-0.31]$ bits (prover's own battery: $[-3.11,-0.37]$);
+\item[(v)] costs only $\approx5.0\times10^{-3}$ bits \emph{at
+optimizers} ($0.005052/0.005044/0.005039/0.005035$ at
+$m=8/12/16/24$, $\Delta=0$).
+\end{enumerate}
+$\Pi$ is what makes $\mathcal F_0^{\mathrm{sc}}$ a \emph{retract} and
+not merely a subset, and (i)--(iii) are what make the certified
+$\phi^{\mathrm{sc}}$ brackets above meaningful. \textbf{What $\Pi$
+does \emph{not} do is bound $X$}: at an optimizer its price is
+$\ge0$ automatically, so ``price $\ge0$'' is consistent with any $X$
+whatever --- see Remark~\ref{rem:repair}(b), where that route is
+closed. The measured price/$X$ ratio is $0.7960$ at every $n$ and
+every $\Delta$.
+\end{lemma}
+
+\begin{hypothesis}[(H$^{\ast\ast}$) --- the cross-block read at
+dyadic-chain optimizers; hard, load-bearing]
+\label{hyp:hstarstar}
+Fix $\Delta$ and a base window length $n$. At every optimizer of the
+dyadic chain $n\cdot2^k$, $k=0,1,2,\dots$, the cross-block read of the
+split into halves satisfies $X\le\bar X$.
 \end{hypothesis}
 
-\begin{remark}[Why (H$^\ast$) is a hypothesis: ``$\le\kappa$ per side''
-is \emph{refuted} as an $\mathcal F_0$ lemma]
+\begin{corollary}[(H$^\ast$) --- what v0.5 assumed --- is now a
+\emph{consequence}]
+\label{cor:hstar}
+Under (H$^{\ast\ast}$), Theorem~\ref{thm:hrep} gives
+\[
+D_1+D_2\;\le\;c(\Delta;n)+\bigl(2-\mathbf 1\{\Delta=0\}\bigr)\bar X
+\;=:\;c^\ast(\Delta;n) ,
+\]
+which is (H$^\ast$) with the constant enlarged by the repair term.
+(H$^{\ast\ast}$) is \emph{strictly weaker and better margined}: it
+constrains \emph{one scalar} rather than a sum of $2m$ conditional
+mutual informations, the measured value at the $\Delta=0$ optimizers is
+$X=6.35\times10^{-3}$ against the largest admissible
+$\bar X=32\bigl(\mathrm{LB}(32,0)-0.5479448\bigr)-c(0)=0.116930$ ---
+$18\times$ headroom, against (H$^\ast$)'s $0.076971$ inside $0.4202858$
+($5.5\times$) --- it is verified \emph{monotone decreasing} in $m$
+(Remark~\ref{rem:mtable}), and it is constructively bounded at any $m$
+by $\Pi$ (Lemma~\ref{lem:pi}).
+\end{corollary}
+
+\begin{namedthm}[The split-causal transfer step; \emph{unconditional}]
+\label{thm:scstep}
+For every $m$ and every $\Delta$,
+\[
+\phi^{\mathrm{sc}}_{2m}(\Delta)\;\le\;\phi_m(\Delta) :
+\]
+concatenate two independent $\varepsilon$-optimal $m$-window records.
+The result is feasible on the $2m$-window (the distortion constraint is
+the cell average) and is \emph{split-causal at the midpoint} --- its
+block-1 rows read no block-2 source whatever --- and its value is at
+most $\phi_m+\varepsilon$ by the per-cell inequality of
+Theorem~\ref{thm:transfer}(i). Certified form (upper end of
+$\phi^{\mathrm{sc}}_{2m}$ against lower end of $\phi_m$): the
+inequality holds with certified slack
+$3.8/2.4/1.9\times10^{-3}$ at $(2m,m)=(16,8)/(24,12)/(32,16)$.
+Applying Corollary~\ref{cor:scthm} to the $2m$-window
+$\mathcal F_0^{\mathrm{sc}}$-optimizer gives
+$\phi_m-\phi^{\mathrm{sc}}_{2m}\le c(\Delta;m)/2m$, whence
+\[
+\phi_m(\Delta)-\phi_{2m}(\Delta)\;\le\;
+\frac{c(\Delta;m)+p_{2m}}{2m},
+\qquad
+p_n\;:=\;n\bigl(\phi^{\mathrm{sc}}_n-\phi_n\bigr)
+\]
+the \emph{split-causality value gap} --- the same quantity as the
+price column of the $\phi^{\mathrm{sc}}$ table above.
+\end{namedthm}
+
+\begin{hypothesis}[(H$^{\ast\ast\ast}$) --- the split-causality value
+gap along the chain]
+\label{hyp:hstar3}
+$p_m\le\bar p$ for every $m$ in the dyadic chain.
+\end{hypothesis}
+
+\begin{remark}[Three hypotheses, and why (H$^{\ast\ast\ast}$) is the
+one to prefer]
+\label{rem:hchain}
+Each of (H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$) suffices for
+Theorem~\ref{thm:transfer2}, and they are ordered by how little they
+assume and --- more importantly --- by how \emph{checkable} they are.
+(H$^{\ast\ast}$) implies (H$^\ast$) with an enlarged constant, by
+Theorem~\ref{thm:hrep} (Corollary~\ref{cor:hstar}); it replaces a bound
+on a sum of $2m$ conditional mutual informations by a bound on one
+scalar. (H$^{\ast\ast\ast}$) replaces that scalar by another,
+$p_m$, which reaches the same conclusion through
+Theorem~\ref{thm:scstep} rather than through
+Theorem~\ref{thm:hrep} --- and \textbf{$p_m$ is a gap between two
+convex programs, so Theorem~\ref{thm:cvx} certifies it two-sided},
+whereas $X$ is only ever \emph{measured} at a computed optimizer. That
+is the decisive difference: a hypothesis about $p$ is falsifiable by
+certificate at any $m$ one is willing to pay for. Both bars are the
+same number, $\bar p,\ \bar X<32\bigl(\mathrm{LB}(32,0)-0.5479448
+\bigr)-c(0)=0.116930$; the certified instances --- each the
+LB-to-UB upper end, so each an honest \emph{bound} on $p_n$ rather
+than an optimizer reading --- are $p_{16}\le0.004165$,
+$p_{24}\le0.004207$, $p_{32}\le0.004382$: flat in $n$, and
+$27\times$ inside the bar, against $X$'s $18\times$.
+\end{remark}
+
+\begin{remark}[The ``$\le\kappa$ per side'' refutation, \emph{refined}
+--- what it refutes is split-causality]
 \label{rem:refute}
 The natural lemma --- that each side's boundary charge is at most the
 AR(1) boundary information $\kappa$, uniformly over the family --- is
-\emph{false}, and its sharpened form $D_i\le\kappa-I_n$ is false too.
+\emph{false}, and its sharpened form $D_i\le\kappa-I_m$ is false too.
 Explicit $D$-feasible records in $\mathcal F_0$ (no $U$-coupling
 whatsoever; the whole budget respected) spend block-1 rows on copies of
 block-2 cells:
@@ -735,51 +1145,161 @@ distortion $0.2986$: the charge is not bounded by $\kappa$ at all.
 \end{itemize}
 Nothing stops the construction from being repeated: the worst case over
 the family is $\Theta(m)$ in the block length. \textbf{No universal
-constant exists, and no proof of the reverse direction can avoid using
-optimizer structure.} \emph{Therefore: this document never prints
-``$\le\kappa$ per side'' as an $\mathcal F_0$ lemma.}
+constant exists} --- that statement stands unchanged.
 
-The two witnesses above are the verifier's; they are not in the
-repository, so the harness pins its own analytic records of the same
-class and measures $D_2=0.7749$ for two $V$-copy rows (distortion
-$0.2706$) and $D_2=13.94$ bits $\approx19\kappa$ for three $Y$-copy
-rows (distortion $0.2754$). Same refutation, independent witnesses;
-the refutation itself is a gated fact of the harness, not a remark.
+\emph{What has changed is the diagnosis.} These are precisely the
+records with enormous cross-block read: the harness's own witnesses of
+the same class measure $X=18.46$ and $X=29.27$ bits (against
+$6.3\times10^{-3}$ at the optimizers), and at the two-$V$-copy witness
+the bound of Lemma~\ref{lem:L2} is \emph{tight to
+$5.7\times10^{-7}$}. The refutation is exactly the failure of
+split-causality, and Theorem~\ref{thm:hrep} absorbs it into the term
+$(2-\mathbf 1\{\Delta=0\})X$ rather than being defeated by it. Hence
+the v0.5 blanket rule (``this document never prints $\le\kappa$ per
+side as an $\mathcal F_0$ lemma'') is \emph{refined}, not repealed:
+$D_1+D_2\le c(\Delta;m)$ is a \emph{theorem} on
+$\mathcal F_0^{\mathrm{sc}}(m)$ (Corollary~\ref{cor:scthm}) and is
+\emph{false} on $\mathcal F_0$; neither form may be printed without its
+scope. What no longer follows is the v0.5 sentence ``no proof of the
+reverse direction can avoid using optimizer structure'': the
+\emph{inequality} of Theorem~\ref{thm:hrep} avoids it entirely; what
+still needs optimizer structure is a bound on $X$
+(Remark~\ref{rem:repair}).
 
-What \emph{is} measured is that the bound holds comfortably \emph{at
-optimizers}. At the $\Delta=0$ family optimizers the split charges are
-$D_2=0.076971$ at $m=8$ and $D_2=0.076926$ at $m=16$ ($D_1=0$ at
-$\Delta=0$, the block-1 extension set being empty), i.e.\ a factor
-$5.5$ inside $c(0)=0.4202858$; and the boundary information itself is
-$I(E;T^{b_2})=0.543057$, some $0.19$ bits under $\kappa$, stable
-between the two $m$. \textbf{These verifications were carried out at
-$m\in\{8,16\}$ only}; (H$^\ast$) asserts the behaviour along the whole
-chain, and that assertion is not verified.
+The two constants above are the verifier's witnesses; they are not in
+the repository, so the harness pins its own analytic records of the
+same class and measures $D_2=0.7749$ for two $V$-copy rows (distortion
+$0.2706$, $L_a(0)=4.219$) and $D_2=13.94$ bits $\approx19\kappa$ for
+three $Y$-copy rows (distortion $0.2754$, $L_a(0)=4.740$). Same
+refutation, independent witnesses; the refutation itself is a gated
+fact of the harness, not a remark. Note the $L_a$ values: these records
+are nowhere near optimal --- more than seven times $\phi_{16}=0.5668$
+--- which is why they never threatened the transfer bound in practice,
+only its proof.
 \end{remark}
 
-\begin{namedthm}[T$^\ast$ --- boundary-charged reverse direction and
-the two-sided bound; \emph{conditional on (H$^\ast$)}]
+\begin{remark}[The monotone $m\times\Delta$ table (the
+``$m\in\{8,16\}$ only'' caveat, retired)]
+\label{rem:mtable}
+v0.5 recorded the optimizer verifications at $m\in\{8,16\}$ only and
+flagged the gap explicitly. The table is now
+$m\in\{8,12,16,24\}$ at $\Delta=0$ and $m\in\{8,12,16\}$ at
+$\Delta=1,2$ (cold-start certified full-space optimizers at $n=2m$),
+and \emph{every} quantity of the repair is monotone
+\emph{decreasing} in $m$:
+\begin{center}
+\begin{tabular}{lllll}
+$\Delta$ & $m$ & $D_1+D_2$ & $I(E;T^{b_2})$ & $X$\\
+\hline
+$0$ & $8/12/16/24$ & $0.076971/0.076934/0.076915/0.076896$
+ & $0.543069/0.543059/0.543054/0.543049$
+ & $6.3468/6.3360/6.3307/6.3254\ (\times10^{-3})$\\
+$1$ & $8/12/16$ & $0.090533/0.090487/0.090463$
+ & $0.569542/0.569504/0.569485$
+ & $1.8013/1.7985/1.7971\ (\times10^{-2})$\\
+$2$ & $8/12/16$ & $0.099029/0.098964/0.098931$
+ & $0.579319/0.579256/0.579225$
+ & $2.3894/2.3849/2.3826\ (\times10^{-2})$\\
+\end{tabular}
+\end{center}
+Monotonicity is what the caveat was about: \emph{the base value
+dominates the whole chain}, so a hypothesis verified at the base $m$
+is not being extrapolated upward along the doubling chain.
+\emph{Scope of the netting:} the $\Delta=0$ row is reproduced
+end-to-end and gated (strict decrease at every step, each step
+$\ge10^{-6}$ against a smallest measured step of
+$4.96\times10^{-6}$); the $\Delta=1,2$ rows are the prover's, carried
+on its authority and not re-netted, except that the $m=8$ optimizers
+at $\Delta=1,2$ are recomputed for Theorem~\ref{thm:K}. Two-point
+$1/m$ limits at $\Delta=0$: $X_\infty\approx6.31\times10^{-3}$,
+$(D_1+D_2)_\infty\approx0.076859$,
+$I(E;T^{b_2})_\infty\approx0.54304$; the $\Pi$-price of
+Lemma~\ref{lem:pi}(v) is monotone too, limit $\approx5.03\times10^{-3}$.
+
+\emph{Two precision notes on the values v0.5 recorded at $m=16$.}
+(a) The recorded $D_2=0.076926$ and $I(E;T^{b_2})=0.543057$ came from a
+\emph{warm-polish} endpoint sitting at $d-D=+6.4\times10^{-5}$, i.e.\
+\emph{distortion-infeasible}; the feasible cold-start certified values
+are $0.0769149$ and $0.543054$. (b) The difference, $1.1\times10^{-5}$
+resp.\ $3\times10^{-6}$, is more than two orders inside the $5\times
+10^{-3}$ / $2\times10^{-2}$ reproduction bands the 080 harness gates
+these two quantities at --- so this is a \emph{precision note, not a
+bar change}, and the sealed 080 verdicts are untouched. The table above
+quotes the feasible cold-start values throughout.
+\end{remark}
+
+\begin{namedthm}[T$^\ast$ v2 --- boundary-charged reverse direction and
+the two-sided bound, in \emph{two} forms]
 \label{thm:transfer2}
-Fix $\Delta$ and a base $n$, and assume Hypothesis~\ref{hyp:hstar}
-along the chain $n\cdot2^k$. Then
+Fix $\Delta$ and a base $n$, and write
+$c^\ast(\Delta;n)=c(\Delta;n)+\bigl(2-\mathbf 1\{\Delta=0\}\bigr)
+\bar X$.
 \begin{enumerate}
-\item[(ii)] $\displaystyle
-\phi_m(\Delta)-\phi_{2m}(\Delta)\;\le\;\frac{c(\Delta;n)}{2m}$
-for every $m=n\cdot2^k$;
-\item[(iii)] summing the geometric telescope,
+\item[(ii-a)] \emph{Family form, conditional on
+Hypothesis~\ref{hyp:hstarstar} along the chain $n\cdot2^k$:}
+$\displaystyle
+\phi_m(\Delta)-\phi_{2m}(\Delta)\;\le\;\frac{c^\ast(\Delta;n)}{2m}$
+for every $m=n\cdot2^k$, and, summing the geometric telescope,
 $\displaystyle 0\;\le\;\phi_n(\Delta)-L^\infty(\Delta)\;\le\;
-\frac{c(\Delta;n)}{n}$, the lower half being
+\frac{c^\ast(\Delta;n)}{n}$, the lower half being
 Corollary~\ref{cor:lower} and \emph{unconditional}.
+\item[(ii-b)] \emph{Split-causal form, \emph{unconditional}:} the same
+two inequalities hold for the sub-family value
+$\phi^{\mathrm{sc}}_n(\Delta)=\inf_{\mathcal F_0^{\mathrm{sc}}}L_a$
+with the constant $c(\Delta;n)$ itself and \emph{no hypothesis at
+all}, because on $\mathcal F_0^{\mathrm{sc}}$ the charge bound is
+Corollary~\ref{cor:scthm}.
 \end{enumerate}
+\emph{Scope of (ii-b).} It bounds
+$\phi^{\mathrm{sc}}_n-L^{\mathrm{sc},\infty}$, not
+$\phi_n-L^\infty$; the two coincide iff the split-causality price
+$\delta_n=\phi^{\mathrm{sc}}_n-\phi_n$ is $o(1/n)$ in the relevant
+sense. Measured, $n\delta_n$ is \emph{flat} at $\approx0.0041$ bits
+over $n=16,24,32$ at $\Delta=0$ (so $\delta_n=\Theta(1/n)$, of the same
+order as the transfer term itself, not smaller). That is evidence, not
+a proof, and (ii-b) is therefore \emph{not} a route to the family
+statement --- it is the unconditional theorem about the sub-family, and
+the honest statement of what the repair buys without (H$^{\ast\ast}$).
+
 \emph{Exact superadditivity is refuted}, so (ii) cannot be sharpened to
 $c=0$: the certified anchors are strictly decreasing,
-$\phi_8>\phi_{12}>\phi_{16}>\phi_{24}>\phi_{32}$, with the new
+$\phi_8>\phi_{12}>\phi_{16}>\phi_{24}>\phi_{32}$, with the
 certified transfer anchors
 $\phi_8(0)\in[0.570790938,\,0.5707933842]$ and
 $\phi_{12}(0)\in[0.568030932,\,0.5681028134]$. The bound is not tight
 either: the measured drift $n\bigl(\phi_n-L^\infty\bigr)\approx0.0645$
 at $n=32$ sits $6.5\times$ inside $c(0)=0.4203$.
 \end{namedthm}
+
+\begin{remark}[The per-block feasibility step of (ii) --- a separate
+hole, and its repair]
+\label{rem:feas}
+The restriction step behind (ii) needs each half of the
+$2m$-optimizer to be a \emph{feasible} $m$-window record, i.e.\
+$\mathrm{own}_i\ge m\,\phi_m(D)$, and v0.5 tacitly assumed each block
+distortion is $\le D$. \textbf{It is not.} The $2m$-optimizer's block
+distortions \emph{straddle} $D$ --- $d_1=0.299486$, $d_2=0.300514$ at
+$n=16$; $0.299658/0.300342$ at $n=24$; $0.299744/0.300256$ at $n=32$
+--- with the \emph{mean} exactly $D$ (to $5\times10^{-8}$). The correct
+step is
+\[
+\mathrm{own}_1+\mathrm{own}_2\;\ge\;
+m\bigl[\phi_m(d_1)+\phi_m(d_2)\bigr]\;\ge\;2m\,\phi_m(D),
+\]
+the second inequality by \emph{convexity of the value function}
+$D\mapsto\phi_m(D)$, which Theorem~\ref{thm:cvx} supplies for free
+(jointly convex objective, affine distortion constraint $\Rightarrow$
+convex optimal value in the right-hand side). Certified on the pinned
+grid $D\in\{0.26,0.28,0.30,0.32,0.34\}$ at $m=8$, $\Delta=0$: at each
+interior node the certified \emph{upper} end sits below the chord of
+the two certified \emph{lower} ends, slack
+$1.90/1.64/1.47\times10^{-3}$. Ignoring the straddle would have cost
+$m\,\mu\,(d_2-D)=8\times2.2206\times5.14\times10^{-4}
+=9.13\times10^{-3}$ bits at $n=16$ ($\mu$ the distortion multiplier at
+the optimizer) --- \emph{larger than the entire repair term} $\bar X$,
+so the hole was not cosmetic. It is independent of (H$^\ast$) and of
+everything else in this section.
+\end{remark}
 
 \begin{remark}[The constants, and their $n$-uniformity]
 \label{rem:const}
@@ -801,6 +1321,16 @@ c(0)\le0.42029,\qquad \boxed{c(1)\le1.1258},\qquad c(2)\le1.1219 .
 \emph{Erratum:} the transfer note recorded $c(1)\le1.1257$; the
 computed value is $1.1257294$, so $1.1257$ is false in the fifth
 decimal. Use $1.1258$.
+
+\emph{The repaired constants (v0.6).} With
+$c^\ast(\Delta;n)=c(\Delta;n)+(2-\mathbf 1\{\Delta=0\})\bar X$ and
+$\bar X$ at the base-$m$ measured values of Remark~\ref{rem:mtable},
+$c^\ast(0)=0.4266326$, $c^\ast(1)=1.161755$, $c^\ast(2)=1.169651$ ---
+the $\Delta=0$ constant grows by $1.5\%$, the others by $3$--$4\%$,
+because $X$ itself grows with $\Delta$ and enters doubled there. Only
+$c^\ast(0)$ is used in Corollary~\ref{cor:plateau}; $\Delta=1,2$ remain
+$O(1/n)$-model-conditional for the reason given there, and the repair
+does not change that.
 \end{remark}
 
 \begin{remark}[The zero-claim and the marginalization step are
@@ -826,48 +1356,152 @@ same way it is load-bearing in Theorem~\ref{thm:repr}
 \end{remark}
 
 \begin{corollary}[The $\Delta=0$ plateau over the causal-spectral
-allocation --- \emph{conditional on (H$^\ast$)}]
+allocation --- recomputed with the repaired constant]
 \label{cor:plateau}
-Assume Hypothesis~\ref{hyp:hstar} at $\Delta=0$ with base $n=32$. With
-the sealed 079 certified lower end
+Assume Hypothesis~\ref{hyp:hstarstar} at $\Delta=0$ with base $n=32$,
+with $\bar X$ taken at the measured value $X=6.346782\times10^{-3}$.
+With the sealed 079 certified lower end
 $\mathrm{LB}(32,0)=0.5647327869$ (harness
 \texttt{go14\_convexity.py}, entry \texttt{s5\_32\_0}) and
-$c(0)=0.4202858$,
+$c^\ast(0)=c(0)+X=0.4202858+0.0063468=0.4266326$,
 \[
-L^\infty(0)\;\ge\;0.5647327869-\frac{0.4202858}{32}
-\;=\;0.5515989\;>\;0.5479448,
+L^\infty(0)\;\ge\;0.5647327869-\frac{0.4266326}{32}
+\;=\;0.5514005\;>\;0.5479448,
 \]
 the right-hand side being the causal-spectral allocation at $\Delta=0$
-(Remark~\ref{rem:refcon}). The margin is $+3.654\times10^{-3}$:
-$215\times$ the $1.7\times10^{-5}$ bracket width quoted for $(32,0)$ in
-the anchor table of \S\ref{sec:anchors}, and $398\times$ the
+(Remark~\ref{rem:refcon}). The margin is $+3.456\times10^{-3}$:
+$203\times$ the $1.7\times10^{-5}$ bracket width quoted for $(32,0)$ in
+the anchor table of \S\ref{sec:anchors}, and $376\times$ the
 $9.18\times10^{-6}$ width the sealed harness actually achieved.
 \emph{This is a statement about the limit itself, not about the
-$O(1/n)$ finite-window model.}
+$O(1/n)$ finite-window model.} (At v0.5, under (H$^\ast$), the same
+arithmetic gave $0.5515989$ at $215\times$/$398\times$; the repair
+costs $1.98\times10^{-4}$ of margin and buys a hypothesis with
+$18\times$ headroom instead of $5.5\times$.)
+
+\emph{Under the decay route instead.} Replacing (H$^{\ast\ast}$) by the
+two model-scale hypotheses (D) and (F) of Remark~\ref{rem:repair} gives
+the proved envelope $\bar X=0.065038$, hence $c^\ast(0)=0.485324$ and
+\[
+L^\infty(0)\;\ge\;0.5647327869-\frac{0.485324}{32}\;=\;0.5495664
+\;>\;0.5479448 ,
+\]
+margin $+1.622\times10^{-3}$ ($95\times$ the quoted bracket,
+$177\times$ the sealed width). Which hypothesis buys which margin is
+therefore explicit: (H$^{\ast\ast}$) --- one measured scalar ---
+buys $3.456\times10^{-3}$; (D)$+$(F) --- two structural, $m$-uniform
+statements with a \emph{proved} conversion --- buys
+$1.622\times10^{-3}$. Neither is discharged.
 
 \emph{The margin is not slack in the constant, and the base matters.}
 Running the same arithmetic from base $n=24$ gives
-$0.5654101216-0.4202858/24=0.5478982<0.5479448$: it \emph{fails} by
-$4.7\times10^{-5}$. (H$^\ast$) is genuinely load-bearing, and so is the
-choice of base window. $\Delta=1$ and $\Delta=2$ remain
+$0.5654101216-0.4266326/24=0.5476338<0.5479448$: it \emph{fails} by
+$3.11\times10^{-4}$ (and by $2.757\times10^{-3}$ under (D)$+$(F)) ---
+so the enlarged constant makes the no-slack claim \emph{stronger} than
+at v0.5, where the base-24 shortfall was $4.7\times10^{-5}$. The
+hypothesis is genuinely load-bearing, and so is the choice of base
+window. $\Delta=1$ and $\Delta=2$ remain
 $O(1/n)$-model-conditional: their constants are $2.7\times$ larger and
 their plateaus $3.6$/$18\times$ smaller, so a certified anchor at
 $n\approx260$ resp.\ $n\approx1320$, or a sharper constant, would be
 needed.
 \end{corollary}
 
-\begin{remark}[The repair path that would remove (H$^\ast$)]
+\begin{remark}[The reduction, executed --- and the obstruction, named]
 \label{rem:repair}
-What is missing is an \emph{optimizer-regularity} bound: any argument
-that bounds $I(E;T^{b_2})$ at the optimizers of the doubling chain ---
-for instance from the convex-program structure of
-Theorems~\ref{thm:repr} and~\ref{thm:cvx}, whose KKT system the
-optimizers satisfy globally --- would restore the unconditional label
-on Theorem~\ref{thm:transfer2} and Corollary~\ref{cor:plateau}
-\emph{with the same constants}. The measured evidence for such a bound
-is $I(E;T^{b_2})=0.543$, stable in $m$ and $0.19$ bits under $\kappa$.
-This is the natural next prover face; it is not a numerical gap but a
-missing theorem.
+v0.5 recorded a \emph{repair path}. It has since been walked, and it
+ends at a named theorem rather than at a vague hope. Three things are
+now on record.
+
+\emph{(1) The conversion is proved and is $m$-uniform by
+construction.} Exactly,
+$X=\tfrac12\log_2\det\bigl(I+N_{11}^{-1}A^{12}\Sigma_{2\mid1}
+(A^{12})^{\!\top}\bigr)$ with $N$ the record noise covariance and
+$A^{12}$ the cross-block kernel. Under
+\begin{itemize}
+\item[(D)] \emph{kernel-decay envelopes}: $|A_v[t,s]|\le
+C_v\lambda^{|t-s|}$, $|A_y[t,s]|\le C_y\lambda^{|t-s|}$ with
+$\lambda=\lambda_s=0.354554$, $C_v=0.1980$, $C_y=0.1631$
+(fitted, and identical to three digits at $n=24/32/48$), and
+\item[(F)] a uniform noise floor $\lambda_{\min}(N)\ge\nu=0.1495$,
+\end{itemize}
+one gets a closed-form bound on $X$ whose sums run over infinite
+half-lines and which is therefore \emph{independent of $m$}; the
+conditional covariance $\Sigma_{2\mid1}$ is used exactly rather than
+enveloped (its $-a^{j+k+2}$ boundary term is worth $2.6\times$ and is
+what makes the bound clear the bar). Audited link by link at real
+optimizers the total looseness is $10.3\times$
+($\log\det\to\operatorname{tr}$ $1.004\times$, $N_{11}\succeq\nu I$
+$1.22\times$, the enveloped Schur step $8.4\times$). \textbf{Result:
+$\bar X=0.065038$ against the admissible $0.116930$ --- it clears with
+$1.80\times$ margin, uniformly in $m$} (free-$\lambda$ optimisation
+gives $0.0648$; insensitive to the envelope-fit window). So
+(H$^{\ast\ast}$) is no longer a bare hypothesis but a
+\emph{consequence} of (D) and (F), at the arithmetic cost recorded in
+Corollary~\ref{cor:plateau}.
+
+\emph{(2) The spectral premise (D) is not the obstruction --- it
+holds numerically, uniformly in $m$.} At $\Delta=0$, $m=8/12/16/24$:
+$\theta$ moves only over $3.0785$--$3.0835$, $\operatorname{cond}N$
+over $1.4453$--$1.4492$, $\operatorname{cond}M_Q$ over
+$2.197$--$2.217$, $\lambda_{\min}(J)=0.2686$ flat, the record pivots
+$\sigma_t\in[0.3753,0.4588]$, and $\|A^{12}\|_F$ is \emph{flat in $m$}
+($5.4823\to5.4722\times10^{-2}$; $\|A^{12}\|_F/\|A^{11}\|_F=3.44\%$).
+The measured kernel is the same Toeplitz kernel plus non-moving
+boundary corrections at every $n$, and its per-lag ratios
+\emph{decrease} with lag ($0.284\to0.200$ for $A_y$,
+$0.377\to0.279$ for $A_v$), so a single geometric envelope at
+$\lambda_s$ is conservative.
+
+\emph{(3) The obstruction is \textbf{circularity of the operator}, and
+it is a genuine research step.} By Theorem~\ref{thm:K} the only
+operator whose inverse produces the optimizer is
+$N=(\theta I+V\Sigma_s^{-1}V^{\!\top})^{-1}$, and
+$M:=V\Sigma_s^{-1}V^{\!\top}=N^{-1}-\theta I$ \emph{exactly}: ``$M$
+decays exponentially'' and ``$N$ decays exponentially'' are the same
+statement, so a Demko/Jaffard inverse-closedness theorem applied here
+\emph{returns its own hypothesis}. The model's own decay ($\Sigma_S$,
+$\Sigma_W$, $\Sigma_{W\mid S}$ all exactly $a^{|t-s|}$) enters the KKT
+system only through the affine data, never through the operator being
+inverted. What would inject it is a \emph{fixed-point/bootstrap}
+argument in a Jaffard (or Gr\"ochenig--Klotz weighted) Banach algebra:
+show that the KKT map sends a ball
+$\{\|A\|_{\mathcal A_\lambda}\le R\}$ into itself and contracts. A
+second, independent piece is missing too: (F), the uniform lower bound
+$\lambda_{\min}(N)\ge\nu$. Theorem~\ref{thm:K} gives the \emph{upper}
+side ($N\preceq I/\theta$, proved) but not the lower; every attempted
+route closes on itself ($\lambda_{\max}(M)\le1/\lambda_{\min}(M_Q)$
+with $M_Q\succeq N$ gives only $1/\nu\le\theta+1/\nu$), and coercivity
+fails because a record that does not use a direction pays nothing
+there.
+
+\emph{Routes closed, so that they are not re-attempted.} (a) KKT
+zeroing cannot work: since $\Sigma_W^{-1}\Sigma_{WY}=[0;I]$, the
+distortion gradient \emph{vanishes identically} on the cross-read
+coordinates (Theorem~\ref{thm:K}), so stationarity there carries no
+multiplier --- the cross-read is a distortion-\emph{free} direction on
+which the objective is stationary, and the optimizer chooses $X>0$
+because it strictly lowers $L_a$. KKT yields an equation, not a bound.
+(b) The $\Pi$-retraction cannot bound $X$ either: at an optimizer the
+$\Pi$-price is $\ge0$ automatically, and the measured price/$X$ ratio
+is $0.7960$ at every $n$ and every $\Delta$, so ``price $\ge0$'' is
+consistent with \emph{any} $X$. (c) $m$-induction restates the same
+missing estimate: $X$ is monotone in $m$
+(Remark~\ref{rem:mtable}) but the step compares the $m$- and
+$2m$-optimizers. \emph{The next route on record is different in kind}:
+solve the stationary system (K1)--(K3) in the spectral domain with the
+GO-13 machinery, where it becomes per-frequency scalar equations ---
+rational symbols with poles off the unit circle would give Toeplitz
+coefficients decaying at exactly the modulus of the nearest pole, which
+the numerics place at $\lambda_s=a(1-K)=0.354554$, GO-14's own netted
+constant --- and then transfer stationary $\to$ finite-window by a
+stability estimate from the strong convexity of
+Theorem~\ref{thm:cvx}.
+
+\emph{What this does \emph{not} do.} Corollary~\ref{cor:plateau}
+cannot drop its hypothesis. It trades (H$^{\ast\ast}$) for (D)$+$(F);
+the plateau survives either way, at $+3.456\times10^{-3}$ resp.\
+$+1.622\times10^{-3}$, and the base-24 control fails either way.
 \end{remark}
 
 \subsection{The within-class ladder, certified (the
@@ -929,16 +1563,38 @@ record.
 
 \begin{question}[Open]
 \label{q:open}
-(1) The \emph{boundary charge at optimizers} --- what is left of the
-old $n$-monotonicity face after Theorem~\ref{thm:transfer} closed its
-subadditivity half unconditionally. An optimizer-regularity bound on
-$I(E;T^{b_2})$ along the doubling chain (Remark~\ref{rem:repair})
-would discharge Hypothesis~\ref{hyp:hstar} and make
-Theorem~\ref{thm:transfer2} and Corollary~\ref{cor:plateau}
-unconditional with the same constants; a \emph{uniform} family bound
-cannot exist (Remark~\ref{rem:refute}). Separately, certified anchors
-at $n\approx260$/$1320$ would carry the $\Delta=1,2$ plateaus without
-(H$^\ast$);
+(1) \emph{A uniform-in-$m$ decay bound on the optimizer's cross-block
+kernel} --- the residue of the old $n$-monotonicity face after
+Theorem~\ref{thm:transfer} closed its subadditivity half
+unconditionally and Theorem~\ref{thm:hrep} reduced the rest to the
+single scalar $X$. The open problem is now \emph{named}, and it is not
+``bound $I(E;T^{b_2})$'': (i) no \emph{uniform family} bound can exist
+(Remark~\ref{rem:refute}); (ii) no KKT/exchange argument can force
+$X=0$, because the distortion gradient vanishes identically on the
+cross-read coordinates (Theorem~\ref{thm:K}) --- the cross-read is a
+distortion-\emph{free} direction on which the objective is stationary
+and the optimizer chooses $X>0$ because it strictly lowers $L_a$, so
+stationarity yields an equation, not a bound; (iii) what is missing is
+an \emph{optimizer decay estimate}: measured,
+$\|A^{12}\|_F/\|A^{11}\|_F=3.44\%$ with the cross-block kernel decaying
+geometrically at per-lag ratio $\approx0.28$--$0.35$, bracketing the
+smoothing pole $\lambda_s=0.354554$, and $\|A^{12}\|_F$ is
+\emph{flat in $m$}. A Demko/Jaffard-type exponential off-diagonal decay
+bound for inverses of banded positive-definite operators, applied to
+the KKT system of Theorem~\ref{thm:K}, would give
+$\|A^{12}\|\le C\lambda^{\bullet}$ uniformly in $m$ and close the gap
+--- a standard \emph{type} of theorem, much softer than
+(H$^{\ast\ast}$). The conversion from such a bound to $\bar X$ is
+already proved (Remark~\ref{rem:repair}); the two pieces still missing
+are the fixed-point/bootstrap step that breaks the circularity
+$M=N^{-1}-\theta I$, and the uniform lower bound
+$\lambda_{\min}(N)\ge\nu$. Alternatively (H$^{\ast\ast\ast}$)
+(Remark~\ref{rem:hchain}) may be attacked directly, since the
+split-causality value gap is two-sided certifiable. Separately,
+certified anchors at $n\approx260$/$1320$ would carry the
+$\Delta=1,2$ plateaus without any of the three hypotheses; and the
+$n$-uniform dual certificate of the GO-13 spectral machinery would
+bypass the transfer route altogether;
 (2) per-cell convexity (Remark~\ref{rem:percell}) --- the
 within-class certification of the diagonal ladder
 (Remark~\ref{rem:diagsection}) is no longer open, it is executed in
@@ -987,6 +1643,29 @@ transfer anchors and of the within-class ladder). The scope proposed
 for 080 is: Theorem~\ref{thm:transfer} and
 Corollary~\ref{cor:lower} (unconditional), the transfer anchors, the
 within-class ladder, and the conditional
-Theorem~\ref{thm:transfer2} / Corollary~\ref{cor:plateau} under
-(H$^\ast$).
+Theorem~\ref{thm:transfer2} / Corollary~\ref{cor:plateau}.
+
+The v0.6 material --- Theorem~\ref{thm:K} and its corollaries
+(\S\ref{sec:K}), the H-repair lemma chain
+L1--L4 and Theorem~\ref{thm:hrep}, the split-causal sub-family with
+its certified $\phi^{\mathrm{sc}}$ brackets and
+Theorem~\ref{thm:scstep}, the $\Pi$-retraction identities
+(Lemma~\ref{lem:pi}), the extended monotone $m\times\Delta$ table, the
+convexity-of-$\phi_m(D)$ hygiene of Remark~\ref{rem:feas}, the
+recomputed corollary arithmetic under (H$^{\ast\ast}$) and under
+(D)$+$(F), and the (H$^{\ast\ast\ast}$) value gaps --- awaits
+\textbf{registration 081}, harness
+\texttt{experiments/go14\_hrepair.py} (s1 the L1 identity and its
+$m$-independence; s2 the L2 bound with its tightness witness; s3
+L3/L4 and the H-repair inequality over a 22-cell pinned battery
+including both refuting counterexamples; s4 the split-causal
+sub-family, its constants and the linearity of the section; s5 the
+$\Pi$-retraction identities; sK the three Theorem-K identities, the
+two structural facts, the Cholesky split, $A_y$'s transpose symmetry
+and the $m$-uniform bounds; s6 the block-distortion straddle and the
+value-function convexity; s7 the constants and both corollary
+arithmetics with the base-24 negative control; s8 the monotone
+$m$-table; s9 $\phi^{\mathrm{sc}}_{2m}\le\phi_m$ and the
+(H$^{\ast\ast\ast}$) gaps). Nothing in \S\ref{sec:K} or
+\S\ref{sec:repair} is sealed.
 \end{document}
