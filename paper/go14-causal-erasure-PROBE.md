@@ -1090,3 +1090,59 @@ hypotheses on degenerate spectra; own-code re-derivation of the
 per-frequency cell inf) -> tex v0.7 with Lemma S and Lemma C-stat
 numbered -> seal 082 -> governed. Then (R1) as the highest-leverage
 prover target, and the owed sealed phi_n bracket at Delta=2.
+
+### Delta=2 anchor gap CLOSED (2026-08-07): certified finite-n brackets at n = 16, 24, 32 -- NO RED FLAGS
+
+The Psi prover's scope note is discharged numerically. Same 079
+certify() machinery (cold start, deterministic, ~4.5 min CPU) that
+produced the sealed anchors; controls reproduced FIRST.
+CONTROLS: (16,0)/(16,1)/(24,0) reproduce the sealed brackets with
+every UB within 1.2e-7 of the sealed UB and 6.3e-8 of the R-IND-5
+winner (the harness's own gate is 5e-7); LB differences <= 6.9e-7
+fully explained by rn ~ 1e-8 (the BLAS gradient-noise floor) times
+R_box ~ 183-354. All three overlap the sealed brackets and contain
+v*.
+**NEW CERTIFIED BRACKETS:**
+  phi_16(2) in [0.535891743313, 0.535893963469], width **2.22e-6**
+  phi_24(2) in [0.534274270522, 0.534279127269], width **4.86e-6**
+  phi_32(2) in [0.533465073456, 0.533471490973], width **6.42e-6**
+-- at or BETTER than the sealed-cell width band (3.0e-6..9.2e-6);
+nothing had to be disclosed as short. Diagnostics: rn = 1.19/1.28/
+1.11e-8; **the NF floor is INACTIVE** (eigmin(N) ~ 0.1404 at all
+three n, and eigmax(N) under Theorem K's 1/theta cap -- the
+optimizer is interior); dist-D strictly negative so proj_corr = 0
+and each UB is a RAW FEASIBLE evaluation; independent evaluator
+(repr_bits vs f_and_grad) agrees to 5.6e-16.
+GLOBALITY CHECK: a second, unrelated cold start (0.55 I, noise
+0.26 I) lands within 5.3e-7 -- inside the certified widths, at all
+three n. Consistent with a single global optimum, as Theorem C
+requires; no second KKT point.
+**CROSS-CHECK vs the Psi certificate: NO VIOLATIONS.** Every
+certified LB(phi_n) sits STRICTLY ABOVE Psi(2)'s UB, by 4.84e-3 /
+3.22e-3 / 2.42e-3 -- margins ~500-2000x the bracket widths. And
+n(phi_n^UB - Psi_UB) = 0.0775031 / 0.0774986 / 0.0774871 against the
+recorded 0.077503 / 0.077492 / 0.077485 -- deviations +1.0e-7 /
++6.6e-6 / +2.1e-6, ALL ON THE UPPER SIDE exactly as expected since
+the UB carries a few x1e-7 of slack, and **monotone decreasing in
+n** as restatement 8 requires. Second independent cross-check: the
+COMMITTED results/GO14-process-limit.json value s4_fs16_D2 =
+0.5358939351814885 lies strictly inside the new (16,2) bracket.
+**RED FLAGS: NONE.** No LB fell below Psi(2)'s UB at any n; the
+n-scaling matched and stayed monotone; the NF floor is inactive; two
+cold starts agreed inside the widths; controls reproduced against
+both the 079 JSON and the R-IND-5 width-of-record brackets.
+**BOOKKEEPING NOTE for the 082 write-up:** the (16,0) bracket
+[0.566754682, 0.5667581350] used in several briefs is the R-IND-5
+**width-of-record** bracket [v* - 3.45e-6, v*], NOT the
+results/GO14-convexity.json bracket. Both are valid records of
+different things; **082 must use ONE convention consistently and say
+which.**
+STATUS: the gap is discharged NUMERICALLY. Sealing it is a
+registration act -- 082 should carry these three cells so the
+Delta=2 plateau claim rests on a sealed finite-window cross-check
+rather than on the window-Cholesky re-evaluation and the
+constructive UB alone. Carried forward unchanged: floating point, no
+interval arithmetic; **the LB endpoint is BLAS-sensitive at ~1e-7
+through rn*R_box (exactly why the 079 width GATES sit in CI's
+artifact-self-consistency tier), so a governed runner must
+RE-DERIVE these, never copy them.**
