@@ -868,3 +868,122 @@ Delta=0: 0.272/0.287/0.288 (L=16/20/24); Delta=1:
 independently established: it IS the Delta-closure exponent
 (confirmed, lambda_s^-2 = 7.9549, addendum 1) and it is NOT the
 kernel pole (refuted at three Delta, rho* ~ 0.27, here).**
+
+## R-IND-5 ON THE BYPASS (2026-08-07): (A) and (B) BOTH PASS -- but the chain is ONE-DIRECTIONAL, so "IDENTIFIED" is REFUTED and the PLATEAU SURVIVES
+
+Fresh-context verifier, own evaluator from the CMI definition (no
+prover code reused for any L_a number); calibration against the
+sealed record exact to 3e-16.
+**COLLAPSE: PASS** (5.6e-15 over 84 cells; non-staircase schedules
+1.7e-15; edges 8.2e-16) -- and re-derived in ONE LINE rather than
+the artifact's telescoping route (conditioning on W reduces Yh_t to
+Z_t and S^{se(t)} to U^{se(t)} _|_ Z, so every denominator is
+Var(Z_t|Z^{t-1}) and telescopes).
+**RESTATEMENT 6: Collapse does NOT require U-independence -- it
+requires exactly Delta-LAG-CAUSAL U-coupling** (dense Au: 0.2018
+bits off at Delta=0, anticausal 0.3329, Delta-causal EXACTLY 0).
+F0 is the special case Au=0. The non-conflation rule still applies:
+this does NOT extend moment-form Theorem R.
+**(A) PERIODIZATION: PASS, all three sub-claims separately** --
+distortion preserved <= 4.4e-16; lndet N additive <= 7.1e-15; every
+sigma_t decreases over **1200 cells, 0 violations**. The suspected
+hidden failure (superset vs merely-different conditioning) DOES NOT
+OCCUR, with the reason given: the block-b translate's set is
+genuinely a SUBSET of the tiled cell's, since bn+min(i+Delta,n) =
+min(bn+i+Delta, bn+n) <= min(bn+i+Delta, M). Measured boundary
+charge 0.04205/n, flat to 5 digits at the certified optimizers.
+**RESTATEMENT 7: "independent noise copies" is LOAD-BEARING, not
+decorative** -- correlating them BREAKS (A) outright (tiled rate
+0.7987/0.9218/1.3977 vs phi_5 = 0.7757 at cross-block noise
+correlation 0.3/0.6/0.9). State as a hypothesis of the construction.
+**(B)(i) CONVEXITY: PASS** (69 Jensen points + 40 curvature lines,
+0 violations; tested on the CYCLOSTATIONARY class the argument
+actually touches, not just the stationary one). **The l.s.c. "soft
+spot" is a RED HERRING** -- attainment is never invoked; (B)
+produces ONE EXPLICIT stationary record per n and the infimum
+comparison follows by definition. **RESTATEMENT 5: delete "attain".**
+**RESTATEMENT 4: (R1) must be a stated LEMMA, not a citation of
+Theorem C** -- F_T convex on the linear section, F_T/T -> rate
+pointwise on records with spectra bounded above and away from 0,
+and pointwise limits of convex functions are convex.
+**(B)(ii) REALISABILITY: PASS, CONSTRUCTIVELY.** Cone membership is
+automatic with a named reason (the kernel-dispersion term is a
+variance, hence PSD, and it is what makes the inequality strict);
+the verifier BUILT the record (Abar = diagonal-average of A, Gammabar
+= period-average, noise spectrum explicit). **No schedule leak**:
+on Z the schedule IS shift-invariant, the finite-n truncation
+appears only on the <= side of (A). Executed at the certified
+optimizers: shift-averaged stationary records at 0.5631757405 /
+0.5629264128 / 0.5628390620 (n=8/12/16), distortion preserved to
+machine precision, converging from ABOVE like C/n^2. 8/8 adversarial
+edge cases (near-deterministic noise, sign-alternating kernels,
+rank-2 noise, strictly anticausal Av) hold with cone margin >= 0.2.
+**THE CENTRAL FINDING -- MY OWN ATTACK: THE CHAIN IS
+ONE-DIRECTIONAL.** Every step is an inequality the SAME way and
+each produces an explicit feasible object:
+phi_n >= rate(periodize) >= rate(shift-average) >= Psi(D).
+So it yields **L^inf >= Psi(D)** and CANNOT yield L^inf <= Psi(D).
+**The recorded line "(A)+(B) => phi_n >= Psi => L^inf = Psi"
+contains a NON-SEQUITUR at the second arrow.** The converse needs an
+unwritten truncation/achievability lemma (and the stationary optimum
+is NOT rational at any finite order, so the FIR-density step is not
+free -- and it is a boundary-charge argument again, in the other
+direction).
+**CONSEQUENCE: the PLATEAU SURVIVES (it is a LOWER bound) but
+"IDENTIFIED" DIES.** Permitted headline: **L^inf(0) in [0.5627265,
+0.5647420]** -- an unconditional-modulo-(R2) bracket of width
+2.0e-3, lower end from the bypass, upper end the certified n=32
+anchor. A seal printing "the process limit is IDENTIFIED" or
+"L^inf = Psi(D)" MUST FAIL.
+**AND "NO HYPOTHESIS AT ALL" ALSO DIES (restatement 3).** The
+bypass removes (H*), (H**), (H***), (D), (F) and the boundary
+charge -- a real, large advance -- but REPLACES them with (R1)
+convexity of the process rate and **(R2) global optimality of the
+stationary program**, which is currently a FLOATING-POINT
+certificate: interior stationarity verified in 12 moment directions
+(|grad J| <~ 2e-6, curvature +1.3e3..+1.5e4, no descent on any
+line), NO interval arithmetic, and **executed at Delta=0 ONLY**.
+A SIXTH independent validation of the value arrived en route: the
+verifier's window-Cholesky re-evaluation of the fixed point gives
+0.5627264963 (4.0e-11 from the prover's Toeplitz-innovation solve,
+a completely different numerical route) at distortion 0.3 to
+5.6e-14, and grid-independent (Nf 1024/P 60 identical to 10 digits).
+**NEW DECOMPOSITION (worth keeping): the O(1/n) drift splits exactly
+into the two bypass steps** -- n(phi_n - Psi) = 0.0645 = 0.0420
+(periodization/boundary) + 0.0225 (cyclostationarity) + residual.
+**The entire (H*)/(H**)/(H***) machinery was fighting only the first
+65%.**
+**RESTATEMENT 8: c(0) is [0.06447, 0.06449], NOT 0.064495 +/- 3e-5
+relative** -- the sequence is monotone decreasing over n=8..48 with
+spread 3.0e-4 relative (10x the quoted band); 0.064495 is simply the
+n=32 point; Richardson(32,48) = 0.064471.
+**RESTATEMENT 9 -- ARTIFACT HYGIENE: validation (4) is TRUE ON
+SUBSTANCE but its committed artifact is NOT REPRODUCIBLE.**
+spectral/transfer.log reports a flat 6.76e-2 defect at every row and
+every n with NO boundary layer; the verifier's rerun gives a clean
+boundary layer (4.20e-2, 1.40e-2, 4.90e-3, 1.66e-3, then 9.5e-4
+bulk, halving to 4.7e-4 at n=32 -- genuinely O(1/n)). The 6.76e-2 is
+exactly |a_v(+1) - a_v(-1)|, an Av LAG-ORIENTATION MISMATCH that
+swamps the real signal. Regenerate before citing. Also: direct.log
+is TRUNCATED mid-run at Delta=2, and the internal check
+"blk + leak = L" is an ALGEBRAIC IDENTITY, not an independent
+validation -- stop citing it as one.
+**RESTATEMENT 10 -- Delta SCOPE:** the independent re-evaluation and
+the stationarity probe were executed at Delta=0 ONLY. Delta=1,2
+carry constructive UPPER bounds only (Psi(1) <= 0.5364993215,
+Psi(2) <= 0.5311645087, both ~1.1e-4 above the claimed values), and
+the Delta=2 margin 7.96e-4 is the SMALLEST IN THE CAMPAIGN -- do not
+promote it ahead of a two-sided stationary certificate at Delta=2.
+**SEAL-ABLE NOW unchanged: the Collapse identity (w/ restatement 6),
+step (A) in full (w/ restatement 7), the stationary K1-K3 table, the
+mechanism corollary, the rho* refutation. SEAL-ABLE with
+restatements 1-5, 8, 10: step (B) as a theorem and the corollary
+L^inf(Delta) >= Psi(Delta) for Delta=0,1,2. NOT SEAL-ABLE: "no
+hypothesis at all" and "L^inf = Psi / IDENTIFIED".**
+**HIGHEST-LEVERAGE NEXT STEP, AND IT IS NOW SMALL: two-side Psi(D)
+with a per-frequency Lagrangian + moment-box bound at Delta=0,1,2.**
+The stationarity probe says the POINT is right; what is missing is a
+BRACKET. With it, (R2) collapses and the plateau genuinely becomes
+unconditional at +0.0147817 / +0.0040584 / +0.0007960 -- 9.1x the
+current margin, reaching two lags the transfer route could never
+reach.

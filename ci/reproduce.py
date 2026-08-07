@@ -80,6 +80,10 @@ REPRODUCIBLE = [
     # point (identities, set identities, fat-margin inequalities, and
     # committed-value reproduction only -- the 079 lesson).
     ("go14_transfer.py",            "GO14TR-JSON","GO14-transfer.json",            "GO14TR_supported"),
+    # GO-14 (H*)-repair face (GO-P-2026-081), seed 20261141, ~2-4 min.
+    # Re-run tier by design: identities, structural facts and
+    # committed-value reproduction only; no certificate width gated.
+    ("go14_hrepair.py",             "GO14HR-JSON","GO14-hrepair.json",             "GO14HR_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
