@@ -84,6 +84,11 @@ REPRODUCIBLE = [
     # Re-run tier by design: identities, structural facts and
     # committed-value reproduction only; no certificate width gated.
     ("go14_hrepair.py",             "GO14HR-JSON","GO14-hrepair.json",             "GO14HR_supported"),
+    # GO-14 plateau (GO-P-2026-082), seed 20261151, ~1 min.
+    # Re-run tier by design: identities, structural facts, five
+    # must-fail controls, and committed-value reproduction; no
+    # certificate width is gated anywhere.
+    ("go14_plateau.py",             "GO14PL2-JSON","GO14-plateau.json",            "GO14PL2_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
