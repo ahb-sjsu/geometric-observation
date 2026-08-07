@@ -544,3 +544,121 @@ than merely recorded. A v0.6 revision needs a fresh registration
 the extended m x Delta table, the Pi-retraction identities, the
 convexity-of-phi_m(D) hygiene, and the recomputed corollary
 arithmetic. Eleven sentence-level tex edits specified in the report.
+
+## DECAY PROVER (2026-08-07): THEOREM K proved (unconditional, new) -- the decay itself NOT proved, but (H**) reduced to two model-scale hypotheses, and a BETTER hypothesis (H***) found
+
+**THEOREM K (KKT structure; UNCONDITIONAL, F0, any Delta, any
+schedule).** Two exact model facts drive it, both structural:
+K := Sig_WS' Sig_W^-1 = [I, 0] (since E[S|W] = V and V IS a
+coordinate block of W), so every Q-factor term lives ONLY on the
+V-columns; and Sig_W^-1 Sig_WY = [0;I], so the distortion gradient
+lives ONLY on the Y-columns. **The two supports are DISJOINT**, so
+stationarity splits by column block. With A = H Sig_W^-1 = [Av, Ay],
+N = Cov(Z), theta = 2 mu ln2, and (v_t, v_t^S, sigma_t) the record
+pivots of the interleaved order:
+  (K1) Ay = theta N
+  (K2) N^-1 = theta I + sum_t v_t v_t'/sigma_t = theta I + V Sig_s^-1 V'
+  (K3) Av = -N V Sig_s^-1 V_S'
+Verified at EVERY certified optimizer: relative residuals <= 3.2e-8
+at (16,0)/(24,0)/(32,0)/(48,0)/(16,1)/(16,2)/(24,1) -- residuals
+track the polish accuracy, not the identities.
+**COROLLARIES, unconditional and m-uniform:**
+- Ay = theta N is SYMMETRIC POSITIVE DEFINITE. **This UPGRADES the
+  078-era empirical "mechanism" finding (Ay and the noise kernel
+  transpose-symmetric to <5e-5; all causal asymmetry in Av) from an
+  EMPIRICAL DISCOVERY to a COROLLARY OF THEOREM K** (measured
+  symmetry defect 1.2e-9..1.4e-8). And Av = -N V Sig_s^-1 V_S'
+  carries the asymmetry through V_S, whose column support ends
+  EXACTLY at t+Delta -- the structural candidate for the observed
+  "sign change exactly at lag Delta" (a lead, not yet a claim).
+- 0 < N <= I/theta and 0 < Ay <= I, UNIFORMLY IN m -- the first
+  m-uniform optimizer-regularity statement in the program.
+- theta >= 2ln2 phi_n(D)/(1-D) >= 1.119 (convexity of D -> phi_n(D)
+  plus phi_n(1) = 0), hence N <= 0.894 I unconditionally.
+SPECTRAL PLATEAU CONFIRMED (Demko's hypothesis holds numerically,
+uniformly in m): at Delta=0, m = 8/12/16/24, theta 3.0785->3.0835,
+cond N 1.4453->1.4492, cond M_Q 2.197->2.217, lmin(J) 0.2686 flat,
+sigma_t in [0.3753, 0.4588], and **||A12||_F FLAT in m**
+(5.4823e-2 -> 5.4722e-2). Measured kernel decay identical to 3-4
+digits across n=16/24/32/48 (a fixed Toeplitz kernel plus
+non-moving boundary corrections); per-lag ratios DECREASE with lag
+(.284->.200 for Ay, .377->.279 for Av), so a single geometric
+envelope is conservative. At lambda = lambda_s = 0.354554 (GO-14's
+own smoothing pole) the envelope constants are C_v = 0.1980,
+C_y = 0.1631, identical to 3 digits at n=24/32/48.
+**CONVERSION THEOREM (proved, uniform in m BY CONSTRUCTION).**
+Exactly: X = (1/2) log2 det(I + N11^-1 A2 Sig_{2|1} A2'). Under
+(D) kernel-decay envelopes and (F) lmin(N) >= nu:
+X <= (1/(2 ln2 nu)) (lam^2/(1-lam^2)) [(C_v + rho C_y)^2 T_g(lam)
++ (1-rho^2) C_y^2/(1-lam^2)], T_g(lam) = (1/(1-lam^2))(1+lam a)/
+(1-lam a) - a^2/(1-lam a)^2 -- INDEPENDENT OF m (the sums run over
+infinite half-lines). Sig_{2|1} used EXACTLY, not enveloped (the
+-a^{j+k+2} boundary term is worth 2.6x and is what makes the bound
+clear the bar). Link-by-link loss audited at real optimizers:
+logdet->tr 1.004x, N11 >= nu I 1.22x, Schur-with-envelope 8.4x,
+total 10.3x.
+**RESULT: Xbar = 0.065038 vs the 0.1169299 bar -- CLEARS with 1.80x
+margin, uniformly in m.** Robust: free-lambda optimization gives
+0.0648; insensitive to the envelope-fit window (caps 6..16 identical
+to 4 digits). Whole chain gated numerically at all four Delta=0
+optimizers. Corollary arithmetic: c(0) + Xbar = 0.485324 ->
+L^inf(0) >= 0.5495664 > 0.5479448, margin +1.622e-3 (95x the quoted
+bracket, 177x the sealed); base-24 control STILL FAILS, now by
+2.757e-3, so the no-slack claim STRENGTHENS FURTHER.
+**THE OBSTRUCTION (honest, and NOT the spectral hypothesis -- that
+one holds): CIRCULARITY OF THE OPERATOR.** The only operator whose
+inverse produces the optimizer is N = (theta I + V Sig_s^-1 V')^-1
+(K1-K2), equivalently J = Cov(S^n, Yh^n) -- both built FROM THE
+OPTIMIZER ITSELF (M := V Sig_s^-1 V' = N^-1 - theta I exactly). So
+"M decays exponentially" <=> "N decays exponentially": Jaffard's
+inverse-closedness RETURNS ITS OWN HYPOTHESIS. The model's decay
+(Sig_S, Sig_W, Sig_{W|S} all exactly a^|t-s|) enters the KKT system
+ONLY through the affine data, never through the operator being
+inverted. Nothing injects it into A except a FIXED-POINT/BOOTSTRAP
+argument in a Jaffard (or Groechenig-Klotz weighted) Banach algebra:
+show the KKT map sends a ball {||A||_{A_lam} <= R} into itself and
+contracts. That is the missing theorem -- a genuine research step.
+SECOND missing piece, independent: (F) lmin(N) >= nu uniformly. KKT
+gives the UPPER side (N <= I/theta, proved) but not the lower; every
+attempted route closes on itself (lmax(M) <= 1/lmin(M_Q) and
+M_Q >= N give 1/nu <= theta + 1/nu), and coercivity fails because a
+record that does not use a direction pays nothing there.
+ALTERNATIVES EVALUATED AND CLOSED: (b) Pi-retraction/perturbation
+STRUCTURALLY CANNOT bound X -- at an optimizer the Pi-price is >= 0
+automatically and the measured price/X ratio is 0.7960 at every n
+and every Delta, so "price >= 0" is consistent with ANY X; the
+convexity variant just repackages the same missing estimate.
+(c) m-induction: X is monotone (6.3468/6.3360/6.3307/6.3254e-3 ->
+6.31e-3) but the step compares the m- and 2m-optimizers = the
+missing estimate again.
+**BONUS -- A CLEANER HYPOTHESIS THAN (H**): (H***).**
+Concatenating two independent m-optimal records is SPLIT-CAUSAL, so
+**phi^sc_{2m} <= phi_m UNCONDITIONALLY**; applying the F0^sc
+boundary-charge THEOREM to the 2m-window sc-optimizer gives
+phi_m - phi^sc_{2m} <= c/(2m), hence phi_n - L^inf <= (c + pbar)/n
+where p_m := m(phi^sc_m - phi_m) is the SPLIT-CAUSALITY VALUE GAP.
+So (H**) can be replaced by **(H***): p_m <= pbar < 0.1169** --
+same bar, but p is a gap between TWO CONVEX PROGRAMS and is
+therefore **TWO-SIDED CERTIFIABLE by Theorem C**, unlike X which is
+only measurable at a computed optimizer. Already certified:
+p = 0.004165/0.004207/0.004382 at m = 8/12/16 -- flat, **27x
+headroom** (vs X's 18x).
+NEXT ROUTE (replaces "prove the decay" as stated): solve the
+STATIONARY KKT system (K1-K3) in the SPECTRAL domain with the GO-13
+machinery (070/071/073). K1-K3 become per-frequency scalar
+equations; if the symbols are rational with poles off the unit
+circle, the Toeplitz coefficients decay at exactly the modulus of
+the nearest pole -- which the numerics say is lambda_s = a(1-K) =
+0.354554, GO-14's OWN NETTED CONSTANT. Then transfer
+stationary->finite-window by a stability estimate from Theorem C's
+strong convexity (the only place boundary corrections enter). This
+also feeds the n-uniform dual-certificate route.
+WHAT v0.6+ CAN SAY: Theorem K and its corollaries are UNCONDITIONAL
+and seal-able (analytic, optimizer-free to state, deterministic to
+gate); the 078 mechanism material UPGRADES to a corollary;
+rem:repair is replaced by an EXECUTED REDUCTION ((H**) <= (D)+(F),
+conversion proved, Xbar = 0.0650 at 1.80x); phi^sc_{2m} <= phi_m and
+(H***) are unconditional additions. WHAT IT STILL CANNOT SAY: the
+plateau corollary CANNOT drop its hypothesis -- it trades (H**) for
+(D)+(F), margin +1.622e-3 (95x bracket) instead of +3.456e-3, with
+the base-24 control failing by 2.757e-3.
