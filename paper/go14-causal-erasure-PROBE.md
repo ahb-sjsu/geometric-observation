@@ -448,3 +448,99 @@ lemma, or c(1) <= 1.1257 must FAIL.
 NEXT: tex v0.5 with all six restatements -> registration 080
 (scope: theorems (i)+(iii)-lower + anchors + within-class ladder +
 conditional corollary under (H*)).
+
+## (H*) REPAIR PROVER (2026-08-07): (H*) REPLACED, not discharged -- the reverse direction reduces to ONE SCALAR
+
+THE LEMMA CHAIN (proved, F0-only, no optimizer structure, per-step
+certificates): with X := I(Yh^{b1}; W^{b2} | W^{b1}) the CROSS-BLOCK
+READ, **D1 + D2 <= c(Delta;m) + (2 - 1{Delta=0}) X**.
+L1: kappa is an IDENTITY not a bound -- I(T^{b1};T^{b2}) = kappa
+exactly, every m,n (AR(1) Markov; both DPI steps equalities; cert
+3.8e-14, m-independent as the proof predicts). L2: I(E;T^{b2}) <=
+kappa + X and I(E';E) <= kappa + X (S^{b1} drops because
+U _|_ (W,Yh)); min slack +5.67e-7 -- **TIGHT exactly at the
+three-Y-copy counterexample, i.e. sharp where the universal claim
+dies**. L3: D2 <= I(E;T^{b2}) - I_m (identity residual <= 9.3e-11;
+chain-rule collapse 1.3e-15; zero-claim <= 2.5e-10). L4:
+D1 <= I(E';E), = 0 at Delta=0.
+COROLLARY -- **(H*) IS A THEOREM on the split-causal sub-family**
+F0^sc(m) (records whose block-1 cells read no block-2 source;
+equivalently the LINEAR moment condition H[b1,idx2] =
+H[b1,idx1] Sig11^-1 Sig12), WITH THE TEX'S OWN CONSTANTS. F0^sc is a
+CONVEX LINEAR SECTION, so Theorem C certifies it two-sided (executed:
+phi^sc brackets at (16,0)/(24,0)/(32,0)/(16,1)/(16,2); the
+split-causality price is FLAT IN n at ~0.0041 bits at Delta=0 -- a
+pure boundary constant).
+Pi-RETRACTION LEMMA: Pi (project block-1 onto its W^{b1}-conditional
+mean + matching independent noise) preserves distortion EXACTLY
+(1.1e-16) and the entire block-1 joint law (4.4e-16), kills X
+(1.5e-14), IMPROVES generic records by 0.37-3.11 bits, and costs
+only 5.0e-3 bits at optimizers.
+**THE REFUTATION IS NOW EXPLAINED, NOT JUST RECORDED**: the V-copy /
+Y-copy counterexamples are precisely records with enormous X (18.46
+and 29.27 bits). The tex's blanket "never print <= kappa per side as
+an F0 lemma" must be REFINED: it is a theorem on F0^sc(m), and the
+refutation is exactly the failure of split-causality.
+**080 DOES NOT BECOME UNCONDITIONAL.** It becomes conditional on a
+STRICTLY WEAKER, BETTER-MARGINED, MONOTONE-VERIFIED hypothesis
+(H**): "at dyadic-chain optimizers, X <= Xbar" -- ONE SCALAR,
+measured 6.3e-3 against an admissible 0.117 (18x headroom, vs (H*)'s
+0.077 against 0.420 = 5.5x), monotone decreasing in m, and
+constructively bounded by Pi at any m. Constants grow slightly:
+c(0) 0.420286 -> 0.426633; the plateau corollary SURVIVES at
+0.5514005 > 0.5479448, margin +3.456e-3 (203x tex-v0.4 width, 376x
+sealed), and the base-24 negative control still FAILS -- now by
+3.11e-4, so the no-slack claim STRENGTHENS.
+**BONUS HOLE FOUND AND REPAIRED (independent of (H*)):** Theorem
+T*(ii)'s restriction step assumed each block distortion <= D, but
+the 2m-optimizer's blocks STRADDLE D (0.299486/0.300514 at n=16;
+mean exactly D). Repaired by convexity of D -> phi_m(D), which
+Theorem C supplies. Ignoring it would have cost m mu (d2 - D) ~
+9.1e-3 bits -- LARGER THAN THE WHOLE REPAIR TERM.
+**EXTENDED TABLE RETIRES THE "m in {8,16} ONLY" CAVEAT**: m in
+{8,12,16,24} at Delta=0, {8,12,16} at Delta=1,2; EVERY quantity
+(D1+D2, I(E;T^b2), X, Pi-price) MONOTONE DECREASING in m, so the
+base value dominates the whole chain; two-point 1/m limits X_inf ~
+6.31e-3, (D1+D2)_inf ~ 0.076859, I(E;T^b2)_inf ~ 0.54304. Two
+precision notes on the sealed record: at m=16 the recorded D2
+0.076926 / I 0.543057 came from a warm-polish endpoint at
+d-D = +6.4e-5 (distortion-INFEASIBLE); the feasible cold-start
+certified values are 0.0769152 / 0.543054 (difference 1.1e-5, well
+inside the harness's 5e-3 band -- a precision note, NOT a bar
+change).
+ROUTE 2 QUANTIFIED (evidence, not proof): along convex affine
+sections through the optimizer, forcing I(E;T^{b2}) = kappa costs
+>= 1.159e-2 bits/symbol (2898x the bracket width, 2.9x the entire
+n=16->inf drift); forcing D1+D2 = c(0) costs >= 3.261e-2 (8153x).
+The refuting records are far worse (L_a 1.73 and 2.25 vs phi_16
+0.5668).
+**THE EXACT OBSTRUCTION (and why KKT provably cannot close it):**
+since Sig_W^-1 Sig_WY = [0;I], the distortion gradient VANISHES
+IDENTICALLY on the cross-read coordinates -- so KKT stationarity
+there carries NO multiplier: the cross-read is a distortion-FREE
+direction in which the objective is STATIONARY, and the optimizer
+chooses X > 0 because it strictly lowers L_a. No exchange/zeroing
+argument can force X = 0; KKT yields an equation, not a bound. What
+is missing is an OPTIMIZER DECAY estimate: ||A12||_F/||A11||_F =
+3.4%, the cross-block kernel decaying geometrically at ratio
+~0.28-0.35 ~ the smoothing pole lambda_s = 0.354554. A
+Demko/Jaffard-type exponential off-diagonal decay bound for inverses
+of banded PD operators, applied to the R+C KKT system, would give
+||A12|| <= C lambda^. uniformly in m and CLOSE THE GAP -- a standard
+TYPE of theorem, much softer than (H*).
+NEXT LOOP (prover's recommendation, adopted): (1) prove the decay
+(highest leverage -- makes T* v2 and the plateau UNCONDITIONAL with
+constant c + Xbar); (2) BYPASS transfer entirely with an n-UNIFORM
+DUAL CERTIFICATE (stationary/Toeplitz multiplier feasible for every
+n, via the GO-13 spectral machinery 070/071/073) -- no boundary
+charge, no hypothesis at all, and it reaches Delta=1,2 which the
+transfer route cannot without anchors at n ~ 260/1320; (3) cheap
+hardening: m=24,32 at Delta=1,2; phi^sc at (48,0); net the H-repair
+identities as harness gates (deterministic, analytic, optimizer-free).
+PREREG IMPACT: 080's gates are UNTOUCHED -- nothing here contradicts
+any sealed gate, and the s4 refutation gate is now EXPLAINED rather
+than merely recorded. A v0.6 revision needs a fresh registration
+(081) for: the H-repair lemma family, the certified phi^sc brackets,
+the extended m x Delta table, the Pi-retraction identities, the
+convexity-of-phi_m(D) hygiene, and the recomputed corollary
+arithmetic. Eleven sentence-level tex edits specified in the report.
