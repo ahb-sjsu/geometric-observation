@@ -987,3 +987,106 @@ BRACKET. With it, (R2) collapses and the plateau genuinely becomes
 unconditional at +0.0147817 / +0.0040584 / +0.0007960 -- 9.1x the
 current margin, reaching two lags the transfer route could never
 reach.
+
+## PSI-BRACKET PROVER (2026-08-07): TWO-SIDED CERTIFICATES AT Delta = 0, 1, 2 -- (R2) COLLAPSES STRUCTURALLY
+
+**THE CERTIFICATE NEEDS NO OPTIMALITY CLAIM.** Weak duality gives
+Psi(D) >= inf_x [rate + mu(dist - D)] for every mu >= 0; a
+SUBGRADIENT at an ARBITRARY point plus an explicit moment box bounds
+that infimum below. So the whole of (R2) -- "global optimality of
+the stationary program", previously a floating-point stationarity
+probe in 12 directions at Delta=0 only -- is GONE, replaced by two
+checkable lemmas. Control H proves the point structurally: with mu
+scaled x0.5..x2.0 or the anchor perturbed by 1e-4..1e-2, the bound
+degrades (to 0.1377 or negative) but is NEVER invalid and never
+exceeds Psi_UB. The KKT solve only makes it TIGHT, not valid.
+**THE MINORANT (the key device).** Freeze the leak's inner filters
+at any admissible (C0 monic causal in S, B0 causal-incl-lag-0 in R):
+shat(x) = <|C0|^2 f_S + |B0|^2 Gamma + 2Re(C0bar B0 h1)> is AFFINE
+in x and shat >= s ALWAYS, so
+J^-_mu(x) = alpha[<ln M_Q> - <ln n>] + alpha[<ln f_S> - ln shat(x)]
++ mu(dist(x) - D) <= rate(x) for every feasible x and mu >= 0.
+**THE ONLY CONVEXITY INPUT is Lemma C-stat**: per frequency,
+ln(Gamma - hQh*) - ln(Gamma - hPh*) with P - Q >= 0 is jointly
+convex -- **the SCALAR INSTANCE of the already-proved 074 lemma**
+(it equals -ln(1-Z), Z = hRh*/M_Q). Everything else is elementary
+(-ln(affine) convex; dist affine). **NO process-rate convexity, NO
+concavity of s, NO attainment, NO lower semicontinuity, NO
+differentiability, and NO optimality of the anchor.**
+Structural facts used: Sig_W^-1 Sig_WS = e1 EXACTLY (Theorem K's
+first fact, re-verified 2.4e-15), so **Q = diag(1/f_S, 0), rank-one
+diagonal**; R = P - Q positive definite in CLOSED FORM (det R =
+(1/f_V - 1/f_S)/s_N^2 > 0); Delta enters ONLY as the phase z^{Delta+1}
+on h. Lemma S (evaluation) via Collapse + Wiener-Masani/Szego, with
+<ln f_S> = ln(tau^2 a/lambda_s) = -0.1025391956 in CLOSED FORM (grid
+agrees 2.8e-16).
+**THE MOMENT BOX, explicit** (Holder in the L1/L-infinity pairing --
+**an L2 box FAILS here: the distortion constraint controls <Gamma>,
+NOT <Gamma^2>**; worth a numbered remark): <Gamma> <= (1+sqrt D)^2 =
+2.395445115 (Minkowski); <|Phi_RV|>, <|Phi_RY|> <= 1 + sqrt D =
+1.547722558 (pointwise + integral Cauchy-Schwarz, <f_V> = <f_Y> = 1).
+**Far tighter than the finite-n box** (sqrt(nD) -> sqrt D per
+symbol). FREE STRUCTURAL CHECK found en route: **<Gamma_p> = 1 - D =
+0.7 EXACTLY at all three Delta** -- the optimum is a proper test
+channel (E[Yh^2] = E[Yh Y]).
+**CERTIFIED BRACKETS (min-LB / max-UB over Nf in {1024,2048,4096,
+8192} x P in {60,100,140,200}):**
+  Delta=0: [0.562726496337, 0.562726496340] w 3.20e-12, bar
+    0.5479448, **margin +0.014781696337**
+  Delta=1: [0.536401378468, 0.536401378471] w 3.79e-12, bar
+    0.5323430, **margin +0.004058378468**
+  Delta=2: [0.531050019848, 0.531050019852] w 4.31e-12, bar
+    0.5302540, **margin +0.000796019848 = 1.85e8 BRACKET WIDTHS**
+theta = 3.086038362097/3.130079068857/3.151357871769, identical to
+12 digits across the whole grid family. **The Delta=2 requirement
+(bracket well under 7.96e-4) is met by EIGHT ORDERS, not
+marginally.** QUOTABLE FORM (rounded outward at 1e-10 per the 079
+house convention, so widths exceed f64 round-off by ~7 orders):
+Psi(0) in [0.5627264963, 0.5627264964]; Psi(1) in [0.5364013784,
+0.5364013785]; Psi(2) in [0.5310500198, 0.5310500199].
+DISCRETIZATION/TRUNCATION: LB spread over the grid family
+4.0e-13/1.4e-12/7.7e-13, UB spread <= 6.7e-16; integrands analytic
+and periodic so the rectangle rule is spectrally accurate
+(confirmed, not assumed); **lag truncation is on the SAFE side for
+the LB** (a truncated filter is admissible, shat >= s, so it can
+only loosen); ||g||_inf is resolved (flat across the family) and
+even a 1000x underestimate leaves 2e5 of Delta=2 margin. Floating
+point, no interval arithmetic (house convention).
+CROSS-CHECKS, all consistent: the R-IND-5 verifier's INDEPENDENT
+window-Cholesky evaluator re-evaluates the certified point to
+<= 1.6e-15 at all three Delta; every sealed certified LB(phi_n) sits
+ABOVE Psi_UB at n = 8..48, with n(phi_n^UB - Psi_UB) = 0.064535/
+0.064516/0.064507/0.064497/0.064495/0.064487 -- **monotone
+decreasing, exactly restatement 8's picture, and confirming 0.064495
+is merely the n=32 point**; all independent constructive UBs sit
+above Psi_UB; a NEW D-ladder (D = 0.26..0.34) sits strictly below
+the sealed 081 phi_8(D) LBs, smooth and monotone; 400 random
+feasible stationary records per Delta give zero violations (min
+slack +0.090/+0.110/+0.116).
+SCOPE NOTE: **Delta=2 has NO sealed finite-n anchor** in the
+committed artifacts, so its cross-check rests on the window-Cholesky
+re-evaluation and the constructive UB, not on a sealed phi_n. A
+sealed phi_n bracket at Delta=2 is cheap and owed.
+**PERMITTED WORDING NOW:** "Psi(Delta) in [LB, UB] two-sided
+certified, Delta=0,1,2"; "L^inf(Delta) >= Psi(Delta) >= LB,
+unconditional MODULO (R1) alone" at margins +0.0147817/+0.0040584/
++0.0007960 -- **retiring (H*), (H**), (H***), (D), (F) and the
+boundary charge from the plateau, at three lags, two of which the
+transfer route provably could not reach**; and "the certificate
+needs neither optimality of the fixed point nor differentiability of
+the rate functional." **STILL FORBIDDEN, UNCHANGED: "L^inf = Psi" /
+"IDENTIFIED" (the chain is still one-directional) and "no hypothesis
+at all" -- (R1) and (A)'s independent-noise-copies hypothesis are
+untouched by this work. A seal claiming otherwise must FAIL.**
+**(R1) IS NOW THE SINGLE REMAINING LOAD-BEARING HYPOTHESIS for the
+whole plateau** -- and it is a pointwise-limit-of-convex-functions
+statement on the cyclostationary class, a much softer object than
+anything the campaign has been fighting.
+NEXT: R-IND-5 this certificate (attack list from the prover: the
+Q = diag(1/f_S,0) reduction; **the shat >= s DIRECTION -- the one
+place a sign slip inverts the bound**; the L1/L-infinity pairing
+with the L2-box-invalid remark; the box constants; Lemma S's Szego
+hypotheses on degenerate spectra; own-code re-derivation of the
+per-frequency cell inf) -> tex v0.7 with Lemma S and Lemma C-stat
+numbered -> seal 082 -> governed. Then (R1) as the highest-leverage
+prover target, and the owed sealed phi_n bracket at Delta=2.
