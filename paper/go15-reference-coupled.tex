@@ -8,7 +8,7 @@
 \title{Reference-Coupled Erasure: the Lookahead Discount\\[2pt]
 \large A problem statement (GO-15)}
 \author{Geometric Observation program}
-\date{Problem statement v0.1 --- August 2026}
+\date{Statement v0.2 --- August 2026 (Theorem R$^+$ + DC form; convexity refuted; the $\mathcal F_{\Delta c}$ face certified; probe anchors corrected at matched floor)}
 \begin{document}
 \maketitle
 
@@ -24,7 +24,8 @@ The probe's operational verdict frames it: the collapse is gated by
 realistic coordinate is the $S$-constructible family (the record
 writer reads the aging context), with general $U$-access a labeled
 fictitious relaxation. Nothing here is a claim; every probe number
-is a class-conditional upper bound with no lower-bound face yet.
+is a class-conditional upper bound; the $\mathcal F_{\Delta c}$
+family now has a certified two-sided face, the general one does not.
 \end{abstract}
 
 \section{Setting}
@@ -57,7 +58,18 @@ $\min_{\mathcal F_U}<\min_{\mathcal F_S}<\min_{\mathcal F_{\Delta
 c}}<\min_{\mathcal F_0}$, with the $\Delta$-causal optimum
 essentially causally-$S$-constructible ($A_u\approx A_v$ measured)
 --- within-horizon $U$-coupling adds nothing beyond accessible $S$.
-Probe anchors at $(16,0)$: $0.079<0.290<0.522<0.567$.
+Probe anchors at $(16,0)$, floorless: $0.079<0.290<0.522<0.567$.
+	extbf{Corrected at matched floor $\sigma_0^2=10^{-6}$ (LB-face
+prover, 2026-08-07): $0.104<0.170<0.522<0.567$} --- the probe's
+$\mathcal F_S$ search was under-converged, so lookahead captures
+$85.8\%$ of the collapse, \emph{not} $57\%$, and direct
+$U$-resolution is load-bearing for only ${pprox}0.066$ bits. The
+qualitative verdict (collapse iff the encoder's reference window
+exceeds the eraser's horizon) is unchanged. 	extbf{Two levels are
+now theorems:} $\min\mathcal F_S\le0.1698616<0.522354033=
+\mathrm{LB}(\mathcal F_{\Delta c})$, and $\min\mathcal
+F_{\Delta c}<\min\mathcal F_0$ at four cells;
+$\min\mathcal F_U<\min\mathcal F_S$ stays conjectural.
 \end{conjecture}
 
 \begin{conjecture}[Horizon-matched anti-coupling]
@@ -91,13 +103,52 @@ noise; the \emph{value} is floor-relative and every claim must
 carry its floor). The $\sigma_0\to0$ limit at fixed $n$ is open.
 \end{conjecture}
 
-\begin{question}[The lower-bound face --- the campaign gate]
-Extend Theorem R to the extended moment coordinates
-$(H_w,H_u,\Gamma)$: the denominator leg is already convex
-(inf-of-affine pivots, monotone composition); the numerator
-regrouping is the prover target. Until it lands, every number above
-is a class-conditional upper bound and no $n$-trend may be claimed
-(probe $n$-scan variance is optimization-depth, not physics).
+\begin{proposition}[Theorem R$^+$ and the DC form --- LB-face
+prover 2026-08-07, R-IND-5 pending]
+In extended coordinates $(H_w,H_u,\Gamma)$ on the LMI cone
+$N:=\Gamma-GP_eG'\succeq0$ (with $N=\operatorname{Cov}(Z)$, and the
+distortion affine in $(H_w,\Gamma)$ and \emph{independent of
+$H_u$}), the representation holds for every record and every
+nondecreasing schedule, and splits as $nL_a=L_a^{+}-\mathrm{Dterm}$
+where $L_a^{+}$ is GO-14's coordinate for the \emph{augmented}
+source $W^{+}=(W,U)$ --- an exact DC decomposition with \emph{both}
+pieces convex in closed form. $\mathrm{Dterm}\equiv0$ iff the
+$U$-coupling is $\Delta$-lag causal. This also repairs GO-14's
+moment-form remark: the \emph{extended} form is exact at every
+$A_u$, causal or not.
+\end{proposition}
+
+\begin{proposition}[Non-convexity --- REFUTED with a canonical
+counterexample]
+$nL_a$ is \emph{not} convex on the extended cone. Base point: the
+GO-14 certified $\mathcal F_0$ optimizer at $(16,0)$; since the
+distortion is $H_u$-free, $\pm\varepsilon$ on the $U$-block gives
+two feasible records at identical distortion whose exact midpoint
+is that optimizer, with Jensen violation
+$+1.178143\times10^{-1}$ bits (reproduced independently). Restricted
+Hessians at that point: all directions $-3.85$; $\mathcal F_0$ only
+$+0.261$; $\mathcal F_{\Delta c}$ only $+0.260$; pure-$H_u$
+$-2.358$. The defect is confined to lookahead-$U$ directions and is
+carried entirely by the concave $\mathrm{Dterm}$ --- so the
+obstacle is the \emph{denominator's} $S$-side pivot sum, not the
+numerator regrouping, and no regrouping removes it.
+\end{proposition}
+
+\begin{question}[A lower bound for the headline cell]
+For $\mathcal F_U$ and $\mathcal F_S$ the best certified lower
+bound remains $0$: duality needs convexity (refuted), and DC
+decoupling, a numerator-floor minorant, and an
+information-inequality relaxation are all vacuous --- at the
+optimum the value sits inside a $62\times$ cancellation, and every
+decoupling loses ${\approx}\tfrac12\log_2(1/\sigma_0^2)$ bits. The
+$\mathcal F_{\Delta c}$ family, by contrast, has a certified
+two-sided face (its section is linear and $\mathrm{Dterm}$ vanishes
+there): $[0.522354033,\,0.522356390]$ at $(16,0)$, the first lower
+bound for any $U$-coupled family. Remaining route for the headline
+cell: spatial branch-and-bound on the $H_u$ block over the DC form
+--- after equal-depth matched-floor reruns, since the present
+$\mathcal F_S/\mathcal F_U$ anchors are optimization-depth artefacts
+at the second decimal. No $n$-trend may be claimed meanwhile.
 \end{question}
 
 \begin{question}[The Landauer face]
