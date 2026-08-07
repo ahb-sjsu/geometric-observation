@@ -14,13 +14,31 @@
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.6 --- Theorems R, C and T (the convex
+\large GO-14 statement v0.7 --- Theorems R, C and T (the convex
 program, and the $n$-transfer lemma), the (H$^\ast$) \emph{repair}
 --- the cross-block read $X$, the lemma chain L1--L4, and the
-split-causal sub-family --- and T$^\ast$ v2, under the U-independence
-hypothesis and the cross-read hypothesis (H$^{\ast\ast}$)}
+split-causal sub-family --- T$^\ast$ v2, and \textbf{the plateau}: the
+Collapse identity, periodization, shift-averaging, and a two-sided
+certificate for the stationary value $\Psi(\Delta)$ that retires
+(H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D), (F) and the
+boundary charge from the plateau at $\Delta=0,1,2$}
 \author{Geometric Observation program}
-\date{v0.6 --- August 2026 (v0.5 superseded: the H-repair lemma chain
+\date{v0.7 --- August 2026 (v0.6 superseded for the plateau:
+\S\ref{sec:plateau} proves the Collapse identity, step~(A)
+periodization and step~(B) shift-averaging, states Lemma~S and
+Lemma~C-stat, and certifies the stationary value two-sided by a
+\emph{box-free per-frequency weak-duality} bound that needs no
+optimality of the fixed point, no convexity of the process-rate
+functional and no differentiability; the chain is
+\emph{one-directional}, so what follows is
+$L^\infty(\Delta)\ge\Psi(\Delta)$ and not an equality, at margins
+$+0.0147817164/+0.0040574952/+0.0007968190$ over the \emph{sealed}
+causal-spectral bars. Corollary~\ref{cor:plateau2} \emph{supersedes}
+the v0.6 plateau arithmetic of Corollary~\ref{cor:plateau} entirely;
+the (H$^{\ast\ast}$) and (D)$+$(F) numbers there are retained as
+\emph{historical}. Also new: the certified $\Delta=2$ finite-$n$
+anchors, the corrected block infimum, and the numbered errata R14--R20.
+v0.6 history: the H-repair lemma chain
 L1--L4 proves $D_1+D_2\le c(\Delta;m)+(2-\mathbf 1\{\Delta=0\})X$ for
 \emph{every} record of $\mathcal F_0$, $X$ the cross-block read, using
 no optimizer structure at all; consequently (H$^\ast$) is a
@@ -125,7 +143,35 @@ admissible $0.116930$; what remains is named exactly --- the operator
 whose inverse produces the optimizer is built \emph{from} the
 optimizer, so inverse-closedness returns its own hypothesis, and a
 fixed-point argument in a weighted Banach algebra is the missing step.
-Two scoping results are load-bearing and
+\emph{This revision adds the plateau} (\S\ref{sec:plateau}), and it
+retires most of the machinery above from that particular argument. An
+exact \emph{Collapse identity} --- $2\ln2\,n\,L_a=\sum_t\ln\sigma_t
+-\ln\det N$ for every record, every $n$ and every nondecreasing
+schedule --- turns the two remaining steps into one-liners.
+\emph{Step~(A)}, periodization with \emph{independent noise copies}
+(a load-bearing hypothesis: correlating them breaks the step
+outright), gives $L^{\mathrm{process}}(D)\le\phi_n$ for every $n$.
+\emph{Step~(B)}, shift-averaging, produces from any period-$n$ record
+an \emph{explicit} stationary record of no larger rate and identical
+per-symbol distortion. Both directions of both steps are inequalities
+the same way, so the chain is \emph{one-directional}: it yields
+$L^\infty(\Delta)\ge\Psi(\Delta)$, the stationary spectral value, and
+it cannot yield the converse. $\Psi$ is then certified
+\emph{two-sided} by a box-free per-frequency weak-duality bound whose
+only inputs are admissibility of a pair of frozen filters, positivity
+of the per-frequency price, and a correct cell infimum --- no
+optimality of the fixed point, no convexity of the process-rate
+functional, no differentiability, and no moment box:
+$\Psi(0)\in[0.5627264963,0.5627264964]$,
+$\Psi(1)\in[0.5364013784,0.5364013785]$,
+$\Psi(2)\in[0.5310500198,0.5310500199]$. Against the \emph{sealed}
+causal-spectral allocation this is a plateau of
+$+0.0147817164/+0.0040574952/+0.0007968190$ at $\Delta=0/1/2$ ---
+four to eight orders above the certified bracket widths, at two lags
+the transfer route provably could not reach --- \emph{conditional on
+(R1) alone}, the convexity of the process-rate functional on the
+cyclostationary class, with (A)'s independent-noise-copy construction
+as the other named hypothesis. Two scoping results are load-bearing and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
 numbered hypothesis on the chain rule and on every minimum quoted
@@ -241,9 +287,10 @@ static quadratic: the deficit of the bookkeeping candidate is
 $n$-pinned, $\mathrm{gap}_n=\mathrm{static}(q_{\mathrm{path}})-
 \mathrm{block}_n=0.0213/0.0263/0.0280$ at $n=8/16/24$, converging to
 the spectral gain $\approx0.0313$
-($\mathrm{block}_\infty=0.529950$ by per-frequency equal-slope
-allocation; corrected value --- see the dated erratum,
-Remark~\ref{rem:erratum}). Record memory and cross-cell code
+($\mathrm{block}_\infty=0.5299499808$ by per-frequency equal-slope
+allocation; twice-corrected value --- see the dated erratum,
+Remark~\ref{rem:erratum}, and the R20 erratum of
+Remark~\ref{rem:errata2}). Record memory and cross-cell code
 structure carry real value.
 \end{enumerate}
 \end{theorem}
@@ -648,7 +695,11 @@ single-letter identification of $c$ is claimed.
 \item[(3)] \textbf{Strictly above every tested causal-conditioning
 spectrum --- certified at every computed $n$; in the limit
 conditional on (H$^\ast$) at $\Delta=0$ and on the $O(1/n)$ model at
-$\Delta=1,2$.} At every computed anchor
+$\Delta=1,2$. \emph{Both limit conditions are discharged at v0.7} ---
+Corollary~\ref{cor:plateau2} derives the limit statement at
+$\Delta=0,1,2$ from \S\ref{sec:plateau}, conditional on (R1) alone;
+what follows in this item is the v0.4-era route and is retained as
+history.} At every computed anchor
 ($n\in\{16,24,32\}$, $\Delta\in\{0,1,2\}$) the \emph{certified lower
 bracket end} of \S\ref{sec:anchors} sits strictly above the
 causal-spectral allocation value (Remark~\ref{rem:refcon}) --- a
@@ -746,7 +797,10 @@ v0.2 of this document quoted $\mathrm{block}_\infty=0.52991$ in
 Theorem~\ref{thm:main}(v), propagated from the pass-1 coarse
 frequency waterfilling; the converged per-frequency equal-slope
 value is $\mathrm{block}_\infty=0.529950$ (corrected in item (v)
-above; the spectral gain $\approx0.0313$ is unaffected). Same date,
+above; the spectral gain $\approx0.0313$ is unaffected). That
+six-digit value is itself superseded at the ninth digit by the
+anchor-free two-sided certificate of Remark~\ref{rem:errata2}(R20):
+$\mathrm{block}_\infty=0.5299499808119$. Same date,
 probe-record erratum: the process-limit probe's diagonal excess at
 $\Delta=4$ is $2.66\times10^{-5}$, not $2.75\times10^{-5}$.
 
@@ -1246,9 +1300,14 @@ Corollary~\ref{cor:lower} and \emph{unconditional}.
 \item[(ii-b)] \emph{Split-causal form, \emph{unconditional}:} the same
 two inequalities hold for the sub-family value
 $\phi^{\mathrm{sc}}_n(\Delta)=\inf_{\mathcal F_0^{\mathrm{sc}}}L_a$
-with the constant $c(\Delta;n)$ itself and \emph{no hypothesis at
-all}, because on $\mathcal F_0^{\mathrm{sc}}$ the charge bound is
-Corollary~\ref{cor:scthm}.
+with the constant $c(\Delta;n)$ itself and \emph{without any of}
+(H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), because on
+$\mathcal F_0^{\mathrm{sc}}$ the charge bound is
+Corollary~\ref{cor:scthm}. (It remains under
+Hypothesis~\ref{hyp:uind}, like everything else in this document, and
+this scoping is never to be restated as freedom from \emph{every}
+hypothesis --- for the plateau in particular, see
+Remark~\ref{rem:onedirection}.)
 \end{enumerate}
 \emph{Scope of (ii-b).} It bounds
 $\phi^{\mathrm{sc}}_n-L^{\mathrm{sc},\infty}$, not
@@ -1356,8 +1415,20 @@ same way it is load-bearing in Theorem~\ref{thm:repr}
 \end{remark}
 
 \begin{corollary}[The $\Delta=0$ plateau over the causal-spectral
-allocation --- recomputed with the repaired constant]
+allocation --- recomputed with the repaired constant.
+\textbf{HISTORICAL at v0.7}]
 \label{cor:plateau}
+\textbf{Superseded in full by Corollary~\ref{cor:plateau2}.} The
+arithmetic of this corollary --- both the (H$^{\ast\ast}$) number
+$0.5514005$ and the (D)$+$(F) number $0.5495664$, and both their
+margins --- is \emph{retained only as history}. It is not the
+plateau statement of this document; \S\ref{sec:plateau} derives the
+plateau with none of (H$^\ast$), (H$^{\ast\ast}$),
+(H$^{\ast\ast\ast}$), (D), (F) or the boundary charge, at margins
+larger by a factor of $4.3$ at $\Delta=0$ and at two further lags this
+route cannot reach at all. Nothing downstream may cite the numbers
+below.
+
 Assume Hypothesis~\ref{hyp:hstarstar} at $\Delta=0$ with base $n=32$,
 with $\bar X$ taken at the measured value $X=6.346782\times10^{-3}$.
 With the sealed 079 certified lower end
@@ -1561,10 +1632,660 @@ optimizer endpoints were true class minima; the transfer note's
 ``$4/9$ endpoints'' remark is \emph{withdrawn} as unverifiable from the
 record.
 
+\section{The plateau: Collapse, periodization, shift-averaging, and a
+two-sided certificate for $\Psi$}
+\label{sec:plateau}
+Status: spectral prover $+$ $\Psi$-bracket prover $+$ two independent
+R-IND-5 passes (the bypass pass, ten restatements; the certificate
+pass, ten further restatements R11--R20 --- fresh context, own spectra,
+own solver, own gradient, own box, own dual, structurally unrelated
+cell-argmin fixed point rather than the K1--K3 filter recursion). All
+twenty restatements are in force in this revision. Harness
+\texttt{experiments/\allowbreak go14\_plateau.py}; registration 082
+pending --- \textbf{nothing in this section is sealed}.
+
+\emph{The stationary frame.} Write $R_u:=\hat Y_{u-\Delta-1}$. In this
+shifted frame the interleaved order of the coordinate becomes the plain
+simultaneous order of $(R,S)$, and \textbf{$\Delta$ enters only as the
+phase $z^{\Delta+1}$ on the record's cross spectra} --- that is the
+entire content of the lag coordinate at stationarity. Per frequency put
+\[
+h(\omega)=\bigl(\Phi_{RV},\Phi_{RY}\bigr),\quad
+\Gamma(\omega)=\Phi_R,\quad
+P=\Sigma_W(\omega)^{-1},\quad
+Q=\operatorname{diag}(1/f_S,0),
+\]
+$n(\omega)=\Gamma-hPh^\ast\ge0$ the cone, $M_Q=\Gamma-hQh^\ast$, and
+$R=P-Q$. The reduction of $Q$ to the rank-one diagonal
+$\operatorname{diag}(1/f_S,0)$ is \emph{exact} and is
+Theorem~\ref{thm:K}'s first structural fact
+$\Sigma_W^{-1}\Sigma_{WS}=e_1$ (re-verified to $1.5\times10^{-15}$);
+$R\succ0$ in closed form, $\det R=(1/f_V-1/f_S)/s_N^2>0$ (verified to
+$5.3\times10^{-15}$; $\lambda_{\min}(R)\ge3.17\times10^{-3}$ on the
+grid). Write $\Psi(D;\Delta)$ for the value of the stationary program
+in these coordinates and $\alpha=1/(2\ln2)$.
+
+\subsection{The Collapse identity}
+
+\begin{namedthm}[Collapse --- exact, unconditional]
+\label{thm:collapse}
+For every $n$, every nondecreasing access schedule and every record of
+$\mathcal F_0$,
+\[
+\boxed{\;2\ln2\;n\,L_a\;=\;\sum_{t=1}^n\ln\sigma_t\;-\;\ln\det N\;}
+\qquad
+\sigma_t=\operatorname{Var}\bigl(\hat Y_t\mid S^{se(t)},\hat
+Y^{t-1}\bigr),
+\]
+$N=\operatorname{Cov}(Z)$. \emph{Proof.} Conditioning on $W$ reduces
+$\hat Y_t$ to $Z_t$ and $S^{se(t)}$ to $U^{se(t)}\perp Z$, so every
+denominator of the coordinate is $\operatorname{Var}(Z_t\mid Z^{t-1})$
+and the denominator sum telescopes to $\ln\det N$.\hfill$\square$
+\emph{Certificates:} relative residual $\le1.2\times10^{-14}$ at all
+ten certified optimizers ($n=16/24/32/48\times\Delta=0/1/2$);
+independent R-IND-5 evaluator $5.6\times10^{-15}$ over $84$ cells,
+$1.7\times10^{-15}$ on random non-staircase nondecreasing schedules,
+$8.2\times10^{-16}$ at the edges; harness $5.65\times10^{-15}$ and
+$1.73\times10^{-15}$ against a $10^{-12}$ gate.
+\end{namedthm}
+
+\noindent The identity re-derives (K1)--(K3) in five lines and makes
+step~(A) below a one-liner.
+
+\begin{remark}[R6 --- what Collapse actually needs, and the
+non-conflation rule]
+\label{rem:R6}
+Collapse does \textbf{not} require U-independence. It requires exactly
+$\Delta$-\emph{lag-causal} $U$-coupling, $A_u[t,s]=0$ for $s>t+\Delta$;
+Hypothesis~\ref{hyp:uind} ($A_u=0$) is the special case. Counter-values
+on record: at $\Delta=0$ a dense $A_u$ puts the identity
+$0.2018$~bits off and a strictly anticausal $A_u$ $0.3329$~bits off,
+while a $\Delta$-lag-causal $A_u$ is \emph{exactly} $0$ (harness:
+$\ge0.1485$~bits and $6.7\times10^{-16}$ respectively, gated in both
+directions). \textbf{The non-conflation rule of
+Remark~\ref{rem:ulegs} still applies}: this extension is a statement
+about the \emph{record-space} coordinate and does \emph{not} extend the
+moment-form Theorem~\ref{thm:repr}, whose measured residuals at
+$\Delta$-causal couplings are $2.4$--$3.5$ bits. The two extension
+results must not be conflated.
+\end{remark}
+
+\subsection{Step (A): periodization}
+
+\begin{hypothesis}[(IC) --- independent noise copies; a hypothesis of
+the \emph{construction}, load-bearing]
+\label{hyp:indcopies}
+In the periodization of Theorem~\ref{thm:period} the noise blocks of
+distinct translates are \emph{independent}: the tiled noise covariance
+is block diagonal, $N_{\mathrm{tiled}}=\bigoplus_{b}N$.
+\end{hypothesis}
+
+\begin{namedthm}[A --- periodization; $\Omega_n/n$ subadditive]
+\label{thm:period}
+Repeat any $n$-record along $\mathbb Z$ under
+Hypothesis~\ref{hyp:indcopies}. Then (i) the per-symbol distortion is
+\emph{exactly} preserved; (ii) $\ln\det N$ is \emph{exactly} additive;
+(iii) \emph{every} $\sigma_t$ decreases, because the block-$b$
+translate's conditioning set is a genuine \emph{subset} of the tiled
+cell's ---
+$bn+\min(i+\Delta,n)=\min(bn+i+\Delta,\,bn+n)\le\min(bn+i+\Delta,M)$.
+By Theorem~\ref{thm:collapse} the tiled per-symbol value is therefore
+no larger, so
+\[
+L^{\mathrm{process}}(D)\;\le\;\phi_n(\Delta)\qquad\text{for every }n .
+\]
+This is Theorem~\ref{thm:transfer} in one line instead of a page, and
+it carries \emph{no} boundary charge because it runs the easy way.
+\emph{Certificates:} distortion preserved $\le4.4\times10^{-16}$,
+$\ln\det N$ additive $\le7.1\times10^{-15}$, and every $\sigma_t$
+decreases over $1{,}200$ (cell $\times$ tiling) pairs with \emph{zero}
+violations --- the suspected failure mode (a merely \emph{different}
+rather than \emph{larger} conditioning set) does not occur, for the
+displayed reason. Measured boundary charge $0.04205/n$, flat to five
+digits at the certified optimizers.
+\end{namedthm}
+
+\begin{remark}[R7 --- (IC) is load-bearing, not decorative]
+\label{rem:R7}
+Correlating the noise copies \emph{breaks} Theorem~\ref{thm:period}
+outright. At cross-block noise correlation $0.3/0.6/0.9$ the tiled
+per-symbol value is $0.7987/0.9218/1.3977$ against $\phi_5=0.7757$;
+the harness's own witnesses exceed the untiled value by
+$+0.0290/+0.1605/+0.6463$ on a random $n=5$ record and by
+$+0.0319/+0.1684/+0.6836$ over $\phi_8$ at the cold-start $(8,0)$
+optimizer. So (IC) must be stated as a hypothesis of the construction
+and never dropped in restatement.
+\end{remark}
+
+\subsection{Step (B): shift-averaging}
+
+\begin{lemma}[(R1) --- convexity of the process-rate functional on the
+cyclostationary class]
+\label{lem:R1}
+Let $F_T$ denote the total-rate functional on the window of length $T$
+in process-moment coordinates. Then (i) $F_T$ is convex on the linear
+section cut out by the cyclostationary class; (ii) on records whose
+spectra are bounded above and bounded away from $0$, $F_T/T$ converges
+\emph{pointwise} to the process rate; and (iii) a pointwise limit of
+convex functions is convex. Hence the process-rate functional is convex
+on the cyclostationary class.
+\textbf{This lemma is stated here as a lemma, not cited as a corollary
+of Theorem~\ref{thm:cvx}}: Theorem~\ref{thm:cvx} is a finite-window
+statement and the passage to the process rate is exactly the content of
+(ii)--(iii). \emph{Status: this is the single remaining load-bearing
+hypothesis of the plateau} (together with
+Hypothesis~\ref{hyp:indcopies}), and it is a
+pointwise-limit-of-convex-functions statement --- a much softer object
+than (H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D) or (F).
+\emph{Numerics:} $69$ Jensen points and $40$ curvature lines on the
+\emph{cyclostationary} class (the class the argument actually touches,
+not merely the stationary one), zero violations.
+\end{lemma}
+
+\begin{namedthm}[B --- shift-averaging produces an explicit stationary
+record]
+\label{thm:shift}
+Let $x$ be a period-$n$ record on $\mathbb Z$ and let $\bar x$ be the
+shift-average of its moment functions over the $n$ shifts
+($\bar A$ the diagonal average of $A$, $\bar\Gamma$ the period average,
+the noise spectrum explicit). Then $\bar x$ is
+\begin{enumerate}
+\item[(i)] \emph{in the cone}: the residual noise spectrum
+$\bar n(\omega)$ is nonnegative, with a named reason --- the
+kernel-dispersion term is a variance, hence PSD, and it is exactly what
+makes the inequality strict;
+\item[(ii)] \emph{stationary}, and \emph{realisable}: the record is
+constructed, not merely asserted;
+\item[(iii)] of \emph{identical per-symbol distortion}; and
+\item[(iv)] of \emph{no larger rate}, by Lemma~\ref{lem:R1}:
+$\mathrm{value}(\bar x)\le\overline{\mathrm{value}(x)}
+=\mathrm{value}(x)$.
+\end{enumerate}
+\textbf{Wording.} Step~(B) \emph{delivers an explicit stationary record
+of no larger rate and identical per-symbol distortion.} It does
+\emph{not} say that the process infimum is attained: attainment is
+never invoked, the infimum comparison follows by definition, and the
+lower-semicontinuity ``soft spot'' recorded in the probe is a red
+herring. \emph{Certificates:} executed at the certified optimizers, the
+constructed stationary records evaluate to
+$0.5631757405/0.5629264128/0.5628390620$ at $n=8/12/16$, $\Delta=0$
+(harness, cold-start: $0.5631757430/0.5629263942/0.5628390182$),
+distortion preserved to machine precision, converging from
+\emph{above} like $C/n^2$; $8/8$ adversarial edge cases
+(near-deterministic noise, sign-alternating kernels, rank-$2$ noise,
+strictly anticausal $A_v$) hold with cone margin $\ge0.2$. There is no
+schedule leak: on $\mathbb Z$ the schedule \emph{is} shift-invariant,
+and the finite-$n$ truncation appears only on the $\le$ side of
+Theorem~\ref{thm:period}. At $\Delta=1,2$ the same construction gives
+$0.5364993215$ and $0.5311645087$, reproduced by the harness to ten
+digits.
+\end{namedthm}
+
+\begin{corollary}[The chain, and its direction]
+\label{cor:onedir}
+$\phi_n\;\ge\;\mathrm{rate}(\text{periodize})\;\ge\;
+\mathrm{rate}(\text{shift-average})\;\ge\;\Psi(D;\Delta)$, whence
+\[
+\boxed{\;L^\infty(\Delta)\;\ge\;\Psi(D;\Delta)\;}
+\]
+under Hypothesis~\ref{hyp:indcopies} and Lemma~\ref{lem:R1}.
+\textbf{Every step is an inequality the same way and each produces an
+explicit feasible object, so the chain is one-directional}: it cannot
+yield the reverse inequality. The converse would need an unwritten
+truncation/achievability lemma --- and the stationary optimum is not
+rational at any finite order, so the FIR-density step is not free; it
+is a boundary-charge argument again, in the other direction.
+\end{corollary}
+
+\begin{remark}[What the chain does \emph{not} give]
+\label{rem:onedirection}
+Corollary~\ref{cor:onedir} is a \emph{lower} bound. The reverse
+inequality is \emph{not} available from anything in this document, and
+no statement that the process limit coincides with $\Psi$ may be
+printed. The permitted headline at $\Delta=0$ is the bracket
+\[
+L^\infty(0)\;\in\;[\,0.5627265,\ 0.5647420\,],
+\]
+of width $2.0\times10^{-3}$: the lower end from
+Corollary~\ref{cor:onedir}, the upper end the certified $n=32$ anchor
+of \S\ref{sec:anchors} through Corollary~\ref{cor:lower}. Equally, the
+plateau is \emph{not} hypothesis-free: it removes (H$^\ast$),
+(H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D), (F) and the boundary
+charge --- a real and large advance --- and replaces them with
+Lemma~\ref{lem:R1} and Hypothesis~\ref{hyp:indcopies}. It remains under
+Hypothesis~\ref{hyp:uind} throughout.
+\end{remark}
+
+\begin{remark}[Where the $O(1/n)$ drift lives]
+\label{rem:drift}
+At $\Delta=0$ the drift splits exactly along the two steps:
+$n(\phi_n-\Psi)=0.0645=0.0420$ (periodization / boundary)
+$+\,0.0225$ (cyclostationarity) $+$ residual. The entire
+(H$^\ast$)/(H$^{\ast\ast}$)/(H$^{\ast\ast\ast}$) machinery was fighting
+only the first $65\%$.
+\end{remark}
+
+\subsection{The two ingredients of the certificate}
+
+\begin{lemma}[S --- evaluation of the leak term]
+\label{lem:S}
+Under Theorem~\ref{thm:collapse} and bivariate Wiener--Masani/Szeg\H o,
+the stationary rate is
+\[
+\mathrm{rate}=\alpha\bigl[\langle\ln M_Q\rangle-\langle\ln
+n\rangle\bigr]
+\;+\;\alpha\bigl[\langle\ln f_S\rangle-\ln s\bigr],
+\qquad s=\operatorname{Var}\bigl(S_u\mid S^{u-1},R^{u}\bigr),
+\]
+with the closed form
+$\langle\ln f_S\rangle=\ln(\tau^2a/\lambda_s)=-0.1025391956$.
+\textbf{Scope (non-degeneracy).} The Szeg\H o step needs the $S$-side
+spectrum bounded away from $0$ and $\infty$; here
+$f_S\in[0.5111,\,9.400]$, so it cannot degenerate --- but the
+hypothesis is part of the lemma and must travel with it.
+\emph{Certificates:} identity residuals
+$-2.2\times10^{-16}/-4.4\times10^{-16}/-1.1\times10^{-15}$ at the three
+certified points; the closed form agrees with the grid to
+$2.9\times10^{-16}$ across $N_f=256$--$16384$.
+\textbf{Evaluator caveat.} On records with a deep narrow notch in the
+noise spectrum the \emph{finite-lag} evaluator for $\sigma$ and $s$
+converges very slowly (residual $2.4\times10^{-4}$ at $P=50$, still
+$1.5\times10^{-4}$ at $P=1600$). This is a property of the
+\emph{evaluator}, not a failure of the lemma (which is
+$P$-independent to $4.4\times10^{-16}$ at the anchors), and it does not
+touch the certificate, whose leak term is an exact integral of
+\emph{frozen} filters. By-product:
+$\mathrm{rate}_{\mathrm{block+leak}}\le
+\mathrm{rate}_{\mathrm{true}}\le\mathrm{rate}_{\mathrm{collapse}}$
+there, so the empirical gates used the aggressive side.
+\end{lemma}
+
+\begin{lemma}[C-stat --- per-frequency joint convexity]
+\label{lem:cstat}
+Fix a frequency. If $Q\succeq0$ and $R=P-Q\succeq0$, then
+\[
+(h,\Gamma)\;\longmapsto\;
+\ln\bigl(\Gamma-hQh^\ast\bigr)-\ln\bigl(\Gamma-hPh^\ast\bigr)
+\;=\;-\ln(1-Z),\qquad Z=\frac{hRh^\ast}{M_Q},
+\]
+is jointly convex on the cone.
+\emph{Proof.} $\varphi(h,t)=hRh^\ast/t$ is jointly convex on $t>0$
+(quadratic-over-linear, $R\succeq0$) and \emph{nonincreasing} in $t$;
+$M_Q(h,\Gamma)=\Gamma-hQh^\ast$ is jointly \emph{concave} ($Q\succeq0$);
+$h$ enters $\varphi$'s first slot affinely. The composition rule for a
+convex, coordinatewise-monotone outer function gives $Z$ convex; and
+$u\mapsto-\ln(1-u)$ is convex increasing on $u<1$.\hfill$\square$
+\textbf{Hypotheses used are exactly $Q\succeq0$ \emph{and}
+$R=P-Q\succeq0$}; both are load-bearing (R12). No matrix lift is
+needed and the 074 lemma (GO-13 Theorem~5, the block Schur lift of
+Theorem~\ref{thm:cvx}(i)) is cited here only as the \emph{antecedent}
+of which this is the scalar instance --- the proof above does not use
+it. \emph{Certificates:} $60{,}000$ random chords with $\Gamma$ pushed
+to $10^{-9}$ of the cone boundary, zero violations (harness; the
+verifier's own sweep likewise). \emph{Control:} with $Q\succ P$ the
+statement \emph{fails} --- $12{,}532/20{,}000$ violations, worst
+$+13.2$, in the verifier's sweep; $60{,}000/60{,}000$ violations, worst
+$-21.4$, in the harness's $Q'=1.3P$ control. The psd hypothesis is not
+decoration.
+\end{lemma}
+
+\begin{definition}[Admissible frozen filters --- a hypothesis with
+content]
+\label{def:adm}
+A pair $(C_0,B_0)$ is \emph{admissible} if $C_0$ is \emph{monic causal
+in $S$} and $B_0$ is \emph{causal including lag $0$ in $R$}. For such a
+pair the \emph{minorant}
+\[
+\hat s(x;C_0,B_0)\;=\;\bigl\langle|C_0|^2f_S+|B_0|^2\Gamma
++2\operatorname{Re}\bigl(\overline{C_0}B_0h_1\bigr)\bigr\rangle
+\]
+is \emph{affine} in $x$ and satisfies $\hat s\ge s$ \emph{always}.
+\end{definition}
+
+\begin{remark}[R11 --- admissibility is a hypothesis, not an adjective]
+\label{rem:R11}
+$\hat s\ge s$ was checked over $2{,}880$ (record $\times$ frozen-filter)
+pairs --- $120$ adversarial records $\times\,24$ filter choices
+including foreign optima, truncations to $1/2/5/20$ lags, oscillating
+and near-unit-root filters --- with $\min(\hat s-s)=-2.2\times10^{-16}$
+(machine zero, attained only where the filter \emph{is} that record's
+own optimum). \textbf{A non-monic $C$ ($C=0.3$) gives
+$\hat s-s=-0.5447$ and \emph{inverts} the bound}, and fed into the dual
+it produces ``lower bounds'' \emph{above} the true rate. This is the
+one place where a sign slip inverts the whole certificate.
+\end{remark}
+
+\subsection{The certificate}
+
+\begin{namedthm}[The box-free per-frequency certificate]
+\label{thm:cert}
+Let $\mu\ge0$, let $(C_0,B_0)$ be admissible
+(Definition~\ref{def:adm}) with $\hat s_0>0$ any linearisation point,
+and set
+\[
+\beta(\omega)=\mu-\alpha\,|B_0|^2/\hat s_0 ,\qquad
+p_1=-\alpha\,C_0\overline{B_0}/\hat s_0 ,\qquad
+p_2=-\mu\,z^{\Delta+1}.
+\]
+If $\beta>0$ everywhere then
+\[
+\Psi(D;\Delta)\;\ge\;
+\mathrm{const}(\mu,C_0,B_0,\hat s_0)\;+\;
+\Bigl\langle\;\inf_{h,\;n>0}\Bigl[
+\alpha\ln\!\Bigl(1+\tfrac{hRh^\ast}{n}\Bigr)
++\beta\,(n+hPh^\ast)+2\operatorname{Re}(p^\ast h)\Bigr]\Bigr\rangle .
+\]
+\textbf{The three inputs are: (i) admissibility of the frozen filters,
+(ii) $\beta>0$, and (iii) a correct cell infimum.} In particular the
+bound requires \emph{no optimality of the fixed point, no convexity of
+the process-rate functional, no differentiability of the rate, and no
+moment box}; the separability across frequencies replaces the tangent
+plane entirely, and Lemma~\ref{lem:cstat} is then used only to
+\emph{compute} each cell infimum reliably, never to establish validity.
+\emph{Proof.} Feasibility gives $\mathrm{rate}\ge\mathrm{rate}
++\mu(\mathrm{dist}-D)$; Definition~\ref{def:adm} gives
+$-\ln\hat s\le-\ln s$; concavity of $\ln$ gives
+$-\ln u\ge-u/u_0-\ln u_0+1$; and the result is separable across
+$\omega$, so the infimum passes inside the average.\hfill$\square$
+\end{namedthm}
+
+\begin{remark}[R17 --- state the certificate this way, and why]
+\label{rem:R17}
+The dual bound survives brutal mistreatment: $25$ random
+\emph{non-optimal} anchors per $\Delta$ give valid bounds; mistuning
+$\mu$ by $\times0.95$ or $\times1.10$ degrades but never invalidates;
+truncating the frozen filters to $12/4/1$ lags loses
+$0/3.6\times10^{-6}/1.08\times10^{-2}$. The KKT solve only makes the
+bound \emph{tight}, never \emph{valid}. \textbf{This is a genuine
+strengthening over the moment-box route}, which does \emph{not}
+survive: a $10^{-4}$ perturbation of the anchor collapses the box bound
+to $0.1377$. Both agree at the anchor to $2.2\times10^{-12}$, and
+\textbf{the moment-box computation is therefore recorded as a
+corroboration, never as the certificate}. Its constants, for the
+record: $\langle\Gamma\rangle\le(1+\sqrt D)^2=2.395445115$ (Minkowski)
+and $\langle|\Phi_{RV}|\rangle,\langle|\Phi_{RY}|\rangle\le1+\sqrt
+D=1.547722558$ (pointwise $+$ integral Cauchy--Schwarz, using
+$\langle f_V\rangle=\langle f_Y\rangle=1$) --- far tighter than the
+finite-$n$ box, which carries $\sqrt{nD}$ where this carries $\sqrt D$
+per symbol. A free structural check found en route:
+$\langle\Gamma\rangle=1-D=0.7$ \emph{exactly} at all three $\Delta$, so
+the stationary optimum is a proper test channel
+($E[\hat Y^2]=E[\hat Y Y]$). \textbf{Consequence: (R2), the global
+optimality of the stationary program, is \emph{discharged} --- it is no
+longer required anywhere in the plateau chain.}
+\end{remark}
+
+\begin{remark}[The $L^2$ box does not exist --- constructively]
+\label{rem:l2box}
+The H\"older pairing above is $L^1/L^\infty$, and it must be: the
+distortion constraint controls $\langle\Gamma\rangle$ but \emph{not}
+$\langle\Gamma^2\rangle$. Constructively, feasible records at fixed
+distortion and fixed $\langle\Gamma\rangle$ have
+$\langle\Gamma^2\rangle=1.667/1.965/2.929/6.770$ as the spike narrows
+over $64/16/4/1$ bins --- $\langle\Gamma^2\rangle$
+\emph{diverges}. \textbf{No $L^2$ moment box exists here}, and any
+certificate written against one is invalid.
+\end{remark}
+
+\begin{remark}[Errata and scope notes carried by this section]
+\label{rem:errata2}
+\emph{(R14) --- a proof-step correction.} The cell guard must not be
+justified by ``Hessian $\succeq2\beta\lambda_{\min}(P)I$'': that
+argument is false, because $\varphi(hRh^\ast)$ is radially
+\emph{concave}. The correct strong-convexity modulus is
+\[
+m\;=\;\beta\,\lambda_{\min}(P+Q),\qquad
+\text{guard}\;=\;\frac{2|u|^2}{\beta\,\lambda_{\min}(P+Q)},
+\]
+$u$ the Wirtinger residual at the cell's stationary point. The
+corrected modulus is $3.5\%$ larger here ($0.14231$ against $0.14725$)
+and numerically inert (guards $1.0\times10^{-26}$ against
+$9.7\times10^{-27}$; the bound moves by $0.0\times10^{0}$), but the
+sentence is replaced, not patched.
+
+\emph{(R15) --- outward rounding.} The quotable brackets of
+\S\ref{sec:psibrackets} are rounded \emph{outward} at $10^{-10}$. The
+$12$-digit line that circulated earlier was rounded \emph{inward} (the
+lower ends up by $\approx4\times10^{-13}$, the $\Delta=1$ upper end
+down by $4\times10^{-16}$) and is \emph{withdrawn}; only the $10$-digit
+form is quotable. The raw floating-point widths are
+$\le4.4\times10^{-12}$.
+
+\emph{(R18) --- $\Delta=2$ has no headroom in the tuning.} At
+$\Delta=2$, $\mu\times0.95$ costs $-2.4\times10^{-5}$ of margin,
+$\mu\times1.10$ costs $-2.2\times10^{-3}$, and a $\pm5\%$ error in the
+$\hat s$ linearisation costs $-4.9\times10^{-5}/-1.7\times10^{-4}$.
+Validity is never lost, only margin. \textbf{$\Delta=2$ carries the
+campaign's smallest margin} and must not be promoted ahead of the other
+two.
+
+\emph{(R19) --- the $O(1/n)$ constant is $\Delta$-dependent.}
+$n(\phi_{16}-\Psi)=0.064507/0.070483/0.077503$ at $\Delta=0/1/2$
+(harness: $0.064506/0.070483/0.077503$). Consequently
+$c(0)\in[0.06447,0.06449]$ --- itself a correction of the earlier
+``$0.064495\pm3\times10^{-5}$ relative'', which was merely the $n=32$
+point; the sequence is monotone decreasing over $n=8$--$48$ with
+spread $3.0\times10^{-4}$ relative and Richardson$(32,48)=0.064471$ ---
+\textbf{is a $\Delta=0$ statement only. No $\Delta$-uniform $O(1/n)$
+constant is claimed anywhere in this document.}
+
+\emph{(R20) --- the block infimum.} The anchor-free two-sided
+certificate of \S\ref{sec:doesnotprovetoomuch} pins
+$\mathrm{block}_\infty\in[0.5299499808,\,0.5299499809]$; the value to
+use is $\mathrm{block}_\infty=0.5299499808119$. The committed
+\texttt{results/GO14-process-limit.json} entry
+\texttt{s6\_block\_inf}$\,=0.529949985183839$ is \textbf{high by
+$4.4\times10^{-9}$} and is corrected here. Nothing downstream moves:
+the $0.0313$ spectral gain of Theorem~\ref{thm:main}(v) is unaffected.
+
+\emph{Truncation --- and its \emph{sign}.} Lag truncation of the frozen
+filters is on the \emph{safe} side for the lower bound: a truncated
+filter is still admissible, so $\hat s\ge s$ and the bound can only
+loosen. It has the \emph{wrong sign} for the upper bound --- the rate
+evaluator's own $s$ is $P$-truncated, so the computed rate
+\emph{under}-states the true rate. The upper ends here are safe because
+the evaluation is flat to $4.4\times10^{-16}$ at the anchors over
+$P=50$--$1600$; the sign is stated rather than assumed.
+\end{remark}
+
+\subsection{The certified brackets and the plateau}
+\label{sec:psibrackets}
+Minimum lower end and maximum upper end over the grid family
+$N_f\in\{1024,2048,4096,8192\}\times P\in\{60,100,140,200\}$, rounded
+\emph{outward} at $10^{-10}$ (R15):
+\[
+\Psi(0)\in[0.5627264963,\,0.5627264964],\quad
+\Psi(1)\in[0.5364013784,\,0.5364013785],\quad
+\Psi(2)\in[0.5310500198,\,0.5310500199].
+\]
+The multipliers are $\theta=3.086038362097/3.130079068857/
+3.151357871769$, identical to $12$ digits across the whole grid family;
+the lower-end spread over the family is
+$4.0\times10^{-13}/1.4\times10^{-12}/7.7\times10^{-13}$ and the
+upper-end spread $\le6.7\times10^{-16}$. The integrands are analytic and
+periodic, so the rectangle rule is spectrally accurate (confirmed, not
+assumed). These are \emph{floating-point} certificates in the sense of
+Remark~\ref{rem:fpcert}: no interval arithmetic.
+
+\begin{corollary}[The plateau at $\Delta=0,1,2$ ---
+\emph{this supersedes Corollary~\ref{cor:plateau}}]
+\label{cor:plateau2}
+Under Hypothesis~\ref{hyp:uind}, Hypothesis~\ref{hyp:indcopies} and
+Lemma~\ref{lem:R1} --- and \emph{conditional on
+Lemma~\ref{lem:R1} alone} among the hypotheses this campaign has been
+fighting ---
+\[
+L^\infty(\Delta)\;\ge\;\Psi(D;\Delta)\;\ge\;\mathrm{LB}(\Delta),
+\]
+and against the \emph{sealed} causal-spectral allocation values of
+\texttt{results/GO14-process-limit.json} (\texttt{s6\_cand}),
+\[
+\begin{array}{lccc}
+\Delta & \text{sealed bar} & \text{quotable }\mathrm{LB}
+  & \text{margin}\\[2pt]
+0 & 0.5479447799144537 & 0.5627264963 & \mathbf{+0.0147817164}\\
+1 & 0.5323438832146611 & 0.5364013784 & \mathbf{+0.0040574952}\\
+2 & 0.5302532008457406 & 0.5310500198 & \mathbf{+0.0007968190}
+\end{array}
+\]
+Every margin clears the certified bracket width by four to eight orders
+of magnitude ($\Delta=2$, the tightest, by $1.8\times10^{8}$ bracket
+widths). \textbf{This retires (H$^\ast$), (H$^{\ast\ast}$),
+(H$^{\ast\ast\ast}$), (D), (F) and the boundary charge from the plateau
+argument, at three lags --- two of which the transfer route provably
+could not reach} (it would have needed certified anchors at
+$n\approx260$ and $n\approx1320$).
+\end{corollary}
+
+\begin{remark}[The bars, and a superseded pair of numbers]
+\label{rem:R16}
+(R16.) The margins above are computed against the \emph{sealed}
+causal-spectral values
+$0.5479447799144537/0.5323438832146611/0.5302532008457406$ of
+\texttt{results/GO14-process-limit.json} (\texttt{s6\_cand}), and
+against nothing else. The $\Psi$-bracket prover used a rounded bar
+triple that is correct at $\Delta=0$ but \emph{wrong} at the other two
+lags --- at $\Delta=1$ in a \emph{non-conservative} direction, its
+margin coming out $8.8\times10^{-7}$ too large, and at $\Delta=2$
+conservatively by $8.2\times10^{-7}$. \textbf{That triple is
+withdrawn: no margin anywhere in this document is computed against it,
+and none may be.} No verdict moves --- all three margins above still
+clear by four to eight orders --- but the $\Delta=1$ margin recorded
+against that triple is withdrawn and replaced by $+0.0040574952$. The
+harness reads the sealed bars from the committed JSON at run time and
+cross-checks them against its pinned literals.
+\end{remark}
+
+\medskip\noindent\textbf{Cross-checks, all consistent.} An independent
+window-Cholesky evaluator re-evaluates the certified point to
+$\le1.6\times10^{-15}$ at all three $\Delta$ and at three window sizes.
+Every sealed certified $\mathrm{LB}(\phi_n)$ sits \emph{above}
+$\Psi^{\mathrm{UB}}$ at $n=8$--$48$, with
+$n(\phi_n^{\mathrm{UB}}-\Psi^{\mathrm{UB}})=0.064535/0.064516/0.064507/
+0.064497/0.064495/0.064487$ --- monotone decreasing, exactly as
+(R19) requires. All independent constructive upper bounds sit above
+$\Psi^{\mathrm{UB}}$; a $D$-ladder over $D=0.26$--$0.34$ sits strictly
+below the sealed 081 $\phi_8(D)$ lower ends, smooth and monotone; and
+$400$ random feasible stationary records per $\Delta$ give zero
+violations (minimum slack $+0.090/+0.110/+0.116$).
+
+\subsection{``Does it prove too much?''}
+\label{sec:doesnotprovetoomuch}
+The identical machinery run on the \emph{block} program ($se\equiv n$;
+no leak, so the cell dual needs \emph{no anchor at all}) returns
+$\mathrm{UB}=\mathrm{LB}=0.5299499808119$ against the independently
+known block infimum --- agreement $1.2\times10^{-11}$, and it does
+\emph{not} produce a value above the known answer. The full
+$\Delta$-ladder $0,\dots,9$ matches the recorded ladder at every
+$\Delta$,
+\[
+\Psi(\Delta)=0.562726496/0.536401378/0.531050020/0.530117530/
+0.529973408/0.529953058/0.529950369/0.529950029/0.529949987/
+0.529949982,
+\]
+with $\mathrm{LB}(9)-\mathrm{block}_\infty=+7.3\times10^{-10}\ge0$: the
+machinery approaches the known value \emph{from above} and never
+crosses it. The per-lag excess ratios rise monotonically \emph{from
+below} toward $\lambda_s^{-2}=7.954917$ and cross at
+$\Delta\approx6$; the full-family closure constant is
+$c_{\mathrm{fs}}\approx0.098\pm0.004$, strictly below the diagonal-class
+$c_{\mathrm{diag}}=0.111\pm0.006$ as it must be. \textbf{Keep the two
+appearances of $\lambda_s$ apart}: it \emph{is} the $\Delta$-closure
+exponent, and it is \emph{not} the kernel pole --- the true dominant
+singularity is a complex pair of modulus $\rho^\ast=0.27\pm0.02$,
+uniform in $\Delta$ (measured at three $\Delta$), strictly inside
+$\lambda_s=0.3545538$, which therefore survives only as a
+\emph{conservative envelope} for hypothesis (D) (making
+$\bar X=0.065038$ loose).
+
+\subsection{The $\Delta=2$ finite-window cross-check, certified}
+\label{sec:d2anchors}
+The $\Psi$ prover's scope note --- that no \emph{committed} sealed
+$\phi_n$ existed at $\Delta=2$ --- is discharged. The same certify
+machinery that produced the sealed anchors (cold start, deterministic)
+gives
+
+\begin{center}
+\begin{tabular}{lll}
+$(n,\Delta)$ & certified bracket for $\phi_n(2)$ & width\\
+\hline
+$(16,2)$ & $[0.535891743313,\ 0.535893963469]$ & $2.22\times10^{-6}$\\
+$(24,2)$ & $[0.534274270522,\ 0.534279127269]$ & $4.86\times10^{-6}$\\
+$(32,2)$ & $[0.533465073456,\ 0.533471490973]$ & $6.42\times10^{-6}$\\
+\end{tabular}
+\end{center}
+
+\noindent --- at or better than the sealed-cell width band
+($3.0$--$9.2\times10^{-6}$); nothing had to be disclosed as short.
+Diagnostics: gradient norms $1.19/1.28/1.11\times10^{-8}$; the
+noise-floor parameterization is \emph{inactive}
+($\lambda_{\min}(N)\approx0.1404$ at all three $n$, and
+$\lambda_{\max}(N)$ under Theorem~\ref{thm:K}'s $1/\theta$ cap, so the
+optimizer is interior); $\mathrm{dist}-D$ strictly negative, so each
+upper end is a \emph{raw feasible} evaluation with zero projection
+correction; an independent evaluator agrees to $5.6\times10^{-16}$; and
+a second, unrelated cold start lands within $5.3\times10^{-7}$, inside
+the certified widths, at all three $n$. Controls $(16,0)$, $(16,1)$,
+$(24,0)$ reproduce the sealed brackets first, every upper end within
+$1.2\times10^{-7}$.
+
+\medskip\noindent\textbf{Cross-check against
+Corollary~\ref{cor:plateau2}: no violations.} Every certified
+$\mathrm{LB}(\phi_n(2))$ sits strictly \emph{above} $\Psi(2)$'s upper
+end, by $4.84/3.22/2.42\times10^{-3}$ --- $500$--$2000\times$ the
+bracket widths --- and
+$n(\phi_n^{\mathrm{UB}}-\Psi^{\mathrm{UB}})=0.0775031/0.0774986/
+0.0774871$, monotone decreasing as (R19) requires. The committed
+\texttt{s4\_fs16\_D2}$\,=0.5358939351814885$ lies strictly inside the
+new $(16,2)$ bracket.
+
+\begin{remark}[Bookkeeping: two valid $(16,0)$ bracket conventions ---
+this document uses one of them]
+\label{rem:bookkeeping}
+Two different $(16,0)$ brackets are in circulation and \emph{both are
+valid records of different things}: the R-IND-5
+\emph{width-of-record} bracket $[v^\ast-3.45\times10^{-6},\,v^\ast]
+=[0.566754682,\,0.5667581350]$, and the
+\texttt{results/GO14-convexity.json} bracket produced by the harness's
+own cold start. \textbf{This document uses the \emph{width-of-record}
+convention throughout} --- it is the convention already printed in the
+anchor table of \S\ref{sec:anchors} --- and every $(16,0)$ bracket
+quoted anywhere above is that one. Mixing the two in a single
+comparison is an error.
+\end{remark}
+
+\medskip\noindent\textbf{Hygiene notes carried forward.} All brackets
+in this section are floating-point certificates (Remark~\ref{rem:fpcert});
+the finite-$n$ lower endpoints are BLAS-sensitive at $\sim10^{-7}$
+through $r_n\!\cdot\!R_{\mathrm{box}}$, which is exactly why the width
+gates live in the artifact-self-consistency tier of CI and why a
+governed runner must \emph{re-derive} these numbers and never copy
+them. Two artifact-hygiene items are on record and are not cited as
+evidence anywhere above: the committed
+\texttt{spectral/transfer.log} kernel-transfer defect is an $A_v$
+lag-orientation mismatch (a flat $6.76\times10^{-2}=|a_v(+1)-a_v(-1)|$
+swamping a genuine $O(1/n)$ boundary layer) and must be regenerated
+before use; and the internal check ``block $+$ leak $=$ rate'' is an
+\emph{algebraic identity}, not an independent validation.
+
 \begin{question}[Open]
 \label{q:open}
+(0) \textbf{Lemma~\ref{lem:R1}, and it is now the single remaining
+load-bearing hypothesis of the plateau} (with
+Hypothesis~\ref{hyp:indcopies}, which is a hypothesis of an explicit
+construction rather than an estimate). It is a
+pointwise-limit-of-convex-functions statement on the cyclostationary
+class; a proof would leave Corollary~\ref{cor:plateau2} standing on
+Hypothesis~\ref{hyp:uind} alone. Separately, the \emph{reverse}
+inequality in Corollary~\ref{cor:onedir} --- a truncation /
+achievability lemma at stationarity, which the non-rationality of the
+stationary optimum makes non-trivial --- is open, and until it is
+settled nothing may be said about $L^\infty$ beyond the bracket of
+Remark~\ref{rem:onedirection};
 (1) \emph{A uniform-in-$m$ decay bound on the optimizer's cross-block
-kernel} --- the residue of the old $n$-monotonicity face after
+kernel} --- \emph{no longer needed for the plateau}
+(Corollary~\ref{cor:plateau2} retires it there), but still the residue
+of the old $n$-monotonicity face after
 Theorem~\ref{thm:transfer} closed its subadditivity half
 unconditionally and Theorem~\ref{thm:hrep} reduced the rest to the
 single scalar $X$. The open problem is now \emph{named}, and it is not
@@ -1668,4 +2389,44 @@ arithmetics with the base-24 negative control; s8 the monotone
 $m$-table; s9 $\phi^{\mathrm{sc}}_{2m}\le\phi_m$ and the
 (H$^{\ast\ast\ast}$) gaps). Nothing in \S\ref{sec:K} or
 \S\ref{sec:repair} is sealed.
+
+The v0.7 material --- \S\ref{sec:plateau} in full:
+Theorem~\ref{thm:collapse} with Remark~\ref{rem:R6},
+Theorem~\ref{thm:period} with Hypothesis~\ref{hyp:indcopies} and
+Remark~\ref{rem:R7}, Lemma~\ref{lem:R1}, Theorem~\ref{thm:shift},
+Corollary~\ref{cor:onedir} with Remark~\ref{rem:onedirection},
+Lemma~\ref{lem:S}, Lemma~\ref{lem:cstat}, Definition~\ref{def:adm}
+with Remark~\ref{rem:R11}, Theorem~\ref{thm:cert} with
+Remarks~\ref{rem:R17} and~\ref{rem:l2box}, the errata of
+Remark~\ref{rem:errata2} (R14, R15, R18, R19, R20 and the truncation
+sign), the certified brackets of \S\ref{sec:psibrackets},
+Corollary~\ref{cor:plateau2} with Remark~\ref{rem:R16},
+\S\ref{sec:doesnotprovetoomuch}, the $\Delta=2$ anchors of
+\S\ref{sec:d2anchors} and the bookkeeping convention of
+Remark~\ref{rem:bookkeeping} --- awaits \textbf{registration 082},
+harness \texttt{experiments/go14\_plateau.py} (s1 the Collapse
+identity on staircase, edge and non-staircase schedules with the R6
+$\Delta$-lag-causal $U$-extension gated in \emph{both} directions;
+s2 the three sub-claims of step (A) with the R7 correlated-noise-copy
+control; s3 step (B) at cold-start optimizers and at random period-$n$
+records --- cone membership, distortion preservation, and the
+no-larger-rate inequality; s4 Lemma~\ref{lem:cstat}'s Jensen sweep at
+$10^{-9}$ from the cone boundary with the R12 $Q\succ P$ control; s5
+the minorant over $2{,}880$ record$\times$filter pairs with the R11
+non-monic control; s6 R17 --- validity of the dual at deliberately
+non-optimal anchors, mistuned $\mu$, truncated filters and mistuned
+linearisation; s7 reproduction of the quotable brackets, of the
+margins against the \emph{sealed} bars, of $\mathrm{block}_\infty$
+(R20) and of the $\Delta$-dependent $O(1/n)$ constants (R19); s8 the
+``does it prove too much'' block program and the $\Delta$-ladder).
+The scope proposed for 082 is: Theorem~\ref{thm:collapse},
+Theorem~\ref{thm:period} and Theorem~\ref{thm:cert}
+(unconditional given Hypothesis~\ref{hyp:uind} and
+Hypothesis~\ref{hyp:indcopies}); Lemmas~\ref{lem:S}
+and~\ref{lem:cstat}; the certified $\Psi$ brackets; the $\Delta=2$
+finite-$n$ anchors; and Theorem~\ref{thm:shift} /
+Corollary~\ref{cor:onedir} / Corollary~\ref{cor:plateau2}
+\emph{conditional on Lemma~\ref{lem:R1}}. Nothing in
+\S\ref{sec:plateau} is sealed, and no seal may print an equality
+between $L^\infty$ and $\Psi$ (Remark~\ref{rem:onedirection}).
 \end{document}
