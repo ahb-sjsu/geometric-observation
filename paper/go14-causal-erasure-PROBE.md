@@ -1146,3 +1146,143 @@ interval arithmetic; **the LB endpoint is BLAS-sensitive at ~1e-7
 through rn*R_box (exactly why the 079 width GATES sit in CI's
 artifact-self-consistency tier), so a governed runner must
 RE-DERIVE these, never copy them.**
+
+## R-IND-5 ON THE PSI CERTIFICATE (2026-08-07): READY TO SEAL 082 with TEN restatements (R11-R20) -- nothing refuted, but FOUR wrong numbers and ONE false proof-step found
+
+Fresh context, own spectra/solver/gradient/box/dual (structurally
+unrelated cell-argmin fixed point, not the K1-K3 filter recursion).
+No sign error, no direction error, no counterexample.
+**WEAK DUALITY re-derived: PASS.** Link-by-link audit at 363 random
+feasible records, all six links, ZERO violations at all three Delta.
+COUNTEREXAMPLE SEARCH FAILED (as it should): projected steepest
+descent on the true rate along dist=D from the certified point and
+from perturbed anchors finds nothing below LB (best = LB + 3.2e-12);
+6000 random feasible records incl. deep-notch and tall-spike noise
+spectra scored with the UNDER-estimating evaluator, 0 violations;
+KKT-free Nelder-Mead/Powell over FIR records, no violation.
+**THE MINORANT shat >= s: PASS** over 2880 (record x frozen-filter)
+pairs -- 120 adversarial records x 24 filter choices including
+foreign optima, truncations to 1/2/5/20 lags, oscillating and
+near-unit-root filters. min(shat - s) = -2.2e-16 (machine zero,
+attained only when the filter IS that record's optimum).
+**R11 -- THE CONTROL THAT GIVES THE TEST POWER: a NON-MONIC C
+(C = 0.3) gives shat - s = -0.5447 and INVERTS the bound**, and fed
+into the dual it produces "lower bounds" ABOVE the true rate. So
+"admissible" is a HYPOTHESIS with content (C monic causal in S, B
+causal INCLUDING lag 0 in R), not an adjective.
+**Q = diag(1/f_S,0) and det R: PASS** (1.5e-15 / 6.7e-16; det R
+verified 5.3e-15 with s_N^2 appearing exactly once -- the verifier's
+own first transcription as s_N^4 was ITS error, the probe is right).
+R > 0 uniformly (min eigenvalue 3.17e-3).
+**R12 -- Lemma C-stat: PASS with a SHORTER PROOF than the 074
+citation**: phi(h,t) = hRh*/t is jointly convex (quadratic-over-
+linear) and NONINCREASING in t; M_Q is jointly concave; composition
+gives Z convex; -ln(1-u) convex increasing finishes. Hypotheses used
+are exactly Q >= 0 AND R = P-Q >= 0 -- no lift, no 074. 60000 random
+chords with Gamma pushed to 1e-9 of the cone boundary: 0 violations;
+CONTROL with Q > P: 12532/20000 violations (worst +13.2), so the psd
+hypothesis is load-bearing.
+**R13 -- Lemma S: PASS at the certified points, with a mandatory
+scope clause.** Identity residuals -2.2e-16/-4.4e-16/-1.1e-15;
+<ln f_S> closed form agrees 2.9e-16 across Nf = 256..16384; Szego
+CANNOT degenerate on the S side here (f_S in [0.5111, 9.400]). NEW:
+on records with a deep narrow notch in n, the FINITE-LAG evaluator
+for sigma and s converges very slowly (residual 2.4e-4 at P=50,
+still 1.5e-4 at P=1600) -- an EVALUATOR property, not a Lemma-S
+failure (P-independent to 4.4e-16 at the anchors), and it does not
+touch the certificate, whose leak term is an exact integral of
+frozen filters. By-product: rate_blockleak <= true rate <=
+rate_collapse there, so the empirical gates used the aggressive side.
+**R14 -- A FALSE PROOF-STEP IN THE CODE.** psicert/cert.py
+::dual_cells asserts "Hessian >= 2 beta lambda_min(P) I". That is
+NOT proved by the stated reason: phi(hRh*) is radially CONCAVE.
+Correct argument gives modulus **beta lambda_min(P+Q)** and guard
+2|u|^2/(beta lambda_min(P+Q)) -- 3.5% larger here (0.14231 vs
+0.14725), numerically inert (guards 1.0e-26 vs 9.7e-27, LB unchanged
+to 0.0e+00), but the sentence MUST be replaced.
+**MOMENT BOX: PASS; and the "L2 box is invalid" claim CONFIRMED
+CONSTRUCTIVELY** -- feasible records at fixed dist and <Gamma> have
+<Gamma^2> = 1.667/1.965/2.929/6.770 as the spike narrows (64/16/4/1
+bins), i.e. <Gamma^2> DIVERGES; no L2 box exists. Worth numbering.
+||g||_inf is genuinely resolved (flat 2.5e-13..4.6e-13 across
+Nf = 512..8192). <Gamma_p> = 0.7 = 1-D exactly at all three Delta.
+**BRACKETS: PASS on substance**, reproduced digit-for-digit by an
+independent solver, and the independent window-Cholesky evaluator
+returns 0.562726496340/0.536401378471/0.531050019852 at three
+window sizes -- 12-digit agreement.
+**R15 -- OUTWARD ROUNDING VIOLATED AT 12 DIGITS**: the quoted LBs
+are rounded INWARD (up) by ~4e-13 and the Delta=1 UB inward (down)
+by 4e-16. The 10-digit quotable form is correct and safe; fix the
+12-digit line or drop it.
+**R16 -- THE BARS ARE WRONG, AND ONE ERROR IS NOT CONSERVATIVE.**
+psicert used BAR = {0.5479448, 0.5323430, 0.5302540}; the SEALED
+causal-spectral values (results/GO14-process-limit.json s6_cand)
+are 0.5479447799144537 / 0.5323438832146611 / 0.5302532008457406.
+**The recorded Delta=1 margin +0.0040584 is 8.8e-7 TOO LARGE**
+(Delta=2's is 8.2e-7 too small, conservative). CORRECT MARGINS:
+**+0.0147817164 / +0.0040574952 / +0.0007968190.** All three still
+clear by 4-8 orders over the bracket width; no verdict moves.
+**R17 -- STATE THE CERTIFICATE VIA THE BOX-FREE PER-FREQUENCY DUAL,
+NOT THE BOX.** The dual is valid for ANY mu with beta > 0, ANY
+admissible frozen filters, ANY linearisation point: 25 random
+NON-OPTIMAL anchors per Delta give valid bounds, and truncating the
+frozen filters to 12/4/1 lags loses 0/3.6e-6/1.08e-2 -- it survives
+brutal mistreatment. The BOX route does not (1e-4 anchor
+perturbation collapses it to 0.1377). Both agree at the anchor.
+**AND THE DUAL NEEDS NO CONVEXITY OF J^- AT ALL** (separability
+replaces the tangent) -- Lemma C-stat is then used only to COMPUTE
+each cell infimum reliably, not to establish validity. **A genuine
+STRENGTHENING the seal should claim.**
+**R18 -- Delta=2 HAS NO HEADROOM IN THE CERTIFICATE'S TUNING**:
+mu x0.95 -> margin -2.4e-5; mu x1.10 -> -2.2e-3; shat linearisation
++/-5% -> -4.9e-5/-1.7e-4. Validity never lost, only margin. Record
+it: Delta=2 is the campaign's smallest margin.
+**ATTACK (c) "does it prove too much?": NO.** The identical
+machinery on the BLOCK program (se == n; no leak, so the cell dual
+needs NO ANCHOR AT ALL) gives UB = LB = 0.5299499808119 against the
+recorded block_inf 0.5299499808 -- agreement 1.2e-11, and it does
+NOT produce a value above the independently known answer. Full
+Delta-ladder 0..9 matches the recorded ladder at every Delta, with
+LB(9) - block_inf = +7.3e-10 >= 0: the machinery approaches the
+known value FROM ABOVE and never crosses.
+**ATTACK (d) Delta=2 independent route: PASS** -- window-Cholesky
+0.531050019852 at three windows; and rind5B/opt_16_2.npz IS a
+certified finite-n anchor at Delta=2 ([0.5358908014, 0.5358939352],
+LB > Psi_UB(2), n(phi_n - Psi) = 0.077503). The probe's scope note
+was literally true ("not in the COMMITTED artifacts") but the
+cross-check is stronger than recorded.
+**R19 -- THE O(1/n) CONSTANT IS Delta-DEPENDENT**: n(phi_16 - Psi)
+= 0.064507 / 0.070483 / 0.077503 at Delta=0/1/2. Restatement 8's
+c(0) in [0.06447, 0.06449] is a **Delta=0 statement** and must never
+be quoted or reused as Delta-uniform.
+**R20 -- ERRATUM: results/GO14-process-limit.json s6_block_inf =
+0.529949985183839 is HIGH by 4.4e-9.** The anchor-free two-sided
+certificate pins **block_inf in [0.5299499808, 0.5299499809]**; use
+0.5299499808119 (a new and tighter number than addendum 1's).
+**ATTACK (e) truncation: PASS** for the LB (a truncated filter is
+admissible so shat >= s and the LB only loosens). **CAVEAT for the
+UB, not the LB**: the rate evaluator's s is itself P-truncated, so
+the computed rate UNDER-states the true rate -- the wrong sign for
+an upper bound. Flat to 4.4e-16 at the anchors over P = 50..1600, so
+the UB is safe; STATE THE SIGN.
+**EXACT PERMITTED WORDING (082):** "Psi(Delta) in [LB, UB],
+two-sided certified (floating point, house convention), with LB from
+a per-frequency weak-duality bound requiring no optimality of the
+fixed point, no convexity of the process-rate functional, and no
+differentiability: Psi(0) in [0.5627264963, 0.5627264964], Psi(1) in
+[0.5364013784, 0.5364013785], Psi(2) in [0.5310500198,
+0.5310500199]." And: "L^inf(Delta) >= Psi(Delta) >= LB,
+unconditional MODULO (R1) ALONE, where (A) is instantiated by the
+independent-noise-copy periodization, at margins **+0.0147817 /
++0.0040575 / +0.0007968**." And: "(R2) is DISCHARGED: global
+optimality of the stationary program is no longer required anywhere
+in the plateau chain."
+**STILL FORBIDDEN, unchanged: "L^inf = Psi", "IDENTIFIED", "no
+hypothesis at all". ADDITIONALLY FORBIDDEN: presenting the BOX bound
+as the certificate without R17; any margin computed against
+0.5323430 / 0.5302540; any claim of a Delta-uniform O(1/n)
+constant.**
+The four numeric corrections (R15, R16, R19, R20) and the one
+proof-step correction (R14) are EDITS, not re-runs -- no computation
+repeats. **(R1) is confirmed as the single remaining load-bearing
+hypothesis and the highest-leverage next target.**
