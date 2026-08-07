@@ -1286,3 +1286,30 @@ The four numeric corrections (R15, R16, R19, R20) and the one
 proof-step correction (R14) are EDITS, not re-runs -- no computation
 repeats. **(R1) is confirmed as the single remaining load-bearing
 hypothesis and the highest-leverage next target.**
+
+### Psi-certificate verifier, final two attacks (same day): THREE independent searches fail, and the sign-slip failure mode is LOUD, not silent
+
+**T13 -- KKT-free adversarial search, independent of the fixed
+point.** Nelder-Mead + Powell over FIR record parametrizations, 6
+restarts per Delta, all constrained to dist = 0.300000000: best
+feasible rates found are 0.630606482560 / 0.677990215830 /
+0.673693618992 against certified LBs 0.562726496337 /
+0.536401378468 / 0.531050019848 -- clearances +6.8e-2 / +1.4e-1 /
++1.4e-1, no violation. **Combined with the projected steepest
+descent from the certified point (best = LB + 3.2e-12/3.8e-12/
+4.3e-12) and the 6000 random feasible records, THREE INDEPENDENT
+SEARCH STRATEGIES FAIL to find a feasible record below the LB.**
+**T14 -- THE DETECTOR HAS POWER, and the sign slip is LOUD.** Feed
+a deliberately INADMISSIBLE (non-monic) frozen filter into the same
+dual so that shat < s: C x0.6 gives shat - s = -0.5488 and returns
+"LB" = **1.271551022522**; C x0.3 gives -0.7642 and returns
+**1.958937356731** -- both EXCEED the true rate by 2.3-3.5x.
+**So a sign slip at the shat >= s step does NOT produce a
+plausible-looking number: it produces a bound several times the true
+rate, immediately visible against any upper bound.** That RETIRES
+the Psi prover's own stated worry ("the one place a sign slip
+inverts the bound" would have been caught on sight) and independently
+confirms R11 -- monicity of C is a HYPOTHESIS, not an adjective.
+Total independent compute ~50 min across seven scripts, all
+deterministic, scratchpad only. **Verdict unchanged: READY TO SEAL
+082 with R11-R20.**
