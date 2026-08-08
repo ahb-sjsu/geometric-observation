@@ -76,3 +76,21 @@ A pass nets the proof that closes the static m=2 theory: Theorem 9
 fully resolved, the spectral two-price allocation globally optimal.
 The lemma's proof is elementary and self-contained; the harness is a
 falsification net, not the proof.
+
+## Attribution amendment (dated 2026-08-07, post-seal, disclosed)
+
+The (R1) novelty sweep grepped this registration and
+paper/go11-conditional-region-NOVELTY.md and found the lemma
+recorded only as "the verifier PROVED the assigned lemma", with **no
+external attribution anywhere in the program**. Both the scalar
+(aa'/s) and matrix instances are **standard convex analysis**:
+the matrix-fractional function A*B^-1 A is jointly matrix-convex and
+Loewner-nonincreasing in B (Boyd & Vandenberghe, *Convex
+Optimization*, CUP 2004, Sec. 3.1.7 and 3.2.4), and the
+Schur-complement/operator-concavity ingredient is Ando, *Concavity
+of certain maps on positive definite matrices*, Linear Algebra Appl.
+26 (1979) 203-241. **The program's contribution here is the LIFT
+INTO THE MOMENT CHART, not the convexity.** No sealed gate, verdict
+or number changes; this amendment corrects the attribution record
+only. The same citations are owed wherever the lemma is invoked
+(GO-13 tex; GO-14 tex Theorem R1 step 3a).

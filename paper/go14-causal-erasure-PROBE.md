@@ -1568,3 +1568,119 @@ STILL OWED, unchanged: the novelty sweep on the combination
 quadratic-over-linear) vs Wiener-Masani/Helson-Lowdenslager and the
 070/073 conditional-RDF attributions. The REVERSE inequality
 (truncation/achievability) is untouched and still open.
+
+## (R1) NOVELTY SWEEP (2026-08-07): combination NOVEL, EVERY INGREDIENT STANDARD -- and an ATTRIBUTION GAP FOUND IN-HOUSE (074)
+
+**METHOD LIMITS, on the record first (must travel with any "first"
+phrasing):** 26 queries; the arXiv **API returned HTTP 429
+throughout**, forcing the HTML search endpoint, which is
+**TITLE+ABSTRACT ONLY** -- so this is a **METADATA-LEVEL sweep, NOT
+full text**; curl blocked in-environment; **WebSearch budget was
+ALREADY EXHAUSTED (200/200) before the sweep started**, so Semantic
+Scholar and general-web/Scholar were **NOT RUN**. Two attributions
+(Vastola-Poor, Franke) are metadata-confirmed but **NOT
+PAGE-VERIFIED**.
+**PER-CHANNEL VERDICTS.**
+1. Convexity of RD-type functionals in spectral/moment coordinates:
+   **ADJACENT-KNOWN.** The existing work convexifies in
+   ESTIMATION-ERROR COVARIANCE (Tanaka-Kim-Parrilo-Mitter
+   1411.7632; Tanaka CCA 2015 -- the stationary instance, closest in
+   spirit; Stavrou-Tanaka-Tatikonda 1711.09853) or in CAUSAL FILTER
+   COEFFICIENTS in the time domain (Derpich-Ostergaard 1001.4181).
+   R1 convexifies in (h, Gamma) -- cross-spectrum AND record
+   spectrum -- a chart in which the record-parameter chart is
+   PROVABLY NON-convex by our own evidence.
+2a. Blocking cyclostationary -> stationary + spectral evaluation:
+   **KNOWN -- cite, do NOT present as the program's device.**
+   Kipnis-Goldsmith-Eldar T-IT 2018 (1505.05586) obtains the
+   cyclostationary DRF by orthogonalizing over the POLYPHASE
+   decomposition. This is our ingredient (a) at the level of
+   EVALUATION. Also Abakasanga-Shlezinger-Dabora Entropy 2020;
+   Tan-Dabora-Poor 2405.11405 / 2507.00656.
+2b. Wiener-Masani/Helson-Lowdenslager used to establish CONVEXITY:
+   **NOVEL** ("Wiener-Masani" -> 4 arXiv hits, none about convexity
+   of an information functional; "Helson-Lowdenslager" -> 17, ALL
+   functional analysis/operator theory, NONE information-theoretic).
+   **So the blocking+Szego step is a KNOWN EVALUATION DEVICE; using
+   it as the second step of a CONVEXITY PROOF is where nothing was
+   found. Write that distinction explicitly.**
+3. Inf-of-affine / frozen predictors => concavity of prediction
+   error: **KNOWN AT THE CORE -- SAY SO PLAINLY.** This is the
+   classical mechanism of minimax-robust prediction (Vastola-Poor
+   T-IT 1984; Franke 1985; Franke-Poor 1984): the prediction-error
+   variance is concave in the spectral density PRECISELY because it
+   is an infimum over frozen predictors of spectrum-linear
+   functionals. **The defensible remainder is only the packaging:**
+   the causally-conditioned CROSS-record instance
+   Var(S_u | S^{u-1}, R^u) as an inf of functionals AFFINE JOINTLY
+   in (h, Gamma), with the F0 restriction making the minorant
+   linear. **Claim the packaging and the coordinates, NEVER the
+   mechanism.** CAUTION: the sweep's nulls here are **ARTIFACTS OF
+   THE DATE RANGE** (this literature is 1983-85, pre-arXiv) -- **do
+   NOT quote them as a null set.**
+4. Convexity of causally-conditioned information functionals in
+   spectral coordinates: **ADJACENT-KNOWN.** The Charalambous/
+   Stavrou NRDF line (14 items swept) convexifies in the causal
+   REPRODUCTION KERNEL -- the definitional convexity that makes NRDF
+   computable -- not in spectral moments. **CLOSEST SINGLE ITEM TO
+   THE OBJECT, and it is NEW: Zheng-Lamperski arXiv:2512.06238
+   (IFAC WC 2026), an explicit formula for the causally conditioned
+   directed information rate of Gaussian sequences -- it EVALUATES
+   the same species R1 CONVEXIFIES. No convexity claim in the
+   abstract; full text unchecked. THIS IS THE PAPER A REFEREE WILL
+   RAISE -- page-verify before the tex revision.**
+5. Matrix quadratic-over-linear on log-det: **KNOWN. TEXTBOOK.**
+   Every step is standard convex analysis: Boyd-Vandenberghe 2004
+   Sec 3.1.7 (matrix fractional) + 3.2.4 (composition), and Ando
+   1979 (operator concavity). The arXiv nulls here reflect that this
+   is textbook material never posted -- **do NOT report them as
+   novelty evidence.**
+**ATTRIBUTION GAP FOUND IN-HOUSE (must fix):** the sweep grepped
+prereg/GO-P-2026-074-go13-m2-convexity.md and
+paper/go11-conditional-region-NOVELTY.md and found the 074 lemma
+(aa'/s matrix-convex, "Schur-certificate averaging") recorded only
+as "the verifier PROVED the assigned lemma" -- **NO EXTERNAL
+ATTRIBUTION EXISTS ANYWHERE IN THE PROGRAM FOR IT.** The scalar and
+matrix instances are BOTH standard. **074 and the R1 step (3a) that
+invokes it must both acquire the Boyd-Vandenberghe / Ando citation
+at the next revision; the program's contribution there is the LIFT
+INTO THE MOMENT CHART, not the convexity.** Also: **Wiener-Masani
+and Helson-Lowdenslager are NAMED in the tex but NOT FORMALLY CITED
+-- there is no \cite or \bibitem anywhere in
+paper/go14-causal-erasure.tex** (confirmed by grep).
+**OVERALL VERDICT: every ingredient is individually standard or
+adjacent-known; the COMBINATION and the CONCLUSION are NOVEL,
+conservatively scoped** -- no source states joint convexity of a
+causally-conditioned, lagged-reference PROCESS rate in SPECTRAL
+MOMENT coordinates on a window-free convex set.
+**PERMITTED LANGUAGE: "four standard ingredients, combined; to our
+knowledge the resulting joint convexity in spectral moment
+coordinates has not been stated" -- disclaiming novelty on EACH
+ingredient in the sentence that introduces it. DO NOT write "a new
+convexity technique" or "novel convexity lemma", and attach novelty
+to NEITHER (c) NOR the inf-of-affine mechanism in (d). THE
+GENUINELY DEFENSIBLE CLAIM, supported by our own R-IND-5 evidence
+and stated by no external source: THE MOMENT CHART IS LOAD-BEARING
+-- the same functional is non-convex in record coordinates
+(1206/3960 negative second differences, directed search to -23.4) --
+so THE CHOICE OF CHART, not the convexity machinery, is the
+contribution.** All sweep-level caveats travel with any "first" or
+"has not been stated" phrasing.
+**CITATION LIST for the next tex revision (10 items):**
+Kipnis-Goldsmith-Eldar 1505.05586 (step 1, blocking/polyphase);
+Abakasanga et al. Entropy 2020 + Tan-Dabora-Poor 2405.11405 /
+2507.00656; **Boyd-Vandenberghe 2004 Sec 3.1.7/3.2.4 and Ando 1979
+(step 3a -- AND RETRO-ATTACH TO 074)**; Vastola-Poor T-IT 1984 and
+Franke 1985 (step 3b, page-verify first); Tanaka et al. 1411.7632 /
+Tanaka CCA 2015 / Stavrou et al. 1711.09853 (adjacent, covariance
+coordinates -- one-line distinguish required); Derpich-Ostergaard
+1001.4181 (adjacent, filter coordinates);
+**Zheng-Lamperski 2512.06238 (adjacent, CLOSEST -- page-verify)**;
+Wiener-Masani 1957/58 and Helson-Lowdenslager 1958 (the analytic
+input -- cite WITH the non-degeneracy hypotheses per R22).
+**TWO FOLLOW-UPS OWED BEFORE ANY NOVELTY SENTENCE IS PRINTED:**
+page-verify Zheng-Lamperski for a convexity statement; and re-run
+channels 1/3/4 through Semantic Scholar and a full-text engine once
+the WebSearch budget resets -- **the 1983-85 robust-prediction layer
+and any journal-only convexity result are INVISIBLE to an
+arXiv-abstract sweep.**
