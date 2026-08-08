@@ -2190,3 +2190,132 @@ truncation-and-repair value at EVERY rung** -- so the ladder is
 U_tr(L), not U(L), and must be labelled as such. Both sequences
 decrease toward Psi from above and **neither crosses it**.
 No verdict, ruling, restatement or seal call changes.
+
+## PER-CELL CONVEXITY (2026-08-08): REFUTED for every cell after the first -- and cell 0 is convex by a theorem we already had
+
+**VERDICT: rem:percell's "open" is resolved, and the answer is NO.** The
+individual per-cell CMI terms of L_a are NOT convex in (H,Gamma). The split
+is exactly at the first cell.
+
+**CELL 0 IS CONVEX -- and needs no new proof.** With no Yh^{t-1} to condition
+on, the t=0 term collapses to the block bracket in SCALAR form with a
+TRUNCATED Q:
+    f_0 = 1/2 log2 [ (G_00 - h0 Q_k h0') / (G_00 - h0 P h0') ],
+    Q_k = K_[k]' Cs_[k]^-1 K_[k],  k = k(0),  h0 = first row of H.
+Verified to 1.3e-15 over n in {3,4,5} x Delta in {0,1,2}, with
+0 <= Q_k < P (eigmin(P - Q_k) >= 2.7e-2). So cell 0 is the 074 lift's scalar
+case. Its Hessian is PSD with an exact null direction at every point tried
+(min eig 0 to 1e-16) -- consistent with the bracket structure, not luck.
+
+**EVERY CELL t >= 1 ADMITS STRICTLY CONCAVE DIRECTIONS.** Explicit Jensen
+witness, n=3, Delta=0, t=2 -- three points of int D whose EXACT midpoint is
+the base point:
+    f_2(x+)  = 0.4209618516
+    f_2(x-)  = 0.1470759393
+    f_2(mid) = 0.3535350376
+    gap = f(mid) - (f(x+)+f(x-))/2 = +6.95161422e-02 bits   <-- WRONG WAY
+All three strictly feasible: eigmin(Ncov) = 3.765e-01 / 7.712e-02 / 4.155e-01.
+D is the full cone {(H,G): G - H P H' >= 0} (tex l.504), so each point is a
+genuine F0 record via A = H P, Ncov = G - H P H'.
+
+**TWO INDEPENDENT COMPUTATIONAL ROUTES AGREE TO 5.6e-17**: the (H,Gamma) form,
+and the 4n-joint form built from the recovered record using the SEALED 079
+harness's own joint4/cvar/sched_prefix. Object check first: sum_t f_t equals
+that harness's nla_def AND repr_bits to 4.4e-16 -- so the probe measures the
+document's object, not a lookalike.
+
+**THEOREM C IS UNTOUCHED, and the witness shows exactly why.** At the SAME
+pair the total n L_a has Jensen gap -3.268e-01 (convex, as required). The
+per-cell gaps are t0 -6.283e-02, t1 -3.335e-01, t2 +6.952e-02: the
+neighbouring cells' convexity absorbs cell 2's concavity. The mass that makes
+a late cell concave is precisely what the regrouping moves into the S-side
+leak sum. The regrouping is not a convenience -- it is the proof.
+
+**GENERICITY (min eig of the per-cell Hessian, 3 base points each):**
+    n=3 D=0: t0 -2.2e-16  t1 -1.71  t2 -2.66
+    n=3 D=1: t0  0.0e+00  t1 -3.48  t2 -3.61
+    n=3 D=2: t0  0.0e+00  t1 -3.08  t2 -3.66
+    n=4 D=0: t0 -1.1e-16  t1 -1.54  t2 -2.52  t3 -3.78
+    n=4 D=1: t0 -4.4e-16  t1 -1.31  t2 -1.61  t3 -1.43
+    n=4 D=2: t0 -2.8e-16  t1 -2.21  t2 -2.55  t3 -3.70
+    n=5 D=0: t0  0.0e+00  t1 -2.16  t2 -2.62  t3 -2.82  t4 -4.98
+    n=5 D=1: t0 -8.9e-16  t1 -3.23  t2 -2.66  t3 -3.31  t4 -2.88
+    n=5 D=2: t0  0.0e+00  t1 -1.26  t2 -1.27  t3 -1.54  t4 -1.53
+Magnitudes -1.2 to -5.0: generic, not marginal.
+
+**WHY 45k+ RANDOM SAMPLES MISSED IT.** Random Jensen pairs are generic and
+far apart; the concave directions are the Hessian's MINIMUM-EIGENVECTOR
+directions. The analytic read says where to look: 2 ln2 * f_t = ln vnum_t -
+ln vden_t with vnum_t = Var(Yh_t | S^{se(t)}, Yh^{t-1}) and vden_t =
+Var(Yh_t | W, Yh^{t-1}) BOTH concave (inf of affine), so f_t = (concave,
+wrong sign) + (-ln concave = convex, right sign) -- a competition, not a
+sign. A directed curvature search found a violation at the FIRST base point
+tried.
+
+**SCOPE / WHAT DOES NOT CHANGE.** Nothing downstream ever relied on per-cell
+convexity (rem:percell said so, and it is still true). Theorem C, Theorem R1,
+the 079 certificates, the 082/083 chain and the 084/085 brackets are all
+untouched -- none of them uses a per-cell statement. Theorem R1 could not
+have implied it: R1 convexifies the same two REGROUPED pieces at the process
+level.
+
+**PROBE CODE**: scratchpad percell.py / witness.py / consolidate.py
+(exploratory, NOT in experiments/ -- no registered harness exists for this
+result yet).
+
+**NEXT IF PURSUED**: R-IND-5 on the refutation (attack list: is the witness
+really in D; does the 4n route share hidden state with the (H,Gamma) route;
+is cell 0's scalar-bracket identity exact or only near-exact at the sampled
+points; does any downstream lemma quietly assume per-cell convexity), then a
+registration sealing the witness + the cell-0 theorem, on the 080 precedent
+(a refutation with GATED witnesses). Governed run would need authorization.
+
+### R-IND-5 on the per-cell refutation (2026-08-08): PASS, with one strengthening
+
+**CAVEAT ON INDEPENDENCE, stated first.** This pass was run in the SAME
+context that produced the refutation, not by a fresh-context verifier. The
+attack list was executed in full and every attack is reproducible, but the
+independence that normally gives an R-IND-5 pass its value is ABSENT. Treat
+it as a self-audit until a fresh-context pass is run.
+
+| Attack | Result |
+|---|---|
+| A1 third route: per-cell CMI from log-dets of 4n submatrices, no cvar/pivots | gap +6.9516142159e-02, identical -- THREE routes now agree |
+| A2 50-digit mpmath at the witness | 0.0695161421594886909968382 -- matches float64 to ~10 sig figs; NOT an artifact |
+| A3 exact midpoint | |x0 - (x+ + x-)/2| = 1.626e-18 (nonzero); re-evaluated at the TRUE midpoint, violation stands, printed figures unchanged |
+| A4 causal sub-family | STRENGTHENS -- see below |
+| A5 cell-0 identity derived, not sampled | exact rearrangement; 200 fresh points to 7.216e-16 |
+| A6 finite-difference step sweep 1e-3 .. 5e-5 | min eig stable at -1.647648 to 5 digits |
+
+**A4 IS A STRENGTHENING, not just a survival.** {H : HP lower-triangular in
+both blocks} is a LINEAR subspace, so midpoints stay causal and the feasible
+set over it is convex; a violation there is therefore a violation on D, and
+needs no non-causal record. On that 18-dimensional subspace (n=3) the
+per-cell Hessian still reaches -3.5406, with an explicit witness at cell t=1:
+gap +2.332618e-02 at s=0.15, A lower-triangular to 3.71e-16, violation
+persisting down to s=0.03 (+9.04e-04). The refutation holds INSIDE the
+natural causal record class.
+
+**A3 found a real if negligible defect** -- the saved base point was not the
+exact float64 midpoint of the saved endpoints (1.6e-18, sixteen orders below
+the gap). Everything above is computed at the corrected midpoint. The
+printed witness figures are unchanged at their quoted precision.
+
+**SCOPE CHECKS that also passed (documentary, not numerical):**
+- F0 (hyp:uind, tex l.357) imposes NO triangularity: Yh = A_y Y + A_v V + Z
+  with Z independent, A arbitrary. So D = {(H,G): G - H P H' >= 0} (tex
+  l.504) is exactly the moment image, and every witness point is a genuine
+  F0 record.
+- The ONLY other reference to per-cell convexity in the document is the
+  open-problems list (tex l.4028). No lemma, theorem or certificate uses it.
+  Nothing downstream moves.
+
+**VERDICT: the refutation stands, strengthened to the causal class.** What
+should now be printed: per-cell convexity is FALSE for every t >= 1 and TRUE
+at t = 0 (by the 074 lift's scalar case with truncated Q_k). What must NOT be
+printed: any suggestion that this touches Theorem C, Theorem R1, the 079
+certificates or the 082/083/084/085 chain -- it does not, and the witness's
+own total-gap control (-3.268e-01, convex) is the evidence.
+
+**PROBE CODE**: scratchpad rind5.py (attacks), percell.py, witness.py,
+consolidate.py.

@@ -639,16 +639,68 @@ $11{,}200$ + $1{,}566$ curvature probes), tangent plane at the
 $(16,0)$ winner $400/400$ with min slack $+1.13\times10^{-2}$,
 analytic gradient vs FD $1.2\times10^{-10}$.\hfill$\square$
 
-\begin{remark}[Per-cell convexity is open --- the regrouping is the
-proof]
+\begin{remark}[Per-cell convexity is \textbf{FALSE} after the first cell
+--- the regrouping is not a convenience, it is the proof]
 \label{rem:percell}
 Theorem~\ref{thm:cvx} proves convexity of the \emph{regrouped}
-pieces (block bracket, $S$-side leak sum). Whether the individual
-per-cell CMI terms of $L_a$ are themselves convex in $(H,\Gamma)$
-remains \emph{open}: no violation was found in any sampling (prover
-and verifier both, zero hits), but no proof exists either. Nothing
-in this section relies on per-cell convexity. \textbf{Nor does
-Theorem~\ref{lem:R1} imply it}: that theorem convexifies the same two
+pieces (block bracket, $S$-side leak sum). The individual per-cell CMI
+terms of $L_a$ are \textbf{not} convex in $(H,\Gamma)$, and the split is
+exactly at the first cell.
+
+\emph{Cell $t=0$ is convex, and already proved.} With no $\hat Y^{t-1}$ to
+condition on, the $t=0$ term collapses to the block bracket in scalar form
+with a \emph{truncated} $Q$,
+\[
+f_0=\tfrac12\log_2\frac{\Gamma_{00}-h_0Q_{k(0)}h_0^{\!\top}}
+                        {\Gamma_{00}-h_0Ph_0^{\!\top}},
+\qquad
+Q_k=K_{[k]}^{\!\top}\Sigma_{S,[k]}^{-1}K_{[k]},
+\]
+$h_0$ the first row of $H$ (verified to $1.3\times10^{-15}$ over
+$n\in\{3,4,5\}$, $\Delta\in\{0,1,2\}$; $0\preceq Q_k\prec P$ with
+$\operatorname{eigmin}(P-Q_k)\ge2.7\times10^{-2}$). So its convexity is the
+074 lift's scalar case and needs no separate argument.
+
+\emph{Every cell $t\ge1$ admits strictly concave directions.} Witness
+($n=3$, $\Delta=0$, $t=2$): three points of $\operatorname{int}\mathcal D$
+whose exact midpoint is the base point, with
+$f_2(x^+)=0.4209618516$, $f_2(x^-)=0.1470759393$,
+$f_2(\mathrm{mid})=0.3535350376$, a Jensen gap of
+$+6.95161422\times10^{-2}$ bits the wrong way. All three are strictly
+feasible ($\operatorname{eigmin}N_{\mathrm{cov}}
+=3.77\times10^{-1},\,7.71\times10^{-2},\,4.16\times10^{-1}$), and the gap
+reproduces on \emph{three} computationally independent routes --- the
+$(H,\Gamma)$ form, the $4n$-joint form built from the recovered record
+$A=HP$, $N_{\mathrm{cov}}=\Gamma-HPH^{\!\top}$, and a pure
+$\log\det$-of-submatrices form using no conditional-variance helper at all
+--- agreeing to $5.6\times10^{-17}$, and at $50$ digits the gap is
+$0.06951614215948869\ldots$, so it is not a floating-point artifact.
+
+\emph{The violation survives inside the causal class.} Because
+$\{H:HP\ \text{lower-triangular in both blocks}\}$ is a \emph{linear}
+subspace, midpoints stay causal and the feasible set over it is convex, so a
+violation there is a violation on $\mathcal D$ --- and a stronger statement,
+since it needs no non-causal record. Restricted to that $18$-dimensional
+subspace ($n=3$) the per-cell Hessian still reaches
+$-3.54$, with witness gap $+2.33\times10^{-2}$ at $t=1$ and $A$
+lower-triangular to $3.7\times10^{-16}$.
+
+Negative curvature appears at every $t\ge1$ for every
+$n\in\{3,4,5\}$ and $\Delta\in\{0,1,2\}$, with minimum Hessian eigenvalues
+between $-1.2$ and $-5.0$: it is generic, not marginal. Earlier samplings
+reported no hits because random pairs are generic and the concave
+directions are the Hessian's minimum-eigenvector directions; a directed
+curvature search finds one at the first base point tried.
+
+\textbf{Theorem~\ref{thm:cvx} is untouched}, and the witness shows why: at
+that same pair the total $n\,L_a$ has Jensen gap $-3.27\times10^{-1}$
+--- convex, as it must be --- because the neighbouring cells' convexity
+absorbs cell~2's concavity ($t=0,1,2$ gaps
+$-6.28\times10^{-2}$, $-3.33\times10^{-1}$, $+6.95\times10^{-2}$). The
+mass that makes a late cell concave is precisely what the regrouping moves
+into the $S$-side leak sum. Nothing in this section ever relied on per-cell
+convexity, so nothing downstream changes. \textbf{Nor could
+Theorem~\ref{lem:R1} have implied it}: that theorem convexifies the same two
 regrouped pieces at the process level, and the regrouping is precisely
 what makes the argument work (Remark~\ref{rem:R23}).
 \end{remark}
