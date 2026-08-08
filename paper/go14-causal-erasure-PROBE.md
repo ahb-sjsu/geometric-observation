@@ -2049,3 +2049,128 @@ packaging** (inf-of-affine over FINITELY SUPPORTED admissible
 filters as an upper-semicontinuity device for FIR density) -- every
 ingredient classical, the combination unswept, **no novelty language
 until it is**.
+
+## R-IND-5 ON THEOREM D / LEMMA A' / LEMMA M (2026-08-08): THE EQUALITY MAY BE PRINTED, SCOPED -- but LEMMA M carries a SECOND false n-independence claim (F5-F8, NOT OPTIONAL)
+
+Fresh context, **own evaluator from the model primitives only** --
+exact analytic autocovariances, sigma as a Cholesky pivot of the
+interleaved (R,S) covariance, <ln n> by Jensen-on-roots: **no FFT
+grid, no Toeplitz normal equations, no prover code imported for any
+rate number** (the prover's fp.npz used ONLY as data -- a record is
+data, not a claim).
+**THEOREM D and LEMMA A': NOTHING REFUTED.** A'(1) is **one line of
+Hilbert space** -- sigma = dist^2(R_u, M) with M the CLOSED span, so
+finite combinations are dense BY DEFINITION and the infima agree
+exactly; hypotheses Phi_R, f_S in L1 and nothing else. **The infimum
+is NOT attained by any finite filter** (only eps-optimality is
+used). A'(2) verified on **22 adversarial pairs incl. 12 random FIR
+records far from the optimum** (||dPhi||_1 up to 14.2): ZERO
+violations, min slacks +2.83e-11 and +1.83e-5.
+**THE VERIFIER HIT THE SAME LAG-SIGN BUG IN ITS OWN HELPER and it
+destroyed the power the same way** -- confirming the prover's
+disclosure is accurate: the FIRST pass recorded S-peek **+0.252**
+and R-peek **+0.031** (POSITIVE = genuinely no power). Its six
+rebuilt, fully-optimised controls ALL BREAK: -0.010659 / -0.021585 /
+-0.023042 / -0.012182 / -0.182975 / -0.341884. **F3: t5_ctl2.py
+STILL CARRIES THE DEFECT and must not be cited; t5b.py is the run of
+record.**
+**THE CRUX -- ROUTE (b) GENUINELY NOT USED: PASS.** The verifier
+reconstructed Theorem D's proof independently and confirms **nowhere
+does the optimum's regularity, kernel summability, or Wiener-algebra
+membership enter**; the optimum appears in the numerics only as a
+convenient choice of x. Confirmed on NON-OPTIMAL records (the
+<Gamma^2>-divergent spiky record, a detuned-kernel record, an
+oscillating-noise record) -- cap+floor+Fejer works with rates
+converging. **THE CIRCULARITY IS GONE.**
+**THE CAP (Lemma B') IS DISPENSABLE (F4d).** Built the
+<Gamma^2>-divergent feasible family rem:l2box asserts exists (max
+Gamma = 146.48, <Gamma^2> to 3.80) -- all three B' inequalities hold
+with slack. **But feasibility ALONE gives ||g||_2 <= 2.343168 and
+||a_y||_2 <= 1.766965 because f_V in [0.1111, 9.0000]**, so Fejer
+means converge with NO cap. **Lemma C' (the floor) is what is
+load-bearing** -- at nu = 3.07e-6 the Fejer error in <ln n> is 0.371
+and does not vanish.
+**FEJER POSITIVITY + FEJER-RIESZ AT EVERY RUNG: PASS to L = 200**
+(the prover only ran L <= 14): min n^(L) >= 0.1331 (33/33),
+|| |q|^2 - n^(L) ||_inf <= 4.44e-16, MA tail beyond lag L <=
+3.13e-17 -- a genuine finite MA. **The Fejer build converges at
+Theta(L^-2) (log-log slopes -> -1.99 at all three Delta), gap
+2.18e-6/2.59e-6/3.28e-6 at L=200.** **F12: certify realisability by
+a ROOT-FREE (cepstral) route -- polynomial root-finding is NOT FIT
+FOR PURPOSE beyond L ~ 96 (residual 1.6e-1 at L=128)**, a NUMERICAL
+artefact of degree-400 root-finding, not a mathematical failure.
+New fact: **the Fejer mean preserves <n> EXACTLY**, so the repair is
+asymptotically free.
+**(D1): PASS on substance, RESTATE.** Re-derived rather than taken:
+thm:cert's dual is an inf over {h, n>0} per frequency with NO
+further restriction, so the 082 bracket brackets Psi_all; cor:onedir
+runs through shift-averages which lie inside that class; Theorem D
+covers exactly it. **But F10: the document NEVER WRITES THE CLASS
+DOWN** -- one unqualified clause is doing load-bearing work in THREE
+places.
+**LEMMA M: the exact identity PASSES; TWO headline claims REFUTED.**
+(a) the distortion identity is EXACT -- rebuilt cell-by-cell from
+primitives, 18 cells agree to <= 2.8e-16, **edge cell = 1+eps
+exactly (0.00e+00)**; the prover's own script only printed the
+algebraic rearrangement, a tautology. (b) D-feasible with no rescale
+inside the window: PASS (error 0.00e+00 at n = 64..1024).
+**(c) F5 -- "every constant n-INDEPENDENT" is FALSE**: measured
+C(6,n) = **72.444 / 20.434 / 15.194 / 13.426 / 12.676** over
+n = 64..1024 -- **the SAME factor-5.7 decrease W1 refuted, in the
+very build Lemma M was written to fix.** **F6 -- "~18.7 at L=6" is
+NOT AN UPPER BOUND**: exceeded at n=64 (72.44) and n=128 (20.43);
+the asymptote is ~12.0. **F7 -- THE CAUSE: D -> U(L;D) is CONVEX, so
+mu(D)*eta is a LOWER bound on the repair cost, not an upper one**
+(finite-difference slope -2.2685 vs tangent -2.2261; effective slope
+**9.41 vs 2.226** at eta = 0.1618). A MATHEMATICAL error in the
+constant, not numerical looseness. **F8 -- "no feasibility
+threshold" is FALSE**: at L=10, n=64 the shifted target is
+D - eta_n = **-0.01864 < 0** (lambda = -0.835) -- **the SAME
+threshold at the SAME (n,L) that W2 recorded (c = -0.832). Lemma M
+RELOCATES W2's threshold, it does not remove it. LEMMA M THEREFORE
+DOES NOT DISCHARGE W1 OR W4; W1 AND W2 STAND.**
+**WHAT LEMMA M DOES DELIVER, and it is real: an EXACT THREE-LEG
+DECOMPOSITION** (residual <= 1.7e-13 at every row) C(L,n) =
+-2L*rate + [sum delta_t - Szego]/(2 ln2) + n[U(L;D-eta_n) - U(L;D)],
+**with eta_n = 2L(1+eps-D)/(n-2L) EXACTLY (not /n)**, each leg
+separately bounded, giving sup_{n>=n0(L)} C(L,n) < infinity. **Since
+only C(L,n) = o(n) is used downstream, THE CONCLUSION SURVIVES
+INTACT AND THE CHAIN STILL CLOSES.**
+OTHER FINDINGS: the orientation gate reproduces with power
+(canonical sum delta = 0.043995676 identical at n=64/128/256, zero
+negative cells; reversed +1.256e-2 at every interior cell, sum delta
+1.76/3.87/8.08). **F11: the tabulated ladder is U_tr(L), the
+TRUNCATION-AND-REPAIR value, NOT the depth-L optimum** -- direct
+Nelder-Mead minimisation gives strictly smaller values (0.564769 vs
+0.567483 at L=1), all still ABOVE Psi^LB (6/6). **A sharper
+does-not-prove-too-much test than the prover ran.** The modulus is
+loose (first order vs the truth's second order) but **VALID at every
+one of 28 rungs, zero violations**. Lemma W step (3)'s citation
+class is correctly identified with hypotheses verified (joint (S,R)
+spectrum >= 0.2394 I uniformly; rational by construction) -- **F13:
+but "Lemma W(1,2,4)" UNDERCOUNTS, step (3) is load-bearing and
+carries the only un-re-proved analytic input; and "floored at
+n >= 0.1288" is UNREPRODUCED** (floors are 0.1495/0.1378/0.1404;
+ladder minimum 0.1331).
+**THE RULING: YES, L^inf = Psi MAY BE PRINTED at Delta = 0,1,2 -- as
+a SCOPED THEOREM, in the permitted wording, and ONLY there.**
+Lemma M's refutations do NOT break it (only o(n) is used). The
+permitted wording carries, beyond cor:onedir's scope: (i) Lemma W
+step (3)'s classical rational-spectral-factorization/Riccati
+citation WITH its verified hypotheses; (ii) Fejer-Riesz and Fejer
+convergence; (iii) the model hypothesis f_V in [0.1111, 9.0000];
+(iv) continuity of D -> Psi(D) at D=0.3 from convexity; (v) a window
+threshold n >= n0(L). **"UNCONDITIONAL" DOES NOT ATTACH TO THIS
+EQUALITY -- it attaches only to cor:onedir. Psi remains a two-sided
+CERTIFIED BRACKET; the equality IDENTIFIES TWO OBJECTS, it is NOT a
+licence to quote a value as exact, and cor:brackets CONTINUES TO
+GOVERN the quotable numeric statement.**
+STILL FORBIDDEN: "hypothesis-free"; "unconditional" on the Psi value
+or on this equality; any FREE-STANDING reverse inequality outside
+the scoped theorem; any novelty language for Lemma A''s packaging,
+Lemma W's combination, or Theorem D until the sweeps run.
+**SEAL 085 WITH F1-F14, AND F5-F8 ARE NOT OPTIONAL** -- "sealing it
+unrestated would put a SECOND false n-independence claim on the
+record ONE REGISTRATION AFTER THE FIRST WAS CAUGHT." Still owed: the
+two novelty sweeps, the window-side la_cmi cross-check, and folding
+W1/W4 into the restated Lemma M.
