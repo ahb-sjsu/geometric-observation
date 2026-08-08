@@ -1443,3 +1443,128 @@ causally-conditioned process-rate functional in spectral moment
 coordinates) against Wiener-Masani/Helson-Lowdenslager and the
 070/073 conditional-RDF attributions. The REVERSE inequality
 (truncation/achievability) is untouched and still open.
+
+## R-IND-5 ON (R1) (2026-08-07): PASS on all four named targets and all five independent attacks -- READY TO SEAL 083 with R21-R29
+
+Fresh context, own CMI-definition evaluator built from the
+independent primitives (V,N,U,Z); no prover code reused for any rate
+number. Calibration first: CMI vs Collapse 8.88e-16 over 18 cells.
+**(a) BLOCK-INNOVATION CHOLESKY: PASS** (pivots 1.75e-15; lndet
+Lambda 1.78e-15; the identity itself 1.33e-15 over 24 cells).
+**R21 -- A FRAME/ORDER COLLISION FOUND, AND IT IS THE ONE PLACE A
+SILENT WRONG THEOREM IS AVAILABLE.** The PROBE states within-block
+order S_1,R_1,...,S_n,R_n, which requires R_u = Yh_{u-Delta}; the
+TEX uses R_u := Yh_{u-Delta-1} (which is what produces the phase
+z^{Delta+1} and Lemma S), requiring the OPPOSITE order
+R_1,S_1,...,R_n,S_n. Each is internally correct; **MIXING THEM
+SILENTLY RETURNS THE LAG-(Delta+1) RATE** -- measured errors up to
+**-7.64e-2 bits**. Frame and order must be printed AS A PAIR.
+**(b) MATRIX SZEGO: PASS, and the n=2 question is SETTLED AS
+TRUNCATION.** The verifier replaced window-extraction spectra with an
+EXACT ALIASING route plus exact finite-support blocked transfer
+functions -- zero block-lag truncation -- and the identity holds to
+**3.55e-15 at Nf=4096, INCLUDING at n=2**. The prover's 1.8e-10 is
+its DMAX, quantitatively: the chord sweep decays geometrically at
+a^{2n} (n=2: 1.9e-3 -> 2.0e-10 -> 1.6e-13 at DMAX 2/20/28).
+**R22 -- THE eps FLOOR IS NOT A HYPOTHESIS OF THE SZEGO STEP.**
+Wiener-Masani needs only Phi >= 0 with lndet Phi in L^1; verified on
+the extremal family f = |1 - c e^{-iw}|^2 up to and INCLUDING c = 1
+(spectrum VANISHING at a frequency), residual <= 2.7e-14. The
+floor's real jobs are keeping K_n convex and closed, keeping the
+functional finite, and giving the Scoping Lemma one class for the
+whole orbit. Do not write that the analytic input requires it.
+**(c) INF-OF-AFFINE: PASS** (900 per-instance certificates; links
+4.44e-16; min slack +9.90e-6; margin +1.909e-5; min s = 0.421289
+against the tau^2 = 0.4 floor). **CONTROL: the peeking predictor
+breaks 240/240 -- 100%, vs the prover's 286/288.** Closure: shat
+converges to s monotonically and geometrically, machine zero by
+depth 32.
+**R23 -- SPLIT THE s-LEMMA IN TWO.** (i) An inf of affine functions
+over ANY index set is concave -- no density, no continuity, no
+topology. (ii) The closure argument is needed ONLY to identify that
+inf with s. Truncating the family gives a DIFFERENT function that is
+still concave (0/180). The single-sentence phrasing invites the
+reader to think concavity is at risk; it is not.
+**(d) SCOPING LEMMA: PASS**, with a convention correction.
+Unitarity 2.26e-16; eigenvalue invariance 5.55e-16; convex-hull
+floors +0.09..+0.69 (prover: >= +6.8e-2); "N > 0 w.l.o.g." confirmed
+(the rate BLOWS UP at the cone boundary -- 0.383 -> 11.224 as
+lambda_min(N) goes 1e-1 -> 1e-8, so the boundary is never active).
+**R26 -- THE CONJUGATION HAS A SIDE AND A SIGN**: the correct
+statement is Phi^{(k)}(theta) = **U_k(theta)* N U_k(theta)** with
+wrapped entries carrying **e^{+i theta}** (residual 1.14e-16); the
+other three sign/side combinations are FALSE BY O(1) (2.98e-1,
+4.12e-1).
+**MY OWN ATTACKS -- ALL FAILED TO BREAK IT.** (1) Jensen hunt: 0
+violations over 1944 random chords (adversarial: lambda_min(N)=1e-6,
+notch 1e-3, sign-alternating, near-deterministic), 0/2160 second
+differences, 0/60 non-staircase schedules, 0/108 cross-period
+chords, window-length independence flat to 1e-15 from B=16; **and a
+Nelder-Mead MAXIMISING the Jensen gap over 24 runs x <=2500 evals
+reached -1.62e-6 -- FOUR ORDERS closer to zero than the prover's
+-2.39e-2 -- and STILL NEVER CROSSED.** (2) Delta-as-phase: genuine
+invertible coordinate change (time-domain shift reproduces the
+lag-(Delta+1) value to 2.61e-12; K_n maps ONTO K_n because n =
+Gamma - hPh* is invariant under h -> z^k h). Caveat recorded: the
+shift DOES move the distortion functional, so Delta-independence is
+a statement about the OBJECTIVE's convexity, not a common feasible
+set. (3) **DOES IT PROVE TOO MUCH? NO -- and the check is sharp:**
+the same inf-of-affine lemma applies verbatim to sigma_t and nu_t,
+so BOTH legs are concave and **the lemma ALONE proves nothing**; the
+rate is NOT concave (concavity fails 135/135, max -5.17e-2).
+**THE REGROUPING IS THE PROOF.** In the RECORD-parameter chart the
+same functional is NON-convex (1206/3960 negative second
+differences, worst -1.255; directed search reaches -23.4) -- **the
+moment chart is load-bearing**, and the argument correctly refuses
+there. Lemma C-stat with R not psd: 165/645 violations. Per-cell
+convexity is NOT implied. (4) **THE np.roll FIX IS CORRECT**:
+shift-invariance 3.33e-16, BETTER than the claimed 1e-12. **R27 --
+SCOPE THE BUG**: it is a MOMENT-COORDINATE bug (27/27 rolled (H,
+Gamma) leave the cone); in RECORD coordinates the roll is wrong by
+only <= 4.3e-9, so pre-fix record-space numerics are neither over-
+nor under-condemned. (5) Both prover corrections UPHELD:
+**R24 -- R12 softening CONFIRMED WITH WIDER EVIDENCE: 22,000 chords
+across four non-psd-Q families with R psd give ZERO violations,
+while the R-breaking control gives 165/645 and 185/505 on a second
+seed.** R >= 0 is demonstrated necessary; **Q >= 0 is a hypothesis
+of the PROOF ROUTE, not of the statement.**
+**R25 -- "0.136 bits" IS A LOWER BOUND**: the verifier reproduces
+**0.1383 bits** at (H,Gamma) identical to 8.9e-16. Print "at least
+0.136", never as a maximum; name the entry point (the leak leg).
+**R28 -- FULL-PERIOD READS ARE PART OF THE DECOMPOSITION**: the
+legs are individually well-defined only at per = n (sum_j ln s_j is
+offset-invariant to 8.88e-16 over a full period, NOT over
+sub-periods).
+**R29 -- NEW, A STRENGTHENING NOBODY ASKED FOR: at the BLOCKED
+SPECTRAL level lambda_min(R(w)) = 3.172e-3 UNIFORMLY in w and in
+n = 1..8, and Q(w) = blockdiag(Phi_S(w)^-1, 0) EXACTLY at every
+block size (<= 1.4e-14), with max eig Z < 1 strictly on the class
+interior. This SUPPLIES THE n-UNIFORM FLOOR THE TEX EXPLICITLY
+DECLINES TO CLAIM, and explains the recorded finite-window decrease
+(1.04e-2/5.59e-3/4.43e-3/3.95e-3 at n=8/16/24/32) as CONVERGENCE TO
+IT FROM ABOVE.**
+**EXACT PERMITTED WORDING: "UNCONDITIONAL" MAY NOW BE PRINTED --
+ATTACHED TO THE CHAIN, NEVER TO THE VALUE.** Permitted: "L^inf(D)
+>= Psi(D;Delta) >= LB(Delta) for Delta = 0,1,2, with NO (H*), (H**),
+(H***), (D), (F), no boundary charge, NO (R1) as a hypothesis (it is
+now a THEOREM), and no (R2); margins +0.0147817164 / +0.0040574952 /
++0.0007968190." Scope travelling with it, unchanged: the family F0
+(a definition, and by R25 a WELL-POSEDNESS condition on the
+coordinates); the independent-noise-copy SPECIFICATION (a
+construction choice, stated explicitly -- R7 survives as a WORDING
+RULE, not a live hypothesis); the classical Wiener-Masani/Szego
+input CITED WITH its non-degeneracy hypotheses, verified to hold on
+K_n; and the floating-point house convention on the Psi bracket.
+**"UNCONDITIONAL" MUST NOT BE ATTACHED TO THE Psi VALUE** -- that
+remains a two-sided CERTIFIED BRACKET under the house convention.
+**UNCHANGED PROHIBITIONS: "L^inf = Psi", "IDENTIFIED", any reverse
+inequality, "no hypothesis at all"; no margin against 0.5323430/
+0.5302540; no Delta-uniform O(1/n) constant; the box bound is
+corroboration, never the certificate. The chain remains
+ONE-DIRECTIONAL and the headline stays L^inf(0) in [0.5627265,
+0.5647420].**
+STILL OWED, unchanged: the novelty sweep on the combination
+(blocked cyclostationary Szego + inf-of-affine leak + matrix
+quadratic-over-linear) vs Wiener-Masani/Helson-Lowdenslager and the
+070/073 conditional-RDF attributions. The REVERSE inequality
+(truncation/achievability) is untouched and still open.
