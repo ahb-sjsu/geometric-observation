@@ -14,7 +14,7 @@
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.8 --- Theorems R, C and T (the convex
+\large GO-14 statement v0.9 --- Theorems R, C and T (the convex
 program, and the $n$-transfer lemma), the (H$^\ast$) \emph{repair}
 --- the cross-block read $X$, the lemma chain L1--L4, and the
 split-causal sub-family --- T$^\ast$ v2, the plateau: the
@@ -24,9 +24,34 @@ certificate for the stationary value $\Psi(\Delta)$ that retires
 boundary charge from the plateau at $\Delta=0,1,2$ --- and
 \textbf{Theorem~R1}: the convexity of the process-rate functional on
 the cyclostationary class is now a \emph{theorem}, so the plateau
-chain carries no remaining estimate}
+chain carries no remaining estimate --- and \textbf{Lemma~W}, the
+achievability side: the window transfer, the reduction of the missing
+converse to a single density residual, and \emph{unconditional
+brackets} on $L^\infty$ at $\Delta=0,1,2$ that narrow the permitted
+bracket by $51.5\times$}
 \author{Geometric Observation program}
-\date{v0.8 --- August 2026 (v0.7 superseded for
+\date{v0.9 --- August 2026 (new at v0.9: \S\ref{sec:achiev}, the
+achievability side. \textbf{Lemma~\ref{lem:W}} transfers any FIR
+stationary record to a $D$-feasible finite-window record of
+$\mathcal F_0$ at $O(1/n)$, stated \emph{from the outset} with the
+twelve R-IND-5 restatements W1--W12 in force: the constant $C(L,n)$ is
+\emph{monotone decreasing} in $n$ with $\sup_{n\ge n_0(L)}C(L,n)<\infty$
+and only $C(L,n)=o(n)$ used (W1); the feasibility threshold
+$n\ge n_0(L)$ is an explicit hypothesis, with an infeasible witness
+(W2); the zero-edge, truncated-taps and repaired builds are kept apart
+and labelled, and steps~(1)--(2) are asserted only of the first (W3);
+and the repair leg is a \emph{separate} estimate (W4). The five steps
+carry measured certificates; the converse reduces to exactly one
+residual --- FIR-kernel stationary records dense in value ---
+Remark~\ref{rem:residual}. \textbf{The headline is
+Corollary~\ref{cor:brackets}}: brackets on $L^\infty(\Delta)$ at
+$\Delta=0,1,2$ that depend on \emph{no lemma of this document},
+narrowing $\Delta=0$ by $51.5\times$. The orientation gate of
+Remark~\ref{rem:W5} is mandatory for any successor building window
+records from spectral kernels. The novelty sweep on Lemma~W's
+combination is \emph{owed}, and no novelty language is used for it
+(Remark~\ref{rem:Wnovelty}).
+v0.8 history: (v0.7 superseded for
 \S\ref{sec:plateau}'s step~(B): what was Lemma~(R1) --- a
 pointwise-limit-of-convex-functions \emph{hypothesis} --- is now
 \textbf{Theorem~\ref{lem:R1}}, proved on the window-free class
@@ -221,6 +246,32 @@ numbered hypothesis on the chain rule and on every minimum quoted
 here (U-coupled records break the identity and invert the sandwich);
 (ii) all numerical minima remain \emph{class-conditional or
 finite-$n$ upper bounds}; nothing here relies on them being global.
+\emph{This revision adds the achievability side} (\S\ref{sec:achiev}).
+Lemma~\ref{lem:W} converts any depth-$L$ FIR stationary record into a
+$D$-feasible finite-window record of $\mathcal F_0$ with
+$\phi_n\le\mathrm{rate}(x)+C(L,n)/n$, where $C(L,n)$ is \emph{monotone
+decreasing} in $n$ with $\sup_{n\ge n_0(L)}C(L,n)<\infty$, only
+$C(L,n)=o(n)$ is used, and $n\ge n_0(L)$ is an explicit feasibility
+hypothesis with an infeasible witness. Its five steps carry measured
+certificates: edge cells contribute \emph{exactly} zero; interior pivots
+dominate the stationary one by a \emph{subset}-conditioning argument
+(the mirror of the bypass's superset step, verified past saturation);
+the edge charge $\sum_t\delta_t$ is \emph{exactly $n$-independent}
+($0.043994832/0.051454447/0.052333440$ at $L=10$, identical to nine
+decimals over $n=128\ldots1024$ and $L=4\ldots12$); the Szeg\H o noise
+leg enters with the \emph{helping} sign; and distortion feasibility is
+discharged constructively by an exactly affine rescale. \emph{The
+converse reduces to exactly one residual} --- FIR-kernel stationary
+records dense in value --- whose remaining gap is a contraction estimate
+in the Wiener norm. And, depending on \emph{no lemma of this document},
+\[
+L^\infty(\Delta)\in[0.5627264963,0.5627656412]\ /\
+[0.5364013784,0.5364458112]\ /\ [0.5310500198,0.5310994872]
+\]
+at $\Delta=0/1/2$, the upper ends explicit $D$-feasible $\mathcal F_0$
+records on $n=2048$: a $51.5\times$ narrowing at $\Delta=0$. The
+statement that the process limit coincides with $\Psi$ remains
+unavailable and unprinted.
 \end{abstract}
 
 \section{Setting}
@@ -2339,7 +2390,12 @@ L^\infty(0)\;\in\;[\,0.5627265,\ 0.5647420\,],
 \]
 of width $2.0\times10^{-3}$: the lower end from
 Corollary~\ref{cor:onedir}, the upper end the certified $n=32$ anchor
-of \S\ref{sec:anchors} through Corollary~\ref{cor:lower}. Equally, the
+of \S\ref{sec:anchors} through Corollary~\ref{cor:lower}. \emph{This
+bracket is superseded numerically --- and only numerically --- by
+Corollary~\ref{cor:brackets}, which replaces the upper end by an
+explicit $D$-feasible record on $n=2048$ and narrows the width by
+$51.5\times$; the prohibition in this remark is unaffected by that
+narrowing and continues to govern.} Equally, the
 plateau is not \emph{scope}-free even though the chain is
 unconditional: it removes (H$^\ast$), (H$^{\ast\ast}$),
 (H$^{\ast\ast\ast}$), (D), (F) and the boundary charge, and
@@ -2802,6 +2858,405 @@ swamping a genuine $O(1/n)$ boundary layer) and must be regenerated
 before use; and the internal check ``block $+$ leak $=$ rate'' is an
 \emph{algebraic identity}, not an independent validation.
 
+\section{Achievability: Lemma~W, the FIR-density residual, and the
+unconditional brackets}
+\label{sec:achiev}
+Status: achievability prover $+$ independent R-IND-5 pass on Lemma~W (fresh
+context, own evaluator from the model primitives by \emph{two} routes --- the
+definitional CMI and the Collapse route --- agreeing to
+$1.55\times10^{-15}$; the prover's evaluators supplied no rate or distortion
+number). The pass is \textbf{PASS on substance with one refutation of
+wording}, and its twelve numbered restatements W1--W12 are \emph{all in force
+in this revision}: W1 and W3 rewrite the statement of Lemma~W itself, W2 adds
+a hypothesis to it, W4 removes a leg from its proof, and W5--W12 fix the
+surrounding wording. Registration 084 pending, harness
+\texttt{experiments/\allowbreak go14\_achiev.py} --- \emph{nothing in this
+section is sealed}.
+
+This section runs the chain of \S\ref{sec:plateau} in the \emph{other}
+direction, and it does not close it. What it delivers is (i) a window-transfer
+lemma with measured certificates, (ii) a reduction of the missing converse to
+exactly one functional-analytic residual, and (iii) --- depending on no lemma
+of this document at all --- a $51.5\times$ narrowing of the permitted bracket
+of Remark~\ref{rem:onedirection}.
+
+\subsection{Three builds, kept apart (W3)}
+\label{sec:threebuilds}
+Fix $\Delta$, a depth-$L$ two-sided FIR pair $(a_v,a_y)$ and a causal MA
+factor $q$ of the record noise, i.e.\ a \emph{stationary} record
+$x=(a_v,a_y,q)$ of $\mathcal F_0$ on $\mathbb Z$. Three different finite-window
+objects are built from $x$, and \textbf{they must not be conflated}:
+\begin{enumerate}
+\item[(Z)] the \textbf{zero-edge build} $x^{(n)}_{\mathrm Z}$: the interior
+rows $t\in[L,n-L)$ carry the full depth-$L$ taps, the $2L$ edge cells are
+\emph{pure independent noise} of variance $\varepsilon$, and
+$N_{\mathrm{cov}}$ is block diagonal (edge block $\varepsilon I$, interior
+block the stationary MA Toeplitz matrix);
+\item[(T)] the \textbf{truncated-taps build} $x^{(n)}_{\mathrm T}$: every cell
+keeps whatever taps fall inside the window and the MA Toeplitz matrix covers
+the whole window;
+\item[(R)] the \textbf{repaired records}: either build with its noise
+covariance multiplied by the unique scalar $c$ that makes the \emph{window}
+distortion exactly $D$.
+\end{enumerate}
+\textbf{Steps~(1) and (2) of Lemma~W prove statements about the zero-edge
+build~(Z) and do \emph{not} apply to the truncated-taps build~(T)}: the edge
+cells of (T) are not independent noise and its $N_{\mathrm{cov}}$ is not block
+diagonal. \textbf{Every constant quoted in this section, and every bracket
+endpoint in \S\ref{sec:brackets}, comes from the repaired truncated-taps build
+(T)$+$(R)}, which is the build that is feasible at the window sizes used.
+Feasibility is what forces (R): see W2 below.
+
+\begin{lemma}[W --- window transfer]
+\label{lem:W}
+Let $x$ be a depth-$L$ FIR stationary record of $\mathcal F_0$ with residual
+noise spectrum bounded below (spectral floor), and let $\mathrm{rate}(x)$ be
+its stationary rate at lag $\Delta$. \textbf{Hypothesis (feasibility
+threshold, W2):} there is an $n_0(L)$ such that the repairing rescale $c$ is
+strictly positive for $n\ge n_0(L)$; the lemma is asserted only for such $n$.
+Then for every $n\ge n_0(L)$ the repaired window record $x^{(n)}$ is a
+$D$-feasible record of $\mathcal F_0$ on the window of length $n$, and
+\[
+\phi_n(\Delta)\;\le\;L_a\bigl(x^{(n)}\bigr)\;\le\;
+\mathrm{rate}(x)+\frac{C(L,n)}{n},
+\]
+where \textbf{(W1)} $C(L,n)$ is \emph{monotone decreasing in $n$} with
+\[
+\sup_{n\ge n_0(L)}C(L,n)\;<\;\infty ,
+\]
+and where \textbf{only $C(L,n)=o(n)$ is used} in every consequence drawn from
+the lemma. \textbf{No claim that $C$ does not depend on $n$ is made anywhere};
+the object that is $n$-independent is the \emph{edge charge}
+$\sum_t\delta_t$ of step~(3), not the constant.
+\end{lemma}
+
+\begin{remark}[W1 --- what was refuted, and why the conclusion survives]
+\label{rem:W1}
+The prover's statement asserted a bound $C(L)<\infty$ carrying no dependence
+on the window length. \textbf{That assertion is false in the verifier's own
+measurements, for the very build the proof covers}: for the zero-edge build~(Z) the constant
+$n\,(L_a(x^{(n)})-\mathrm{rate}(x))$ runs
+$71.76\to20.38\to15.16\to13.39\to12.65$ over $n=64,128,256,512,1024$ at
+$L=6$, $\Delta=0$ --- a factor $5.7$, and still falling. The cause is
+\emph{isolated}: it is the \textbf{repair leg}, whose $n$-scaled cost
+converges \emph{from above} to $\mu\cdot n(\mathrm{dist}-D)$. The conclusion
+is intact, because the constant is monotone decreasing in $n$ in every swept
+row, so $\sup_nC(L,n)<\infty$; and $C(L,n)=o(n)$ is all any consequence
+uses. The truncated-taps build~(T) is far better behaved --- $0.08033\to
+0.08022$ over the same $n$ at $L=4$, $\Delta=0$ --- but it too decreases in
+$n$, and it too is quoted with the honest wording.
+\end{remark}
+
+\begin{remark}[W2 --- the feasibility threshold is a hypothesis, not a
+formality]
+\label{rem:W2}
+The zero-edge build is \emph{infeasible} at small $n$: at $n=64$, $L=10$ the
+repairing rescale is $c=-0.832/-0.922/-0.948$ at $\Delta=0/1/2$, i.e.\ $c\le0$
+and no rescaled record exists; at $n=96$ it is still negative
+($-0.061/-0.113/-0.128$) and at $n=128$ it is positive
+($+0.253/+0.217/+0.206$). At $L=6$ the same build is already feasible at
+$n=64$ ($c=+0.070/+0.024/+0.011$). So $n_0(L)$ is real, is $L$-dependent, and
+the lemma as the prover stated it carried no such hypothesis. The harness
+gates the $n=64$, $L=10$ infeasibility as a must-fail control.
+\end{remark}
+
+\begin{remark}[W4 --- the repair leg is a separate estimate]
+\label{rem:W4}
+Step~(5) below discharges \emph{feasibility} --- exactly, constructively and
+in closed form. It does \emph{not} bound the \emph{rate cost} of the repair.
+That cost is a separate estimate, and it is the one that behaves differently
+in the two builds: $n$-independent in the truncated-taps build (measured
+$0.054031\to0.054005$ over $n=256\ldots2048$, converging from above to
+$\mu\cdot n(\mathrm{dist}-D)=0.054002$), $n$-dependent in the zero-edge build,
+where it is exactly the source of the W1 decrease. \textbf{Steps~(1)--(5) do
+not cover it.}
+\end{remark}
+
+\subsection{The five steps, with their measured certificates}
+\label{sec:Wsteps}
+Throughout, $\delta_t:=\ln\sigma_t-\ln\sigma_{\mathrm{stat}}$ is the per-cell
+log-excess of the window record's interleaved pivot over the stationary one,
+and Collapse (Theorem~\ref{thm:collapse}) is what makes the whole argument
+one line per step.
+
+\emph{(0) Collapse.} $2\ln2\,n\,L_a=\sum_t\ln\sigma_t-\ln\det N$, a theorem,
+every $n$, every schedule, every record of $\mathcal F_0$.
+
+\emph{(1) The edge cells contribute exactly zero.} For the zero-edge build the
+$2L$ edge cells have $\sigma_t=\varepsilon$ exactly and their numerator and
+denominator coincide, so their per-cell rate contribution is $0$; and since
+$N_{\mathrm{cov}}$ is block diagonal, the $2L\ln\varepsilon$ they put into
+$\ln\det N$ cancels identically. Measured: per-cell CMI $0.000\times10^{0}$ at
+all three $\Delta$, and
+$\ln\det N-[\,2L\ln\varepsilon+\ln\det T_{\mathrm{int}}\,]$ at machine zero.
+
+\emph{(2) Interior pivots dominate the stationary one.} The conditioning set
+available to the window pivot at an interior cell is a genuine \emph{subset}
+of the stationary one, so $\sigma_t\ge\sigma_{\mathrm{stat}}$, i.e.\
+$\delta_t\ge0$. \textbf{This is the mirror of step~(A) of the bypass, run the
+other way}: there a \emph{superset} argument gave the inequality in the
+lower-bound direction. Verified past saturation --- $\Delta\in\{0,1,2,3,5,9,
+20\}$, including $\Delta\ge n$ where the schedule saturates and the coordinate
+becomes the block program: $\min_t\delta_t\ge-7.8\times10^{-16}$ and
+\emph{zero} negative cells at every $\Delta$.
+
+\emph{(3) The edge charge is finite --- and is exactly $n$-independent.}
+$\sum_t\delta_t$ is not merely bounded uniformly in $n$: it is
+\emph{identical to nine decimals} across $n=128,256,512,1024$ and
+$L=4,\dots,12$. At $L=10$,
+\[
+\textstyle\sum_t\delta_t\;=\;0.043994832\ /\ 0.051454447\ /\ 0.052333440
+\qquad(\Delta=0/1/2),
+\]
+and \textbf{the recorded triple is the $L=10$ one} (the probe does not say
+which $L$; at $L=4$ the same quantity is $0.044031439$, equally
+$n$-independent). The per-cell profile is geometric at ratio
+$\approx0.037$ and is at the $f64$ floor by the sixth interior cell. The
+analytic input is the standard rational-spectral-factorization/Riccati fact
+\cite{bib:am79,bib:ksh00} that the finite-window one-step prediction errors of
+a process with rational spectrum and a spectral floor converge to the
+stationary value geometrically --- \emph{the same citation class} as the
+Wiener--Masani/Szeg\H o input of Theorem~\ref{lem:R1}, not a new hypothesis.
+\textbf{Non-circularity, checked}: that citation is applied to the depth-$L$
+FIR record itself, whose spectrum is rational by construction, so it does
+\emph{not} assume the density of \S\ref{sec:residual} that the argument is
+meant to isolate.
+
+\emph{(4) The noise leg helps.} $\ln\det T_m\ge m\langle\ln n(\omega)\rangle$
+for the MA Toeplitz block $T_m$ (Szeg\H o, with the min-phase factor), so this
+leg enters the bound \emph{with the helping sign}. Measured, and itself
+$n$-independent (flat in $m$ over $m=16,\dots,512$ to
+$\le1.1\times10^{-11}$):
+\[
+\ln\det T_m-m\langle\ln n(\omega)\rangle
+\;=\;+8.622\times10^{-3}\ /\ +1.079\times10^{-2}\ /\ +1.076\times10^{-2}
+\qquad(\Delta=0/1/2),
+\]
+with the min-phase identity $\langle\ln n(\omega)\rangle=2\ln q_0$ confirmed
+to $0.00\times10^{0}$.
+
+\emph{(5) Feasibility, discharged constructively.} The window distortion is
+\emph{exactly affine} in the scalar noise rescale $c$ (residual
+$\le1.7\times10^{-16}$ over a three-point secant test), so the $c$ landing at
+$\mathrm{dist}=D$ is available in closed form and lands there to
+$\le1.7\times10^{-16}$ at every $n$ and every $\Delta$. \textbf{Theorem~C's
+convexity repair was available and was not needed.} By W4 this discharges
+feasibility only.
+
+\medskip\noindent\textbf{The structural finding worth keeping.} In Collapse
+coordinates the converse boundary charge is \emph{cheap}, because the two legs
+have opposite and \emph{both favourable} signs: the numerator leg
+$\sum_t\delta_t\ge0$ is geometrically summable, and the noise/$\ln\det$ leg is
+$\le0$ outright. That is why the (H$^\ast$)/(H$^{\ast\ast}$)/(H$^{\ast\ast
+\ast}$) machinery of \S\ref{sec:transfer} has no counterpart on this side.
+
+\begin{remark}[W5 --- the orientation gate is the $\sigma_t$ gate only]
+\label{rem:W5}
+The first window build the prover wrote had a \emph{lag-orientation defect} in
+$a_v$ --- the same class as the \texttt{np.roll} defect of
+Remark~\ref{rem:R27} --- producing a spurious constant offset in $\sigma_t$
+that \emph{masqueraded as a non-vanishing edge charge}. It is now a hard gate
+with a reversed-kernel control, and the control has power: the reversed build
+sits $+1.256\times10^{-2}$ above the stationary pivot \emph{at every interior
+cell} against $\le4.4\times10^{-16}$ for the canonical build, and it converts
+the $n$-independent edge charge into an $O(n)$ one ---
+$\sum_t\delta_t=1.76\to3.87\to8.08\to16.50$ at $n=64/128/256/512$, a slope of
+$+3.289\times10^{-2}$ per cell, against a canonical slope at the $f64$ floor
+($-1.2\times10^{-16}$ per cell, i.e.\ the canonical edge charge does not move
+with the window length at all).
+\textbf{The gate is the $\sigma_t$ gate, and only that.} The per-cell
+\emph{distortion} has \emph{zero} power against this defect: it agrees to
+$\pm1.1\times10^{-16}$ in the canonical and both reversed builds, and
+analytically so, since reversing a real two-sided kernel conjugates its symbol
+on $|z|=1$ and the distortion is invariant under conjugation. A distortion
+check is therefore \emph{decorative} here and is gated as a negative control.
+Also on record: \textbf{$a_y$ is real zero-phase by (K1)}
+(Theorem~\ref{thm:K}), so its kernel is symmetric and carries \emph{no}
+orientation --- reversing $a_y$ alone leaves the rate unchanged to machine
+precision; only $a_v$ carries orientation. \textbf{Any successor building
+window records from spectral kernels must run this gate.}
+\end{remark}
+
+\subsection{The residual: one thing, and what it is}
+\label{sec:residual}
+\begin{remark}[The residual, stated as one thing]
+\label{rem:residual}
+Exactly one thing stands between Lemma~W and a converse theorem:
+\textbf{FIR-kernel stationary records are dense in value}, i.e.\ $U(L)$, the
+repaired depth-$L$ stationary value, decreases to $\Psi$. The evidence, and
+its scope:
+\begin{enumerate}
+\item[(a)] \textbf{(W6) The measured list is at $L\in\{2,3,4,5,6,8,10\}$}, not
+``$L=2\ldots10$'': $U(L)-\Psi=4.8\times10^{-4}$, $4.6\times10^{-5}$,
+$4.3\times10^{-6}$, $3.7\times10^{-7}$, $2.9\times10^{-8}$,
+$1.2\times10^{-10}$, $7.9\times10^{-14}$ at $\Delta=0$.
+\item[(b)] \textbf{(W8) ``$R$ measured $\le1.5\times10^{-12}$'' names its
+reference}: the reference is \emph{the grid fixed point} at $N_f=4096$,
+$P=180$. Against the \emph{082 certified lower endpoints} the gap is
+$+4.0\times10^{-11}/+7.2\times10^{-11}/+5.3\times10^{-11}$ at
+$\Delta=0/1/2$ --- positive, as weak duality forces. And \textbf{the entries
+at $L\ge11$ are $f64$ noise}: at $\Delta=0$ they go \emph{negative}
+($-1.2\times10^{-13}$ at $L=11$, $-1.3\times10^{-13}$ at $L=12,13,14$).
+\textbf{Those entries are not cited as convergence evidence anywhere.}
+\item[(c)] \textbf{(W7) The squaring, in its sharp form.} With $T(L)$ the
+$\ell^2$ norm of the discarded taps, $(U(L)-\Psi)/T(L)^2$ is
+\emph{$4.3$--$4.8$, constant over $L=1,\dots,6$} at $\Delta=0$ (and
+$4.0$--$4.5$ at $\Delta=1$, $2.9$--$4.6$ at $\Delta=2$). \emph{That} is the
+quotable form: the value loss is the square of the kernel loss, which is what
+a stationary Lagrangian requires --- the first-order term vanishes. The
+cross-link to the recorded dominant singularity $\rho^\ast=0.27\pm0.02$ of
+\S\ref{sec:doesnotprovetoomuch} is a \textbf{consistency check, not an
+independent reproduction}: a value-ratio band of $0.048$--$0.100$ admits
+$\rho^\ast$ anywhere in $\approx[0.22,0.32]$, so $\rho^\ast$ landing inside is
+weak evidence; the $\Delta=1,2$ \emph{kernel} per-lag ratios
+($0.27$--$0.30$) are the better witness.
+\item[(d)] \textbf{The proof route, and where it stops.} (i) Continuity of the
+rate under uniform kernel convergence with a spectral floor is sketchable and
+believed complete --- the frozen filters lie in a uniformly bounded $H^2$
+ball, so two-sided continuity follows by evaluating each record's $\hat s$ at
+the \emph{other}'s optimal filters; the floor is real and comfortable
+($n(\omega)\in[0.1495,0.2167]/[0.1378,0.2095]/[0.1404,0.2082]$). (ii) That the
+stationary fixed point's kernels lie in the Wiener algebra: the fixed-point map
+\emph{preserves} $\mathcal W$, by Wiener's $1/f$ theorem and matrix
+Wiener--L\'evy --- \textbf{but that is invariance, not convergence}. Making
+(ii) a proof needs a \emph{contraction estimate in the Wiener norm}, which is
+not available here. It is a small, well-posed functional-analysis problem, not
+an open modelling question --- but it is not done.
+\end{enumerate}
+\textbf{Consequently the only statement permitted about the pair
+$(L^\infty,\Psi)$ from this side is the one printed verbatim in
+Corollary~\ref{cor:brackets}}, with its $+R(\Delta)$ term never dropped.
+Remark~\ref{rem:onedirection} continues to govern: no statement that the
+process limit coincides with $\Psi$ may be printed, here or anywhere.
+\end{remark}
+
+\subsection{The unconditional brackets --- the headline of this registration}
+\label{sec:brackets}
+\begin{corollary}[Unconditional brackets on $L^\infty$ at $\Delta=0,1,2$]
+\label{cor:brackets}
+\textbf{The permitted wording, verbatim:}
+\emph{``$L^\infty(\Delta)\in[\Psi^{\mathrm{LB}}(\Delta),\,V(10,2048;\Delta)]$
+for $\Delta=0,1,2$ --- the lower end by Corollary~\ref{cor:onedir}, the upper
+end an explicit $D$-feasible $\mathcal F_0$ record on $n=2048$ through
+Corollary~\ref{cor:lower}. Under Lemma~W the upper end may be replaced by
+$U(L)$, giving $L^\infty\le\Psi+R(\Delta)$ with $R$ measured
+$\le1.5\times10^{-12}$ and proved zero only conditional on the FIR-density
+link.''} Numerically,
+\[
+\begin{array}{lll}
+\Delta=0: & [0.5627264963,\ 0.5627656412] & \text{width }3.914\times10^{-5}\\
+\Delta=1: & [0.5364013784,\ 0.5364458112] & \text{width }4.443\times10^{-5}\\
+\Delta=2: & [0.5310500198,\ 0.5310994872] & \text{width }4.947\times10^{-5}
+\end{array}
+\]
+with the upper ends \emph{outward-rounded at $10^{-10}$} on the safe side
+(raw: $0.562765641106$, $0.536445811112$, $0.531099487172$). At $\Delta=0$
+this is a $\mathbf{51.5\times}$ \textbf{narrowing} of the $2.0155\times
+10^{-3}$ bracket of Remark~\ref{rem:onedirection}, which it supersedes
+numerically.
+\textbf{These brackets depend on \emph{no lemma of this document}} --- not
+Lemma~W, not the residual, not (H$^\ast$), (H$^{\ast\ast}$),
+(H$^{\ast\ast\ast}$), (D), (F). The three inputs are: membership of the upper
+record in $\mathcal F_0$, its exact $D$-feasibility, and correct evaluation.
+All three are checked, not assumed: exact feasibility to
+$\le1.7\times10^{-16}$ at every $n$, and the CMI route against the Collapse
+route to $1.1\times10^{-15}$ \emph{on the certificate records themselves}. The
+scope items (a)--(d) of Corollary~\ref{cor:onedir} travel with the lower end,
+as always; and, as always, ``unconditional'' is said of a chain and of these
+two \emph{inequalities}, never of the value $\Psi$
+(Remark~\ref{rem:fpcert}, Remark~\ref{rem:onedirection}).
+\end{corollary}
+
+\begin{remark}[W10 --- the anchor cross-check is $8/8$]
+\label{rem:W10}
+Every $V(10,n)$ sits strictly \emph{above} the corresponding certified
+$\phi_n$ upper end, as a suboptimal $D$-feasible record must:
+$\Delta=0$ at $n=16,24,32$; $\Delta=1$ at $n=16,24$; $\Delta=2$ at
+$n=16,24,32$ --- \textbf{eight comparisons, $8/8$} (the probe's ``$7/7$''
+undercounts its own table). The upper bound beats the standing
+$\mathrm{UB}(32,0)=0.5647420$ from $n=48$ on ($V(10,48;0)=0.5643999$).
+\end{remark}
+
+\begin{remark}[W9 --- the constructive constants, and the comparison that is
+actually forced]
+\label{rem:W9}
+The constructive $O(1/n)$ constants $n\,(V(10,n)-U(10))$ at $n=2048$ are
+\[
+0.08017\ /\ 0.09100\ /\ 0.10131\qquad(\Delta=0/1/2),
+\]
+\textbf{$\Delta$-dependent and quoted per-$\Delta$ only} (R19); no
+$\Delta$-uniform constant is quoted here or anywhere.
+\textbf{Their ``correct sign'' is forced only at equal $n$.} What is forced is
+$\phi_n\le V(10,n)$ --- and that \emph{is} the $8/8$ cross-check of
+Remark~\ref{rem:W10}. At equal $n$ the constructive constant duly exceeds the
+optimal one: at $\Delta=0$, $n(V(10,n)-U(10))=0.080645/0.080484/0.080404$ at
+$n=16/24/32$ against the recorded optimal-side $0.064507/0.064497/0.064495$;
+at $\Delta=2$, $0.102064/0.101809/0.101682$ against
+$0.0775031/0.0774986/0.0774871$. The probe instead compared the $n=2048$
+constructive constants against the recorded optimal-side triple
+$0.064507/0.070483/0.077503$ and reported $+24\%/+29\%/+31\%$;
+\textbf{that comparison is not forced and is withdrawn in that form},
+because those are finite-$n$ values, the constructive ones are quoted at
+$n=2048$, and both sequences decrease in $n$. The legitimate limit comparison
+is against the recorded limiting constant $c_\phi(0)\approx0.06447$.
+\textbf{(W12) The decomposition} of the $\Delta=0$ constant is
+\[
+0.026163\ (\text{edge})\;+\;\mu\cdot n(\mathrm{dist}-D)
+\;=\;0.026163+2.2261\times\mathbf{0.024258}\;=\;0.080165
+\]
+against the measured $0.080168$ at $n=2048$ --- closing to
+$3.7\times10^{-6}$, and the residual is itself $O(1/n)$
+($2.98\times10^{-5}\to3.73\times10^{-6}$ over $n=256\ldots2048$). The
+distortion constant is $n(\mathrm{dist}-D)=0.02426$, \emph{not} $0.02430$;
+with $0.02430$ the identity closes only to $\sim10^{-4}$.
+\end{remark}
+
+\begin{remark}[W11 --- the safe side, stated the way it is true]
+\label{rem:W11}
+$U(L)$'s $\sigma$ comes from a $P$-lag innovation solve, which \emph{overstates}
+$\sigma$ and hence the rate --- the conservative direction for an upper bound.
+The correct wording is: \textbf{non-increasing in $P$ by construction; verified
+flat to $3.3\times10^{-16}$ over $P=20,\dots,400$ and
+$N_f=1024,\dots,8192$}. The earlier ``monotone decreasing over $P=40\ldots260$,
+flat to $12$ digits'' is \emph{testing floating-point ties} --- the verifier's
+own run reports ``decreasing: False'' for exactly that reason --- and is
+withdrawn. The safe side has power where power exists: $P=1$ gives $0.5867$,
+$P=8$ gives $0.56272650$.
+\end{remark}
+
+\subsection{Does the achievability machinery prove too much? No}
+\label{sec:achievtoomuch}
+Three checks, all on the side of not proving too much.
+\emph{(i)} Run on the \emph{block} program ($se\equiv n$), the window records
+built here give upper bounds that stay strictly \emph{above} the independently
+known $\mathrm{block}_\infty=0.5299499808119$ and decrease monotonically in
+$n$; the R-IND-5 record adds that the block-schedule window records converge to
+it like $\approx0.105/n$ \emph{from above}.
+\emph{(ii)} The $\Delta$-ladder of a fixed record approaches its saturation
+value from above and \emph{never crosses} $\mathrm{block}_\infty$: at $n=256$
+the depth-$10$ record evaluates to $0.563040/0.542314/0.539317/0.538904/
+0.538849$ at $\Delta=0/1/2/3/4$ and is flat at $0.538840$ from $\Delta=12$
+on, i.e.\ $+8.89\times10^{-3}$ above $\mathrm{block}_\infty$ throughout. On the
+\emph{certified} $\Psi$-ladder of \S\ref{sec:doesnotprovetoomuch} the same
+approach-from-above is recorded down to $+1.70\times10^{-12}$ at $\Delta=12$
+(R-IND-5 record; not re-derived here).
+\emph{(iii)} The machinery never produces a bound below a known value: this is
+the same test that \S\ref{sec:doesnotprovetoomuch} ran on the lower-bound side,
+and it passes on this side too.
+
+\begin{remark}[The novelty sweep on Lemma~W's combination is \emph{owed}]
+\label{rem:Wnovelty}
+Lemma~W's \emph{combination} --- Collapse, plus subset-conditioning
+monotonicity of the interleaved pivots, plus Toeplitz innovation monotonicity,
+assembled as a \textbf{signed two-leg boundary argument} in which the two legs
+carry opposite and both-favourable signs --- has \textbf{not} been swept.
+\textbf{No novelty language of any kind is used for it}, here or anywhere in
+this document, and none may be used until the sweep is run and its verdict,
+permitted language and residuals are recorded in the manner of
+Remark~\ref{rem:R1novelty}. The ingredients are individually classical; it is
+the combination that is unswept.
+\end{remark}
+
 \begin{question}[Open]
 \label{q:open}
 (0) \textbf{(R1) is closed} --- it is Theorem~\ref{lem:R1}, and
@@ -2810,10 +3265,16 @@ Hypothesis~\ref{hyp:uind} and the explicit construction of
 Hypothesis~\ref{hyp:indcopies} alone. What remains open here is the
 \emph{reverse} inequality in Corollary~\ref{cor:onedir} --- a
 truncation / achievability lemma at stationarity, which the
-non-rationality of the stationary optimum makes non-trivial. It is
-untouched by Theorem~\ref{lem:R1}, and until it is settled nothing may
-be said about $L^\infty$ beyond the bracket of
-Remark~\ref{rem:onedirection}. The \textbf{novelty sweep on the (R1)
+non-rationality of the stationary optimum makes non-trivial.
+\textbf{\S\ref{sec:achiev} takes that face apart}: Lemma~\ref{lem:W}
+supplies the truncation half with measured certificates, and what is
+left is the single residual of Remark~\ref{rem:residual} --- FIR-kernel
+stationary records dense in value, needing a contraction estimate in the
+Wiener norm for the K1--K3 iteration. Until \emph{that} is settled
+nothing may be said about $L^\infty$ beyond the brackets of
+Corollary~\ref{cor:brackets} (which supersede the numbers, though not
+the prohibition, of Remark~\ref{rem:onedirection}). The
+\textbf{novelty sweep on the (R1)
 combination} --- blocked
 cyclostationary Szeg\H o, plus the inf-of-affine leak, plus matrix
 quadratic-over-linear, giving convexity of a causally-conditioned
@@ -3021,6 +3482,48 @@ permits and the two page-verification items it leaves \emph{owed} are
 Remark~\ref{rem:R1novelty}, and no language stronger than that
 remark's appears anywhere above.
 
+The v0.9 material --- \S\ref{sec:achiev} in full: the three-build
+taxonomy of \S\ref{sec:threebuilds}, Lemma~\ref{lem:W} with the
+restatements W1--W4 built into its statement and hypotheses
+(Remarks~\ref{rem:W1}, \ref{rem:W2}, \ref{rem:W4}), the five steps of
+\S\ref{sec:Wsteps} with their certificates, the orientation gate of
+Remark~\ref{rem:W5} (W5), the residual of Remark~\ref{rem:residual}
+(W6, W7, W8), Corollary~\ref{cor:brackets} with its verbatim permitted
+wording and Remarks~\ref{rem:W10} (W10), \ref{rem:W9} (W9 and W12) and
+\ref{rem:W11} (W11), and \S\ref{sec:achievtoomuch} --- awaits
+\textbf{registration 084}, harness
+\texttt{experiments/go14\_achiev.py}, and is registered
+\emph{separately from} 082 and 083 because it is the first material on
+the \emph{achievability} side: 082 certifies the value $\Psi$
+two-sided, 083 discharges the convexity step of the lower-bound chain,
+and 084 nets an explicit family of $D$-feasible records and the
+window transfer that turns them into a statement about $L^\infty$. The
+harness sections are: s1 the \emph{mandatory} orientation gate --- the
+canonical build's interior $\sigma_t$ offset, the reversed-kernel
+must-fail control at every interior cell, and W5's negative control
+that the per-cell \emph{distortion} has zero power against the defect;
+s2 the edge cells contributing exactly zero, with $N_{\mathrm{cov}}$
+block-diagonality; s3 the subset/monotonicity step over
+$\Delta\in\{0,1,2,3,5,9,20\}$ including past saturation; s4 the exact
+$n$-independence of $\sum_t\delta_t$ and reproduction of the recorded
+$L=10$ triple; s5 the Szeg\H o leg's sign, its flatness in $m$ and the
+min-phase identity; s6 the exactly affine repair and the W2 feasibility
+threshold, with the $n=64$, $L=10$ infeasibility gated as a must-fail
+control; s7 the \emph{monotone decrease} of $C(L,n)$ in $n$ over a
+pinned $(L,n)$ grid --- the W1 gate, which gates monotonicity and never
+$n$-independence; s8 the unconditional brackets, exact feasibility and
+the $8/8$ anchor cross-check; s9 the ``does it prove too much'' checks
+against $\mathrm{block}_\infty$. The scope proposed for 084 is:
+Lemma~\ref{lem:W} with W1--W4 as stated, the five steps, the residual
+\emph{as a residual}, and Corollary~\ref{cor:brackets}. \textbf{The
+harness contains no optimizer, no fixed point and no root find} --- its
+stationary kernels are pinned data, and a record's provenance is
+irrelevant to whether it is a valid feasible upper-bound certificate ---
+so no gate races a stopping point, and no gate reads or gates a bracket
+width or certificate endpoint. \textbf{The novelty sweep on Lemma~W's
+combination is \emph{owed}} (Remark~\ref{rem:Wnovelty}), and no novelty
+language for it appears anywhere in this document.
+
 \begin{thebibliography}{99}
 
 \bibitem{bib:kge18} A.~Kipnis, A.~J. Goldsmith, Y.~C. Eldar, The
@@ -3084,6 +3587,20 @@ multivariate stochastic processes, II, \emph{Acta Math.} 99, 1958.
 
 \bibitem{bib:hl58} H.~Helson, D.~Lowdenslager, Prediction theory and
 Fourier series in several variables, \emph{Acta Math.} 99, 1958.
+
+\bibitem{bib:am79} B.~D.~O. Anderson, J.~B. Moore, \emph{Optimal
+Filtering}, Prentice-Hall, 1979 --- cited for the standard
+rational-spectral-factorization/Riccati fact used in step~(3) of
+Lemma~\ref{lem:W}: for a signal model with rational spectrum,
+stabilizable and detectable with a spectral floor, the finite-horizon
+prediction-error recursion converges to its steady state geometrically.
+\emph{Page-verification owed}; the hypotheses under which it is invoked
+here are verified numerically in \S\ref{sec:Wsteps}.
+
+\bibitem{bib:ksh00} T.~Kailath, A.~H. Sayed, B.~Hassibi, \emph{Linear
+Estimation}, Prentice-Hall, 2000 --- same citation class as
+\cite{bib:am79} (innovations/spectral factorization for finite-order
+models). \emph{Page-verification owed.}
 
 \bibitem{bib:gray73} R.~M. Gray, A new class of lower bounds to
 information rates of stationary sources via conditional
