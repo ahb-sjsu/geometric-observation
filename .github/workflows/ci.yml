@@ -18,7 +18,13 @@ jobs:
   reproduce:
     name: Reproduce CPU-only claims (Tier-A)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # 45 -> 60 after the 085 cut: adding go14_density.py (CI #30) took the
+    # Tier-A suite from 24m42s to 39m32s, leaving ~5 min of headroom under
+    # the old cap. The harness runs 40 s locally and is far slower on the
+    # runner, so the gap is runner-side, not a regression. Raised before the
+    # next harness trips it rather than after a red run -- the same failure
+    # the 073-era 20-min cap produced.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
