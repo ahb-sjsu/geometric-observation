@@ -1917,3 +1917,135 @@ SHOULD FAIL** -- the sentence as written is false in the verifier's
 measurements for the very construction the proof covers. All twelve
 are EDITS to the statement, not re-runs; no computation repeats.
 Novelty sweep on Lemma W's combination remains OWED.
+
+## FIR-DENSITY PROVER (2026-08-07): THE RESIDUAL IS CLOSED -- by making the Wiener-algebra link UNNECESSARY, not by proving it. The prover DID NOT print the equality.
+
+**THE KEY MOVE.** In Collapse coordinates the whole stationary rate
+is rate = [ln sigma - <ln n>]/(2 ln2), so **n is a DATUM of the
+record and sigma is the ONLY derived object** -- and achievability
+needs only the ONE-SIDED bounds. Since **sigma is an INFIMUM over
+admissible filters, the direction needed is the FREE one.** That
+kills the uniform-convergence requirement that had forced the
+earlier route into the Wiener algebra.
+**LEMMA A' (pivot upper semicontinuity) -- replaces route (a).**
+(1) sigma(x) equals the inf over FINITELY SUPPORTED admissible
+filters (finite combinations are dense in the closed span, so the
+infima agree); (2) for any such filter within eps of sigma(x),
+sigma(x') <= sigma(x) + eps + C_V ||Phi' - Phi||_{L1}, with
+C_V = sup(|V|^2+|V_S|^2) finite **because the filter is finitely
+supported and CHOSEN FIRST, before the approximant**.
+**HYPOTHESES: Phi, Phi' in L1 and a common reference block. THAT IS
+ALL** -- no spectral floor, no H^2 ball, no uniform convergence, no
+W. The earlier route is not wrong (its H^2 bound is real and
+verified with ~20% slack) but is STRICTLY STRONGER THAN NEEDED, and
+its price was sup-norm spectral convergence that FIR truncation does
+not supply in general. **A' pays L1 instead.**
+LEMMA B' (spectral cap): feasibility ALONE bounds <Gamma> <=
+3.449116, so capping Gamma costs arbitrarily little and puts the
+kernels in L-infinity. LEMMA C' (white-noise floor): adding delta
+white noise is affine in distortion, HELPS <ln n>, and raises sigma
+by at most a controlled amount -- **so Psi = inf over records with
+nu <= n <= M, and NO CONVEXITY IS USED** (the earlier convex-mixing
+regularisation is unnecessary).
+**THEOREM D (FIR DENSITY) -- THE RESIDUAL.** Psi(D;Delta) =
+inf_L U(L). Proof: pick a near-optimal record at a slightly smaller
+D, apply B' then C', then truncate with **FEJER means** (taps in
+[-L,L], sup-norm non-increasing, L2-convergent) -- and crucially
+**n^{(L)} = K_L * n is a NON-NEGATIVE trig polynomial (Fejer kernel
+>= 0), hence = |q_L|^2 by FEJER-RIESZ, i.e. a legitimate MA(L)
+noise.** Then A' closes the sigma leg and the L1 convergence closes
+the <ln n> leg. **NOTHING IN THIS PROOF TOUCHES THE OPTIMUM'S
+REGULARITY -- the circularity that blocked (b) is gone because the
+proof approximates an ARBITRARY NEAR-OPTIMAL FEASIBLE RECORD, not
+the fixed point.**
+**LEMMA M (distortion margin) -- DISCHARGES W1 AND W4.** The
+zero-edge build's window distortion is EXACTLY D_stat +
+2L(1+eps-D_stat)/n, so instead of REPAIRING, run the depth-L
+stationary program at D - eta_n: the window record is then D-feasible
+with **NO rescale, hence NO feasibility threshold and NO repair
+leg**, and phi_n <= U(L) + [C_edge + C_Szego + 2L mu (1+eps-D)]/n
+with **every constant n-INDEPENDENT**. **This isolates and REMOVES
+exactly the leg W1 refuted** (the verifier traced C's n-dependence
+to the repair leg) **and exactly the leg W4 said was uncovered.** It
+trades a larger but PROVED n-independent constant (~18.7 at L=6,
+Delta=0) for a smaller but UNPROVED one (measured asymptote 12.65).
+**STATUS OF (a) AND (b):** (a) PROVED, as Lemma A' in a weaker
+sufficient form. **(b) NOT CLOSED, AND NOT NEEDED.** The citation
+route is explicitly BLOCKED: the classical Wiener-Hopf factorisation
+theorem (Krein 1958; Gohberg-Feldman; Bottcher-Silbermann) has
+hypothesis Phi in W, and Phi is in W **IFF the kernels are** -- which
+is the claim. **The citation RELOCATES the bootstrap; it does not
+discharge it.** The prover states this rather than asserting the
+citation closes it. Route 1 (contraction) is EMPIRICALLY TRUE
+LOCALLY and unproved.
+NUMERICS: own evaluator reproduces the recorded fixed points
+(residual <= 9.7e-14). **GRID-FREE CROSS-CHECK by exact time-domain
+interleaved Cholesky + Jensen-on-roots (no FFT grid, no Toeplitz
+normal equations): agreement <= 2.4e-15 in rate over 9 FIR records
+-- validating the Collapse evaluation ON NON-OPTIMAL RECORDS, the
+object the density proof actually needs.** The density ladder
+reproduces 084's U(L)-Psi exactly (4.767e-4 ... 7.971e-14, going
+negative at L>=11 exactly as W8 recorded). **The FEJER build -- the
+one the proof actually constructs -- converges monotonically at all
+three Delta with positive truncated noise at EVERY rung**, slower
+than Dirichlet as expected and irrelevant to density. Per-step
+certificates 42/42 rungs x 3 Delta, ZERO violations. Lemma A'(1)
+instantiated: K-lag pivots decrease to sigma FROM ABOVE (+1.09e-3,
++7.96e-6, +1.31e-10, +1.11e-16 at K=2/4/8/16, exact at K=60).
+**CONTROLS WITH POWER: non-monic V(0)=0.3 BREAKS the minorant
+(-0.183); optimised S-peeking BREAKS (-0.0107); optimised R-peeking
+BREAKS (-0.0216). The prover's FIRST pass at the peeking controls
+had NO POWER due to a lag-sign bug in the helper -- corrected and
+disclosed.** A-priori constants verified: <Gamma> = 0.7 = 1-D
+exactly; n-floors match the record; the H^2 ball holds with ~20%
+slack. Lemma M's mu = 2.2261061 reproduces W12's value exactly.
+ROUTE (b) MEASURED: W-norms and tails fall geometrically (ratios
+0.385 -> 0.264, consistent with rho* = 0.27+/-0.02); **36 random
+one-step W-contraction ratios ALL < 1 (0.294-0.853) and power
+iteration gives local spectral radius 0.755/0.810/0.799 -- SO THE
+MAP IS A LOCAL W-CONTRACTION, MEASURED.** Not a proof: a
+finite-difference Jacobian on a 4096-bin grid, LOCAL, and
+differentiability in W is itself unproved.
+**SHARPNESS, STATED HONESTLY: Theorem D's modulus is VALID at every
+rung but LOOSE by 1.5e-2 -> 6.1e-8 relative, because it is FIRST
+ORDER in the kernel error while the truth is SECOND ORDER (the
+first-order term vanishes at the optimum -- W7's squaring law).
+Density needs only ->0; the T(L)^2 law is sharper behaviour the
+bound does not explain.**
+DOES IT PROVE TOO MUCH? NO -- every FIR record on every rung sits
+ABOVE the 082 certified lower endpoints, min margins +3.976e-11/
++7.140e-11/+5.182e-11, INDEPENDENTLY reproducing W8's values.
+**IS L^inf = Psi LICENSED? THE CHAIN NOW CLOSES** -- cor:lower +
+Lemma W(1,2,4) + **Lemma M** + **Theorem D** + cor:onedir gives
+**L^inf(Delta) = Psi(D;Delta) at Delta = 0,1,2**. It rests on: the
+standing F0 scope; Theorems R1/B/Scoping (sealed 083); Theorem T/
+cor:lower; Collapse + stationary Szego (hypotheses verified,
+grid-free-reproduced); **Lemma W step (3) modulo the classical
+rational-spectrum/Riccati citation, whose hypotheses the prover
+VERIFIES hold (the FIR record's spectrum is RATIONAL BY
+CONSTRUCTION and floored at n >= 0.1288) but did NOT re-prove**;
+**Theorem D and Lemma M, PROVER-GRADE and NOT YET R-IND-5'd**;
+(D1) the class-scoping hypothesis, taken from thm:cert + the Scoping
+Lemma and NOT independently re-derived; and Psi remaining a
+certified BRACKET.
+**THEREFORE THE PROVER DID NOT PRINT IT: "a prover-grade proof is
+not a licence." The correct current wording is CONDITIONAL --
+"L^inf(Delta) = Psi(D;Delta) for Delta = 0,1,2, CONDITIONAL on
+Theorem D and Lemma M passing R-IND-5, and on Lemma W step (3)'s
+classical citation" -- and cor:brackets continues to govern the
+UNCONDITIONAL statement until that pass returns.**
+NEXT: R-IND-5 on Theorem D and Lemma M with the prover's own
+mandatory attacks -- (i) **the exactness of sigma = inf over
+FINITELY SUPPORTED admissible filters, the LOAD-BEARING step**, with
+the corrected admissibility controls as the gate; (ii) **the cap
+step, the WEAKEST-EXERCISED** (build a genuinely <Gamma^2>-divergent
+feasible record, which rem:l2box shows exist, and run all three
+inequalities); (iii) the Fejer build's positivity and Fejer-Riesz
+realisability at every rung; (iv) whether (D1) is the document's
+ACTUAL Psi class. Also owed: a window-side la_cmi cross-check (the
+validation was stationary-side only); folding W1/W4 to Lemma M and
+restating Lemma W REPAIR-FREE; and a **novelty sweep on Lemma A''s
+packaging** (inf-of-affine over FINITELY SUPPORTED admissible
+filters as an upper-semicontinuity device for FIR density) -- every
+ingredient classical, the combination unswept, **no novelty language
+until it is**.
