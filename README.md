@@ -129,7 +129,7 @@ is open at `[exploratory]`: its opening probe found an 86% erasure discount
 gated by encoder lookahead past the eraser's horizon, with no lower-bound face
 yet — building one is that campaign's gate.
 Campaign
-archive: tags `go10-go11-1.2`, `go12-go13-1.0/1.1/1.2`, and `go12-go14-1.0` (through the GO-14 process-limit face + the 077 split verdict) under the same concept
+archive: tags `go10-go11-1.2`, `go12-go13-1.0/1.1/1.2`, `go12-go14-1.0` (through the GO-14 process-limit face + the 077 split verdict), and `go12-go14-1.1` (the plateau chain unconditional, the 51.5x bracket narrowing, and the scoped equality at three lags) under the same concept
 DOI; Papers VI/VII skeletons and the evidence-package index are staged for venue
 work. **83 sealed
 preregistrations** (040 void, 046/048/051/052 logged instrumentation misses, each
