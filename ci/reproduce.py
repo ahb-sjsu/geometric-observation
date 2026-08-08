@@ -89,6 +89,10 @@ REPRODUCIBLE = [
     # must-fail controls, and committed-value reproduction; no
     # certificate width is gated anywhere.
     ("go14_plateau.py",             "GO14PL2-JSON","GO14-plateau.json",            "GO14PL2_supported"),
+    # GO-14 Theorem R1 (GO-P-2026-083), seed 20261161, ~35 s.
+    # Re-run tier: the harness contains NO optimizer, fixed point or
+    # root find at all, so no gate can race a solver by construction.
+    ("go14_r1.py",                  "GO14R1-JSON","GO14-r1.json",                  "GO14R1_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
