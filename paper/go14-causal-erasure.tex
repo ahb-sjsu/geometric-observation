@@ -14,7 +14,7 @@
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.9 --- Theorems R, C and T (the convex
+\large GO-14 statement v1.0 --- Theorems R, C and T (the convex
 program, and the $n$-transfer lemma), the (H$^\ast$) \emph{repair}
 --- the cross-block read $X$, the lemma chain L1--L4, and the
 split-causal sub-family --- T$^\ast$ v2, the plateau: the
@@ -28,9 +28,40 @@ chain carries no remaining estimate --- and \textbf{Lemma~W}, the
 achievability side: the window transfer, the reduction of the missing
 converse to a single density residual, and \emph{unconditional
 brackets} on $L^\infty$ at $\Delta=0,1,2$ that narrow the permitted
-bracket by $51.5\times$}
+bracket by $51.5\times$ --- and \textbf{Lemma~A$'$, Theorem~D and
+Lemma~M}, the FIR-density side: the density residual is closed, and
+$L^\infty(\Delta)=\Psi(D;\Delta)$ at $\Delta=0,1,2$ is printed as a
+\emph{scoped} theorem, in the permitted wording, with five further named
+scope items --- and with the two false $n$-independence claims of Lemma~M
+\emph{withdrawn on the record}}
 \author{Geometric Observation program}
-\date{v0.9 --- August 2026 (new at v0.9: \S\ref{sec:achiev}, the
+\date{v1.0 --- August 2026 (new at v1.0: \S\ref{sec:firdens}, the
+FIR-density side. \textbf{Lemma~\ref{lem:Aprime}} is one line of Hilbert
+space --- $\sigma$ is the squared distance to a \emph{closed} span, so finite
+combinations are dense by definition, the infimum is \emph{not attained} by
+any finite filter, and the hypotheses are $\Phi_R,f_S\in L^1$ and nothing
+else. \textbf{Theorem~\ref{thm:D}} makes the Wiener-algebra link
+\emph{unnecessary} rather than proving it, with its hypotheses printed: $f_V$
+bounded above and below, continuity of $D\mapsto\Psi(D)$, and the floor
+Lemma~\ref{lem:Cprime}; the cap Lemma~\ref{lem:Bprime} is \emph{deleted from
+the proof} as dispensable. \textbf{Lemma~\ref{lem:M}} is restated as an exact
+three-leg decomposition, and two of its headline claims are
+\emph{withdrawn}: ``every constant $n$-independent'' is false (measured
+$72.444\to12.676$ over $n=64\ldots1024$, the same factor-$5.7$ decrease W1
+refuted) and ``no feasibility threshold'' is false (at $L=10$, $n=64$ the
+shifted target is $-0.01864<0$) --- \textbf{Lemma~M does not discharge W1 or
+W4; W1 and W2 stand}, and only $C(L,n)=o(n)$ is ever used, so the conclusion
+survives. Theorem~\ref{thm:equality} then prints
+$L^\infty(\Delta)=\Psi(D;\Delta)$ at $\Delta=0,1,2$ \textbf{as a scoped
+theorem, in the permitted wording of \S\ref{sec:scopedequality} and only
+there}: ``unconditional'' does not attach to it, $\Psi$ remains a two-sided
+certified bracket, and Corollary~\ref{cor:brackets} continues to govern the
+quotable numeric statement. The fourteen R-IND-5 restatements F1--F14 are all
+in force, of which F5--F8 are \emph{not optional}. Registration 085 pending,
+harness \texttt{experiments/go14\_density.py}; the two novelty sweeps and the
+window-side \texttt{la\_cmi} cross-check are \emph{owed}
+(Remark~\ref{rem:F085owed}).
+v0.9 history: \S\ref{sec:achiev}, the
 achievability side. \textbf{Lemma~\ref{lem:W}} transfers any FIR
 stationary record to a $D$-feasible finite-window record of
 $\mathcal F_0$ at $O(1/n)$, stated \emph{from the outset} with the
@@ -269,9 +300,42 @@ L^\infty(\Delta)\in[0.5627264963,0.5627656412]\ /\
 [0.5364013784,0.5364458112]\ /\ [0.5310500198,0.5310994872]
 \]
 at $\Delta=0/1/2$, the upper ends explicit $D$-feasible $\mathcal F_0$
-records on $n=2048$: a $51.5\times$ narrowing at $\Delta=0$. The
-statement that the process limit coincides with $\Psi$ remains
-unavailable and unprinted.
+records on $n=2048$: a $51.5\times$ narrowing at $\Delta=0$.
+\emph{This revision adds the FIR-density side} (\S\ref{sec:firdens}) and
+closes the residual. The move is to make the Wiener-algebra link
+\emph{unnecessary} rather than to prove it: in Collapse coordinates $n$ is a
+datum and $\sigma$ is the only derived object, and $\sigma$ is an
+\emph{infimum}, so the direction achievability needs is free.
+Lemma~\ref{lem:Aprime} is then one line of Hilbert space --- $\sigma$ is the
+squared distance to a \emph{closed} span, finite combinations are dense by
+definition, the infimum is \emph{not attained} by any finite filter, and the
+hypotheses are $\Phi_R,f_S\in L^1$ and nothing else. Theorem~\ref{thm:D}
+truncates an \emph{arbitrary near-optimal feasible record} --- never the fixed
+point, so the circularity is gone --- by Fej\'er means, whose non-negativity
+makes the truncated noise a genuine MA($L$) by Fej\'er--Riesz; its hypotheses
+are printed in full, and the spectral cap is \emph{deleted from the proof} as
+dispensable, feasibility alone giving $\|g\|_2\le2.343168$ and
+$\|a_y\|_2\le1.766965$ because $f_V\in[0.1111,9.0000]$. Lemma~\ref{lem:M} is
+restated as an \emph{exact} three-leg decomposition with
+$\eta_n=2L(1+\varepsilon-D)/(n-2L)$, and \textbf{two of its headline claims
+are withdrawn}: the constants are \emph{not} $n$-independent (measured
+$72.444\to12.676$ over $n=64\ldots1024$ at $L=6$ --- the same factor-$5.7$
+decrease W1 refuted, in the very build Lemma~M was written to fix), and there
+\emph{is} a feasibility threshold (at $L=10$, $n=64$ the shifted target is
+$-0.01864<0$, the same threshold W2 recorded). \textbf{Lemma~M therefore does
+not discharge W1 or W4; W1 and W2 stand} --- and, since only $C(L,n)=o(n)$ is
+ever used downstream, the conclusion is untouched. Consequently
+\[
+L^\infty(\Delta)\;=\;\Psi(D;\Delta),\qquad \Delta=0,1,2,
+\]
+\textbf{as a \emph{scoped} theorem} (Theorem~\ref{thm:equality}), in the
+permitted wording of \S\ref{sec:scopedequality} and only there, carrying five
+further named scope items beyond those of Corollary~\ref{cor:onedir}.
+\textbf{The word ``unconditional'' does not attach to this equality}; $\Psi$
+remains a two-sided \emph{certified bracket}; the equality identifies two
+objects and is \emph{not} a licence to quote a value as exact; and
+Corollary~\ref{cor:brackets} continues to govern the quotable numeric
+statement.
 \end{abstract}
 
 \section{Setting}
@@ -2330,11 +2394,35 @@ $0.5364993215$ and $0.5311645087$, reproduced by the harness to ten
 digits.
 \end{namedthm}
 
+\begin{definition}[The class $\mathcal P(D;\Delta)$ --- written down once,
+and used in that same form in three places (F10)]
+\label{def:psiclass}
+$\Psi(D;\Delta)$ is the infimum of the stationary rate over
+$\mathcal P(D;\Delta)$, the class of \emph{feasible stationary records of
+$\mathcal F_0$}: records $x$ on $\mathbb Z$ that are stationary, lie in
+$\mathcal F_0$ (Hypothesis~\ref{hyp:uind}), have residual noise spectrum
+$n(\omega)>0$ almost everywhere and $\Phi_R\in L^1$, and satisfy the
+per-symbol distortion constraint $\mathrm{dist}(x)\le D$. \emph{No further
+restriction is imposed} --- no spectral floor, no moment box, no rationality,
+no kernel-summability and no window length.
+\textbf{This is the class in Corollary~\ref{cor:onedir}, in
+Theorem~\ref{thm:cert} and in Theorem~\ref{thm:D}, in that same form each
+time.} (R-IND-5 restatement F10: earlier revisions left this class to an
+unqualified clause that was doing load-bearing work in three separate places.
+The identification was re-derived rather than taken: Theorem~\ref{thm:cert}'s
+dual is an infimum over $\{h,\,n>0\}$ per frequency with no further
+restriction, so the 082 bracket brackets exactly this $\Psi$;
+Corollary~\ref{cor:onedir} runs through shift-averages, which lie inside the
+class by Lemma~\ref{lem:scoping}; and Theorem~\ref{thm:D} covers exactly it.)
+\end{definition}
+
 \begin{corollary}[The chain, and its direction --- \emph{the chain is
 unconditional}]
 \label{cor:onedir}
 $\phi_n\;\ge\;\mathrm{rate}(\text{periodize})\;\ge\;
-\mathrm{rate}(\text{shift-average})\;\ge\;\Psi(D;\Delta)$, whence
+\mathrm{rate}(\text{shift-average})\;\ge\;\Psi(D;\Delta)$, with
+$\Psi(D;\Delta)$ the infimum over the class $\mathcal P(D;\Delta)$ of
+Definition~\ref{def:psiclass}, whence
 \[
 \boxed{\;L^\infty(\Delta)\;\ge\;\Psi(D;\Delta)\;}
 \]
@@ -2381,10 +2469,19 @@ the permitted headline is unchanged.
 
 \begin{remark}[What the chain does \emph{not} give]
 \label{rem:onedirection}
-Corollary~\ref{cor:onedir} is a \emph{lower} bound. The reverse
-inequality is \emph{not} available from anything in this document, and
-no statement that the process limit coincides with $\Psi$ may be
-printed. The permitted headline at $\Delta=0$ is the bracket
+Corollary~\ref{cor:onedir} is a \emph{lower} bound; the reverse
+inequality is not available from it, and is not available from anything in
+\S\S\ref{sec:plateau}--\ref{sec:achiev}.
+\textbf{Amended at v1.0 (dated 2026-08-08).} The reverse inequality is now
+available, but \emph{only} from Theorem~\ref{thm:equality}, and \emph{only}
+inside that scoped statement with its five further scope items (i)--(v).
+Outside Theorem~\ref{thm:equality} this remark continues to govern in full:
+\textbf{no free-standing reverse inequality, and no statement that the process
+limit coincides with $\Psi$, may be printed anywhere else in this document};
+``unconditional'' still never attaches to the value $\Psi$ nor to that
+equality; and the \emph{quotable numeric} headline is unchanged --- it remains
+Corollary~\ref{cor:brackets}, never a single number.
+The permitted headline at $\Delta=0$ is the bracket
 \[
 L^\infty(0)\;\in\;[\,0.5627265,\ 0.5647420\,],
 \]
@@ -2552,7 +2649,8 @@ and set
 p_1=-\alpha\,C_0\overline{B_0}/\hat s_0 ,\qquad
 p_2=-\mu\,z^{\Delta+1}.
 \]
-If $\beta>0$ everywhere then
+If $\beta>0$ everywhere then, with $\Psi(D;\Delta)$ the infimum over the class
+$\mathcal P(D;\Delta)$ of Definition~\ref{def:psiclass},
 \[
 \Psi(D;\Delta)\;\ge\;
 \mathrm{const}(\mu,C_0,B_0,\hat s_0)\;+\;
@@ -3126,8 +3224,19 @@ an open modelling question --- but it is not done.
 \textbf{Consequently the only statement permitted about the pair
 $(L^\infty,\Psi)$ from this side is the one printed verbatim in
 Corollary~\ref{cor:brackets}}, with its $+R(\Delta)$ term never dropped.
-Remark~\ref{rem:onedirection} continues to govern: no statement that the
-process limit coincides with $\Psi$ may be printed, here or anywhere.
+\textbf{Amended at v1.0 (dated 2026-08-08).} The residual named in (d) is
+\emph{closed} --- by \S\ref{sec:firdens}, and by making route~(ii)
+unnecessary rather than by proving it: Theorem~\ref{thm:D} nowhere uses the
+optimum's regularity, kernel summability or $\mathcal W$-membership, so the
+contraction estimate in the Wiener norm is no longer needed for density. The
+citation route to (ii) remains \emph{blocked} and is recorded as such: the
+classical Wiener--Hopf factorisation theorems have hypothesis $\Phi\in\mathcal
+W$, and $\Phi\in\mathcal W$ \emph{iff} the kernels are, which is the claim ---
+the citation relocates the bootstrap, it does not discharge it. What replaces
+this remark's prohibition is Theorem~\ref{thm:equality} and nothing wider:
+outside that scoped theorem, no statement that the process limit coincides
+with $\Psi$ may be printed, here or anywhere, and
+Remark~\ref{rem:onedirection} governs as amended.
 \end{remark}
 
 \subsection{The unconditional brackets --- the headline of this registration}
@@ -3165,6 +3274,15 @@ scope items (a)--(d) of Corollary~\ref{cor:onedir} travel with the lower end,
 as always; and, as always, ``unconditional'' is said of a chain and of these
 two \emph{inequalities}, never of the value $\Psi$
 (Remark~\ref{rem:fpcert}, Remark~\ref{rem:onedirection}).
+\textbf{Note added at v1.0 (dated 2026-08-08).} The permitted wording above is
+\emph{unchanged} and continues to govern: \textbf{this corollary, and not
+Theorem~\ref{thm:equality}, is the quotable numeric statement about
+$L^\infty$}, and the $+R(\Delta)$ term is never dropped from it. The
+``FIR-density link'' its last clause names is now supplied by
+Theorem~\ref{thm:D}, but that changes nothing here: it licenses only the
+\emph{scoped} Theorem~\ref{thm:equality}, whose reverse direction may not be
+quoted outside that theorem, and it does not convert $\Psi$ from a certified
+bracket into an exact value.
 \end{corollary}
 
 \begin{remark}[W10 --- the anchor cross-check is $8/8$]
@@ -3257,6 +3375,544 @@ Remark~\ref{rem:R1novelty}. The ingredients are individually classical; it is
 the combination that is unswept.
 \end{remark}
 
+\section{FIR density: Lemma~A$'$, Theorem~D, Lemma~M --- and the
+\emph{scoped} equality $L^\infty(\Delta)=\Psi(D;\Delta)$ at $\Delta=0,1,2$}
+\label{sec:firdens}
+Status: FIR-density prover $+$ independent R-IND-5 pass on Theorem~D,
+Lemma~A$'$ and Lemma~M (fresh context; own evaluator built \emph{from the
+model primitives only} --- exact analytic autocovariances, $\sigma$ as a
+Cholesky pivot of the interleaved $(R,S)$ covariance, $\langle\ln
+n\rangle$ by Jensen-on-the-roots; \emph{no FFT grid, no Toeplitz normal
+equations, and no prover code in any rate number}, the prover's stored
+kernels used only as \emph{data}). The pass refutes \textbf{nothing} in
+Theorem~D or Lemma~A$'$ and refutes \textbf{two headline claims of
+Lemma~M}. Its fourteen numbered restatements F1--F14 are \emph{all in force
+in this revision}, and \textbf{F5--F8 are not optional}: printing Lemma~M
+unrestated would put a \emph{second} false $n$-independence claim on the
+record one registration after the first was caught (Remark~\ref{rem:W1}).
+Registration 085 pending, harness
+\texttt{experiments/\allowbreak go14\_density.py} --- \emph{nothing in this
+section is sealed}.
+
+This section closes the residual of Remark~\ref{rem:residual}, and it closes
+it by making the Wiener-algebra link \emph{unnecessary} rather than by
+proving it. The move is one line: in Collapse coordinates the stationary rate
+is $[\ln\sigma-\langle\ln n\rangle]/(2\ln2)$, so $n$ is a \emph{datum} of the
+record and $\sigma$ is the only derived object; and since $\sigma$ is an
+\emph{infimum} over admissible filters, the direction achievability needs is
+the free one. That kills the uniform-convergence requirement which had forced
+the earlier route into the Wiener algebra $\mathcal W$, and it is why the
+circularity recorded in Remark~\ref{rem:residual}(d)(ii) is gone: the proof
+approximates an \emph{arbitrary near-optimal feasible record}, never the fixed
+point.
+
+\subsection{Two admissibility notions, defined side by side and never
+conflated (F2)}
+\label{sec:twoadm}
+Definition~\ref{def:adm} fixes a pair $(C_0,B_0)$ with $C_0$ \emph{monic
+causal in $S$} and $B_0$ \emph{causal including lag $0$ in $R$}, and its
+minorant $\hat s$ bounds the \emph{$S$-side} pivot
+$s=\operatorname{Var}(S_u\mid S^{u-1},R^{u})$ from above. Lemma~A$'$ needs the
+\emph{mirror} of that, and it attaches to a \emph{different pivot}.
+
+\begin{definition}[A$'$-admissible filters --- the mirror of
+Definition~\ref{def:adm}]
+\label{def:admA}
+A pair $(V,V_S)$ of symbols is \emph{A$'$-admissible} if $V$ is \emph{monic
+causal in $R$} (taps at lags $0,1,2,\dots$ with the lag-$0$ tap equal to $1$)
+and $V_S$ is \emph{strictly causal in $S$} (taps at lags $1,2,\dots$ only).
+For such a pair,
+\[
+\hat\sigma(x;V,V_S)\;:=\;\operatorname{Var}\Bigl(\textstyle\sum_i
+V_iR_{u-i}+\sum_j (V_S)_jS_{u-j}\Bigr)
+\;=\;\bigl\langle|V|^2\Phi_R+|V_S|^2f_S
++2\operatorname{Re}(\overline{V}V_S\Phi_{RS})\bigr\rangle
+\]
+is \emph{affine} in the moment coordinates of $x$ and satisfies
+$\hat\sigma\ge\sigma:=\operatorname{Var}(R_u\mid R^{u-1},S^{u-1})$
+\emph{always}.
+\textbf{Definitions~\ref{def:adm} and~\ref{def:admA} are different objects and
+must never be conflated}: the first is monic in $S$ and bounds $s$; the second
+is monic in $R$ and bounds $\sigma$. They are used in different arguments ---
+Definition~\ref{def:adm} inside Theorem~\ref{thm:cert} and step~(3b) of
+Theorem~\ref{lem:R1}, Definition~\ref{def:admA} only here.
+\end{definition}
+
+\subsection{Lemma~A$'$ (F1, F3, F14)}
+
+\begin{lemma}[A$'$ --- pivot upper semicontinuity]
+\label{lem:Aprime}
+Let $x$ be a stationary record with $\Phi_R,f_S\in L^1$. Then:
+\begin{enumerate}
+\item[(1)] $\sigma(x)$ equals the infimum of $\hat\sigma(x;V,V_S)$ over
+\emph{finitely supported} A$'$-admissible pairs.
+\item[(2)] For any finitely supported A$'$-admissible pair with
+$\hat\sigma(x;V,V_S)\le\sigma(x)+\varepsilon$ --- \emph{chosen first, before
+the approximant} --- and any second record $x'$ with $\Phi'_R,f_S\in L^1$,
+\[
+\sigma(x')\;\le\;\sigma(x)+\varepsilon
++C_V\,\bigl\|(\Phi'_R,\Phi'_{RS})-(\Phi_R,\Phi_{RS})\bigr\|_{L^1},
+\qquad C_V=\sup_\omega\bigl(|V|^2+|V_S|^2\bigr)<\infty .
+\]
+\end{enumerate}
+\textbf{The hypotheses are $\Phi_R,f_S\in L^1$ and nothing else}: no spectral
+floor, no $H^2$ ball, no uniform convergence, no membership in $\mathcal W$.
+
+\emph{Proof of} (1). $\sigma(x)=\operatorname{dist}^2\bigl(R_u,\mathcal
+M\bigr)$ in $L^2(\Omega)$, where $\mathcal M$ is the \emph{closed} linear span
+of $\{R_{u-i}\}_{i\ge1}\cup\{S_{u-j}\}_{j\ge1}$. Finite linear combinations
+are dense in $\mathcal M$ \emph{by the definition of a closed span}, and the
+distance to a set and to its closure coincide; so the infimum over finitely
+supported A$'$-admissible pairs equals the infimum over $\mathcal M$, which is
+$\sigma(x)$. This is the Hilbert-space projection fact
+\cite[Ch.~4]{bib:rudin87} and nothing more.\hfill$\square$
+
+\emph{Proof of} (2). $\hat\sigma(\cdot;V,V_S)$ is an \emph{affine} functional
+of the pair $(\Phi_R,\Phi_{RS})$ with coefficient symbols $|V|^2$ and
+$2\overline VV_S$, both bounded because the filter is finitely supported and
+fixed \emph{before} $x'$ is named; the $f_S$ term is common to the two
+records. Hence $|\hat\sigma(x')-\hat\sigma(x)|\le C_V\|\cdot\|_{L^1}$, and
+$\sigma(x')\le\hat\sigma(x')$ by Definition~\ref{def:admA}.\hfill$\square$
+
+\textbf{The infimum in (1) is not attained by any finite filter}; only
+$\varepsilon$-optimality is ever used, here and downstream. That is the whole
+content of the lemma, and it is why nothing about the regularity of any
+optimum enters.
+\end{lemma}
+
+\medskip\noindent\textbf{Certificates (harness \S s1--s2).}
+\emph{(F14) The $K$-lag ladder below is instantiated on the $L=10$ Dirichlet
+truncation at $\Delta=0$}, and that record is named because the same lemma
+instantiated on the \emph{optimum} gives different numbers --- the prover's
+$+2.81\times10^{-2}/+2.50\times10^{-3}/+1.78\times10^{-5}/+2.64\times10^{-10}$
+at $K=1/2/4/8$ against this record's
+$+1.2718\times10^{-2}/+1.0900\times10^{-3}/+7.9614\times10^{-6}/
++1.3020\times10^{-10}$. \textbf{Both are valid}; they are two instantiations
+of one lemma, and neither is a correction of the other. The ladder decreases
+to $\sigma$ \emph{from above} and reaches it exactly:
+$|\hat\sigma-\sigma|=1.67\times10^{-16}$ at $K=60$, and the minimum excess
+over the whole ladder is $-1.67\times10^{-16}$, i.e. machine zero.
+A$'$(2) is verified on $22$ adversarial record pairs including $12$ random FIR
+records far from the optimum ($\|\Delta\Phi\|_1$ up to $14.19$): \emph{zero}
+violations of either inequality, minimum slacks $+2.83\times10^{-11}$ and
+$+1.83\times10^{-5}$.
+
+\begin{remark}[F3 --- the admissibility controls, and a defect that destroyed
+their power twice]
+\label{rem:F3}
+Admissibility is a hypothesis with content, and the controls that show it are
+easy to get wrong. \textbf{The prover's first pass at the peeking controls had
+no power at all}: it recorded S-peek $\mathbf{+0.252}$ and R-peek
+$\mathbf{+0.031}$ --- \emph{positive}, i.e. the ``controls'' made the pivot
+\emph{larger} --- because of a lag-sign defect in its helper.
+\textbf{The R-IND-5 verifier independently hit and fixed the same defect in
+its own helper}, which is what confirms the prover's disclosure is accurate
+rather than merely candid. The corrected controls, each \emph{fully optimised}
+over its enlarged index set so that it has power, all \emph{break} the
+minorant:
+\[
+\begin{array}{lr}
+\text{S-peek (uses }S_u\text{), fully optimised} & -0.010659\\
+\text{R-peek (uses }R_{u+1}\text{), fully optimised} & -0.021585\\
+\text{R-peek two-step }(R_{u+1},R_{u+2}) & -0.023042\\
+\text{S-peek two-step }(S_u,S_{u+1}) & -0.012182\\
+\text{non-monic }V(0)=0.3\text{, rest optimal} & -0.182975\\
+\text{non-monic }V(0)=0.3\text{, fully re-optimised} & -0.341884
+\end{array}
+\]
+\textbf{The run of record is \texttt{t5b.py}. The earlier
+\texttt{t5\_ctl2.py} still carries the defect, is marked defective, and must
+not be cited} --- by this document or by any successor. The harness rebuilds
+all six from the primitives and gates them on the side of failure.
+\end{remark}
+
+\subsection{The cap, the floor, and which of them Theorem~D needs (F4c, F4d)}
+
+\begin{lemma}[B$'$ --- the spectral cap; \emph{recorded, and not used}]
+\label{lem:Bprime}
+Feasibility alone bounds $\langle\Gamma\rangle\le3.449116$, so capping
+$\Gamma$ at a level $M$ costs arbitrarily little as $M\to\infty$ and puts the
+kernels in $L^\infty$; the three inequalities of the cap step hold with slack
+even on the $\langle\Gamma^2\rangle$-divergent feasible family that
+Remark~\ref{rem:l2box} asserts exists (built explicitly: $\max\Gamma=146.48$,
+$\langle\Gamma^2\rangle\to3.80$ as the spike narrows).
+\textbf{(F4d) This lemma is deleted from the proof of Theorem~\ref{thm:D} and
+is recorded here as an a-priori fact only.} It is \emph{dispensable}: by
+Theorem~\ref{thm:D}(a), feasibility \emph{alone} already gives
+\[
+\|g\|_2\;\le\;\rho+\sqrt{D/\min f_V}\;=\;2.343168,
+\qquad
+\|a_y\|_2\;\le\;1+\sqrt{D/\sigma_N^2}\;=\;1.766965,
+\]
+so the Fej\'er means of the two signal kernels converge in $L^2$ \emph{with no
+cap at all}. No statement below depends on Lemma~\ref{lem:Bprime}.
+\end{lemma}
+
+\begin{lemma}[C$'$ --- the white-noise floor; \emph{load-bearing}]
+\label{lem:Cprime}
+Adding $\delta$ white noise to a feasible record is \emph{affine} in
+distortion, \emph{helps} $\langle\ln n\rangle$, and raises $\sigma$ by at most
+$\alpha\,\delta\,\|V\|_2^2/\sigma$ for any fixed A$'$-admissible $V$. Hence
+$\Psi(D;\Delta)$ is unchanged if the class of
+Definition~\ref{def:psiclass} is further restricted to records with
+$n\ge\nu>0$, and \textbf{no convexity is used} (the earlier convex-mixing
+regularisation is unnecessary).
+\textbf{(F4c) This lemma is what is load-bearing}, and the control has power:
+on a feasible family whose noise is \emph{not} bounded below, the Fej\'er
+error in $\langle\ln n\rangle$ does \emph{not} vanish --- at
+$\nu=3.100\times10^{-6}$ it is $0.371$, against $9.9\times10^{-4}$ at
+$\nu=0.151$, while the $L^1$ error is flat at $\approx1.3\times10^{-2}$
+throughout. The Lipschitz constant of $n\mapsto\langle\ln n\rangle$ on $L^1$
+is $1/\nu$, and it blows up exactly as the floor is removed.
+\end{lemma}
+
+\subsection{Theorem~D, with its hypotheses printed (F4)}
+
+\begin{namedthm}[D --- FIR density]
+\label{thm:D}
+Let $\Psi(D;\Delta)$ be the infimum over the class
+$\mathcal P(D;\Delta)$ of Definition~\ref{def:psiclass}, and let
+$U_{\mathrm{tr}}(L)$ denote a depth-$L$ FIR stationary record's value (see
+Remark~\ref{rem:F11} for the labelling). Then
+\[
+\Psi(D;\Delta)\;=\;\inf_{L}\;\bigl\{\text{value of a depth-}L\text{ FIR
+stationary record of }\mathcal P(D;\Delta)\bigr\},
+\]
+i.e.\ \textbf{FIR-kernel stationary records are dense in value}.
+\textbf{The hypotheses are, in full:}
+\begin{enumerate}
+\item[(a)] \textbf{$f_V$ bounded above and below}: here $f_V\in[0.1111,\,
+9.0000]$ (exactly $[(1-a^2)/(1+a)^2,\,(1-a^2)/(1-a)^2]$ at $a=0.8$). This is
+what turns \emph{feasibility} into $L^2$ bounds on the kernels ---
+$\langle|g-\rho|^2f_V\rangle\le D$ gives $\langle|g-\rho|^2\rangle\le
+D/\min f_V$ --- and hence into $L^2$ convergence of the Fej\'er means. It is a
+\emph{model} hypothesis and it travels with the theorem.
+\item[(b)] \textbf{Continuity of $D\mapsto\Psi(D)$ at $D=0.3$}, which follows
+from convexity of the value function (Remark~\ref{rem:feas}); the proof picks
+a near-optimal record at a slightly \emph{smaller} distortion and needs the
+loss to vanish as the shift does.
+\item[(c)] \textbf{Lemma~\ref{lem:Cprime}} (the floor), which is
+load-bearing.
+\item[(d)] \textbf{Lemma~\ref{lem:Bprime} (the cap) is \emph{not} a
+hypothesis: it is deleted from this proof} --- feasibility alone supplies the
+$L^2$ bounds quoted there.
+\end{enumerate}
+\emph{Proof.} Fix $\varepsilon>0$ and pick $x\in\mathcal P(D-\eta;\Delta)$
+within $\varepsilon$ of $\Psi(D-\eta;\Delta)$, with $\eta$ small enough that
+(b) makes $\Psi(D-\eta)-\Psi(D)\le\varepsilon$. Apply
+Lemma~\ref{lem:Cprime} to put its noise above a floor $\nu>0$ at a cost
+$\le\varepsilon$. Truncate with \textbf{Fej\'er means}
+\cite{bib:fejer04} of order $L$: the taps are supported in $[-L,L]$, the
+sup-norm is non-increasing, and by (a) the signal kernels converge in $L^2$
+and the noise in $L^1$. Crucially $n^{(L)}=K_L\ast n$ is a \emph{non-negative}
+trigonometric polynomial, because the Fej\'er kernel $K_L\ge0$ and $n\ge\nu>0$;
+hence by \textbf{Fej\'er--Riesz} \cite{bib:fejer16,bib:riesz16}
+$n^{(L)}=|q_L|^2$ for a causal polynomial $q_L$ of degree $L$, i.e.\ a
+legitimate MA($L$) record noise. Lemma~\ref{lem:Aprime} then closes the
+$\sigma$ leg (choose the finite filter \emph{first}, at $x$; the $L^1$
+distance of the spectra vanishes), and $L^1$ convergence with the floor closes
+the $\langle\ln n\rangle$ leg. Repairing the distortion back to $D$ is a
+scalar rescale of the noise, affine and vanishing as $L\to\infty$. Letting
+$\varepsilon,\eta\downarrow0$ gives the claim.\hfill$\square$
+
+\medskip\noindent\textbf{Nothing in this proof touches the optimum's
+regularity}: it approximates an arbitrary near-optimal feasible record, not a
+fixed point. This was checked, not asserted --- the construction was run on
+three deliberately non-optimal records (the $\langle\Gamma^2\rangle$-divergent
+spiky-noise record, a detuned-kernel record and an oscillating-noise record)
+and cap$+$floor$+$Fej\'er works on all three with the rates converging to
+\emph{each record's own} value.
+\end{namedthm}
+
+\begin{remark}[F12 --- the Fej\'er build, measured to $L=200$, and a numerical
+warning that must travel with it]
+\label{rem:F12}
+The prover ran $L\le14$, where the Fej\'er gap is still
+$3.9\times10^{-4}$. Pushed to $L=200$ at all three lags:
+\begin{itemize}
+\item \textbf{convergence is $\Theta(L^{-2})$}: fitted log-log slopes
+$-1.94007/-1.94006/-1.94009$ over $L=8\ldots200$ with local slopes running to
+$-1.9891/-1.9890/-1.9890$; the gap above the 082 certified lower endpoint at
+$L=200$ is $2.177\times10^{-6}/2.591\times10^{-6}/3.279\times10^{-6}$.
+\item \textbf{positivity holds at every rung}: $\min_\omega n^{(L)}\ge
+0.1331$ over $42$ rungs (the minimum is attained at $\Delta=2$, $L=1$).
+\item \textbf{realisability is certified by a root-free route.} A cepstral
+(Kolmogorov) factorisation \cite[Ch.~13]{bib:os10} gives
+$\bigl\|\,|q_L|^2-n^{(L)}\bigr\|_\infty\le4.16\times10^{-16}$ and an MA tail
+beyond lag $L$ of $\le4.85\times10^{-17}$ --- a genuine \emph{finite} MA.
+\textbf{Polynomial root-finding is not fit for purpose here beyond $L\approx
+96$}, and this warning must travel with any successor: on the same rungs the
+root-finding route degrades $3.86\times10^{-16}$ ($L=32$) $\to
+1.13\times10^{-13}$ ($64$) $\to4.64\times10^{-7}$ ($96$)
+$\to\mathbf{1.88\times10^{-1}}$ ($128$), against the root-free
+$3.33\times10^{-16}$ at that same rung. \textbf{This is a numerical artefact
+of degree-$2L$ root-finding, not a mathematical failure of Fej\'er--Riesz},
+and it is gated as a must-fail control precisely so that no successor mistakes
+one for the other.
+\item \textbf{the Fej\'er mean preserves $\langle n\rangle$ exactly} (the
+lag-$0$ coefficient is untouched by the window; measured $0.00\times10^{0}$),
+so the distortion repair of the theorem's last step is asymptotically free.
+\end{itemize}
+\end{remark}
+
+\subsection{Lemma~M, restated --- what it delivers, and the two headline
+claims that are withdrawn (F5--F9)}
+
+\begin{remark}[F5--F8 --- withdrawals, \emph{not optional}]
+\label{rem:F5F8}
+Lemma~M was written to repair W1 and W4 by removing the rescale: run the
+depth-$L$ stationary program at the \emph{shifted} distortion
+$D-\eta_n$, so that the zero-edge window record is $D$-feasible with no
+repair. \textbf{The exact distortion identity it rests on passes} --- rebuilt
+cell by cell from the primitives over $18$ rows, $\max|{\rm
+built}-{\rm formula}|=2.22\times10^{-16}$, with the \textbf{edge cell equal to
+$1+\varepsilon$ exactly} ($0.00\times10^{0}$) and the interior cell equal to
+$D_{\mathrm{stat}}$ to $1.67\times10^{-16}$; and the shifted build is
+$D$-feasible \emph{with no rescale}, $|{\rm dist}-D|\le2.78\times10^{-16}$
+over $n=64\ldots1024$. \textbf{Two headline claims around it are false and are
+withdrawn here.}
+
+\emph{(F5) ``every constant $n$-independent'' is \textbf{withdrawn}.} Measured
+in the very build Lemma~M was written to fix,
+\[
+C(6,n)\;=\;72.444\ /\ 20.434\ /\ 15.194\ /\ 13.426\ /\ 12.676
+\qquad(n=64,128,256,512,1024),
+\]
+a factor $5.715$ and still falling --- \textbf{the same factor-$5.7$ decrease
+that Remark~\ref{rem:W1} refuted}.
+
+\emph{(F6) ``$\approx18.7$ at $L=6$, $\Delta=0$'' is \textbf{withdrawn as an
+upper bound}}: it is exceeded at $n=64$ ($72.444$) and at $n=128$ ($20.434$).
+The asymptote is $\approx12.0$.
+
+\emph{(F7) the cause, and it is a mathematical error and not numerical
+looseness.} $D\mapsto U(L;D)$ is \textbf{convex} (measured: every second
+difference of the $D$-ladder over $D=0.20\ldots0.30$ is positive, minimum
+$+2.140\times10^{-3}$), so the tangent estimate $\mu\cdot\eta$ is a
+\textbf{lower} bound on the repair cost, not an upper one. The multiplier must
+be taken \emph{at the shifted point}. At $L=6$, $n=64$ the shift is
+$\eta=0.161769$ and the secant slope is $9.40818$ against the tangent
+$\mu=2.2261061$ --- a factor $4.226$.
+
+\emph{(F8) ``no feasibility threshold'' is \textbf{withdrawn}.} At $L=10$,
+$n=64$ the shifted target is
+\[
+D-\eta_n\;=\;-0.018636\;<\;0,
+\]
+with the depth-$L$ noise multiplier $\lambda=-0.83506$ --- \textbf{the same
+threshold, at the same $(n,L)$, that Remark~\ref{rem:W2} recorded} ($c=-0.832$
+there). Lemma~M \emph{relocates} W2's threshold; it does not remove it.
+
+\medskip\noindent\textbf{Consequently: Lemma~M does \emph{not} discharge W1 or
+W4. W1 and W2 stand}, exactly as stated in Lemma~\ref{lem:W} and
+Remarks~\ref{rem:W1} and~\ref{rem:W2}, and every consequence drawn from
+Lemma~\ref{lem:W} continues to use only $C(L,n)=o(n)$.
+\end{remark}
+
+\begin{lemma}[M --- the distortion margin, as an exact three-leg
+decomposition (F9)]
+\label{lem:M}
+Fix $L$, $\Delta$ and $\varepsilon>0$, and run the depth-$L$ stationary
+program at the shifted target $D-\eta_n$ with
+\[
+\boxed{\;\eta_n\;=\;\frac{2L\,(1+\varepsilon-D)}{n-2L}\;}
+\]
+--- \textbf{exactly, with denominator $n-2L$ and not $n$}. Then for
+$n\ge n_0(L)$, i.e.\ for those $n$ at which the shifted target is attainable
+(Remark~\ref{rem:F5F8}(F8) exhibits an $(n,L)$ at which it is not), the
+zero-edge window record is $D$-feasible with no rescale, and
+$C(L,n)=n\,[L_a(x^{(n)})-U(L;D)]$ admits the \emph{exact} decomposition
+\[
+C(L,n)\;=\;-2L\,\mathrm{rate}(x_n)
+\;+\;\frac{\sum_t\delta_t-\mathrm{Szeg\ddot o}(L,n)}{2\ln2}
+\;+\;n\bigl[\,U(L;D-\eta_n)-U(L;D)\,\bigr],
+\]
+with $\mathrm{Szeg\ddot o}(L,n)=\ln\det T_{n-2L}-(n-2L)\langle\ln
+n(\omega)\rangle$. Each leg is separately bounded, so
+$\sup_{n\ge n_0(L)}C(L,n)<\infty$.
+\textbf{Only $C(L,n)=o(n)$ is used downstream}, so the conclusion of
+Lemma~\ref{lem:W} --- and everything drawn from it below --- is untouched by
+the withdrawals of Remark~\ref{rem:F5F8}.
+\emph{Certificates:} the decomposition residual is
+$\le1.85\times10^{-13}$ at every one of $14$ rows over
+$L\in\{4,6,10\}$, $n\in\{64,\dots,1024\}$; and $\eta_n$ agrees with the closed
+form above to $\le2.78\times10^{-17}$ at every row.
+\end{lemma}
+
+\subsection{The ladder is $U_{\mathrm{tr}}(L)$ (F11), and the steps of
+Lemma~W, correctly counted (F13)}
+
+\begin{remark}[F11 --- label the ladder for what it is]
+\label{rem:F11}
+The tabulated ladder of Remark~\ref{rem:residual}(a) --- and every $U(L)$
+quoted in \S\ref{sec:achiev} --- is
+\textbf{$U_{\mathrm{tr}}(L)$, the \emph{truncation-and-repair} value}: the
+Dirichlet truncation of the stored kernels with the exact scalar noise
+rescale. \textbf{It is not the depth-$L$ optimum.} Direct minimisation over
+depth-$L$ FIR records gives strictly smaller values at every rung ---
+$0.5647679$ against $U_{\mathrm{tr}}(1)=0.5674834$ at $\Delta=0$,
+$0.5629403$ against $0.5632032$ at $L=2$, $0.5627482$ against $0.5627729$ at
+$L=3$, and similarly at $\Delta=1,2$ --- with $U_{\mathrm{tr}}(L)$ above the
+direct optimum by at least $9.16\times10^{-6}$ at every one of the nine rungs.
+\textbf{Both sequences decrease toward $\Psi$ from above and neither crosses
+it}: all nine direct optima sit strictly \emph{above} the 082 certified lower
+endpoints, minimum margin $+1.12\times10^{-5}$. This is a \emph{sharper}
+does-not-prove-too-much test than truncation alone, and it is the form the
+harness gates. (The R-IND-5 addendum's full-strength run --- $8000$ evaluations
+$\times4$ restarts, against the harness's pinned $900\times2$ --- reports
+$0.562747377388/0.536414037072/0.531061238971$ at $L=3$ with margins
+$+2.0881\times10^{-5}/+1.2659\times10^{-5}/+1.1219\times10^{-5}$; the two runs
+differ only in the sixth-to-seventh decimal and neither is used as a bar.)
+\end{remark}
+
+\begin{remark}[F13 --- Lemma~W's steps, and a floor that does not reproduce]
+\label{rem:F13}
+Two bookkeeping corrections, both on record.
+\emph{(i)} The correct reference to Lemma~\ref{lem:W} in any chain below is
+\textbf{``steps~(1)--(4), with~(3) carrying the classical citation,
+and~(5) superseded by Lemma~\ref{lem:M}''}. Writing ``Lemma~W(1,2,4)''
+\emph{undercounts}: \textbf{step~(3) is load-bearing} and carries the only
+analytic input that is cited rather than re-proved, namely the standard
+rational-spectral-factorization/Riccati fact \cite{bib:am79,bib:ksh00}. Its
+hypotheses were re-verified independently and hold: the joint $(S,R)$ spectrum
+is $\succeq0.2394\,I$ uniformly in $\omega$, and the depth-$L$ FIR record's
+spectrum is rational \emph{by construction}, so the citation is not applied to
+the object whose density is being proved.
+\emph{(ii)} The probe's ``floored at $n\ge0.1288$'' is
+\textbf{unreproduced and is withdrawn}. The record noise floors are
+$0.1495/0.1378/0.1404$ at $\Delta=0/1/2$ (as already printed in
+Remark~\ref{rem:residual}(d)), and the minimum over the entire Fej\'er ladder
+to $L=200$ is $0.1331$. Nothing downstream moves --- every floor in play is
+comfortably positive --- but the number is replaced, not patched.
+\end{remark}
+
+\subsection{Does the density machinery prove too much? No}
+Four checks, all on the side of not proving too much.
+\emph{(i)} Every rung of the $U_{\mathrm{tr}}$ ladder, at every
+$\Delta\in\{0,1,2\}$ and every $L=1,\dots,10$, sits strictly \emph{above} the
+082 certified lower endpoints, minimum margins
+$+3.997\times10^{-11}/+7.213\times10^{-11}/+5.267\times10^{-11}$ --- positive,
+as weak duality forces, and independently reproducing the values recorded in
+Remark~\ref{rem:residual}(b).
+\emph{(ii)} The $\Delta$-ladder of a fixed depth-$L$ record is monotone and
+stays above $\mathrm{block}_\infty$, margin $+2.822\times10^{-4}$ at
+$\Delta=14$ for $L\in\{4,6,10\}$.
+\emph{(iii)} The direct minimisation of Remark~\ref{rem:F11} likewise never
+falls below the certified endpoints, $9/9$.
+\emph{(iv)} \textbf{Sharpness, stated honestly.} Theorem~\ref{thm:D}'s modulus
+--- the $L^1$ bound of Lemma~\ref{lem:Aprime}(2) plus the floor --- is
+\emph{valid} at every one of $28$ rungs (zero violations, minimum slack
+$+1.898\times10^{-8}$) and \emph{loose}, by $3.3\times10^{-2}$ relative at
+$L=1$ down to the $f64$ floor at the deepest Dirichlet rungs. The reason is
+structural and is not a defect: the modulus is \emph{first order} in the
+kernel error while the truth is \emph{second order} --- W7's squaring law
+(Remark~\ref{rem:residual}(c)), the first-order term vanishing at the
+optimum. Density needs only that the modulus $\to0$; the $T(L)^2$ law is
+sharper behaviour that this bound does not explain, and no claim is made that
+it does.
+
+\subsection{The scoped equality}
+\label{sec:scopedequality}
+
+\begin{namedthm}[$L^\infty=\Psi$ at $\Delta=0,1,2$ --- \emph{a scoped
+theorem}]
+\label{thm:equality}
+Under Hypothesis~\ref{hyp:uind} and Hypothesis~\ref{hyp:indcopies}, with
+$\Psi(D;\Delta)$ the infimum over the class $\mathcal P(D;\Delta)$ of
+Definition~\ref{def:psiclass},
+\[
+\boxed{\;L^\infty(\Delta)\;=\;\Psi(D;\Delta)\qquad\text{for }\Delta=0,1,2.\;}
+\]
+\emph{Proof.} ``$\ge$'' is Corollary~\ref{cor:onedir}. ``$\le$'': by
+Theorem~\ref{thm:D} there are depth-$L$ FIR stationary records of
+$\mathcal P(D;\Delta)$ of value $\to\Psi(D;\Delta)$; by
+Lemma~\ref{lem:W} steps~(1)--(4) with Lemma~\ref{lem:M} in place of
+step~(5), each such record transfers, for $n\ge n_0(L)$, to a $D$-feasible
+window record of $\mathcal F_0$ with
+$\phi_n\le\mathrm{rate}(x)+C(L,n)/n$ and $C(L,n)=o(n)$; and
+$L^\infty=\inf_n\phi_n$ by Theorem~\ref{thm:transfer}. Let $n\to\infty$ at
+fixed $L$, then $L\to\infty$.\hfill$\square$
+
+\medskip\noindent\textbf{The scope this statement carries, and which must be
+printed with it.} Beyond the four scope items (a)--(d) of
+Corollary~\ref{cor:onedir}, which travel with the ``$\ge$'' half as always:
+\begin{enumerate}
+\item[(i)] Lemma~\ref{lem:W} step~(3)'s classical
+rational-spectral-factorization / Riccati citation \cite{bib:am79,bib:ksh00},
+\emph{with} its hypotheses --- verified to hold here
+(Remark~\ref{rem:F13}(i)), \emph{not} re-proved;
+\item[(ii)] Fej\'er--Riesz \cite{bib:fejer16,bib:riesz16} and Fej\'er
+convergence \cite{bib:fejer04};
+\item[(iii)] the model hypothesis $f_V\in[0.1111,\,9.0000]$
+(Theorem~\ref{thm:D}(a));
+\item[(iv)] continuity of $D\mapsto\Psi(D)$ at $D=0.3$, from convexity
+(Theorem~\ref{thm:D}(b));
+\item[(v)] a window threshold $n\ge n_0(L)$ (Remark~\ref{rem:W2},
+Lemma~\ref{lem:M}).
+\end{enumerate}
+\textbf{The word ``unconditional'' does not attach to this equality.} It
+attaches only to Corollary~\ref{cor:onedir}'s chain and to
+Corollary~\ref{cor:brackets}'s two inequalities, and it never attaches to the
+value. $\Psi$ remains a two-sided \emph{certified bracket}
+(Remark~\ref{rem:fpcert}); \textbf{the equality identifies two objects, it is
+not a licence to quote a value as exact, and
+Corollary~\ref{cor:brackets} continues to govern the quotable numeric
+statement.}
+\end{namedthm}
+
+\medskip\noindent\textbf{The permitted wording, verbatim, as returned by the
+R-IND-5 pass of 2026-08-08.} The following is the ruling as written, and it is
+the only form in which this equality may be stated:
+
+\begin{quote}\itshape
+THE RULING: YES, $L^{\inf}=\Psi$ MAY BE PRINTED at $\Delta=0,1,2$ --- as a
+SCOPED THEOREM, in the permitted wording, and ONLY there. Lemma~M's
+refutations do NOT break it (only $o(n)$ is used). The permitted wording
+carries, beyond \textrm{cor:onedir}'s scope: (i) Lemma~W step~(3)'s classical
+rational-spectral-factorization/Riccati citation WITH its verified
+hypotheses; (ii) Fejer--Riesz and Fejer convergence; (iii) the model
+hypothesis $f_V$ in $[0.1111, 9.0000]$; (iv) continuity of
+$D\to\Psi(D)$ at $D=0.3$ from convexity; (v) a window threshold $n\ge n_0(L)$.
+``UNCONDITIONAL'' DOES NOT ATTACH TO THIS EQUALITY --- it attaches only to
+\textrm{cor:onedir}. $\Psi$ remains a two-sided CERTIFIED BRACKET; the
+equality IDENTIFIES TWO OBJECTS, it is NOT a licence to quote a value as
+exact, and \textrm{cor:brackets} CONTINUES TO GOVERN the quotable numeric
+statement.
+
+STILL FORBIDDEN: ``hypothesis-free''; ``unconditional'' on the $\Psi$ value or
+on this equality; any FREE-STANDING reverse inequality outside the scoped
+theorem; any novelty language for Lemma~A$'$'s packaging, Lemma~W's
+combination, or Theorem~D until the sweeps run.
+\end{quote}
+
+\noindent Those prohibitions are house rules of this document from this
+revision on. In particular the \emph{reverse direction} of
+Theorem~\ref{thm:equality} is stated and invoked \emph{only} inside that
+theorem --- it is never written free-standing anywhere else, in this document
+or in any seal, registry entry or successor --- and the quotable numeric
+statement remains the bracket of Corollary~\ref{cor:brackets}.
+
+\begin{remark}[What is \emph{owed}, and what may not be said until it is
+delivered]
+\label{rem:F085owed}
+Three items are outstanding and are recorded here so that no successor treats
+them as done.
+\emph{(1)} A \textbf{novelty sweep on Lemma~\ref{lem:Aprime}'s packaging} ---
+an infimum of affine functionals over \emph{finitely supported} admissible
+filters, used as an upper-semicontinuity device for FIR density. Every
+ingredient is classical; the combination is unswept.
+\emph{(2)} The \textbf{novelty sweep on Lemma~\ref{lem:W}'s combination},
+already owed at v0.9 (Remark~\ref{rem:Wnovelty}).
+\emph{(3)} The \textbf{window-side \texttt{la\_cmi} cross-check}: the
+definitional-CMI validation of \S\ref{sec:achiev} was run stationary-side
+only.
+\textbf{No novelty language of any kind is used for Lemma~\ref{lem:Aprime},
+Lemma~\ref{lem:W} or Theorem~\ref{thm:D}}, here or anywhere in this document,
+and none may be used until (1) and (2) are run and their verdicts, permitted
+language and residuals are recorded in the manner of
+Remark~\ref{rem:R1novelty}.
+\end{remark}
+
 \begin{question}[Open]
 \label{q:open}
 (0) \textbf{(R1) is closed} --- it is Theorem~\ref{lem:R1}, and
@@ -3267,13 +3923,22 @@ Hypothesis~\ref{hyp:indcopies} alone. What remains open here is the
 truncation / achievability lemma at stationarity, which the
 non-rationality of the stationary optimum makes non-trivial.
 \textbf{\S\ref{sec:achiev} takes that face apart}: Lemma~\ref{lem:W}
-supplies the truncation half with measured certificates, and what is
-left is the single residual of Remark~\ref{rem:residual} --- FIR-kernel
-stationary records dense in value, needing a contraction estimate in the
-Wiener norm for the K1--K3 iteration. Until \emph{that} is settled
-nothing may be said about $L^\infty$ beyond the brackets of
+supplies the truncation half with measured certificates, and what was
+left was the single residual of Remark~\ref{rem:residual} --- FIR-kernel
+stationary records dense in value.
+\textbf{At v1.0 that residual is closed}: it is Theorem~\ref{thm:D}, proved
+by a route that makes the Wiener-norm contraction estimate \emph{unnecessary}
+rather than supplying it, and the consequence is
+Theorem~\ref{thm:equality} --- \emph{a scoped theorem, in the permitted
+wording of \S\ref{sec:scopedequality} and only there}. Outside that
+statement, nothing may be said about $L^\infty$ beyond the brackets of
 Corollary~\ref{cor:brackets} (which supersede the numbers, though not
-the prohibition, of Remark~\ref{rem:onedirection}). The
+the prohibition, of Remark~\ref{rem:onedirection} as amended), and the
+quotable numeric statement is unchanged. What remains genuinely open on this
+face is not the density but the \emph{sharpness} of its modulus
+(\S\ref{sec:firdens}: valid at every rung, loose because it is first order
+against a second-order truth) and the two \emph{owed} novelty sweeps of
+Remark~\ref{rem:F085owed}. The
 \textbf{novelty sweep on the (R1)
 combination} --- blocked
 cyclostationary Szeg\H o, plus the inf-of-affine leak, plus matrix
@@ -3439,8 +4104,11 @@ Hypothesis~\ref{hyp:indcopies}); Lemmas~\ref{lem:S}
 and~\ref{lem:cstat}; the certified $\Psi$ brackets; the $\Delta=2$
 finite-$n$ anchors; and Theorem~\ref{thm:shift} /
 Corollary~\ref{cor:onedir} / Corollary~\ref{cor:plateau2}. Nothing in
-\S\ref{sec:plateau} is sealed, and no seal may print an equality
-between $L^\infty$ and $\Psi$ (Remark~\ref{rem:onedirection}).
+\S\ref{sec:plateau} is sealed, and \textbf{no seal of 082 may print an
+equality between $L^\infty$ and $\Psi$} --- that statement belongs to
+Theorem~\ref{thm:equality} alone, is scoped, and is proposed for
+registration 085, never for this one (Remark~\ref{rem:onedirection} as
+amended).
 
 The v0.8 material --- Theorem~\ref{lem:R1} with its four-step proof and
 its certificate block, the Scoping Lemma~\ref{lem:scoping}, the
@@ -3523,6 +4191,56 @@ so no gate races a stopping point, and no gate reads or gates a bracket
 width or certificate endpoint. \textbf{The novelty sweep on Lemma~W's
 combination is \emph{owed}} (Remark~\ref{rem:Wnovelty}), and no novelty
 language for it appears anywhere in this document.
+
+The v1.0 material --- \S\ref{sec:firdens} in full: the two admissibility
+notions of \S\ref{sec:twoadm} (Definition~\ref{def:admA} beside
+Definition~\ref{def:adm}, F2), Lemma~\ref{lem:Aprime} with its Hilbert-space
+proof and the six admissibility controls of Remark~\ref{rem:F3} (F1, F3,
+F14), Lemma~\ref{lem:Bprime} as a \emph{recorded} a-priori fact and
+Lemma~\ref{lem:Cprime} as the load-bearing one (F4c, F4d),
+Theorem~\ref{thm:D} with its printed hypothesis list (F4) and
+Remark~\ref{rem:F12} (F12), Remark~\ref{rem:F5F8} (F5--F8) and
+Lemma~\ref{lem:M} (F9), Remarks~\ref{rem:F11} (F11) and~\ref{rem:F13} (F13),
+Definition~\ref{def:psiclass} (F10), and
+Theorem~\ref{thm:equality} with the verbatim permitted wording of
+\S\ref{sec:scopedequality} --- awaits \textbf{registration 085}, harness
+\texttt{experiments/go14\_density.py}, and is registered \emph{separately
+from} 082, 083 and 084 because it is the terminal object on this face: 082
+certifies the value $\Psi$ two-sided, 083 discharges the convexity step of
+the lower-bound chain, 084 nets the window transfer, and 085 nets the
+\emph{density} that closes the converse. The harness sections are: s1
+Lemma~\ref{lem:Aprime}(1) --- the $K$-lag admissible ladder decreasing to
+$\sigma$ from above and reaching it exactly, with all \emph{six} rebuilt,
+fully optimised admissibility controls gated as must-fail; s2
+Lemma~\ref{lem:Aprime}(2) on $\ge20$ adversarial record pairs including
+records far from the optimum; s3 the Fej\'er build --- positivity at every
+rung to $L=200$, \emph{root-free} Fej\'er--Riesz realisability, the
+$\Theta(L^{-2})$ rate, the exact preservation of $\langle n\rangle$, and the
+root-finding route gated as a must-fail control at $L=128$ (F12); s4 the cap
+dispensable (the $L^2$ bounds from feasibility alone) and the floor
+load-bearing (the $\langle\ln n\rangle$ error that does \emph{not} vanish at
+$\nu\approx3\times10^{-6}$); s5 Lemma~\ref{lem:M} --- the exact distortion
+identity rebuilt from primitives with the edge cell at $1+\varepsilon$
+exactly, $D$-feasibility with no rescale, and the \emph{three must-fail
+controls for F5--F8}: the factor-$5.7$ \emph{decrease} of $C(6,n)$ (so
+$n$-independence is false), the $18.7$ figure exceeded at $n=64$, and the
+negative shifted target at $(L,n)=(10,64)$; s6 the three-leg decomposition
+residual at every row; s7 does-it-prove-too-much --- every
+$U_{\mathrm{tr}}$ rung above the 082 certified lower endpoints, the
+$\Delta$-ladder above $\mathrm{block}_\infty$, and the \emph{direct}
+minimisation records above $\Psi^{\mathrm{LB}}$ (F11); s8 the modulus valid
+at all $28$ rungs. The scope proposed for 085 is: Lemma~\ref{lem:Aprime},
+Lemma~\ref{lem:Cprime}, Theorem~\ref{thm:D}, Lemma~\ref{lem:M} \emph{as
+restated}, and Theorem~\ref{thm:equality} \emph{with its five scope items and
+in the permitted wording only}. \textbf{The only search in that harness is
+s7's direct minimisation, and its gate is on the \emph{set} of feasible
+records a pinned fixed-budget search evaluates, never on a stopping point};
+no fixed point is solved and no bracket, width or certificate endpoint is
+gated anywhere. \textbf{The novelty sweeps on Lemma~\ref{lem:Aprime}'s
+packaging and on Lemma~\ref{lem:W}'s combination are \emph{owed}, as is the
+window-side \texttt{la\_cmi} cross-check} (Remark~\ref{rem:F085owed}), and no
+novelty language for Lemma~\ref{lem:Aprime}, Lemma~\ref{lem:W} or
+Theorem~\ref{thm:D} appears anywhere in this document.
 
 \begin{thebibliography}{99}
 
@@ -3658,6 +4376,36 @@ range from memory; not page-verified.)
 \bibitem{bib:fekete23} M.~Fekete, \"Uber die Verteilung der Wurzeln
 bei gewissen algebraischen Gleichungen mit ganzzahligen
 Koeffizienten, \emph{Math. Z.} 17:228--249, 1923.
+
+\bibitem{bib:fejer04} L.~Fej\'er, Untersuchungen \"uber Fouriersche Reihen,
+\emph{Math. Ann.} 58, 51--69, 1904. (Cited for the Fej\'er means / Ces\`aro
+summability of Fourier series and the non-negativity of the Fej\'er kernel.
+\textbf{Page verification owed}: volume, year and page range located from
+secondary sources and not confirmed against the original.)
+
+\bibitem{bib:fejer16} L.~Fej\'er, \"Uber trigonometrische Polynome,
+\emph{J. Reine Angew. Math.} 146, 53--82, 1916. (The non-negative
+trigonometric polynomial factorisation, half of what is universally called
+the Fej\'er--Riesz theorem. \textbf{Page verification owed}, as above.)
+
+\bibitem{bib:riesz16} F.~Riesz, \"Uber ein Problem des Herrn Carath\'eodory,
+\emph{J. Reine Angew. Math.} 146, 83--87, 1916. (The companion half of
+Fej\'er--Riesz. \textbf{Page verification owed}, as above.)
+
+\bibitem{bib:rudin87} W.~Rudin, \emph{Real and Complex Analysis}, 3rd ed.,
+McGraw--Hill, 1987. (Cited only for the Hilbert-space projection fact --- the
+distance from a point to a closed subspace equals the distance to any dense
+subset of it, and is attained at the orthogonal projection --- used in
+Lemma~\ref{lem:Aprime}(1). This is standard and is claimed as nothing more.
+\textbf{Chapter/theorem-number verification owed}; the statement, not the
+numbering, is what is used.)
+
+\bibitem{bib:os10} A.~V. Oppenheim, R.~W. Schafer, \emph{Discrete-Time Signal
+Processing}, 3rd ed., Prentice Hall, 2010. (Cited only for the cepstral /
+Kolmogorov minimum-phase factorisation used as the \emph{numerical} route to
+the Fej\'er--Riesz factor in Remark~\ref{rem:F12}; the mathematical content is
+Fej\'er--Riesz \cite{bib:fejer16,bib:riesz16}, and no result is claimed from
+this reference. \textbf{Chapter verification owed}.)
 
 \bibitem{bib:kalman60} R.~E. Kalman, A new approach to linear
 filtering and prediction problems, \emph{Trans. ASME --- J. Basic
