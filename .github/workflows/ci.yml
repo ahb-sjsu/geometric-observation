@@ -73,6 +73,26 @@ jobs:
             exit 1
           fi
           echo "No undefined references or citations (IEEE)."
+      # GO-14 causal erasure: the document carrying Theorems R/C, R1, W and D
+      # and the whole 076-085 chain. It was uncovered here until 2026-08-08,
+      # so eight seals' tex had never been compiled on the runner and the
+      # committed PDF could drift from source unnoticed -- which it had.
+      - name: Compile GO-14 causal erasure (go14-causal-erasure.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: go14-causal-erasure.tex
+          working_directory: paper
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (GO-14)
+        run: |
+          cd paper
+          if grep -qiE "there were undefined (references|citations)" go14-causal-erasure.log; then
+            echo "::error::Undefined references or citations in go14-causal-erasure.log"
+            grep -iE "warning:.*undefined|there were undefined" go14-causal-erasure.log || true
+            exit 1
+          fi
+          echo "No undefined references or citations (GO-14)."
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:
@@ -96,5 +116,6 @@ jobs:
             paper/observation-theory.pdf
             paper/ieee/observation-theory-ieee.pdf
             paper/ieee/cover-letter.pdf
+            paper/go14-causal-erasure.pdf
             paper/ieee/graphical-abstract.pdf
           if-no-files-found: warn
