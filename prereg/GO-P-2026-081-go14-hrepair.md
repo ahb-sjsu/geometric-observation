@@ -161,3 +161,23 @@ fixed-point argument in a weighted Banach algebra, plus an
 independent uniform lower bound on λmin(N)); the stationary/spectral
 route and the n-uniform dual certificate; the Δ=1,2 plateaus; the
 U-coupled coordinate (GO-15); the reset protocol.
+
+## Amendment (dated 2026-08-08, instrumentation, post-seal, disclosed)
+
+**This registration's `power` block claims "no gate races an
+optimizer stopping point". THAT CLAIM WAS WRONG FOR ONE SUB-GATE.**
+s9's split-causality price reproduction gates
+`p_cert = n(phi^sc_UB - phi_LB)` -- a **difference of two optimizer
+endpoints** -- against a recorded literal at 1e-5. This platform
+gives ~0; the CI runner's BLAS gives 2.1e-5 / 4.3e-4 / 2.8e-4, so
+the suite has been red since e00081c. The measurement is not in
+dispute and no bar was loosened: the sub-gate was **demoted to
+REPORTED, NOT GATED** -- the 079 lesson, applied where it should
+have been applied already.
+
+The two SUBSTANTIVE s9 claims remain gated and pass on both
+platforms with wide margins: the unconditional inequality
+`phi^sc_2m <= phi_m` (slack 1.88e-3 vs a 5e-4 bar, 3.8x) and the
+(H***) admissibility headroom (25-28x on the runner). No verdict,
+number or sealed claim changes; a same-platform rerun reproduces the
+committed verdict dict exactly.
