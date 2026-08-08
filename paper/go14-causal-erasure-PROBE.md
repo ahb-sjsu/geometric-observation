@@ -1313,3 +1313,133 @@ confirms R11 -- monicity of C is a HYPOTHESIS, not an adjective.
 Total independent compute ~50 min across seven scripts, all
 deterministic, scratchpad only. **Verdict unchanged: READY TO SEAL
 082 with R11-R20.**
+
+## (R1) PROVER (2026-08-07): (R1) IS A THEOREM -- proved by a route that DISCHARGES all three recorded steps rather than repairing them; step (B) FULLY discharged
+
+**THEOREM (R1).** Fix a period n, a lag Delta (indeed any n-periodic
+nondecreasing schedule), and constants eps > 0, M < infinity. On the
+convex set K_n(eps,M) = {(h,Gamma) in L_n : Gamma <= M I,
+n(w) := Gamma - h P h* >= eps I a.e.} -- where L_n is the LINEAR
+space of period-n bi-infinite moment kernel pairs -- the process-rate
+functional is finite and JOINTLY CONVEX. K_n is convex (Gamma <= MI
+linear; n(.) matrix-CONCAVE so {n >= eps I} convex) and **carries NO
+WINDOW LENGTH ANYWHERE**.
+PROOF, four steps, each certified:
+(0) Collapse + shifted frame: Delta enters as a UNIMODULAR PHASE on
+h -- a linear invertible change of coordinates, so convexity is
+Delta-INDEPENDENT (12 cells vs the R-IND-5 verifier's own CMI
+evaluator, worst 1.33e-15).
+(1) BLOCKING by n makes (S_b, R_b) a STATIONARY 2n-variate process;
+Cholesky of its one-step block innovation in the within-block order
+reproduces the process pivots exactly.
+(2) MATRIX SZEGO (Wiener-Masani) -- **the ONLY analytic input** --
+gives the identity the whole proof rests on: 2ln2 n rate =
+<lndet M_Q - lndet n> + <lndet Phi_S> - sum_i ln s_i, i.e.
+(I) convex + (II) constant - (III) convex. Certified over 36 records
+(tiled/shift-averaged/chord, n in {2,3,4,6}, Delta in {0,1,2}):
+Gamma - hPh* = Phi_Z to 3.6e-14; Szego legs to 5.4e-11/1.8e-10; full
+identity 1.8e-10 (machine precision at n >= 3; n=2 is block-lag
+truncation, not identity, limited).
+(3a) (I) CONVEX per frequency: -lndet(I - Z) with Z = R^{1/2} h*
+M_Q^-1 h R^{1/2}; matrix quadratic-over-linear is jointly
+matrix-convex and Loewner-nonincreasing in its denominator, M_Q is
+jointly matrix-CONCAVE (this is where Q >= 0 is used), composition
+gives Z matrix-convex, and -lndet(I - .) is convex nondecreasing on
+0 <= Z < I. **4200 chords, blocks n = 1..8, Gamma pushed to 1.9e-14
+of the cone boundary: ZERO violations.**
+(3b) (III) CONVEX -- **THE LOAD-BEARING NEW STEP**: s_i is an INF OF
+AFFINE functions of (H, Gamma) -- each frozen causal predictor gives
+an exactly affine shat, linear in H **because A_u = 0** -- so s_i is
+CONCAVE, bounded in [tau^2, Var(S)], and -ln s_i is convex. **This
+is exactly Definition def:adm + R11, which the tex already contains
+but uses ONLY inside the Psi certificate.** Certified by 1080
+PER-INSTANCE concavity certificates with all three links separate
+(affineness 4.4e-16; shat(mid) = s(mid) 4.4e-16; shat >= s at both
+endpoints with slack >= 0 exactly; margin >= +1.80e-5). **CONTROL: a
+predictor peeking 2 slots ahead (inadmissible) BREAKS 286/288
+instances, worst -0.294 -- the test has power.**
+**STEP (B) FULLY DISCHARGED, and the class restriction is FREE.**
+Corollary (Theorem B, unconditional): the n shifts have equal rate,
+the average lies in K_n, is stationary, has identical per-symbol
+distortion, and has rate <= the average = the original.
+**SCOPING LEMMA: the class restriction is AUTOMATIC.** Step (B) is
+only ever applied to step-(A) periodizations with independent noise
+copies, whose blocked noise spectrum is CONSTANT in w; their shifts
+conjugate it by a block cyclic shift that is UNITARY on |z| = 1, so
+the eigenvalues are the same at every frequency and one
+(eps, M) serves the whole orbit and its convex hull. N > 0 is
+w.l.o.g. (convex program + Slater; inf over a convex set = inf over
+its relative interior). Certified: eigenvalues equal to 5.6e-16 at
+all w and all k; shift-average floor exceeds eps with slack
+>= +6.8e-2.
+**VERDICTS ON THE THREE RECORDED STEPS:** (i) "linear section" TRUE
+but USELESS (the right object is window-free); (ii) "F_T/T -> rate"
+is a GENUINE GAP -- F_T is a DIFFERENT functional (truncated
+schedule, no pre-window past, truncated W) and its convergence needs
+its own boundary-charge argument the campaign does not have;
+MEASURED true (T(F_T/T - rate) flat to 5-6 digits from T = 2n) but
+**measured is not proved -- and THIS ROUTE DOES NOT USE IT**;
+(iii) "pointwise limit of convex functions" BREAKS EXACTLY WHERE
+EXPECTED -- the domain D_T MOVES WITH T (different ambient space at
+each T), so the statement is ILL-POSED as recorded; repairable by
+pulling back along the linear restrictions, but only GIVEN (ii).
+**This route eliminates both.**
+NUMERICS (~75 min, deterministic): T1 2352 chords rate-convex 0
+violations (and separately piece (I) convex, the leak sum concave,
+and s_i concave POINTWISE, 0 violations each); T2 576
+shift-averaging orbits 0 violations with 2880 second differences all
+positive; T5 4200 matrix C-stat chords 0; T7b 126 cross-period
+chords (lcm to 24) 0; **T8: Nelder-Mead MAXIMISING the Jensen gap
+over 6 runs x 3 restarts x <=1600 evals FAILED TO FIND A VIOLATION**
+(best gap -2.39e-2). Adversarial coverage: near-cone-boundary
+(lambda_min(N) ~ 1e-6), deep-notch spectra evaluated EXACTLY by
+Cholesky pivots (not the finite-lag evaluator whose Lemma-S caveat
+applies), sign-alternating kernels, near-deterministic and
+large-gain records. T6a reproduces the recorded step-(B) values at
+ALL FIVE certified optimizers to <= 4.5e-11.
+**A MATERIAL BUG IN EARLIER TOOLING FOUND AND FIXED: np.roll of the
+window matrices is NOT a shift** (Sigma_V is Toeplitz, not
+circulant), so a rolled record's derived noise is not the rolled
+noise and can leave the cone. With genuine shifts, shift-invariance
+of the rate holds to <= 1e-12 -- it did not before.
+**TWO CORRECTIONS FOR THE TEX:**
+1. **R12 IS OVERSTATED.** The tex calls Q >= 0 and R = P-Q >= 0
+   "both load-bearing (R12)", but the recorded control (Q' = 1.3P)
+   only breaks R >= 0. An independent control Q'' = -0.2I (so
+   Q NOT >= 0 but R >= 0) gives **0 violations in 4200 chords**,
+   while Q' = 1.3P gives 177/1280 (worst +2.33). So Q >= 0 is a
+   hypothesis OF THIS PROOF ROUTE (it is what makes M_Q concave),
+   NOT a demonstrated necessity of the statement. Soften.
+2. **NEW, worth numbering: F0 IS LOAD-BEARING FOR THE COORDINATES
+   THEMSELVES.** Outside F0, two records with IDENTICAL (H, Gamma)
+   (to 4.4e-16) have rates differing by up to **0.136 bits**. So
+   "convex in the moment coordinates" is not even WELL-POSED outside
+   F0 -- a sharper form of the existing non-conflation rule, and the
+   exact place it enters is the leak leg Cov(R,S) = H Sig_W^-1
+   Sig_WS.
+**WHAT 083 CAN CLAIM: cor:onedir becomes UNCONDITIONAL** --
+L^inf(Delta) >= Psi(D;Delta) >= LB with NO (H*), (H**), (H***), (D),
+(F), no boundary charge, **no (R1), no (R2)**; margins unchanged at
++0.0147817164/+0.0040574952/+0.0007968190. **AND PAST (IC) TOO**:
+the independent-copies clause is a SPECIFICATION OF AN OBJECT WE
+CONSTRUCT, not an assumption about anything unknown -- R7 survives
+as a WORDING RULE (the tiling must be specified with independent
+copies, never left implicit), not a live hypothesis. Standing scope
+that remains: the family F0 (a DEFINITION), the floating-point house
+convention on the Psi bracket, and the sealed Collapse/
+Wiener-Masani analytic inputs. **UNCHANGED PROHIBITIONS: "L^inf =
+Psi", "IDENTIFIED", any reverse inequality. Permitted headline stays
+L^inf(0) in [0.5627265, 0.5647420].**
+NEXT: R-IND-5 with four named targets -- (a) the block-innovation
+Cholesky claim; (b) **the MATRIX Szego step at n > 1, the only
+analytic input and the only place a hidden hypothesis could sit**;
+(c) the inf-of-affine representation of s_i incl. the
+dense-subspace/closure point; (d) the eps-floor Scoping Lemma. Then
+tex v0.8 -> 083, **registered SEPARATELY from the Psi certificate
+(082): they are structurally independent**. Novelty sweep OWED on
+the combination (blocked cyclostationary Szego + inf-of-affine leak
++ matrix quadratic-over-linear giving convexity of a
+causally-conditioned process-rate functional in spectral moment
+coordinates) against Wiener-Masani/Helson-Lowdenslager and the
+070/073 conditional-RDF attributions. The REVERSE inequality
+(truncation/achievability) is untouched and still open.
