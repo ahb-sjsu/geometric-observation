@@ -97,6 +97,20 @@ REPRODUCIBLE = [
     # Re-run tier: no optimizer, fixed point or root find anywhere;
     # certificate widths are reported, never gated.
     ("go14_achiev.py",              "GO14AC-JSON","GO14-achiev.json",              "GO14AC_supported"),
+    # GO-14 FIR-density face (GO-P-2026-085), seed 20261181, ~40 s.
+    # Re-run tier: no fixed point and no root find; NO GATE READS OR
+    # ASSERTS THE EQUALITY, and no bracket, width or certificate
+    # endpoint is gated (the 082 lower endpoints enter as fixed
+    # comparison literals only). The one search is s7's Nelder-Mead,
+    # which is BUDGET-bound (maxfev=900, pinned starts) rather than
+    # tolerance-bound, so unlike 079's L-BFGS-B it does not race a
+    # stopping point across BLAS implementations. Disclosed asymmetry:
+    # of s7's two gates, "U_tr above the direct optimum" gets easier
+    # with a better search while "every direct record above Psi^LB"
+    # gets harder (margin 1.1e-5) -- but a finite-n feasible record
+    # falling below the certified LB would be a genuine refutation of
+    # the certificate, not a numerical flake.
+    ("go14_density.py",             "GO14FD-JSON","GO14-density.json",             "GO14FD_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5

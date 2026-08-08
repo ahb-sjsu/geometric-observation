@@ -1,0 +1,692 @@
+{
+ "verdict": {
+  "s1_K_lag_ladder_decreases_to_sigma_from_above_and_is_exact": true,
+  "s1_all_six_admissibility_controls_BREAK": true,
+  "s2_zero_violations_of_both_A_prime_inequalities": true,
+  "s3_Fejer_positive_at_every_rung": true,
+  "s3_root_free_Fejer_Riesz_realisability_at_every_rung": true,
+  "s3_Theta_L_minus_2_convergence": true,
+  "s3_Fejer_mean_preserves_mean_n_exactly": true,
+  "s3_MUSTFAIL_root_finding_route_degrades_at_L128": true,
+  "s4_feasibility_alone_gives_the_L2_kernel_bounds": true,
+  "s4_MUSTFAIL_the_floor_is_load_bearing": true,
+  "s5_window_distortion_identity_is_EXACT": true,
+  "s5_D_feasible_with_no_rescale": true,
+  "s5_MUSTFAIL_C6n_DECREASES_so_n_independence_is_FALSE": true,
+  "s5_MUSTFAIL_the_18_7_figure_is_EXCEEDED_at_n64": true,
+  "s5_MUSTFAIL_shifted_target_at_L10_n64_is_NEGATIVE": true,
+  "s5_F7_convexity_makes_mu_eta_a_LOWER_bound": true,
+  "s6_three_leg_decomposition_residual_at_every_row": true,
+  "s6_eta_n_is_2L_times_1_plus_eps_minus_D_over_n_minus_2L": true,
+  "s7_every_U_tr_rung_above_the_082_certified_lower_endpoints": true,
+  "s7_Delta_ladder_stays_above_block_inf": true,
+  "s7_every_directly_minimised_record_above_Psi_LB": true,
+  "s7_F11_U_tr_is_strictly_above_the_depth_L_optimum": true,
+  "s8_modulus_valid_at_every_rung": true
+ },
+ "GO14FD_supported": true,
+ "vals": {
+  "seed": 20261181,
+  "pilot": false,
+  "s1": {
+   "record": "L=10 Dirichlet truncation at Delta=0 (F14)",
+   "sigma": 0.3756967642549741,
+   "ladder": [
+    [
+     1,
+     0.3884147162571106,
+     0.01271795200213649
+    ],
+    [
+     2,
+     0.37678675395100597,
+     0.0010899896960318567
+    ],
+    [
+     4,
+     0.37570472567386654,
+     7.961418892421523e-06
+    ],
+    [
+     8,
+     0.3756967643851697,
+     1.3019557654203595e-10
+    ],
+    [
+     16,
+     0.37569676425497395,
+     -1.6653345369377348e-16
+    ],
+    [
+     32,
+     0.375696764254974,
+     -1.1102230246251565e-16
+    ],
+    [
+     60,
+     0.37569676425497395,
+     -1.6653345369377348e-16
+    ]
+   ],
+   "decreasing": true,
+   "min_excess": -1.6653345369377348e-16,
+   "exact_at_K60": 1.6653345369377348e-16,
+   "controls": {
+    "S-peek (uses S_u), fully optimised": -0.010659367365043526,
+    "R-peek (uses R_{u+1}), fully optimised": -0.02158538218733308,
+    "R-peek two-step (R_{u+1}, R_{u+2})": -0.023041765882973075,
+    "S-peek two-step (S_u, S_{u+1})": -0.012181931249543254,
+    "non-monic V(0)=0.3, rest optimal": -0.18297548524414603,
+    "non-monic V(0)=0.3, fully re-optimised": -0.34188405547202627
+   },
+   "worst_control": -0.010659367365043526,
+   "bar_exact": 1e-15,
+   "bar_above": -1e-12,
+   "bar_ctl": -0.005,
+   "F3_prover_first_pass_no_power": {
+    "S_peek": 0.2521530854768266,
+    "R_peek": 0.031249708862140957
+   },
+   "F3_run_of_record": "scratchpad firdens/t5b.py; t5_ctl2.py is DEFECTIVE (lag-sign) and is not cited",
+   "note": "the infimum is NOT ATTAINED by any finite filter; only eps-optimality is used.  Hypotheses: Phi_R, f_S in L1 and nothing else"
+  },
+  "s2": {
+   "pairs": 22,
+   "C_V": 1.39788304853984,
+   "max_L1": 14.188619238971093,
+   "min_slack_sigma_le_q": 2.8256674777793478e-11,
+   "min_slack_q_le_q_plus_CV_L1": 1.8340924218263055e-05,
+   "violations": 0,
+   "bars": [
+    20,
+    5.0,
+    -1e-12,
+    1e-06
+   ]
+  },
+  "s3": {
+   "rungs": 42,
+   "min_nmin": 0.13309928306650226,
+   "max_rootfree_residual": 4.163336342344337e-16,
+   "max_MA_tail": 4.846905634926249e-17,
+   "max_dmean_n": 0.0,
+   "slopes": {
+    "0": -1.9400697061402918,
+    "1": -1.9400620504055908,
+    "2": -1.940093471751883
+   },
+   "local_slopes": {
+    "0": -1.9890557646524396,
+    "1": -1.9890198637050747,
+    "2": -1.9890160899145815
+   },
+   "gap_at_200": {
+    "0": 2.176994528313436e-06,
+    "1": 2.5910567341691504e-06,
+    "2": 3.278902522607652e-06
+   },
+   "root_finding_control": {
+    "32": 3.859759734048396e-16,
+    "64": 1.133366927241877e-13,
+    "96": 4.636854444696593e-07,
+    "128": 0.18824442026198446,
+    "160": 0.0012589354361142431,
+    "200": 0.000634264054211454
+   },
+   "rootfree_at_128": 3.3306690738754696e-16,
+   "ladder_min_recorded": 0.1331,
+   "bars": [
+    0.1,
+    1e-14,
+    1e-15,
+    [
+     -2.2,
+     -1.8
+    ],
+    1e-16,
+    0.001
+   ],
+   "note": "F12 -- realisability is certified ROOT-FREE; polynomial root-finding is NOT FIT FOR PURPOSE beyond L ~ 96 and is carried only as a control"
+  },
+  "s4": {
+   "fV_range": [
+    0.11111111111111106,
+    9.000000000000002
+   ],
+   "fV_err": 1.7763568394002505e-15,
+   "bound_g2": 2.3431676725154986,
+   "bound_ay2": 1.7669649888473704,
+   "l2_err": 0.0,
+   "closed_form_bounds": [
+    2.3431676725154986,
+    1.7669649888473704
+   ],
+   "rounding_err_vs_printed_literals": 3.2748450129460593e-07,
+   "record_g2": 0.5035533243361905,
+   "record_ay2": 0.5404628729581666,
+   "floor": [
+    {
+     "p": 0.0,
+     "nu": 0.15108589981447904,
+     "err": 0.0009868460411124325,
+     "L1": 0.001274965857922812
+    },
+    {
+     "p": 0.9,
+     "nu": 0.028049122962322016,
+     "err": 0.06736600281194605,
+     "L1": 0.010408424382781372
+    },
+    {
+     "p": 0.99,
+     "nu": 0.003067657699207404,
+     "err": 0.21842695859052919,
+     "L1": 0.012638744942881995
+    },
+    {
+     "p": 0.999,
+     "nu": 0.0003096665185219092,
+     "err": 0.3182457748693577,
+     "L1": 0.012885059214411156
+    },
+    {
+     "p": 0.99999,
+     "nu": 3.0998895346025696e-06,
+     "err": 0.37090862583079387,
+     "L1": 0.012912438950387267
+    }
+   ],
+   "bars": [
+    1e-09,
+    1e-12,
+    5e-07,
+    0.1,
+    1e-05
+   ],
+   "note": "Lemma B' (the cap) is DELETED FROM THE PROOF and kept only as a recorded a-priori fact (<Gamma> <= 3.449116, R-IND-5 record); feasibility ALONE gives the L2 bounds"
+  },
+  "s5": {
+   "identity_max_err": 2.220446049250313e-16,
+   "edge_max_err": 0.0,
+   "interior_max_err": 1.6653345369377348e-16,
+   "rows": 18,
+   "feasible_max_err": 2.7755575615628914e-16,
+   "C": {
+    "4": {
+     "UL": 0.5627307700170894,
+     "rows": [
+      {
+       "n": 64,
+       "infeasible": false,
+       "shifted_target": 0.19985714285714287,
+       "lam": 0.4232170868233823,
+       "La": 0.8380455716475658,
+       "C": 17.62014730435049
+      },
+      {
+       "n": 128,
+       "infeasible": false,
+       "shifted_target": 0.25326666666666664,
+       "lam": 0.7308082902509337,
+       "La": 0.6494345289240506,
+       "C": 11.09808114009104
+      },
+      {
+       "n": 256,
+       "infeasible": false,
+       "shifted_target": 0.27738709677419354,
+       "lam": 0.8697204466375701,
+       "La": 0.5991543292928107,
+       "C": 9.324431174584646
+      },
+      {
+       "n": 512,
+       "infeasible": false,
+       "shifted_target": 0.28887301587301584,
+       "lam": 0.9358690925359682,
+       "La": 0.579569379688457,
+       "C": 8.621368151740228
+      },
+      {
+       "n": 1024,
+       "infeasible": false,
+       "shifted_target": 0.29448031496062993,
+       "lam": 0.9681621322658951,
+       "La": 0.5708409131060036,
+       "C": 8.304786523048165
+      }
+     ]
+    },
+    "6": {
+     "UL": 0.5627265250160277,
+     "rows": [
+      {
+       "n": 64,
+       "infeasible": false,
+       "shifted_target": 0.13823076923076924,
+       "lam": 0.06835218435329662,
+       "La": 1.6946636249950677,
+       "C": 72.44397439865855
+      },
+      {
+       "n": 128,
+       "infeasible": false,
+       "shifted_target": 0.22748275862068965,
+       "lam": 0.5823640097096826,
+       "La": 0.7223653220319863,
+       "C": 20.433766018042704
+      },
+      {
+       "n": 256,
+       "infeasible": false,
+       "shifted_target": 0.2655245901639344,
+       "lam": 0.8014510172386341,
+       "La": 0.6220774762384391,
+       "C": 15.19384351293732
+      },
+      {
+       "n": 512,
+       "infeasible": false,
+       "shifted_target": 0.283176,
+       "lam": 0.9031073887320675,
+       "La": 0.5889488135125045,
+       "C": 13.425811710196115
+      },
+      {
+       "n": 1024,
+       "infeasible": false,
+       "shifted_target": 0.2916877470355731,
+       "lam": 0.9521274571992567,
+       "La": 0.5751057570934117,
+       "C": 12.676333647241222
+      }
+     ]
+    },
+    "10": {
+     "UL": 0.5627264963399654,
+     "rows": [
+      {
+       "n": 64,
+       "infeasible": true,
+       "shifted_target": -0.018636363636363562,
+       "lam": -0.8350611554176919
+      },
+      {
+       "n": 128,
+       "infeasible": false,
+       "shifted_target": 0.17018518518518522,
+       "lam": 0.25238249306355126,
+       "La": 1.0517128046093627,
+       "C": 62.59024745848285
+      },
+      {
+       "n": 256,
+       "infeasible": false,
+       "shifted_target": 0.24059322033898306,
+       "lam": 0.6578699552090995,
+       "La": 0.6820784640371681,
+       "C": 30.554103730483888
+      },
+      {
+       "n": 512,
+       "infeasible": false,
+       "shifted_target": 0.2715040650406504,
+       "lam": 0.8358888410290962,
+       "La": 0.6100824468504554,
+       "C": 24.24624666137089
+      },
+      {
+       "n": 1024,
+       "infeasible": false,
+       "shifted_target": 0.28603585657370517,
+       "lam": 0.9195789945221625,
+       "La": 0.5841400888278796,
+       "C": 21.92751870762413
+      }
+     ]
+    }
+   },
+   "C6": [
+    72.44397439865855,
+    20.433766018042704,
+    15.19384351293732,
+    13.425811710196115,
+    12.676333647241222
+   ],
+   "decrease_factor": 5.71489962434246,
+   "C6_at_64": 72.44397439865855,
+   "withdrawn_18_7": 18.7,
+   "shifted_target_L10_n64": -0.018636363636363562,
+   "lambda_L10_n64": -0.8350611554176919,
+   "mu": 2.2261061204952206,
+   "secant_slope": 9.408179644874755,
+   "eta": 0.16176923076923075,
+   "secant_over_tangent": 4.226294316455052,
+   "min_second_difference": 0.002140141957834518,
+   "bars": [
+    1e-15,
+    1e-16,
+    1e-14,
+    4.0,
+    -0.001,
+    2.0
+   ],
+   "note": "LEMMA M DOES NOT DISCHARGE W1 OR W4 -- W1 AND W2 STAND.  Only C(L,n) = o(n) is used downstream, so the conclusion is untouched"
+  },
+  "s6": {
+   "rows": [
+    {
+     "L": 4,
+     "n": 64,
+     "eta": 0.10014285714285712,
+     "eta_err": 0.0,
+     "C": 17.62014730435049,
+     "resid": -2.4868995751603507e-14
+    },
+    {
+     "L": 4,
+     "n": 128,
+     "eta": 0.04673333333333335,
+     "eta_err": 2.7755575615628914e-17,
+     "C": 11.09808114009104,
+     "resid": -1.0658141036401503e-14
+    },
+    {
+     "L": 4,
+     "n": 256,
+     "eta": 0.022612903225806447,
+     "eta_err": 0.0,
+     "C": 9.324431174584646,
+     "resid": -5.684341886080802e-14
+    },
+    {
+     "L": 4,
+     "n": 512,
+     "eta": 0.011126984126984152,
+     "eta_err": 2.7755575615628914e-17,
+     "C": 8.621368151740228,
+     "resid": -6.750155989720952e-14
+    },
+    {
+     "L": 4,
+     "n": 1024,
+     "eta": 0.005519685039370059,
+     "eta_err": 1.8214596497756474e-17,
+     "C": 8.304786523048165,
+     "resid": 1.0302869668521453e-13
+    },
+    {
+     "L": 6,
+     "n": 64,
+     "eta": 0.16176923076923075,
+     "eta_err": 0.0,
+     "C": 72.44397439865855,
+     "resid": 5.684341886080802e-14
+    },
+    {
+     "L": 6,
+     "n": 128,
+     "eta": 0.07251724137931034,
+     "eta_err": 0.0,
+     "C": 20.433766018042704,
+     "resid": 2.842170943040401e-14
+    },
+    {
+     "L": 6,
+     "n": 256,
+     "eta": 0.03447540983606556,
+     "eta_err": 6.938893903907228e-18,
+     "C": 15.19384351293732,
+     "resid": 4.618527782440651e-14
+    },
+    {
+     "L": 6,
+     "n": 512,
+     "eta": 0.016824000000000006,
+     "eta_err": 6.938893903907228e-18,
+     "C": 13.425811710196115,
+     "resid": -9.414691248821327e-14
+    },
+    {
+     "L": 6,
+     "n": 1024,
+     "eta": 0.008312252964426892,
+     "eta_err": 1.5612511283791264e-17,
+     "C": 12.676333647241222,
+     "resid": 2.842170943040401e-14
+    },
+    {
+     "L": 10,
+     "n": 128,
+     "eta": 0.12981481481481477,
+     "eta_err": 0.0,
+     "C": 62.59024745848285,
+     "resid": 0.0
+    },
+    {
+     "L": 10,
+     "n": 256,
+     "eta": 0.05940677966101693,
+     "eta_err": 6.938893903907228e-18,
+     "C": 30.554103730483888,
+     "resid": 0.0
+    },
+    {
+     "L": 10,
+     "n": 512,
+     "eta": 0.0284959349593496,
+     "eta_err": 1.3877787807814457e-17,
+     "C": 24.24624666137089,
+     "resid": -8.881784197001252e-14
+    },
+    {
+     "L": 10,
+     "n": 1024,
+     "eta": 0.013964143426294817,
+     "eta_err": 0.0,
+     "C": 21.92751870762413,
+     "resid": 1.8474111129762605e-13
+    }
+   ],
+   "max_residual": 1.8474111129762605e-13,
+   "max_eta_error": 2.7755575615628914e-17,
+   "bars": [
+    1e-11,
+    1e-15
+   ],
+   "note": "C(L,n) = -2L*rate(x_n) + [sum delta_t - Szego]/(2 ln 2) + n[U(L;D-eta_n) - U(L;D)], eta_n = 2L(1+eps-D)/(n-2L) EXACTLY (not /n)"
+  },
+  "s7": {
+   "U_tr_ladder": {
+    "0": {
+     "margins": [
+      0.004756889555084021,
+      0.00047672492051364923,
+      4.64300634996917e-05,
+      4.273717089331441e-06,
+      3.659271334832681e-07,
+      2.8716027666852995e-08,
+      2.053212933006421e-09,
+      1.620272804814249e-10,
+      4.576850010096223e-11,
+      3.9965364351246535e-11
+     ],
+     "min": 3.9965364351246535e-11
+    },
+    "1": {
+     "margins": [
+      0.0027024402925223123,
+      0.0002673770255842145,
+      2.6062745653532282e-05,
+      2.4756142967818917e-06,
+      2.272118629909059e-07,
+      2.0099093944736524e-08,
+      1.7605028546086032e-09,
+      2.0694679303545627e-10,
+      8.16825496130491e-11,
+      7.213196706601366e-11
+     ],
+     "min": 7.213196706601366e-11
+    },
+    "2": {
+     "margins": [
+      0.006369678895721265,
+      0.00024020716460582126,
+      2.0387205517113927e-05,
+      1.8102257225427465e-06,
+      1.7024315501767973e-07,
+      1.5045190426832278e-08,
+      1.372330360460694e-09,
+      1.6989720741378278e-10,
+      6.203504376856017e-11,
+      5.266997948893959e-11
+     ],
+     "min": 5.266997948893959e-11
+    }
+   },
+   "worst_ladder_margin": 3.9965364351246535e-11,
+   "Delta_ladder": [
+    {
+     "L": 4,
+     "monotone": true,
+     "margin": 0.0002822356774336843
+    },
+    {
+     "L": 6,
+     "monotone": true,
+     "margin": 0.0002857630397404831
+    },
+    {
+     "L": 10,
+     "monotone": true,
+     "margin": 0.0002860451605651848
+    }
+   ],
+   "Delta_ladder_min_margin": 0.0002822356774336843,
+   "direct": [
+    {
+     "Delta": 0,
+     "L": 1,
+     "U_tr": 0.5674833858550838,
+     "direct": 0.5647679416010322,
+     "seen_min": 0.5647679416010322,
+     "margin": 0.0020414453010321187,
+     "utr_gap": 0.00271544425405168
+    },
+    {
+     "Delta": 0,
+     "L": 2,
+     "U_tr": 0.563203221220514,
+     "direct": 0.562940261011136,
+     "seen_min": 0.562940261011136,
+     "margin": 0.0002137647111359886,
+     "utr_gap": 0.0002629602093779937
+    },
+    {
+     "Delta": 0,
+     "L": 3,
+     "U_tr": 0.5627729263635006,
+     "direct": 0.5627481763503898,
+     "seen_min": 0.5627481763503898,
+     "margin": 2.168005038971632e-05,
+     "utr_gap": 2.4750013110863556e-05
+    },
+    {
+     "Delta": 1,
+     "L": 1,
+     "U_tr": 0.539103818692522,
+     "direct": 0.5378521362399324,
+     "seen_min": 0.5378521362399324,
+     "margin": 0.0014507578399324261,
+     "utr_gap": 0.0012516824525895531
+    },
+    {
+     "Delta": 1,
+     "L": 2,
+     "U_tr": 0.5366687554255839,
+     "direct": 0.5365356250260999,
+     "seen_min": 0.5365356250260999,
+     "margin": 0.00013424662609984317,
+     "utr_gap": 0.00013313039948403826
+    },
+    {
+     "Delta": 1,
+     "L": 3,
+     "U_tr": 0.5364274411456542,
+     "direct": 0.5364141988573836,
+     "seen_min": 0.5364141940251986,
+     "margin": 1.2815625198614455e-05,
+     "utr_gap": 1.324712045558396e-05
+    },
+    {
+     "Delta": 2,
+     "L": 1,
+     "U_tr": 0.5374196986957207,
+     "direct": 0.5332783666593989,
+     "seen_min": 0.5332783666593989,
+     "margin": 0.0022283468593988776,
+     "utr_gap": 0.004141332036321832
+    },
+    {
+     "Delta": 2,
+     "L": 2,
+     "U_tr": 0.5312902269646065,
+     "direct": 0.5312003739968051,
+     "seen_min": 0.5312003739968051,
+     "margin": 0.00015035419680509143,
+     "utr_gap": 8.985296780139596e-05
+    },
+    {
+     "Delta": 2,
+     "L": 3,
+     "U_tr": 0.5310704070055178,
+     "direct": 0.5310612463708271,
+     "seen_min": 0.5310612461782696,
+     "margin": 1.1226378269557635e-05,
+     "utr_gap": 9.160827248222425e-06
+    }
+   ],
+   "direct_min_margin": 1.1226378269557635e-05,
+   "min_U_tr_minus_direct": 9.160827248222425e-06,
+   "recorded_full_strength_L3": {
+    "0": 0.562747377388,
+    "1": 0.536414037072,
+    "2": 0.531061238971
+   },
+   "bars": [
+    1e-11,
+    0.0001,
+    1e-06,
+    1e-06
+   ],
+   "note": "F11 -- the tabulated ladder is U_tr(L), the TRUNCATION-AND-REPAIR value, NOT the depth-L optimum.  The direct gate is on the SET of feasible records the pinned fixed-budget search evaluates, never on a stopping point"
+  },
+  "s8": {
+   "rungs": 28,
+   "violations": 0,
+   "min_slack": 1.897872834284581e-08,
+   "ratio_range": [
+    -2.256559983772744e-09,
+    0.03297561583383955
+   ],
+   "nu_reference": 0.1495113714727288,
+   "C_V": 1.397882931788687,
+   "eps_K": -2.220446049250313e-16,
+   "bar": 1e-09,
+   "note": "the modulus is FIRST ORDER in the kernel error while the truth is SECOND ORDER (W7's squaring law), so it is VALID everywhere and LOOSE everywhere; density needs only -> 0"
+  },
+  "scope": {
+   "lemma_A_prime": "A HILBERT-SPACE FACT: sigma = dist^2(R_u, M) with M the CLOSED span, so finite combinations are dense BY DEFINITION and the infima agree.  Hypotheses: Phi_R, f_S in L1 and NOTHING ELSE.  The infimum is NOT ATTAINED by any finite filter; only eps-optimality is used.  Its admissibility (V monic causal in R, V_S strictly causal in S) is the MIRROR of def:adm's and attaches to a DIFFERENT pivot -- never conflated (F2)",
+   "theorem_D": "hypotheses PRINTED: (a) f_V in [0.1111, 9.0000]; (b) continuity of D -> Psi(D) at D = 0.3 from convexity; (c) Lemma C' the floor, LOAD-BEARING; (d) Lemma B' the cap DELETED FROM THE PROOF -- DISPENSABLE, kept only as a recorded a-priori fact",
+   "lemma_M": "the exact three-leg decomposition with eta_n = 2L(1+eps-D)/(n-2L) EXACTLY.  WITHDRAWN: 'every constant n-independent', '~18.7 at L=6' as an upper bound, and 'no feasibility threshold'.  LEMMA M DOES NOT DISCHARGE W1 OR W4 -- W1 AND W2 STAND.  Only C(L,n) = o(n) is used downstream, so the conclusion is untouched",
+   "psi_class": "Psi(D;Delta) = inf of the stationary rate over FEASIBLE STATIONARY RECORDS OF F0 with n(w) > 0 a.e., Phi_R in L1, per-symbol distortion <= D -- the SAME class in cor:onedir, thm:cert and Theorem D (F10)",
+   "ladder": "U_tr(L), the TRUNCATION-AND-REPAIR value, NOT the depth-L optimum (F11)",
+   "lemma_W_steps": "steps (1)-(4), with (3) carrying the classical citation, and (5) superseded by Lemma M.  Step (3) IS load-bearing.  'Floored at n >= 0.1288' is UNREPRODUCED: the floors are 0.1495/0.1378/0.1404 and the ladder minimum is 0.1331 (F13)",
+   "the_equality": "L^inf(Delta) = Psi(D;Delta) at Delta = 0,1,2 is a SCOPED THEOREM of the tex, carrying five named scope items beyond cor:onedir's.  'UNCONDITIONAL' DOES NOT ATTACH TO IT.  Psi remains a two-sided CERTIFIED BRACKET; the equality IDENTIFIES TWO OBJECTS and is NOT a licence to quote a value as exact; cor:brackets CONTINUES TO GOVERN the quotable numeric statement.  NO GATE HERE READS OR ASSERTS IT",
+   "optimizers": "the only search is s7's direct minimisation, gated on the SET of feasible records a pinned fixed-budget search evaluates -- never on a stopping point.  No fixed point is solved anywhere",
+   "widths": "no bracket, width or certificate endpoint is gated; the 082 lower endpoints enter only as fixed comparison literals on the safe side",
+   "owed": "novelty sweeps on Lemma A''s packaging and on Lemma W's combination, and the window-side la_cmi cross-check.  NO NOVELTY LANGUAGE is used for A', W or Theorem D anywhere"
+  }
+ },
+ "runtime_s": 40.2
+}
