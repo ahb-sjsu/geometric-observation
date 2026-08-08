@@ -73,26 +73,61 @@ jobs:
             exit 1
           fi
           echo "No undefined references or citations (IEEE)."
-      # GO-14 causal erasure: the document carrying Theorems R/C, R1, W and D
-      # and the whole 076-085 chain. It was uncovered here until 2026-08-08,
-      # so eight seals' tex had never been compiled on the runner and the
-      # committed PDF could drift from source unnoticed -- which it had.
-      - name: Compile GO-14 causal erasure (go14-causal-erasure.tex)
+      # Every remaining standalone document in paper/. These were uncovered
+      # until 2026-08-08: the GO-series drafts carry sealed results (GO-14
+      # alone carries Theorems R/C, R1, W, D and the 076-085 chain), and an
+      # uncompiled tex drifts from its committed PDF unnoticed -- which
+      # go14's had, until the rebuild at b8200ee.
+      # continue_on_error so a single bad document still reports the status of
+      # all the others in the same run instead of masking them; the step (and
+      # the job) still fails if any document fails.
+      # NOTE: appendix-B-true-divergence.tex is deliberately absent -- it is
+      # untracked. Add it here if it is ever committed.
+      - name: Compile the GO-series and paper drafts
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: go14-causal-erasure.tex
+          root_file: |
+            go14-causal-erasure.tex
+            go11-conditional-region.tex
+            go12-process-region.tex
+            go13-dynamic-tax.tex
+            go15-reference-coupled.tex
+            complementarity-tax.tex
+            consumer-relative-landauer.tex
+            two-observer-theorem.tex
+            paper-IV-consumer-relative-flip.tex
+            paper-IV-tmlr.tex
+            paper-VI-spectral-conditional.tex
+            paper-VII-dynamic-tax.tex
           working_directory: paper
           latexmk_use_xelatex: false
+          continue_on_error: true
           args: -pdf -interaction=nonstopmode -halt-on-error
-      - name: Fail on undefined references / citations (GO-14)
+      - name: Fail on undefined references / citations (GO-series and drafts)
         run: |
           cd paper
-          if grep -qiE "there were undefined (references|citations)" go14-causal-erasure.log; then
-            echo "::error::Undefined references or citations in go14-causal-erasure.log"
-            grep -iE "warning:.*undefined|there were undefined" go14-causal-erasure.log || true
-            exit 1
+          rc=0
+          for f in go14-causal-erasure go11-conditional-region \
+                   go12-process-region go13-dynamic-tax \
+                   go15-reference-coupled complementarity-tax \
+                   consumer-relative-landauer two-observer-theorem \
+                   paper-IV-consumer-relative-flip paper-IV-tmlr \
+                   paper-VI-spectral-conditional paper-VII-dynamic-tax; do
+            if [ ! -f "$f.log" ]; then
+              echo "::error::$f.log is missing -- the document did not compile"
+              rc=1
+              continue
+            fi
+            if grep -qiE "there were undefined (references|citations)" "$f.log"; then
+              echo "::error::Undefined references or citations in $f.log"
+              grep -iE "warning:.*undefined|there were undefined" "$f.log" || true
+              rc=1
+            fi
+          done
+          if [ $rc -eq 0 ]; then
+            echo "No undefined references or citations in any GO-series or draft document."
           fi
-          echo "No undefined references or citations (GO-14)."
+          exit $rc
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:
@@ -116,6 +151,6 @@ jobs:
             paper/observation-theory.pdf
             paper/ieee/observation-theory-ieee.pdf
             paper/ieee/cover-letter.pdf
-            paper/go14-causal-erasure.pdf
+            paper/*.pdf
             paper/ieee/graphical-abstract.pdf
           if-no-files-found: warn
