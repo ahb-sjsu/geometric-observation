@@ -42,7 +42,11 @@ Lemma, and the numbered restatements R21--R29, of which R29 supplies
 the $n$-uniform spectral floor
 $\lambda_{\min}(R(\omega))=3.1715534\times10^{-3}$ that the earlier
 revisions explicitly declined to claim. The novelty sweep on the (R1)
-combination is \emph{owed} and no novelty language is used for it.
+combination was run on 2026-08-07: every ingredient is standard or
+adjacent-known and is cited as such, the only claim is the joint
+convexity in spectral moment coordinates, and two page-verification
+items remain \emph{owed} --- see Remark~\ref{rem:R1novelty}, whose
+caveats travel with any such phrasing.
 v0.7 history: the plateau ---
 \S\ref{sec:plateau} proves the Collapse identity, step~(A)
 periodization and step~(B) shift-averaging, states Lemma~S and
@@ -260,7 +264,8 @@ different, far cheaper coordinate and is \emph{open}.
 
 \section{The theorem}
 Write $\lambda_s=a(1-K)$ for the steady-state Kalman
-\emph{smoothing} pole ($K$ the steady Kalman gain of $S$ on $V$);
+\emph{smoothing} pole ($K$ the steady Kalman gain \cite{bib:kalman60}
+of $S$ on $V$);
 at the netted parameters $(a,\rho^2,\tau^2)=(0.8,0.49,0.4)$,
 $\lambda_s=0.354554$, $\lambda_s^{-2}=7.955$.
 
@@ -355,7 +360,7 @@ upper bound inside the bracket of (iii); presenting $0.572255$ as
 Definition (b) (memoryless eraser) is monotone but has the wrong
 $\Delta\to\infty$ invariant (floors $0.0136$ bits above the netted
 block coordinate) and is chain-rule-inconsistent; (c)
-(Kostina--Hassibi causally-conditioned DI) collapses to the
+(Kostina--Hassibi causally-conditioned DI \cite{bib:kh16}) collapses to the
 full-path endpoint in Gaussian settings. Definition (a) is the
 thermodynamically operational coordinate pending a reset-protocol
 construction (open).
@@ -480,7 +485,11 @@ R\;=\;P-Q\;=\;\Sigma_W^{-1}\Sigma_{W\mid S}\Sigma_W^{-1}
 \]
 under the mapping $C\leftrightarrow H^{\!\top}$,
 $V\leftrightarrow\Gamma$ this is \emph{exactly} the 074 convexity
-lemma's $G$-form (GO-13 Theorem~5, block Schur lift), so $Z$ is
+lemma's $G$-form (GO-13 Theorem~5, block Schur lift) --- whose
+ingredients are the standard matrix-fractional and composition rules
+\cite[Sec.~3.1.7 and 3.2.4]{bib:bv04} together with Ando's operator
+concavity \cite{bib:ando79}, the program's contribution there being
+the \emph{lift into the moment chart}, not the convexity ---, so $Z$ is
 jointly matrix-convex on $\mathcal D$ with $Z\prec I$ on
 $\operatorname{int}\mathcal D$ (Sylvester:
 $\det(I-Z)=\det M_P/\det M_Q$), and $B$ is jointly convex. (ii) Each
@@ -928,7 +937,7 @@ $T$ --- verified as an exact equality (relative deviation
 $2\times10^{-14}$ over all cells, including the unequal split
 $8+4\to12$). Letting $\varepsilon\downarrow0$ gives the inequality
 for the infima.
-\item[(ii)] \textbf{Fekete.} $\phi_n\ge0$, because each per-cell term
+\item[(ii)] \textbf{Fekete \cite{bib:fekete23}.} $\phi_n\ge0$, because each per-cell term
 is a conditional mutual information; hence $f\ge0$ is subadditive and
 \[
 L^\infty(\Delta)\;:=\;\lim_{n\to\infty}\phi_n(\Delta)
@@ -1578,12 +1587,14 @@ operator whose inverse produces the optimizer is
 $N=(\theta I+V\Sigma_s^{-1}V^{\!\top})^{-1}$, and
 $M:=V\Sigma_s^{-1}V^{\!\top}=N^{-1}-\theta I$ \emph{exactly}: ``$M$
 decays exponentially'' and ``$N$ decays exponentially'' are the same
-statement, so a Demko/Jaffard inverse-closedness theorem applied here
+statement, so a Demko/Jaffard inverse-closedness theorem
+\cite{bib:dms84,bib:jaffard90} applied here
 \emph{returns its own hypothesis}. The model's own decay ($\Sigma_S$,
 $\Sigma_W$, $\Sigma_{W\mid S}$ all exactly $a^{|t-s|}$) enters the KKT
 system only through the affine data, never through the operator being
 inverted. What would inject it is a \emph{fixed-point/bootstrap}
-argument in a Jaffard (or Gr\"ochenig--Klotz weighted) Banach algebra:
+argument in a Jaffard \cite{bib:jaffard90} (or Gr\"ochenig--Klotz
+weighted \cite{bib:gk10}) Banach algebra:
 show that the KKT map sends a ball
 $\{\|A\|_{\mathcal A_\lambda}\le R\}$ into itself and contracts. A
 second, independent piece is missing too: (F), the uniform lower bound
@@ -1859,7 +1870,12 @@ it is not a claim that the three lags share a feasible set.)
 
 \emph{(1) Blocking.} Blocking by $n$ turns the period-$n$
 cyclostationary pair into a \emph{stationary $2n$-variate} process
-$(R_b,S_b)$. In the within-block order fixed by
+$(R_b,S_b)$ --- a \emph{known evaluation device}, not this program's:
+the cyclostationary distortion-rate function is obtained this way, by
+orthogonalising over the polyphase decomposition, in
+\cite{bib:kge18}, and the same device runs through
+\cite{bib:asd20,bib:tdp24,bib:tdp25}; no novelty is claimed for it.
+In the within-block order fixed by
 Remark~\ref{rem:R21} the Cholesky factor of the one-step block
 innovation covariance $\Lambda$ reproduces the process pivots exactly,
 so
@@ -1872,8 +1888,11 @@ the same $s$ as in Lemma~\ref{lem:S}, read over a full period
 (Remark~\ref{rem:R28}).
 
 \emph{(2) Matrix Szeg\H o (Wiener--Masani) --- the only analytic
-input.} Applied to the blocked process it gives the identity the whole
-proof rests on,
+input.} This is the classical multivariate prediction theory of
+\cite{bib:wm57,bib:wm58,bib:hl58}, cited here \emph{with} its
+non-degeneracy hypotheses (Remark~\ref{rem:R22}) and claimed by
+nobody here. Applied to the blocked process it gives the identity the
+whole proof rests on,
 \[
 2\ln2\;n\;\mathrm{rate}
 \;=\;\underbrace{\bigl[\langle\ln\det M_Q\rangle
@@ -1891,17 +1910,35 @@ Remark~\ref{rem:R22} for what the $\varepsilon$ floor is and is
 
 \emph{(3a) (I) is convex.} Per frequency,
 $\langle\ln\det M_Q\rangle-\langle\ln\det n\rangle
-=-\ln\det(I-Z)$ with $Z=R^{1/2}h^\ast M_Q^{-1}hR^{1/2}$. The matrix
-quadratic-over-linear map $(h,T)\mapsto h^\ast T^{-1}h$ is jointly
-matrix-convex and Loewner-\emph{nonincreasing} in its denominator;
+=-\ln\det(I-Z)$ with $Z=R^{1/2}h^\ast M_Q^{-1}hR^{1/2}$. Every step
+here is \emph{textbook convex analysis} and nothing in it is new: the
+matrix quadratic-over-linear map $(h,T)\mapsto h^\ast T^{-1}h$ is
+jointly matrix-convex and Loewner-\emph{nonincreasing} in its
+denominator \cite[Sec.~3.1.7]{bib:bv04}, the composition rule that
+follows is \cite[Sec.~3.2.4]{bib:bv04}, and the operator-concavity
+ingredient is Ando \cite{bib:ando79};
 $M_Q=\Gamma-hQh^\ast$ is jointly matrix-\emph{concave} --- this, and
 only this, is where $Q\succeq0$ is used (Remark~\ref{rem:R24}); so the
 composition makes $Z$ matrix-convex, and $-\ln\det(I-\cdot)$ is convex
 and nondecreasing on $0\preceq Z\prec I$. This is
 Lemma~\ref{lem:cstat} in its matrix form, i.e.\ the $074$ block Schur
-lift of Theorem~\ref{thm:cvx}(i).
+lift of Theorem~\ref{thm:cvx}(i) --- which is itself the block lift of
+the standard matrix-fractional certificate
+\cite[Sec.~3.1.7 and 3.2.4]{bib:bv04},\cite{bib:ando79}, and carries
+that attribution here too (GO-P-2026-074, attribution amendment dated
+2026-08-07): \emph{the lift into the moment chart is the program's
+contribution, not the convexity}.
 
-\emph{(3b) (III) is convex --- the load-bearing new step.} Each frozen
+\emph{(3b) (III) is convex --- the load-bearing step of this route.}
+\textbf{The mechanism is classical and no novelty is claimed for it}:
+that a prediction-error variance is concave in the spectral density
+\emph{precisely because} it is an infimum, over frozen predictors, of
+spectrum-linear functionals is the standard device of minimax-robust
+prediction \cite{bib:vp84,bib:franke85}. What is this document's is
+only the \emph{packaging} --- the causally conditioned cross-record
+instance $\operatorname{Var}(S_u\mid S^{u-1},R^u)$ read as an infimum
+of functionals affine \emph{jointly} in $(h,\Gamma)$, with the
+$\mathcal F_0$ restriction making the minorant linear. Each frozen
 \emph{admissible} predictor (Definition~\ref{def:adm}) gives a minorant
 $\hat s$ that is exactly \emph{affine} in $(H,\Gamma)$ --- linear
 because $A_u=0$, which is where $\mathcal F_0$ enters and why
@@ -1974,6 +2011,67 @@ differences, zero over $2{,}352$ prover chords, $576$ shift-averaging
 orbits, $126$ cross-period chords and $60$ non-staircase schedules;
 window-length independence flat to $10^{-15}$ from $B=16$.
 
+\begin{remark}[Attribution and novelty for Theorem~\ref{lem:R1}]
+\label{rem:R1novelty}
+Theorem~\ref{lem:R1} is \textbf{four standard ingredients, combined},
+and novelty is disclaimed on \emph{each} of them in the sentence that
+introduces it above: (a) blocking a cyclostationary pair to a
+stationary multivariate one and evaluating spectrally is a known
+evaluation device \cite{bib:kge18,bib:asd20,bib:tdp24,bib:tdp25};
+(b) the matrix Szeg\H o / Wiener--Masani theorem is classical
+\cite{bib:wm57,bib:wm58,bib:hl58}, and is cited with its
+non-degeneracy hypotheses (Remark~\ref{rem:R22}); (c) matrix
+quadratic-over-linear composed with $-\ln\det$ is textbook convex
+analysis \cite[Sec.~3.1.7 and 3.2.4]{bib:bv04},\cite{bib:ando79} ---
+and so, therefore, is the 074 lemma (GO-13 Theorem~5) that step~(3a)
+invokes; (d) inf-of-affine concavity of a prediction error is the
+classical mechanism of minimax-robust prediction
+\cite{bib:vp84,bib:franke85}. \textbf{No novelty attaches to (c) or to
+the mechanism in (d)}; what is claimed for (d) is the packaging and
+the coordinates only.
+
+\emph{The only claim made.} To our knowledge the resulting
+\emph{joint convexity in spectral moment coordinates} --- of a
+causally conditioned, lagged-reference process rate, on a window-free
+convex set --- has not been stated. \textbf{The sweep's caveats travel
+with that sentence and must be printed with it}: the (R1) sweep of
+2026-08-07 was \emph{metadata-only} (title and abstract; the arXiv API
+returned HTTP 429 throughout, forcing the HTML search endpoint), it
+read \emph{no full text}, and \emph{no Semantic Scholar and no
+general-web/Scholar pass was run} (the search budget was already
+exhausted when it started). The nulls in channel~(d) are additionally
+an artefact of the date range --- that literature is 1983--85, before
+arXiv --- and are \emph{not} quoted here as a null set.
+
+\emph{The genuinely defensible point.} \textbf{The moment chart is
+load-bearing.} The same functional is \emph{non-convex in record
+coordinates} --- $1206/3960$ negative second differences, with a
+directed search reaching $-23.4$ --- so \textbf{the choice of chart,
+not the convexity machinery, is the contribution}.
+
+\emph{Adjacent work, and how this differs.} The existing convexity
+results for rate-distortion-type functionals convexify in the
+\emph{estimation-error covariance}
+\cite{bib:tkpm14,bib:tanaka15,bib:stt17} or in the \emph{causal filter
+coefficients} in the time domain \cite{bib:do12}; the
+Charalambous/Stavrou NRDF line convexifies in the causal
+\emph{reproduction kernel}. Theorem~\ref{lem:R1} convexifies in
+$(h,\Gamma)$ --- cross-spectrum \emph{and} record spectrum. The
+closest single item is \cite{bib:zl26}, which \emph{evaluates} the
+causally conditioned directed information rate of Gaussian sequences,
+i.e.\ the same species of object; its abstract states no convexity
+result.
+
+\emph{Two items are \textbf{owed}, and no ``first'' phrasing is used
+until they are discharged}: (i) page-verification of \cite{bib:zl26}
+for a convexity statement; and (ii) a re-run of the sweep's channels
+1, 3 and 4 through Semantic Scholar and a full-text engine --- the
+1983--85 robust-prediction layer and any journal-only convexity result
+are invisible to an arXiv-abstract sweep. The attributions
+\cite{bib:vp84} and \cite{bib:franke85} are metadata-confirmed but not
+page-verified.
+\end{remark}
+
 \begin{remark}[R21 --- the frame and the within-block order must be
 printed \emph{as a pair}]
 \label{rem:R21}
@@ -2001,7 +2099,8 @@ detected at $0.1$--$0.7$ bits (Theorem~\ref{thm:repr}).
 \begin{remark}[R22 --- the $\varepsilon$ floor is \emph{not} a
 hypothesis of the Szeg\H o step]
 \label{rem:R22}
-Wiener--Masani needs only $\Phi\succeq0$ with $\ln\det\Phi\in L^1$; it
+Wiener--Masani \cite{bib:wm57,bib:wm58,bib:hl58} needs only
+$\Phi\succeq0$ with $\ln\det\Phi\in L^1$; it
 does \emph{not} need a spectral floor. Verified on Szeg\H o's own
 extremal family $f=|1-ce^{-i\omega}|^2$ up to and \emph{including}
 $c=1$, where the spectrum \emph{vanishes} at a frequency: residual
@@ -2215,7 +2314,8 @@ this document constructs}, not an assumption about anything unknown;
 (R7) survives as a \emph{wording rule} --- the tiling must be
 specified with independent copies and never left implicit --- rather
 than as a live hypothesis;
-\item[(c)] the classical Wiener--Masani/Szeg\H o input, cited
+\item[(c)] the classical Wiener--Masani/Szeg\H o input
+\cite{bib:wm57,bib:wm58,bib:hl58}, cited
 \emph{with} its non-degeneracy hypotheses, which are verified to hold
 on $\mathcal K_n(\varepsilon,M)$ (Theorem~\ref{lem:R1}, step~(2), and
 Remark~\ref{rem:R22});
@@ -2263,7 +2363,8 @@ only the first $65\%$.
 
 \begin{lemma}[S --- evaluation of the leak term]
 \label{lem:S}
-Under Theorem~\ref{thm:collapse} and bivariate Wiener--Masani/Szeg\H o,
+Under Theorem~\ref{thm:collapse} and bivariate Wiener--Masani/Szeg\H o
+\cite{bib:wm57,bib:wm58,bib:hl58},
 the stationary rate is
 \[
 \mathrm{rate}=\alpha\bigl[\langle\ln M_Q\rangle-\langle\ln
@@ -2303,18 +2404,26 @@ Fix a frequency. If $Q\succeq0$ and $R=P-Q\succeq0$, then
 \;=\;-\ln(1-Z),\qquad Z=\frac{hRh^\ast}{M_Q},
 \]
 is jointly convex on the cone.
-\emph{Proof.} $\varphi(h,t)=hRh^\ast/t$ is jointly convex on $t>0$
-(quadratic-over-linear, $R\succeq0$) and \emph{nonincreasing} in $t$;
+\emph{Proof.} \textbf{Every step is standard convex analysis and no
+novelty is claimed for any of it.} $\varphi(h,t)=hRh^\ast/t$ is
+jointly convex on $t>0$
+(quadratic-over-linear, $R\succeq0$ --- \cite[Sec.~3.1.7]{bib:bv04})
+and \emph{nonincreasing} in $t$;
 $M_Q(h,\Gamma)=\Gamma-hQh^\ast$ is jointly \emph{concave} ($Q\succeq0$);
 $h$ enters $\varphi$'s first slot affinely. The composition rule for a
-convex, coordinatewise-monotone outer function gives $Z$ convex; and
-$u\mapsto-\ln(1-u)$ is convex increasing on $u<1$.\hfill$\square$
+convex, coordinatewise-monotone outer function
+\cite[Sec.~3.2.4]{bib:bv04} gives $Z$ convex; and
+$u\mapsto-\ln(1-u)$ is convex increasing on $u<1$. In its matrix form
+the same argument runs on the operator-concavity ingredient of Ando
+\cite{bib:ando79}.\hfill$\square$
 \textbf{Hypotheses used are exactly $Q\succeq0$ \emph{and}
 $R=P-Q\succeq0$}, and they are used for different things --- see
 Remark~\ref{rem:R24}, which supersedes the earlier (R12) wording. No
 matrix lift is
 needed and the 074 lemma (GO-13 Theorem~5, the block Schur lift of
-Theorem~\ref{thm:cvx}(i)) is cited here only as the \emph{antecedent}
+Theorem~\ref{thm:cvx}(i), and itself a lift of the standard
+certificate \cite[Sec.~3.1.7 and 3.2.4]{bib:bv04},\cite{bib:ando79})
+is cited here only as the \emph{antecedent}
 of which this is the scalar instance --- the proof above does not use
 it. \emph{Certificates:} $60{,}000$ random chords with $\Gamma$ pushed
 to $10^{-9}$ of the cone boundary, zero violations (harness; the
@@ -2704,14 +2813,18 @@ truncation / achievability lemma at stationarity, which the
 non-rationality of the stationary optimum makes non-trivial. It is
 untouched by Theorem~\ref{lem:R1}, and until it is settled nothing may
 be said about $L^\infty$ beyond the bracket of
-Remark~\ref{rem:onedirection}. Also owed, and \emph{not} a mathematical
-gap: the \textbf{novelty sweep on the (R1) combination} --- blocked
+Remark~\ref{rem:onedirection}. The \textbf{novelty sweep on the (R1)
+combination} --- blocked
 cyclostationary Szeg\H o, plus the inf-of-affine leak, plus matrix
 quadratic-over-linear, giving convexity of a causally-conditioned
 process-rate functional in spectral moment coordinates --- against
-Wiener--Masani/Helson--Lowdenslager and the 070/073 conditional-RDF
-attributions. \textbf{No novelty language is used anywhere in this
-document for that combination until the sweep is done};
+Wiener--Masani/Helson--Lowdenslager \cite{bib:wm57,bib:wm58,bib:hl58}
+and the 070/073 conditional-RDF attributions \cite{bib:gray73} was
+\emph{run on 2026-08-07}; its verdict, its permitted language and its
+caveats are Remark~\ref{rem:R1novelty}, and the \emph{two
+page-verification items it leaves owed} are recorded there. \textbf{No
+language stronger than that remark's is used anywhere in this
+document};
 (1) \emph{A uniform-in-$m$ decay bound on the optimizer's cross-block
 kernel} --- \emph{no longer needed for the plateau}
 (Corollary~\ref{cor:plateau2} retires it there), but still the residue
@@ -2730,7 +2843,8 @@ an \emph{optimizer decay estimate}: measured,
 $\|A^{12}\|_F/\|A^{11}\|_F=3.44\%$ with the cross-block kernel decaying
 geometrically at per-lag ratio $\approx0.28$--$0.35$, bracketing the
 smoothing pole $\lambda_s=0.354554$, and $\|A^{12}\|_F$ is
-\emph{flat in $m$}. A Demko/Jaffard-type exponential off-diagonal decay
+\emph{flat in $m$}. A Demko/Jaffard-type
+\cite{bib:dms84,bib:jaffard90} exponential off-diagonal decay
 bound for inverses of banded positive-definite operators, applied to
 the KKT system of Theorem~\ref{thm:K}, would give
 $\|A^{12}\|\le C\lambda^{\bullet}$ uniformly in $m$ and close the gap
@@ -2755,15 +2869,18 @@ a different, far cheaper object, definitionally open; (4) the reset
 protocol realizing definition (a); (5) identification of the
 closure constant beyond $\Delta\approx6$, and the innovations
 characterization of the limit (vector NRDF closed forms were
-refuted in general --- Stavrou--Tanaka--Tatikonda --- so only
+refuted in general --- Stavrou--Tanaka--Tatikonda \cite{bib:stt17} ---
+so only
 scalar forms are expected cheaply).
 \end{question}
 
 House rules: the novelty gate is \emph{cleared} for the four
 objects swept (arXiv + DBLP + Crossref; S2 residual is
 belt-and-suspenders only), conditional on the five must-cite
-adjacents (Berta et al.; Boyd--Mandal--Crutchfield;
-Venkat--Weissman--Carmon--Shamai; Sandberg et al.; Anderson 2018)
+adjacents (Berta et al.\ \cite{bib:berta18,bib:berta18b};
+Boyd--Mandal--Crutchfield \cite{bib:bmc17,bib:bmc16};
+Venkat--Weissman--Carmon--Shamai \cite{bib:vwcs13}; Sandberg et al.\
+\cite{bib:sandberg14}; Anderson 2018 \cite{bib:anderson18})
 --- headline novelty language may be promoted only with the five
 citations in force, and nothing above claims it yet. R-IND-5 passes
 1 (+closure), the Conjecture-v0.2 pass, the Theorems-R+C pass
@@ -2899,6 +3016,136 @@ Corollary~\ref{cor:onedir} --- never of the value $\Psi$ --- together
 with R21--R29. The harness contains no optimizer, no fixed point and no
 root find, so no gate races a stopping point, and it reads no bracket,
 width or certificate endpoint. \textbf{The novelty sweep on the (R1)
-combination is owed} and no novelty language for it appears anywhere
-above.
+combination was run on 2026-08-07}; its verdict, the language it
+permits and the two page-verification items it leaves \emph{owed} are
+Remark~\ref{rem:R1novelty}, and no language stronger than that
+remark's appears anywhere above.
+
+\begin{thebibliography}{99}
+
+\bibitem{bib:kge18} A.~Kipnis, A.~J. Goldsmith, Y.~C. Eldar, The
+distortion rate function of cyclostationary Gaussian processes,
+\emph{IEEE Trans. Inform. Theory} 64(5), 2018 (arXiv:1505.05586);
+conference version, \emph{Proc. IEEE ISIT}, 2014,
+doi:10.1109/isit.2014.6875351.
+
+\bibitem{bib:asd20} Abakasanga, Shlezinger, Dabora, \emph{Entropy}
+22(3):345, 2020, doi:10.3390/e22030345. (Author initials and title not
+independently verified; located by DOI.)
+
+\bibitem{bib:tdp24} Tan, Dabora, Poor, arXiv:2405.11405, 2024
+(\emph{Proc. IEEE ISIT}, 2024). (Title not independently verified;
+located by arXiv ID.)
+
+\bibitem{bib:tdp25} Tan, Dabora, Poor, arXiv:2507.00656, 2025
+(\emph{Proc. IEEE ISIT}, 2025). (Title not independently verified;
+located by arXiv ID.)
+
+\bibitem{bib:bv04} S.~Boyd, L.~Vandenberghe, \emph{Convex
+Optimization}, Cambridge University Press, 2004. (Sec.~3.1.7, the
+matrix fractional function; Sec.~3.2.4, composition rules.)
+
+\bibitem{bib:ando79} T.~Ando, Concavity of certain maps on positive
+definite matrices, \emph{Linear Algebra Appl.} 26:203--241, 1979.
+
+\bibitem{bib:vp84} K.~S. Vastola, H.~V. Poor, Robust
+Wiener--Kolmogorov theory, \emph{IEEE Trans. Inform. Theory} 30(2),
+1984, doi:10.1109/tit.1984.1056875. \emph{Metadata-confirmed, not
+page-verified} --- see Remark~\ref{rem:R1novelty}.
+
+\bibitem{bib:franke85} J.~Franke, Minimax-robust prediction of
+discrete time series, \emph{Z. Wahrsch. verw. Gebiete} 68, 1985,
+doi:10.1007/bf00532645. \emph{Metadata-confirmed, not page-verified}
+--- see Remark~\ref{rem:R1novelty}.
+
+\bibitem{bib:tkpm14} Tanaka, Kim, Parrilo, Mitter, arXiv:1411.7632,
+2014. (Title not independently verified; located by arXiv ID.)
+
+\bibitem{bib:tanaka15} T.~Tanaka, \emph{Proc. IEEE Conf. Control
+Applications (CCA)}, 2015, doi:10.1109/cca.2015.7320778. (Title not
+independently verified; located by DOI.)
+
+\bibitem{bib:stt17} Stavrou, Tanaka, Tatikonda, arXiv:1711.09853,
+2017. (Title not independently verified; located by arXiv ID.)
+
+\bibitem{bib:do12} M.~S. Derpich, J.~{\O}stergaard, \emph{IEEE Trans.
+Inform. Theory} 58(5), 2012 (arXiv:1001.4181). (Title not
+independently verified; located by arXiv ID.)
+
+\bibitem{bib:zl26} Zheng, Lamperski, arXiv:2512.06238, 2025
+(\emph{Proc. IFAC World Congress}, 2026). \emph{Page-verification
+owed} --- see Remark~\ref{rem:R1novelty}.
+
+\bibitem{bib:wm57} N.~Wiener, P.~Masani, The prediction theory of
+multivariate stochastic processes, I, \emph{Acta Math.} 98, 1957.
+
+\bibitem{bib:wm58} N.~Wiener, P.~Masani, The prediction theory of
+multivariate stochastic processes, II, \emph{Acta Math.} 99, 1958.
+
+\bibitem{bib:hl58} H.~Helson, D.~Lowdenslager, Prediction theory and
+Fourier series in several variables, \emph{Acta Math.} 99, 1958.
+
+\bibitem{bib:gray73} R.~M. Gray, A new class of lower bounds to
+information rates of stationary sources via conditional
+rate-distortion functions, \emph{IEEE Trans. Inform. Theory}
+19(4):480--489, 1973.
+
+\bibitem{bib:kh16} V.~Kostina, B.~Hassibi, Rate-cost tradeoffs in
+control, arXiv:1612.02657, 2016. (Journal version not
+page-verified.)
+
+\bibitem{bib:berta18} M.~Berta, F.~G.~S.~L. Brand\~ao, C.~Majenz,
+M.~M. Wilde, Deconstruction and conditional erasure of quantum
+correlations, \emph{Phys. Rev. A} 98:042320, 2018
+(arXiv:1609.06994).
+
+\bibitem{bib:berta18b} M.~Berta, F.~G.~S.~L. Brand\~ao, C.~Majenz,
+M.~M. Wilde, arXiv:1808.00135, 2018. (Title not independently
+verified; located by arXiv ID.)
+
+\bibitem{bib:bmc17} Boyd, Mandal, Crutchfield, arXiv:1708.03030,
+2017 (modularity dissipation). (Title not independently verified;
+located by arXiv ID.)
+
+\bibitem{bib:bmc16} Boyd, Mandal, Crutchfield, arXiv:1612.08616,
+2016 (retrodictive generators). (Title not independently verified;
+located by arXiv ID.)
+
+\bibitem{bib:vwcs13} Venkat, Weissman, Carmon, Shamai,
+arXiv:1302.2167, 2013 (Gaussian lookahead). (Title not independently
+verified; located by arXiv ID.)
+
+\bibitem{bib:sandberg14} Sandberg et al., arXiv:1402.1010, 2014
+(the Kalman--Bucy demon). (Title not independently verified;
+located by arXiv ID.)
+
+\bibitem{bib:anderson18} Anderson, Springer, 2018,
+doi:10.1007/978-3-319-93458-7\_2 (conditional erasure, static
+conditioning). (Author initials and title not independently verified;
+located by DOI.)
+
+\bibitem{bib:dms84} S.~Demko, W.~F. Moss, P.~W. Smith, Decay rates
+for inverses of band matrices, \emph{Math. Comp.} 43(168):491--499,
+1984.
+
+\bibitem{bib:jaffard90} S.~Jaffard, Propri\'et\'es des matrices
+``bien localis\'ees'' pr\`es de leur diagonale et quelques
+applications, \emph{Ann. Inst. H. Poincar\'e Anal. Non Lin\'eaire}
+7(5):461--476, 1990.
+
+\bibitem{bib:gk10} K.~Gr\"ochenig, A.~Klotz, Noncommutative
+approximation: inverse-closed subalgebras and off-diagonal decay of
+matrices, \emph{Constr. Approx.} 32:429--466, 2010. (Volume and page
+range from memory; not page-verified.)
+
+\bibitem{bib:fekete23} M.~Fekete, \"Uber die Verteilung der Wurzeln
+bei gewissen algebraischen Gleichungen mit ganzzahligen
+Koeffizienten, \emph{Math. Z.} 17:228--249, 1923.
+
+\bibitem{bib:kalman60} R.~E. Kalman, A new approach to linear
+filtering and prediction problems, \emph{Trans. ASME --- J. Basic
+Eng.} 82(D):35--45, 1960.
+
+\end{thebibliography}
+
 \end{document}

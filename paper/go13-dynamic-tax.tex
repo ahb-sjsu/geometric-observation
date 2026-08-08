@@ -93,7 +93,7 @@ attained, the solution set is locally bounded, and the
 context-coupling sensitivity is constant on the solution set
 (uniqueness of the optimal channel suffices, but is not necessary ---
 a slack-constraint instance with a non-singleton argmin and constant
-sensitivity is on record), Danskin gives
+sensitivity is on record), Danskin's theorem \cite{bib:danskin66} gives
 \[
 \frac{dJ}{dq}=\frac{1-w}{2\ln2}\,(Ac)^{\mathsf T}M_1^{-1}(Ac),\qquad
 \frac{dL_i}{dq}=\frac{1-w}{2\ln2}\,\frac{(u^{\mathsf T}c)^2}{Q_1+n},
@@ -169,10 +169,11 @@ J_{w,n}(D_A,D_B)=\min_{\substack{\frac1n\sum_kD_{A,k}=D_A\\
 \]
 $V^{(9)}_k$ the static weighted matrix-water-level value of GO-11
 Theorem~9 at mode $k$ --- \textbf{the static kernel is not ours}: the
-rate-face endpoint is Xiao--Luo (Allerton 2005), and the static
+rate-face endpoint is Xiao--Luo (Allerton 2005)
+\cite{bib:xiaoluo2005}, and the static
 tuple's reduction to pairwise subproblems with an implicit
 two-water-level system is Stylianou--Charalambous--Charalambous (ISIT
-2021/2024); what this theorem adds is the \emph{spectral lift}, the
+2021/2024) \cite{bib:stylianou2021}; what this theorem adds is the \emph{spectral lift}, the
 conditional/weighted face, and the third-party conditioner. At the
 allocation optimum the interior-mode partial slopes are equal per
 consumer: \textbf{two common prices} $(\mu_A,\mu_B)$, one per
@@ -184,7 +185,9 @@ slopes is KKT \emph{necessity} (interior modes, complementary
 slackness for slack modes --- a slack $D_B$ collapses to the $m=1$
 one-price structure exactly, verifier-checked to $1.4\times10^{-14}$);
 \emph{sufficiency} of the two-price rule is now PROVEN via
-Theorem~\ref{thm:m2conv} (the weighted program is convex in moments,
+Theorem~\ref{thm:m2conv} (whose convexity ingredients are standard
+\cite[Sec.~3.1.7 and 3.2.4]{bib:bv04},\cite{bib:ando79}; the weighted
+program is convex in moments,
 $V^{(9)}_k$ jointly convex by perturbation, KKT sufficient given a
 Slater point; the allocation is globally optimal, unique under
 full-rank active records). Anchors: $n{=}1$ $=$
@@ -262,10 +265,20 @@ jointly convex: with $R=P-Q$ and
 $Z=R^{1/2}CM_Q^{-1}C^{\mathsf T}R^{1/2}$,
 $G=-\log\det(I-Z)=\mathrm{tr}\,f(Z)$ with $f(z)=-\log(1-z)$; $M_Q$ is
 jointly matrix-concave, $CM^{-1}C^{\mathsf T}$ jointly matrix-convex
-and monotone (the classical matrix-fractional Schur certificate ---
+and monotone (the classical matrix-fractional Schur certificate
+\cite[Sec.~3.1.7 and 3.2.4]{bib:bv04},\cite{bib:ando79} ---
 the block lift of the $m{=}1$ $aa^{\mathsf T}\!/s$ argument), so $Z$
 is jointly matrix-convex and $\mathrm{tr}f$ finishes with scalar
-convexity alone. Hessian decomposition: $d^2G=\mathrm{tr}[(I-Z)^{-1}
+convexity alone. \textbf{Attribution}: both the scalar
+($aa^{\mathsf T}\!/s$) and the matrix instances are \emph{standard
+convex analysis} --- the matrix fractional function is jointly
+matrix-convex and Loewner-nonincreasing in its denominator
+\cite[Sec.~3.1.7 and 3.2.4]{bib:bv04}, and the
+Schur-complement/operator-concavity ingredient is Ando
+\cite{bib:ando79}; \emph{the program's contribution here is the lift
+into the moment chart, not the convexity} (GO-P-2026-074, attribution
+amendment dated 2026-08-07; no sealed gate, verdict or number
+changes). Hessian decomposition: $d^2G=\mathrm{tr}[(I-Z)^{-1}
 \ddot Z]+\sum_{ij}|\dot Z_{ij}|^2/((1-\lambda_i)(1-\lambda_j))$ ---
 flats of $G$ are exactly level flats of $Z$. Corollaries: the
 weighted $m{=}2$ program is CONVEX in moment coordinates (a sum of
@@ -295,5 +308,32 @@ registration (GO-P-2026-068, sealed and run at v0.3) settled the
 tax-curve characterization as Theorem~\ref{thm:taxcurve}'s envelope
 sign law, including the 067 label clarification as an instrumented
 gate. Open: the global regime map and the operational face.
+
+\begin{thebibliography}{9}
+
+\bibitem{bib:bv04} S.~Boyd, L.~Vandenberghe, \emph{Convex
+Optimization}, Cambridge University Press, 2004. (Sec.~3.1.7, the
+matrix fractional function; Sec.~3.2.4, composition rules.)
+
+\bibitem{bib:ando79} T.~Ando, Concavity of certain maps on positive
+definite matrices, \emph{Linear Algebra Appl.} 26:203--241, 1979.
+
+\bibitem{bib:xiaoluo2005} J.-J. Xiao, Z.-Q. Luo, Compression of
+correlated Gaussian sources under individual distortion criteria,
+\emph{Proc. 43rd Allerton Conf. Commun., Control, Comput.},
+pp.~438--447, 2005. (Theorem~6 verified through the verbatim
+restatements in Nayak et al.\ 2008 and \cite{bib:stylianou2021};
+primary PDF not openly retrievable --- see the novelty record.)
+
+\bibitem{bib:stylianou2021} E.~Stylianou, C.~D. Charalambous,
+T.~Charalambous, Joint rate distortion function of a tuple of
+correlated multivariate Gaussian sources with individual fidelity
+criteria, \emph{Proc. IEEE ISIT}, 2021 (arXiv:2102.07236); explicit
+formulas in arXiv:2508.16301, 2025.
+
+\bibitem{bib:danskin66} J.~M. Danskin, The theory of max-min, with
+applications, \emph{SIAM J. Appl. Math.} 14(4):641--664, 1966.
+
+\end{thebibliography}
 
 \end{document}

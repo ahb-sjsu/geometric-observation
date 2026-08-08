@@ -1684,3 +1684,236 @@ channels 1/3/4 through Semantic Scholar and a full-text engine once
 the WebSearch budget resets -- **the 1983-85 robust-prediction layer
 and any journal-only convexity result are INVISIBLE to an
 arXiv-abstract sweep.**
+
+## ACHIEVABILITY PROVER (2026-08-07): L^inf = Psi NOT LICENSED and NOT PRINTED -- but LEMMA W proved, the converse reduced to ONE residual, and an UNCONDITIONAL 51x BRACKET NARROWING delivered
+
+**THE VERDICT, up front: the equality is NOT licensed.** What is:
+**LEMMA W (the window transfer -- NEW, the converse-direction
+boundary-charge argument R-IND-5 named as missing).** Any FIR
+stationary record converts to a finite-window F0 record at O(1/n)
+with an **explicitly n-INDEPENDENT, measured edge charge**:
+phi_n <= L_a(x^(n)) <= rate(x) + C(L)/n, C(L) < infinity independent
+of n. Steps: (0) Collapse [theorem]; (1) **edge cells contribute
+EXACTLY ZERO** to the rate [proved, one line]; (2) interior sigma_t
+>= sigma_stat because the window conditioning set is a genuine
+SUBSET of the stationary one [proved -- the same structural reason
+as step (A) of the bypass, RUN THE OTHER WAY]; (3) sum_t delta_t <
+infinity uniformly in n [outline complete + measured exactly; needs
+the standard rational-spectral-factorization/Riccati citation --
+**the SAME CITATION CLASS as Wiener-Masani in Theorem R1 step (2),
+not a new hypothesis**]; (4) **the noise leg HELPS**
+(lndet T_m >= m<ln n>) [proved, one line]; (5) distortion
+feasibility **discharged CONSTRUCTIVELY** -- window distortion is
+exactly affine in a scalar noise rescale, solved in closed form to
+12 digits; **Theorem C's convexity repair was available and NOT
+NEEDED**.
+**STRUCTURAL FINDING WORTH KEEPING: in Collapse coordinates the
+converse boundary charge is CHEAP, because the two legs have
+OPPOSITE AND BOTH-FAVOURABLE SIGNS** -- the numerator leg is >= 0
+but geometrically summable, the noise/lndet leg is <= 0 outright.
+**That is why the (H*)/(H**)/(H***) machinery has NO COUNTERPART
+here.**
+MEASURED (Delta=0): sum delta_t = 0.043994832 **IDENTICAL TO 9
+DECIMALS at n=128 AND n=256** -- the edge charge is n-INDEPENDENT,
+not merely O(1); per-cell profile geometric at ratio ~0.037, dead at
+the f64 floor by the 6th interior cell; the Szego leg is +0.0086 on
+the HELPING side, sign as (4) requires. Net edge charge 0.0255 bits.
+**THE RESIDUAL -- exactly one thing remains: FIR-KERNEL STATIONARY
+RECORDS ARE DENSE IN VALUE (U(L) decreasing to Psi).** Measured
+U(L) - Psi: 4.8e-4 / 4.6e-5 / 4.3e-6 / 3.7e-7 / 2.9e-8 / 1.2e-10 /
+7.9e-14 at L = 2..10 (Delta=0), at the f64 floor by L=12; per-L
+ratios 0.048-0.102 while the KERNELS' per-lag ratios are 0.25-0.34.
+**THE VALUE LOSS IS THE SQUARE OF THE KERNEL LOSS -- exactly what a
+stationary Lagrangian requires (first order vanishes) -- and it
+INDEPENDENTLY REPRODUCES the recorded rho* = 0.27 +/- 0.02, since
+rho*^2 ~ 0.073 sits inside the measured band.** Proof route: (a)
+continuity of the rate under uniform kernel convergence with a
+spectral floor [sketchable and believed complete; the frozen filters
+lie in a UNIFORMLY BOUNDED H^2 ball, so two-sided continuity follows
+by evaluating each record's shat at the OTHER's optimal filters];
+(b) that the stationary optimum's kernels lie in the WIENER ALGEBRA
+[**the fixed-point map PRESERVES W** -- by Wiener's 1/f theorem and
+matrix Wiener-Levy -- **but this is INVARIANCE, NOT CONVERGENCE**;
+making it a proof needs a CONTRACTION ESTIMATE IN THE WIENER NORM,
+which the prover does not have]. Verified hypothesis for (a): the
+spectral floor is real and comfortable (n(w) in [0.1495, 0.2167] /
+[0.1378, 0.2095] / [0.1404, 0.2082]); empirical W-membership of the
+noise factor 4.8e-8/2.2e-8/3.4e-8.
+**SO: L^inf(Delta) <= Psi(Delta) + R(Delta), with R measured
+<= 1.5e-12 and consistent with 0, but PROVED zero only conditional
+on the FIR-density link.**
+**THE UNCONDITIONAL DELIVERABLE (needs NO new lemma): hard upper
+bounds on L^inf from L^inf <= phi_n (already a theorem) plus an
+explicit exactly-D-feasible F0 record on n = 2048, evaluated by
+finite Cholesky.** NEW BRACKETS:
+  Delta=0: **[0.5627264963, 0.5627656412]** (width 3.914e-5, from
+    2.0155e-3 -- a **51.5x NARROWING**)
+  Delta=1: **[0.5364013784, 0.5364458112]** (width 4.443e-5)
+  Delta=2: **[0.5310500198, 0.5310994872]** (width 4.947e-5)
+The bound beats the standing UB(32,0) = 0.5647420 from n = 48 on.
+Constructive O(1/n) constants 0.08017/0.09100/0.10131 --
+**Delta-DEPENDENT, quoted per-Delta only (R19)** -- sitting
++24%/+29%/+31% above the recorded OPTIMAL constants, **which is the
+CORRECT SIGN and a nontrivial consistency check** (a suboptimal
+record's constant must exceed the optimizer's); the Delta=0 constant
+decomposes as 0.02616 (edge) + 2.2261 x 0.02430 (edge-distortion
+repair) = 0.08026 vs measured 0.08017.
+GATES/CONTROLS: four evaluators agree to 8.9e-16 (rate) and 4.4e-16
+(distortion), so the Collapse denominator identity is CHECKED on the
+constructed records, not assumed. **ORIENTATION GUARD (this one bit
+the prover): the first window build had a LAG-ORIENTATION DEFECT --
+the same class as R27's np.roll defect -- producing a spurious
+CONSTANT +1.26e-2 offset in sigma_t that MASQUERADED AS A
+NON-VANISHING EDGE CHARGE.** It is now a hard gate with a
+reversed-kernel control that fails loudly (+1.26e-2 at every
+interior cell vs +2.2e-16 canonical). **ANY SUCCESSOR BUILDING
+WINDOW RECORDS FROM SPECTRAL KERNELS MUST RUN THIS GATE.** Safe
+side confirmed: U(L)'s sigma comes from a P-lag innovation solve
+which OVERSTATES the rate -- the conservative direction for an upper
+bound -- flat to 12 digits over P = 40..260 and Nf = 1024..8192.
+Anchor cross-check: every V(10,n) at n = 16/24/32 sits strictly
+ABOVE the corresponding certified phi_n upper end at all three
+Delta (7/7), as a suboptimal record must. Psi recomputed here lands
+inside the certified brackets at all three lags.
+**PERMITTED WORDING, verbatim: "L^inf(Delta) in [Psi^LB(Delta),
+V(10, 2048; Delta)] for Delta = 0,1,2 -- the lower end by Corollary
+onedir, the upper end an explicit D-feasible F0 record on n = 2048
+through Corollary lower. Under Lemma W the upper end may be replaced
+by U(L), giving L^inf <= Psi + R(Delta) with R measured <= 1.5e-12
+and proved zero only conditional on the FIR-density link." NO
+STATEMENT THAT L^inf COINCIDES WITH Psi MAY BE PRINTED.**
+WHAT REMAINS, exactly: (1) the density residual R -- **the ONLY
+thing between here and a converse theorem; measured <= 1.5e-12,
+needing a Wiener-norm contraction estimate for the K1-K3 iteration
+-- a SMALL, WELL-POSED FUNCTIONAL-ANALYSIS PROBLEM, not an open
+modelling question**; (2) Lemma W step (3)'s citation, written with
+its hypotheses (which are verified). NEXT: R-IND-5 Lemma W **with
+the orientation control MANDATORY**; then write link (b), the single
+estimate that would convert the whole chain to L^inf = Psi. Cheap
+sharpening available: re-optimize the 2L edge rows (currently
+truncated taps, not optimized) to close 0.0802 -> 0.0645, ~24% of
+the O(1/n) term. **Novelty sweep OWED on Lemma W's combination**
+(Collapse + subset-conditioning monotonicity + Toeplitz innovation
+monotonicity as a SIGNED two-leg boundary argument).
+
+## R-IND-5 ON LEMMA W (2026-08-07): PASS on substance, but "C(L) INDEPENDENT of n" is REFUTED AS WORDED -- seal 084 ONLY with W1-W12
+
+Fresh context, own evaluator from the model primitives (CMI route
+AND collapse route), agreeing with rind5B to 1.55e-15. **The
+prover's evaluators supplied NO rate or distortion number.**
+**THE ORIENTATION GATE (mandatory first): PASS, and it fails loudly
+for the verifier too** -- canonical build sigma_t offset
++0.000e+00 vs **reversed-kernel control +1.256e-02 AT EVERY INTERIOR
+CELL** (the recorded constant reproduced exactly). Extended: the
+defect makes sum delta_t grow LINEARLY (1.76 -> 3.87 -> 8.08 ->
+16.50 at n = 64/128/256/512, +3.289e-2 per cell) -- **it converts an
+n-INDEPENDENT edge charge into an O(n) one, exactly the masquerade
+the prover reported.** The gate is real, has power, and guards
+precisely its claim.
+**W5 (mandatory): the gate is the sigma_t gate ONLY.** The per-cell
+DISTORTION has ZERO power -- it agrees to +/-1.1e-16 in all three
+builds, and analytically so: reversing a real two-sided kernel
+conjugates its symbol on |z|=1 and the distortion is invariant under
+that. The prover's gate (2) is DECORATIVE. Also on record: **a_y is
+real zero-phase (K1) so its kernel is symmetric and carries NO
+orientation -- only a_v does.**
+LEMMA W STEP BY STEP: (1) edge cells contribute **EXACTLY zero**
+(0.000e+00 per-cell CMI at all three Delta; Nc block-diagonal so the
+2L ln eps cancels identically); (2) the SUBSET conditioning argument
+is sound at both interior edges and for Delta > 0 -- **extended to
+Delta in {0,1,2,3,5,9,20,100}, i.e. past Delta >= n where se
+saturates: min delta_t >= -7.8e-16, ZERO negative cells**; (3)
+sum delta_t is **not merely bounded but EXACTLY n-independent** --
+0.043994832 identical to 9 decimals over n = 128/256/512/1024 and
+L = 4..12, with the recorded value confirmed as the **L=10** one
+(the probe does not say which L); **non-circularity CHECKED**: the
+Riccati citation applies to the depth-L FIR record itself, so it
+does NOT assume the density it is meant to isolate; (4) the noise
+leg helps, sign correct, and is itself n-independent (+8.622e-3 /
++1.079e-2 / +1.076e-2, flat in m, with <ln n(w)> = 2 ln q0 to
+0.00e+00 confirming min-phase); (5) the repair is exactly affine
+(residual <= 1.7e-16) and lands at dist = D to <= 1.7e-16 at every n
+and Delta.
+**THE ONE REFUTATION -- W1: "C(L) INDEPENDENT of n" IS FALSE AS
+WORDED, in the verifier's own measurements, for the very build the
+proof covers.** The n-independent object is the EDGE CHARGE, not the
+constant. The zero-edge constant runs 71.76 -> 20.38 -> 15.16 ->
+13.39 -> 12.65 over n = 64..1024 (a factor 5.7, still falling);
+cause ISOLATED to **the REPAIR leg**, which converges from above to
+mu*n*Delta-dist = 31.17. **The CONCLUSION SURVIVES INTACT**: the
+constant is monotone decreasing in n in 12/12 swept rows, so
+sup_n C(L,n) < infinity and **only C(L,n) = o(n) is needed**.
+**W2: Lemma W needs a FEASIBILITY THRESHOLD n >= n0(L)** -- the
+zero-edge build is INFEASIBLE at small n (n=64, L=10: the repairing
+rescale is c <= 0). The lemma as stated carries no such hypothesis.
+**W3: THREE OBJECTS MUST BE KEPT APART AND LABELLED** -- the
+ZERO-EDGE build (what steps (1)-(2) prove), the TRUNCATED-TAPS build
+(**what every quoted constant and every bracket endpoint actually
+comes from**), and the REPAIRED records (what feasibility requires).
+**Steps (1) and (2) do NOT apply to the truncated-taps build** (its
+edge cells are not independent noise; its Nc is not block-diagonal).
+**W4: the REPAIR LEG is not covered by steps (1)-(5)** -- step (5)
+discharges FEASIBILITY exactly; the RATE COST of the repair is a
+SEPARATE estimate (n-independent in the trunc build, n-dependent in
+the zero-edge one).
+REDUCTION TO ONE RESIDUAL: **PASS, complete and non-circular** (no
+joint limit -- n at fixed L, then L; U(L) >= Psi forced by weak
+duality, verified +4.0e-11/+7.2e-11/+5.3e-11 against the 082
+certified LBs; the spectral-floor hypothesis verified).
+SQUARING CLAIM: **PASS on substance and SHARPER than reported** --
+(U(L)-Psi)/T(L)^2 is **~4.3-4.8, CONSTANT over L=1..6** at Delta=0
+(4.0-4.5 at Delta=1; 2.9-4.6 at Delta=2). **That is the quotable
+form.** W6: the recorded list is at L in {2,3,4,5,6,8,10}, NOT
+"L=2..10". **W7: the rho* cross-link is a CONSISTENCY CHECK, NOT an
+independent reproduction** -- a value-ratio band of 0.048-0.100
+admits rho* in ~[0.22, 0.32], so rho* = 0.27+/-0.02 landing inside
+is weak evidence; the Delta=1,2 kernel ratios (0.27-0.30) are the
+better witness. **W8: "R <= 1.5e-12" MUST NAME ITS REFERENCE** (the
+grid fixed point at Nf=4096/P=180); against the 082 certified LB
+endpoints the gap is +4.0e-11/+7.2e-11/+5.3e-11, and **L >= 11 is
+pure f64 noise going NEGATIVE at Delta=0 (-1.25e-13) -- do not cite
+those entries as convergence evidence.**
+**THE UNCONDITIONAL BRACKETS: PASS -- "the STRONGEST ITEM in the
+package".** Independently rebuilt and evaluated: 0.562765641106 /
+0.536445811112 / 0.531099487172, reproducing the quoted ends to
+<= 9.4e-11, **outward-rounded on the safe side**, exactly feasible
+to <= 1.7e-16 at every n, with la_cmi vs la_fast agreeing to 1.1e-15
+ON THE CERTIFICATE RECORDS THEMSELVES. **They depend on NO LEMMA
+WHATSOEVER** -- only F0 membership, exact feasibility, and correct
+evaluation. 51.5x narrowing confirmed; beats UB(32,0) from n=48 on.
+**W10: the anchor cross-check is 8/8, not 7/7** (the probe
+undercounts its own table).
+SAFE SIDE: **PASS on sign** (a P-lag solve OVERSTATES sigma, hence
+the rate -- conservative for an upper bound), with power (P=1 ->
+0.5867 down to P=8 -> 0.56272650). **W11: at P >= 20 the rate is
+flat AT THE f64 FLOOR (3.3e-16 over P=20..400 and Nf=1024..8192);
+"monotone decreasing over P=40..260" is TESTING FLOATING-POINT
+TIES**, and the verifier's own run reports "decreasing: False" for
+that reason. Write "non-increasing by construction; flat to 3.3e-16
+from P=20".
+**DOES IT PROVE TOO MUCH? NO, and the check is sharp** -- applied to
+the BLOCK program (se == n), whose value is independently two-sided
+certified, the Delta-ladder approaches block_inf = 0.5299499808119
+**from above and never crosses** (down to +1.70e-12 at Delta=12),
+and the block-schedule window records give upper bounds strictly
+ABOVE it converging like ~0.105/n. **The machinery does not produce
+a bound below a known value.**
+**W9: the constants' "correct sign" is FORCED ONLY AT EQUAL n.**
+phi_n <= V(10,n) forces it at equal n (verified 3/3, and that IS the
+8/8 anchor cross-check); but the recorded 0.064507/0.070483/0.077503
+are R19's **n=16** values while the constructive constants are
+quoted at **n=2048**, and both sequences decrease in n -- so the
++24%/+29%/+31% comparison **is NOT forced as stated**. Rephrase to
+equal-n, or compare against the LIMIT c_phi ~ 0.06447.
+**W12: the decomposition constant is n*Delta-dist = 0.024260, not
+0.02430**; with it the identity closes to 2e-6 rather than 9e-5.
+**NOTHING FORBIDDEN IS IMPLIED**: the bracket has strictly positive
+width at every Delta (+3.91e-5/+4.44e-5/+4.95e-5), and the two
+inequalities come from structurally INDEPENDENT arguments -- **the
+chain is one-directional in each direction SEPARATELY; together they
+give a BRACKET, never an equality.**
+**READY TO SEAL 084 WITH W1-W12. If W1-W4 are NOT folded, THE SEAL
+SHOULD FAIL** -- the sentence as written is false in the verifier's
+measurements for the very construction the proof covers. All twelve
+are EDITS to the statement, not re-runs; no computation repeats.
+Novelty sweep on Lemma W's combination remains OWED.
