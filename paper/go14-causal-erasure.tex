@@ -14,16 +14,36 @@
 \newtheorem{remark}{Remark}
 \newtheorem{namedthm}{Theorem}
 \title{Causal Erasure: the Process-Rate Conditional Coordinate\\[2pt]
-\large GO-14 statement v0.7 --- Theorems R, C and T (the convex
+\large GO-14 statement v0.8 --- Theorems R, C and T (the convex
 program, and the $n$-transfer lemma), the (H$^\ast$) \emph{repair}
 --- the cross-block read $X$, the lemma chain L1--L4, and the
-split-causal sub-family --- T$^\ast$ v2, and \textbf{the plateau}: the
+split-causal sub-family --- T$^\ast$ v2, the plateau: the
 Collapse identity, periodization, shift-averaging, and a two-sided
 certificate for the stationary value $\Psi(\Delta)$ that retires
 (H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D), (F) and the
-boundary charge from the plateau at $\Delta=0,1,2$}
+boundary charge from the plateau at $\Delta=0,1,2$ --- and
+\textbf{Theorem~R1}: the convexity of the process-rate functional on
+the cyclostationary class is now a \emph{theorem}, so the plateau
+chain carries no remaining estimate}
 \author{Geometric Observation program}
-\date{v0.7 --- August 2026 (v0.6 superseded for the plateau:
+\date{v0.8 --- August 2026 (v0.7 superseded for
+\S\ref{sec:plateau}'s step~(B): what was Lemma~(R1) --- a
+pointwise-limit-of-convex-functions \emph{hypothesis} --- is now
+\textbf{Theorem~\ref{lem:R1}}, proved on the window-free class
+$\mathcal K_n(\varepsilon,M)$ in four steps, with the matrix
+Szeg\H o/Wiener--Masani theorem as the only analytic input and the
+inf-of-affine representation of the leak pivots as the load-bearing new
+step; the three justification steps recorded at v0.7 are
+\emph{demoted} --- two of them are a genuine gap and an ill-posed
+statement, and the new route uses neither
+(Remark~\ref{rem:R1steps}). Consequently Corollary~\ref{cor:onedir} is
+\emph{unconditional}: the chain, not the value. Also new: the Scoping
+Lemma, and the numbered restatements R21--R29, of which R29 supplies
+the $n$-uniform spectral floor
+$\lambda_{\min}(R(\omega))=3.1715534\times10^{-3}$ that the earlier
+revisions explicitly declined to claim. The novelty sweep on the (R1)
+combination is \emph{owed} and no novelty language is used for it.
+v0.7 history: the plateau ---
 \S\ref{sec:plateau} proves the Collapse identity, step~(A)
 periodization and step~(B) shift-averaging, states Lemma~S and
 Lemma~C-stat, and certifies the stationary value two-sided by a
@@ -168,10 +188,29 @@ $\Psi(2)\in[0.5310500198,0.5310500199]$. Against the \emph{sealed}
 causal-spectral allocation this is a plateau of
 $+0.0147817164/+0.0040574952/+0.0007968190$ at $\Delta=0/1/2$ ---
 four to eight orders above the certified bracket widths, at two lags
-the transfer route provably could not reach --- \emph{conditional on
-(R1) alone}, the convexity of the process-rate functional on the
-cyclostationary class, with (A)'s independent-noise-copy construction
-as the other named hypothesis. Two scoping results are load-bearing and
+the transfer route provably could not reach.
+\emph{This revision removes the last estimate from that chain.} What
+v0.7 called Lemma~(R1) --- convexity of the process-rate functional on
+the cyclostationary class --- is proved here as
+Theorem~\ref{lem:R1}, on a class carrying no window length anywhere,
+in four steps: Collapse plus a shifted frame in which $\Delta$ is a
+unimodular phase, blocking by $n$, the matrix Szeg\H o/Wiener--Masani
+theorem as the \emph{only} analytic input, and then two convexity
+arguments --- matrix quadratic-over-linear for the block leg and, for
+the leak leg, the observation that each conditional variance is an
+\emph{infimum of affine} functions of the moment pair. A Scoping Lemma
+makes the class restriction automatic, because the shifts of a
+step-(A) periodization conjugate a constant blocked noise spectrum by
+a unitary block cyclic shift. Consequently
+Corollary~\ref{cor:onedir} is \emph{unconditional} --- the
+\emph{chain} is, at three lags, with no (H$^\ast$),
+(H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D), (F), no boundary charge,
+no (R1) as a hypothesis and no (R2); the independent-noise-copy clause
+survives as a \emph{specification} of the object the argument
+constructs rather than an assumption about anything unknown. The value
+$\Psi$ itself remains a two-sided \emph{certified bracket} under this
+document's floating-point convention, and the chain remains
+one-directional. Two scoping results are load-bearing and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
 numbered hypothesis on the chain rule and on every minimum quoted
@@ -484,7 +523,10 @@ pieces (block bracket, $S$-side leak sum). Whether the individual
 per-cell CMI terms of $L_a$ are themselves convex in $(H,\Gamma)$
 remains \emph{open}: no violation was found in any sampling (prover
 and verifier both, zero hits), but no proof exists either. Nothing
-in this section relies on per-cell convexity.
+in this section relies on per-cell convexity. \textbf{Nor does
+Theorem~\ref{lem:R1} imply it}: that theorem convexifies the same two
+regrouped pieces at the process level, and the regrouping is precisely
+what makes the argument work (Remark~\ref{rem:R23}).
 \end{remark}
 
 \begin{remark}[The diagonal class is a convex linear section ---
@@ -513,9 +555,14 @@ bound on $\min L_a$ because class $<$ family.
 $\operatorname{eigmin}(P-Q)=1.0382\times10^{-2}\,/\,
 5.5944\times10^{-3}\,/\,4.4309\times10^{-3}\,/\,
 3.9529\times10^{-3}$ at $n=8/16/24/32$ --- \emph{decreasing in
-$n$}; quoted as ``$\ge3.9\times10^{-3}$ for $n\le32$'' (no
-$n$-uniform floor is claimed; the earlier single-number quote is an
-erratum, corrected here). The noise-floor parameterization is
+$n$}; as a finite-window statement this is quoted as
+``$\ge3.9\times10^{-3}$ for $n\le32$'' (the earlier single-number
+quote is an erratum, corrected here). \textbf{The earlier refusal to
+claim an $n$-uniform floor is now withdrawn}: at the blocked spectral
+level $\lambda_{\min}(R(\omega))=3.1715534\times10^{-3}$ uniformly in
+$\omega$ and in $n=1,\dots,8$, and the finite-window sequence above is
+convergence to that value \emph{from above} --- see
+Remark~\ref{rem:R29}. The noise-floor parameterization is
 inactive at every winner and every polished point.
 
 \subsection{Theorem K: the KKT system splits by column block}
@@ -697,7 +744,8 @@ spectrum --- certified at every computed $n$; in the limit
 conditional on (H$^\ast$) at $\Delta=0$ and on the $O(1/n)$ model at
 $\Delta=1,2$. \emph{Both limit conditions are discharged at v0.7} ---
 Corollary~\ref{cor:plateau2} derives the limit statement at
-$\Delta=0,1,2$ from \S\ref{sec:plateau}, conditional on (R1) alone;
+$\Delta=0,1,2$ from \S\ref{sec:plateau}, and at v0.8 (R1) is itself a
+theorem (Theorem~\ref{lem:R1});
 what follows in this item is the v0.4-era route and is retained as
 history.} At every computed anchor
 ($n\in\{16,24,32\}$, $\Delta\in\{0,1,2\}$) the \emph{certified lower
@@ -1635,16 +1683,25 @@ record.
 \section{The plateau: Collapse, periodization, shift-averaging, and a
 two-sided certificate for $\Psi$}
 \label{sec:plateau}
-Status: spectral prover $+$ $\Psi$-bracket prover $+$ two independent
-R-IND-5 passes (the bypass pass, ten restatements; the certificate
+Status: spectral prover $+$ $\Psi$-bracket prover $+$ (R1) prover $+$
+three independent R-IND-5 passes (the bypass pass, ten restatements;
+the certificate
 pass, ten further restatements R11--R20 --- fresh context, own spectra,
 own solver, own gradient, own box, own dual, structurally unrelated
-cell-argmin fixed point rather than the K1--K3 filter recursion). All
-twenty restatements are in force in this revision. Harness
-\texttt{experiments/\allowbreak go14\_plateau.py}; registration 082
-pending --- \textbf{nothing in this section is sealed}.
+cell-argmin fixed point rather than the K1--K3 filter recursion; and
+the (R1) pass, nine further restatements R21--R29, again fresh context,
+with its own CMI-definition evaluator built from the primitives
+$(V,N,U,Z)$ and no prover code reused for any rate number). All
+twenty-nine restatements are in force in this revision. Harnesses
+\texttt{experiments/\allowbreak go14\_plateau.py} (registration 082
+pending) and \texttt{experiments/\allowbreak go14\_r1.py} (registration
+083 pending, \emph{structurally independent} of 082) ---
+\textbf{nothing in this section is sealed}.
 
-\emph{The stationary frame.} Write $R_u:=\hat Y_{u-\Delta-1}$. In this
+\emph{The stationary frame, and its order.} Write
+$R_u:=\hat Y_{u-\Delta-1}$, and read the blocked process in the
+within-block order $R_1,S_1,\dots,R_n,S_n$; \textbf{the frame and the
+order are one choice, not two} (Remark~\ref{rem:R21}). In this
 shifted frame the interleaved order of the coordinate becomes the plain
 simultaneous order of $(R,S)$, and \textbf{$\Delta$ enters only as the
 phase $z^{\Delta+1}$ on the record's cross spectra} --- that is the
@@ -1661,7 +1718,9 @@ $\operatorname{diag}(1/f_S,0)$ is \emph{exact} and is
 Theorem~\ref{thm:K}'s first structural fact
 $\Sigma_W^{-1}\Sigma_{WS}=e_1$ (re-verified to $1.5\times10^{-15}$);
 $R\succ0$ in closed form, $\det R=(1/f_V-1/f_S)/s_N^2>0$ (verified to
-$5.3\times10^{-15}$; $\lambda_{\min}(R)\ge3.17\times10^{-3}$ on the
+$5.3\times10^{-15}$; and by Remark~\ref{rem:R29}
+$\lambda_{\min}(R(\omega))=3.1715534\times10^{-3}$ \emph{uniformly} in
+$\omega$ and in the block size $n=1,\dots,8$, not merely on this
 grid). Write $\Psi(D;\Delta)$ for the value of the stationary program
 in these coordinates and $\alpha=1/(2\ln2)$.
 
@@ -1754,33 +1813,328 @@ the harness's own witnesses exceed the untiled value by
 $+0.0290/+0.1605/+0.6463$ on a random $n=5$ record and by
 $+0.0319/+0.1684/+0.6836$ over $\phi_8$ at the cold-start $(8,0)$
 optimizer. So (IC) must be stated as a hypothesis of the construction
-and never dropped in restatement.
+and never dropped in restatement. \textbf{What (IC) is, exactly:} a
+\emph{specification of an object this document constructs}, not an
+assumption about anything unknown --- the tiling is ours to define, and
+we define it with independent copies. (R7) therefore survives as a
+\emph{wording rule} --- the independent copies must be written down and
+never left implicit --- rather than as a live hypothesis of the chain
+(Corollary~\ref{cor:onedir}, scope item (b)).
 \end{remark}
 
 \subsection{Step (B): shift-averaging}
 
-\begin{lemma}[(R1) --- convexity of the process-rate functional on the
-cyclostationary class]
+\begin{namedthm}[R1 --- joint convexity of the process-rate functional
+on the cyclostationary class]
 \label{lem:R1}
-Let $F_T$ denote the total-rate functional on the window of length $T$
-in process-moment coordinates. Then (i) $F_T$ is convex on the linear
-section cut out by the cyclostationary class; (ii) on records whose
-spectra are bounded above and bounded away from $0$, $F_T/T$ converges
-\emph{pointwise} to the process rate; and (iii) a pointwise limit of
-convex functions is convex. Hence the process-rate functional is convex
-on the cyclostationary class.
-\textbf{This lemma is stated here as a lemma, not cited as a corollary
-of Theorem~\ref{thm:cvx}}: Theorem~\ref{thm:cvx} is a finite-window
-statement and the passage to the process rate is exactly the content of
-(ii)--(iii). \emph{Status: this is the single remaining load-bearing
-hypothesis of the plateau} (together with
-Hypothesis~\ref{hyp:indcopies}), and it is a
-pointwise-limit-of-convex-functions statement --- a much softer object
-than (H$^\ast$), (H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D) or (F).
-\emph{Numerics:} $69$ Jensen points and $40$ curvature lines on the
-\emph{cyclostationary} class (the class the argument actually touches,
-not merely the stationary one), zero violations.
-\end{lemma}
+Fix a period $n$, a lag $\Delta$ --- indeed any $n$-periodic
+nondecreasing schedule --- and constants $\varepsilon>0$,
+$M<\infty$. Let $\mathcal L_n$ be the \emph{linear} space of period-$n$
+bi-infinite moment kernel pairs $(h,\Gamma)$ and put
+\[
+\mathcal K_n(\varepsilon,M)\;=\;\bigl\{(h,\Gamma)\in\mathcal L_n:\
+\Gamma\preceq M I,\quad
+n(\omega):=\Gamma-hPh^\ast\succeq\varepsilon I\ \text{a.e.}\bigr\}.
+\]
+Then $\mathcal K_n(\varepsilon,M)$ is convex --- $\Gamma\preceq MI$ is
+linear and $n(\cdot)$ is matrix-\emph{concave}, so
+$\{n\succeq\varepsilon I\}$ is convex --- and \textbf{it carries no
+window length anywhere}. On it the process-rate functional is finite
+and \emph{jointly convex} in $(h,\Gamma)$.
+\end{namedthm}
+
+\noindent\emph{Proof, in four steps.}
+
+\emph{(0) Collapse and the shifted frame.} By
+Theorem~\ref{thm:collapse} the coordinate is a sum of log conditional
+variances of the stationary pair $(R,S)$. In the shifted frame the lag
+enters only as the unimodular phase $z^{\Delta+1}$ on the record's
+cross spectra, i.e.\ as the map $h\mapsto z^{\Delta+1}h$: a
+\emph{linear invertible change of coordinates} of $\mathcal L_n$ which
+maps $\mathcal K_n$ \emph{onto} $\mathcal K_n$, because
+$n=\Gamma-hPh^\ast$ is unchanged by $h\mapsto z^kh$. Convexity of the
+objective is therefore $\Delta$-independent. (This is a statement about
+the \emph{objective}; the shift does move the distortion functional, so
+it is not a claim that the three lags share a feasible set.)
+
+\emph{(1) Blocking.} Blocking by $n$ turns the period-$n$
+cyclostationary pair into a \emph{stationary $2n$-variate} process
+$(R_b,S_b)$. In the within-block order fixed by
+Remark~\ref{rem:R21} the Cholesky factor of the one-step block
+innovation covariance $\Lambda$ reproduces the process pivots exactly,
+so
+\[
+\sum_{i}\ln\sigma_i\;=\;\ln\det\Lambda\;-\;\sum_i\ln s_i ,
+\qquad
+s_u=\operatorname{Var}\bigl(S_u\mid S^{u-1},R^{u}\bigr),
+\]
+the same $s$ as in Lemma~\ref{lem:S}, read over a full period
+(Remark~\ref{rem:R28}).
+
+\emph{(2) Matrix Szeg\H o (Wiener--Masani) --- the only analytic
+input.} Applied to the blocked process it gives the identity the whole
+proof rests on,
+\[
+2\ln2\;n\;\mathrm{rate}
+\;=\;\underbrace{\bigl[\langle\ln\det M_Q\rangle
+-\langle\ln\det n\rangle\bigr]}_{\text{(I)}}
+\;+\;\underbrace{\langle\ln\det\Phi_S\rangle}_{\text{constant}}
+\;-\;\underbrace{\sum_i\ln s_i}_{\text{(III)}} .
+\]
+The theorem is cited \emph{with} its hypotheses, and they are verified
+on $\mathcal K_n$: $\Phi_Z=n\succeq\varepsilon I$, $M_Q=n+hRh^\ast
+\succeq n$ and $\Phi_S\succeq\tau^2I$ are nonsingular a.e., and
+$\Gamma\preceq MI$ together with $\Phi_S\preceq
+\frac{1+a}{1-a}+\tau^2$ puts every $\ln\det$ in $L^1$. See
+Remark~\ref{rem:R22} for what the $\varepsilon$ floor is and is
+\emph{not} doing here.
+
+\emph{(3a) (I) is convex.} Per frequency,
+$\langle\ln\det M_Q\rangle-\langle\ln\det n\rangle
+=-\ln\det(I-Z)$ with $Z=R^{1/2}h^\ast M_Q^{-1}hR^{1/2}$. The matrix
+quadratic-over-linear map $(h,T)\mapsto h^\ast T^{-1}h$ is jointly
+matrix-convex and Loewner-\emph{nonincreasing} in its denominator;
+$M_Q=\Gamma-hQh^\ast$ is jointly matrix-\emph{concave} --- this, and
+only this, is where $Q\succeq0$ is used (Remark~\ref{rem:R24}); so the
+composition makes $Z$ matrix-convex, and $-\ln\det(I-\cdot)$ is convex
+and nondecreasing on $0\preceq Z\prec I$. This is
+Lemma~\ref{lem:cstat} in its matrix form, i.e.\ the $074$ block Schur
+lift of Theorem~\ref{thm:cvx}(i).
+
+\emph{(3b) (III) is convex --- the load-bearing new step.} Each frozen
+\emph{admissible} predictor (Definition~\ref{def:adm}) gives a minorant
+$\hat s$ that is exactly \emph{affine} in $(H,\Gamma)$ --- linear
+because $A_u=0$, which is where $\mathcal F_0$ enters and why
+Remark~\ref{rem:R25} matters --- and satisfies $\hat s\ge s$ always,
+with equality at that record's own optimum. Hence $s_i$ is an
+\emph{infimum of affine functions}, therefore concave; it is bounded in
+$[\tau^2,\operatorname{Var}(S)]$; and $-\ln$ of a positive concave
+function is convex. \textbf{This is exactly
+Definition~\ref{def:adm} together with Remark~\ref{rem:R11}, which this
+document already contained but used only inside the $\Psi$
+certificate.} The two halves of the argument must be kept apart
+(Remark~\ref{rem:R23}).
+
+\emph{Conclusion.} (I) is convex, the middle term is a constant, and
+$-$(III) is convex; the distortion is affine and
+$\mathcal K_n(\varepsilon,M)$ is convex. Hence the process-rate
+functional is jointly convex there.\hfill$\square$
+
+\begin{namedthm}[Scoping Lemma --- the class restriction is automatic]
+\label{lem:scoping}
+Step~(B) is only ever applied to step-(A) periodizations with
+independent noise copies (Hypothesis~\ref{hyp:indcopies}). The blocked
+noise spectrum of such a record is \emph{constant} in $\omega$; its
+$k$-shift conjugates that spectrum by a block cyclic shift
+$U_k(\theta)$ that is \emph{unitary} on $|z|=1$
+(Remark~\ref{rem:R26} fixes the side and the sign), so the eigenvalues
+are the same at every frequency and for every $k$. One pair
+$(\varepsilon,M)$ therefore serves the whole shift orbit \emph{and its
+convex hull} ($\lambda_{\min}$ is concave, $\lambda_{\max}$ convex).
+Finally $n\succ0$ is w.l.o.g.: the program is convex and Slater's
+condition holds, so the infimum over the closed convex set equals the
+infimum over its relative interior --- and the rate in fact
+\emph{blows up} at the cone boundary, so the boundary is never active
+on a minimisation.
+\emph{Certificates:} blocked noise spectrum constant in $\omega$ to
+$0.0\times10^{0}$; $U_kU_k^\ast=I$ to $2.3\times10^{-16}$; eigenvalue
+invariance $5.6\times10^{-16}$ at all $\omega$ and all $k$; hull floor
+slack $+0.091$ to $+0.69$ with the $\Gamma$ cap respected; the rate
+rises $0.383\to11.224$ as $\lambda_{\min}(n)$ falls $10^{-1}\to
+10^{-8}$.
+\end{namedthm}
+
+\noindent\textbf{Certificates for Theorem~\ref{lem:R1}.} Step~(1): the
+sequence pivots reproduce $(\sigma_t,s_j)$ in both frames to
+$1.7\times10^{-15}$, $\sum$ block log-pivots $=\ln\det\Lambda$ to
+$1.8\times10^{-15}$, and the identity itself to $1.3\times10^{-15}$
+over $24$ $(n,\Delta,\text{frame})$ cells (prover: $1.8\times10^{-15}$;
+verifier: $1.33\times10^{-15}$ over $24$ cells). Step~(2): via an exact
+aliasing route with exact finite-support blocked transfer functions ---
+\emph{zero} block-lag truncation --- the full decomposition holds to
+$3.6\times10^{-15}$ at $N_f=4096$ over $n\in\{1,2,3,4,6\}\times
+\Delta\in\{0,1,2\}$, \emph{including $n=2$}; the prover's coarser
+$1.8\times10^{-10}$ was its own DMAX, and the chord sweep decays
+geometrically ($1.8\times10^{-3}\to1.6\times10^{-13}$ at DMAX
+$2\to28$). Step~(3a): $4{,}200$ prover chords at blocks $n=1..8$ with
+$\Gamma$ pushed to $1.9\times10^{-14}$ of the cone boundary, zero
+violations. Step~(3b): $900$ verifier and $1{,}080$ prover
+\emph{per-instance} certificates with all three links separate
+(affineness $4.4\times10^{-16}$; $\hat s(\mathrm{mid})=s(\mathrm{mid})$
+$4.4\times10^{-16}$; $\hat s\ge s$ at both endpoints with minimum slack
+$+9.9\times10^{-6}$), concavity margin $+1.909\times10^{-5}$, and
+$\min s=0.421289$ against the $\tau^2=0.4$ floor. \emph{Control:} a
+predictor peeking two slots ahead is inadmissible and breaks the
+minorant $240/240$ (verifier; prover $286/288$), worst $-0.293$ --- the
+test has power. Conclusion: zero Jensen violations over $1{,}944$
+verifier chords (six adversarial families: $\lambda_{\min}(n)\sim
+10^{-6}$, a $10^{-3}$ notch, sign-alternating kernels,
+near-deterministic and large-gain records), zero over $2{,}160$ second
+differences, zero over $2{,}352$ prover chords, $576$ shift-averaging
+orbits, $126$ cross-period chords and $60$ non-staircase schedules;
+window-length independence flat to $10^{-15}$ from $B=16$.
+
+\begin{remark}[R21 --- the frame and the within-block order must be
+printed \emph{as a pair}]
+\label{rem:R21}
+\textbf{This document adopts the frame $R_u:=\hat Y_{u-\Delta-1}$
+together with the within-block order $R_1,S_1,\dots,R_n,S_n$}, and
+these two choices travel together in every statement above: it is this
+pair that produces the phase $z^{\Delta+1}$ and Lemma~\ref{lem:S}'s
+$s=\operatorname{Var}(S_u\mid S^{u-1},R^{u})$. The other pairing ---
+$R_u:=\hat Y_{u-\Delta}$ with the order $S_1,R_1,\dots,S_n,R_n$ --- is
+\emph{equally valid} and gives the same value. \textbf{Mixing them
+silently returns the lag-$(\Delta+1)$ rate}: reading this document's
+frame in the other pairing's order is wrong by up to
+$7.64\times10^{-2}$ bits (measured; it reproduces the
+lag-$(\Delta+1)$ value to $3.3\times10^{-16}$, and the smallest cell
+error is $1.5\times10^{-3}$, so the mistake is not uniformly loud).
+This is the one place in the plateau where a silent wrong theorem is
+available. Accordingly the leak pivot is written with $R^{u}$ ---
+including lag $0$ --- everywhere, matching Lemma~\ref{lem:S}; the
+finite-window $s_j=\operatorname{Var}(S_j\mid S^{j-1},\hat Y^{k(j)})$
+of Theorem~\ref{thm:repr} is the same object under the
+schedule-general count $k(j)$, and off-by-one variants of $k$ are
+detected at $0.1$--$0.7$ bits (Theorem~\ref{thm:repr}).
+\end{remark}
+
+\begin{remark}[R22 --- the $\varepsilon$ floor is \emph{not} a
+hypothesis of the Szeg\H o step]
+\label{rem:R22}
+Wiener--Masani needs only $\Phi\succeq0$ with $\ln\det\Phi\in L^1$; it
+does \emph{not} need a spectral floor. Verified on Szeg\H o's own
+extremal family $f=|1-ce^{-i\omega}|^2$ up to and \emph{including}
+$c=1$, where the spectrum \emph{vanishes} at a frequency: residual
+$\le2.7\times10^{-14}$. \textbf{Do not write that the analytic input
+requires the floor.} What $\varepsilon>0$ actually does here is three
+bookkeeping jobs: it keeps $\mathcal K_n$ convex and closed, it keeps
+the functional finite, and it gives the Scoping
+Lemma~\ref{lem:scoping} a single class for the whole shift orbit.
+(Separately, the \emph{finite-lag evaluator} for $\sigma$ and $s$
+converges slowly on deep narrow notches --- that is the evaluator
+caveat of Lemma~\ref{lem:S}, not a property of the lemma.)
+\end{remark}
+
+\begin{remark}[R23 --- the $s$-lemma is two statements, and only the
+second one has a topology in it]
+\label{rem:R23}
+(i) \emph{An infimum of affine functions over any index set whatsoever
+is concave.} No density, no continuity, no topology, no completeness.
+(ii) \emph{The closure argument is needed only to identify that
+infimum with $s$}: the finite-support causal predictors are dense in
+the closed span of the past, and $w\mapsto\hat s_w$ is a continuous
+quadratic in the $L^2(\text{past})$ norm, so the infimum over them is
+$s$. Truncating the family gives a \emph{different} function which is
+still concave ($0/180$ violations at truncation depths $4$ and $12$),
+and the truncations decrease to $s$ monotonically and geometrically
+(machine zero by depth $32$). Stating (i) and (ii) in one sentence
+invites the reader to think concavity is at risk; it is not.
+\end{remark}
+
+\begin{remark}[R25 --- outside $\mathcal F_0$ the moment coordinates
+are not even well-posed]
+\label{rem:R25}
+$A_u$ is invisible to $H=\operatorname{Cov}(\hat Y,W)$, and
+$\tau^2A_uA_u^{\!\top}$ can be absorbed into $\operatorname{Cov}(Z)$;
+so outside $\mathcal F_0$ two records with \emph{identical}
+$(H,\Gamma)$ --- held identical to $2.2\times10^{-16}$ --- have rates
+differing by \textbf{at least $0.136$ bits} (the R-IND-5 verifier's
+random battery reproduces $0.1383$; this document's pinned
+deterministic $A_u$-ladder reaches $1.635$). \emph{Print this as a
+lower bound, never as a maximum.} Consequently ``convex in the moment
+coordinates'' is not a well-posed phrase outside $\mathcal F_0$:
+Hypothesis~\ref{hyp:uind} is here a \emph{well-posedness condition on
+the coordinates}, a sharper form of the non-conflation rule of
+Remark~\ref{rem:ulegs}. The exact place it enters is the \emph{leak
+leg} $\operatorname{Cov}(R,S)=H\Sigma_W^{-1}\Sigma_{WS}$, which is
+what makes the joint $J$ affine in $(H,\Gamma)$ in step~(3b).
+\end{remark}
+
+\begin{remark}[R26 --- the conjugation has a side and a sign]
+\label{rem:R26}
+In Lemma~\ref{lem:scoping} the correct statement is
+\[
+\Phi^{(k)}(\theta)\;=\;U_k(\theta)^\ast\,N\,U_k(\theta),
+\]
+with the \emph{wrapped} entries of $U_k$ carrying $e^{+i\theta}$
+(residual $1.2\times10^{-16}$). \textbf{The other three sign/side
+combinations are false by $O(1)$}: $U_kNU_k^\ast$ with $e^{+i\theta}$
+and with $e^{-i\theta}$ both miss by $4.12\times10^{-1}$, and
+$U_k^\ast NU_k$ with $e^{-i\theta}$ by $2.59\times10^{-1}$. The
+statement is only useful if the convention is printed with it.
+\end{remark}
+
+\begin{remark}[R27 --- the \texttt{np.roll} defect, scoped]
+\label{rem:R27}
+Earlier tooling shifted a periodized record by \texttt{np.roll} of the
+window matrices. That is \emph{not} a shift: $\Sigma_V$ is Toeplitz,
+not circulant, so a rolled record's derived noise is not the rolled
+noise. \textbf{Scope: it is a \emph{moment-coordinate} defect} ---
+$27/27$ rolled $(H,\Gamma)$ pairs leave the cone --- whereas in
+\emph{record} coordinates the same roll is wrong by only
+$\le4.3\times10^{-9}$ (this document's re-run: $2.8\times10^{-9}$), so
+pre-fix record-space numerics are neither over- nor under-condemned.
+With genuine shifts of the bi-infinite period-$n$ record, rate
+shift-invariance holds to $3.33\times10^{-16}$ --- better than the
+$10^{-12}$ first claimed, and it did not hold at all before the fix.
+\end{remark}
+
+\begin{remark}[R28 --- the legs are individually well defined only at
+full period]
+\label{rem:R28}
+In the decomposition of step~(2) the two legs are individually
+well defined only when read over a \emph{full} period: $\sum_j\ln s_j$
+is offset-invariant to $8.9\times10^{-16}$ over a full period and
+\emph{not} over sub-periods. Sub-period reads of either leg are not
+quantities of this document.
+\end{remark}
+
+\begin{remark}[R29 --- the $n$-uniform spectral floor, which this
+document previously declined to claim]
+\label{rem:R29}
+At the \emph{blocked spectral} level
+\[
+\lambda_{\min}\bigl(R(\omega)\bigr)\;=\;3.1715534\times10^{-3}
+\qquad\text{uniformly in }\omega\text{ and in }n=1,\dots,8
+\]
+(spread over $n$: $3.6\times10^{-15}$), and
+$Q(\omega)=\operatorname{blockdiag}\bigl(\Phi_S(\omega)^{-1},0\bigr)$
+\emph{exactly} at every block size ($\le1.4\times10^{-14}$), with
+$\lambda_{\max}(Z)<1$ strictly on the class interior (measured
+$0.9154$). \textbf{This supplies the $n$-uniform floor that the
+finite-window certificate block of \S\ref{sec:convex} explicitly
+declined to claim}, and it explains the recorded decrease of
+$\operatorname{eigmin}(P-Q)=1.038\times10^{-2}/5.594\times10^{-3}/
+4.431\times10^{-3}/3.953\times10^{-3}$ at $n=8/16/24/32$ as
+\emph{convergence to it from above} --- monotone, and still
+$7.8\times10^{-4}$ above the floor at $n=32$. The finite-window
+sequence is therefore an approximation of the blocked quantity, not
+evidence against a floor.
+\end{remark}
+
+\begin{remark}[The three v0.7 justification steps, demoted --- and why
+the new route needs none of them]
+\label{rem:R1steps}
+v0.7 justified (R1) by three steps. They are recorded here, with
+verdicts, and \emph{the proof above uses none of them}.
+\emph{(i) ``$F_T$ is convex on the linear section cut out by the
+cyclostationary class''} --- \textbf{true but useless}: the right
+object carries no window length at all, which is why
+Theorem~\ref{lem:R1} is stated on $\mathcal K_n(\varepsilon,M)$.
+\emph{(ii) ``$F_T/T\to\text{rate}$ pointwise''} --- \textbf{a genuine
+gap}. $F_T$ is a \emph{different functional}: it carries a truncated
+schedule, no pre-window past, and a truncated $W$; its convergence to
+the process rate needs its own boundary-charge argument, which this
+campaign does not have. It is \emph{measured} true ($T(F_T/T-
+\mathrm{rate})$ flat to five or six digits from $T=2n$) --- but
+measured is not proved, and \textbf{the route above does not use it}.
+\emph{(iii) ``a pointwise limit of convex functions is convex''} ---
+\textbf{ill-posed as worded}, and it breaks exactly where one would
+expect: the domain $D_T$ \emph{moves with} $T$, so the functions are
+not functions on a common space. It is repairable by pulling back
+along the linear restrictions, but only \emph{given} (ii). The new
+route eliminates both.
+\end{remark}
 
 \begin{namedthm}[B --- shift-averaging produces an explicit stationary
 record]
@@ -1797,10 +2151,15 @@ makes the inequality strict;
 \item[(ii)] \emph{stationary}, and \emph{realisable}: the record is
 constructed, not merely asserted;
 \item[(iii)] of \emph{identical per-symbol distortion}; and
-\item[(iv)] of \emph{no larger rate}, by Lemma~\ref{lem:R1}:
+\item[(iv)] of \emph{no larger rate}, by Theorem~\ref{lem:R1}:
 $\mathrm{value}(\bar x)\le\overline{\mathrm{value}(x)}
 =\mathrm{value}(x)$.
 \end{enumerate}
+\textbf{Step (B) is now unconditional}, and the class restriction it
+needs is free: the $n$ shifts have equal rate, the average lies in
+$\mathcal K_n(\varepsilon,M)$ by Lemma~\ref{lem:scoping}, is
+stationary, has identical per-symbol distortion, and has rate at most
+the average, which is the original.
 \textbf{Wording.} Step~(B) \emph{delivers an explicit stationary record
 of no larger rate and identical per-symbol distortion.} It does
 \emph{not} say that the process infimum is attained: attainment is
@@ -1821,20 +2180,52 @@ $0.5364993215$ and $0.5311645087$, reproduced by the harness to ten
 digits.
 \end{namedthm}
 
-\begin{corollary}[The chain, and its direction]
+\begin{corollary}[The chain, and its direction --- \emph{the chain is
+unconditional}]
 \label{cor:onedir}
 $\phi_n\;\ge\;\mathrm{rate}(\text{periodize})\;\ge\;
 \mathrm{rate}(\text{shift-average})\;\ge\;\Psi(D;\Delta)$, whence
 \[
 \boxed{\;L^\infty(\Delta)\;\ge\;\Psi(D;\Delta)\;}
 \]
-under Hypothesis~\ref{hyp:indcopies} and Lemma~\ref{lem:R1}.
+with Theorem~\ref{lem:R1} supplying step~(B)'s convexity as a
+\emph{theorem} rather than a hypothesis.
 \textbf{Every step is an inequality the same way and each produces an
 explicit feasible object, so the chain is one-directional}: it cannot
 yield the reverse inequality. The converse would need an unwritten
 truncation/achievability lemma --- and the stationary optimum is not
 rational at any finite order, so the FIR-density step is not free; it
 is a boundary-charge argument again, in the other direction.
+
+\medskip\noindent\textbf{The permitted wording, verbatim, and the scope
+that travels with it.}
+\emph{``$L^\infty(D)\ge\Psi(D;\Delta)\ge\mathrm{LB}(\Delta)$ for
+$\Delta=0,1,2$, with no {\rm(H$^\ast$)}, {\rm(H$^{\ast\ast}$)},
+{\rm(H$^{\ast\ast\ast}$)}, {\rm(D)}, {\rm(F)}, no boundary charge, no
+{\rm(R1)} as a hypothesis --- it is now a theorem --- and no
+{\rm(R2)}; margins $+0.0147817164/+0.0040574952/+0.0007968190$.''}
+The scope that travels with that sentence, and must be printed with it:
+\begin{enumerate}
+\item[(a)] the family $\mathcal F_0$ (Hypothesis~\ref{hyp:uind}) ---
+a \emph{definition}, and by Remark~\ref{rem:R25} a
+\emph{well-posedness condition} on the moment coordinates;
+\item[(b)] the independent-noise-copy clause
+(Hypothesis~\ref{hyp:indcopies}) --- a \emph{specification of an object
+this document constructs}, not an assumption about anything unknown;
+(R7) survives as a \emph{wording rule} --- the tiling must be
+specified with independent copies and never left implicit --- rather
+than as a live hypothesis;
+\item[(c)] the classical Wiener--Masani/Szeg\H o input, cited
+\emph{with} its non-degeneracy hypotheses, which are verified to hold
+on $\mathcal K_n(\varepsilon,M)$ (Theorem~\ref{lem:R1}, step~(2), and
+Remark~\ref{rem:R22});
+\item[(d)] the floating-point house convention on the $\Psi$ bracket
+(Remark~\ref{rem:fpcert}).
+\end{enumerate}
+\textbf{``Unconditional'' attaches to the chain and never to the
+value:} $\Psi$ remains a two-sided \emph{certified bracket} under (d),
+the chain remains one-directional (Remark~\ref{rem:onedirection}), and
+the permitted headline is unchanged.
 \end{corollary}
 
 \begin{remark}[What the chain does \emph{not} give]
@@ -1849,11 +2240,14 @@ L^\infty(0)\;\in\;[\,0.5627265,\ 0.5647420\,],
 of width $2.0\times10^{-3}$: the lower end from
 Corollary~\ref{cor:onedir}, the upper end the certified $n=32$ anchor
 of \S\ref{sec:anchors} through Corollary~\ref{cor:lower}. Equally, the
-plateau is \emph{not} hypothesis-free: it removes (H$^\ast$),
-(H$^{\ast\ast}$), (H$^{\ast\ast\ast}$), (D), (F) and the boundary
-charge --- a real and large advance --- and replaces them with
-Lemma~\ref{lem:R1} and Hypothesis~\ref{hyp:indcopies}. It remains under
-Hypothesis~\ref{hyp:uind} throughout.
+plateau is not \emph{scope}-free even though the chain is
+unconditional: it removes (H$^\ast$), (H$^{\ast\ast}$),
+(H$^{\ast\ast\ast}$), (D), (F) and the boundary charge, and
+Theorem~\ref{lem:R1} now removes (R1) as well --- but the four scope
+items (a)--(d) of Corollary~\ref{cor:onedir} travel with every
+statement of it, and it remains under Hypothesis~\ref{hyp:uind}
+throughout. In particular \textbf{the word ``unconditional'' may be
+attached to the chain and never to the $\Psi$ value}.
 \end{remark}
 
 \begin{remark}[Where the $O(1/n)$ drift lives]
@@ -1916,7 +2310,9 @@ $h$ enters $\varphi$'s first slot affinely. The composition rule for a
 convex, coordinatewise-monotone outer function gives $Z$ convex; and
 $u\mapsto-\ln(1-u)$ is convex increasing on $u<1$.\hfill$\square$
 \textbf{Hypotheses used are exactly $Q\succeq0$ \emph{and}
-$R=P-Q\succeq0$}; both are load-bearing (R12). No matrix lift is
+$R=P-Q\succeq0$}, and they are used for different things --- see
+Remark~\ref{rem:R24}, which supersedes the earlier (R12) wording. No
+matrix lift is
 needed and the 074 lemma (GO-13 Theorem~5, the block Schur lift of
 Theorem~\ref{thm:cvx}(i)) is cited here only as the \emph{antecedent}
 of which this is the scalar instance --- the proof above does not use
@@ -1929,6 +2325,26 @@ $-21.4$, in the harness's $Q'=1.3P$ control. The psd hypothesis is not
 decoration.
 \end{lemma}
 
+\begin{remark}[R24 --- which psd hypothesis is \emph{demonstrated}
+necessary; this supersedes (R12)]
+\label{rem:R24}
+The earlier text called $Q\succeq0$ and $R=P-Q\succeq0$ ``both
+load-bearing''. That is too strong, and the evidence separates them.
+\textbf{$R=P-Q\succeq0$ is demonstrated necessary}: the $R$-breaking
+control $Q'=1.3P$ violates the statement, $165/645$ and $185/505$ on a
+second seed (this document's re-run: $198/673$, worst $+2.14$).
+\textbf{$Q\succeq0$ is a hypothesis of this proof route, not of the
+statement}: it is what makes $M_Q$ Loewner-concave, and that is the
+only place it is used --- but breaking it while keeping $R\succeq0$
+produces \emph{no} violation. Over $22{,}000$ chords across four
+non-psd-$Q$ families with $R\succeq0$ ($Q''=-0.2I$, $Q'''=-2P$, an
+indefinite $Q$ built by scaling $P$'s eigenvalues by $+0.9/-1.5$, and
+$Q''''=-(P+I)$) there are \emph{zero} violations, every chord on the
+convex side by at least $5.0\times10^{-8}$. So the honest statement is:
+one hypothesis is necessary as far as the evidence goes, the other is a
+convenience of the route.
+\end{remark}
+
 \begin{definition}[Admissible frozen filters --- a hypothesis with
 content]
 \label{def:adm}
@@ -1940,6 +2356,10 @@ pair the \emph{minorant}
 +2\operatorname{Re}\bigl(\overline{C_0}B_0h_1\bigr)\bigr\rangle
 \]
 is \emph{affine} in $x$ and satisfies $\hat s\ge s$ \emph{always}.
+\textbf{This definition is now used twice}: inside the certificate of
+Theorem~\ref{thm:cert}, and --- as the inf-of-affine representation of
+the leak pivots --- in step~(3b) of Theorem~\ref{lem:R1}, where it is
+the load-bearing step.
 \end{definition}
 
 \begin{remark}[R11 --- admissibility is a hypothesis, not an adjective]
@@ -2110,10 +2530,11 @@ Remark~\ref{rem:fpcert}: no interval arithmetic.
 \begin{corollary}[The plateau at $\Delta=0,1,2$ ---
 \emph{this supersedes Corollary~\ref{cor:plateau}}]
 \label{cor:plateau2}
-Under Hypothesis~\ref{hyp:uind}, Hypothesis~\ref{hyp:indcopies} and
-Lemma~\ref{lem:R1} --- and \emph{conditional on
-Lemma~\ref{lem:R1} alone} among the hypotheses this campaign has been
-fighting ---
+Under Hypothesis~\ref{hyp:uind} and Hypothesis~\ref{hyp:indcopies} ---
+and, since Theorem~\ref{lem:R1} discharges (R1), \emph{conditional on
+none} of the hypotheses this campaign has been fighting, with the four
+scope items (a)--(d) of Corollary~\ref{cor:onedir} travelling with the
+statement ---
 \[
 L^\infty(\Delta)\;\ge\;\Psi(D;\Delta)\;\ge\;\mathrm{LB}(\Delta),
 \]
@@ -2131,10 +2552,14 @@ and against the \emph{sealed} causal-spectral allocation values of
 Every margin clears the certified bracket width by four to eight orders
 of magnitude ($\Delta=2$, the tightest, by $1.8\times10^{8}$ bracket
 widths). \textbf{This retires (H$^\ast$), (H$^{\ast\ast}$),
-(H$^{\ast\ast\ast}$), (D), (F) and the boundary charge from the plateau
-argument, at three lags --- two of which the transfer route provably
-could not reach} (it would have needed certified anchors at
-$n\approx260$ and $n\approx1320$).
+(H$^{\ast\ast\ast}$), (D), (F), the boundary charge \emph{and} (R1)
+from the plateau argument, at three lags --- two of which the transfer
+route provably could not reach} (it would have needed certified anchors
+at $n\approx260$ and $n\approx1320$). The permitted wording for the
+whole chain, with its scope, is printed verbatim in
+Corollary~\ref{cor:onedir}; ``unconditional'' is a statement about that
+chain and never about the value $\Psi$, which remains a two-sided
+certified bracket under Remark~\ref{rem:fpcert}.
 \end{corollary}
 
 \begin{remark}[The bars, and a superseded pair of numbers]
@@ -2270,18 +2695,23 @@ before use; and the internal check ``block $+$ leak $=$ rate'' is an
 
 \begin{question}[Open]
 \label{q:open}
-(0) \textbf{Lemma~\ref{lem:R1}, and it is now the single remaining
-load-bearing hypothesis of the plateau} (with
-Hypothesis~\ref{hyp:indcopies}, which is a hypothesis of an explicit
-construction rather than an estimate). It is a
-pointwise-limit-of-convex-functions statement on the cyclostationary
-class; a proof would leave Corollary~\ref{cor:plateau2} standing on
-Hypothesis~\ref{hyp:uind} alone. Separately, the \emph{reverse}
-inequality in Corollary~\ref{cor:onedir} --- a truncation /
-achievability lemma at stationarity, which the non-rationality of the
-stationary optimum makes non-trivial --- is open, and until it is
-settled nothing may be said about $L^\infty$ beyond the bracket of
-Remark~\ref{rem:onedirection};
+(0) \textbf{(R1) is closed} --- it is Theorem~\ref{lem:R1}, and
+Corollary~\ref{cor:plateau2} now stands on
+Hypothesis~\ref{hyp:uind} and the explicit construction of
+Hypothesis~\ref{hyp:indcopies} alone. What remains open here is the
+\emph{reverse} inequality in Corollary~\ref{cor:onedir} --- a
+truncation / achievability lemma at stationarity, which the
+non-rationality of the stationary optimum makes non-trivial. It is
+untouched by Theorem~\ref{lem:R1}, and until it is settled nothing may
+be said about $L^\infty$ beyond the bracket of
+Remark~\ref{rem:onedirection}. Also owed, and \emph{not} a mathematical
+gap: the \textbf{novelty sweep on the (R1) combination} --- blocked
+cyclostationary Szeg\H o, plus the inf-of-affine leak, plus matrix
+quadratic-over-linear, giving convexity of a causally-conditioned
+process-rate functional in spectral moment coordinates --- against
+Wiener--Masani/Helson--Lowdenslager and the 070/073 conditional-RDF
+attributions. \textbf{No novelty language is used anywhere in this
+document for that combination until the sweep is done};
 (1) \emph{A uniform-in-$m$ decay bound on the optimizer's cross-block
 kernel} --- \emph{no longer needed for the plateau}
 (Corollary~\ref{cor:plateau2} retires it there), but still the residue
@@ -2341,7 +2771,12 @@ citations in force, and nothing above claims it yet. R-IND-5 passes
 mandatory restatements --- the (H$^\ast$) demotion, the
 $\kappa$-per-side refutation, the constants, the
 $\mathcal F_0$-only tags, the corollary arithmetic and the
-ladder tagging --- all in force in this revision) are
+ladder tagging), the $\Psi$-certificate pass (ten mandatory
+restatements R11--R20) and the \textbf{(R1) pass} (nine mandatory
+restatements R21--R29, all in force in this revision, and four named
+targets --- the block-innovation Cholesky, the matrix Szeg\H o step at
+$n>1$, the inf-of-affine representation with its closure point, and the
+$\varepsilon$-floor Scoping Lemma --- all passed) are
 on record (\texttt{go14-causal-erasure-PROBE.md}); seal
 GO-P-2026-076 governs the theorem's numerical faces; the
 process-limit faces of \S\ref{sec:proc} await prereg 078 (harness
@@ -2393,7 +2828,7 @@ $m$-table; s9 $\phi^{\mathrm{sc}}_{2m}\le\phi_m$ and the
 The v0.7 material --- \S\ref{sec:plateau} in full:
 Theorem~\ref{thm:collapse} with Remark~\ref{rem:R6},
 Theorem~\ref{thm:period} with Hypothesis~\ref{hyp:indcopies} and
-Remark~\ref{rem:R7}, Lemma~\ref{lem:R1}, Theorem~\ref{thm:shift},
+Remark~\ref{rem:R7}, Theorem~\ref{lem:R1}, Theorem~\ref{thm:shift},
 Corollary~\ref{cor:onedir} with Remark~\ref{rem:onedirection},
 Lemma~\ref{lem:S}, Lemma~\ref{lem:cstat}, Definition~\ref{def:adm}
 with Remark~\ref{rem:R11}, Theorem~\ref{thm:cert} with
@@ -2425,8 +2860,45 @@ Theorem~\ref{thm:period} and Theorem~\ref{thm:cert}
 Hypothesis~\ref{hyp:indcopies}); Lemmas~\ref{lem:S}
 and~\ref{lem:cstat}; the certified $\Psi$ brackets; the $\Delta=2$
 finite-$n$ anchors; and Theorem~\ref{thm:shift} /
-Corollary~\ref{cor:onedir} / Corollary~\ref{cor:plateau2}
-\emph{conditional on Lemma~\ref{lem:R1}}. Nothing in
+Corollary~\ref{cor:onedir} / Corollary~\ref{cor:plateau2}. Nothing in
 \S\ref{sec:plateau} is sealed, and no seal may print an equality
 between $L^\infty$ and $\Psi$ (Remark~\ref{rem:onedirection}).
+
+The v0.8 material --- Theorem~\ref{lem:R1} with its four-step proof and
+its certificate block, the Scoping Lemma~\ref{lem:scoping}, the
+restatements R21--R29 (Remarks~\ref{rem:R21}, \ref{rem:R22},
+\ref{rem:R23}, \ref{rem:R24}, \ref{rem:R25}, \ref{rem:R26},
+\ref{rem:R27}, \ref{rem:R28}, \ref{rem:R29}), the demotion of the three
+v0.7 justification steps (Remark~\ref{rem:R1steps}), the
+unconditional form of Corollary~\ref{cor:onedir} with its verbatim
+permitted wording and scope items (a)--(d), and the withdrawal of the
+``no $n$-uniform floor'' refusal in \S\ref{sec:convex} --- awaits
+\textbf{registration 083}, harness
+\texttt{experiments/go14\_r1.py}, and is registered
+\emph{separately from} 082 because the two objects are structurally
+independent: 082 certifies the value $\Psi$ two-sided, 083 discharges
+the convexity step of the chain, and neither uses the other. The
+harness sections are: s1 Collapse against the definitional CMI plus the
+R21 frame/order pair, with the mixed pairing gated as a must-fail
+control; s2 the block-innovation Cholesky identity in both frames; s3
+the matrix Szeg\H o decomposition by an exact aliasing route, with the
+R22 extremal family including the vanishing-spectrum case and the
+DMAX sweep that settles $n=2$ as truncation; s4 the three inf-of-affine
+links separately, the concavity margin, the R23 truncated-family check
+and the peeking-predictor control; s5 the Jensen and curvature sweeps
+over six adversarial families, with two controls --- the
+record-parameter chart being non-convex, and both legs being concave
+while the rate is not; s6 the Scoping Lemma including R26's side and
+sign with a wrong combination gated as failing; s7 the R24 psd battery
+($22{,}000$ chords) and the R25 well-posedness witness; s8 the R29
+floor, the exact $Q$ reduction and $\lambda_{\max}(Z)<1$; s9
+shift-invariance with the R27 \texttt{np.roll} control. The scope
+proposed for 083 is: Theorem~\ref{lem:R1}, Lemma~\ref{lem:scoping} and
+the consequent unconditionality of the \emph{chain} in
+Corollary~\ref{cor:onedir} --- never of the value $\Psi$ --- together
+with R21--R29. The harness contains no optimizer, no fixed point and no
+root find, so no gate races a stopping point, and it reads no bracket,
+width or certificate endpoint. \textbf{The novelty sweep on the (R1)
+combination is owed} and no novelty language for it appears anywhere
+above.
 \end{document}
