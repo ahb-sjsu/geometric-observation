@@ -2174,3 +2174,19 @@ unrestated would put a SECOND false n-independence claim on the
 record ONE REGISTRATION AFTER THE FIRST WAS CAUGHT." Still owed: the
 two novelty sweeps, the window-side la_cmi cross-check, and folding
 W1/W4 into the restated Lemma M.
+
+### R-IND-5 addendum (same pass, full-strength run): 9/9, and F11 reinforced
+
+The full direct minimisation over depth-L FIR records (L = 1,2,3;
+8000 evals x 4 restarts, vs the reduced 900 x 2 quoted above)
+completed. **9/9 strictly above the 082 certified lower endpoints,
+zero violations** (the reduced run's 6/6 becomes 9/9; the deeper
+search lowered the L=1,2 optima only in the 6th-7th decimal).
+New L=3 row: direct optima 0.562747377388 / 0.536414037072 /
+0.531061238971 at Delta = 0/1/2, margins **+2.0881e-5 / +1.2659e-5 /
++1.1219e-5** over Psi^LB.
+**F11 REINFORCED: the true depth-L optimum sits BELOW the tabulated
+truncation-and-repair value at EVERY rung** -- so the ladder is
+U_tr(L), not U(L), and must be labelled as such. Both sequences
+decrease toward Psi from above and **neither crosses it**.
+No verdict, ruling, restatement or seal call changes.
