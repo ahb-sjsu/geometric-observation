@@ -1,0 +1,995 @@
+{
+ "verdict": {
+  "s1_two_evaluator_routes_agree": true,
+  "s1_canonical_build_reproduces_stationary_sigma": true,
+  "s1_MUSTFAIL_reversed_kernel_at_every_interior_cell": true,
+  "s1_MUSTFAIL_reversed_kernel_makes_edge_charge_O_of_n": true,
+  "s1_W5_distortion_gate_has_ZERO_power": true,
+  "s1_W5_ay_is_symmetric_and_carries_no_orientation": true,
+  "s2_edge_cells_contribute_exactly_zero": true,
+  "s2_edge_sigma_is_exactly_eps": true,
+  "s2_Nc_is_block_diagonal": true,
+  "s3_no_negative_delta_t_anywhere": true,
+  "s4_sum_delta_t_is_n_independent": true,
+  "s4_reproduces_the_recorded_L10_triple": true,
+  "s5_noise_leg_enters_with_the_helping_sign": true,
+  "s5_noise_leg_is_n_independent": true,
+  "s5_min_phase_identity": true,
+  "s6_window_distortion_is_exactly_affine": true,
+  "s6_repair_lands_at_dist_equals_D": true,
+  "s6_MUSTFAIL_zero_edge_build_is_INFEASIBLE_at_n64_L10": true,
+  "s6_the_same_build_is_feasible_at_n128": true,
+  "s7_C_is_monotone_decreasing_in_n_every_row": true,
+  "s7_W1_refutation_witness_has_power": true,
+  "s8_reproduces_V10_2048_at_three_Delta": true,
+  "s8_certificate_records_are_exactly_D_feasible": true,
+  "s8_anchor_cross_check_is_8_of_8": true,
+  "s8_recorded_upper_ends_are_outward_rounded": true,
+  "s8_both_routes_agree_on_the_certificate_records": true,
+  "s8_W11_safe_side_is_flat_from_P20": true,
+  "s8_W11_safe_side_control_has_power": true,
+  "s9_block_program_never_falls_below_block_inf": true,
+  "s9_Delta_ladder_approaches_from_above_without_crossing": true,
+  "s9_recorded_Psi_ladder_is_monotone_and_above_block_inf": true
+ },
+ "GO14AC_supported": true,
+ "vals": {
+  "seed": 20261171,
+  "pilot": false,
+  "s1": {
+   "routes_worst": 1.5543122344752192e-15,
+   "canon_deep_worst": 4.440892098500626e-16,
+   "canon_deep_cells": 480,
+   "reversed_min_interior": {
+    "0": 0.012562567081898568,
+    "1": 0.001962089908006226,
+    "2": 0.00029849343778515225
+   },
+   "growth": {
+    "canonical": {
+     "sums": [
+      0.043995641537345656,
+      0.043995641537335886,
+      0.043995641537317345,
+      0.04399564153728715
+     ],
+     "slope": -1.1796119636642288e-16
+    },
+    "reversed": {
+     "sums": [
+      1.7619172657325883,
+      3.8669527110745703,
+      8.077023601758533,
+      16.49716538312646
+     ],
+     "slope": 0.03289117883346847
+    }
+   },
+   "dist_zero_power": 2.220446049250313e-16,
+   "ay_reversal_rate_move": 0.0,
+   "ay_symmetry": 1.3877787807814457e-17,
+   "bars": {
+    "routes": 1e-11,
+    "canon": 1e-12,
+    "rev_cell": 0.01,
+    "rev_sum": 10.0,
+    "rev_slope": 0.01,
+    "canon_slope": 1e-12,
+    "dist": 1e-15,
+    "ay": 1e-15
+   }
+  },
+  "s2": {
+   "edge_percell_cmi": 0.0,
+   "edge_sigma_minus_eps": 0.0,
+   "blockdiag_lndet_residual": 1.7053025658242404e-13,
+   "routes": 1.7763568394002505e-15,
+   "bars": {
+    "cmi": 1e-15,
+    "sigeps": 1e-15,
+    "blockdiag": 1e-09
+   }
+  },
+  "s3": {
+   "rows": [
+    {
+     "Delta": 0,
+     "min": -4.440892098500627e-16,
+     "sum": 0.043995641537347877,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 1,
+     "min": -5.551115123125785e-16,
+     "sum": 0.04020474332998505,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 2,
+     "min": -7.771561172376099e-16,
+     "sum": 0.039683930383697504,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 3,
+     "min": -7.771561172376099e-16,
+     "sum": 0.03961367194261298,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 5,
+     "min": -7.771561172376099e-16,
+     "sum": 0.039603179316846676,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 9,
+     "min": -7.771561172376099e-16,
+     "sum": 0.03960322101915678,
+     "neg": 0,
+     "saturated": false
+    },
+    {
+     "Delta": 20,
+     "min": -6.661338147750941e-16,
+     "sum": 0.03960322254358662,
+     "neg": 0,
+     "saturated": false
+    }
+   ],
+   "min_delta": -7.771561172376099e-16,
+   "neg_total": 0,
+   "bar": -1e-13
+  },
+  "s4": {
+   "rows": [
+    {
+     "Delta": 0,
+     "L": 4,
+     "sums": [
+      0.04403143914826823,
+      0.04403143914829321,
+      0.04403143914835817
+     ],
+     "spread": 8.99419427824455e-14
+    },
+    {
+     "Delta": 0,
+     "L": 10,
+     "sums": [
+      0.04399483233084734,
+      0.04399483233077873,
+      0.0439948323306547
+     ],
+     "spread": 1.9263757256027247e-13,
+     "recorded": 0.043994832,
+     "dev": 3.3084734257782245e-10
+    },
+    {
+     "Delta": 1,
+     "L": 4,
+     "sums": [
+      0.05149272366578357,
+      0.05149272366577258,
+      0.05149272366578234
+     ],
+     "spread": 1.099120794378905e-14
+    },
+    {
+     "Delta": 1,
+     "L": 10,
+     "sums": [
+      0.05145444721100854,
+      0.05145444721103396,
+      0.05145444721110302
+     ],
+     "spread": 9.447997939560082e-14,
+     "recorded": 0.051454447,
+     "dev": 2.110085370321535e-10
+    },
+    {
+     "Delta": 2,
+     "L": 4,
+     "sums": [
+      0.05237320012245989,
+      0.05237320012246811,
+      0.0523732001224902
+     ],
+     "spread": 3.0309088572266774e-14
+    },
+    {
+     "Delta": 2,
+     "L": 10,
+     "sums": [
+      0.052333439970605466,
+      0.05233343997065665,
+      0.05233343997075204
+     ],
+     "spread": 1.4657025593223239e-13,
+     "recorded": 0.05233344,
+     "dev": 2.93945354168379e-11
+    }
+   ],
+   "worst_spread": 1.9263757256027247e-13,
+   "worst_recorded_dev": 3.3084734257782245e-10,
+   "bars": {
+    "spread": 1e-09,
+    "recorded": 1e-08
+   }
+  },
+  "s5": {
+   "legs_L10": {
+    "0": 0.008621852104823802,
+    "1": 0.010792504849035822,
+    "2": 0.010755546797838633
+   },
+   "leg_min": 0.00862185209632571,
+   "flat": 1.0686562745831907e-11,
+   "minphase": 0.0,
+   "bars": {
+    "min": 0.001,
+    "flat": 1e-09,
+    "minphase": 1e-12
+   }
+  },
+  "s6": {
+   "affine_residual": 1.6653345369377348e-16,
+   "dist_minus_D": 1.6653345369377348e-16,
+   "zero_edge_rescale": {
+    "0": {
+     "64": -0.8324411988541909,
+     "128": 0.2534487238451304
+    },
+    "1": {
+     "64": -0.9224322333047323,
+     "128": 0.2167855932678333
+    },
+    "2": {
+     "64": -0.9481831418958513,
+     "128": 0.20629444798396146
+    }
+   },
+   "bars": {
+    "affine": 1e-15,
+    "dist": 1e-15,
+    "infeas": -0.1,
+    "feas": 0.05
+   }
+  },
+  "s7": {
+   "rows": [
+    {
+     "mode": "trunc",
+     "Delta": 0,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       0.08033043752962499
+      ],
+      [
+       128,
+       0.08027070844305229
+      ],
+      [
+       256,
+       0.08024087832967552
+      ],
+      [
+       512,
+       0.08022597187243719
+      ],
+      [
+       1024,
+       0.08021852078502434
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0013951484458379
+    },
+    {
+     "mode": "trunc",
+     "Delta": 0,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       0.0802871722254821
+      ],
+      [
+       128,
+       0.08022741524658272
+      ],
+      [
+       256,
+       0.08019757123048521
+      ],
+      [
+       512,
+       0.08018265783147172
+      ],
+      [
+       1024,
+       0.08017520330122352
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0013965530444358
+    },
+    {
+     "mode": "trunc",
+     "Delta": 0,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       0.0802841766941853
+      ],
+      [
+       128,
+       0.08022442001843899
+      ],
+      [
+       256,
+       0.08019457615549186
+      ],
+      [
+       512,
+       0.08017966282187672
+      ],
+      [
+       1024,
+       0.08017220834244654
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0013965980737427
+    },
+    {
+     "mode": "trunc",
+     "Delta": 1,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       0.09123000793225344
+      ],
+      [
+       128,
+       0.09115154741981257
+      ],
+      [
+       256,
+       0.09111236975343218
+      ],
+      [
+       512,
+       0.09109279405714688
+      ],
+      [
+       1024,
+       0.09108300949276327
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0016138952841898
+    },
+    {
+     "mode": "trunc",
+     "Delta": 1,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       0.09115480094842354
+      ],
+      [
+       128,
+       0.09107651622605317
+      ],
+      [
+       256,
+       0.09103742626263056
+      ],
+      [
+       512,
+       0.09101789436749641
+      ],
+      [
+       1024,
+       0.09100813165605359
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.001611606454292
+    },
+    {
+     "mode": "trunc",
+     "Delta": 1,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       0.09114957113570199
+      ],
+      [
+       128,
+       0.09107129904097633
+      ],
+      [
+       256,
+       0.09103221537731088
+      ],
+      [
+       512,
+       0.0910126866198766
+      ],
+      [
+       1024,
+       0.09100292549783262
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0016114387209767
+    },
+    {
+     "mode": "trunc",
+     "Delta": 2,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       0.10156840300845005
+      ],
+      [
+       128,
+       0.10147351263533722
+      ],
+      [
+       256,
+       0.10142613671442291
+      ],
+      [
+       512,
+       0.10140246604521508
+      ],
+      [
+       1024,
+       0.10139063504675505
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0017532976454189
+    },
+    {
+     "mode": "trunc",
+     "Delta": 2,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       0.10149724659045489
+      ],
+      [
+       128,
+       0.1014025788264945
+      ],
+      [
+       256,
+       0.10135531393871133
+      ],
+      [
+       512,
+       0.10133169870107395
+      ],
+      [
+       1024,
+       0.10131989537569552
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0017504085856164
+    },
+    {
+     "mode": "trunc",
+     "Delta": 2,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       0.10149228960775503
+      ],
+      [
+       128,
+       0.10139763810060742
+      ],
+      [
+       256,
+       0.10135038131940632
+      ],
+      [
+       512,
+       0.10132677014172486
+      ],
+      [
+       1024,
+       0.10131496885753677
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 1.0017501930091652
+    },
+    {
+     "mode": "zero",
+     "Delta": 0,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       17.562992404720703
+      ],
+      [
+       128,
+       11.070318066530433
+      ],
+      [
+       256,
+       9.30267759522323
+      ],
+      [
+       512,
+       8.601780679969693
+      ],
+      [
+       1024,
+       8.286135243182343
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 2.119563812233352
+    },
+    {
+     "mode": "zero",
+     "Delta": 0,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       71.76362535916527
+      ],
+      [
+       128,
+       20.37712421960522
+      ],
+      [
+       256,
+       15.15722951300674
+      ],
+      [
+       512,
+       13.394896896377247
+      ],
+      [
+       1024,
+       12.647680426286342
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 5.674054288248392
+    },
+    {
+     "mode": "zero",
+     "Delta": 0,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       null
+      ],
+      [
+       128,
+       62.32191564768277
+      ],
+      [
+       256,
+       30.47397726239953
+      ],
+      [
+       512,
+       24.188735514216376
+      ],
+      [
+       1024,
+       21.877312860302027
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 2.8487006629031857
+    },
+    {
+     "mode": "zero",
+     "Delta": 1,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       19.206727553582027
+      ],
+      [
+       128,
+       11.746294194402708
+      ],
+      [
+       256,
+       9.802978705901495
+      ],
+      [
+       512,
+       9.04179790704751
+      ],
+      [
+       1024,
+       8.700698456886926
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 2.207492610938515
+    },
+    {
+     "mode": "zero",
+     "Delta": 1,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       109.33285295121287
+      ],
+      [
+       128,
+       21.85969507764176
+      ],
+      [
+       256,
+       16.021375007572402
+      ],
+      [
+       512,
+       14.096529377357058
+      ],
+      [
+       1024,
+       13.287099981017718
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 8.228496293954926
+    },
+    {
+     "mode": "zero",
+     "Delta": 1,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       null
+      ],
+      [
+       128,
+       71.15134920706508
+      ],
+      [
+       256,
+       32.48826073868514
+      ],
+      [
+       512,
+       25.524527394996426
+      ],
+      [
+       1024,
+       23.007505068548653
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 3.0925278075600318
+    },
+    {
+     "mode": "zero",
+     "Delta": 2,
+     "L": 4,
+     "pts": [
+      [
+       64,
+       19.743847690643044
+      ],
+      [
+       128,
+       11.96716793414791
+      ],
+      [
+       256,
+       9.967317793320035
+      ],
+      [
+       512,
+       9.186689134942128
+      ],
+      [
+       1024,
+       8.837359272496656
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 2.2341343247285654
+    },
+    {
+     "mode": "zero",
+     "Delta": 2,
+     "L": 6,
+     "pts": [
+      [
+       64,
+       138.233025274613
+      ],
+      [
+       128,
+       22.342704235318948
+      ],
+      [
+       256,
+       16.304792115470946
+      ],
+      [
+       512,
+       14.32756941564486
+      ],
+      [
+       1024,
+       13.498033505509738
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 10.240975118204286
+    },
+    {
+     "mode": "zero",
+     "Delta": 2,
+     "L": 10,
+     "pts": [
+      [
+       64,
+       null
+      ],
+      [
+       128,
+       74.15177431003296
+      ],
+      [
+       256,
+       33.14611252128026
+      ],
+      [
+       512,
+       25.963709069190998
+      ],
+      [
+       1024,
+       23.380332090799584
+      ]
+     ],
+     "decreasing": true,
+     "max_at_first_feasible": "True",
+     "factor": 3.171544955908154
+    }
+   ],
+   "non_monotone_rows": 0,
+   "witness_factor": 5.674054288248392,
+   "bar_witness_factor": 4.0,
+   "note": "no gate in this section asserts that C does not depend on n; only C(L,n) = o(n) is ever used"
+  },
+  "s8": {
+   "rows": [
+    {
+     "Delta": 0,
+     "U10": 0.5627264963399676,
+     "V": {
+      "16": 0.5677667875299075,
+      "24": 0.5660799976797164,
+      "32": 0.5652391202967788,
+      "48": 0.5643999143741336,
+      "2048": 0.5627656411063473
+     },
+     "beats_UB32_from_n48": true
+    },
+    {
+     "Delta": 1,
+     "U10": 0.5364013784721285,
+     "V": {
+      "16": 0.5421277633475823,
+      "24": 0.5402101906222024,
+      "32": 0.5392547077153684,
+      "48": 0.5383014166033273,
+      "2048": 0.5364458111116368
+     },
+     "beats_UB32_from_n48": null
+    },
+    {
+     "Delta": 2,
+     "U10": 0.5310500198526716,
+     "V": {
+      "16": 0.5374290255351244,
+      "24": 0.535292066918651,
+      "32": 0.5342275869271546,
+      "48": 0.5331657592906134,
+      "2048": 0.5310994871716196
+     },
+     "beats_UB32_from_n48": null
+    }
+   ],
+   "V2048_dev": 0.0,
+   "feas": 1.6653345369377348e-16,
+   "routes": 1.1102230246251565e-15,
+   "anchors_ok": 8,
+   "anchors_tot": 8,
+   "anchor_min_margin": 0.0004972526967788049,
+   "outward_rounded_ok": 3,
+   "widths_REPORTED": {
+    "0": 3.914490000000992e-05,
+    "1": 4.443279999999383e-05,
+    "2": 4.9467400000002826e-05
+   },
+   "safe_side": [
+    {
+     "Delta": 0,
+     "flat": 3.3306690738754696e-16,
+     "P1": 0.5867410823494505,
+     "P8": 0.5627264965899401,
+     "power": 0.02401458575951043
+    },
+    {
+     "Delta": 1,
+     "flat": 4.440892098500626e-16,
+     "P1": 0.6475211789753968,
+     "P8": 0.5364013832503108,
+     "power": 0.11111979572508601
+    },
+    {
+     "Delta": 2,
+     "flat": 4.440892098500626e-16,
+     "P1": 0.695963700253219,
+     "P8": 0.5310500626742666,
+     "power": 0.1649136375789524
+    }
+   ],
+   "brackets_REPORTED": {
+    "0": [
+     0.5627264963,
+     0.5627656412
+    ],
+    "1": [
+     0.5364013784,
+     0.5364458112
+    ],
+    "2": [
+     0.5310500198,
+     0.5310994872
+    ]
+   },
+   "bars": {
+    "V2048": 1e-09,
+    "feas": 1e-15,
+    "anchor": 0.0001,
+    "routes": 1e-11,
+    "safe_flat": 1e-14,
+    "safe_power": 0.01
+   },
+   "note": "NO WIDTH IS GATED -- the widths and their positivity are reported only"
+  },
+  "s9": {
+   "block_schedule": [
+    [
+     64,
+     0.5399589003276626
+    ],
+    [
+     128,
+     0.5392129530273021
+    ],
+    [
+     256,
+     0.5388403694615586
+    ],
+    [
+     512,
+     0.5386541750737979
+    ],
+    [
+     1024,
+     0.5385611022130243
+    ]
+   ],
+   "block_min_excess": 0.0086111214011243,
+   "block_decreasing": true,
+   "ladder": [
+    [
+     0,
+     0.563039756403075
+    ],
+    [
+     1,
+     0.5423135362710193
+    ],
+    [
+     2,
+     0.5393165197930258
+    ],
+    [
+     3,
+     0.5389040122445393
+    ],
+    [
+     4,
+     0.53884871778664
+    ],
+    [
+     6,
+     0.5388405072526488
+    ],
+    [
+     8,
+     0.5388403716544128
+    ],
+    [
+     12,
+     0.5388403694620973
+    ],
+    [
+     20,
+     0.5388403694615586
+    ],
+    [
+     32,
+     0.5388403694615586
+    ]
+   ],
+   "ladder_monotone": true,
+   "ladder_min_excess": 0.00889038864965852,
+   "recorded_psi_ladder_monotone": true,
+   "recorded_psi_ladder_min_excess": 1.1880999517543955e-09,
+   "bar": 0.0001,
+   "note": "the recorded ~0.105/n convergence and the recorded +1.70e-12 at Delta=12 are R-IND-5 data about BLOCK-OPTIMAL / certified-Psi ladders and are NOT re-derived here"
+  },
+  "scope": {
+   "lemma_W": "stated with W1-W4 IN the statement: C(L,n) MONOTONE DECREASING in n, sup_{n>=n0(L)} C(L,n) < infinity, only C(L,n) = o(n) used; feasibility threshold n >= n0(L) an explicit hypothesis; the three builds kept apart, steps (1)-(2) asserted only of the zero-edge build; the repair leg a SEPARATE estimate",
+   "residual": "ONE residual: FIR-kernel stationary records dense in value. R's reference is the GRID FIXED POINT (Nf=4096, P=180); against the 082 certified LB endpoints the gap is +4.0e-11/+7.2e-11/+5.3e-11; L >= 11 entries are f64 noise going NEGATIVE at Delta=0 and are not cited",
+   "brackets": "the two inequalities depend on NO LEMMA of the document -- only F0 membership, exact feasibility and correct evaluation.  'Unconditional' attaches to those inequalities and to the chain, NEVER to the value Psi",
+   "no_equality": "NO statement that L^inf coincides with Psi is netted, printed or implied; the chain is one-directional in each direction SEPARATELY, and together they give a BRACKET",
+   "novelty_sweep": "OWED on Lemma W's combination (Collapse + subset-conditioning monotonicity + Toeplitz innovation monotonicity as a SIGNED two-leg boundary argument); NO novelty language is used for it anywhere",
+   "optimizers": "none -- no optimizer, no fixed point and no root find, so no gate can race a stopping point; the stationary kernels are pinned data",
+   "widths": "no bracket width is gated; the three widths and their positivity are reported only"
+  }
+ },
+ "runtime_s": 61.1
+}
