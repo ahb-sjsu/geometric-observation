@@ -111,6 +111,13 @@ REPRODUCIBLE = [
     # falling below the certified LB would be a genuine refutation of
     # the certificate, not a numerical flake.
     ("go14_density.py",             "GO14FD-JSON","GO14-density.json",             "GO14FD_supported"),
+    # GO-14 per-cell convexity REFUTATION (GO-P-2026-086), seed 20261191,
+    # ~5-6 min. Re-run tier: no optimizer, fixed point or root find anywhere
+    # in the file, so no gate can race a solver. Every base point is a pinned
+    # literal or from an internally pinned generator; the witness gates are
+    # committed-value reproduction, and s4 confirms the violation in EXACT
+    # rational arithmetic (stdlib fractions + decimal, no new dependency).
+    ("go14_percell.py",             "GO14PC-JSON","GO14-percell.json",             "GO14PC_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5

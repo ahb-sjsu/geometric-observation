@@ -1,0 +1,134 @@
+{
+ "verdict": {
+  "s1_percell_sum_equals_4n_joint": true,
+  "s1_percell_sum_equals_regrouped_repr": true,
+  "s2_reproduces_committed_values": true,
+  "s2_JENSEN_VIOLATION_at_cell_2": true,
+  "s2_all_three_points_strictly_in_intD": true,
+  "s2_midpoint_is_exact": true,
+  "s3_routes_agree": true,
+  "s3_violation_on_all_three_routes": true,
+  "s4_exact_arithmetic_confirms_violation": true,
+  "s4_float64_matches_exact": true,
+  "s5_cell0_is_the_scalar_bracket": true,
+  "s5_Qk_strictly_below_P": true,
+  "s6_every_cell_t_ge_1_admits_concave_directions": true,
+  "s6_MUSTNOTFAIL_cell0_never_concave": true,
+  "s7_TOTAL_stays_convex_at_the_witness": true,
+  "s7_random_sampling_DOES_violate_so_zero_hits_does_not_reproduce": true,
+  "s7_but_the_rate_is_low_so_sampling_is_the_wrong_instrument": true
+ },
+ "GO14PC_supported": true,
+ "vals": {
+  "seed": 20261191,
+  "pilot": false,
+  "s1_points": 108,
+  "s1_max_dev_vs_4n_joint": 3.9968028886505635e-15,
+  "s1_max_dev_vs_repr_bits": 1.3322676295501878e-15,
+  "s1_bar": 1e-10,
+  "s2_f_plus": 0.42096185162993555,
+  "s2_f_minus": 0.14707593931021806,
+  "s2_f_mid": 0.35353503762956545,
+  "s2_gap": 0.06951614215948865,
+  "s2_eigmin_Ncov": {
+   "plus": 0.37650174715025975,
+   "minus": 0.07712494342400814,
+   "mid": 0.4155399826325542
+  },
+  "s2_midpoint_error": 0.0,
+  "s2_committed": {
+   "f_plus": 0.4209618516,
+   "f_minus": 0.1470759393,
+   "f_mid": 0.3535350376,
+   "gap": 0.0695161422,
+   "total_gap": -0.326796198,
+   "gap_50digit": 0.06951614215948869
+  },
+  "s2_max_dev_vs_committed": 2.993555403563164e-11,
+  "s3_route_spread": 4.440892098500626e-16,
+  "s3_gap_route2_4njoint": 0.06951614215948859,
+  "s3_gap_route3_logdet": 0.0695161421594887,
+  "s4_gap_exact_rational_60dp": "0.069516142159488690996838202881418883359320611724870833456591",
+  "s4_dev_vs_float64": 4.349622899873743e-17,
+  "s4_committed_50digit": 0.06951614215948869,
+  "s5_max_identity_dev": 8.881784197001252e-16,
+  "s5_min_eigmin_P_minus_Qk": 0.027384406394379848,
+  "s6_grid_min_eig": {
+   "n3_D0": [
+    0.0,
+    -2.468810481652611,
+    -2.2519861843930005
+   ],
+   "n3_D1": [
+    0.0,
+    -1.415551543026569,
+    -1.913650013756247
+   ],
+   "n3_D2": [
+    0.0,
+    -2.498077514016135,
+    -2.3901715389875546
+   ],
+   "n4_D0": [
+    0.0,
+    -1.7729042820372403,
+    -2.461133038170568,
+    -1.7654841139182988
+   ],
+   "n4_D1": [
+    -9.992007221626409e-16,
+    -1.542717509934032,
+    -2.187571980363278,
+    -2.9752514236909597
+   ],
+   "n4_D2": [
+    -8.881784197001252e-16,
+    -1.187437471633287,
+    -1.6911655757081077,
+    -1.8675081694935358
+   ],
+   "n5_D0": [
+    -8.881784197001252e-16,
+    -3.6857499531421376,
+    -4.292378180792482,
+    -4.753294669715038,
+    -5.354829085316597
+   ],
+   "n5_D1": [
+    -4.440892098500626e-16,
+    -1.2906847008188833,
+    -2.24880209563703,
+    -4.406572096111701,
+    -3.01620257828554
+   ],
+   "n5_D2": [
+    0.0,
+    -3.7842182134402482,
+    -4.446134746853879,
+    -4.543810797743548,
+    -3.7633843718719313
+   ]
+  },
+  "s6_worst_cell0_min_eig": -9.992007221626409e-16,
+  "s6_largest_min_eig_over_t_ge_1": -3.7633843718719313,
+  "s7_total_gap_at_witness": -0.32679619818195293,
+  "s7_percell_gaps_at_witness": [
+   -0.06282895213436249,
+   -0.3334833882070789,
+   0.06951614215948865
+  ],
+  "s7_random_pairs": 4000,
+  "s7_random_pair_violations": 10,
+  "s7_random_pair_rate": 0.0025,
+  "s7_random_pair_worst_gap": 0.045457443708887546,
+  "runtime_s": 318.4
+ },
+ "scope": {
+  "what_is_refuted": "per-cell convexity of the INDIVIDUAL CMI terms of L_a in (H,Gamma), for every cell t >= 1",
+  "what_is_proved": "cell t=0 IS convex -- it collapses exactly to the block bracket in scalar form with a truncated Q_k, so it is the 074 lift's SCALAR CASE",
+  "what_is_untouched": "Theorem C, Theorem R1, the 079 certificates and the 082/083/084/085 chain. s7 GATES this: at the witness pair the TOTAL n L_a is convex. No result in the document uses a per-cell statement -- the only other mention is the open-problems list",
+  "provenance": "the witnesses were found 2026-08-08 (PROBE.md) BEFORE this harness existed. Every witness gate is COMMITTED-VALUE REPRODUCTION, not discovery. Nothing here searches",
+  "rind5_independence": "the R-IND-5 pass on this refutation was run in the SAME context that produced it, NOT by a fresh-context verifier. Recorded as a self-audit",
+  "no_solver": "no optimizer, fixed point or root find anywhere in this file, so no gate races a solver (the 079 lesson)"
+ }
+}

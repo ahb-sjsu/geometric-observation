@@ -170,12 +170,31 @@ Blackwell, D. Comparison of experiments. Proceedings of the Second Berkeley
 Symposium on Mathematical Statistics and Probability, 1951, and Equivalent
 comparisons of experiments, Annals of Mathematical Statistics, 1953.
 
+Savage, L. J. Elicitation of personal probabilities and expectations. Journal
+of the American Statistical Association, 1971. Cited for the result that on a
+finite outcome space with more than two mutually exclusive events, the only
+local proper scoring rules are the logarithmic family. The restriction to more
+than two events is real, and the two event case is not covered.
+
 Bernardo, J. M. Expected information as expected utility. Annals of Statistics,
-1979, and Shuford, E. H., Albert, A., and Massengill, H. E. Admissible
-probability measurement procedures. Psychometrika, 1966. These two are cited
-for the result that the logarithmic score is the only local strictly proper
-scoring rule. The attribution has not been checked against the originals and
-should be before it is relied on.
+1979. Cited for the density version, that under regularity conditions every
+proper local scoring rule is equivalent to the logarithmic score, where local
+means the score depends on the predictive density only through its value at
+the event that materialises.
+
+Gneiting, T. and Raftery, A. E. Strictly proper scoring rules, prediction, and
+estimation. Journal of the American Statistical Association, 2007. The review
+against which the two attributions above were checked. An earlier draft of
+this article credited the locality result to Shuford, Albert and Massengill,
+Psychometrika 1966. That was wrong. Gneiting and Raftery cite that paper for a
+related and less general result about the two event representation, not for
+locality, and the correction is recorded here rather than made silently.
+
+Bregman, L. M. 1967, for the divergence that carries his name. Gneiting and
+Raftery note that when the outcome space is finite and the entropy function is
+smooth enough, the divergence attached to a proper scoring rule is a Bregman
+divergence, which is the step this programme's quadratic damage functional
+sits on.
 
 Project records. GO-P-2026-021 for the matched arm counterexample, GO-P-2026-020
 for the negative that preceded it, and the readscope calibration series for the
