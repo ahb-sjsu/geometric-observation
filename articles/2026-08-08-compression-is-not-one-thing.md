@@ -170,25 +170,44 @@ Blackwell, D. Comparison of experiments. Proceedings of the Second Berkeley
 Symposium on Mathematical Statistics and Probability, 1951, and Equivalent
 comparisons of experiments, Annals of Mathematical Statistics, 1953.
 
-Savage, L. J. Elicitation of personal probabilities and expectations. Journal
-of the American Statistical Association, 1971. Cited for the result that on a
-finite outcome space with more than two mutually exclusive events, the only
-local proper scoring rules are the logarithmic family. The restriction to more
-than two events is real, and the two event case is not covered.
-
 Bernardo, J. M. Expected information as expected utility. Annals of Statistics,
-1979. Cited for the density version, that under regularity conditions every
-proper local scoring rule is equivalent to the logarithmic score, where local
-means the score depends on the predictive density only through its value at
-the event that materialises.
+1979, pages 686 to 690. Read in the original. Theorem 2 on page 689 states that
+if the utility function is smooth, proper and local, and the reported density
+is square integrable, then it is a constant multiple of the logarithm of the
+density at the true value plus a function of that value. Locality is his
+Definition 3 on page 688, that the utility depends on the reported density only
+through its value at the outcome that occurs. The proof is a calculus of
+variations argument with a multiplier, and the precise smoothness conditions
+are deferred to Jeffreys and Jeffreys, Methods of Mathematical Physics, 1972,
+chapter 10.
+
+Aczel, J. and Pfanzagl, J. Remarks on the measurement of subjective probability
+and information. Metrika, 1966, pages 91 to 105. This is the discrete case.
+Bernardo attributes it on his page 689, noting that Good proved the binomial
+case in 1952 and that McCarthy mentioned the result in 1956.
 
 Gneiting, T. and Raftery, A. E. Strictly proper scoring rules, prediction, and
-estimation. Journal of the American Statistical Association, 2007. The review
-against which the two attributions above were checked. An earlier draft of
-this article credited the locality result to Shuford, Albert and Massengill,
-Psychometrika 1966. That was wrong. Gneiting and Raftery cite that paper for a
-related and less general result about the two event representation, not for
-locality, and the correction is recorded here rather than made silently.
+estimation. Journal of the American Statistical Association, 2007. Read in the
+original for the review statements, on page 366 for locality and page 361 for
+the Bregman connection.
+
+Two corrections are recorded rather than made silently, because a reader who
+took an earlier draft on trust would have cited the wrong papers. The first
+draft credited locality to Shuford, Albert and Massengill, Psychometrika 1966.
+That is wrong, and Gneiting and Raftery cite that paper for a less general
+result about the two outcome case. The second draft then credited the discrete
+case to Savage, Journal of the American Statistical Association 1971. That may
+be defensible, since later literature does credit Savage with the version for
+more than two outcomes, but it is not what Bernardo credits, and the Savage
+paper is paywalled and was not read here. Aczel and Pfanzagl is what the
+primary source names.
+
+The restriction to more than two outcomes is real for a structural reason that
+does not need a citation. When there are only two outcomes the second
+probability is one minus the first, so every rule on that simplex counts as
+local and locality constrains nothing, which is why the quadratic and spherical
+rules also qualify there. Note that this sits awkwardly beside Bernardo's
+remark that Good proved a binomial case, and the two are not reconciled here.
 
 Bregman, L. M. 1967, for the divergence that carries his name. Gneiting and
 Raftery note that when the outcome space is finite and the entropy function is
