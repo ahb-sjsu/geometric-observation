@@ -2243,9 +2243,15 @@ leak sum. The regrouping is not a convenience -- it is the proof.
     n=5 D=2: t0  0.0e+00  t1 -1.26  t2 -1.27  t3 -1.54  t4 -1.53
 Magnitudes -1.2 to -5.0: generic, not marginal.
 
-**WHY 45k+ RANDOM SAMPLES MISSED IT.** Random Jensen pairs are generic and
-far apart; the concave directions are the Hessian's MINIMUM-EIGENVECTOR
-directions. The analytic read says where to look: 2 ln2 * f_t = ln vnum_t -
+**WHY THE QUESTION WAS THOUGHT OPEN -- CORRECTED 2026-08-08 BY THE 086 PILOT.**
+My first explanation here was that random pairs are generic and therefore
+miss it. THAT IS FALSE and is retracted: random per-cell pairs violate at
+10/4000 = 0.25% with gaps up to +4.5e-2 (real violations, not threshold
+noise), so a 45k per-cell sweep would have produced ~100 hits. Whatever
+sampling produced rem:percell's "zero hits" CANNOT have been per-cell pairs
+of this kind -- the 079 harness gates the TOTAL and the two REGROUPED pieces
+and records per-cell as explicitly NOT gated. The correct statement: sampling
+is the wrong instrument at a 0.25% rate, not a powerless one. The analytic read says where to look: 2 ln2 * f_t = ln vnum_t -
 ln vden_t with vnum_t = Var(Yh_t | S^{se(t)}, Yh^{t-1}) and vden_t =
 Var(Yh_t | W, Yh^{t-1}) BOTH concave (inf of affine), so f_t = (concave,
 wrong sign) + (-ln concave = convex, right sign) -- a competition, not a

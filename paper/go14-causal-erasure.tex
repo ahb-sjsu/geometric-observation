@@ -687,10 +687,21 @@ lower-triangular to $3.7\times10^{-16}$.
 
 Negative curvature appears at every $t\ge1$ for every
 $n\in\{3,4,5\}$ and $\Delta\in\{0,1,2\}$, with minimum Hessian eigenvalues
-between $-1.2$ and $-5.0$: it is generic, not marginal. Earlier samplings
-reported no hits because random pairs are generic and the concave
-directions are the Hessian's minimum-eigenvector directions; a directed
-curvature search finds one at the first base point tried.
+between $-1.2$ and $-5.0$: it is generic, not marginal. A directed
+curvature search finds a violation at the first base point tried.
+
+\emph{The recorded ``zero hits'' does not reproduce, and the earlier
+explanation of it was wrong.} A first draft of this remark attributed the
+historical null to random pairs being generic. That is false: sampling
+random pairs and testing the \emph{per-cell} term violates at
+$10/4000=0.25\%$ with gaps up to $+4.5\times10^{-2}$ --- real violations, not
+threshold noise --- so a $45$k-sample per-cell sweep would have produced of
+order a hundred hits. Whatever sampling produced the ``zero hits'' note
+therefore cannot have been per-cell pairs of this kind; the harness of 079
+gates the \emph{total} and the two \emph{regrouped} pieces and records
+per-cell as explicitly not gated. The honest statement is that sampling is
+simply the wrong instrument here at a $0.25\%$ rate, not that it has no
+power, and the directed search is what makes the question decidable.
 
 \textbf{Theorem~\ref{thm:cvx} is untouched}, and the witness shows why: at
 that same pair the total $n\,L_a$ has Jensen gap $-3.27\times10^{-1}$
