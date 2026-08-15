@@ -92,11 +92,14 @@ def arm_r(rng):
         deltas = EPS * s_dirs[:, None] * w[None, :]
         meas = []
         for f in frames:
+            # vector-valued consumer: C(x)_j = sqrt(lam_j) tanh(u_j.x),
+            # damage in its own (G = I) norm — this realizes exactly
+            # P = f diag(lam) f.T as the read operator; a scalar sum
+            # would realize a rank-1 operator instead (see OT1 notes).
             wts = np.sqrt(lam)
-
-            def c(x, f=f, wts=wts):
-                return np.tanh(x @ f) @ wts
-            meas.append(damage(c, xs, deltas))
+            d0 = np.tanh(xs @ f) * wts
+            d1 = np.tanh((xs + deltas) @ f) * wts
+            meas.append(float(np.mean(np.sum((d1 - d0) ** 2, axis=1))))
         errs.append(abs(meas[1] / meas[0] - pred) / pred)
     r1 = max(errs) <= 0.10
     return errs, r1
@@ -117,8 +120,9 @@ def main():
           f"(bar 0.10) -> {'PASS' if r1 else 'FAIL'}")
     json.dump({"claim": "OT-1-arms-SR", "seed": SEED, "S_curve": rows,
                "S_flips": {str(k): v for k, v in flips.items()},
-               "S1": s1, "S2": s2, "R_errs": [round(e, 4) for e in errs],
-               "R1": r1},
+               "S1": bool(s1), "S2": bool(s2),
+               "R_errs": [round(float(e), 4) for e in errs],
+               "R1": bool(r1)},
               open(OUT, "w"), indent=1)
     print(f"\nArms S/R: {'PASS' if (s1 and s2 and r1) else 'FAIL'} "
           f"-> {os.path.relpath(OUT, HERE)}")
