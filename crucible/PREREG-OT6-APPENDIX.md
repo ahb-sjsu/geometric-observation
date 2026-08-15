@@ -55,3 +55,13 @@ perturbations per codec (`δ_i ~ N(0, Σ)` per item); per query, damage
 
 Verdict: window, then X1 ∧ X2 ∧ X3 (∧ X4 structurally), both cells,
 else FAIL. Result: `results/OT6-transfer.json`; ledger row OT-6.
+
+**Amendment (2026-08-15, before any measurement):** the first
+invocation crashed at readscope's applicability gate — with a single
+operating point the gate's distinct-values heuristic can only ever see
+two outputs and misreads a smooth margin as an indicator (an
+instrument quirk worth its own readscope issue). Accommodation: the
+operating point is passed replicated ×4 per probe cell, solely to give
+the gate its trials; the gate stays ON (bypassing it would undercut
+X4's zero-modification spirit). No other constant changes; no data had
+been observed at amendment time.

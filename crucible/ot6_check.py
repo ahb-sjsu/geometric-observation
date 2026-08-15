@@ -64,8 +64,9 @@ def run_cell(cell, corpus, queries):
     for qi in range(N_PROBE_CELLS):
         q = queries[qi]
         j = int(np.argmax(scores(cell, q, corpus)))
+        pts = np.repeat(corpus[j][None, :], 4, axis=0)
         res = blind_probe(margin_consumer(cell, q, corpus, j),
-                          corpus[j][None, :], mode="lstsq",
+                          pts, mode="lstsq",
                           sketch_dim=SKETCH, eps=1e-3,
                           rng=np.random.default_rng(SEED + qi))
         p_hat += res.S
