@@ -35,6 +35,18 @@ tests sealed at claim level before any ran (`../crucible/OT-CRUCIBLE.md`).
 | OT-6 | The laws transfer outside compression with zero modification: blind-recovered P_C of a ranking consumer over embeddings; equal-Euclidean-energy perturbations; the trace picks the ranking-destroyer. | `[predicted]` ✅ | [PREREG-OT6-APPENDIX](../crucible/PREREG-OT6-APPENDIX.md) ([notes](../crucible/OT6-NOTES.md)) | `crucible/ot6_check.py` | [json](../results/OT6-transfer.json) | ✅ **PASS both cells** | Real book embeddings; dot 11.8×, cosine 3.6× damage ratios at identical energy; per-query sign **200/200** in both cells; probe/trace machinery verbatim. G2 satisfied. |
 | OT-4 | Operator drift predicts a real long-generation degradation and a derived refresh intervention moves it. | **`[refuted]`** | [PREREG-OT4-APPENDIX](../crucible/PREREG-OT4-APPENDIX.md) ([notes](../crucible/OT4-NOTES.md)) | `c12_longgen_drift.py` (+ `c12_stage_d.py`, gated, unrun) | [record](../../readscope/calibration/records/c12-longgen-drift-sym.json) | **FAIL** (A0 ✅ +13.39; A1 p=0.42; B1 −0.020; T* no doubling; D1 gate unmet) | The real SYM collapse is **feedback compounding of a ~4.3-nat constant error**, not drift: teacher forcing removes the consistent growth, orientation does nothing vs the rotated null. C-11c demoted per the declaration's own sentence. |
 
+### The Second Crucible (OT-8 … OT-12) — v0.2 under fire
+
+Sealed 2026-08-15 before any test ran ([OT-CRUCIBLE-2](../crucible/OT-CRUCIBLE-2.md); freeze at readscope `8bebe5e`). Graduation: ≥4/5 **and** both revision tests (OT-11, OT-12) **and** the freeze check.
+
+| ID | Claim (one sentence) | Class | Status |
+|---|---|---|---|
+| OT-12 | Floor curves: informative fraction decays under output quantization; informative-pair accuracy stays at ceiling. | `[predicted]` | pending (runs first) |
+| OT-10 | The noisy cliff: noise floors accuracy at a derived level; the cliff's location never moves. | `[predicted]` | pending (theorem first) |
+| OT-8 | Ensemble codec preference from weight-averaged component traces, no ensemble probe. | `[predicted]` | pending |
+| OT-9 | Forward transfer of readings across measures via the OT-2 law, graded on real heads. | `[predicted]` | pending |
+| OT-11 | Feedback-free staleness: streaming-retrieval damage tracks measured drift; derived-cadence re-allocation removes it. | `[predicted]` | pending (runs last) |
+
 **Campaign verdict (2026-08-15):** G1 FAIL (3/5 core) → **Observation Theory v1.0 NOT declared**, per the frozen rule. Full scorecard and post-closure revision queue: [OT-CAMPAIGN-VERDICT](../crucible/OT-CAMPAIGN-VERDICT.md). G2 ✅ G3 ✅ G4 ✅.
 
 ## The falsifiable core (GO-1 … GO-5)
