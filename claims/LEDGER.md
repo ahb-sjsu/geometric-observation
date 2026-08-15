@@ -41,7 +41,7 @@ Sealed 2026-08-15 before any test ran ([OT-CRUCIBLE-2](../crucible/OT-CRUCIBLE-2
 
 | ID | Claim (one sentence) | Class | Status |
 |---|---|---|---|
-| OT-12 | Floor curves: informative fraction decays under output quantization; informative-pair accuracy stays at ceiling. | `[predicted]` | pending (runs first) |
+| OT-12 | Floor curves: informative fraction decays under output quantization; informative-pair accuracy stays at ceiling. | **`[void]`** ⚠ | **VOID, final** ([notes](../crucible/OT12-NOTES.md), [v2](../results/OT12-floor-curves-v2.json)): the family's informative transition is a cliff in both directions — no interior exists to grade. ⚠ Adverse evidence recorded ungraded: graded cells at step≈rms show accuracy 0.633 with 30/30 informative — either the floor law has a degraded band or the damage estimator is quantization-contaminated; this instrument cannot tell. **H2 consequence: Second-Crucible graduation is foreclosed.** |
 | OT-10 | The noisy cliff: noise floors accuracy at a derived level; the cliff's location never moves. | `[predicted]` | pending (theorem first) |
 | OT-8 | Ensemble codec preference from weight-averaged component traces, no ensemble probe. | `[predicted]` | pending |
 | OT-9 | Forward transfer of readings across measures via the OT-2 law, graded on real heads. | `[predicted]` | pending |
