@@ -20,6 +20,18 @@ the book may not assert what this ledger cannot show. Classes: `[proved]`,
 >   consistent with the flip — **not** a sealed two-metric flip. Whale (038) was
 >   promoted out of this class into a sealed flip; moral/music/KV remain verdicts.
 
+## The Crucible (OT-1 … OT-7) — Observation Theory v0.1 graduation campaign
+
+Frozen 2026-08-15 (`../crucible/OT-V0.1-FREEZE.md`); graduation rule G1–G4. Seven
+tests sealed at claim level before any ran (`../crucible/OT-CRUCIBLE.md`).
+
+| ID | Claim (one sentence) | Class | Registry | Notebook | Result JSON | CI | Notes |
+|---|---|---|---|---|---|---|---|
+| OT-7 | The damage form, trace pairing, rank, and loading covariance are GL(d)-invariant under `P' = A⁻ᵀPA⁻¹`, while spectrum, effective rank, principal angles, and water-filling are O(d)-only — consumer-weighted damage is a geometric scalar, and P3's cliff cannot be bought down by reparameterization. | `[demonstrated]` ⚠ | [PREREG-OT7-APPENDIX-V3](../crucible/PREREG-OT7-APPENDIX-V3.md) (v1→v3 trail in [OT7-NOTES](../crucible/OT7-NOTES.md)) | `crucible/ot7_check_v3.py` | [v3](../results/OT7-invariance-v3.json) (v1, v2 FAILs committed as executed) | ✅ **PASS all 6 cells** | Exact laws ≤ 4e-13 over 600 transforms/cell-set; graded fragile rows ≥ 0.95 GL-deviation share, O(d)-invariant ≤ 1e-8. ⚠ two instrument seals failed first — degenerate corners (class-constant quantities at boundary ranks; arccos noise; rank threshold vs cond²) and the quantized-quantity lesson (never bar a flip rate; bar the parent, require exactness under the group). v3 declared final revision before running. |
+| OT-3 | pending | `[predicted]` | — | — | — | — | theorem work next per sealed run order |
+| OT-1 | pending | `[predicted]` | [PREREG-OT1](../crucible/PREREG-OT1.md) (fully sealed) | — | — | — | cos²θ ratio curve; zero-parameter 45° preference flip |
+| OT-2, OT-5, OT-4, OT-6 | pending | `[predicted]` | claim-level seal in [OT-CRUCIBLE](../crucible/OT-CRUCIBLE.md) | — | — | — | appendices due before each run |
+
 ## The falsifiable core (GO-1 … GO-5)
 
 Risk-bearing claims (§2). `pending` = registry entry and/or run not yet complete.

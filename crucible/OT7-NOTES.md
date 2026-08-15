@@ -1,3 +1,28 @@
+# OT-7 notes — v1 FAIL, v2 FAIL, v3 PASS; the full instrument trail
+
+**Final verdict: PASS (v3, `results/OT7-invariance-v3.json`).** All four
+exact laws (damage form, trace pairing, rank, loading covariance) held
+at ≤ 4e-13 across every cell and transform; every graded fragile row
+demonstrated GL non-invariance at share ≥ 0.95 while holding
+O(d)-invariant. Three seals were needed, all instrument-side; each FAIL
+JSON is committed as executed, and v3 was declared the final revision
+before it ran.
+
+**v2 → v3 (the second lesson):** v2's integer bar (0.50) failed at
+d32_r4 with energy_rank flipping in only 32% of the *gentler* cond ≤ 1e2
+transforms (0.94 under v1's cond ≤ 1e4, same seed): an integer
+quantization's flip share measures the transform-ensemble strength, not
+the taxonomy. v3 grades quantized-derived quantities on exact O(d)
+invariance only, with GL fragility inherited from the parent spectrum
+row — the flip share is reported descriptively. This is itself a small
+finding about invariance instrumentation: **never put a bar on the flip
+rate of a quantized quantity; bar the parent, require exactness under
+the invariance group.**
+
+---
+
+Original v1 diagnosis follows.
+
 # OT-7 notes — as-executed v1 FAIL, diagnosed; v2 instrument fixes
 
 **v1 (appendix `PREREG-OT7-APPENDIX.md`, `ot7_check.py`, seed 20260815):
