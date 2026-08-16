@@ -1,10 +1,9 @@
 # OT-15 instrument appendix — P2's forward transfer via moment-matched probing
 
-**STATUS: DRAFT-UNSEALED (drafted 2026-08-15). Binds nothing and runs
-nothing until a dated SEAL declaration replaces this line in a later
-working session, per `OT-CRUCIBLE-3.md`. Runner: `ot15_check.py`,
-which refuses to execute while this status stands. Result file (on a
-sealed run): `results/OT15-moment-transfer.json`.**
+**STATUS: SEALED 2026-08-16. Drafted unsealed 2026-08-15 at
+`afdae4d`; sealed the following working session per the rate-limit
+rule, with no edits to bars, constants, or claim between draft and
+seal. Runner: `ot15_check.py`. Result: `results/OT15-moment-transfer.json`.**
 
 ## Claim under test
 

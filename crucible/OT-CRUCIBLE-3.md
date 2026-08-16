@@ -1,12 +1,10 @@
 # The Third Crucible — campaign specification
 
-**STATUS: DRAFT-UNSEALED (drafted 2026-08-15, the same calendar day the
-families were constructed and qualified). Per the rate-limit rule
-earned in `OT-CRUCIBLE-2-VERDICT.md` and restated in
-`FAMILIES-CRUCIBLE-3.md`, nothing in this document binds until a dated
-SEAL declaration is added in a later working session. The runners
-refuse to execute while this status stands. Drafting tonight, sealing
-later, is itself the rule working as intended.**
+**STATUS: SEALED 2026-08-16 — see the seal declaration at the foot of
+this document. Drafted unsealed 2026-08-15 (the same calendar day the
+families were constructed, hence the deferred seal per the rate-limit
+rule); sealed the following working session with no edits to
+graduation rules, bars, or constants between draft and seal.**
 
 ## What this campaign is
 
@@ -96,6 +94,12 @@ before sealing; sources in parentheses.
 
 ## Seal declaration
 
-*(empty until a later working session; the seal is a dated entry here
-naming the three appendix files and their commit hashes, after which
-the runners will execute)*
+**2026-08-16.** The campaign and its three appendices —
+`PREREG-OT13-APPENDIX.md`, `PREREG-OT14-APPENDIX.md`,
+`PREREG-OT15-APPENDIX.md` — are sealed as drafted at commit
+`afdae4d` (2026-08-15), with only the STATUS lines and this
+declaration changed since. The seal commit is the one introducing
+this declaration; the diff against `afdae4d` is the proof that
+nothing substantive moved between draft and seal. Runs may now
+execute, sequentially, each result read before the next is launched,
+results committed as executed.
