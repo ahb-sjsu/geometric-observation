@@ -124,3 +124,41 @@ probe cells against estimator noise; (ii) log-spaced τ near zero
 (harder quantization, or margin-weighted rank damage). P4's test
 remains blocked on F2; sealing anything against tonight's F2 is
 forbidden by this file.
+
+## F2 redesign trail (v2, v3 — 2026-08-16)
+
+**v2** (`fam2_shakedown_v2.py`): all three recorded fixes applied and
+the interior still failed — because the *probe estimator*, not the
+dial, was the confound: a 24-cell blind probe of a 768² operator has a
+~0.5 relative-Frobenius noise floor, burying every stratum except
+τ = 1 (drift read 0.57 at τ = 0.01, which no mixture geometry can
+produce).
+
+**v3** (`fam2_shakedown_v3.py`): the dot consumer's operator is
+analytic (gradient = the query), so the family's intrinsic dial was
+qualified directly. **Interior DEMONSTRATED in the qualified
+configuration:**
+
+- **Dial** — τ = 0 reference fixed as the *full* cs query pool,
+  German-side draws only: drift 0.039 → 0.657 across τ = 0.01 → 1,
+  Spearman **1.000**, range **16.9×**, 5 interior strata, all 7
+  nonzero strata above 2× the sampling floor.
+- **Lever** — 1 bit/dim, analytic operators, honestly-varying 250-of-
+  500 eval subsamples: stale 0.550 vs fresh 0.107 top-10 damage,
+  **+72.5×** noise; top-1 **+37.0×**. Sign and magnitude both
+  decisively resolvable.
+
+**Caveats that bind any future appendix:** (i) qualification used
+analytic operators — a sealed test either declares the analytic
+operator as its instrument (legitimate for the dot consumer) or must
+budget blind-probe cells until estimator noise sits below the dial
+signal (24 cells demonstrably does not); (ii) the N_Q = 400 arm is
+invalid (bootstrap pollution from the 100-item cs pool) — the
+reference must be the full fixed pool; (iii) eval-noise estimates must
+use proper subsamples (drawing a full pool makes the noise zero by
+construction — two degenerate zeros were caught and fixed in v3's own
+runs, both recorded in the JSON history).
+
+With this, all three families hold demonstrated interiors and P4's
+test is unblocked. Appendix seals: next working session at the
+earliest, per the rate-limit rule.
