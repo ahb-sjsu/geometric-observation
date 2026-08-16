@@ -41,3 +41,32 @@ predictions are graded against quantized damage at every step;
 (2) the grid reverts to the family-validated 3×-spaced steps.
 Margins, the silence-counts-as-miss clause, all MCs, and bars B1–B3
 are unchanged. One revision remains in the budget after this.
+
+## v2 verdict: VOID as sealed — OT-13 closes UNRESOLVED per G3
+
+**2026-08-16, same session (`results/OT13-floor-curves-v2.json`,
+kept).** The instrument fix worked completely: accuracy **1.000 at
+every graded step** (m = 1 through 1000, 6 graded steps, 28→3 graded
+pairs), fraction decay clean and monotone (1.00 → 0.00), window
+intact, B1/B2/B3 all formally passing. The run died on **MC2**: at
+m = 300, only 2 of 16 informative pairs (12.5%) sat below margin 3,
+against the sealed ≥ 20%-each-side requirement at every interior
+step. The straddle property held at the shakedown's seed (share
+0.286 at 300×) but is seed-fragile at the band edges; demanding it
+as a per-step VOID condition was appendix authoring, not family
+qualification.
+
+`OT-CRUCIBLE-3.md` G3 is explicit and was sealed twice: *"a VOID on
+a pre-qualified family is an appendix-authoring failure, closes that
+test unresolved, and may not be regraded or re-familied within this
+campaign."* The revision budget does not override G3 — it exists for
+diagnosed instrument deaths graded FAIL, and G3 is specific to
+VOIDs. **OT-13 is closed, unresolved. P5's revision remains
+untested-in-substance.** The v2 record — ceiling accuracy wherever
+margin certifies, decay everywhere, zero silence from a
+properly-scaled probe — is exploratory support of exactly the
+OT-10-quantities kind: real, recorded, and carrying no verdict
+weight. A future campaign's appendix should bar the straddle as a
+*band-level* property (some interior step straddles) rather than a
+per-step one, and this note is the only place that lesson may
+legitimately live.
