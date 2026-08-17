@@ -144,3 +144,24 @@ NEG-13 (the omission floor) resolved to `[demonstrated]` downstream on a trained
 model (GO-027), and **NEG-15** records the Bell boundary: retrieval geometry does
 not weaken Bell ([notes](experiments/HUBNESS-BELL-NOTES.md)). Every claim
 resolves to a row in [`claims/LEDGER.md`](claims/LEDGER.md).
+
+## The Observation Theory Crucibles ([`crucible/`](crucible/))
+
+The graduation campaigns for the five principles (canonical text:
+[readscope `PRINCIPLES.md`](https://github.com/ahb-sjsu/readscope/blob/master/PRINCIPLES.md)).
+Five campaigns, 2026-08-15..17, every appendix sealed before its run
+and every failure kept as executed: v0.1 did not graduate (two clean
+refutations became the v0.2 revisions); the Second closed 1/5 with
+four instrument deaths and the rate-limit rule as its durable
+product; the Third earned P4 and P2; OT-16 discharged P3's noisy
+cliff (theorem [`OT3-NOISY-THEOREM.md`](crucible/OT3-NOISY-THEOREM.md),
+then measurement); OT-18 discharged P5 on the fifth attempt after
+three instrument deaths. **All five owed predictions are consumed;
+the theory's live exposure is zero.** The load-bearing algebra is
+machine-verified — symbolically and in exact rational arithmetic
+([`crucible/verify_theorems.py`](crucible/verify_theorems.py)) and in
+Lean 4 / Mathlib ([`lean/`](lean/), built clean, zero `sorry`) — with
+the unformalized remainder named in each document.
+[`crucible/DECLARATION-V1.md`](crucible/DECLARATION-V1.md) holds the
+v1.0 declaration, drafted whole and deliberately unsealed pending its
+own fresh-day reread.
