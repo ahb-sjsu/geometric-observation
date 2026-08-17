@@ -39,3 +39,38 @@ One test: **OT-17** (`PREREG-OT17-APPENDIX.md`).
   Third Crucible's addendum: **manipulation checks are bars too —
   check them against the family record at the granularity they will
   be enforced at.** This campaign exists because of that sentence.
+
+---
+
+## Close-out: VOID as sealed — the campaign closes unresolved
+
+**2026-08-17, same session (`results/OT17-floor-curves.json`, kept).
+G1's no-escape-hatch clause applies to its author.** MC1 required
+four decisive-band steps with interior informative fractions; the
+fresh seed produced two (0.33, 0.20 — with the next steps at 1.00
+and 0.90, the band collapsed differently than at every previous
+seed). MC2's band-level straddle also failed (1 of 2). And for the
+**third consecutive campaign**, the substance was flawless where it
+could be read: accuracy 0.958–1.000 at every graded step, B2 and B3
+passing, silence never wrong-while-decisive. Three campaigns, three
+perfect ungraded curves, zero verdict weight.
+
+**The durable lesson, one level deeper than the last one:** OT-13
+died because a manipulation check was enforced at a granularity the
+family record never supported. OT-17 dies because **the family's
+interior was only ever demonstrated at single seeds** — F1's
+informative-fraction curve is aliasing-fragile in the consumer and
+codec draws themselves, and its committed qualification (one seed,
+2026-08-15) established interior *at that seed*, not interior as a
+family property. The rule that follows, recorded for whatever
+campaign comes next: **a family's interior requirements must be
+demonstrated across seeds — the qualification must sample the same
+randomness the sealed run will draw from.** A shakedown that shows a
+knob varies at one seed has shown one point of a distribution.
+
+P5's owed prediction remains open — three campaigns, three
+instrument deaths, no substantive verdict either way, with an
+exploratory record that leans supportive and may never be graded
+retroactively. The next attempt, if any, starts with a multi-seed
+family qualification (F1', interior shown across ≥ 5 seeds, decisive
+band chosen as the intersection), and it starts in a later session.
