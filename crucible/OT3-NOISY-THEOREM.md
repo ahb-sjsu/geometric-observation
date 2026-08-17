@@ -91,7 +91,9 @@ prediction names.
 **N2b (matching lower bound in σ and γ, two-point).** Take the
 rank-1 class `P_u = λ u uᵀ` and rotate the planted vector by angle
 θ: `‖P_{u_θ} − P_u‖_F ≤ √2 λ θ`. The KL divergence between the two
-noisy-transcript distributions is `‖ΔP‖_F² / (2σ²) ·(1+o(1)) ≤ λ²θ²/σ²`,
+noisy-transcript distributions is exactly
+`(‖ΔP‖_F² + ‖diag ΔP‖²) / (4σ²) ≤ ‖ΔP‖_F² / (2σ²) ≤ λ²θ²/σ²`
+(machine-verified symbolically, `verify_theorems.py`),
 so for `θ = c₀ σ / λ` the two hypotheses are indistinguishable with
 constant probability (Pinsker), and any estimator errs by
 `sin Θ ≥ c₁ σ / λ` in the worst case over the pair. The floor is
@@ -150,3 +152,18 @@ its dimension; noise still cannot soften it.
    Second and Third Crucibles paid for. Constructing and
    shakedown-qualifying that family is the next act; it is not this
    one.
+
+## Verification status (added 2026-08-17, pre-v1.0)
+
+Hand-proved and reviewed; **machine-verified where machine
+verification reaches**: the N1a/T1b confinement identity, the
+reflection pair's orthogonality, and the T2b/N4 exactness are
+checked in exact rational arithmetic and symbolically
+(`crucible/verify_theorems.py`, 11/11) and formalized in
+Lean 4 / Mathlib (`lean/ObservationTheory/Confinement.lean`); the
+Isserlis chain and the N2b KL constant are verified symbolically
+(the KL line above was tightened by that check). **Not
+machine-checked:** the adaptive pilot argument (T1a), Davis–Kahan,
+and the Gaussian operator-norm bound — cited standard results,
+hand-applied. The measured instantiation is OT-16 (PASS, fresh
+seed).

@@ -49,6 +49,23 @@ rule at this drafting, each with its mitigation named; the practice
 that made them survivable — fresh seeds, unseen data, pre-seal
 record checks — is part of what v1.0 freezes.
 
+## Verification standard, stated before sealing
+
+The theorems (OT-3, OT-3N) are **hand-proved, machine-verified in
+their load-bearing algebra, and not fully machine-checked**: the
+confinement engine (T1b/N1a/T2b/N4 identities, the reflection pair)
+is verified in exact rational arithmetic + SymPy
+(`verify_theorems.py`, 11/11) and formalized in Lean 4 / Mathlib
+(`lean/ObservationTheory/Confinement.lean`); the Isserlis chain,
+debias inversion, KL constant, cos²θ and change-of-measure laws are
+symbolically verified; Davis–Kahan, Gaussian operator norms, and the
+adaptive pilot argument remain cited-or-hand-proved. The empirical
+program's own verification standard is the sealed-prereg discipline
+with committed artifacts, plus machine-checked cross-dataset lemmas
+where they exist (the BMP ordering lemma: zero violations on V2's
+144 certificates, failures localized exactly to V1's resonance —
+`network-governor/results/BMP-lemma-verification.json`).
+
 ## Freeze rules forward
 
 - v1.0, once sealed, is immutable; the sealed commit is the
