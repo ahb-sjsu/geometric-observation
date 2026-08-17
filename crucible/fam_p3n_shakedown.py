@@ -84,6 +84,30 @@ def cell_confined(rng, d, lam, sigma):
     return sin_theta(u_hat, u)
 
 
+def cell_sideinfo(rng, d, k0, lam, sigma, confined):
+    """N4 arm: promise range(P) in W, dim W = d - k0. Full coverage
+    of W (k = d-k0) should behave as the upper face with d_eff = d-k0;
+    one-short-of-W with the adversarial plant inside W as the lower."""
+    r = len(lam)
+    basis = np.linalg.qr(rng.standard_normal((d, d)))[0]
+    w_basis = basis[:, :d - k0]
+    if confined:
+        w_hid = w_basis[:, 0]
+        e = w_basis[:, 1]
+        rest = w_basis[:, 2:r + 1]
+        u = np.column_stack([(e + w_hid) / np.sqrt(2.0), rest])
+        v = w_basis[:, 1:]
+    else:
+        u = w_basis[:, :r]
+        v = w_basis
+    p = u @ np.diag(lam) @ u.T
+    kdim = v.shape[1]
+    y = v.T @ p @ v + sym_noise(rng, kdim, sigma)
+    w_eig, vec = np.linalg.eigh((y + y.T) / 2)
+    u_hat = v @ vec[:, ::-1][:, :r]
+    return sin_theta(u_hat, u)
+
+
 def main():
     rng = np.random.default_rng(SEED)
     out = {"family": "FP3N", "seed": SEED, "x_grid": X_GRID,
@@ -142,6 +166,31 @@ def main():
                   f"band x<=0.3: confined face flat to {flat:.1%} at "
                   f"{np.median(conf_band):.3f}, min face separation "
                   f"{sep:.3f}")
+    # N4 arm: the cliff relocates to d - k0
+    print("\nN4 ARM (side information, d=32)")
+    d = 32
+    for k0 in (8, 16):
+        for name, lam in SPECTRA.items():
+            gamma = lam[-1]
+            deff = d - k0
+            for x in X_GRID:
+                sigma = x * gamma / np.sqrt(deff)
+                full = [cell_sideinfo(rng, d, k0, lam, sigma, False)
+                        for _ in range(TRIALS)]
+                conf = [cell_sideinfo(rng, d, k0, lam, sigma, True)
+                        for _ in range(TRIALS)]
+                cell = {"arm": "N4", "d": d, "k0": k0,
+                        "spectrum": name, "gamma": gamma, "x": x,
+                        "sigma": round(sigma, 6),
+                        "full_median": round(float(np.median(full)), 4),
+                        "confined_median": round(
+                            float(np.median(conf)), 4)}
+                out["cells"].append(cell)
+                if x <= 0.3:
+                    print(f"  k0={k0:>2} {name} x={x:<5} "
+                          f"W-full {cell['full_median']:.3f}  "
+                          f"W-minus-one {cell['confined_median']:.3f}")
+
     json.dump(out, open(OUT, "w"), indent=1)
     print(f"-> {os.path.relpath(OUT, HERE)}  (shakedown, no verdict)")
 

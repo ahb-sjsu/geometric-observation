@@ -43,11 +43,19 @@ Across all six (d, spectrum) cells:
 - ≥ 2 interior points (error ∈ (0.05, 0.7)) per cell on the k = d
   face; the grid straddles γ/√d on both sides.
 
-## What a future appendix owes (named, not sealed)
+## N4 arm: DEMONSTRATED (added 2026-08-17, same record)
 
-Bars on: the slope's (d, γ) scaling (the collapse quantified, not
-eyeballed); the confined face's σ-independence and its 1/√2
-location; the side-information shift (N4 arm — cliff at d − k₀ —
-not yet in the shakedown and must be added before sealing); MCs on
-grid coverage of γ/√d and IQR margins, band-scoped per the OT-13
-lesson. Sealing: a later working session.
+Side-information cells at d = 32, k₀ ∈ {8, 16}, both spectra, σ
+normalized by √(d−k₀): **W-full behaves exactly as the upper face
+with d_eff = d−k₀** (medians 0.027–0.032 / 0.076–0.105 / 0.254–0.316
+at x = 0.03/0.1/0.3 — the error ≈ x collapse again), and
+**W-minus-one pins at 0.707–0.774** across the decisive band. The
+cliff relocates to d − k₀ with both faces intact inside W.
+
+## What the appendix owes (now sealed separately)
+
+Bars on: the slope's (d, γ) scaling (collapse quantified); the
+confined face's σ-independence and 1/√2 location; the N4 shift; MCs
+on grid coverage and IQR margins, band-scoped per the OT-13 lesson.
+The sealed test is `PREREG-OT16-APPENDIX.md`, graded on a **fresh
+seed** so this shakedown's numbers cannot grade themselves.
