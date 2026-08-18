@@ -2,3 +2,4 @@ import ObservationTheory.Confinement
 import ObservationTheory.AdaptivePilot
 import ObservationTheory.WeightedMeanInvariance
 import ObservationTheory.FrontLaw
+import ObservationTheory.SpaceComms

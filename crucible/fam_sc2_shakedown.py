@@ -124,14 +124,15 @@ def main():
             rows.append({"arm": "A", "seed": seed, "rho": rho, "D": 2,
                          "naive_err": ne, "aware_err": ae, "excess": excess})
     for rho in RHO_GRID:
-        pred = rho * (1 - C_RATE)
+        pred = rho * (1 - 2 * C_RATE)   # derived kappa = 1-2c (SpaceComms.lean)
         print(f"  ρ={rho:.2f}: excess={np.mean(armA[rho]):.4f} "
-              f"(predict ρ(1-c)={pred:.4f})")
+              f"(predict ρ(1-2c)={pred:.4f})")
     # slope of excess vs rho (seed-mean)
     xs = np.array(RHO_GRID)
     ys = np.array([np.mean(armA[r]) for r in RHO_GRID])
     slope = float(np.polyfit(xs, ys, 1)[0])
-    print(f"  excess-vs-ρ slope={slope:.3f} (predict 1-c={1-C_RATE:.3f})\n")
+    print(f"  excess-vs-ρ slope={slope:.3f} "
+          f"(derived κ=1-2c={1-2*C_RATE:.3f})\n")
 
     # Arm B: sweep delay at fixed duty.
     print("Arm B (ρ=0.15):")
