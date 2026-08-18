@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Observation Theory — Program Roadmap</title>
+<style>
+  :root {
+    --paper: #f6f4ef; --panel: #fffefb; --ink: #1f232b; --muted: #5b616e;
+    --faint: #8b909c; --hair: #ded8cc; --hair2: #e9e4d9;
+    --accent: #276e75; --accent-soft: #e4efef; --seal: #a9712c;
+    --ok: #3f7a52; --ok-bg: #e6efe7; --pend: #a67c1f; --pend-bg: #f3ebd6;
+    --open: #6f7684; --open-bg: #eae7e0; --live: #276e75; --live-bg: #dfeeef;
+    --shadow: 0 1px 2px rgba(30,25,15,.05), 0 8px 24px rgba(30,25,15,.05);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #15171c; --panel: #1c1f26; --ink: #e9e7e1; --muted: #a2a7b2;
+      --faint: #757b88; --hair: #2c313b; --hair2: #262a33;
+      --accent: #55b6c0; --accent-soft: #16302f; --seal: #d09a4d;
+      --ok: #6fb083; --ok-bg: #1a2d21; --pend: #d3a444; --pend-bg: #2e2716;
+      --open: #8b93a1; --open-bg: #23262e; --live: #55b6c0; --live-bg: #14302f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #15171c; --panel: #1c1f26; --ink: #e9e7e1; --muted: #a2a7b2;
+    --faint: #757b88; --hair: #2c313b; --hair2: #262a33;
+    --accent: #55b6c0; --accent-soft: #16302f; --seal: #d09a4d;
+    --ok: #6fb083; --ok-bg: #1a2d21; --pend: #d3a444; --pend-bg: #2e2716;
+    --open: #8b93a1; --open-bg: #23262e; --live: #55b6c0; --live-bg: #14302f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); line-height: 1.55;
+    font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 24px 96px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 600; font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.08; letter-spacing: -.01em; margin: 0 0 16px; text-wrap: balance;
+  }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+  .statusline {
+    display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 16px 0;
+    border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+    font-size: 14px; color: var(--muted);
+  }
+  .statusline b { color: var(--ink); font-weight: 600; }
+  .statusline .num { font-family: var(--mono); color: var(--accent); font-weight: 600; }
+
+  section { margin-top: 52px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  .sec-head h2 {
+    font-family: var(--serif); font-weight: 600; font-size: 24px;
+    margin: 0; letter-spacing: -.01em;
+  }
+  .sec-head .idx {
+    font-family: var(--mono); font-size: 12px; color: var(--faint);
+    letter-spacing: .1em;
+  }
+  .sec-sub { color: var(--muted); font-size: 15px; margin: 0 0 22px; max-width: 64ch; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
+    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 100px; font-weight: 600; white-space: nowrap;
+  }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .9; }
+  .c-frozen { color: var(--seal); background: var(--pend-bg); }
+  .c-queued { color: var(--live); background: var(--live-bg); }
+  .c-shaken { color: var(--ok); background: var(--ok-bg); }
+  .c-derived { color: var(--pend); background: var(--pend-bg); }
+  .c-open { color: var(--open); background: var(--open-bg); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 18px 0 0; }
+  .legend .chip { cursor: default; }
+
+  .core {
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 14px;
+    padding: 8px 24px; box-shadow: var(--shadow);
+  }
+  .principle { display: flex; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--hair2); }
+  .principle:last-child { border-bottom: 0; }
+  .principle .p-id {
+    font-family: var(--mono); font-weight: 600; color: var(--accent);
+    font-size: 13px; min-width: 26px; padding-top: 2px;
+  }
+  .principle .p-body b { font-weight: 600; }
+  .principle .p-body span { color: var(--muted); }
+
+  .ledger { display: flex; flex-direction: column; gap: 12px; }
+  .row {
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 12px;
+    padding: 16px 20px; box-shadow: var(--shadow);
+  }
+  .row-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 7px; }
+  .row-top .code {
+    font-family: var(--mono); font-weight: 600; font-size: 14px; color: var(--ink);
+  }
+  .row-top .name { font-weight: 600; }
+  .row-top .spacer { flex: 1; }
+  .row .law { font-size: 14.5px; color: var(--muted); margin: 0; }
+  .row .law code {
+    font-family: var(--mono); font-size: 13px; background: var(--accent-soft);
+    color: var(--accent); padding: 1px 5px; border-radius: 4px;
+  }
+  .row .meta {
+    font-family: var(--mono); font-size: 12px; color: var(--faint);
+    margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 14px;
+  }
+  .row .meta .tick { color: var(--ok); }
+
+  .crux { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 620px) { .crux { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 12px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .card h3 {
+    font-family: var(--serif); font-size: 18px; margin: 0 0 3px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card h3 .code { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+  .card .dom { font-size: 13px; color: var(--faint); margin: 0 0 10px; }
+  .card p { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+  .card code {
+    font-family: var(--mono); font-size: 12.5px; background: var(--accent-soft);
+    color: var(--accent); padding: 1px 5px; border-radius: 4px;
+  }
+
+  .queue { border: 1px solid var(--hair); border-radius: 12px; overflow: hidden; }
+  .qrow {
+    display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+    background: var(--panel); border-bottom: 1px solid var(--hair2);
+  }
+  .qrow:last-child { border-bottom: 0; }
+  .qrow .code { font-family: var(--mono); font-weight: 600; color: var(--ink); min-width: 58px; }
+  .qrow .what { flex: 1; font-size: 14.5px; color: var(--muted); }
+  .qrow .gate { font-family: var(--mono); font-size: 12px; color: var(--seal); }
+
+  .note {
+    margin-top: 52px; padding: 22px 24px; border-radius: 12px;
+    background: var(--accent-soft); border: 1px solid var(--hair);
+  }
+  .note h2 { font-family: var(--serif); font-size: 19px; margin: 0 0 8px; font-weight: 600; }
+  .note p { margin: 0 0 8px; font-size: 14.5px; color: var(--muted); }
+  .note p:last-child { margin-bottom: 0; }
+  .note b { color: var(--ink); font-weight: 600; }
+  footer {
+    margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--hair);
+    font-family: var(--mono); font-size: 11.5px; color: var(--faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Observation Theory · Program Roadmap</p>
+  <h1>A sealed theory, and the risks it now owes.</h1>
+  <p class="lede">
+    Five principles of consumer-relative measurement, frozen as v1.0 through
+    adversarial preregistered testing. A theory with zero exposure owes its next
+    risk — so the ledger below dates that debt, principle by principle and domain
+    by domain.
+  </p>
+  <div class="statusline">
+    <span><b>v1.0</b> sealed <span class="num">2026-08-18</span></span>
+    <span>live exposure <b>re-opened</b></span>
+    <span><span class="num">5</span> owed predictions</span>
+    <span><span class="num">2</span> cross-domain crucibles</span>
+    <span><span class="num">4</span> seals queued</span>
+  </div>
+
+  <div class="legend">
+    <span class="chip c-frozen">Frozen</span>
+    <span class="chip c-queued">Seal queued</span>
+    <span class="chip c-shaken">Shaken down</span>
+    <span class="chip c-derived">Derived</span>
+    <span class="chip c-open">Minted</span>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="idx">01</span><h2>The frozen core</h2></div>
+    <p class="sec-sub">
+      The v0.2 text of the five principles, frozen verbatim as v1.0 — immutable,
+      each earned through sealed testing including two refutations that rewrote
+      statements. Machine-checked where the algebra is load-bearing.
+    </p>
+    <div class="core">
+      <div class="principle"><span class="p-id">P1</span><span class="p-body"><b>Consumer relativity.</b> <span>Distortion is defined by the consumer's read operator, not the signal. — cos²θ to four decimals, 8/8 real heads.</span></span></div>
+      <div class="principle"><span class="p-id">P2</span><span class="p-body"><b>Measure dependence.</b> <span>The error that matters is operator-weighted, tr(P·Σ). — change-of-measure law, 11/12 real heads.</span></span></div>
+      <div class="principle"><span class="p-id">P3</span><span class="p-body"><b>Observation complexity.</b> <span>Sub-dimensional reading confines what can be recovered — a cliff at intrinsic dimension. Lean-formalized.</span></span></div>
+      <div class="principle"><span class="p-id">P4</span><span class="p-body"><b>Temporal nonstationarity.</b> <span>When the measure drifts, cadence has a cost. — revised at v0.2; refresh removes 77% at the derived cadence.</span></span></div>
+      <div class="principle"><span class="p-id">P5</span><span class="p-body"><b>Metric consequence.</b> <span>The boundary from informative to silent is a floor, not a slope. — revised at v0.2; never wrong-while-decisive across five campaigns.</span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">02</span><h2>The v1-line owed ledger</h2></div>
+    <p class="sec-sub">
+      Five new owed predictions minted after v1.0, one per principle. Each raises a
+      discharged <i>descriptive</i> law to a demand for <i>a-priori derivability</i>,
+      plus one genuinely new claim (OP1). Each carries a substrate and a kill.
+    </p>
+    <div class="ledger">
+      <div class="row">
+        <div class="row-top"><span class="code">OP1</span><span class="name">Cross-consumer codec transfer</span><span class="spacer"></span><span class="chip c-queued">Seal queued</span></div>
+        <p class="law">A codec tuned to consumer A damages a <i>different</i> consumer B by what the overlap <code>tr(P_A P_B)</code> predicts — no probe of B. <b>New claim.</b></p>
+        <div class="meta"><span class="tick">✓ derived (negative sign)</span><span class="tick">✓ shakedown ρ −0.73…−0.82</span><span class="tick">✓ runner ready (blind held-out test)</span></div>
+      </div>
+      <div class="row">
+        <div class="row-top"><span class="code">OP2</span><span class="name">The transfer residual, modeled</span><span class="spacer"></span><span class="chip c-derived">Derived</span></div>
+        <p class="law">The moment-matched transfer error is derivable from operator-weighted <b>excess kurtosis</b> — the L21_H3 residual, explained.</p>
+        <div class="meta"><span class="tick">✓ margin derived</span><span>substrate: 12 Llama heads</span><span>kill: doesn't track kurtosis</span></div>
+      </div>
+      <div class="row">
+        <div class="row-top"><span class="code">OP3</span><span class="name">The sample-complexity exponent</span><span class="spacer"></span><span class="chip c-queued">Seal queued</span></div>
+        <p class="law">Sub-dimensional recovery is a spectrum-ordered front; the collapse variable is <code>m·w⁴</code> — exponent <b>p = 4</b>, front advancing ~2.4 modes/16×.</p>
+        <div class="meta"><span class="tick">✓ front law derived + Lean</span><span class="tick">✓ p=4 confirmed, rate exact</span><span class="tick">✓ runner ready</span></div>
+      </div>
+      <div class="row">
+        <div class="row-top"><span class="code">OP4</span><span class="name">The refresh floor, derived</span><span class="spacer"></span><span class="chip c-derived">Derived</span></div>
+        <p class="law">The drift floor below which refresh hurts, <code>d* = √(E_est/κ_s)</code> — predicted from spectrum and bit budget. Crossover Lean-checked.</p>
+        <div class="meta"><span class="tick">✓ margin derived + Lean</span><span>substrate: OT-6 drift dial</span><span>kill: floor off by &gt;2×</span></div>
+      </div>
+      <div class="row">
+        <div class="row-top"><span class="code">OP5</span><span class="name">The floor location, derived</span><span class="spacer"></span><span class="chip c-derived">Derived</span></div>
+        <p class="law">The response-floor location <code>t* ≈ g²/κ_p</code> — predicted a priori from output quantization and codec spectrum. Threshold Lean-checked.</p>
+        <div class="meta"><span class="tick">✓ margin derived + Lean</span><span>substrate: F1′ family</span><span>kill: collapse off interior band</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">03</span><h2>Cross-domain crucibles</h2></div>
+    <p class="sec-sub">
+      The theory carried into space communications — the frontier the ledger named
+      but did not mint. Each is its own sealed campaign; a pass extends the evidence,
+      a fail scopes the transfer. Neither touches the frozen statements.
+    </p>
+    <div class="crux">
+      <div class="card">
+        <h3><span class="code">SC-1</span> Downlink allocation</h3>
+        <p class="dom">Deep-space multi-instrument downlink · P1 + P2</p>
+        <p>Consumer-relative bit allocation beats MSE by exactly <code>G = AM(d)/GM(d)</code> — the arithmetic-over-geometric-mean gap of the instrument-importance spectrum.</p>
+        <p><span class="chip c-queued">Seal queued</span> &nbsp;law exact at high rate; boundary measured (G→1 as consumers homogenize — the fiber/broadband limit).</p>
+      </div>
+      <div class="card">
+        <h3><span class="code">SC-2</span> Interplanetary transport</h3>
+        <p class="dom">LEO handover · Marslink 1.5 AU · P4 + P5</p>
+        <p>The predictable schedule survives any feedback delay while reactive congestion signal decays to noise; masking gain <code>κ = 1−2c</code>, sign-flips at c=½.</p>
+        <p><span class="chip c-queued">Seal queued</span> &nbsp;delay law + D-invariance confirmed; κ derived + Lean-checked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">04</span><h2>The seal queue</h2></div>
+    <p class="sec-sub">
+      Four campaigns with laws derived, interiors shaken down across seeds, and
+      graded runners built — each waiting only on a genuinely fresh day. The
+      cooling-off is enforced in code: the runners refuse to grade before it.
+    </p>
+    <div class="queue">
+      <div class="qrow"><span class="code">OP1</span><span class="what">Cross-consumer transfer — Spearman ≤ −0.6, affine R² ≥ 0.9, blind held-out prediction</span><span class="gate">fresh-day + disjoint seeds</span></div>
+      <div class="qrow"><span class="code">OP3</span><span class="what">Front-law bars — exponent p=4, front rate 0.869, affine overlap ≥ 0.9</span><span class="gate">fresh-day + disjoint seeds</span></div>
+      <div class="qrow"><span class="code">SC-1</span><span class="what">AM/GM law at high rate, finite-rate floor, linear composition</span><span class="gate">fresh-day + disjoint seeds</span></div>
+      <div class="qrow"><span class="code">SC-2</span><span class="what">Delay-decorrelation law, schedule D-invariance, κ = 1−2c</span><span class="gate">fresh-day + disjoint seeds</span></div>
+    </div>
+  </section>
+
+  <div class="note">
+    <h2>How a claim earns its place</h2>
+    <p>
+      Every statement is barred <b>before</b> the run and sealed on a day later than
+      its family was built (a coded cooling-off, not a habit). Manipulation checks are
+      bars too. A <b>FAIL is kept as executed</b> — the discipline holds even against
+      its own author, who once tried to seal on the construction day and was refused by
+      the rule.
+    </p>
+    <p>
+      Load-bearing algebra is machine-checked in Lean 4 / Mathlib — the confinement
+      engine, the adaptive pilot, the front-law exponent, the κ = 1−2c collapse, the
+      refresh and response-floor thresholds — each depending only on the three standard
+      axioms, sorry-free. Cited standard results (Davis–Kahan, Gaussian operator norms)
+      are named as such.
+    </p>
+  </div>
+
+  <footer>
+    <span>Observation Theory · v1.0 sealed 2026-08-18 · v1-line live</span>
+    <span>status: derived &amp; shaken down, awaiting fresh-day seals</span>
+  </footer>
+</div>
+</body>
+</html>
