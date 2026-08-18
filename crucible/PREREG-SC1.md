@@ -103,9 +103,34 @@ a broadband LEO link carrying homogeneous IP traffic has one effectively
 uniform consumer, where the AM/GM gap collapses to ≈ 1 and the theory
 predicts *no* gain (itself a falsifiable boundary of the claim).
 
+## Heterogeneous-access arm (2026-08-18) — the boundary, measured
+
+The AM/GM law is domain-agnostic in `d`, so it should govern a congested
+terrestrial access link / RAN shared by traffic classes (latency-,
+throughput-, loss-sensitive) exactly as it governs instruments — and,
+crucially, predict *no* gain where consumers homogenize. `fam_sc1_access.py`
+(d=64, 4 QoS classes, rate 3 b/unit, heterogeneity knob `h` swept 0→1,
+seeds {0,1,2}; `results/SC1-access-shakedown.json`):
+
+| h (heterogeneity) | 0.00 | 0.25 | 0.50 | 0.75 | 1.00 |
+|---|---|---|---|---|---|
+| mean `AM/GM` | 1.000 | 1.079 | 1.139 | 1.203 | 1.267 |
+| median `G_meas/(AM/GM)` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+At `h=0` (identical classes) the gain is exactly 1 — consumer-relative
+scheduling buys nothing, the **fiber-core / broadband boundary**. The gap
+opens smoothly with heterogeneity and the measured gain tracks `AM/GM`
+exactly at this rate. This is the falsifiable boundary of the whole
+allocation claim, made concrete: the law applies to the scarce,
+heterogeneous edge (RAN slices, QoS), and predicts zero gain for the
+homogeneous core — the same statement that sorts deep-space (strong) from
+Starlink broadband and fiber WAN (≈ 1).
+
 ## Provenance
 
 - Frontier note: `crucible/OWED-V1.md` (the un-minted domain).
+- Access arm: `crucible/fam_sc1_access.py`,
+  `results/SC1-access-shakedown.json` (no weight).
 - Substrate: `crucible/fam_sc1_shakedown.py`;
   record `results/SC1-shakedown.json` (no weight). Graded runner
   `sc1_check.py` added at seal, on disjoint seeds.
