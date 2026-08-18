@@ -1,0 +1,790 @@
+%% Observation Theory for Estimation and Control -- first LaTeX draft.
+%% Supersedes paper/Observation Theory for Estimation and Control.docx,
+%% implementing paper/OT-EC-REVISION-NOTES.md (v2, 2026-08-18) and the
+%% prior-art sweep paper/PRIOR-ART-SWEEP-estimation-control.md.
+\documentclass[letterpaper,onecolumn]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{microtype}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={Observation Theory for Estimation and Control},pdfauthor={Andrew H. Bond}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\PC}{P_{\mathcal{C}}}
+\newcommand{\PCb}{\bar P_{\mathcal{C}}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Sig}{\Sigma}
+\newcommand{\Sm}{\Sigma^{-}}
+\newcommand{\Sp}{\Sigma^{+}}
+\newcommand{\VC}{V_{\mathcal{C}}}
+\newcommand{\UC}{U_{\mathcal{C}}}
+\newcommand{\SC}{S_{\mathcal{C}}}
+
+\begin{document}
+
+\title{Observation Theory for Estimation and Control:\\
+Consumer-Induced Geometry as a Complement to\\
+Observability, Filtering, and Feedback}
+
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
+\thanks{First LaTeX draft, August 2026. The author is with the Department of
+Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA
+(e-mail: andrew.bond@sjsu.edu; ORCID 0009-0003-2599-6158).}%
+\thanks{This manuscript extends the author's Observation Theory program from
+compression and coding to estimation and control. Program repository, sealed
+preregistrations, claims ledger, and the Lean~4/Mathlib formalization of
+Proposition~\ref{prop:invariance} and Proposition~\ref{prop:voi} are at
+\url{https://github.com/ahb-sjsu/geometric-observation}.}}
+
+\maketitle
+
+\begin{abstract}
+Classical control theory separates several questions that are easy to
+conflate: whether a plant can be driven, whether its state can be inferred,
+how uncertainty should be filtered, and how actions should be chosen. A
+further question is usually supplied externally by the designer: \emph{which
+distinctions in the estimated state matter to the downstream consumer?}
+Observation Theory (OT) supplies a candidate mathematical object for that
+missing interface. If a consumer $\C:\R^d\to\R^m$ is judged in a local output
+metric $G$, its pullback $\PC(x)=J_\C(x)^{\top}G(\C(x))\,J_\C(x)$ induces the
+local state geometry the consumer can distinguish, and estimator uncertainty
+$\Sig$ and consumer geometry compose as the operational uncertainty
+$\UC=\tr(\PC\Sig)$. This paper defines a research campaign around that
+composition, organized as three interfaces to the classical stack:
+\emph{estimator geometry} (a state-dependent $\PC(x)$ moves the optimal
+estimate off the posterior mean), \emph{resource value}
+($\VC=\tr(\PC(\Sm-\Sp))$, the consumer-relative value of a measurement), and
+\emph{dynamic relevance} ($\SC(\Delta)=\tr[\PC\,\Sig(t{+}\Delta\mid I_t)]$,
+the age of operationally relevant uncertainty). We first establish a
+boundary: for a fixed positive-semidefinite $\PC$ and an unconstrained
+Bayesian estimator, the posterior mean --- hence the Kalman estimate ---
+remains optimal; both this invariance and the rank-one value-of-observation
+identity are machine-checked in Lean~4/Mathlib. Each pillar of the program
+has close prior art in isolation: black-box recovery of quadratic task
+metrics (decision-focused learning), and consumer-derived weights composed
+with covariances (LQG sensing co-design, goal-oriented experimental design,
+value-of-information scheduling) in analytic form. The narrow novelty
+hypothesis is their conjunction: that a downstream consumer's operational
+metric can be recovered from the consumer itself under \emph{query access
+only}, composed with classical estimator uncertainty, and validated
+prospectively, out of sample, at matched budgets that include the cost of
+probing. OT is proposed not as a replacement for observability, filtering,
+stability, or feedback, but as a complementary theory of operational
+distinguishability at their downstream boundary.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Kalman filtering, sensor scheduling, value of information, task-oriented
+communication, goal-oriented experimental design, functional observability,
+operational distinguishability.
+\end{IEEEkeywords}
+
+\section{The missing question in the classical control stack}
+\label{sec:intro}
+
+A modern estimation-and-control stack can be schematized as
+\begin{equation*}
+\text{plant} \;\to\; \text{sensors} \;\to\; \text{estimator} \;\to\;
+\text{consumer(s)} \;\to\; \text{actions}.
+\end{equation*}
+Classical systems theory provides precise concepts for controllability and
+observability. Kalman filtering \cite{kalman1960} provides an optimal state
+estimate and error covariance under its linear-Gaussian assumptions. LQR,
+LQG, MPC, and stochastic control determine actions once an objective has been
+specified. Yet a design choice remains embedded in these methods: \emph{which
+state errors actually matter?} In LQR this appears as the choice of a state
+penalty $Q$; in estimation it appears in accuracy specifications, sensor
+priorities, covariance weights, update rates, and communication policies. In
+many systems these choices are engineered successfully --- but their
+operational geometry is externally specified.
+
+Observation Theory begins one step downstream. Let $\C:\R^d\to\R^m$ be a
+consumer and let $D_Y$ be a twice-differentiable divergence on its output.
+Define the output metric and consumer Jacobian
+\begin{equation}
+G(z)\;=\;\nabla_v^2\,D_Y(z,v)\big|_{v=z},
+\qquad
+J_\C(x)\;=\;\frac{\partial \C}{\partial x}(x),
+\end{equation}
+and the \emph{read operator}
+\begin{equation}
+\label{eq:pullback}
+\boxed{\;\PC(x)\;=\;J_\C(x)^{\top}\,G(\C(x))\,J_\C(x).\;}
+\end{equation}
+For sufficiently small state error $\delta=x-\hat x$,
+\begin{equation}
+D_Y\!\big(\C(x),\C(\hat x)\big)\;\approx\;\tfrac12\,\delta^{\top}\PC(x)\,\delta,
+\qquad
+\E\,D_Y \;\approx\; \tfrac12\,\tr\!\big(\PC\,\Sig_\delta\big),
+\end{equation}
+so ordinary reconstruction error is the isotropic corner $\PC=I$. The
+composition
+\begin{equation}
+\label{eq:composition}
+\UC \;=\; \tr\!\big(\PC\,\Sig\big)
+\end{equation}
+reads: \emph{what the estimator does not know}, weighted by \emph{what the
+consumer can distinguish}. Neither object substitutes for the other: an
+accurate consumer model cannot estimate the plant; a perfect error covariance
+cannot say which residual uncertainty matters operationally.
+
+The systems question is therefore not ``can Observation Theory replace the
+Kalman filter?'' It is: \emph{given a classical estimator that tells us what
+we do not know, can a consumer-induced geometry tell us which parts of that
+uncertainty matter --- and therefore where scarce sensing, communication,
+computation, and control resources should be spent?}
+
+\subsection{Three interfaces, not one}
+\label{sec:interfaces}
+
+The program is organized around three distinct interfaces between the read
+operator and the classical stack:
+\begin{equation}
+\label{eq:threeinterfaces}
+\PC(x)\;\longrightarrow\;
+\begin{cases}
+\textbf{Estimator geometry} & \text{if $\PC$ varies with state
+  (\S\ref{sec:boundary}, Rem.~\ref{rem:statedep})},\\[2pt]
+\textbf{Resource value} & \tr\!\big(\PC\,\Delta\Sig\big)
+  \quad\text{(\S\ref{sec:voi}--\S\ref{sec:resources})},\\[2pt]
+\textbf{Dynamic relevance} & \tr\!\big(\PC\,\Sig(\Delta)\big)
+  \quad\text{(\S\ref{sec:staleness}, conjectural)}.
+\end{cases}
+\end{equation}
+Interface~1 is \emph{opened} rather than closed by the boundary theorem of
+\S\ref{sec:boundary}: the posterior-mean invariance holds for fixed $\PC$,
+and its failure under state-dependent $\PC(x)$ is precisely where consumer
+geometry can change the estimator itself. Interface~2 is the paper's spine.
+Interface~3 is developed as an explicitly conjectural branch.
+
+\subsection{Access models: demonstrations, gradients, queries}
+\label{sec:access}
+
+The distinction that defines this program's niche is the access model.
+Inverse optimal control and inverse reinforcement learning recover objectives
+from \emph{demonstrations}. Decision-focused learning differentiates through
+a \emph{known} (or differentiable) consumer
+\cite{elmachtoub2022,amos2017,mandi2024}. Observation Theory probes a
+\emph{black-box} consumer under a declared observation distribution. Only the
+third access model is available when the consumer is a learned perception
+stack, a physical link, or another party's system --- and those consumers,
+which resist hand-modeling, are exactly where a recovered geometry is
+necessary rather than convenient.
+
+\section{Observability is not operational distinguishability}
+\label{sec:observability}
+
+Consider $x_{k+1}=Ax_k+Bu_k+w_k$, $y_k=Cx_k+v_k$. Classical observability
+asks whether distinct internal states can be distinguished from the
+measurement history. OT asks a downstream question: for consumer $\C$, two
+nearby states $x$ and $x+\delta$ are \emph{locally operationally
+distinguishable} according to $\delta^{\top}\PC(x)\,\delta$. A direction in
+$\ker\PC$ is locally invisible to that consumer; a direction with a large
+eigenvalue of $\PC$ is strongly read. Hence a state direction can be
+perfectly observable to the sensor system and nearly irrelevant to the
+consumer; conversely, a very small estimation error can be operationally
+dominant if it lies in a strongly weighted read direction. These are
+complementary geometries on opposite sides of the estimator.
+
+Two classical structures must be engaged here by name. First,
+\emph{functional observability} \cite{darouach2000,montanari2022} asks when a
+hand-specified linear functional $z=Lx$ can be reconstructed; OT's linear
+special case $\C(x)=Lx$ lies inside its subject matter, and OT adds the
+\emph{metric} (not merely subspace) structure, nonlinear consumers, and
+recovery of $L$-like structure from the consumer itself. Second, for a linear
+consumer $z=Lx$ with output metric $G$, the pointwise OT geometry is
+$\PC=L^{\top}GL$, and the output-weighted observability Gramian of
+frequency-weighted balanced truncation \cite{enns1984} is its
+\emph{dynamics-propagated accumulated analogue},
+\begin{equation}
+\label{eq:gramian}
+W_\C(T)\;=\;\int_0^{T} e^{A^{\top}t}\,\PC\,e^{At}\,dt .
+\end{equation}
+Classical observability geometry thus \emph{emerges from accumulated OT
+geometry} in the linear case: the Gramian is what the consumer's
+instantaneous read metric integrates to under the flow.
+
+\section{A boundary proposition: OT does not create a new Kalman filter}
+\label{sec:boundary}
+
+The first result of the campaign is deliberately negative.
+
+\begin{proposition}[Weighted posterior-mean invariance]
+\label{prop:invariance}
+Let $X$ be a random state, $Y$ the available observations, and $P\succeq 0$ a
+fixed state weighting. Then
+$\E\big[(X-\hat x)^{\top}P\,(X-\hat x)\mid Y\big]$
+is minimized over $\hat x$ by the posterior mean $\hat x=\E[X\mid Y]$.
+\end{proposition}
+
+\begin{proof}
+Let $m=\E[X\mid Y]$. Then $X-\hat x=(X-m)+(m-\hat x)$, the cross terms vanish
+in conditional expectation, and
+\begin{equation*}
+\E\big[(X-\hat x)^{\top}P(X-\hat x)\mid Y\big]
+=\tr\!\big(P\,\Sig_{X\mid Y}\big)+(m-\hat x)^{\top}P\,(m-\hat x),
+\end{equation*}
+whose second term is nonnegative.
+\end{proof}
+
+The posterior mean already minimizes \emph{every} fixed positive-semidefinite
+quadratic state loss; in the linear-Gaussian case this is the Kalman
+estimate. If the campaign merely rediscovered a weighted Kalman filter, it
+would not constitute the proposed contribution. The opportunity lies in
+deciding which measurements to take, which information to transmit, which
+state directions to retain, when to update, and eventually which operational
+errors to regulate --- and, per Remark~\ref{rem:statedep}, in the
+state-dependent regime the invariance itself fails.
+
+\begin{remark}[Machine-checked form; weakened hypotheses]
+\label{rem:kernel}
+Proposition~\ref{prop:invariance} (discrete form) and
+Proposition~\ref{prop:voi} below are machine-checked in Lean~4 against
+Mathlib (\texttt{lean/ObservationTheory/WeightedMeanInvariance.lean}; Lean
+and Mathlib v4.32.2, clean build, no \texttt{sorry}). The formalization shows
+the invariance survives under hypotheses weaker than stated: only
+$v^{\top}Pv\ge 0$ for all $v$ and weights summing to one are used --- neither
+symmetry of $P$ nor nonnegativity of the weights. We state the natural
+$P\succeq 0$ form above; the weakening is recorded here because the kernel
+checked it, not because the generality is operationally needed. Per the
+program's charter, mechanical verification is necessary but not sufficient
+for a \texttt{[proved]} ledger classification, which additionally requires an
+independent fresh-context derivation pass.
+\end{remark}
+
+\begin{remark}[State dependence opens Interface 1]
+\label{rem:statedep}
+Proposition~\ref{prop:invariance} is for \emph{fixed} $P$. For a nonlinear
+consumer, $\PC(x)$ depends on $x$; the loss
+$\E[(X-\hat x)^{\top}\PC(X)(X-\hat x)\mid Y]$ is no longer a fixed quadratic,
+and its minimizer is in general \emph{not} the posterior mean. Consumer
+geometry can then change the estimator itself, not only the allocation of
+resources around it. Characterizing this estimator shift is an open problem
+of the campaign, not a result of this paper.
+\end{remark}
+
+\section{Consumer-relative value of observation}
+\label{sec:voi}
+
+Let a Bayesian or Kalman estimator hold prior covariance $\Sm$ and consider a
+candidate measurement $y=Hx+v$, $v\sim\mathcal N(0,R)$. The covariance update
+gives $\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
+\emph{consumer-relative value of observation}
+\begin{equation}
+\label{eq:voi}
+\VC \;=\; \tr\!\big(\PC\,(\Sm-\Sp)\big)
+\;=\; \tr\!\big(\PC\,\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm\big).
+\end{equation}
+
+\begin{proposition}[Rank-one form]
+\label{prop:voi}
+For a scalar measurement $y=h^{\top}x+v$ with $\operatorname{Var}(v)=r$ and a
+rank-one consumer $\PC=gg^{\top}$,
+\begin{equation}
+\label{eq:voirankone}
+\VC \;=\; \frac{\big(g^{\top}\Sm h\big)^{2}}{\,h^{\top}\Sm h+r\,}.
+\end{equation}
+\end{proposition}
+
+This form is the section's message: a sensor is not operationally valuable
+because it observes a high-variance direction; it is valuable when its
+measurement direction $h$, \emph{propagated through the current uncertainty}
+$\Sm$, overlaps a direction $g$ the consumer actually reads. The covariance
+algebra is classical. The proposed OT contribution is the \emph{provenance}
+of $g$ or $\PC$: supplied by the downstream consumer's distinguishability
+geometry rather than chosen as an engineering weight.
+
+\section{Resource-constrained operation is the natural interface}
+\label{sec:resources}
+
+Weighted covariance objectives are established in sensor selection and
+scheduling \cite{joshiboyd2009,unified2023} and in LQG sensing co-design
+\cite{tzoumas2021}; the optimization $\min_a \tr(M\Sp(a))$ for a
+designer-specified $M$ is not an OT novelty. The proposed pipeline is
+\begin{equation*}
+\text{consumer} \;\xrightarrow{\;\text{probe}\;}\; \widehat{\PC}
+\;\xrightarrow{\;\text{compose}\;}\; \tr\big(\widehat{\PC}\,\Sig\big)
+\;\xrightarrow{\;\text{allocate}\;}\; a^{\star},
+\end{equation*}
+with the allocation judged on the actual downstream consumer.
+
+\subsection{Probe cost is part of the objective}
+\label{sec:probecost}
+
+Recovering $\widehat{\PC}$ --- and re-recovering it along trajectories when
+the consumer is nonlinear --- consumes exactly the resources OT allocates.
+The policy problem is therefore not
+$\min_\pi D_\C(\pi)$ subject to side constraints, but
+\begin{equation}
+\label{eq:policy}
+\min_{\pi}\;\; D_\C(\pi)
+\;+\;\lambda_s\,C_{\mathrm{sensing}}(\pi)
+\;+\;\lambda_c\,C_{\mathrm{comm}}(\pi)
+\;+\;\lambda_p\,C_{\mathrm{probing}}(\pi),
+\end{equation}
+which contains a genuine exploration problem: \emph{when is another consumer
+query worth its cost?} The marginal value of a probe --- how much a further
+refinement of $\widehat{\PC}$ changes downstream allocations --- is itself an
+OT quantity. All campaign comparisons in \S\ref{sec:campaigns} are run under
+\eqref{eq:policy}, with probe cost on the same budget line as sensing and
+communication.
+
+\subsection{Greedy selection: a stated limitation}
+\label{sec:greedy}
+
+Weighted-trace objectives $\tr(\PC\,\Delta\Sig)$ are \emph{not} supermodular
+in general: the counterexamples of Jawaid and Smith \cite{jawaidsmith2015}
+cover trace-of-covariance objectives, so greedy selection under
+\eqref{eq:voi} does not inherit the classical $(1-1/e)$ guarantee that
+log-determinant objectives enjoy. We do not attempt to repair this here.
+Available machinery includes approximate-supermodularity bounds
+\cite{chamon2021} and convex relaxations \cite{joshiboyd2009}; establishing
+\emph{conditions under which $\VC$-greedy selection retains approximation
+guarantees} is registered as a campaign theorem --- a named target, not a
+claimed result.
+
+\subsection{Operational event triggering}
+
+An operational trigger updates when the uncertainty visible to the consumer
+becomes excessive --- $\tr(\PC\,\Sig_t)>\tau$ --- rather than when a timer
+expires or isotropic variance crosses a threshold. The analytic special case
+is the value-of-information trigger of Soleymani, Baras, and Hirche
+\cite{soleymani2022,soleymani2023}, in which the transmit rule derived from
+the downstream LQG cost is provably optimal. Any OT triggering claim must
+cite that line as its analytic ancestor and either match it (LQG) or
+generalize beyond it (non-analytic consumers).
+
+\section{Consumer geometry as a local control geometry}
+\label{sec:control}
+
+If the ultimate objective is expressed at a downstream output $z=\C(x)$ with
+desired value $z^{\star}=\C(x^{\star})$, a second-order expansion gives
+$D_Y(\C(x),\C(x^{\star}))\approx\tfrac12 (x-x^{\star})^{\top}
+\PC(x^{\star})(x-x^{\star})$, so $\PC(x^{\star})$ is a natural local state
+penalty --- a candidate \emph{provenance} for one component of an LQR/MPC
+objective, not a replacement for it. For a nonlinear consumer the penalty is
+trajectory dependent. Stability, robustness, terminal costs, actuator
+constraints, and feasibility remain control-theoretic problems; the proposed
+division of labor is that OT supplies where the state penalty comes from, and
+control theory determines what to do with it.
+
+\subsection{Threshold consumers and the belief-averaged read operator}
+\label{sec:belief}
+
+The local metric \eqref{eq:pullback} presumes a Hessian. Threshold-like
+consumers --- bit-error rate, outage, any cliff --- have degenerate or
+explosive $G$ near the threshold, and the paper's own application exemplar
+(\S\ref{sec:fso}) is of this type. Where the local geometry exists, the
+robustified object is the \emph{belief-averaged read operator}
+\begin{equation}
+\label{eq:beliefavg}
+\PCb(b)\;=\;\E_{X\sim b}\!\left[\,J_\C(X)^{\top}\,G(\C(X))\,J_\C(X)\,\right],
+\end{equation}
+where $b$ is the estimator's belief: the read operator is averaged over the
+uncertainty the estimator actually has, rather than evaluated at a point the
+system may not occupy. For genuinely nonsmooth outage metrics no Hessian
+exists to average, and a finite-perturbation or smoothed operational metric
+must replace \eqref{eq:pullback} rather than pretending one does.
+\emph{Belief-relative Observation Theory} --- the read operator as a
+functional of the belief --- is flagged as a substantial extension in its own
+right.
+
+\section{Black-box recovery is the sharp claim}
+\label{sec:recovery}
+
+If $\PC$ must always be hand-specified, much of this program reduces to
+established task-weighted estimation and control. The stronger proposition is
+that the read geometry can, under stated conditions, be identified from the
+consumer itself: for appropriate consumers, finite-difference probes under a
+declared observation distribution recover sensitivity information without
+privileged access to the consumer's implementation. The probing
+\emph{methodology} is itself prior art --- empirical observability Gramians
+recover plant sensitivity by perturb-and-simulate \cite{krenderide2009} ---
+and in machine learning, locally optimized decision losses recover quadratic
+task-metric surrogates from a black-box decision oracle by sampled
+perturbations \cite{shah2022,shah2024}. What is claimed here is the probed
+\emph{object} (a downstream consumer's operational metric), its
+\emph{composition} with an explicit estimator covariance, and the
+\emph{validation protocol}: recovery on one perturbation distribution
+followed by success only on the same perturbations is insufficient; the test
+must be out of sample, at matched budgets, on the held-out consumer.
+
+\section{Multiple consumers}
+\label{sec:multi}
+
+A real state service rarely has one downstream consumer. Given
+$P_1,\dots,P_m$ for navigation, tracking, collision avoidance,
+communications, or mission logic, a weighted sum $\PC^{\mathrm{tot}}=\sum_i
+\lambda_i P_i$ can be useful but can hide incompatibility. Observation
+Theory's two-observer rate--distortion result supplies a precedent: in the
+Gaussian weighted-quadratic problem, successive refinement is lossless
+exactly when the observers' optimal residual uncertainty ellipsoids nest;
+distinct observers can demand geometrically incompatible information. That
+result is a coding theorem, not yet a control theorem. The corresponding
+systems question --- when can one estimator, sensor schedule, or state
+representation efficiently serve several consumers, and when does their
+operational geometry force a multi-consumer tax? --- remains to be
+discovered, and must not be answered by smuggling the coding result across.
+
+\section{Dynamic relevance: the age of operationally relevant uncertainty}
+\label{sec:staleness}
+
+Interface 3 is stated as an explicit conjecture. Let $\Sig(t{+}\Delta\mid
+I_t)$ be the uncertainty predicted from currently retained information.
+Define
+\begin{equation}
+\label{eq:staleness}
+\SC(\Delta)\;=\;\tr\!\big[\,\PC(t{+}\Delta)\;\Sig(t{+}\Delta\mid I_t)\,\big].
+\end{equation}
+An observation becomes stale when the uncertainty it leaves \emph{in the
+consumer's read directions} becomes operationally expensive --- age of
+information \cite{sun2020,maatouk2022} weighted by operational geometry
+rather than by the clock. Our prior-art sweep found no anisotropic-staleness
+formulation; the nearest neighbor is the analytic (scalar-LQG)
+value-of-information line \cite{soleymani2022}. Because \eqref{eq:staleness}
+has its own community, baselines (AoI, AoII, VoI), and falsifier (does
+directional staleness beat age-based scheduling at matched update budgets on
+a real consumer?), it is retained here only as a conjectural branch and
+pursued independently. If long-horizon consequences dominate immediate
+consumer-relative covariance reduction, $\SC$ may remain a feature or
+terminal metric rather than a sufficient scheduling policy; that outcome
+would be a scientific boundary, not a failure to be patched.
+
+\section{Prior art and the novelty hypothesis}
+\label{sec:priorart}
+
+The foundational claim must be narrower than several established areas, and
+--- following a dedicated three-slice sweep (control theory; machine
+learning; communications and the application domain) --- narrower still than
+the original draft of this paper stated. Each pillar of the hypothesis exists
+separately in strong form. Local quadratic task metrics are recovered from
+black-box decision oracles by sampled probing in decision-focused learning
+\cite{shah2022,shah2024,bansal2023}. Consumer-derived weights composed with
+estimator covariances drive prospective sensor and bit allocation in LQG
+sensing co-design \cite{tzoumas2021}, goal-oriented Bayesian experimental
+design \cite{attia2018,wu2023,quadgoed2025} --- including Jacobian/Hessian
+pullbacks of nonlinear goal maps with adjoint access --- value-of-information
+scheduling \cite{soleymani2022,soleymani2023,soleymani2024}, rate-cost
+control \cite{kostina2019,tanaka2015}, goal-oriented quantization
+\cite{zou2022}, and task-based quantization \cite{shlezinger2019}. Attention
+and anticipation select sensing resources against task-projected covariance
+metrics in closed loop \cite{carlone2018}; task-driven representations are
+co-designed by information bottlenecks \cite{pacelli2019}; consumer-derived
+perceptual metrics already steer codec bit allocation in practice
+\cite{zhang2018}. No novelty is claimed for any of these, nor for Kalman
+filtering, posterior-mean optimality, PSD-weighted covariance objectives,
+sensor selection and scheduling, active sensing, semantic communication,
+loss-calibrated inference \cite{lacostejulien2011}, or inverse optimal
+control. The analytic LQG case is conceded entirely.
+
+\begin{quote}
+\textbf{Research hypothesis (conjunction).} A downstream consumer induces an
+operational state geometry $\PC=J^{\top}GJ$ that can, under explicit
+observation conditions, be recovered from the consumer itself under
+\emph{query access only} and a declared observation distribution; composed
+with classical estimator uncertainty as $\tr(\PC\Sig)$; and used to predict
+and optimize the operational value of sensing, communication,
+representation, and local control resources for consumers \emph{outside the
+analytic families} --- validated prospectively, out of sample, at matched
+budgets that include the cost of probing, on the actual downstream consumer.
+\end{quote}
+
+This is a novelty hypothesis, not a novelty verdict: no single work found
+combines black-box probed consumer geometry, explicit covariance
+composition, and prospective matched-budget validation, but a referee
+holding decision-focused learning in one hand and goal-oriented experimental
+design in the other could reasonably call the conjunction an integration.
+The answer is the integration \emph{plus the validation protocol} ---
+reconstruction-matched flips, held-out consumers, matched budgets, physical
+endpoints --- which no found work runs.
+
+\section{Research campaign}
+\label{sec:campaigns}
+
+\subsubsection*{Campaign 1 --- Verify the boundary}
+Random linear systems; direct optimization over admissible linear estimator
+gains compared with the Kalman solution under randomly drawn PSD consumer
+metrics. Any repeatable improvement over the Kalman estimate indicates an
+implementation error or a model violation. The invariance is classical and
+now machine-checked (Remark~\ref{rem:kernel}); the campaign \emph{verifies}
+the boundary publicly rather than discovers it.
+
+\subsubsection*{Campaign 2 --- Consumer-relative value of observation}
+A dynamical state with heterogeneous candidate sensors and a planted low-rank
+consumer; selection by \eqref{eq:voi}. The signature experiment is a
+\emph{reconstruction-matched flip}: two sensing policies with essentially
+identical $\tr\Sig$ but differently shaped uncertainty; only the consumer
+changes. Preregistered prediction: $\tr(\PC\Sig)$ identifies which policy is
+better for the downstream consumer while ordinary state MSE cannot. Where an
+analytic model exists, baselines must include the Riccati/VoI-derived weight
+--- not merely hand-tuned or isotropic alternatives.
+
+\subsubsection*{Campaign 3 --- Blind recovery, then scheduling (flagship)}
+The point at which the pieces stop resembling analytic LQG/VoI machinery:
+\begin{equation*}
+\text{unknown consumer}\;\to\;\text{query-only recovery of }\widehat{\PC}
+\;\to\;\text{sensor scheduling}\;\to\;\text{held-out real consumer},
+\end{equation*}
+at equal sensing budgets with probe cost included per \eqref{eq:policy}, and
+with an \emph{analytic-consumer positive-control arm}: on a consumer whose
+optimal weight is known (LQG/VoI), the blind pipeline is required to
+\emph{recover and match} the known optimum --- not beat it. Matching the
+analytic optimum blind is the calibration proof; winning on non-analytic
+consumers is the contribution. Success requires more than subspace recovery:
+the recovered operator must choose useful measurements and improve the
+held-out consumer at matched budget.
+
+\subsubsection*{Campaign 4 --- Operational event triggering}
+Limited transmissions or measurement energy; compare periodic, age-based,
+isotropic-covariance, hand-weighted, analytic-VoI (where available), and
+recovered-OT triggering. Primary outcome: downstream consumer performance at
+matched communication or energy --- never lower OT surrogate loss by
+construction.
+
+\subsubsection*{Campaign 5 --- Physical consumer}
+A moving RF or free-space optical tracking system (\S\ref{sec:fso}).
+Navigation state includes position, velocity, attitude, angular rate, and
+structural motion; the physical consumer reads angle error, optical coupling,
+received power, BER, or outage. The key test is again reconstruction-matched:
+two navigation systems with similar state RMSE but different covariance
+geometry should produce different physical performance, and a blindly
+recovered $\PCb$ should predict the ordering \emph{before} the run.
+
+\subsubsection*{Campaign 6 --- Multi-consumer state service}
+Two consumers with read subspaces ranging from aligned to orthogonal; compare
+common estimation, weighted scalarization, separate service, and
+layered/refined descriptions. The two-observer coding theorem supplies
+hypotheses about incompatibility but must not be imported as a control
+result; the goal is to determine whether a genuinely dynamic analogue of
+observer complementarity exists.
+
+\subsubsection*{Campaign 7 --- Closed-loop control}
+Only after the estimation and sensing claims survive: a recovered or derived
+$\PC(x)$ inside an LQR/MPC objective against isotropic and competently
+hand-tuned baselines at matched control effort, with stability and
+constraint satisfaction independently audited, and the endpoint again the
+real downstream consumer.
+
+\section{Falsifiers}
+\label{sec:falsifiers}
+
+The program narrows or fails if: the recovered read operator does not
+generalize outside its probing distribution; a conventional
+engineer-specified task matrix performs as well, making recovery
+operationally unnecessary; $\PC(x)$ varies too rapidly for a local metric to
+hold over realistic estimator uncertainty (the belief-averaged operator
+\eqref{eq:beliefavg} is the first line of defense, and its failure would
+bound belief-relative OT as well); probe cost under \eqref{eq:policy}
+consumes the advantage the recovered geometry provides; or long-horizon
+closed-loop consequences systematically defeat policies based on
+consumer-relative covariance reduction, in which case OT remains a theory of
+consumer-relative representation with local and terminal uses. These
+outcomes are scientific boundaries, to be reported, not patched away.
+
+\section{Application exemplar: cooperative optical high-altitude platforms}
+\label{sec:fso}
+
+A useful application --- not the foundation of the theory --- is a
+constellation of persistent high-altitude platforms connected by free-space
+optical links \cite{kaymak2018}. Each vehicle has a navigation and attitude
+state; each optical terminal reads only particular combinations of
+transverse displacement, line-of-sight angle, attitude, angular velocity,
+structural jitter, range, and optical state. Its physical consumer geometry
+need not resemble 6-DOF navigation MSE, and the standard practice in the
+pointing-acquisition-tracking literature is a static top-down pointing-error
+budget: the causal arrow runs forward (attitude error $\to$ link budget)
+only. The OT proposal runs it backward: probe the black-box receiver through
+modeled state perturbations, recover a belief-averaged read operator
+\eqref{eq:beliefavg} --- the endpoint metrics are threshold-like, so the
+smoothed construction of \S\ref{sec:belief} is required, not optional ---
+and contract it with the platform's Kalman covariance to decide when to
+request a beacon update, which navigation measurement to acquire, which
+information to transmit to a neighbor, and how much precision to allocate to
+each state direction. Multiple simultaneous links provide a natural
+multi-consumer test. The advantage of this exemplar is that its endpoint ---
+received power, fiber coupling, BER, outage --- is external and physical: OT
+cannot win merely by optimizing its own metric.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Observation Theory proposes an estimation-and-control research program
+centered on a compact composition, $\UC=\tr(\PC\Sig)$: the covariance
+belongs to estimation theory, the read operator to the consumer's
+operational geometry; the former says what is uncertain, the latter what
+matters. Three interfaces organize the program --- estimator geometry when
+$\PC$ varies with state, resource value through $\tr(\PC\,\Delta\Sig)$, and
+dynamic relevance through $\SC(\Delta)$ --- and none replaces observability,
+filtering, LQG, MPC, or stability theory. The campaign succeeds only if its
+sharpest claim survives: that $\PC$ can be recovered from real downstream
+consumers under query access, at accounted probe cost, and prospectively
+predicts resource allocations that ordinary state reconstruction does not
+--- matching the analytic optimum where one exists and winning where none
+does. The program is judged by reconstruction-matched flips, blind recovery,
+held-out dynamics, physical endpoints, competent classical baselines, and
+explicit negative results. If those gates fail, Observation Theory remains a
+theory of consumer-relative representation. If they pass, operational
+distinguishability becomes a working complement to the classical control
+stack.
+
+\begin{thebibliography}{99}\footnotesize
+
+\bibitem{kalman1960} R.~E. Kalman, ``A new approach to linear filtering and
+prediction problems,'' \emph{J. Basic Eng.}, vol.~82, no.~1, pp.~35--45, 1960.
+
+\bibitem{darouach2000} M.~Darouach, ``Existence and design of functional
+observers for linear systems,'' \emph{IEEE Trans. Autom. Control}, vol.~45,
+no.~5, pp.~940--943, 2000.
+
+\bibitem{montanari2022} A.~N. Montanari, C.~Duan, L.~A. Aguirre, and A.~E.
+Motter, ``Functional observability and target state estimation in large-scale
+networks,'' \emph{Proc. Natl. Acad. Sci. USA}, vol.~119, no.~1, e2113750119,
+2022.
+
+\bibitem{enns1984} D.~F. Enns, ``Model reduction with balanced realizations:
+An error bound and a frequency weighted generalization,'' in \emph{Proc. IEEE
+Conf. Decision and Control}, 1984, pp.~127--132.
+
+\bibitem{krenderide2009} A.~J. Krener and K.~Ide, ``Measures of
+unobservability,'' in \emph{Proc. IEEE Conf. Decision and Control}, 2009,
+pp.~6401--6406.
+
+\bibitem{tzoumas2021} V.~Tzoumas, L.~Carlone, G.~J. Pappas, and A.~Karaman,
+``LQG control and sensing co-design,'' \emph{IEEE Trans. Autom. Control},
+vol.~66, no.~4, pp.~1468--1483, 2021.
+
+\bibitem{carlone2018} L.~Carlone and S.~Karaman, ``Attention and anticipation
+in fast visual-inertial navigation,'' \emph{IEEE Trans. Robotics}, vol.~35,
+no.~1, pp.~1--20, 2018.
+
+\bibitem{pacelli2019} V.~Pacelli and A.~Majumdar, ``Task-driven estimation and
+control via information bottlenecks,'' in \emph{Proc. IEEE Int. Conf.
+Robotics and Automation}, 2019, pp.~2061--2067.
+
+\bibitem{joshiboyd2009} S.~Joshi and S.~Boyd, ``Sensor selection via convex
+optimization,'' \emph{IEEE Trans. Signal Process.}, vol.~57, no.~2,
+pp.~451--462, 2009.
+
+\bibitem{jawaidsmith2015} S.~T. Jawaid and S.~L. Smith, ``Submodularity and
+greedy algorithms in sensor scheduling for linear dynamical systems,''
+\emph{Automatica}, vol.~61, pp.~282--288, 2015.
+
+\bibitem{chamon2021} L.~F.~O. Chamon, A.~Amice, and A.~Ribeiro,
+``Approximately supermodular scheduling subject to matroid constraints,''
+\emph{IEEE Trans. Autom. Control}, vol.~67, no.~3, pp.~1384--1396, 2022.
+
+\bibitem{unified2023} L.~Ye \emph{et al.}, ``A unified approach to optimally
+solving sensor scheduling and sensor selection problems in Kalman
+filtering,'' arXiv:2304.02692, 2023.
+
+\bibitem{soleymani2022} T.~Soleymani, J.~S. Baras, and S.~Hirche, ``Value of
+information in feedback control: Quantification,'' \emph{IEEE Trans. Autom.
+Control}, vol.~67, no.~7, pp.~3730--3737, 2022.
+
+\bibitem{soleymani2023} T.~Soleymani, J.~S. Baras, S.~Hirche, and K.~H.
+Johansson, ``Value of information in feedback control: Global optimality,''
+\emph{IEEE Trans. Autom. Control}, vol.~68, no.~6, pp.~3641--3647, 2023.
+
+\bibitem{soleymani2024} T.~Soleymani, J.~S. Baras, and K.~H. Johansson,
+``Foundations of value of information: A semantic metric for networked
+control systems tasks,'' arXiv:2403.11927, 2024.
+
+\bibitem{kostina2019} V.~Kostina and B.~Hassibi, ``Rate-cost tradeoffs in
+control,'' \emph{IEEE Trans. Autom. Control}, vol.~64, no.~11,
+pp.~4525--4540, 2019.
+
+\bibitem{tanaka2015} T.~Tanaka, K.~K.~K. Kim, P.~A. Parrilo, and S.~K.
+Mitter, ``Semidefinite programming approach to Gaussian sequential
+rate-distortion trade-offs,'' \emph{IEEE Trans. Autom. Control}, vol.~62,
+no.~4, pp.~1896--1910, 2017.
+
+\bibitem{attia2018} A.~Attia, A.~Alexanderian, and A.~K. Saibaba,
+``Goal-oriented optimal design of experiments for large-scale Bayesian linear
+inverse problems,'' \emph{Inverse Problems}, vol.~34, no.~9, 095009, 2018.
+
+\bibitem{wu2023} K.~Wu, P.~Chen, and O.~Ghattas, ``An offline-online
+decomposition method for efficient linear Bayesian goal-oriented optimal
+experimental design,'' \emph{SIAM J. Sci. Comput.}, vol.~45, no.~1,
+pp.~B57--B77, 2023.
+
+\bibitem{quadgoed2025} ``Goal-oriented optimal experimental design using
+quadratic approximations of nonlinear goal functionals,'' arXiv:2411.07532,
+2025 (J. Sci. Comput., to appear).
+
+\bibitem{shah2022} S.~Shah, K.~Wang, B.~Wilder, A.~Perrault, and M.~Tambe,
+``Decision-focused learning without decision-making: Learning locally
+optimized decision losses,'' in \emph{Advances in Neural Information
+Processing Systems}, 2022.
+
+\bibitem{shah2024} S.~Shah, B.~Wilder, A.~Perrault, and M.~Tambe, ``Leaving
+the nest: Going beyond local loss functions for predict-then-optimize,'' in
+\emph{Proc. AAAI Conf. Artificial Intelligence}, 2024.
+
+\bibitem{bansal2023} D.~Bansal, R.~T.~Q. Chen, M.~Mukadam, and B.~Amos,
+``TaskMet: Task-driven metric learning for model learning,'' in \emph{Advances
+in Neural Information Processing Systems}, 2023.
+
+\bibitem{elmachtoub2022} A.~N. Elmachtoub and P.~Grigas, ``Smart `predict,
+then optimize','' \emph{Management Science}, vol.~68, no.~1, pp.~9--26, 2022.
+
+\bibitem{amos2017} B.~Amos and J.~Z. Kolter, ``OptNet: Differentiable
+optimization as a layer in neural networks,'' in \emph{Proc. Int. Conf.
+Machine Learning}, 2017.
+
+\bibitem{mandi2024} J.~Mandi \emph{et al.}, ``Decision-focused learning:
+Foundations, state of the art, benchmark and future opportunities,'' \emph{J.
+Artif. Intell. Res.}, vol.~80, pp.~1623--1701, 2024.
+
+\bibitem{lacostejulien2011} S.~Lacoste-Julien, F.~Husz\'ar, and
+Z.~Ghahramani, ``Approximate inference for the loss-calibrated Bayesian,'' in
+\emph{Proc. Int. Conf. Artificial Intelligence and Statistics}, 2011.
+
+\bibitem{zou2022} H.~Zou, C.~Zhang, S.~Lasaulce, L.~Saludjian, and H.~V.
+Poor, ``Goal-oriented quantization: Analysis, design, and application to
+resource allocation,'' \emph{IEEE J. Sel. Areas Commun.}, vol.~41, no.~1,
+pp.~42--54, 2023.
+
+\bibitem{shlezinger2019} N.~Shlezinger, Y.~C. Eldar, and M.~R.~D. Rodrigues,
+``Hardware-limited task-based quantization,'' \emph{IEEE Trans. Signal
+Process.}, vol.~67, no.~20, pp.~5223--5238, 2019.
+
+\bibitem{zhang2018} R.~Zhang, P.~Isola, A.~A. Efros, E.~Shechtman, and
+O.~Wang, ``The unreasonable effectiveness of deep features as a perceptual
+metric,'' in \emph{Proc. IEEE/CVF Conf. Computer Vision and Pattern
+Recognition}, 2018.
+
+\bibitem{sun2020} Y.~Sun, Y.~Polyanskiy, and E.~Uysal, ``Sampling of the
+Wiener process for remote estimation over a channel with random delay,''
+\emph{IEEE Trans. Inf. Theory}, vol.~66, no.~2, pp.~1118--1135, 2020.
+
+\bibitem{maatouk2022} A.~Maatouk, M.~Assaad, and A.~Ephremides, ``The age of
+incorrect information: An enabler of semantics-empowered communication,''
+\emph{IEEE Trans. Wireless Commun.}, vol.~22, no.~4, pp.~2621--2635, 2023.
+
+\bibitem{kaymak2018} Y.~Kaymak, R.~Rojas-Cessa, J.~Feng, N.~Ansari, M.~Zhou,
+and T.~Zhang, ``A survey on acquisition, tracking, and pointing mechanisms
+for mobile free-space optical communications,'' \emph{IEEE Commun. Surveys
+Tuts.}, vol.~20, no.~2, pp.~1104--1123, 2018.
+
+\end{thebibliography}
+
+\end{document}
