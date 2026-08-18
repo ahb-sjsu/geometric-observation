@@ -127,9 +127,13 @@ endpoints) — which no found work runs.
 - **Enns (1984) frequency-weighted balanced truncation** + successors
   ([error bounds](https://ieeexplore.ieee.org/document/788542/),
   [extended FWBT 2025](https://arxiv.org/html/2512.02298)) — output weighting
-  since 1984, weight = hand-specified filter. For linear consumers, the
-  observability Gramian of (A, C·H) is essentially the dynamic P_C — the paper
-  should say so explicitly.
+  since 1984, weight = hand-specified filter. For a linear consumer z = Lx,
+  the pointwise OT geometry is P_C = LᵀGL and the output-weighted
+  observability Gramian is its **dynamics-propagated accumulated analogue**,
+  W_C(T) = ∫₀ᵀ e^{Aᵀt} P_C e^{At} dt — classical observability geometry
+  emerging from accumulated OT geometry in the linear case. The paper should
+  state the connection in exactly this form (not "the Gramian is the dynamic
+  P_C").
 - **Empirical Gramians** (Krener–Ide;
   [PMU placement](https://arxiv.org/pdf/1411.7016),
   [nonlinear sensor selection](https://arxiv.org/pdf/1706.05462)) — sensitivity
