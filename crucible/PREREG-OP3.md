@@ -1,8 +1,12 @@
 # PREREG-OP3 — the sample-complexity exponent (v1-line, first campaign)
 
-**Status: UNSEALED — naive model refuted; corrected front law derived,
-numerically validated, and Lean-verified; ready to seal on a fresh
-day.** This is the appendix that discharges owed prediction **OP3** of
+**STATUS: UNSEALED.** Naive model refuted; corrected front law derived,
+numerically validated, and Lean-verified; ready to seal on a fresh day
+(cooling-off: family/shakedown constructed 2026-08-18, so the earliest
+compliant seal is 2026-08-19). The seal replaces this token with
+`STATUS: SEALED <date>`; `op3_graded.py` refuses to grade until then
+and enforces the one-day cooling-off in code. This is the appendix
+that discharges owed prediction **OP3** of
 `OWED-V1.md` (the v1-line exposure ledger, minted `1c18e31` under
 DECLARATION-V1's freeze rules) — the first campaign against the v1
 line. The shakedown (2026-08-18) **falsified the a-priori prediction
