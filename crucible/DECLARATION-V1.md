@@ -1,14 +1,19 @@
 # Observation Theory v1.0 — declaration
 
-**STATUS: DRAFT-UNSEALED (drafted 2026-08-17, the night the last
-owed prediction was discharged). This is the program's terminal
-claim about itself, and per its own standing rule — G2 of
-`OT-CRUCIBLE-4.md`, restated in readscope `PRINCIPLES.md` — it seals
-only on a later day, after a clear-eyed reread of everything below.
-The seal is one dated line replacing this paragraph, plus the
-version stamp in readscope `PRINCIPLES.md`. Until then, nothing here
-binds, and the theory's version remains v0.2 with zero live
-exposure.**
+**STATUS: SEALED 2026-08-18. Observation Theory v1.0 is declared.**
+Drafted 2026-08-17 (the night the last owed prediction was
+discharged) and sealed the following day per the program's own
+standing rule — G2 of `OT-CRUCIBLE-4.md` — after a full reread of
+this document, readscope `PRINCIPLES.md`, and the campaign verdicts.
+The reread corrected one internal count (the instrument-death tally
+below, five in the crucibles plus one in the sister program) and
+confirmed the census otherwise exact; T1a's Lean formalization,
+added in the day between drafting and sealing, strengthened the
+verification standard. The v0.2 text of the five principles is
+frozen **verbatim** as v1.0; the theory's live exposure is zero; the
+freeze rules below govern from here. The terminal claim waited its
+day, as its own rule requires — the discipline applied to itself at
+the summit.
 
 ## What v1.0 is
 
@@ -17,8 +22,8 @@ of commit `b70fc17`), frozen **verbatim** as v1.0. No statement
 changes at declaration; the version stamp records a fact about
 evidence, not a change of claim: **every statement has been earned
 through adversarial, preregistered, sealed testing — including two
-refutations that rewrote statements, and five instrument deaths
-that rewrote practice.**
+refutations that rewrote statements, and the instrument deaths that
+rewrote practice (six, ledgered below).**
 
 ## The evidential census
 
