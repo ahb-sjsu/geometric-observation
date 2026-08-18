@@ -56,10 +56,17 @@ their load-bearing algebra, and not fully machine-checked**: the
 confinement engine (T1b/N1a/T2b/N4 identities, the reflection pair)
 is verified in exact rational arithmetic + SymPy
 (`verify_theorems.py`, 11/11) and formalized in Lean 4 / Mathlib
-(`lean/ObservationTheory/Confinement.lean`); the Isserlis chain,
-debias inversion, KL constant, cos²θ and change-of-measure laws are
-symbolically verified; Davis–Kahan, Gaussian operator norms, and the
-adaptive pilot argument remain cited-or-hand-proved. The empirical
+(`lean/ObservationTheory/Confinement.lean`); **the adaptive pilot
+argument T1a — the collapse of adaptivity against the all-zeros
+pilot, and the estimator's impossibility of overlapping both members
+of an orthonormal pair above ½ — is now also formalized in Lean
+(`lean/ObservationTheory/AdaptivePilot.lean`, built clean,
+sorry-free), closing the piece that was hand-proved when this
+declaration was first drafted**; the Isserlis chain, debias
+inversion, KL constant, cos²θ and change-of-measure laws are
+symbolically verified; Davis–Kahan and the Gaussian operator-norm
+bound remain cited standard results, and the adaptive `k = d−1` cell
+remains the one open theorem cell, recorded as such. The empirical
 program's own verification standard is the sealed-prereg discipline
 with committed artifacts, plus machine-checked cross-dataset lemmas
 where they exist (the BMP ordering lemma: zero violations on V2's

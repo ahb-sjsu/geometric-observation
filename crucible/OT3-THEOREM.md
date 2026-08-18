@@ -53,6 +53,12 @@ reproduces the pilot's queries and answers exactly. The transcripts are
 identical, û is the same for both, and it cannot have squared overlap
 exceeding 1/2 with both members of an orthonormal pair. ∎
 
+*Machine-checked (2026-08-17): the collapse induction, transcript
+identity, and estimator bound are formalized in Lean 4 / Mathlib
+(`lean/ObservationTheory/AdaptivePilot.lean`, sorry-free). The
+`k ≤ d−2` dimension count enters as its consequence — orthogonality
+of the hidden pair to every pilot direction.*
+
 **T1b — oblivious strategies, k = d−1.** For a fixed (data-independent)
 direction set with `dim V = d−1`, the same conclusion holds.
 

@@ -14,12 +14,24 @@ algebra of `crucible/OT3-THEOREM.md` and `crucible/OT3-NOISY-THEOREM.md`:
 
 **Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag
 `v4.32.2`, built clean 2026-08-17 on the Atlas workstation
-(`lake build`, 1936 jobs, zero errors, zero `sorry`). Reproduce:
+(`lake build`, 1937 jobs, zero errors, zero `sorry`). Reproduce:
 install elan, then `lake update && lake exe cache get && lake build`
 in this directory.
 
-**Scope, stated as in the theorem docs:** the adaptive pilot
-argument (T1a), Davis–Kahan, and Gaussian operator-norm bounds are
-NOT formalized — hand-proved or cited. The symbolic/exact-arithmetic
+`ObservationTheory/AdaptivePilot.lean` closes the piece
+`Confinement.lean` left hand-proved: OT-3's **T1a**, the adaptive
+pilot argument. It machine-checks the adaptive collapse
+(`run_answers_zero`: a strategy fed the all-zeros pilot reproduces it
+against either operator, by induction on the query sequence),
+transcript indistinguishability (`t1a_transcripts_agree`), and the
+estimator bound (`overlap_pair_bound`: no unit vector overlaps both
+members of an orthonormal pair above ½), assembled in `t1a`. The
+`k ≤ d−2` dimension count enters as the hypothesis it buys
+(orthogonality to every pilot direction); the adaptive `k = d−1`
+cell stays open, as the theorem doc records.
+
+**Scope, stated as in the theorem docs:** Davis–Kahan and the
+Gaussian operator-norm bound remain cited standard results, not
+formalized. The symbolic/exact-arithmetic
 layer (`crucible/verify_theorems.py`) covers the Isserlis chain, the
 KL constant, T2b exactness, and the cos²θ / change-of-measure laws.
