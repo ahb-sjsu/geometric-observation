@@ -1,18 +1,23 @@
 # PREREG-OP3 — the sample-complexity exponent (v1-line, first campaign)
 
-**Status: UNSEALED — shakedown complete, naive prediction REFUTED,
-SEAL BLOCKED.** This is the appendix that discharges owed prediction
-**OP3** of `OWED-V1.md` (the v1-line exposure ledger, minted `1c18e31`
-under DECLARATION-V1's freeze rules) — the first campaign against the
-v1 line. The shakedown (2026-08-18) **falsified the a-priori
-prediction stated below before any bar sealed**; see *Shakedown
-outcome* at the foot of this document. The prediction and bars are
-preserved verbatim as the record of what was predicted; they are
-**not** sealed and will not be — a corrected, derivable law must be
-written and shaken down first. This is the discipline functioning as
-designed: a minted prediction, a first substrate, and a shakedown that
-caught an oversimplified model before it bound. The document carries
-no evidential weight.
+**Status: UNSEALED — naive model refuted; corrected front law derived,
+numerically validated, and Lean-verified; ready to seal on a fresh
+day.** This is the appendix that discharges owed prediction **OP3** of
+`OWED-V1.md` (the v1-line exposure ledger, minted `1c18e31` under
+DECLARATION-V1's freeze rules) — the first campaign against the v1
+line. The shakedown (2026-08-18) **falsified the a-priori prediction
+in *The a-priori prediction* below before any bar sealed**; the
+*corrected* front law, derived from the same algebra carried one step
+further, is stated and validated in *Shakedown outcome* and *Corrected
+law* at the foot of this document. The original prediction and its
+bars are preserved verbatim as the record of what was predicted first;
+they remain **not** sealed. The corrected law's bars will be sealed in
+their own act on a day later than this construction (cooling-off,
+`governor.sealed`), with a graded runner. This is the discipline
+functioning as designed: a minted prediction, a first substrate, a
+shakedown that caught an oversimplified model before it bound, and a
+corrected model that had to be derived and machine-checked before any
+bar could bind. The document carries no evidential weight.
 
 ## What OP3 asked, and how this appendix sharpens it
 
@@ -191,20 +196,80 @@ spectral front). OP3 is **not refuted** — recovery is real, ordered,
 and spectrum-derived, consistent with P3. What is refuted is *this
 appendix's rate model*. The owed prediction stays live in `OWED-V1.md`.
 
-**Next unit (a new appendix, not a seal of this one):** derive the
-front law with the interference term — candidate:
-`cos²θ_i = f(m·w_i² / (1 + (1/k)Σ_j w_j²·1[j unrecovered]))`, a
-self-consistent front — and bar the **collapse** of all
-`(mode, budget)` cells onto that one curve, plus the front's
-log-advance rate `di*/d log m`, across seeds. That derivation is the
-work that precedes any seal; until it exists and shakes down, no bar
-here binds.
+## Corrected law — derived, validated, Lean-verified (2026-08-18)
+
+The corrected front law was derived from the C-15 sketch identity
+carried one Davis–Kahan step past the naive model, and validated on
+the full per-mode data (`readscope/calibration/op3_frontlaw.py`,
+`records/op3-frontlaw.json`).
+
+**The derivation.** `M = E[Ŝ] = (1+1/k)S + (tr S/k)I` is *affine* in
+the population operator `S`, so it keeps `S`'s eigenvectors with
+eigenvalues `μ_i = (1+1/k)λ_i + tr(S)/k`. For the planted geometric
+spectrum `λ_i ∝ w_i²` (`w = 0.75`) the eigengap is `gap_i ∝ w_i²`. The
+sampling fluctuation `‖Ŝ_n − M‖ ∝ tr(S)/(k√n)` is **isotropic and
+common to all modes** — the cross-mode interference the shakedown
+demanded. Davis–Kahan then gives per mode
+
+    sinθ_i ≲ ‖Ŝ_n − M‖ / gap_i ∝ 1/(√n · w_i²),
+    sin²θ_i ∝ 1/(n · w_i⁴),
+
+so the recovery collapses in the single variable **`s_i = m · w_i⁴`
+— exponent `p = 4`**, and the recovery front (mode at `cos²θ = ½`)
+advances as `i*(m) = i*(1) + ln(m)/ln(w^{-4})`, slope
+`1/ln(w^{-4}) = 0.869`, i.e. **2.41 modes per 16× budget**.
+
+**The validation.** Per-mode canonical correlations over
+`m ∈ {4,…,1000}`, seeds {0,1,2}, fit to the universal curve
+`cos²θ_i = s_i/(s_i + A)`:
+
+| p | 2 | 3 | **4** | 5 | 6 |
+|---|---|---|---|---|---|
+| collapse RMS | 0.218 | 0.168 | **0.157** | 0.159 | 0.195 |
+
+`p = 4` is the best-collapsing exponent — the derived value wins. The
+front advance is the sharper signature: measured **+1.20 modes per 4×
+= 2.40 per 16×**, against the derived **2.41** — essentially exact
+across the whole sweep. The single-variable collapse is *approximate*
+(RMS 0.157, not near-zero): the linearized Davis–Kahan and the
+one-variable reduction of the interference term leave residual scatter,
+so a sealed bar should lean on the **front-advance rate** (clean) more
+than the raw collapse RMS (rough).
+
+**Machine-checked algebra.** The load-bearing steps are formalized in
+Lean 4 / Mathlib (`lean/ObservationTheory/FrontLaw.lean`, built clean,
+sorry-free — `affine_hasEigenvector`, `affine_eigengap`,
+`geometric_gap_ratio`, `frontlaw_exponent` depend only on `propext /
+Classical.choice / Quot.sound`). Davis–Kahan and the Gaussian
+operator-norm rate remain cited standard results, per DECLARATION-V1's
+stated standard.
+
+## Corrected-law bars (TO BE SEALED on a fresh day; not yet binding)
+
+- **B1′ — the exponent.** The collapse RMS is minimized at `p = 4`
+  among `p ∈ {2,3,4,5,6}`, on each of ≥3 disjoint seeds.
+- **B2′ — the front-advance rate.** The fitted `di*/d ln m` is
+  `0.869 ± 0.10` (derived `1/ln(w^{-4})`), across seeds — the primary
+  bar, being the clean signature.
+- **B3′ — the mechanism (MC-grade).** At the largest `m`, the empirical
+  `Ŝ_n` top-16 eigenspace overlaps the affine population operator
+  `(1+1/k)S + tr(S)/k·I` at ≥ 0.9, confirming the identity the whole
+  derivation rests on.
+
+Kills unchanged in spirit: a best-collapse exponent away from 4 with a
+front rate away from 0.869 refutes the Davis–Kahan front account (not
+P3). These bars supersede the pre-shakedown bars above; they seal in
+their own dated act.
 
 ## Provenance
 
 - Owed prediction: `crucible/OWED-V1.md` OP3 (`1c18e31`).
-- Instrument: `readscope/calibration/op3_exponent.py` (shakedown) →
-  a graded runner added at seal. Record:
-  `readscope/calibration/records/op3-shakedown.json` (no weight).
+- Instruments: `readscope/calibration/op3_exponent.py` (shakedown) and
+  `readscope/calibration/op3_frontlaw.py` (front-law validation) → a
+  graded runner added at seal. Records:
+  `readscope/calibration/records/op3-shakedown.json`,
+  `op3-frontlaw.json` (no weight).
+- Machine-checked algebra: `lean/ObservationTheory/FrontLaw.lean`
+  (built clean, sorry-free).
 - Lineage: C-15 `readscope/calibration/c15_budget_surface.py` +
   `records/c15-budget-surface.json`.
