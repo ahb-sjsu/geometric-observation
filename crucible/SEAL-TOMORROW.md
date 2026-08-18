@@ -41,6 +41,16 @@ prompt — that needs a human "try now".
    composition of importance.
 4. Commit the verdict.
 
+### OP1 — cross-consumer transfer (`crucible/PREREG-OP1.md`)
+
+1. `STATUS: UNSEALED` → `STATUS: SEALED 2026-08-19`.
+2. Commit the seal.
+3. `python crucible/op1_check.py` → `results/OP1-graded.json`. Bars:
+   B1 `Spearman(overlap, damage) ≤ −0.6` per seed; B2 affine fit
+   `R² ≥ 0.9`, slope < 0; B3 out-of-fold blind prediction (fit on half,
+   predict held-out damage from overlap alone) `ρ ≥ 0.6`, `R² ≥ 0.8`.
+4. Commit the verdict.
+
 ### SC-2 — LEO/interplanetary transport (`crucible/PREREG-SC2.md`)
 
 1. `STATUS: UNSEALED` → `STATUS: SEALED 2026-08-19`.

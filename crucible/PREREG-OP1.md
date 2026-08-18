@@ -80,7 +80,10 @@ v1.0 statements untouched.
 
 - Owed prediction: `crucible/OWED-V1.md` OP1 (`1c18e31`).
 - Substrate: `crucible/fam_op1_shakedown.py`; record
-  `results/OP1-shakedown.json` (no weight). Graded runner `op1_check.py`
-  added at seal, on disjoint seeds.
+  `results/OP1-shakedown.json` (no weight). Graded runner
+  `crucible/op1_check.py` (built, seal-guard + coded cooling-off,
+  refuses until sealed), disjoint seeds {20260819, 20260820, 20260821}.
+  B3 is an out-of-fold test: fit the affine law on half the pairs,
+  predict the held-out half's damage from the overlap scalar alone.
 - Reused core: readscope `water_fill`, the operator-overlap trace
   (`consumer_distortion` = `tr(P·Σ)`, metrics.py).
