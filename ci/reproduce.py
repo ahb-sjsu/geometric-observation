@@ -238,86 +238,9 @@ for harness, sentinel, jname, flag in REPRODUCIBLE:
         failures.append(f"{harness} crashed: {e}")
         print(f"  FAIL {harness}: {e}")
 
-print()
-print("=" * 68)
-print("[2b] GO-P-2026-087 committed-artifact self-consistency (no re-run: the")
-print("     governed harness is ~8 min; gates + headline metrics re-derived")
-print("     from the committed per-system data against the frozen config)")
-print("=" * 68)
-try:
-    d87 = json.load(open(os.path.join(ROOT, "results", "GO87-blind-scheduling.json")))
-    c87, m87 = d87["config"], d87["metrics"]
-    # Re-derive P1 (pooled ratio) and P2 from the raw per-system losses.
-    g_ot = sum(s["iso-trace"]["loss"] - s["ot-blind"]["loss"] for s in d87["armP"])
-    g_or = sum(s["iso-trace"]["loss"] - s["oracle"]["loss"] for s in d87["armP"])
-    p1 = g_ot / g_or
-    p2 = sum((min(s["iso-trace"]["loss"], s["logdet"]["loss"]) - s["ot-blind"]["loss"])
-             / min(s["iso-trace"]["loss"], s["logdet"]["loss"]) for s in d87["armN"]) / len(d87["armN"])
-    bad87 = []
-    if abs(p1 - m87["P1_match_fraction"]) > 1e-9:
-        bad87.append(f"P1 rederived {p1:.6f} != committed {m87['P1_match_fraction']:.6f}")
-    if abs(p2 - m87["P2_rel_improvement"]) > 1e-9:
-        bad87.append(f"P2 rederived {p2:.6f} != committed {m87['P2_rel_improvement']:.6f}")
-    gates87 = {
-        "P1_match": m87["P1_match_fraction"] >= 1 - c87["eps_match"],
-        "P2_improve": m87["P2_rel_improvement"] >= c87["delta_N"],
-        "P3_ordering": m87["P3_ordering"] >= c87["q_order"],
-        "C_shuffled_no_free_lunch": m87["shuffled_gap"] >= -0.02,
-        "C_anti_worst": bool(m87["anti_worst"]),
-    }
-    if gates87 != d87["gates"]:
-        bad87.append(f"gates rederived {gates87} != committed {d87['gates']}")
-    if (d87["verdict"] == "ALL PASS") != all(gates87.values()):
-        bad87.append(f"verdict '{d87['verdict']}' inconsistent with gates")
-    if bad87:
-        failures.append("GO87 self-consistency: " + "; ".join(bad87))
-        print("  FAIL GO87:", "; ".join(bad87))
-    else:
-        print(f"  PASS GO87: P1={p1:.3f} P2={p2:.3f} rederived from per-system data; "
-              f"gates + verdict consistent with the frozen config")
-except Exception as e:
-    failures.append(f"GO87 self-consistency crashed: {e}")
-    print("  FAIL GO87:", e)
-
-print()
-print("=" * 68)
-print("[2c] GO-P-2026-088 / GO-P-2026-089 committed-artifact self-consistency")
-print("     (gates re-derived from committed metrics against frozen configs)")
-print("=" * 68)
-for jname, derive in (
-    ("GO88-consumer-flip.json", lambda c, m: {
-        "F1_flip": m["F1"] >= c["q_flip"],
-        "F2_prediction": m["F2"] >= c["q_pred"],
-        "F3_magnitude": m["F3"] >= c["delta_flip"],
-        "I_min_matched": m["n_matched"] >= 6,   # min_matched per the sealed prereg
-        "C_iso_bounded": m["iso_frac"] <= c["iso_frac"],
-        "C_random_worst": bool(m["random_worst"]),
-    }),
-    ("GO89-operational-trigger.json", lambda c, m: {
-        "T1_armP": m["T1_armP"] >= c["delta_T"],
-        "T1_armN": m["T1_armN"] >= c["delta_T"],
-        "T2_blind_match": m["T2"] >= 1 - c["eps_T"],
-        "T3_budget_band": bool(m["T3"]),
-        "C_shuffled_no_free_lunch": m["shuffled_gap"] >= -0.02,
-        "C_anti_worst": bool(m["anti_worst"]),
-    }),
-):
-    try:
-        dd = json.load(open(os.path.join(ROOT, "results", jname)))
-        g = derive(dd["config"], dd["metrics"])
-        bad = []
-        if g != dd["gates"]:
-            bad.append(f"gates rederived {g} != committed {dd['gates']}")
-        if (dd["verdict"] == "ALL PASS") != all(g.values()):
-            bad.append(f"verdict '{dd['verdict']}' inconsistent with gates")
-        if bad:
-            failures.append(f"{jname} self-consistency: " + "; ".join(bad))
-            print(f"  FAIL {jname}: " + "; ".join(bad))
-        else:
-            print(f"  PASS {jname}: gates + verdict consistent with the frozen config")
-    except Exception as e:
-        failures.append(f"{jname} self-consistency crashed: {e}")
-        print(f"  FAIL {jname}: {e}")
+# The GO-87/88/89 (OT-EC) committed-artifact self-consistency checks moved
+# with the campaigns to the observation-theory-campaigns repository
+# (python/verify_ec_gates.py there), 2026-08-19.
 
 print()
 print("=" * 68)
