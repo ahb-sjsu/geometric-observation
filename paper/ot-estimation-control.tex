@@ -87,13 +87,16 @@ hypothesis is their conjunction: that a downstream consumer's operational
 metric can be recovered from the consumer itself under \emph{query access
 only}, composed with classical estimator uncertainty, and validated
 prospectively, out of sample, at matched budgets that include the cost of
-probing. First evidence exists: four campaigns --- blind
-recovery~$\to$~scheduling with its analytic positive control, the
-reconstruction-matched two-consumer flip in sensing, signal-aware
-operational triggering, and a physical-model optical-link consumer probed
-through the belief-averaged operator --- were sealed under the program's
-preregistration protocol, run once each at governed seeds, and passed all
-gates (\S\ref{sec:evidence}). OT is proposed not as a replacement for
+probing. Evidence now exists for the full campaign: all seven experiments
+were sealed under the program's preregistration protocol and run once each
+at governed seeds --- six passing every gate (blind recovery~$\to$~scheduling
+with its analytic positive control; the reconstruction-matched two-consumer
+flip in sensing; signal-aware operational triggering; a physical-model
+optical-link consumer probed through the belief-averaged operator; and the
+multi-consumer tax, measured with its predicted angular shape), and the
+closed-loop campaign promoted on its third seal after two registered
+instrument misses whose corrections are part of the record
+(\S\ref{sec:evidence}). OT is proposed not as a replacement for
 observability, filtering, stability, or feedback, but as a complementary
 theory of operational distinguishability at their downstream boundary.
 \end{abstract}
@@ -460,8 +463,11 @@ distinct observers can demand geometrically incompatible information. That
 result is a coding theorem, not yet a control theorem. The corresponding
 systems question --- when can one estimator, sensor schedule, or state
 representation efficiently serve several consumers, and when does their
-operational geometry force a multi-consumer tax? --- remains to be
-discovered, and must not be answered by smuggling the coding result across.
+operational geometry force a multi-consumer tax? --- was open when this
+campaign was designed and must not be answered by smuggling the coding
+result across. Campaign 6 has since measured it (\S\ref{sec:evidence}):
+the tax exists, is exactly zero when the read geometries coincide, and
+rises monotonically with the principal angle between read subspaces.
 
 \section{Dynamic relevance: the age of operationally relevant uncertainty}
 \label{sec:staleness}
@@ -601,6 +607,8 @@ layered/refined descriptions. The two-observer coding theorem supplies
 hypotheses about incompatibility but must not be imported as a control
 result; the goal is to determine whether a genuinely dynamic analogue of
 observer complementarity exists.
+\emph{Status: sealed, run, all gates passed --- the tax curve of
+\S\ref{sec:evidence}.}
 
 \subsubsection*{Campaign 7 --- Closed-loop control}
 Only after the estimation and sensing claims survive: a recovered or derived
@@ -608,11 +616,13 @@ $\PC(x)$ inside an LQR/MPC objective against isotropic and competently
 hand-tuned baselines at matched control effort, with stability and
 constraint satisfaction independently audited, and the endpoint again the
 real downstream consumer.
+\emph{Status: promoted on its third seal after two registered instrument
+misses --- the record's proof of work (\S\ref{sec:evidence}).}
 
 \section{First governed evidence}
 \label{sec:evidence}
 
-Four of the seven campaigns have been executed under the program's
+All seven campaigns have now been executed under the program's
 preregistration protocol: design registered before governed measurement;
 calibration pilots disclosed with every design change; effect floors frozen
 from calibration and sealed with harness code hashes; a \emph{single}
@@ -641,6 +651,41 @@ schedule serves the link better, read off $\tr(\PCb\bar\Sig)$)
 ``predict the ordering before the run'' test, passed at 94.1\%. Scope,
 plainly: this is a physics-based \emph{simulated} consumer --- a step
 toward, not the arrival at, the hardware endpoint.
+
+Campaign 6 answers the question \S\ref{sec:multi} left open: a dynamic
+analogue of observer complementarity \emph{exists}, as a measured tax
+curve. For planted consumer pairs whose read subspaces sit at a controlled
+principal angle (identical within-subspace weights, so the angle is the
+only contrast), the egalitarian price of serving both from one budget ---
+best shared schedule over per-consumer utopia on the worst-of-two
+endpoint --- is exactly $1.000$ when the geometries coincide and rises
+monotonically to $1.149$ at orthogonality. The two-observer coding
+theorem's nesting intuition motivated the design and was at no point
+imported as a result; the tax curve is the campaign's own measurement.
+One exploratory observation is reported without a gate: scalarized joint
+scheduling dominated time-sharing in 72 of 80 cells at this budget, so the
+successive-refinement analogue proper (layered descriptions) remains open.
+
+Campaign 7 is the record's proof of work. Its three predictions ---
+consumer-derived LQG penalty over isotropic at matched control effort,
+blind recover/match, and full geometry over the best endpoint-tuned
+diagonal --- passed numerically in \emph{all three} governed runs
+(K1 $= 0.083/0.094/0.084$ across seals, bars inherited unchanged
+throughout), yet the claims were promoted only on the third. The first
+seal failed its effort-matching integrity gate (absolute transfer,
+common-mode); the second failed the respecified cross-arm spread gate ---
+arm-differentially, with the isotropic arms undershooting effort by
+${\sim}35\%$ in one system, i.e.\ genuine comparison contamination that
+the gate existed to catch; both misses were recorded with no comparison
+claimed. The third seal replaced simulation-bisection matching with an
+\emph{analytic} instrument (the Kalman recursion is control-independent,
+so expected effort follows exactly from joint second-moment propagation of
+$(x,\hat x)$), whose measured cross-arm residual of $10^{-5}$ eliminated
+the error class; the held-out spread then read $0.041$ against a $0.10$
+band, and the promotion followed. The methodological lesson generalizes:
+budget-matching instruments should be analytic wherever the dynamics
+permit, and an instrument's residual should be measured as its own
+diagnostic alongside the quantity it matches.
 
 \begin{table}[t]
 \caption{Governed OT-EC campaign results (single sealed runs; 20 fresh
@@ -678,6 +723,21 @@ schedules predicted \emph{before the run} in \textbf{94.1\%} of 17 pairs
 ($\ge$80\%); charged aligned schedule wins \textbf{+12.5\%} coupling loss
 vs the best agnostic ($\ge$4\%); blind capture of an 8$\times$-probe
 reference \textbf{89.8\%} ($\ge$70\%) & ALL PASS 6/6 \\
+\addlinespace
+C6: the multi-consumer tax (EC6-001) &
+consumer pairs at controlled principal angles: the egalitarian
+best-shared-over-utopia tax runs \textbf{1.000/1.037/1.123/1.149} at
+$0^{\circ}/30^{\circ}/60^{\circ}/90^{\circ}$ --- sharing exactly free when
+geometries coincide ($\le$1.05), a \textbf{14.9\%} tax at orthogonality
+($\ge$1.05); consumer-aware sharing beats agnostic sharing by
+\textbf{12.5\%} pooled on worst-of-two ($\ge$5\%) & ALL PASS 6/6 \\
+\addlinespace
+C7: closed-loop control (EC7-003, third seal) &
+consumer-derived LQG penalty at \emph{analytically} matched control effort
+(instrument residual $10^{-5}$): \textbf{+8.4\%} vs the isotropic penalty
+on the consumer endpoint ($\ge$4\%); probe-charged blind penalty captures
+\textbf{99.5\%} of the oracle advantage ($\ge$60\%); \textbf{+7.7\%} vs
+the best endpoint-tuned diagonal ($\ge$0); every loop stable & ALL PASS 8/8 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -712,8 +772,11 @@ matched-budget validation with probe cost charged, and the recover/match
 positive control passed --- and the two transfer results: the
 reconstruction-matched flip survives the move from codes to sensor
 schedules, and consumer weighting pays in the timing interface only through
-the realized error. The physical endpoint (Campaign 5) and the multi-consumer
-and closed-loop questions (Campaigns 6--7) remain open.
+the realized error. The multi-consumer question is resolved through the tax
+curve and the closed-loop question through the third seal; the hardware
+endpoint, richer consumer sets ($m>2$, asymmetric priorities, layered
+descriptions), and the Interface-1 frontier (nonlinear consumers inside
+MPC, where $\PC(x)$ moves the estimator itself) remain open.
 
 \section{Falsifiers}
 \label{sec:falsifiers}
@@ -787,10 +850,11 @@ sharpest claim survives: that $\PC$ can be recovered from real downstream
 consumers under query access, at accounted probe cost, and prospectively
 predicts resource allocations that ordinary state reconstruction does not
 --- matching the analytic optimum where one exists and winning where none
-does. The first four governed campaigns passed exactly that test ---
-the fourth on a physics-based simulated optical link through the
-belief-averaged operator (\S\ref{sec:evidence}), positive control
-included; the hardware endpoint is where the claim now goes to be risked.
+does. All seven campaigns have now been run under seal --- six passing
+outright, the closed-loop seventh promoted on its third seal after two
+registered instrument misses whose corrections are themselves part of the
+record (\S\ref{sec:evidence}); positive controls included throughout. The
+hardware endpoint is where the claim now goes to be risked.
 The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. If those gates fail, Observation Theory remains a
