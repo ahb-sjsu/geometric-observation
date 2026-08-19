@@ -1,6 +1,6 @@
 # PREREG-SC2 — LEO / interplanetary transport under predictable nonstationarity
 
-**STATUS: UNSEALED.** Construction + shakedown only. Second campaign of
+**STATUS: SEALED 2026-08-19.** Construction + shakedown only. Second campaign of
 the space-comms crucible (after SC-1's downlink allocation). A distinct
 Observation Theory handle: **P4 + P5**, not the AM/GM allocation law.
 Bars bind only on a dated seal a day later than this construction
