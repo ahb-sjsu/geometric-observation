@@ -1,6 +1,6 @@
 # PREREG-SC1 — the space-comms downlink (a new cross-domain crucible)
 
-**STATUS: UNSEALED.** Construction + shakedown only. This opens a new
+**STATUS: SEALED 2026-08-19.** Construction + shakedown only. This opens a new
 domain line for Observation Theory — a bandwidth-starved deep-space
 science downlink — the frontier `OWED-V1.md` named but did not mint
 ("a domain it has never touched … where a genuinely surprising failure
