@@ -103,6 +103,7 @@ jobs:
             paper-IV-tmlr.tex
             paper-VI-spectral-conditional.tex
             paper-VII-dynamic-tax.tex
+            ot-estimation-control.tex
           working_directory: paper
           latexmk_use_xelatex: false
           continue_on_error: true
@@ -116,7 +117,8 @@ jobs:
                    go15-reference-coupled complementarity-tax \
                    consumer-relative-landauer two-observer-theorem \
                    paper-IV-consumer-relative-flip paper-IV-tmlr \
-                   paper-VI-spectral-conditional paper-VII-dynamic-tax; do
+                   paper-VI-spectral-conditional paper-VII-dynamic-tax \
+                   ot-estimation-control; do
             if [ ! -f "$f.log" ]; then
               echo "::error::$f.log is missing -- the document did not compile"
               rc=1
