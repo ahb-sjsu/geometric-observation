@@ -87,9 +87,14 @@ hypothesis is their conjunction: that a downstream consumer's operational
 metric can be recovered from the consumer itself under \emph{query access
 only}, composed with classical estimator uncertainty, and validated
 prospectively, out of sample, at matched budgets that include the cost of
-probing. OT is proposed not as a replacement for observability, filtering,
-stability, or feedback, but as a complementary theory of operational
-distinguishability at their downstream boundary.
+probing. First evidence exists: three campaigns --- blind
+recovery~$\to$~scheduling with its analytic positive control, the
+reconstruction-matched two-consumer flip in sensing, and signal-aware
+operational triggering --- were sealed under the program's preregistration
+protocol, run once each at governed seeds, and passed all gates
+(\S\ref{sec:evidence}). OT is proposed not as a replacement for
+observability, filtering, stability, or feedback, but as a complementary
+theory of operational distinguishability at their downstream boundary.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -363,15 +368,27 @@ guarantees} is registered as a campaign theorem --- a named target, not a
 claimed result.
 
 \subsection{Operational event triggering}
+\label{sec:trigger}
 
 An operational trigger updates when the uncertainty visible to the consumer
-becomes excessive --- $\tr(\PC\,\Sig_t)>\tau$ --- rather than when a timer
-expires or isotropic variance crosses a threshold. The analytic special case
-is the value-of-information trigger of Soleymani, Baras, and Hirche
-\cite{soleymani2022,soleymani2023}, in which the transmit rule derived from
-the downstream LQG cost is provably optimal. Any OT triggering claim must
-cite that line as its analytic ancestor and either match it (LQG) or
-generalize beyond it (non-analytic consumers).
+becomes excessive --- rather than when a timer expires or isotropic variance
+crosses a threshold. The analytic special case is the value-of-information
+trigger of Soleymani, Baras, and Hirche \cite{soleymani2022,soleymani2023},
+in which the transmit rule derived from the downstream LQG cost is provably
+optimal. Any OT triggering claim must cite that line as its analytic
+ancestor and either match it (LQG) or generalize beyond it (non-analytic
+consumers).
+
+A registered finding from Campaign 4's calibration pilots
+(\S\ref{sec:evidence}) sharpens the proposal: a \emph{covariance-only}
+threshold $\tr(\PC\,\Sig_t)>\tau$ is direction-blind in effect --- the
+covariance recursion is measurement-independent, so at a fixed budget every
+covariance functional collapses to a quasi-periodic schedule and the
+consumer weighting adds nothing. The operational trigger must be
+\emph{signal- or belief-aware}: fire on the consumer-weighted \emph{realized}
+discrepancy (e.g.\ $e^{\top}\PC\,e>\tau$ for the innovation or
+sensor--remote gap $e$), consistent with the signal-aware designs of the VoI
+literature and with the belief-relative construction of \S\ref{sec:belief}.
 
 \section{Consumer geometry as a local control geometry}
 \label{sec:control}
@@ -537,6 +554,7 @@ changes. Preregistered prediction: $\tr(\PC\Sig)$ identifies which policy is
 better for the downstream consumer while ordinary state MSE cannot. Where an
 analytic model exists, baselines must include the Riccati/VoI-derived weight
 --- not merely hand-tuned or isotropic alternatives.
+\emph{Status: sealed, run, all gates passed (\S\ref{sec:evidence}).}
 
 \subsubsection*{Campaign 3 --- Blind recovery, then scheduling (flagship)}
 The point at which the pieces stop resembling analytic LQG/VoI machinery:
@@ -552,6 +570,8 @@ analytic optimum blind is the calibration proof; winning on non-analytic
 consumers is the contribution. Success requires more than subspace recovery:
 the recovered operator must choose useful measurements and improve the
 held-out consumer at matched budget.
+\emph{Status: sealed, run, all gates passed --- including the positive
+control (\S\ref{sec:evidence}).}
 
 \subsubsection*{Campaign 4 --- Operational event triggering}
 Limited transmissions or measurement energy; compare periodic, age-based,
@@ -559,6 +579,8 @@ isotropic-covariance, hand-weighted, analytic-VoI (where available), and
 recovered-OT triggering. Primary outcome: downstream consumer performance at
 matched communication or energy --- never lower OT surrogate loss by
 construction.
+\emph{Status: sealed, run, all gates passed; its pilots contributed the
+covariance-null finding of \S\ref{sec:trigger} (\S\ref{sec:evidence}).}
 
 \subsubsection*{Campaign 5 --- Physical consumer}
 A moving RF or free-space optical tracking system (\S\ref{sec:fso}).
@@ -583,6 +605,80 @@ $\PC(x)$ inside an LQR/MPC objective against isotropic and competently
 hand-tuned baselines at matched control effort, with stability and
 constraint satisfaction independently audited, and the endpoint again the
 real downstream consumer.
+
+\section{First governed evidence}
+\label{sec:evidence}
+
+Three of the seven campaigns have been executed under the program's
+preregistration protocol: design registered before any harness code existed;
+calibration pilots disclosed with every design change; effect floors frozen
+from calibration and sealed with harness code hashes; a \emph{single}
+governed run per campaign at a sealed seed on fresh system draws; outcomes
+recorded in the program's public claims ledger regardless of sign, at class
+\texttt{[predicted]}. Table~\ref{tab:evidence} summarizes; sealed
+preregistrations GO-P-2026-087/088/089, harnesses, and committed result
+artifacts are in the program repository, with every gate re-derived from the
+committed per-system data in continuous integration.
+
+\begin{table}[t]
+\caption{Governed OT-EC campaign results (single sealed runs; 20 fresh
+random LTI systems each; common random numbers across policies; probe cost
+charged where a recovered operator is used).}
+\label{tab:evidence}
+\centering
+\begin{tabular}{@{}p{0.26\linewidth}p{0.43\linewidth}p{0.22\linewidth}@{}}
+\toprule
+\textbf{Campaign (prereg)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
+\midrule
+C3 flagship: blind recovery $\to$ scheduling (087) &
+positive control: blind pipeline captures \textbf{94.6\%} of the analytic
+optimum's gain ($\ge$75\%); wins \textbf{+16.3\%} over the best
+consumer-agnostic policy on black-box consumers ($\ge$8\%); trace-matched
+ordering carried by $\tr(\widehat\PC\Sig)$ in \textbf{86.9\%} of 61 pairs
+($\ge$65\%) & ALL PASS 5/5 \\
+\addlinespace
+C2: the flip in sensing (088) &
+full two-consumer verdict inversion in \textbf{100\%} of trace-matched
+systems ($\ge$80\%); $\tr(P_i\bar\Sig)$ predicts the ordering in
+\textbf{100\%} of cells ($\ge$85\%); mean relative consumer gap
+\textbf{31.8\%} ($\ge$10\%) at $\tr\bar\Sig$ matched within 10\% & ALL PASS 6/6 \\
+\addlinespace
+C4: operational triggering (089) &
+signal-aware $e^{\top}\PC e$ trigger beats periodic/isotropic by
+\textbf{20.0\%} (analytic arm) / \textbf{33.3\%} (black-box arm) at matched
+realized budgets ($\ge$10\%); probe-charged blind trigger captures
+\textbf{86.9\%} of the true-operator advantage ($\ge$75\%) & ALL PASS 6/6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three disclosures accompany the headline numbers, in the program's practice
+of reporting the record rather than the highlight reel. First, the pilots
+were load-bearing: Campaign 3's five calibration pilots caught
+transient-loaded probe charging, prior-inconsistent initial states, and
+noise-dominated policy comparisons (cured by common random numbers);
+Campaign 4's first pilot produced the covariance-null finding of
+\S\ref{sec:trigger} --- a registered negative that redesigned the
+experiment. Second, Campaign 2's governed invocation completed its
+measurement and then crashed in result serialization; the full output was
+committed as evidence, the serializer-only fix was recorded in a dated
+amendment, and the re-invocation was required to --- and did --- reproduce
+the first invocation's metrics line for line. Third, two of Campaign 2's
+gates passed exactly at their bars (the iso-control ceiling and the
+minimum-matched-systems count), which is noted in the ledger rather than
+hidden.
+
+Scope, stated plainly: these are synthetic LTI plants with planted or frozen
+consumers, single governed runs at class \texttt{[predicted]}, and greedy
+selection with no optimality guarantee (\S\ref{sec:greedy}). What they
+establish is precisely the conjunction of \S\ref{sec:priorart} in its first
+instantiation --- query-only recovery, covariance composition, prospective
+matched-budget validation with probe cost charged, and the recover/match
+positive control passed --- and the two transfer results: the
+reconstruction-matched flip survives the move from codes to sensor
+schedules, and consumer weighting pays in the timing interface only through
+the realized error. The physical endpoint (Campaign 5) and the multi-consumer
+and closed-loop questions (Campaigns 6--7) remain open.
 
 \section{Falsifiers}
 \label{sec:falsifiers}
@@ -639,7 +735,10 @@ sharpest claim survives: that $\PC$ can be recovered from real downstream
 consumers under query access, at accounted probe cost, and prospectively
 predicts resource allocations that ordinary state reconstruction does not
 --- matching the analytic optimum where one exists and winning where none
-does. The program is judged by reconstruction-matched flips, blind recovery,
+does. The first three governed campaigns passed exactly that test in its
+synthetic instantiation (\S\ref{sec:evidence}), positive control included;
+the physical endpoint is where the claim now goes to be risked.
+The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. If those gates fail, Observation Theory remains a
 theory of consumer-relative representation. If they pass, operational
