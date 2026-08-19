@@ -11,6 +11,7 @@
     --accent: #276e75; --accent-soft: #e4efef; --seal: #a9712c;
     --ok: #3f7a52; --ok-bg: #e6efe7; --pend: #a67c1f; --pend-bg: #f3ebd6;
     --open: #6f7684; --open-bg: #eae7e0; --live: #276e75; --live-bg: #dfeeef;
+    --bad: #b03a2e; --bad-bg: #f2e2df;
     --shadow: 0 1px 2px rgba(30,25,15,.05), 0 8px 24px rgba(30,25,15,.05);
     --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -32,6 +33,7 @@
     --accent: #55b6c0; --accent-soft: #16302f; --seal: #d09a4d;
     --ok: #6fb083; --ok-bg: #1a2d21; --pend: #d3a444; --pend-bg: #2e2716;
     --open: #8b93a1; --open-bg: #23262e; --live: #55b6c0; --live-bg: #14302f;
+    --bad: #d97a6a; --bad-bg: #2e1c19;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
   }
   * { box-sizing: border-box; }
@@ -81,6 +83,8 @@
   .c-shaken { color: var(--ok); background: var(--ok-bg); }
   .c-derived { color: var(--pend); background: var(--pend-bg); }
   .c-open { color: var(--open); background: var(--open-bg); }
+  .c-pass { color: var(--ok); background: var(--ok-bg); }
+  .c-fail { color: var(--bad); background: var(--bad-bg); }
 
   .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 18px 0 0; }
   .legend .chip { cursor: default; }
@@ -176,18 +180,18 @@
   </p>
   <div class="statusline">
     <span><b>v1.0</b> sealed <span class="num">2026-08-18</span></span>
-    <span>live exposure <b>re-opened</b></span>
-    <span><span class="num">5</span> owed predictions</span>
-    <span><span class="num">2</span> cross-domain crucibles</span>
-    <span><span class="num">4</span> seals queued</span>
+    <span>seal run <span class="num">2026-08-19</span></span>
+    <span>space-comms: <b>2 / 2 passed</b></span>
+    <span>OP3: <b>fail</b> (bars)</span>
+    <span><span class="num">1</span> queued · <span class="num">3</span> derived</span>
   </div>
 
   <div class="legend">
     <span class="chip c-frozen">Frozen</span>
+    <span class="chip c-pass">Passed</span>
+    <span class="chip c-fail">Failed</span>
     <span class="chip c-queued">Seal queued</span>
-    <span class="chip c-shaken">Shaken down</span>
     <span class="chip c-derived">Derived</span>
-    <span class="chip c-open">Minted</span>
   </div>
 
   <section>
@@ -225,9 +229,9 @@
         <div class="meta"><span class="tick">✓ margin derived</span><span>substrate: 12 Llama heads</span><span>kill: doesn't track kurtosis</span></div>
       </div>
       <div class="row">
-        <div class="row-top"><span class="code">OP3</span><span class="name">The sample-complexity exponent</span><span class="spacer"></span><span class="chip c-queued">Seal queued</span></div>
+        <div class="row-top"><span class="code">OP3</span><span class="name">The sample-complexity exponent</span><span class="spacer"></span><span class="chip c-fail">Failed · bars</span></div>
         <p class="law">Sub-dimensional recovery is a spectrum-ordered front; the collapse variable is <code>m·w⁴</code> — exponent <b>p = 4</b>, front advancing ~2.4 modes/16×.</p>
-        <div class="meta"><span class="tick">✓ front law derived + Lean</span><span class="tick">✓ p=4 confirmed, rate exact</span><span class="tick">✓ runner ready</span></div>
+        <div class="meta"><span class="tick">✓ front law derived + Lean (stands)</span><span>✗ graded seal FAIL — bars miscalibrated, not the law</span><span>→ corrected re-run (new act)</span></div>
       </div>
       <div class="row">
         <div class="row-top"><span class="code">OP4</span><span class="name">The refresh floor, derived</span><span class="spacer"></span><span class="chip c-derived">Derived</span></div>
@@ -254,29 +258,30 @@
         <h3><span class="code">SC-1</span> Downlink allocation</h3>
         <p class="dom">Deep-space multi-instrument downlink · P1 + P2</p>
         <p>Consumer-relative bit allocation beats MSE by exactly <code>G = AM(d)/GM(d)</code> — the arithmetic-over-geometric-mean gap of the instrument-importance spectrum.</p>
-        <p><span class="chip c-queued">Seal queued</span> &nbsp;law exact at high rate; boundary measured (G→1 as consumers homogenize — the fiber/broadband limit).</p>
+        <p><span class="chip c-pass">Passed</span> &nbsp;sealed 2026-08-19, graded on disjoint seeds: ratio 1.0000, Spearman ≥ 0.998. Boundary measured (G→1 as consumers homogenize).</p>
       </div>
       <div class="card">
         <h3><span class="code">SC-2</span> Interplanetary transport</h3>
         <p class="dom">LEO handover · Marslink 1.5 AU · P4 + P5</p>
         <p>The predictable schedule survives any feedback delay while reactive congestion signal decays to noise; masking gain <code>κ = 1−2c</code>, sign-flips at c=½.</p>
-        <p><span class="chip c-queued">Seal queued</span> &nbsp;delay law + D-invariance confirmed; κ derived + Lean-checked.</p>
+        <p><span class="chip c-pass">Passed</span> &nbsp;sealed 2026-08-19, graded on disjoint seeds: κ slope 0.696–0.704, D-invariance ≤ 0.004, delay law fit. κ Lean-checked.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <div class="sec-head"><span class="idx">04</span><h2>The seal queue</h2></div>
+    <div class="sec-head"><span class="idx">04</span><h2>Seal results — 2026-08-19</h2></div>
     <p class="sec-sub">
-      Four campaigns with laws derived, interiors shaken down across seeds, and
-      graded runners built — each waiting only on a genuinely fresh day. The
-      cooling-off is enforced in code: the runners refuse to grade before it.
+      The first fresh-day seal run, on disjoint seeds. The cooling-off is
+      enforced in code — the runners refused until a genuinely later day.
+      Two passes extend the theory to a new domain; one fail caught its own
+      miscalibrated bars before they could pose as a discharge.
     </p>
     <div class="queue">
-      <div class="qrow"><span class="code">OP1</span><span class="what">Cross-consumer transfer — Spearman ≤ −0.6, affine R² ≥ 0.9, blind held-out prediction</span><span class="gate">fresh-day + disjoint seeds</span></div>
-      <div class="qrow"><span class="code">OP3</span><span class="what">Front-law bars — exponent p=4, front rate 0.869, affine overlap ≥ 0.9</span><span class="gate">fresh-day + disjoint seeds</span></div>
-      <div class="qrow"><span class="code">SC-1</span><span class="what">AM/GM law at high rate, finite-rate floor, linear composition</span><span class="gate">fresh-day + disjoint seeds</span></div>
-      <div class="qrow"><span class="code">SC-2</span><span class="what">Delay-decorrelation law, schedule D-invariance, κ = 1−2c</span><span class="gate">fresh-day + disjoint seeds</span></div>
+      <div class="qrow"><span class="code">SC-1</span><span class="what">AM/GM law at high rate, finite-rate floor, linear composition</span><span class="gate" style="color:var(--ok)">PASS</span></div>
+      <div class="qrow"><span class="code">SC-2</span><span class="what">Delay-decorrelation law, schedule D-invariance, κ = 1−2c</span><span class="gate" style="color:var(--ok)">PASS</span></div>
+      <div class="qrow"><span class="code">OP3</span><span class="what">Front-law bars — B3 demanded ≥0.9 overlap where the law predicts ~0.6; B2/B1 mismatched. Law stands; bars did not.</span><span class="gate" style="color:var(--bad)">FAIL · bars</span></div>
+      <div class="qrow"><span class="code">OP1</span><span class="what">Cross-consumer transfer — runner built (blind held-out test); not in this batch</span><span class="gate">still queued</span></div>
     </div>
   </section>
 
