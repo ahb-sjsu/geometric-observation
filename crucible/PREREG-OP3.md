@@ -1,6 +1,6 @@
 # PREREG-OP3 — the sample-complexity exponent (v1-line, first campaign)
 
-**STATUS: UNSEALED.** Naive model refuted; corrected front law derived,
+**STATUS: SEALED 2026-08-19.** Naive model refuted; corrected front law derived,
 numerically validated, and Lean-verified; ready to seal on a fresh day
 (cooling-off: family/shakedown constructed 2026-08-18, so the earliest
 compliant seal is 2026-08-19). The seal replaces this token with
