@@ -224,8 +224,9 @@ special case $\C(x)=Lx$ lies inside its subject matter, and OT adds the
 recovery of $L$-like structure from the consumer itself. Second, for a linear
 consumer $z=Lx$ with output metric $G$, the pointwise OT geometry is
 $\PC=L^{\top}GL$, and the output-weighted observability Gramian of
-frequency-weighted balanced truncation \cite{enns1984} is its
-\emph{dynamics-propagated accumulated analogue},
+frequency-weighted balanced truncation \cite{enns1984} (in its
+static-weight specialization) is its \emph{dynamics-propagated accumulated
+analogue},
 \begin{equation}
 \label{eq:gramian}
 W_\C(T)\;=\;\int_0^{T} e^{A^{\top}t}\,\PC\,e^{At}\,dt .
@@ -349,9 +350,10 @@ geometry rather than chosen as an engineering weight.
 \section{Resource-constrained operation is the natural interface}
 \label{sec:resources}
 
-Weighted covariance objectives are established in sensor selection and
-scheduling \cite{joshiboyd2009,unified2023} and in LQG sensing co-design
-\cite{tzoumas2021}; the optimization $\min_a \tr(M\Sp(a))$ for a
+Covariance objectives and their convex relaxations are established in
+sensor selection \cite{joshiboyd2009}, and \emph{weighted-trace}
+objectives in scheduling and selection \cite{unified2023} and LQG sensing
+co-design \cite{tzoumas2021}; the optimization $\min_a \tr(M\Sp(a))$ for a
 designer-specified $M$ is not an OT novelty. The proposed pipeline is
 \begin{equation*}
 \text{consumer} \;\xrightarrow{\;\text{probe}\;}\; \widehat{\PC}
@@ -505,10 +507,12 @@ Define
 \end{equation}
 An observation becomes stale when the uncertainty it leaves \emph{in the
 consumer's read directions} becomes operationally expensive --- age of
-information \cite{sun2020,maatouk2022} weighted by operational geometry
+information, in its signal-aware and semantics-aware refinements
+\cite{sun2020,maatouk2022}, weighted by operational geometry
 rather than by the clock. Our prior-art sweep found no anisotropic-staleness
-formulation; the nearest neighbor is the analytic (scalar-LQG)
-value-of-information line \cite{soleymani2022}. Because \eqref{eq:staleness}
+formulation; the nearest neighbor is the analytic value-of-information
+line \cite{soleymani2022}, whose optimality results cover
+multi-dimensional Gauss--Markov processes. Because \eqref{eq:staleness}
 has its own community, baselines (AoI, AoII, VoI), and falsifier (does
 directional staleness beat age-based scheduling at matched update budgets on
 a real consumer?), it is retained here only as a conjectural branch and
@@ -526,7 +530,9 @@ learning; communications and the application domain) --- narrower still than
 the original draft of this paper stated. Each pillar of the hypothesis exists
 separately in strong form. Local quadratic task metrics are recovered from
 black-box decision oracles by sampled probing in decision-focused learning
-\cite{shah2022,shah2024,bansal2023}. Consumer-derived weights composed with
+\cite{shah2022,shah2024}, and learned as Mahalanobis task metrics by
+end-to-end gradients through a differentiable task loss \cite{bansal2023}.
+Consumer-derived weights composed with
 estimator covariances drive prospective sensor and bit allocation in LQG
 sensing co-design \cite{tzoumas2021}, goal-oriented Bayesian experimental
 design \cite{attia2018,wu2023,quadgoed2025} --- including Jacobian/Hessian
@@ -536,9 +542,10 @@ control \cite{kostina2019,tanaka2015}, goal-oriented quantization
 \cite{zou2022}, and task-based quantization \cite{shlezinger2019}. Attention
 and anticipation select sensing resources against task-projected covariance
 metrics in closed loop \cite{carlone2018}; task-driven representations are
-co-designed by information bottlenecks \cite{pacelli2019}; consumer-derived
-perceptual metrics already steer codec bit allocation in practice
-\cite{zhang2018}. No novelty is claimed for any of these, nor for Kalman
+co-designed by information bottlenecks \cite{pacelli2019}; and
+consumer-derived perceptual metrics are established practice in vision
+\cite{zhang2018} and are consumed as training losses throughout learned
+compression. No novelty is claimed for any of these, nor for Kalman
 filtering, posterior-mean optimality, PSD-weighted covariance objectives,
 sensor selection and scheduling, active sensing, semantic communication,
 loss-calibrated inference \cite{lacostejulien2011}, or inverse optimal
@@ -653,13 +660,14 @@ from calibration and sealed with harness code hashes; a \emph{single}
 governed run per campaign at a sealed seed on fresh system draws; outcomes
 recorded in the program's public claims ledger regardless of sign, at class
 \texttt{[predicted]}. Table~\ref{tab:evidence} summarizes; sealed
-preregistrations GO-P-2026-087/088/089 and PREREG-EC5-001, harnesses, and
-committed result artifacts live in the program's campaign repository
-(\texttt{observation-theory-campaigns}, EC track), with every gate
-re-derived from the committed per-system data by its verification script;
-the original sealing commits for 087--089 in \texttt{geometric-observation}
-remain their binding registration timestamps, and Campaign 5 is sealed
-natively in the campaign repository.
+preregistrations GO-P-2026-087/088/089 and PREREG-EC5/EC6/EC7-001
+through EC7-003, harnesses, and committed result artifacts live in the
+program's campaign repository (\texttt{observation-theory-campaigns}, EC
+track), with every gate re-derived from the committed per-system data by
+its verification script; the original sealing commits for 087--089 in
+\texttt{geometric-observation} remain their binding registration
+timestamps, and Campaigns 5--7 are sealed natively in the campaign
+repository.
 
 Campaign 5 is the belief-averaged operator's first test on a
 threshold-like consumer: the link model (Gaussian far-field + fiber
@@ -829,7 +837,8 @@ outcomes are scientific boundaries, to be reported, not patched away.
 
 A useful application --- not the foundation of the theory --- is a
 constellation of persistent high-altitude platforms connected by free-space
-optical links \cite{kaymak2018}. Each vehicle has a navigation and attitude
+optical links (see \cite{kaymak2018} for mobile-FSO acquisition, tracking,
+and pointing generally). Each vehicle has a navigation and attitude
 state; each optical terminal reads only particular combinations of
 transverse displacement, line-of-sight angle, attitude, angular velocity,
 structural jitter, range, and optical state. Its physical consumer geometry
@@ -887,10 +896,11 @@ record (\S\ref{sec:evidence}); positive controls included throughout. The
 hardware endpoint is where the claim now goes to be risked.
 The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
-explicit negative results. If those gates fail, Observation Theory remains a
-theory of consumer-relative representation. If they pass, operational
-distinguishability becomes a working complement to the classical control
-stack.
+explicit negative results. Those gates have now been passed in the
+synthetic program, misses included on the record. If the physical
+endpoints fail, Observation Theory remains a theory of consumer-relative
+representation; if they pass, operational distinguishability becomes a
+working complement to the classical control stack.
 
 \begin{thebibliography}{99}\footnotesize
 
@@ -914,13 +924,13 @@ Conf. Decision and Control}, 1984, pp.~127--132.
 unobservability,'' in \emph{Proc. IEEE Conf. Decision and Control}, 2009,
 pp.~6401--6406.
 
-\bibitem{tzoumas2021} V.~Tzoumas, L.~Carlone, G.~J. Pappas, and A.~Karaman,
-``LQG control and sensing co-design,'' \emph{IEEE Trans. Autom. Control},
-vol.~66, no.~4, pp.~1468--1483, 2021.
+\bibitem{tzoumas2021} V.~Tzoumas, L.~Carlone, G.~J. Pappas, and
+A.~Jadbabaie, ``LQG control and sensing co-design,'' \emph{IEEE Trans.
+Autom. Control}, vol.~66, no.~4, pp.~1468--1483, 2021.
 
 \bibitem{carlone2018} L.~Carlone and S.~Karaman, ``Attention and anticipation
 in fast visual-inertial navigation,'' \emph{IEEE Trans. Robotics}, vol.~35,
-no.~1, pp.~1--20, 2018.
+no.~1, pp.~1--20, 2019.
 
 \bibitem{pacelli2019} V.~Pacelli and A.~Majumdar, ``Task-driven estimation and
 control via information bottlenecks,'' in \emph{Proc. IEEE Int. Conf.
@@ -938,9 +948,10 @@ greedy algorithms in sensor scheduling for linear dynamical systems,''
 ``Approximately supermodular scheduling subject to matroid constraints,''
 \emph{IEEE Trans. Autom. Control}, vol.~67, no.~3, pp.~1384--1396, 2022.
 
-\bibitem{unified2023} L.~Ye \emph{et al.}, ``A unified approach to optimally
-solving sensor scheduling and sensor selection problems in Kalman
-filtering,'' arXiv:2304.02692, 2023.
+\bibitem{unified2023} S.~Dutta, N.~Wilde, and S.~L. Smith, ``A unified
+approach to optimally solving sensor scheduling and sensor selection
+problems in Kalman filtering,'' in \emph{Proc. IEEE Conf. Decision and
+Control}, 2023.
 
 \bibitem{soleymani2022} T.~Soleymani, J.~S. Baras, and S.~Hirche, ``Value of
 information in feedback control: Quantification,'' \emph{IEEE Trans. Autom.
@@ -950,9 +961,9 @@ Control}, vol.~67, no.~7, pp.~3730--3737, 2022.
 Johansson, ``Value of information in feedback control: Global optimality,''
 \emph{IEEE Trans. Autom. Control}, vol.~68, no.~6, pp.~3641--3647, 2023.
 
-\bibitem{soleymani2024} T.~Soleymani, J.~S. Baras, and K.~H. Johansson,
-``Foundations of value of information: A semantic metric for networked
-control systems tasks,'' arXiv:2403.11927, 2024.
+\bibitem{soleymani2024} T.~Soleymani, J.~S. Baras, S.~Hirche, and K.~H.
+Johansson, ``Foundations of value of information: A semantic metric for
+networked control systems tasks,'' arXiv:2403.11927, 2024.
 
 \bibitem{kostina2019} V.~Kostina and B.~Hassibi, ``Rate-cost tradeoffs in
 control,'' \emph{IEEE Trans. Autom. Control}, vol.~64, no.~11,
@@ -969,12 +980,13 @@ inverse problems,'' \emph{Inverse Problems}, vol.~34, no.~9, 095009, 2018.
 
 \bibitem{wu2023} K.~Wu, P.~Chen, and O.~Ghattas, ``An offline-online
 decomposition method for efficient linear Bayesian goal-oriented optimal
-experimental design,'' \emph{SIAM J. Sci. Comput.}, vol.~45, no.~1,
-pp.~B57--B77, 2023.
+experimental design: Application to optimal sensor placement,'' \emph{SIAM
+J. Sci. Comput.}, vol.~45, no.~1, pp.~B57--B77, 2023.
 
-\bibitem{quadgoed2025} ``Goal-oriented optimal experimental design using
-quadratic approximations of nonlinear goal functionals,'' arXiv:2411.07532,
-2025 (J. Sci. Comput., to appear).
+\bibitem{quadgoed2025} J.~N. Neuberger, A.~Alexanderian, and B.~van
+Bloemen Waanders, ``Goal oriented optimal design of infinite-dimensional
+Bayesian inverse problems using quadratic approximations,'' \emph{J. Sci.
+Comput.}, vol.~105, no.~2, art.~55, 2025.
 
 \bibitem{shah2022} S.~Shah, K.~Wang, B.~Wilder, A.~Perrault, and M.~Tambe,
 ``Decision-focused learning without decision-making: Learning locally
@@ -1035,7 +1047,7 @@ Tuts.}, vol.~20, no.~2, pp.~1104--1123, 2018.
 tracker-based acquisition, tracking, and pointing technology for deep-space
 optical communications,'' \emph{JPL IPN Progress Report}, no.~42-161, 2005.
 
-\bibitem{spgd2020} B.~Li \emph{et al.}, ``Adaptive stochastic parallel
+\bibitem{spgd2020} Q.~Hu \emph{et al.}, ``Adaptive stochastic parallel
 gradient descent approach for efficient fiber coupling,'' \emph{Opt.
 Express}, vol.~28, no.~9, pp.~13141--13154, 2020.
 
