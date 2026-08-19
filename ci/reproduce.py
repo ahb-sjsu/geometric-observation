@@ -281,6 +281,46 @@ except Exception as e:
 
 print()
 print("=" * 68)
+print("[2c] GO-P-2026-088 / GO-P-2026-089 committed-artifact self-consistency")
+print("     (gates re-derived from committed metrics against frozen configs)")
+print("=" * 68)
+for jname, derive in (
+    ("GO88-consumer-flip.json", lambda c, m: {
+        "F1_flip": m["F1"] >= c["q_flip"],
+        "F2_prediction": m["F2"] >= c["q_pred"],
+        "F3_magnitude": m["F3"] >= c["delta_flip"],
+        "I_min_matched": m["n_matched"] >= 6,   # min_matched per the sealed prereg
+        "C_iso_bounded": m["iso_frac"] <= c["iso_frac"],
+        "C_random_worst": bool(m["random_worst"]),
+    }),
+    ("GO89-operational-trigger.json", lambda c, m: {
+        "T1_armP": m["T1_armP"] >= c["delta_T"],
+        "T1_armN": m["T1_armN"] >= c["delta_T"],
+        "T2_blind_match": m["T2"] >= 1 - c["eps_T"],
+        "T3_budget_band": bool(m["T3"]),
+        "C_shuffled_no_free_lunch": m["shuffled_gap"] >= -0.02,
+        "C_anti_worst": bool(m["anti_worst"]),
+    }),
+):
+    try:
+        dd = json.load(open(os.path.join(ROOT, "results", jname)))
+        g = derive(dd["config"], dd["metrics"])
+        bad = []
+        if g != dd["gates"]:
+            bad.append(f"gates rederived {g} != committed {dd['gates']}")
+        if (dd["verdict"] == "ALL PASS") != all(g.values()):
+            bad.append(f"verdict '{dd['verdict']}' inconsistent with gates")
+        if bad:
+            failures.append(f"{jname} self-consistency: " + "; ".join(bad))
+            print(f"  FAIL {jname}: " + "; ".join(bad))
+        else:
+            print(f"  PASS {jname}: gates + verdict consistent with the frozen config")
+    except Exception as e:
+        failures.append(f"{jname} self-consistency crashed: {e}")
+        print(f"  FAIL {jname}: {e}")
+
+print()
+print("=" * 68)
 print("[3/3] Integrity: every results/*.json parses; summary flag == all(verdict)")
 print("=" * 68)
 for path in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))):
