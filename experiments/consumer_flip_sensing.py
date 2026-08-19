@@ -158,13 +158,13 @@ def gates_from(per_sys):
     # pooled over matched systems. (Per-cell all-comers is wrong by design:
     # the anti-aligned policy can legitimately serve the other consumer worse
     # than broad random sensing does.)
-    rnd_worst = bool(matched) and (
-        np.mean([s["random"]["loss1"] for s in matched])
-        > np.mean([s["align-1"]["loss1"] for s in matched])
-    ) and (
-        np.mean([s["random"]["loss2"] for s in matched])
-        > np.mean([s["align-2"]["loss2"] for s in matched])
-    )
+    rnd_worst = bool(
+        bool(matched)
+        and (np.mean([s["random"]["loss1"] for s in matched])
+             > np.mean([s["align-1"]["loss1"] for s in matched]))
+        and (np.mean([s["random"]["loss2"] for s in matched])
+             > np.mean([s["align-2"]["loss2"] for s in matched]))
+    )  # cast: np.bool_ is not JSON serializable (governed invocation 1 crash)
     return f1, f2, f3, iso_frac, rnd_worst, len(matched), n_excl
 
 

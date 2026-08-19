@@ -64,8 +64,21 @@ falsification: F1 fail -> the flip does not transfer from codes to schedules.
   F2 fail -> the composition loses its ordering claim in the dynamic setting.
   I_min_matched fail -> the matching construction itself failed; no flip claim
   is made either way. All outcomes reported at equal prominence.
-amendments: []
-hash: sha256:78e8a8e03d0b5cb1522468b6ba790eac617d4b1284a60f3d6ab2a8c3e4dac70c
+amendments:
+  - date: 2026-08-19
+    what: "Governed invocation 1 (seed 20260821, sealed code_hash 92143271...)
+      completed its full measurement and CRASHED in json.dump: the
+      random-worst control produced a numpy bool_ (not JSON serializable).
+      The complete stdout/stderr are committed as
+      results/GO88-governed-invocation1-{stdout,stderr}.log — F1 1.000,
+      F2 1.000, F3 0.318, iso_frac 0.250, matched 6/20, random_worst True.
+      Fix is a serializer-only bool() cast (no bar, seed, or measurement
+      logic touched); new code_hash sha256:c80c0644a66bf2ae459e2c6832307d0a462bcf48a536ba66c6fa5b229c0e62e9.
+      The run is deterministic given the seed, so invocation 2 must
+      REPRODUCE the invocation-1 printed metrics exactly; any deviation
+      voids the run. Original sealed body hash:
+      sha256:78e8a8e03d0b5cb1522468b6ba790eac617d4b1284a60f3d6ab2a8c3e4dac70c."
+hash: sha256:150fb2807efbdb2f1c2347639a78c82e323fd9025abc9ce0fa84ee008f2affcd
 ```
 
 ## Scope and non-claims
