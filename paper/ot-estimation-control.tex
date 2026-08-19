@@ -78,7 +78,9 @@ the age of operationally relevant uncertainty). We first establish a
 boundary: for a fixed positive-semidefinite $\PC$ and an unconstrained
 Bayesian estimator, the posterior mean --- hence the Kalman estimate ---
 remains optimal; both this invariance and the rank-one value-of-observation
-identity are machine-checked in Lean~4/Mathlib. Each pillar of the program
+identity are machine-checked in Lean~4/Mathlib (in their discrete and
+matrix forms) and have passed independent fresh-context derivation review.
+Each pillar of the program
 has close prior art in isolation: black-box recovery of quadratic task
 metrics (decision-focused learning), and consumer-derived weights composed
 with covariances (LQG sensing co-design, goal-oriented experimental design,
@@ -239,8 +241,9 @@ The first result of the campaign is deliberately negative.
 
 \begin{proposition}[Weighted posterior-mean invariance]
 \label{prop:invariance}
-Let $X$ be a random state, $Y$ the available observations, and $P\succeq 0$ a
-fixed state weighting. Then
+Let $X$ be an integrable random state with finite conditional second
+moment, $Y$ the available observations, and $P\succeq 0$ a fixed state
+weighting. Then, over $Y$-measurable estimators $\hat x$,
 $\E\big[(X-\hat x)^{\top}P\,(X-\hat x)\mid Y\big]$
 is minimized over $\hat x$ by the posterior mean $\hat x=\E[X\mid Y]$.
 \end{proposition}
@@ -274,29 +277,43 @@ the invariance survives under hypotheses weaker than stated: only
 $v^{\top}Pv\ge 0$ for all $v$ and weights summing to one are used --- neither
 symmetry of $P$ nor nonnegativity of the weights. We state the natural
 $P\succeq 0$ form above; the weakening is recorded here because the kernel
-checked it, not because the generality is operationally needed. Per the
-program's charter, mechanical verification is necessary but not sufficient
-for a \texttt{[proved]} ledger classification, which additionally requires an
-independent fresh-context derivation pass.
+checked it, not because the generality is operationally needed. The kernel
+check covers the discrete (finite-sample-space) forms; the continuous case
+rests on the standard argument. Per the program's charter, mechanical
+verification is necessary but not sufficient for a \texttt{[proved]} ledger
+classification, which additionally requires an independent fresh-context
+derivation pass; that pass has been run for both propositions (logged in
+the program ledger, VI-11/VI-12), confirming both and contributing two free
+strengthenings --- only the symmetric part of $P$ need be PSD, and $P$ may
+be any $Y$-measurable ($X$-independent) weighting, sharpening the boundary
+against Remark~\ref{rem:statedep}.
 \end{remark}
 
 \begin{remark}[State dependence opens Interface 1]
 \label{rem:statedep}
-Proposition~\ref{prop:invariance} is for \emph{fixed} $P$. For a nonlinear
-consumer, $\PC(x)$ depends on $x$; the loss
-$\E[(X-\hat x)^{\top}\PC(X)(X-\hat x)\mid Y]$ is no longer a fixed quadratic,
-and its minimizer is in general \emph{not} the posterior mean. Consumer
-geometry can then change the estimator itself, not only the allocation of
-resources around it. Characterizing this estimator shift is an open problem
-of the campaign, not a result of this paper.
+Proposition~\ref{prop:invariance} is for $X$-independent $P$. For a
+nonlinear consumer, $\PC(x)$ depends on $x$; the loss
+$\E[(X-\hat x)^{\top}\PC(X)(X-\hat x)\mid Y]$ is then no longer a
+\emph{fixed-weighting} quadratic, and its minimizer is in general not the
+posterior mean but the $\PC$-tilted mean: writing $P_s$ for the symmetric
+part of $\PC$, the unconstrained minimizer is
+$\hat x^{\star}=\big(\E[P_s(X)\mid Y]\big)^{-1}\,\E[P_s(X)\,X\mid Y]$
+whenever the belief-averaged weighting is invertible, and it equals the
+posterior mean iff $\E[P_s(X)(X-m)\mid Y]=0$. Consumer geometry can thus
+change the estimator itself, not only the allocation of resources around
+it. The single-stage shift is elementary; what remains open in the
+campaign is its \emph{recursive} form --- the filtering analogue in which
+the tilted update propagates.
 \end{remark}
 
 \section{Consumer-relative value of observation}
 \label{sec:voi}
 
-Let a Bayesian or Kalman estimator hold prior covariance $\Sm$ and consider a
-candidate measurement $y=Hx+v$, $v\sim\mathcal N(0,R)$. The covariance update
-gives $\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
+Let a Bayesian or Kalman estimator hold prior covariance $\Sm$ (symmetric)
+and consider a candidate measurement $y=Hx+v$, $v\sim\mathcal N(0,R)$, with
+$H\Sm H^{\top}+R$ invertible (automatic for $R\succ 0$ and $\Sm\succeq 0$).
+The covariance update gives
+$\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
 \emph{consumer-relative value of observation}
 \begin{equation}
 \label{eq:voi}
@@ -306,13 +323,20 @@ gives $\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
 
 \begin{proposition}[Rank-one form]
 \label{prop:voi}
-For a scalar measurement $y=h^{\top}x+v$ with $\operatorname{Var}(v)=r$ and a
-rank-one consumer $\PC=gg^{\top}$,
+For symmetric $\Sm$, a scalar measurement $y=h^{\top}x+v$ with
+$\operatorname{Var}(v)=r>0$, and a rank-one consumer $\PC=gg^{\top}$,
 \begin{equation}
 \label{eq:voirankone}
 \VC \;=\; \frac{\big(g^{\top}\Sm h\big)^{2}}{\,h^{\top}\Sm h+r\,}.
 \end{equation}
 \end{proposition}
+
+(Symmetry of $\Sm$ is the load-bearing hypothesis --- it is what collapses
+$h^{\top}\Sm g$ into the square --- while positive semidefiniteness is not
+needed for the identity itself; the Lean statement carries exactly
+$(\Sm)^{\top}=\Sm$ and the nonzero denominator, and the independent
+verification pass confirmed both the identity and the failure of the
+squared form for asymmetric $\Sm$.)
 
 This form is the section's message: a sensor is not operationally valuable
 because it observes a high-variance direction; it is valuable when its
@@ -685,7 +709,13 @@ the error class; the held-out spread then read $0.041$ against a $0.10$
 band, and the promotion followed. The methodological lesson generalizes:
 budget-matching instruments should be analytic wherever the dynamics
 permit, and an instrument's residual should be measured as its own
-diagnostic alongside the quantity it matches.
+diagnostic alongside the quantity it matches. The third seal's instrument
+has itself passed an independent fresh-context derivation audit: a
+from-scratch re-derivation in different coordinates $(x,\,x-\hat x)$
+agrees with the implementation to $10^{-15}$ relative on every audited
+configuration, and a $9\times10^{5}$-rollout falsification net bounds any
+residual bias below $0.03\%$ --- the arms were matched to the true
+closed-loop effort, not to a shared surrogate.
 
 \begin{table}[t]
 \caption{Governed OT-EC campaign results (single sealed runs; 20 fresh

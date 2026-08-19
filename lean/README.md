@@ -57,6 +57,18 @@ algebraic anchors of the estimation-and-control paper
 - Recorded caveat (in the file header): Proposition 1 is for FIXED `P`;
   a state-dependent `P_C(x)` breaks the argument, and the optimal
   estimate need no longer be the posterior mean.
+- Independent-verification notes (R-IND-5 passes, 2026-08-19, ledger
+  VI-11/VI-12; both theorems CONFIRMED): (a) in
+  `value_of_observation_rank_one` the hypothesis `_hr` (nonzero
+  denominator) is carried for honest correspondence with the paper but is
+  UNUSED by the proof — Lean's junk-value convention `x/0 = 0` makes the
+  equation hold vacuously at `s = 0`, so the formal theorem is slightly
+  stronger than the paper statement; (b) `weighted_mean_invariance`
+  genuinely permits SIGNED weights (the file-header phrase "finite
+  probability weighting" undersells it — the parenthetical in the header
+  is the accurate reading); (c) the kernel checks cover the discrete and
+  matrix forms; the paper's conditional-expectation framing is a short
+  unformalized bridge (finite Ω, pointwise in the conditioning value).
 
 **Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
 built clean 2026-08-18 on the Atlas workstation (`lake build`, 8659 jobs,
