@@ -87,12 +87,13 @@ hypothesis is their conjunction: that a downstream consumer's operational
 metric can be recovered from the consumer itself under \emph{query access
 only}, composed with classical estimator uncertainty, and validated
 prospectively, out of sample, at matched budgets that include the cost of
-probing. First evidence exists: three campaigns --- blind
+probing. First evidence exists: four campaigns --- blind
 recovery~$\to$~scheduling with its analytic positive control, the
-reconstruction-matched two-consumer flip in sensing, and signal-aware
-operational triggering --- were sealed under the program's preregistration
-protocol, run once each at governed seeds, and passed all gates
-(\S\ref{sec:evidence}). OT is proposed not as a replacement for
+reconstruction-matched two-consumer flip in sensing, signal-aware
+operational triggering, and a physical-model optical-link consumer probed
+through the belief-averaged operator --- were sealed under the program's
+preregistration protocol, run once each at governed seeds, and passed all
+gates (\S\ref{sec:evidence}). OT is proposed not as a replacement for
 observability, filtering, stability, or feedback, but as a complementary
 theory of operational distinguishability at their downstream boundary.
 \end{abstract}
@@ -590,6 +591,8 @@ received power, BER, or outage. The key test is again reconstruction-matched:
 two navigation systems with similar state RMSE but different covariance
 geometry should produce different physical performance, and a blindly
 recovered $\PCb$ should predict the ordering \emph{before} the run.
+\emph{Status: passed on the physics-based simulated consumer
+(\S\ref{sec:evidence}); the hardware endpoint remains open.}
 
 \subsubsection*{Campaign 6 --- Multi-consumer state service}
 Two consumers with read subspaces ranging from aligned to orthogonal; compare
@@ -609,19 +612,35 @@ real downstream consumer.
 \section{First governed evidence}
 \label{sec:evidence}
 
-Three of the seven campaigns have been executed under the program's
-preregistration protocol: design registered before any harness code existed;
+Four of the seven campaigns have been executed under the program's
+preregistration protocol: design registered before governed measurement;
 calibration pilots disclosed with every design change; effect floors frozen
 from calibration and sealed with harness code hashes; a \emph{single}
 governed run per campaign at a sealed seed on fresh system draws; outcomes
 recorded in the program's public claims ledger regardless of sign, at class
 \texttt{[predicted]}. Table~\ref{tab:evidence} summarizes; sealed
-preregistrations GO-P-2026-087/088/089, harnesses, and committed result
-artifacts live in the program's campaign repository
+preregistrations GO-P-2026-087/088/089 and PREREG-EC5-001, harnesses, and
+committed result artifacts live in the program's campaign repository
 (\texttt{observation-theory-campaigns}, EC track), with every gate
 re-derived from the committed per-system data by its verification script;
-the original sealing commits in \texttt{geometric-observation} remain the
-binding registration timestamps.
+the original sealing commits for 087--089 in \texttt{geometric-observation}
+remain their binding registration timestamps, and Campaign 5 is sealed
+natively in the campaign repository.
+
+Campaign 5 is the belief-averaged operator's first test on a
+threshold-like consumer: the link model (Gaussian far-field + fiber
+rolloff over a hidden state$\to$physical map mixing attitude and
+range-scaled transverse position, operating at the Gaussian shoulder) is
+strictly query-access, its endpoint --- coupling loss and outage when
+pointing with the estimate --- is external link physics, and the smoothed
+finite-perturbation construction of \S\ref{sec:belief} is what gets
+probed, exactly as that section prescribes for cliffs. Because the
+covariance path is deterministic, the E1 prediction (which trace-matched
+schedule serves the link better, read off $\tr(\PCb\bar\Sig)$)
+\emph{precedes} the loss measurement by construction --- the paper's
+``predict the ordering before the run'' test, passed at 94.1\%. Scope,
+plainly: this is a physics-based \emph{simulated} consumer --- a step
+toward, not the arrival at, the hardware endpoint.
 
 \begin{table}[t]
 \caption{Governed OT-EC campaign results (single sealed runs; 20 fresh
@@ -651,6 +670,14 @@ signal-aware $e^{\top}\PC e$ trigger beats periodic/isotropic by
 \textbf{20.0\%} (analytic arm) / \textbf{33.3\%} (black-box arm) at matched
 realized budgets ($\ge$10\%); probe-charged blind trigger captures
 \textbf{86.9\%} of the true-operator advantage ($\ge$75\%) & ALL PASS 6/6 \\
+\addlinespace
+C5: physical-model FSO consumer (EC5-001) &
+belief-averaged probe of a black-box optical-link model
+(\S\ref{sec:belief}): physical coupling-loss ordering of trace-matched
+schedules predicted \emph{before the run} in \textbf{94.1\%} of 17 pairs
+($\ge$80\%); charged aligned schedule wins \textbf{+12.5\%} coupling loss
+vs the best agnostic ($\ge$4\%); blind capture of an 8$\times$-probe
+reference \textbf{89.8\%} ($\ge$70\%) & ALL PASS 6/6 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -662,7 +689,12 @@ transient-loaded probe charging, prior-inconsistent initial states, and
 noise-dominated policy comparisons (cured by common random numbers);
 Campaign 4's first pilot produced the covariance-null finding of
 \S\ref{sec:trigger} --- a registered negative that redesigned the
-experiment. Second, Campaign 2's governed invocation completed its
+experiment; and Campaign 5's pilots respecified the anti-operator control
+to its load-bearing form (lose to the aligned schedule at equal probe
+charge) after a per-policy diagnostic showed the original all-comers form
+demanding the anti arm beat an unrelated weak agnostic policy --- the same
+lesson Campaign 2 had already taught. Second, Campaign 2's governed
+invocation completed its
 measurement and then crashed in result serialization; the full output was
 committed as evidence, the serializer-only fix was recorded in a dated
 amendment, and the re-invocation was required to --- and did --- reproduce
@@ -723,6 +755,23 @@ multi-consumer test. The advantage of this exemplar is that its endpoint ---
 received power, fiber coupling, BER, outage --- is external and physical: OT
 cannot win merely by optimizing its own metric.
 
+The prior-art posture here is stated in its narrowed form, following a
+targeted pass over the pointing-acquisition-tracking literature (SPIE
+proceedings included, inspected at abstract level where paywalled).
+Deriving sensor requirements from communication needs is established
+practice --- canonically as a \emph{static scalar} pointing-budget
+flow-down to star-tracker rate and gyro grade \cite{leeortiz2005}; probing
+the coupling surface by dither is likewise established --- \emph{for the
+fine-steering control loop} \cite{spgd2020}; and covariance-driven sensor
+scheduling exists as pure estimation theory with no link application
+\cite{alahdab2025}. What no found work does is derive estimator design or
+scheduling from the link's \emph{sensitivity geometry} (the
+Jacobian/Hessian of coupling or BER with respect to the navigation state)
+or compose a probed structure with the Kalman covariance; the three
+ingredients exist separately, and the composition appears open. The looser
+claim --- that nobody derives estimator requirements from the link at all
+--- is false and is not made.
+
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -738,9 +787,10 @@ sharpest claim survives: that $\PC$ can be recovered from real downstream
 consumers under query access, at accounted probe cost, and prospectively
 predicts resource allocations that ordinary state reconstruction does not
 --- matching the analytic optimum where one exists and winning where none
-does. The first three governed campaigns passed exactly that test in its
-synthetic instantiation (\S\ref{sec:evidence}), positive control included;
-the physical endpoint is where the claim now goes to be risked.
+does. The first four governed campaigns passed exactly that test ---
+the fourth on a physics-based simulated optical link through the
+belief-averaged operator (\S\ref{sec:evidence}), positive control
+included; the hardware endpoint is where the claim now goes to be risked.
 The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. If those gates fail, Observation Theory remains a
@@ -886,6 +936,18 @@ incorrect information: An enabler of semantics-empowered communication,''
 and T.~Zhang, ``A survey on acquisition, tracking, and pointing mechanisms
 for mobile free-space optical communications,'' \emph{IEEE Commun. Surveys
 Tuts.}, vol.~20, no.~2, pp.~1104--1123, 2018.
+
+\bibitem{leeortiz2005} S.~Lee, G.~G. Ortiz, and J.~W. Alexander, ``Star
+tracker-based acquisition, tracking, and pointing technology for deep-space
+optical communications,'' \emph{JPL IPN Progress Report}, no.~42-161, 2005.
+
+\bibitem{spgd2020} B.~Li \emph{et al.}, ``Adaptive stochastic parallel
+gradient descent approach for efficient fiber coupling,'' \emph{Opt.
+Express}, vol.~28, no.~9, pp.~13141--13154, 2020.
+
+\bibitem{alahdab2025} M.~Al Ahdab, J.~Leth, and Z.-H. Tan, ``Optimal sensor
+scheduling and selection for continuous-discrete Kalman filtering with
+auxiliary dynamics,'' in \emph{Proc. Int. Conf. Machine Learning}, 2025.
 
 \end{thebibliography}
 
