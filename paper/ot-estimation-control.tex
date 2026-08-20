@@ -105,7 +105,14 @@ two consumers can disagree about which of two identically-aged
 histories is fresh, and a directional trigger beats the matched-budget
 isotropic signal-aware threshold by 16\% --- the honest baseline
 family, since signal-aware sampling already beats age-based
-scheduling. OT is proposed not as a replacement for
+scheduling. The conjunction has also met its first \emph{neural}
+consumer: on a frozen, hosted, black-box language model consuming
+serialized numeric state, the read operator recovered by query-only
+logprob probing predicts the model's own held-out behavior, and
+precision allocated by it at matched serialization budgets beats
+task-blind allocation by 26\% while capturing the full
+known-geometry advantage --- with three sealed instrument-and-design
+misses preceding the promotions on the public record. OT is proposed not as a replacement for
 observability, filtering, stability, or feedback, but as a complementary
 theory of operational distinguishability at their downstream boundary.
 \end{abstract}
@@ -903,6 +910,77 @@ anti-control $-61.5\%$; sealed angle structure Spearman
 \end{tabular}
 \end{table}
 
+\emph{The sharp claim now has a neural-consumer instantiation.} The
+program's LM track sends the conjunction of \S\ref{sec:priorart} at a
+real language model: a frozen, hosted, black-box LLM (gemma-small on a
+managed research inference gateway) consuming a serialized 6-dim
+numeric state through planted question consumers, probed by query-only
+logprob finite differences with no gradient or attention access.
+Because a hosted endpoint is not bitwise-reproducible, the seal
+discipline adapts as it would for hardware: the governed artifact logs
+every prompt and returned logprob verbatim, so the entire gate
+evaluation is bitwise-reproducible from the committed record, with
+repeat-query agreement measured as its own instrument gate. Two
+campaigns are promoted (Table~\ref{tab:lm-evidence}). LM-1
+(recovery, third seal): the probed operator predicts the consumer's
+\emph{own} response to held-out perturbation directions --- pooled
+Spearman $0.61$ against a bar calibrated from two independent powered
+calibration draws --- with the two consumers' measured geometries
+separating at a preregistered operator distance. LM-2 (allocation,
+second seal): serialization precision allocated by the probed
+geometry at a \emph{matched} budget beats a degeneracy-proof
+task-blind baseline by \textbf{26.4\%} pooled on held-out consumer
+loss, with the blind allocation capturing the \emph{full} oracle
+advantage (capture $1.00$) --- probing the black box is operationally
+equivalent to knowing the read components, at a logged probing
+capital cost. Three sealed misses precede the promotions and stay on
+the record: a task-oracle-anchored gate set (the consumer measurably
+deviates from the task ideal --- gates must anchor to measured
+consumer behavior), a single-draw bar calibration (bars must come
+from the across-draw distribution at final power), and a
+baseline-degeneracy coincidence (a task-blind draw can coincide with
+the aligned allocation; the successor's mean-of-four distinct-subset
+baseline makes this impossible). One finding is reported ungated
+because it recurred without being sought: \emph{coarsening the
+components the consumer does not read can actively improve the
+consumer} --- the measured spurious-sensitivity channels operating in
+reverse --- suggesting that context precision should be
+\emph{deliberately} withheld outside the task's read geometry;
+the effect is consumer-dependent and is reported, never gated. Scope,
+plainly: one hosted model, planted numeric consumers, a fine/coarse
+serialization ladder; multi-model transfer, realistic task suites,
+and the staleness interface (LM-3) are designated future seals.
+
+\begin{table}[t]
+\caption{Governed LM-track results (single sealed runs per seal; a
+frozen hosted black-box LLM as the consumer; raw prompt/logprob logs
+are the committed artifacts).}
+\label{tab:lm-evidence}
+\centering
+\begin{tabular}{@{}p{0.26\linewidth}p{0.43\linewidth}p{0.22\linewidth}@{}}
+\toprule
+\textbf{Campaign (seals)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
+\midrule
+LM-1: blind recovery from a hosted LLM (LM1-001/002/003) &
+probed $\widehat\PC$ predicts the consumer's own held-out response:
+pooled Spearman \textbf{0.61} ($\ge$0.45, bars from two powered
+calibration draws), per-consumer 0.46/0.76 ($\ge$0.30); measured
+geometries separate at operator distance 0.41 ($\ge$0.25); stability
+0.93/0.77 ($\ge$0.70); repeat/parse/transport instrument gates clean &
+promoted on the 3rd seal, ALL PASS 7/7 (two prior misses on the
+record: anchor class; calibration class) \\
+\addlinespace
+LM-2: matched-budget precision allocation (LM2-001/002) &
+precision allocated by $\widehat\PC$ at matched serialization budget:
+\textbf{+26.4\%} pooled over the degeneracy-proof task-blind baseline
+($\ge$12\%), floors 0.13/0.40 ($\ge$0.05); blind capture of the oracle
+allocation \textbf{1.00} ($\ge$0.60); anti-aligned $-38.6\%$
+($\le$+0.10); probing capital logged & promoted on the 2nd seal, ALL
+PASS 7/7 (one prior miss on the record: baseline degeneracy) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Falsifiers}
 \label{sec:falsifiers}
 
@@ -984,8 +1062,12 @@ The dynamic-relevance track has followed with three sealed results of
 its own --- the preregisterable age/staleness crossover, the
 two-consumer staleness flip, and the matched-budget scheduling win over
 the honest (isotropic signal-aware) baseline, with its predicted
-geometric signature. The hardware endpoint is where the claim now goes
-to be risked.
+geometric signature. And the language-model track has carried the
+sharp claim to a real neural consumer: blind recovery that predicts
+the consumer's own held-out behavior, and matched-budget allocation
+that captures the full known-geometry advantage --- five seals, two
+promotions, three named misses, all on the record. The hardware
+endpoint is where the claim now goes to be risked.
 The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. Those gates have now been passed in the
