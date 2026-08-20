@@ -1,6 +1,6 @@
 # PREREG-OP1 — cross-consumer codec transfer (v1-line, novel claim)
 
-**STATUS: UNSEALED.** Construction + shakedown only. Discharges owed
+**STATUS: SEALED 2026-08-20.** Construction + shakedown only. Discharges owed
 prediction **OP1** of `OWED-V1.md` — the genuinely *new* v1-line claim,
 the one that extends P1's reach *across* consumers rather than within an
 ensemble. Bars bind only on a dated seal a day later than this
