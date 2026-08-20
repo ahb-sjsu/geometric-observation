@@ -1,6 +1,6 @@
 # PREREG-OP3B — the sample-complexity exponent, corrected bars (re-run)
 
-**STATUS: UNSEALED.** Construction + shakedown only. A **new sealed
+**STATUS: SEALED 2026-08-20.** Construction + shakedown only. A **new sealed
 act** re-running OP3 after its 2026-08-19 graded seal FAILed on
 bar-calibration defects (`OP3-SEAL-NOTES.md`). It edits nothing in the
 sealed, FAILed `PREREG-OP3.md` / `op3_graded.py`; it reuses their
