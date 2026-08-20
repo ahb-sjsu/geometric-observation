@@ -102,9 +102,9 @@ instrument misses whose corrections are part of the record
 own track, has its first three sealed results as well: the
 age/staleness orderings cross at a point predictable in closed form,
 two consumers can disagree about which of two identically-aged
-histories is fresh, and a directional trigger beats the best isotropic
-signal-aware policy by 16\% at matched update budgets --- the honest
-baseline, since signal-aware sampling already beats age-based
+histories is fresh, and a directional trigger beats the matched-budget
+isotropic signal-aware threshold by 16\% --- the honest baseline
+family, since signal-aware sampling already beats age-based
 scheduling. OT is proposed not as a replacement for
 observability, filtering, stability, or feedback, but as a complementary
 theory of operational distinguishability at their downstream boundary.
@@ -526,10 +526,11 @@ own campaign track --- whose first three sealed results now exist and
 are summarized in \S\ref{sec:evidence}: the age/staleness orderings
 provably cross at a preregisterable point, two consumers can disagree
 about which of two identically-aged histories is fresh, and triggering
-on directional staleness beats the best isotropic signal-aware policy
-at matched budgets (the falsifier in its honest form, since
+on directional staleness beats the matched-budget isotropic
+signal-aware threshold (the falsifier in its honest form, since
 signal-aware sampling already beats age-based scheduling
-\cite{sun2020}). If long-horizon consequences dominate immediate
+\cite{sun2020}; no optimality claim attaches to either threshold
+heuristic). If long-horizon consequences dominate immediate
 consumer-relative covariance reduction, $\SC$ may still remain a feature
 or terminal metric rather than a sufficient scheduling policy in richer
 settings; that outcome was a registered possible verdict of the sealed
@@ -852,8 +853,9 @@ draw, given \emph{identical} histories with \emph{identical} age
 profiles, return opposite freshness verdicts; no consumer-blind
 freshness scalar can serve both. DR-3 is the operational claim: at
 matched realized transmit budgets, triggering on the realized error in
-the consumer's read direction beats the best isotropic signal-aware
-threshold by \textbf{16.3\%} pooled on the consumer endpoint, with the
+the consumer's read direction beats the isotropic signal-aware
+threshold by \textbf{16.3\%} pooled on the consumer endpoint (both are
+matched-budget heuristics; no optimality claim attaches), with the
 advantage carrying its sealed geometric signature --- it shrinks
 (Spearman $-0.93$) exactly as the read direction rotates toward the
 noise-dominant mode, where the two triggers converge. The paper's
@@ -891,7 +893,7 @@ as no-flip and measured as none), measured \textbf{19/19} ($\ge$90\%);
 pooled minimum relative gap \textbf{0.39} ($\ge$0.10) & ALL PASS 5/5 \\
 \addlinespace
 DR-3: scheduling at matched budgets (DR3-001) &
-directional trigger vs best isotropic signal-aware threshold at matched
+directional trigger vs isotropic signal-aware threshold at matched
 realized budgets: \textbf{+16.3\%} pooled consumer loss ($\ge$8\%),
 positive 20/20; +65.3\% over periodic ($\ge$30\%, context);
 anti-control $-61.5\%$; sealed angle structure Spearman
