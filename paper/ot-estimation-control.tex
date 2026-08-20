@@ -98,7 +98,14 @@ optical-link consumer probed through the belief-averaged operator; and the
 multi-consumer tax, measured with its predicted angular shape), and the
 closed-loop campaign promoted on its third seal after two registered
 instrument misses whose corrections are part of the record
-(\S\ref{sec:evidence}). OT is proposed not as a replacement for
+(\S\ref{sec:evidence}). The dynamic-relevance interface, pursued as its
+own track, has its first three sealed results as well: the
+age/staleness orderings cross at a point predictable in closed form,
+two consumers can disagree about which of two identically-aged
+histories is fresh, and a directional trigger beats the best isotropic
+signal-aware policy by 16\% at matched update budgets --- the honest
+baseline, since signal-aware sampling already beats age-based
+scheduling. OT is proposed not as a replacement for
 observability, filtering, stability, or feedback, but as a complementary
 theory of operational distinguishability at their downstream boundary.
 \end{abstract}
@@ -513,13 +520,21 @@ rather than by the clock. Our prior-art sweep found no anisotropic-staleness
 formulation; the nearest neighbor is the analytic value-of-information
 line \cite{soleymani2022}, whose optimality results cover
 multi-dimensional Gauss--Markov processes. Because \eqref{eq:staleness}
-has its own community, baselines (AoI, AoII, VoI), and falsifier (does
-directional staleness beat age-based scheduling at matched update budgets on
-a real consumer?), it is retained here only as a conjectural branch and
-pursued independently. If long-horizon consequences dominate immediate
-consumer-relative covariance reduction, $\SC$ may remain a feature or
-terminal metric rather than a sufficient scheduling policy; that outcome
-would be a scientific boundary, not a failure to be patched.
+has its own community, baselines (AoI, AoII, VoI), and falsifier, it is
+retained here as a conjectural branch and pursued independently as its
+own campaign track --- whose first three sealed results now exist and
+are summarized in \S\ref{sec:evidence}: the age/staleness orderings
+provably cross at a preregisterable point, two consumers can disagree
+about which of two identically-aged histories is fresh, and triggering
+on directional staleness beats the best isotropic signal-aware policy
+at matched budgets (the falsifier in its honest form, since
+signal-aware sampling already beats age-based scheduling
+\cite{sun2020}). If long-horizon consequences dominate immediate
+consumer-relative covariance reduction, $\SC$ may still remain a feature
+or terminal metric rather than a sufficient scheduling policy in richer
+settings; that outcome was a registered possible verdict of the sealed
+campaign (it did not occur in the synthetic class) and remains the
+standing boundary for the physical and random-delay settings ahead.
 
 \section{Prior art and the novelty hypothesis}
 \label{sec:priorart}
@@ -816,6 +831,76 @@ endpoint, richer consumer sets ($m>2$, asymmetric priorities, layered
 descriptions), and the Interface-1 frontier (nonlinear consumers inside
 MPC, where $\PC(x)$ moves the estimator itself) remain open.
 
+\emph{The dynamic-relevance interface now has its own first evidence.}
+Interface 3 (\S\ref{sec:staleness}) was stated as an explicit conjecture
+and spun out as its own track (DR) in the campaign repository; its first
+three campaigns are sealed and measured
+(Table~\ref{tab:dr-evidence}). The track's novelty discipline was set by
+its own anchor before any bar was frozen: signal-aware sampling already
+beats age-optimal sampling \cite{sun2020}, so beating periodic or
+age-based scheduling is context, never the claim --- only
+directional-beats-\emph{isotropic-signal-aware} counts. DR-1
+establishes the vocabulary: over a declared random system class, the
+age ordering and the directional-staleness ordering of two information
+sets provably disagree below a crossing angle computable in closed form
+before any rollout --- a $6\times$-older observation of the slow mode
+beats a fresh observation of the fast mode wherever the consumer reads
+mostly slow --- and the effect vanishes for the isotropic (trace)
+consumer. DR-2 transports the Paper-IV/Campaign-2 flip from WHERE to
+WHEN: two consumers at canonical read angles declared before any system
+draw, given \emph{identical} histories with \emph{identical} age
+profiles, return opposite freshness verdicts; no consumer-blind
+freshness scalar can serve both. DR-3 is the operational claim: at
+matched realized transmit budgets, triggering on the realized error in
+the consumer's read direction beats the best isotropic signal-aware
+threshold by \textbf{16.3\%} pooled on the consumer endpoint, with the
+advantage carrying its sealed geometric signature --- it shrinks
+(Spearman $-0.93$) exactly as the read direction rotates toward the
+noise-dominant mode, where the two triggers converge. The paper's
+pre-committed boundary outcome ($\SC$ as a feature rather than a
+policy) was a registered possible verdict and did \emph{not} occur in
+this system class. Scope, again plainly: smart-sensor idealization
+(exact-state transmission over a deterministic channel, so age-based
+and periodic coincide), planted known consumers, exact-linear plants;
+the probe-charged blind-recovery arm, random-delay channels (where the
+age-of-information line has its native force), and nonlinear plants are
+designated future seals.
+
+\begin{table}[t]
+\caption{Governed DR-track results (single sealed runs; 20 fresh random
+systems each; all preregistrations, harnesses, and result artifacts in
+the campaign repository).}
+\label{tab:dr-evidence}
+\centering
+\begin{tabular}{@{}p{0.26\linewidth}p{0.43\linewidth}p{0.22\linewidth}@{}}
+\toprule
+\textbf{Campaign (prereg)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
+\midrule
+DR-1: the age/staleness crossover (DR1-001) &
+crossover predicted by closed form in \textbf{20/20} systems
+($\ge$80\%) and measured in \textbf{20/20} ($\ge$90\%);
+$|\theta^{*}_{\mathrm{pred}}-\theta^{*}_{\mathrm{meas}}|$ median
+\textbf{0.67} grid steps (max 1.4 vs bar 4.0); the older observation
+wins below the crossing in all 20; isotropic-null flips 0/20 & ALL
+PASS 7/7 \\
+\addlinespace
+DR-2: the staleness flip (DR2-001) &
+two-consumer verdict inversion on identical histories with identical
+age: predicted \textbf{19/20} ($\ge$80\%; the 20th correctly predicted
+as no-flip and measured as none), measured \textbf{19/19} ($\ge$90\%);
+pooled minimum relative gap \textbf{0.39} ($\ge$0.10) & ALL PASS 5/5 \\
+\addlinespace
+DR-3: scheduling at matched budgets (DR3-001) &
+directional trigger vs best isotropic signal-aware threshold at matched
+realized budgets: \textbf{+16.3\%} pooled consumer loss ($\ge$8\%),
+positive 20/20; +65.3\% over periodic ($\ge$30\%, context);
+anti-control $-61.5\%$; sealed angle structure Spearman
+\textbf{$-0.93$} ($\le-0.5$); budget-integrity spread 0.58\% ($\le$2\%)
+& ALL PASS 6/6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Falsifiers}
 \label{sec:falsifiers}
 
@@ -892,8 +977,13 @@ predicts resource allocations that ordinary state reconstruction does not
 does. All seven campaigns have now been run under seal --- six passing
 outright, the closed-loop seventh promoted on its third seal after two
 registered instrument misses whose corrections are themselves part of the
-record (\S\ref{sec:evidence}); positive controls included throughout. The
-hardware endpoint is where the claim now goes to be risked.
+record (\S\ref{sec:evidence}); positive controls included throughout.
+The dynamic-relevance track has followed with three sealed results of
+its own --- the preregisterable age/staleness crossover, the
+two-consumer staleness flip, and the matched-budget scheduling win over
+the honest (isotropic signal-aware) baseline, with its predicted
+geometric signature. The hardware endpoint is where the claim now goes
+to be risked.
 The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. Those gates have now been passed in the
