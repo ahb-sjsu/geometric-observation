@@ -98,7 +98,7 @@ is intended to inform such work with a common measurement vocabulary.
 # Introduction
 
 Carrier-sense multiple access with collision avoidance (CSMA/CA), as
-specified for IEEE 802.11 [IEEE802.11], makes each transmission
+specified for IEEE 802.11 {{IEEE802.11}}, makes each transmission
 conditional on an assessment that the medium is available. That
 assessment -- Clear Channel Assessment (CCA), possibly refined by the
 Network Allocation Vector (NAV) -- is performed at the *transmitter*.
@@ -107,7 +107,7 @@ Whenever the transmitter's local view of the medium differs from the
 receiver's, the assessment can be wrong in the dangerous direction: the
 transmitter senses the medium idle and transmits, and the receiver, in
 range of a station the transmitter cannot hear, experiences a collision.
-This is the classical hidden-node problem [MACA] [MACAW], and it is the
+This is the classical hidden-node problem {{MACA}} {{MACAW}}, and it is the
 canonical instance of a broader pattern this document names.
 
 We treat each such assessment as a **channel-access certificate**: an
@@ -124,7 +124,7 @@ This document does not propose to change how 802.11 stations sense the
 medium. It proposes, as an experiment, to *measure* how often their
 "clear" is wrong for the party that depends on it, and to express the
 result in an interoperable form. It adopts three properties, drawn from
-a broader program on reliability of observed systems [OT] [VACUITY], as
+a broader program on reliability of observed systems {{OT}} {{VACUITY}}, as
 the target for a channel-access certificate:
 
 - **consumer-relative**: graded against the party whose successful
@@ -138,7 +138,7 @@ the target for a channel-access certificate:
 - **calibrated**: carrying a *measured* false-clear rate, with a
   confidence interval and provenance, rather than an assumed one.
 
-RTS/CTS [MACA] [MACAW] is, in these terms, already a partially witnessed
+RTS/CTS {{MACA}} {{MACAW}} is, in these terms, already a partially witnessed
 certificate: the CTS returned by the receiver silences the receiver's
 neighborhood, evidencing the receiver-side condition. What 802.11 does
 not do is *measure* the residual false-clear rate of CCA alone versus
@@ -170,8 +170,8 @@ carried out of band (Section 6.4), describing measurements of unmodified
 
 {::boilerplate bcp14-tagged}
 
-The key words are to be interpreted as described in BCP 14 [RFC2119]
-[RFC8174]. In this document they constrain conformance to the
+The key words are to be interpreted as described in BCP 14 {{RFC2119}}
+{{RFC8174}}. In this document they constrain conformance to the
 measurement methodology (Section 5) and the certificate format
 (Section 6), NOT the behavior of any 802.11 station.
 
@@ -191,7 +191,7 @@ Consumer:
 Consumer Footprint:
 : The set of receivers and/or flows that constitute the consumers of a
   CAC over a measurement interval. The footprint is the 802.11 analogue
-  of the general consumer footprint P used in [OT]; a certificate is
+  of the general consumer footprint P used in {{OT}}; a certificate is
   consumer-relative when it is graded over its footprint.
 
 False-Clear:
@@ -293,7 +293,7 @@ failure modes, and a candidate witness. It is informational.
 - False-clear: a rate certificate that has gone stale as the channel
   changed (mobility, fading) -- the selected rate no longer decodes,
   producing loss. The maximum tolerable staleness before re-probe is a
-  refresh floor in the sense of [OT].
+  refresh floor in the sense of {{OT}}.
 - Witness: per-frame Ack/Block Ack success and PHY-reported metrics
   (RSSI, EVM) at the receiver.
 
@@ -372,8 +372,8 @@ outcome, including a negative result, SHOULD be retained and reported.
 An experiment that adjusts its thresholds after seeing its results, or
 that discards negative runs, MUST disclose that it did so; results so
 produced do not carry the evidential weight this methodology is designed
-to confer. This discipline is described in [OT] and exercised across the
-substrates surveyed in [VACUITY].
+to confer. This discipline is described in {{OT}} and exercised across the
+substrates surveyed in {{VACUITY}}.
 
 ## Comparative Claims
 
@@ -489,7 +489,7 @@ is meant to measure.
 
 # Relationship to IEEE 802.11
 
-IEEE 802.11 [IEEE802.11] is the normative authority for the PHY and MAC
+IEEE 802.11 {{IEEE802.11}} is the normative authority for the PHY and MAC
 behavior discussed here, including CCA, the NAV, RTS/CTS, rate selection,
 and spatial reuse. This document defines neither new on-air behavior nor
 new MAC frames. It offers a measurement vocabulary, a measurement
@@ -544,7 +544,7 @@ standards-track successor.
 {:numbered="false"}
 
 This work applies the consumer-relative, witnessed, calibrated framing of
-Observation Theory [OT] and the cross-substrate survey [VACUITY] to
+Observation Theory {{OT}} and the cross-substrate survey {{VACUITY}} to
 IEEE 802.11 channel access. It takes the hidden- and exposed-node framing
-from the MACA/MACAW line of work [MACA] [MACAW] and the DCF analysis of
-[BIANCHI].
+from the MACA/MACAW line of work {{MACA}} {{MACAW}} and the DCF analysis of
+{{BIANCHI}}.
