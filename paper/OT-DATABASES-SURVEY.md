@@ -210,22 +210,49 @@ Exploratory only.
 4. **E as a companion formal note** (identification conditions),
    citing the LM-1 three-seal record as the existing evidence.
 
-## 3. Teaching tie-ins (CMPE 180B)
+## 3. Idea backlog — further research directions from the full scan
 
-Low-effort, high-signal classroom uses: (i) L10/L11 — a 15-minute
-segment on "what does the workload actually read?" with the DB-1
-harness as a live DuckDB demo (it runs in seconds and now carries a
-sealed result, including the honest negative — a teachable example of
-preregistration discipline); (ii) L12 — §16.3.1 histogram budgets
-(p. 758 ff.) as precision allocation; (iii) 10b — CRUSH placement as
-consumer-blind vs consumer-aware allocation; (iv) a semester project
-template: probe a workload, recover P̂, allocate an index/statistics
-budget, evaluate at matched cost — the whole OT loop at course scale.
-**Textbook-gap lectures the scan surfaced:** the 7/e teaches neither
-what-if analysis nor approximate query processing — a guest segment
-on each (what-if probing as the practitioner's finite-difference; AQP
-error/budget trade-offs) would cover industry-standard material the
-book omits, and both are natural OT showcases.
+Beyond the ranked areas above, the page-level pass surfaced these
+(unranked recon notes; each owes its own prior-art pass before any
+commitment):
+
+- **Consumer-relative isolation levels (ch. 18, concurrency
+  control).** Weak-isolation anomalies matter only if a consumer
+  READS the structures they corrupt. Kraska et al.'s consistency
+  rationing (VLDB 2009) lets applications DECLARE per-data
+  consistency classes; the OT form PROBES the consumer to discover
+  which anomaly classes its answers are actually sensitive to, then
+  buys isolation only where tr(P_C Σ_anomaly) is material. Declared →
+  probed is exactly the LM/EC novelty pattern. Possibly the most
+  interesting unexplored idea in the file.
+- **LSM compaction scheduling by read geometry (§14.8.1, ch. 24).**
+  Compaction budget allocated to the key ranges the consumers read
+  (read-amplification as the Σ being reduced), instead of
+  size/tiering heuristics. Write-optimized stores are the one place
+  the textbook itself frames storage as an explicit read/write
+  budget trade.
+- **Consumer-weighted recovery ordering (ch. 19).** After a crash,
+  redo/restore in the order that minimizes consumer-weighted
+  unavailability, tr(P_C Σ_unrecovered(t)) integrated over the
+  recovery window — the recovery-time objective made
+  consumer-relative. (Instant-recovery literature is the anchor to
+  recon.)
+- **Deferred index maintenance by consumer geometry (ch. 14/24).**
+  Under write bursts, which indexes may lag (their staleness is
+  outside every consumer's read geometry) and which must stay
+  synchronous — the DR question at the index layer; borders the
+  XPROTO-GEO boundary, coordinate before pursuing.
+- **Ingestion-time precision (ch. 10 pipelines).** LM-2's allocation
+  applied at ETL time: sensor/log fields ingested at probed-relevance
+  precision — the EC track's sensor question meeting the DB track's
+  storage question in one pipeline.
+- **Partitioning by read geometry (ch. 21) — likely conceded.**
+  Workload-driven partitioning (Schism etc.) is dense; the probed-
+  geometry variant is probably a small delta. Low priority.
+- **Consumer-relative benchmark weighting (§25.2) — methodology
+  note, not a campaign.** TPC-style metrics assume one consumer;
+  the multi-consumer tax says benchmark rankings are geometry-
+  dependent. A short position piece at most.
 
 ## 4. Novelty posture (binding for any seal)
 
