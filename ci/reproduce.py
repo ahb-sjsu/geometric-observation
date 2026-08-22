@@ -118,6 +118,17 @@ REPRODUCIBLE = [
     # committed-value reproduction, and s4 confirms the violation in EXACT
     # rational arithmetic (stdlib fractions + decimal, no new dependency).
     ("go14_percell.py",             "GO14PC-JSON","GO14-percell.json",             "GO14PC_supported"),
+    # GO-16 partition/tie C3 net (GO-P-2026-090), governed seed 20260822
+    # passed explicitly (the no-arg default is the disclosed dev pilot
+    # seed; the sealed hash pins the file, so the governed mode is an
+    # argument, not a default). ~2 min. Bare-sentinel format (see
+    # extract_json). Deterministic given the seed.
+    ("go16_verify_partition.py 20260822", "GO16_PARTITION_VERIFY_BEGIN",
+     "go16-partition-verify-governed.json", "ALL_PASS"),
+    # GO-16 discrete twin net (GO-P-2026-091), governed seed 20260822,
+    # ~1-2 min. Same conventions.
+    ("go16_discrete_twin.py 20260822", "GO16_DISCRETE_TWIN_BEGIN",
+     "go16-discrete-twin-governed.json", "ALL_PASS"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
@@ -147,7 +158,12 @@ def run(rel_path: str, timeout: int = 600) -> str:
 def extract_json(stdout: str, sentinel: str) -> dict:
     lines = stdout.splitlines()
     try:
-        start = next(i for i, l in enumerate(lines) if l.strip() == f"==={sentinel}===")
+        # House convention is ===SENTINEL===; the sealed GO-16 harnesses
+        # (090/091, hash-pinned) print bare SENTINEL_BEGIN lines instead --
+        # accepted here per the 064 precedent (CI adapts, sealed harnesses
+        # are never modified for CI's convenience).
+        start = next(i for i, l in enumerate(lines)
+                     if l.strip() in (f"==={sentinel}===", sentinel))
     except StopIteration:
         raise RuntimeError(f"sentinel {sentinel} not found in stdout")
     # Parse the JSON object that starts on the next line; tolerate either

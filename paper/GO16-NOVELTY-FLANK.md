@@ -7,8 +7,10 @@ allocation games. Query list at the bottom (auditable). Surface
 limits declared: abstracts only for paywalled Automatica/Econometrica
 internals; US-proxied results; DBLP/Scholar not queried natively — a
 hidden linear-cost lemma inside the paywalled texts cannot be fully
-excluded. **This is one flank pass; the pre-seal must-cite
-verification sweep (quote-level) is still owed.**
+excluded. **Quote-level sweep COMPLETE (2026-08-21, second agent
+pass): 13 verified, 2 corrected, 1 unverifiable-at-primary of 16 —
+record in §"Quote-level sweep" below; corrections folded into the
+list in place.**
 
 ## Verdict
 
@@ -72,9 +74,16 @@ theorems on top; headline C3.**
    (arXiv:1007.4801) — antenna-limited (rank-budgeted) eavesdropper
    defeated by artificial noise; secrecy objective, not estimation.
 10. Miao, Wu, Young — Multivariate Rational Inattention
-    (Econometrica 2022) — LQG attention water-filling, no adversary.
-11. Başar-school Gaussian jamming saddle points — classical
-    water-filling equalization at minimax.
+    (Econometrica 90(2):907–945, 2022) — LQG attention via
+    rate-distortion + SDP; generalized reverse water-filling in
+    special cases; no adversary. [CORRECTED at quote level: the
+    general solution is SDP, water-filling only in special cases.]
+11. Başar 1983 — "The Gaussian test channel with an intelligent
+    jammer," IEEE T-IT 29(1):152–157 — the SCALAR Gaussian minimax
+    saddle point (linear amplification vs. linear-or-independent-
+    noise jamming). [CORRECTED at quote level: no water-filling in
+    this paper; attach equalization/water-filling language to the
+    vector/MIMO jamming extensions or drop it from this cite.]
 12. Conitzer — On Stackelberg Mixed Strategies (Synthese 2016) —
     zero-sum commitment-no-value folklore anchor.
 13. Farokhi et al. — Estimation with Strategic Sensors
@@ -104,6 +113,51 @@ theorems on top; headline C3.**
 - Miao–Wu–Young: water-filling attention with no adversary.
 - 2602.19292: spectral disclosure under S-mismatch — no adversarial
   budget, no ties.
+
+## Quote-level sweep (2026-08-21) — record
+
+Second agent pass; every item checked against its primary page with a
+supporting verbatim quote captured (report retained in the session
+transcript; key dispositions here). **VERDICT: 13 verified, 2
+corrected, 1 unverifiable-at-primary of 16.**
+
+- **Verified with quotes** (1, 2, 3, 5, 6, 7, 8, 9, 12, 13, 14, 15,
+  16), including the two load-bearing ones: item 2's idempotent
+  structure verbatim from the paper body ("P_k … is a symmetric
+  idempotent matrix, … eigenvalues … either 0 or 1") and its SDP
+  ("min Tr{SV} subject to Σ₁ ⪰ S ⪰ O_m"); and **item 14 (the close
+  call, arXiv:2602.19292 — Munif, Varma, Lasaulce, IFAC WC 2026)
+  fully verified against its full text with all four claimed
+  ABSENCES confirmed**: no rank-budgeted reader, no leakage
+  price/resolved-variance pricing, no eigenvalue-tie or partition
+  theorem, no linear cost of revelation; its Remark 9 itself reduces
+  the sender problem to the Tamura/Sayin–Başar formulations.
+- **Corrected**: items 10 and 11 (folded into the list above).
+- **Unverifiable-at-primary**: item 4 (Tamura; SSRN 403s) — doubly
+  corroborated via Malamud–Schrimpf (arXiv:2110.08884): "He shows
+  the existence of a linear optimal information design, given by a
+  linear projection." Carried with this caveat.
+- **Bibliographic upgrades to use at citation time**: item 9's
+  journal version (IEEE T-IT 60(11):6844–6869, 2014); item 3's exact
+  title/venue ("…State-Dependent Quadratic Cost Measures," TAC
+  67(3):1241–1252, 2022; the exact equivalence is
+  copositive-programming, the SDP is a relaxation/lower bound);
+  item 7's venue is SIAM J. Matrix Anal. Appl. 13(1):41–45 (guard
+  against the mislabeled "J. Numer. Anal." floating in indices);
+  author names for 6 (Kazıklı–Gezici–Yüksel), 14, 15 (Akyol).
+- **The load-bearing nuance (danger framing (a))**: the linear-cost
+  clearance HOLDS — no source states tr(S(I−K)Sᵀ) or the
+  record-as-payoff-instrument cost — but the Sayin–Başar SDP
+  objective is ALREADY linear in the posterior covariance
+  (min Tr{SV}). The GO-16 novelty must therefore be phrased as the
+  **identification of the minimal value cost of revelation K with
+  tr(S(I−K)Sᵀ) inside the record-as-instrument game (with its
+  explicit shrink-and-dither attainment)** — never as "the cost is
+  linear in a covariance variable," which is standard in that line.
+  The statement (v0.4) adopts this phrasing.
+- Danger framing (b) HOLDS: Overton–Womersley 1993 is literally
+  about *minimizing* sums of largest eigenvalues, with multiplicity
+  ("splitting a multiple eigenvalue if necessary") at optimizers.
 
 ## Search queries run
 
