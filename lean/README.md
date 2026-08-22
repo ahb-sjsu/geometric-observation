@@ -86,8 +86,13 @@ load-bearing algebra of the revelation reduction (GO-16 v0.2,
 - `shrink_dither_cost` — the achievability side: the policy
   `F = SK`, `Σ_w = SK(1−K)Sᵀ` costs exactly `S(1−K)Sᵀ` (as a matrix;
   trace for the scalar cost), for symmetric `K`;
-- `trace_sq_le_trace_mul_transpose` — `tr(Z²) ≤ tr(ZZᵀ)`, the
-  converse's only inequality;
+- `revelation_key` / `revelation_variance` — the record-variance
+  identity `N* = FFᵀ + Σ_w = SKSᵀ` for the same policy (added v0.3 to
+  close an R-IND-5-caught mis-attribution: this step was previously
+  cited to `shrink_dither_key`, which proves the telescope, not this);
+- `trace_mul_transpose_self_nonneg` and
+  `trace_sq_le_trace_mul_transpose` — the converse's two inequalities
+  (`tr(XXᵀ) ≥ 0`; `tr(Z²) ≤ tr(ZZᵀ)`);
 - `scalar_shielding_identity` / `scalar_shielding_cost_bound` — the
   per-coordinate completion of squares that makes shielding cost
   linear in SNR (the mechanism forcing the water level and the

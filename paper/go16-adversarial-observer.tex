@@ -17,15 +17,18 @@
 \newcommand{\sym}{\operatorname{sym}}
 
 \title{GO-16: The Adversarial Observer\\
-\large Statement v0.2 --- the revelation reduction and the partition/tie theorem\\
-\normalsize status: theory netted at LQG scope --- opened 2026-08-21 at
-\texttt{[exploratory]} (v0.1, un-parked from U4 out of
-\texttt{paper/OT-POKER-SURVEY.md}); v0.2 same day: Theorems 1--3 proved,
-harness ALL PASS 9/9, load-bearing algebra Lean-checked; the governed
-seal, the fresh-context R-IND-5 read, and the novelty flank are OWED
-before any ledger promotion}
+\large Statement v0.3 --- the revelation reduction and the partition/tie theorem\\
+\normalsize status: theory netted at LQG scope and R-IND-5-verified ---
+opened 2026-08-21 at \texttt{[exploratory]} (v0.1, un-parked from U4 out
+of \texttt{paper/OT-POKER-SURVEY.md}); v0.2 same day: Theorems 1--3
+proved, harness ALL PASS, Lean-checked; v0.3 same day: fresh-context
+R-IND-5 pass complete (2 exposition errors, 3 gaps, 2 overclaims ---
+every finding addressed herein), novelty flank on record
+(\texttt{paper/GO16-NOVELTY-FLANK.md}), discrete twin settled at probe
+level (ALL PASS 4/4); the governed seal and the quote-level citation
+sweep are OWED before any ledger promotion}
 \author{Geometric Observation program}
-\date{2026-08-21 (v0.2)}
+\date{2026-08-21 (v0.3)}
 
 \begin{document}
 \maketitle
@@ -54,17 +57,30 @@ $\theta_i = s_i^2/(\lambda\mu_i)$, and \textbf{tie iff contested
 $\neq\emptyset$} (Theorem~\ref{thm:diagonal}) --- each side's mixture
 pinned by the other's indifference, exactly the mixed-equilibrium
 structure of poker. Two v0.1 items fall: Conjecture~2 (never-dither)
-is \textbf{refuted} --- deception \emph{requires} dither, and the
-opening probe's contrary finding is diagnosed as an instrument
-artifact (the numerical jitter supplied free noise) --- and
-Conjecture~4 (commitment gap) collapses: with mixed attention the
-game has a saddle, so commitment is worthless at LQG scope.
-Verification: numerical harness ALL PASS 9/9
-(\texttt{experiments/go16\_verify\_partition.py}); the load-bearing
-algebra machine-checked in Lean~4/Mathlib
+is \textbf{refuted} --- fractional revelation \emph{requires} dither,
+and the v0.1 probe's contrary finding is explained by its instances
+(their optima are near-projections needing $\approx$no dither; the
+v0.2 jitter diagnosis was itself wrong and is corrected on the
+R-IND-5 record) --- and Conjecture~4 (commitment gap) collapses
+\emph{for the whitened-attention game}: with the reader committing to
+a mixed attention operator, minimax $=$ maximin; the fixed-instrument
+$\Theta$-mixture game is left open. The discrete twin (binary
+alphabet) is settled at probe level: the tie survives exactly, the
+pricing generalizes, mixing is the carrier of dither, and a fifth
+class appears that LQG forbids. Verification: numerical harness ALL
+PASS 9/9 + a diagnosis measurement
+(\texttt{experiments/go16\_verify\_partition.py}); twin probe ALL
+PASS 4/4 (\texttt{experiments/go16\_discrete\_twin.py}); six lemmas
+machine-checked in Lean~4/Mathlib
 (\texttt{lean/ObservationTheory/AdversarialObserver.lean}, built
-clean on Atlas, zero \texttt{sorry}). The fresh-context R-IND-5 read
-and the arXiv/DBLP novelty flank remain owed.
+clean on Atlas, zero \texttt{sorry}); fresh-context R-IND-5 pass
+complete --- the mathematical core survived intact, and the seven
+findings (2 exposition errors, 3 gaps, 2 overclaims) are addressed in
+this version. Novelty flank on record: the composite game is
+unoccupied; the SDP-ization machinery is imported
+(Sayin--Akyol--Ba\c{s}ar; Tamura), the tie's optimization ancestor is
+Overton--Womersley coalescence, and the partition/pricing/water-level
+theorem is the headline novelty.
 \end{abstract}
 
 \section{The object}
@@ -192,23 +208,42 @@ $\tr P^2 - 2\tr(PQ) \ge -\tr Q^2$. Finally
 \;\le\; \tr(ZZ^\top) = \tr(SB^\top B S^\top) = \tr(SKS^\top),
 \]
 because $\tr(ZZ^\top)-\tr(Z^2) = \tfrac12\lVert
-Z-Z^\top\rVert_F^2\ge0$ \emph{(Lean:
-\texttt{trace\_sq\_le\_trace\_mul\_transpose})}. Hence cost
+Z-Z^\top\rVert_F^2\ge0$. The converse thus uses \emph{two}
+inequalities, both machine-checked: $\tr(XX^\top)\ge0$ (Lean:
+\texttt{trace\_mul\_transpose\_self\_nonneg}, applied to symmetric
+$X = P-Q$ and to $Z - Z^\top$) and $\tr(Z^2)\le\tr(ZZ^\top)$ (Lean:
+\texttt{trace\_sq\_le\_trace\_mul\_transpose}). Hence cost
 $\ge \tr(SS^\top) - \tr(SKS^\top) = \tr(S(I-K)S^\top)$.
 
 \emph{Achievability.} For $F^\star = SK$, $\Sigma_w^\star =
 SK(I-K)S^\top$ (PSD since $\operatorname{spec}K\subset[0,1]$):
 $N^\star = SK^2S^\top + SK(I-K)S^\top = SKS^\top$ by the ring
-identity $(I-K)^2 + K(I-K) = I-K$ \emph{(Lean:
-\texttt{shrink\_dither\_key})}; the cost telescopes by the same
-identity to $\tr(S(I-K)S^\top)$ \emph{(Lean:
-\texttt{shrink\_dither\_cost})}; and with $S = U\Sigma V^\top$
-(thin SVD, $V$ square by full column rank), $K\succ0$:
-$K S^\top (SKS^\top)^{+} S K = K V (V^\top K V)(V^\top K
-V)^{-1}(V^\top K V) V^\top \cdot K^{-1}\cdots = K$ --- the
-computation reduces to
-$\Sigma(\Sigma B\Sigma)^{-1}\Sigma = B^{-1}$ with $B = V^\top KV$,
-giving $K(F^\star,\Sigma_w^\star) = K$.
+identity $K^2 + K(I-K) = K$ \emph{(Lean: \texttt{revelation\_key},
+\texttt{revelation\_variance} --- corrected from v0.2's erroneous
+citation of the telescope identity, R-IND-5 finding 11)}; the cost
+telescopes to $\tr(S(I-K)S^\top)$ by $(I-K)^2 + K(I-K) = I-K$
+\emph{(Lean: \texttt{shrink\_dither\_key},
+\texttt{shrink\_dither\_cost})}. $K$-verification (display corrected
+from v0.2, R-IND-5 finding 4): with $S = U\Sigma V^\top$ (thin SVD;
+$V$ is $n\times n$ orthogonal by full column rank, $U$ has
+orthonormal columns) and $K\succ0$,
+\[
+N^\star = U(\Sigma V^\top K V \Sigma)U^\top,\qquad
+(N^\star)^{+} = U(\Sigma V^\top K V \Sigma)^{-1}U^\top,
+\]
+(the four Moore--Penrose conditions hold since $U$ has orthonormal
+columns), whence
+\[
+F^{\star\top}(N^\star)^{+}F^\star
+= KV\Sigma(\Sigma V^\top K V \Sigma)^{-1}\Sigma V^\top K
+= KV(V^\top K V)^{-1}V^\top K = K,
+\]
+using $\Sigma(\Sigma B\Sigma)^{-1}\Sigma = B^{-1}$ with
+$B = V^\top KV$ and $VV^\top = I$. Singular $K$: by the
+$\varepsilon$-limit (asserted-standard prose; the harness verifies
+exact attainment for singular and projection $K$ directly, so the
+identity in fact holds beyond the stated scope --- R-IND-5
+finding~4).
 
 \emph{(iii)} $\KF{\cdot}$ is the support function of $\mathcal W_k$
 (Ky Fan), giving the inner max; linear-plus-support-function is
@@ -226,25 +261,48 @@ revelation --- which the optimum generically demands
 $\Sigma_w\neq0$. Optimal deception is shrink-\emph{and}-dither:
 randomization is intrinsic, not a discrete-support artifact.
 \textbf{v0.1's Conjecture 2 asserted the opposite; it is refuted by
-this corollary, and the opening probe's supporting finding (C4,
-``never dithers'') is diagnosed as an instrument artifact: the
-harness's $\varepsilon I$ jitter in $N$ supplied free noise, letting
-near-singular $F$ mimic dither at zero booked cost.} The v0.1
-poker-facing reading inverts accordingly: mixing in discrete games
-is the shadow of \emph{this} dither requirement, not the other way
-around.
+this corollary} --- the diagonal instances demand dither trace $0.19$
+at the optimum. \textbf{The diagnosis of the v0.1 probe finding (C4,
+``never dithers''), however, has itself been corrected twice, and
+both corrections stay on the record.} v0.2 attributed C4 to an
+instrument artifact ($\varepsilon I$ jitter supplying free noise).
+The R-IND-5 pass refuted that mechanism quantitatively (the jitter
+route books blackout-level cost at mid-range revelation --- finding
+8), and the V10 measurement settles it: at the v0.1 probe's own
+$(\lambda,k)$ cells, the exact optima are \emph{near-projections}
+(fractional mass $\le 10^{-13}$, required dither $\le 2\times
+10^{-12}$ at three of four cells; $0.11$ and $0.027$ at the fourth).
+The v0.1 instances genuinely needed $\approx$no dither; they were
+\emph{unrepresentative}, not mismeasured. The same measurement
+yields an unlooked-for structural observation: the contested phase
+appears to concentrate on \emph{commuting-aligned} $(\Sigma_S, M)$
+pairs (the diagonal family and its rotations), with generic
+non-commuting instances optimizing at near-projections --- folded
+into Conjecture~\ref{conj:converse}. The v0.1 poker-facing reading
+still inverts as v0.2 said: mixing in discrete games is the shadow
+of the dither requirement, now confirmed by the twin probe
+(\S\ref{sec:twin}).
 \end{corollary}
 
 \begin{corollary}[No commitment gap at LQG scope; v0.1 Conjecture 4
 resolved]\label{cor:commit}
-By Theorem~\ref{thm:reduction}(iii), minimax $=$ maximin: once the
-reader may \emph{mix} its attention ($W$ an interior point of
-$\mathcal W_k$, realized as randomization over rank-$k$ reads),
-encoder commitment is worthless. A gap can exist only against a
-reader restricted to deterministic reads announced first --- the
-extreme points of $\mathcal W_k$ --- which is precisely why the
-reader must mix: the poker structure, recovered rather than
-assumed.
+By Theorem~\ref{thm:reduction}(iii), minimax $=$ maximin \emph{for
+the reduced game in which the reader's strategy is the whitened
+attention operator $W$} --- equivalently, a reader who may condition
+its read on the record's law $N$ (the population/HUD setting: the
+pool reads the frequencies of the record actually played). In that
+game, encoder commitment is worthless. \textbf{Scope correction
+(R-IND-5 finding 9):} this does \emph{not} establish the claim for
+the concrete game in which the reader commits to a mixture over
+fixed instruments $\Theta$ \emph{without} knowledge of $N$: the map
+from $\Theta$ to attention, $P_U = N^{1/2}\Theta^\top(\Theta
+N\Theta^\top)^{-1}\Theta N^{1/2}$, depends on the encoder's $N$, so
+a committed $\Theta$-mixture cannot enforce a fixed $W^\ast$ across
+encoder deviations. Whether a commitment gap exists in the
+fixed-instrument game is \textbf{open}. What stands: the reader must
+mix (projections --- the extreme points of $\mathcal W_k$ ---
+announced first are exploitable), and the poker structure is
+recovered, not assumed, in the $N$-conditioned reading.
 \end{corollary}
 
 \section{The partition/tie theorem}
@@ -293,11 +351,18 @@ projection. Contrapositive gives the claim.
 Let $\Sigma_S = \operatorname{diag}(s_1^2,\dots,s_n^2)$,
 $M = \operatorname{diag}(\mu_1,\dots,\mu_n)$, under genericity: (G1)
 $\mu_i$ distinct, positive; (G2) $\lambda\mu_i \neq s_i^2$ for all
-$i$; (G3) the optimal breakpoint is nondegenerate (strict slack
-interiority, below). Then the optimum of the reduced program is
-diagonal, $K^\ast = \operatorname{diag}(\rho_i)$, and there is a
-\textbf{water level} $t^\ast\ge0$, generically equal to some
-$\mu_j$, such that with $g_i := \mu_i\rho_i$:
+$i$. Then the optimum of the reduced program is diagonal,
+$K^\ast = \operatorname{diag}(\rho_i)$, with a \textbf{water level}
+$t^\ast\ge0$ at a breakpoint $t^\ast = \mu_j$, and the solution falls
+in exactly one of two regimes: the \textbf{fractional regime} ---
+condition (G3): the attention-budget equation resolves with strictly
+interior slack --- in which the contested set is nonempty, or the
+\textbf{integral regime}, in which every $\theta_i\in\{0,1\}$ and the
+contested set is empty. (Scoping corrected from v0.2, whose (G3)
+hypothesis made the empty-contested branch vacuous --- R-IND-5
+finding 7: G3 \emph{forces} contested $\neq\emptyset$; the two
+regimes are now stated as the exhaustive alternative.) With
+$g_i := \mu_i\rho_i$:
 \begin{itemize}
 \item \textbf{Conceded} ($\lambda\mu_i < s_i^2$, $\mu_i > t^\ast$):
 $\rho_i = 1$, $g_i = \mu_i$, attention $\theta_i = 1$. (The lazy
@@ -309,15 +374,20 @@ frequency equals the ratio of shielding cost to priced attention ---
 pinned by encoder indifference.}
 \item \textbf{Level} ($\mu_j = t^\ast$): $\rho_j = 1$, absorbing the
 attention slack $\theta_j = k - \#\{\text{conceded}\} -
-\sum_{\text{contested}} s_i^2/(\lambda\mu_i) \in (0,1)$ (G3), capped
-by $\min(1, s_j^2/(\lambda\mu_j))$.
+\sum_{\text{contested}} s_i^2/(\lambda\mu_i)$, capped by
+$\min(1, s_j^2/(\lambda\mu_j))$; $\theta_j\in(0,1)$ in the
+fractional regime, $\theta_j\in\{0,1\}$ in the integral one.
 \item \textbf{Submerged} ($\mu_i < t^\ast$): $\rho_i = 1$, $g_i =
 \mu_i$, $\theta_i = 0$: fully revealed, unread --- free exploitation
 by budget exhaustion rather than by structural invisibility.
 \end{itemize}
 Moreover the \textbf{tie} $\lambda_k(G^\ast) = \lambda_{k+1}(G^\ast)
-= t^\ast$ holds \emph{iff} the contested set is nonempty; when it is
-empty the top-$k$ spectrum is strict.
+= t^\ast$ holds \emph{iff} the contested set is nonempty ---
+equivalently, iff the solution is in the fractional regime; in the
+integral regime (e.g.\ $\mu = (4, 2.5, 1.8)$,
+$s^2 = (5,5,5)$, $\lambda = 1$, $k = 2$: all conceded,
+$\theta = (1,1,0)$, spectrum strict --- the R-IND-5 verifier's
+witness) the top-$k$ spectrum is strict under (G1).
 \end{theorem}
 
 \begin{proof}
@@ -348,7 +418,7 @@ t/\mu_i)$ when $\lambda\mu_i > s_i^2$, and at $\rho_i = 1$
 otherwise: linear-versus-linear forces bang-bang-to-the-kink ---
 this is where the tie mechanism lives. The value $J(t)$ is
 piecewise linear with breakpoints $\{\mu_i\}$, so its minimum sits
-at a breakpoint $t^\ast = \mu_j$ (generically unique, G3); the
+at a breakpoint $t^\ast = \mu_j$ (generically unique); the
 subgradient condition $0\in\partial J(t^\ast)$ \emph{is} the
 attention budget $\sum_i\theta_i = k$ with the stated $\theta$, and
 the caps are exactly the encoder's first-order conditions at
@@ -398,96 +468,182 @@ form ($4.0565$ vs.\ $4.0528$, optimizer above the true minimum as it
 must be); saddle survives $500$ random perturbations per side with
 zero violations, dither trace at optimum $0.19$; the exact $m=2$
 example gives $J^\ast = 7/4$, $t^\ast = 1$, $\theta = (1/4,3/4)$
-exactly; a general (non-diagonal) instance solved by projected
-subgradient matches direct optimization ($6.7651$ vs.\ $6.7664$)
-with a near-projection $K^\ast$ and correspondingly small tie gap.
+exactly. V9 (de-vacuated per R-IND-5 finding 10b): a \emph{rotated}
+diagonal instance with known fractional optimum --- the generic SDP
+solver recovers the fractional revelation spectrum in a non-diagonal
+basis (spectrum error $6.6\times10^{-3}$ vs.\ truth, tie gap
+$7\times10^{-4}$ relative), plus the original random general
+instance (SDP vs.\ direct $J$-match). V10 (measurement, not a gate):
+the v0.1-instance revelation spectra behind the corrected C4
+diagnosis (Corollary~\ref{cor:dither}). Gate-quality notes from
+R-IND-5 finding 10 are carried in-code: V6 is circular with the
+theorem by construction (V5 direct-solve and V7's
+1000-perturbation saddle check are the non-circular support), and
+the $10^{-12}$ jitter in the harness's own $N$ is commented at its
+definition.
 
 \textbf{Lean} (\texttt{lean/ObservationTheory/AdversarialObserver.lean};
 Lean \texttt{v4.32.2}, Mathlib \texttt{v4.32.2}, built clean
-2026-08-21 on Atlas, 8663 jobs, zero errors, zero \texttt{sorry}):
-\texttt{shrink\_dither\_key}, \texttt{shrink\_dither\_cost} (the
-achievability telescope), \texttt{trace\_sq\_le\_trace\_mul\_transpose}
-(the converse's only inequality), \texttt{scalar\_shielding\_identity}
-/ \texttt{\_cost\_bound} (the per-coordinate completion of squares).
-\emph{Unformalized remainder, named:} Ky Fan's maximum principle,
-saddle existence (Sion), the KKT bookkeeping of
-Theorems~\ref{thm:partition}--\ref{thm:diagonal}, and the SVD
-computation in achievability's $K$-verification; these are
+2026-08-21 on Atlas, 8663 jobs, zero errors, zero \texttt{sorry};
+rebuilt clean after the v0.3 additions): six lemmas ---
+\texttt{shrink\_dither\_key} / \texttt{shrink\_dither\_cost} (the
+cost telescope), \texttt{revelation\_key} /
+\texttt{revelation\_variance} (the record-variance identity
+$N^\star = SKS^\top$, added in v0.3 to close R-IND-5 finding 11's
+mis-attribution), \texttt{trace\_mul\_transpose\_self\_nonneg} and
+\texttt{trace\_sq\_le\_trace\_mul\_transpose} (the converse's two
+inequalities), \texttt{scalar\_shielding\_identity} /
+\texttt{\_cost\_bound} (the per-coordinate completion of squares).
+\emph{Unformalized remainder, named (extended per R-IND-5 finding
+11):} the Gaussian-conditioning derivations ($R(\Theta)$ and
+$\operatorname{Cov}(X\mid A) = I-K$), the $AB$/$BA$ nonzero-spectrum
+coincidence of Theorem~\ref{thm:reduction}(i), Ky Fan's maximum
+principle, saddle existence (Sion), the sign-symmetrization
+diagonality argument of Theorem~\ref{thm:diagonal}(a), the
+$\varepsilon$-limit assertions, the SVD computation in
+achievability's $K$-verification, and the KKT bookkeeping of
+Theorems~\ref{thm:partition}--\ref{thm:diagonal}; these are
 standard-cited and harness-netted.
 
-\textbf{Probe correction (on record).} v0.1's probe finding C4
-(``the LQG game never dithers,'' dither $\le1.1\times10^{-4}$) is
-\emph{withdrawn as evidence}: the probe's $N$ carried an
-$\varepsilon I = 10^{-9}$ jitter, which acts as free dither and lets
-near-singular $F$ implement fractional revelation at zero booked
-cost. Corollary~\ref{cor:dither} shows the exact game requires
-$\Sigma_w^\ast = SK(I-K)S^\top \neq 0$ whenever revelation is
-fractional (harness: dither trace $0.19$ at the $6$-coordinate
-optimum). v0.1's Conjecture 2 was wrong; the finding, the diagnosis,
-and the reversal are all kept at equal prominence.
+\textbf{Correction ledger for the dither question (all steps kept at
+equal prominence):} v0.1 conjectured never-dither from probe C4;
+v0.2 refuted the conjecture (Corollary~\ref{cor:dither}) but
+misdiagnosed C4 as a jitter artifact; the R-IND-5 pass refuted the
+diagnosis; V10 measured the truth (near-projection optima at the
+v0.1 cells). The full narrative is in
+Corollary~\ref{cor:dither}.
+
+\textbf{R-IND-5 record (fresh-context adversarial verification,
+2026-08-21).} Independent re-derivation of all twelve components;
+verdict: \emph{2 errors, 3 gaps, 2 overclaims out of 12 checks ---
+mathematical core intact} (every theorem confirmed; both hand
+instances reproduced exactly under the verifier's own solvers; the
+hardest-flagged SVD step verified fully and found to hold beyond its
+stated scope). Dispositions in this version: garbled SVD display
+rewritten (finding 4); Theorem~\ref{thm:diagonal}'s (G3)/iff
+vacuity re-scoped as the two-regime alternative (finding 7); the C4
+jitter diagnosis withdrawn and replaced by the V10 measurement
+(finding 8); Corollary~\ref{cor:commit} restated for the
+whitened-attention game with the fixed-instrument game left open
+(finding 9); V9's tie gate de-vacuated and the harness circularity
+notes added (finding 10); the Lean mis-attribution closed by
+\texttt{revelation\_variance} and the unformalized-remainder list
+extended (finding 11); abstract phrasing aligned with the corrected
+scopes (finding 12).
+
+\section{The discrete twin (probe-level)}\label{sec:twin}
+
+\texttt{experiments/go16\_discrete\_twin.py} (deterministic;
+exploratory, disclosed; \textbf{ALL PASS 4/4},
+\texttt{results/go16-discrete-twin.json}): the binary disclosure
+game --- $n$ spots, private bits, randomized bet/check policies
+$(q_0, q_1)$, value loss $s_i^2\,\Pr[A_i\neq X_i]$, a reader
+watching $k$ of $n$ spots, leakage $\mu_i$ times the resolved
+variance ratio $\rho_i$. Findings, each the predicted deformation of
+the LQG theorem or sharper:
+\begin{itemize}
+\item \textbf{The binary shielding frontier is the symmetric channel
+exactly}: $e(\rho) = (1-\sqrt\rho)/2$ (SLSQP-refined to $10^{-12}$;
+an apparent asymmetric advantage was a binning artifact, on record).
+Convex, not linear: \emph{the LQG linear cost is a Gaussian
+privilege} (shape deviation up to $0.125$).
+\item \textbf{The tie survives exactly} (it is reader-side,
+curvature-independent): the transplanted $6$-spot instance gives a
+five-way tie at $t^\ast = 0.36754$ with spread $0.0$, attention
+budget exact to $4\times10^{-16}$, two-sided saddle clean, and an
+independent grid solver agreeing to $1.1\times10^{-3}$. The pricing
+generalizes to $\theta_i = -c_i'(\rho_i)/(\lambda\mu_i)$, closed
+form $\theta_i = s_i^2/(4\lambda\sqrt{\mu_i t^\ast})$.
+\item \textbf{A fifth class appears that LQG forbids}:
+\emph{interior-contested-above} --- convex cost admits an interior
+first-order balance strictly above the water with $\theta = 1$ and
+no tie (``partial balancing without indifference''), exhibited
+exactly at the hand prediction ($\rho_1 = 0.5625$, $g$-gap $1.25$,
+$J^\ast = 3.75$). In LQG, linear cost forces bang-bang to the tie;
+discretely, a spot can be partially balanced while the opponent
+still always watches it.
+\item \textbf{Mixing is the discrete carrier of dither}:
+deterministic policies give $\rho\in\{0,1\}$ only (the exact twin of
+idempotent noiseless revelation); every shielded spot at the optimum
+plays strictly randomized bluff frequencies (reported per spot).
+And \emph{the first bluff is cheap}: the frontier slope at full
+revelation is $s^2/4$ vs.\ LQG's $s^2$, so the conceded class
+shrinks --- in the transplanted instance even the LQG-conceded spot
+mixes.
+\end{itemize}
+v0.2's Conjecture 2 (the discrete twin) is thereby settled at probe
+level, with the class structure \emph{refined} rather than merely
+confirmed; the theorem-grade write-up of the binary water-level
+construction (the analytic solver is already a closed-form
+construction with saddle verification) is owed.
 
 \section{What remains open}
 
-\begin{conjecture}[General-scope converse]\label{conj:converse}
+\begin{conjecture}[General-scope converse --- refined by V10]
+\label{conj:converse}
 At general (non-diagonal) scope, for generic $(\Sigma_S, M,
 \lambda)$: contested $\neq\emptyset$ $\Rightarrow$ $W^\ast$
-fractional (hence the tie, by
-Theorem~\ref{thm:partition}(iii)). The missing step is ruling out
-the coincidence that a \emph{projection} $W^\ast$ satisfies
-$\lambda M^{1/2}W^\ast M^{1/2} = \Sigma_S$ on a nontrivial subspace;
-at diagonal scope this is exactly excluded by (G2), and the general
-statement should follow from a transversality argument.
+fractional (hence the tie, by Theorem~\ref{thm:partition}(iii)); the
+missing step is ruling out a \emph{projection} $W^\ast$ satisfying
+$\lambda M^{1/2}W^\ast M^{1/2} = \Sigma_S$ on a nontrivial subspace.
+The V10 measurement adds a sharper hypothesis to test: the contested
+phase appears to \emph{concentrate on commuting-aligned}
+$(\Sigma_S, M)$ pairs (robustly open within the commuting family,
+where Theorem~\ref{thm:diagonal} applies; all four generic
+non-commuting cells measured had near-projection optima). The
+refined question: is contested $\neq\emptyset$ non-generic in the
+full instance space, generic within the commuting stratum, and
+governed by a computable alignment criterion between them?
 \end{conjecture}
 
-\begin{conjecture}[The discrete twin, reading inverted]
-\label{conj:poker}
-In a solvable discrete game with an explicitly
-$k$-statistic-bounded reader: the four classes survive, mixing
-occurs on the contested set only, and the discrete indifference
-conditions are the shadow of the spectral ties. The v0.1 reading is
-\emph{inverted} by Corollary~\ref{cor:dither}: discrete mixing is
-the alphabet's implementation of the dither the continuous optimum
-already requires --- randomized bluffing is intrinsic to optimal
-deception, with discreteness only changing its carrier. Per the
-GO-13 binary-twin discipline, exact LQG identities should hold
-approximately, with measured gaps reported.
-\end{conjecture}
-
-\textbf{Signed-weight reduction (v0.1 Conjecture 3), resolved in
-form:} revelation coordinates are the convexifying change of
-variables for the signed-weight two-consumer program; the GO-11
-two-water-level geometry does not survive the sign flip --- what
-replaces it is the attention water level $t^\ast$ with the four-way
-partition. \textbf{Commitment gap (v0.1 Conjecture 4), resolved:}
-zero at LQG scope (Corollary~\ref{cor:commit}); any gap in the
-discrete twin must come from support constraints, a sharp question
-for Conjecture~\ref{conj:poker}.
+\textbf{Discrete twin (v0.2 Conjecture 2): settled at probe level}
+(\S\ref{sec:twin}); the theorem-grade binary water-level write-up is
+owed. \textbf{Signed-weight reduction (v0.1 Conjecture 3), resolved
+in form:} revelation coordinates convexify the signed-weight
+two-consumer program; the attention water level with the class
+partition replaces the two-water-level geometry. \textbf{Commitment
+gap (v0.1 Conjecture 4):} resolved as \emph{no gap} for the
+whitened-attention ($N$-conditioned) game; \textbf{open} for the
+fixed-instrument $\Theta$-mixture game (Corollary~\ref{cor:commit},
+as corrected), alongside any support-constraint gap in discrete
+games.
 
 \section{Novelty position and campaign gates}
 
-The v0.1 recon stands (conceded neighbors: QIF $g$-leakage;
-estimation-theoretic privacy against MMSE adversaries; persuasion
-under rational inattention). The new theorems sharpen the claimed
-open conjunction: \emph{linear cost of revelation
-$\tr(S(I-K)S^\top)$ under a payoff-instrument record; the
-rank-budgeted reader's Ky Fan structure; the four-way partition
-with mutual-indifference pricing; tie iff contested at diagonal
-scope}. The estimation-privacy literature optimizes additive noise
-against unbudgeted adversaries; none of the recon's neighbors
-contains the revelation reduction or the attention water level. The
-full arXiv/DBLP flank with a must-cite list is \textbf{owed before
-any seal} --- nearest danger zones: Gaussian utility--privacy
-tradeoffs, sensor scheduling against adversaries, zero-sum
-information design.
+Full flank record: \texttt{paper/GO16-NOVELTY-FLANK.md} (one agent
+pass, 2026-08-21; 16 must-cites; quote-level pre-seal sweep owed).
+Posture adopted per its verdict: \textbf{the composite game is
+unoccupied; the machinery is presented as imported.} Specifically:
+parametrizing Gaussian Stackelberg disclosure by posterior
+covariance and SDP-izing it is the Sayin--Akyol--Ba\c{s}ar / Tamura
+program (must-cite); the Ky Fan/fantope operator theory is classical
+(Fan; Overton--Womersley; Warmuth--Kuzmin), and the eigenvalue tie's
+optimization-theoretic ancestor is \emph{Overton--Womersley
+coalescence}; idempotent noiseless disclosure and no-commitment-gap
+phenomena have published Gaussian instances (Sayin--Ba\c{s}ar
+deception; arXiv:2005.05743) and zero-sum folklore (Conitzer)
+behind them. \textbf{What survived every search angle:} the
+record-as-payoff-instrument value loss with the \emph{exactly
+linear} revelation cost $\tr(S(I-K)S^\top)$ and its
+shrink-and-dither attainment; and above all the \textbf{partition /
+indifference-pricing / attention-water-level / tie-iff-contested
+theorem} --- the headline. The recent close call arXiv:2602.19292
+(same $S$-mismatch instrument, spectral disclosure, no budgeted
+reader or tie theorem) must be cited and differentiated explicitly.
+The poker/Blotto/security-game equalization analogies are published
+folklore and are attributed as such.
 
-\textbf{Gates:} theory gate \textbf{CLEARED at LQG scope} (this
-document; harness ALL PASS 9/9; Lean clean). Owed before ledger
-promotion: the fresh-context R-IND-5 read of this statement, the
-novelty flank, and the governed seal of the harness (runs herein
-disclosed as development pilots). Next: the discrete twin
-(Conjecture~\ref{conj:poker}); then the operational face (query-only
-read-operator recovery of a static pool bot, with exploitation
-constructed in the kernel and submerged classes and measured
-leakage). House rules bind; misses enter the ledger at equal
-prominence.
+\textbf{Gates:} theory gate \textbf{CLEARED at LQG scope and
+R-IND-5-verified} (this document; harness ALL PASS 9/9 + V10; twin
+probe ALL PASS 4/4; Lean clean, six lemmas). \textbf{Still owed
+before ledger promotion:} the governed seal of both harnesses (all
+runs herein disclosed as development pilots) and the quote-level
+citation sweep against the flank's must-cite list. Next in the
+campaign: the theorem-grade binary water-level write-up; the
+general-scope converse (Conjecture~\ref{conj:converse}, now with the
+V10 alignment hypothesis); the fixed-instrument commitment-gap
+question; then the operational face (query-only read-operator
+recovery of a static pool bot, with exploitation constructed in the
+kernel and submerged classes and measured leakage). House rules
+bind; misses enter the ledger at equal prominence.
 \end{document}

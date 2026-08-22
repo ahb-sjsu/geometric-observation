@@ -34,6 +34,11 @@ import numpy as np
 from scipy.optimize import minimize
 
 SEED = 20260821
+# JIT regularizes N in K_of/G_of. NOTE (R-IND-5 finding 10): this is the
+# same instrument class as the v0.1 probe's EPS jitter; at 1e-12 it can
+# only substitute for dither at revelation eigenvalues within O(1e-12)
+# of {0,1} and is harmless at every scale gated here, but any future
+# gate sensitive to near-projection spectra must account for it.
 JIT = 1e-12
 
 
@@ -319,52 +324,107 @@ def v8(rng):
             "direct_J": J_dir, "pass": bool(ok)}
 
 
-# ---------------------------------------------------------------- V9
-def v9(rng):
-    n = m = 5
-    S = rng.standard_normal((m, n))
-    H = rng.standard_normal((n, n))
-    M = H.T @ H
-    Ms = sqrtm_psd(M)
-    SigS = S.T @ S
-    lam, k = 0.7, 2
-
+# ------------------------------------------------- SDP solver (shared)
+def sdp_solve(SigS, Ms, lam, k, n, iters=20000):
+    """Projected subgradient with tail averaging on the reduced convex
+    program min tr(SigS(I-K)) + lam*KyFan_k(Ms K Ms), 0<=K<=I."""
     def Jk(K):
         return (np.trace(SigS @ (np.eye(n) - K))
                 + lam * kyfan(Ms @ K @ Ms, k))
-
-    # projected subgradient with averaging
     K = 0.5 * np.eye(n)
     K_avg = np.zeros((n, n)); wsum = 0.0
-    for t in range(1, 20001):
+    for t in range(1, iters + 1):
         Gm = Ms @ K @ Ms
         w, V = np.linalg.eigh(Gm)
         idx = np.argsort(w)[::-1][:k]
         W = V[:, idx] @ V[:, idx].T
         grad = -SigS + lam * Ms @ W @ Ms
-        step = 0.5 / np.sqrt(t)
-        K = K - step * grad
+        K = K - (0.5 / np.sqrt(t)) * grad
         K = 0.5 * (K + K.T)
         wk, Vk = np.linalg.eigh(K)
         K = Vk @ np.diag(np.clip(wk, 0, 1)) @ Vk.T
-        if t > 10000:
+        if t > iters // 2:
             K_avg += K; wsum += 1
     K_sdp = K_avg / wsum
-    J_sdp = Jk(K_sdp)
+    return K_sdp, float(Jk(K_sdp))
 
-    J_dir, F_dir, Sw_dir = direct_solve(S, M, lam, k, rng, restarts=10)
 
+# ---------------------------------------------------------------- V9
+def v9(rng):
+    """(a) De-vacuated tie gate (R-IND-5 finding 10b): a rotated
+    diagonal instance with KNOWN fractional optimum -- the generic SDP
+    solver must find the fractional revelation spectrum and the tie in
+    a non-diagonal basis.  (b) The original random general instance."""
+    # (a) rotated V567 instance: known rho = (0.25, 1, 5/9, 1, 1, 1),
+    #     J* = 4.052777..., tie lambda_2 = lambda_3 = 1.0
+    mu = np.array([4.0, 2.5, 1.8, 1.0, 0.55, 0.3])
+    s2 = np.array([0.5, 3.0, 0.4, 2.0, 0.3, 0.25])
+    lam, k, n = 1.0, 2, 6
+    Q, _ = np.linalg.qr(rng.standard_normal((n, n)))
+    SigS = Q @ np.diag(s2) @ Q.T
+    Ms = Q @ np.diag(np.sqrt(mu)) @ Q.T
+    J_true = 4.052777777777778
+    rho_true = np.array([0.25, 1.0, 5.0 / 9.0, 1.0, 1.0, 1.0])
+    K_sdp, J_sdp = sdp_solve(SigS, Ms, lam, k, n)
+    kap = np.sort(np.linalg.eigvalsh(K_sdp))[::-1]
     spec = spec_desc(Ms @ K_sdp @ Ms)
-    kap = np.linalg.eigvalsh(K_sdp)
-    frac = bool(np.any((kap > 0.02) & (kap < 0.98)))
+    frac = bool(np.any((kap > 0.05) & (kap < 0.95)))
     tie_rel = float((spec[k - 1] - spec[k]) / max(spec[0], 1e-12))
-    ok = abs(J_sdp - J_dir) < 2e-2 * (1 + abs(J_dir))
-    return {"J_sdp": float(J_sdp), "J_direct": float(J_dir),
-            "K_spectrum": [float(x) for x in np.sort(kap)[::-1]],
-            "G_spectrum": [float(x) for x in spec],
-            "fractional_K": frac, "tie_rel_gap_at_k": tie_rel,
-            "tie_when_fractional_ok": bool((not frac) or tie_rel < 0.05),
-            "pass": bool(ok)}
+    spec_err = float(np.max(np.abs(np.sort(kap) - np.sort(rho_true))))
+    rot = {"J_sdp": J_sdp, "J_true": J_true,
+           "K_spectrum": [float(x) for x in kap],
+           "rho_true_sorted": [float(x) for x in np.sort(rho_true)[::-1]],
+           "G_spectrum": [float(x) for x in spec],
+           "K_spectrum_err_vs_true": spec_err,
+           "fractional_K_detected": frac,
+           "tie_rel_gap_at_k": tie_rel}
+    ok_rot = (abs(J_sdp - J_true) < 2e-2 * (1 + J_true)
+              and frac and tie_rel < 5e-2 and spec_err < 5e-2)
+
+    # (b) random general instance (as before; J-match gate only)
+    S = rng.standard_normal((5, 5))
+    H = rng.standard_normal((5, 5))
+    M = H.T @ H
+    K2, J2 = sdp_solve(S.T @ S, sqrtm_psd(M), 0.7, 2, 5)
+    J_dir, _, _ = direct_solve(S, M, 0.7, 2, rng, restarts=10)
+    gen = {"J_sdp": J2, "J_direct": float(J_dir),
+           "K_spectrum": [float(x) for x in
+                          np.sort(np.linalg.eigvalsh(K2))[::-1]]}
+    ok_gen = abs(J2 - J_dir) < 2e-2 * (1 + abs(J_dir))
+    return {"rotated_known_instance": rot, "general_instance": gen,
+            "pass": bool(ok_rot and ok_gen)}
+
+
+# ---------------------------------------------------------------- V10
+def v10():
+    """The C4 diagnosis measurement (R-IND-5 finding 8): recreate the
+    v0.1 probe instance (its exact seed and construction) and solve
+    the reduced SDP at the probe's (lambda, k) cells, recording the
+    optimal revelation spectrum, its fractional mass, and the dither
+    the exact optimum requires.  Near-projection spectra support the
+    corrected diagnosis: the v0.1 instances' optima genuinely needed
+    little dither (jitter can only substitute for dither at revelation
+    eigenvalues within O(eps) of {0,1} -- at mid-range revelation the
+    jitter route books blackout-level cost).  Measurement, not a gate;
+    the interpretation lives in the statement."""
+    rng01 = np.random.default_rng(20260821)   # v0.1 make_instance
+    n = m = 6
+    S = rng01.standard_normal((m, n))
+    H = rng01.standard_normal((n, n))
+    H *= np.sqrt(n / np.trace(H @ H.T))
+    SigS = S.T @ S
+    Ms = sqrtm_psd(H.T @ H)
+    cells = []
+    for lam, k in [(0.3, 4), (1.0, 1), (1.0, 4), (3.0, 4)]:
+        K_sdp, J_sdp = sdp_solve(SigS, Ms, lam, k, n)
+        kap = np.sort(np.linalg.eigvalsh(K_sdp))[::-1]
+        frac_mass = float(np.sum(np.minimum(kap, 1 - kap)))
+        Sw = S @ K_sdp @ (np.eye(n) - K_sdp) @ S.T
+        cells.append({"lambda": lam, "k": k, "J_sdp": J_sdp,
+                      "K_spectrum": [float(x) for x in kap],
+                      "fractional_mass": frac_mass,
+                      "required_dither_trace": float(np.trace(Sw))})
+    return {"cells": cells, "pass": True}
 
 
 def main():
@@ -377,6 +437,7 @@ def main():
     out["V567_diagonal_partition"] = v567(rng)
     out["V8_m2_exact"] = v8(rng)
     out["V9_general_instance"] = v9(rng)
+    out["V10_c4_diagnosis_measurement"] = v10()
     gates = [out["V1_achievability"]["pass"], out["V2_lower_bound"]["pass"],
              out["V3_spectrum_reduction"]["pass"],
              out["V4_noiseless_idempotent"]["pass"],

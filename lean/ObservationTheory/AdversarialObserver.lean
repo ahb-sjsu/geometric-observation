@@ -68,6 +68,28 @@ theorem shrink_dither_cost (S : Matrix m n ℝ) (K : Matrix n n ℝ)
         simp only [Matrix.mul_assoc, Matrix.mul_add, Matrix.add_mul]
     _ = S * (1 - K) * Sᵀ := by rw [key]
 
+/-- The companion ring identity for the record variance:
+`K·K + K(1−K) = K`. -/
+theorem revelation_key {R : Type*} [Ring R] (K : R) :
+    K * K + K * (1 - K) = K := by
+  noncomm_ring
+
+/-- Record-variance identity (matrix form): the shrink-and-dither
+policy `F = S*K`, `Σ_w = S*K*(1−K)*Sᵀ` has total record variance
+`N* = FFᵀ + Σ_w = S*K*Sᵀ`, for symmetric `K` — the step of
+Theorem 1(ii)'s achievability that fixes `N*` (previously cited to
+`shrink_dither_key` in error; R-IND-5 finding 11). -/
+theorem revelation_variance (S : Matrix m n ℝ) (K : Matrix n n ℝ)
+    (hK : Kᵀ = K) :
+    (S * K) * (S * K)ᵀ + S * (K * (1 - K)) * Sᵀ = S * K * Sᵀ := by
+  have hT : (S * K)ᵀ = K * Sᵀ := by rw [transpose_mul, hK]
+  have key : K * K + K * (1 - K) = K := by noncomm_ring
+  calc (S * K) * (S * K)ᵀ + S * (K * (1 - K)) * Sᵀ
+      = S * K * (K * Sᵀ) + S * (K * (1 - K)) * Sᵀ := by rw [hT]
+    _ = S * (K * K + K * (1 - K)) * Sᵀ := by
+        simp only [Matrix.mul_assoc, Matrix.mul_add, Matrix.add_mul]
+    _ = S * K * Sᵀ := by rw [key, Matrix.mul_assoc]
+
 /-- `tr(AAᵀ) = Σᵢⱼ Aᵢⱼ²`, hence nonnegative. -/
 theorem trace_mul_transpose_self_nonneg (A : Matrix n n ℝ) :
     0 ≤ trace (A * Aᵀ) := by
