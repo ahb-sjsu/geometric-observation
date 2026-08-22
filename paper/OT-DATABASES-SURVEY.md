@@ -1,13 +1,34 @@
 # Observation Theory × Database Systems — an opportunity survey
 
-Written 2026-08-21. Anchors: Silberschatz–Korth–Sudarshan, *Database
-System Concepts* 7/e (2019) chapter structure, and the CMPE 180B
-lecture sequence (Bond, FA26) mapped lecture-by-lecture. Scope note:
-the textbook PDF was not on disk at survey time, so anchors are at
-chapter level, not page level. The prior-art layer below is
-RECON-GRADE (one web pass, key claims verified, a few venue/dates
-from memory flagged by the recon agent) — a sealed campaign owes the
-usual quote-verification sweep first.
+Written 2026-08-21; **page-verified against the 7/e PDF same day**
+(1,373-page scan; book-page anchors below). Anchors:
+Silberschatz–Korth–Sudarshan, *Database System Concepts* 7/e (2019),
+and the CMPE 180B lecture sequence (Bond, FA26) mapped
+lecture-by-lecture. The prior-art layer below is RECON-GRADE (one web
+pass, key claims verified, a few venue/dates from memory flagged by
+the recon agent) — a sealed campaign owes the usual quote-verification
+sweep first.
+
+**Page-verified textbook anchors (2026-08-21):**
+§13.5 Database Buffer incl. LRU replacement (pp. 605–610); §13.6
+Column-Oriented Storage incl. compression (pp. 611–615); §13.7
+Main-Memory Storage (p. 615 ff.); §14.8.1 LSM Trees (p. 666 ff.,
+expanded in ch. 24); §16.3.1 Catalog Information / histograms
+(p. 758 ff.); ch. 16 materialized views and maintenance (§16.5);
+§23.6 Replication with Weak Degrees of Consistency (pp. 1133–1140);
+§25.1 Performance Tuning (pp. 1215–1230); §25.2 Performance
+Benchmarks (p. 1230 ff.).
+
+**Two coverage findings from the full-text scan (they sharpen the
+survey):** (1) *what-if analysis appears nowhere in the 7/e body* —
+the sole occurrence is a ch. 22 bibliographic note (Herodotou &
+Babu's what-if engine); the AutoAdmin-style probing that Area E
+formalizes is practitioner canon but absent from the standard
+textbook. (2) *Approximate query processing has zero coverage* (no
+hit for approximate query answering or sampling-based aggregation
+anywhere) — Area F is entirely beyond-textbook. Both are
+opportunities twice over: research areas the canon under-teaches, and
+lecture material the course could add (see §3).
 
 ## 0. The dictionary
 
@@ -29,9 +50,19 @@ prices one resource serving divergent read geometries).
 
 ## 1. Per-area assessment (ranked by promise)
 
-### A. Lossy encoding / column precision by probed workload sensitivity — ★★★ headline candidate
-**Book/course anchor:** ch. 12–13 (storage, column organization,
-compression); course L10 (physical storage).
+### A. Lossy encoding / column precision by probed workload sensitivity — ★★★ headline candidate — **NOW CLAIMED: DB-1 [predicted]**
+
+**Status update (2026-08-21):** executed as campaign DB-1
+(PREREG-DB1-001, campaigns repo) — governed ALL PASS 6/6, promoted on
+the first seal: probed-sensitivity allocation +16.8% pooled over the
+degeneracy-proof task-blind baseline at matched budgets on DuckDB.
+The quantize-the-unread sub-hypothesis returned an honest SCOPED
+NEGATIVE at step-1.0 coarsening on similarity consumers (sealed as an
+ungated finding; the coarser-step helps-regime is a declared open
+question).
+
+**Book/course anchor (page-verified):** §13.6 Column-Oriented Storage
+incl. compression, pp. 611–615; §13.5 buffer pp. 605–610; course L10.
 **OT instantiation:** choose per-column encoding precision (bit
 width, decimal truncation, dictionary coarseness) to minimize
 tr(P̂_C Σ_quant) at a storage budget, P̂ probed from the actual
@@ -123,7 +154,11 @@ binary build/skip, never probed answer-quality curvature.
 from probed quadratic loss composed with estimation error; unclaimed.
 
 ### E. What-if interfaces as formal P̂ recovery — ★★☆ (theory-first)
-**Book/course anchor:** ch. 25 (tuning/advisors).
+**Book/course anchor (page-verified):** §25.1 Performance Tuning
+(pp. 1215–1230) — but note the scan finding above: what-if analysis
+itself is ABSENT from the 7/e body (one bibliographic mention, ch. 22
+notes), so this area's anchor is the research canon (AutoAdmin
+SIGMOD 1998 onward), not the textbook.
 **OT instantiation:** the DBMS world has practiced query-only probing
 since AutoAdmin's what-if interface (SIGMOD 1998) — but always
 probing the OPTIMIZER's cost model. OT's contribution is a formal
@@ -136,7 +171,7 @@ does not identify a quadratic form nor drive offline physical design.
 **Deliverable shape:** a short formal paper + the LM-1-style
 recover/match experiment on a DB application.
 
-### F. Approximate query processing allocation — ★☆☆
+### F. Approximate query processing allocation — ★☆☆ (beyond-textbook: the 7/e has zero AQP coverage per the full-text scan)
 Conceded heavily (BlinkDB declared error targets; ABae/SUPG
 statistical guarantees; visualization-aware sampling as fixed-metric
 task-awareness). The open cell — probed downstream loss across
@@ -160,30 +195,37 @@ Exploratory only.
   tr(P_C Σ_quality) — which fields' errors actually reach consumers;
   thin as research, good as a lecture example.
 
-## 2. Recommended sequence
+## 2. Recommended sequence (updated 2026-08-21)
 
-1. **DB-A (quantize-the-unread as physical design)** — cheapest,
-   local, deterministic, reuses the LM2-002 harness discipline, and
-   carries the survey's most surprising headline if it replicates on
-   a real engine. Candidate track: DB, first seal PREREG-DB1-001.
-2. **DB-B (the alignment tax for shared indexes)** — the second
-   unoccupied cell; EC-6 harness shape.
+1. **DB-A — DONE**: sealed and promoted as PREREG-DB1-001 (ALL PASS
+   6/6; allocation claim earned, quantize-the-unread a sealed scoped
+   negative at this design point).
+2. **DB-B (the alignment tax for shared budgets)** — IN FLIGHT as
+   DB-2 (pilot draws running; EC-6 harness shape, exhaustive
+   shared-best so the tax cannot be an optimizer artifact).
 3. **DB-C (directional refresh)** — biggest practical stakes, but
    sealed only with RALF-style reactive as a required baseline and
-   the beats-isotropic-signal-aware bar (the DR-3 anchor discipline).
+   the beats-isotropic-signal-aware bar (the DR-3 anchor discipline);
+   coordination boundary with XPROTO-GEO applies (§0 note above).
 4. **E as a companion formal note** (identification conditions),
    citing the LM-1 three-seal record as the existing evidence.
 
 ## 3. Teaching tie-ins (CMPE 180B)
 
 Low-effort, high-signal classroom uses: (i) L10/L11 — a 15-minute
-segment on "what does the workload actually read?" with the
-quantize-the-unread demo on DuckDB (a one-notebook experiment);
-(ii) L12 — histogram budgets as precision allocation; (iii) 10b —
-CRUSH placement as consumer-blind vs consumer-aware allocation;
-(iv) a semester project template: probe a workload, recover P̂,
-allocate an index/statistics budget, evaluate at matched cost —
-the whole OT loop at course scale.
+segment on "what does the workload actually read?" with the DB-1
+harness as a live DuckDB demo (it runs in seconds and now carries a
+sealed result, including the honest negative — a teachable example of
+preregistration discipline); (ii) L12 — §16.3.1 histogram budgets
+(p. 758 ff.) as precision allocation; (iii) 10b — CRUSH placement as
+consumer-blind vs consumer-aware allocation; (iv) a semester project
+template: probe a workload, recover P̂, allocate an index/statistics
+budget, evaluate at matched cost — the whole OT loop at course scale.
+**Textbook-gap lectures the scan surfaced:** the 7/e teaches neither
+what-if analysis nor approximate query processing — a guest segment
+on each (what-if probing as the practitioner's finite-difference; AQP
+error/budget trade-offs) would cover industry-standard material the
+book omits, and both are natural OT showcases.
 
 ## 4. Novelty posture (binding for any seal)
 
