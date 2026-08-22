@@ -3,7 +3,10 @@
 > **Two names, one line between them.** *Geometric Observation* is this
 > **book** — the fourteenth work in the geometric series — and this repository
 > is the book's **evidence ledger** (registry, harnesses, claims). The theory
-> the book documents has exactly one public name: **Observation Theory**.
+> the book documents has exactly one public name: **Observation Theory**,
+> whose front door is
+> [**github.com/ahb-sjsu/observation-theory**](https://github.com/ahb-sjsu/observation-theory)
+> — one page, no evidence, the map of the whole program.
 > Cite the theory as Observation Theory; cite the evidence by ledger row;
 > reserve "geometric observation" for the book itself. **New readers start
 > here:** the one-page [OBSERVATION.md](OBSERVATION.md), then Part A of the
