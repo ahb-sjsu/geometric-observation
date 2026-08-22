@@ -75,7 +75,17 @@ additive benefit functions. Recon's judgment: genuinely unoccupied.
 one table; shared vs dedicated index budgets; measure the tax curve
 (the EC-6 harness shape).
 
-### C. Materialized-view / replica / cache refresh by directional staleness — ★★☆ (strong, but a live competitor)
+### C. Materialized-view / replica / cache refresh by directional staleness — ★★☆ (strong, but a live competitor — AND partially ceded)
+
+**Coordination boundary (2026-08-21):** the owner's concurrent program
+(`network-governor`, PREREG-XPROTO-GEO) occupies the adjacent
+consumer-relative FRESHNESS-FOR-ROUTING cell — footprint-certified
+replica selection on a live geo-distributed Postgres fleet (fresher
+than nearest-RTT, more local than least-lag). Any OT-DB work on
+freshness therefore (a) must not claim replica routing or witnessed
+certificates, and (b) treats refresh-BUDGET allocation (which data to
+refresh, not which replica to read) as the only open sub-cell here,
+coordinated with that program before any seal.
 **Book/course anchor:** ch. 16 (materialized views in optimization),
 ch. 23 (replication/consistency); course 10b (Ceph), L15b (pipelines).
 **OT instantiation:** refresh budget allocated by
