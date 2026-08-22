@@ -44,6 +44,7 @@ import json
 import numpy as np
 
 GRID = 2001  # q-grid and rho-grid resolution
+SADDLE_SEED = 20260821  # dev default; the governed run overrides via argv
 
 
 # ---------------------------------------------------------------- frontier
@@ -330,12 +331,12 @@ def analytic_classify(mu, s2, lam, sol, tol=1e-7):
     }
 
 
-def saddle_check_discrete(mu, s2, lam, k, sol, trials=500, seed=20260821):
+def saddle_check_discrete(mu, s2, lam, k, sol, trials=500, seed=None):
     """Two-sided saddle verification on the reduced game
     J~(rho, theta) = sum s2 e(rho) + lam sum theta mu rho:
     reader side: no feasible theta beats theta* against rho*;
     encoder side: each rho_i is best-response to theta* (1D exact)."""
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng(SADDLE_SEED if seed is None else seed)
     mu = np.asarray(mu, float)
     s2 = np.asarray(s2, float)
     n = len(mu)
@@ -469,7 +470,9 @@ def part4(bins, e, p2, p3):
     return {"shielded_policies": rows, "pass": bool(interior_all and rows)}
 
 
-def main():
+def main(seed=20260821):
+    global SADDLE_SEED
+    SADDLE_SEED = seed
     bins, e, p1 = part1()
     p2 = part2(bins, e)
     p3 = part3(bins, e)
@@ -477,6 +480,7 @@ def main():
     gates = [p1["pass"], p2["pass"], p3["pass"], p4["pass"]]
     return {
         "grid": GRID,
+        "saddle_seed": SADDLE_SEED,
         "P1_frontier": p1,
         "P2_main_instance": p2,
         "P3_interior_contested": p3,
@@ -487,7 +491,9 @@ def main():
 
 
 if __name__ == "__main__":
-    res = main()
+    import sys
+    seed = int(sys.argv[1]) if len(sys.argv) > 1 else 20260821
+    res = main(seed)
     print("GO16_DISCRETE_TWIN_BEGIN")
     print(json.dumps(res, indent=1))
     print("GO16_DISCRETE_TWIN_END")

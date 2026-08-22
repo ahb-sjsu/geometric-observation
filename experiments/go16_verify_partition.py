@@ -427,9 +427,9 @@ def v10():
     return {"cells": cells, "pass": True}
 
 
-def main():
-    rng = np.random.default_rng(SEED)
-    out = {"seed": SEED}
+def main(seed=SEED):
+    rng = np.random.default_rng(seed)
+    out = {"seed": seed}
     out["V1_achievability"] = v1(rng)
     out["V2_lower_bound"] = v2(rng)
     out["V3_spectrum_reduction"] = v3(rng)
@@ -451,7 +451,9 @@ def main():
 
 
 if __name__ == "__main__":
-    res = main()
+    import sys
+    seed = int(sys.argv[1]) if len(sys.argv) > 1 else SEED
+    res = main(seed)
     print("GO16_PARTITION_VERIFY_BEGIN")
     print(json.dumps(res, indent=1))
     print("GO16_PARTITION_VERIFY_END")
