@@ -1,11 +1,13 @@
-﻿# Observation Theory
+﻿# Geometric Observation
 
-> **One name.** The program is **Observation Theory**. `geometric-observation`
-> is its **ledger namespace** — the preregistration registry, harnesses, and
-> claims ledger live under this repository name, and nothing else hangs on the
-> historical title. **New readers start here:** the one-page
-> [OBSERVATION.md](OBSERVATION.md), then Part A of the book — the instruments
-> are documented once and reused everywhere:
+> **Two names, one line between them.** *Geometric Observation* is this
+> **book** — the fourteenth work in the geometric series — and this repository
+> is the book's **evidence ledger** (registry, harnesses, claims). The theory
+> the book documents has exactly one public name: **Observation Theory**.
+> Cite the theory as Observation Theory; cite the evidence by ledger row;
+> reserve "geometric observation" for the book itself. **New readers start
+> here:** the one-page [OBSERVATION.md](OBSERVATION.md), then Part A of the
+> book — the instruments are documented once and reused everywhere:
 > [the blind probe](chapters/ch10_the_blind_probe.md) ·
 > [the recognizer](chapters/ch11_the_recognizer.md) ·
 > [the failure taxonomy (the four degeneracies of P_C) and κ](chapters/ch12_failure_taxonomy_and_kappa.md) ·

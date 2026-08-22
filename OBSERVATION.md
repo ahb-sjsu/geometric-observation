@@ -118,9 +118,13 @@ this plan reduces surface area.
 - Nomenclature decision: **collapse to "Observation Theory"** as the public
   program name; "geometric-observation" persists as the ledger namespace with
   a one-line note. Two names read as two programs.
-  **EXECUTED 2026-08-22:** README retitled with the one-name note, the
-  new-reader path (OBSERVATION.md → Part A instrument chapters), and the
-  DRI/Bond-Index provenance line. Part A (ch10 probe · ch11 recognizer ·
+  **EXECUTED 2026-08-22 (corrected same day):** the split is BOOK vs
+  THEORY, not repo vs theory — the book keeps its title *Geometric
+  Observation* (fourteenth in the geometric series; this repo is its
+  evidence ledger), and the THEORY carries the single public name
+  **Observation Theory**. README head now states the line between the two,
+  the new-reader path (OBSERVATION.md → Part A instrument chapters), and
+  the DRI/Bond-Index provenance line. Part A (ch10 probe · ch11 recognizer ·
   ch12 failure taxonomy + κ · ch15 method · App. D registry) is declared the
   canonical single-source instrument documentation in the README layout
   table. U0's remaining holes closed the same day: the completeness argument
