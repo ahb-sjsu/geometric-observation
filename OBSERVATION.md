@@ -123,10 +123,11 @@ this plan reduces surface area.
 - T1 learn-then-serve (probe sample complexity ∘ mismatch bounds): the
   theorem that formally connects §V's probe to the engine's guarantees —
   the COST↔VALUE bridge. Recommended.
-- The channel dual, the common-observation problem, and the adversarial
-  (minimax) observer — both sides choosing codes and read operators; the
-  first theory poker demands rather than instantiates
-  ([survey](paper/OT-POKER-SURVEY.md)) — stay named-not-chased.
+- The channel dual and the common-observation problem stay named-not-chased.
+- The adversarial (minimax) observer — un-parked 2026-08-21 by owner
+  decision, out of the poker survey ([survey](paper/OT-POKER-SURVEY.md)):
+  now **GO-16**, opened at `[exploratory]` with
+  [statement v0.1](paper/go16-adversarial-observer.tex) + probe.
 
 ## U5 — The book, staged (unlocks at U0-green)
 - Part A (methodology + instruments: the ledger, the probe, the recognizer,

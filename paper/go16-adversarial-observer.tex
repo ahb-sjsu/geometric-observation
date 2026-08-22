@@ -1,0 +1,351 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.2in]{geometry}
+\usepackage{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\KF}[1]{\lVert #1 \rVert_{(k)}}
+
+\title{GO-16: The Adversarial Observer\\
+\large Problem statement v0.1 --- bluffing as kernel design\\
+\normalsize status: \texttt{[exploratory]} --- opened 2026-08-21;
+un-parked from U4 by owner decision, out of the poker applicability
+survey (\texttt{paper/OT-POKER-SURVEY.md})}
+\author{Geometric Observation program}
+\date{2026-08-21}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Every consumer in the program to date is benevolent: the encoder
+compresses \emph{for} it. This campaign opens the complement: a
+consumer of the encoder's record whose reading the encoder wants to
+defeat, while the record simultaneously serves as the encoder's own
+payoff instrument. The motivating instance is poker --- the opponent
+reads your action record through a bounded model (a $k$-statistic
+HUD), and range balancing, bluffing, and exploitation are all
+statements about the geometry of that read --- but the object is
+general: it is the \emph{negative-weight consumer}, and the
+multi-consumer machinery of GO-10/11 meets it with a sign flip. We
+define an LQG disclosure game, prove the two elementary structural
+facts (the free-exploitation subspace is exactly the reader's kernel;
+the budgeted reader's value is a Ky Fan $k$-sum, with rank
+saturation), and report an opening numerical probe (deterministic,
+disclosed, exploratory) whose four findings shape the conjecture
+list: kernel-freeness confirmed exact; rank saturation confirmed to
+six digits; the LQG game \emph{never randomizes} (deception is
+shrinkage --- randomized bluffing is conjectured to be the shadow of
+discrete action support); and the wholesale ``indifference = spectral
+ties'' conjecture is \emph{refined at the probe}: ties appear only
+where shielding is active at the reader's margin, exactly poker's
+on-support-only indifference. No lower-bound face exists; no
+registration is consumed; the novelty flank is owed before any seal.
+\end{abstract}
+
+\section{The object}
+
+An observer in this program is a triple $O=(C,G,B)$ inducing a read
+metric $P_C$ and a quotient. Everywhere so far the encoder's problem
+is aligned: allocate fidelity to what the consumer reads. The
+adversarial observer inverts the sign. The encoder's record $A$ ---
+here, not a stored description but the encoder's \emph{observable
+behavior}, accumulated over play --- is read by two parties:
+\begin{itemize}
+\item the encoder's own consumer (its payoff functional: actions must
+  track the private state to earn value), and
+\item an adversary $D$, who reads $A$ through a \emph{budgeted} read
+  operator and converts what it resolves about the private state into
+  the encoder's loss.
+\end{itemize}
+The encoder's objective is a two-consumer program with opposite
+signs: minimize its own consumer's distortion while
+\emph{maximizing} the adversary-consumer's distortion. Poker
+vocabulary maps exactly: the ideal policy $S$ is maximal
+exploitation; shielding is balance; the reader's kernel is the
+bluffing space; reader indifference is the indifference condition
+that defines mixed equilibria. The program-internal hook is
+Conjecture~\ref{conj:signed}: this is the GO-10/11 $m{=}2$ region
+continued to signed weight.
+
+\section{The LQG disclosure game}
+
+\begin{definition}[Disclosure game $\mathcal{D}(S,H,k,\lambda)$]
+\label{def:game}
+Private type $X\sim\mathcal N(0,I_n)$. The encoder commits to a
+record policy
+\[
+A \;=\; F X + W, \qquad W\sim\mathcal N(0,\Sigma_w),\;
+\Sigma_w\succeq 0 \text{ independent of } X,
+\]
+with $F\in\mathbb R^{m\times n}$; $S\in\mathbb R^{m\times n}$ is the
+value-ideal policy and the encoder's \textbf{value loss} is
+\[
+L_{\mathrm{val}}(F,\Sigma_w) \;=\; \lVert F-S\rVert_F^2 + \tr\Sigma_w .
+\]
+The adversary chooses a rank-$k$ read $\Theta\in\mathbb R^{k\times m}$
+(WLOG $\Theta\Theta^\top=I_k$), observes $Y=\Theta A$, and exploits
+the statistic $Z=HX$ ($H\in\mathbb R^{p\times n}$); its gain --- the
+encoder's \textbf{leakage} --- is the resolved variance
+\[
+R(\Theta;F,\Sigma_w) \;=\; \tr\operatorname{Cov}\!\big(\mathbb E[Z\mid Y]\big)
+\;=\; \tr\!\Big( HF^\top\Theta^\top \big(\Theta N \Theta^\top\big)^{-1}
+\Theta F H^\top \Big),
+\qquad N = FF^\top+\Sigma_w .
+\]
+The encoder commits first (the population/HUD setting: the pool
+adapts to the encoder's long-run record); the Stackelberg objective is
+\[
+J(F,\Sigma_w) \;=\; L_{\mathrm{val}}(F,\Sigma_w)
+\;+\; \lambda \max_{\Theta} R(\Theta;F,\Sigma_w).
+\]
+\end{definition}
+
+\begin{remark}
+The record is the payoff instrument: $L_{\mathrm{val}}$ charges
+deviation of the \emph{transmitted signal itself} from the value
+policy. This is the structural feature that separates the game from
+privacy mechanisms (where the released signal has no intrinsic payoff
+role) and from persuasion (where the sender's signal is costless).
+The action-cost convention $\tr\Sigma_w$ (dither costs chips) is part
+of the definition and is load-bearing for
+Conjecture~\ref{conj:dither}.
+\end{remark}
+
+\section{Two elementary structural facts}
+
+\begin{proposition}[Kernel-freeness: the free-exploitation subspace]
+\label{prop:kernel}
+Fix $\Theta$ and let $P=\Theta^\top\Theta$ be the projection onto the
+read subspace of the record space $\mathbb R^m$. Every minimizer of
+$J_\Theta = L_{\mathrm{val}} + \lambda R(\Theta;\cdot)$ satisfies
+\[
+(I-P)\,F^\star \;=\; (I-P)\,S,
+\qquad
+(I-P)\,\Sigma_w^\star\,(I-P) \;=\; 0
+\;\;\big(\text{hence } \Sigma_w^\star = P\Sigma_w^\star P\big).
+\]
+The encoder implements its exploitative policy \emph{exactly} on
+$\ker\Theta$ (dimension $m-k$) at zero leakage, and never dithers
+there.
+\end{proposition}
+
+\begin{proof}
+$R$ depends on $F$ only through $\Theta F=\Theta PF$ and on
+$\Sigma_w$ only through $\Theta\Sigma_w\Theta^\top$. The value loss
+splits as $\lVert P(F-S)\rVert_F^2+\lVert(I-P)(F-S)\rVert_F^2$, so
+setting $(I-P)F=(I-P)S$ removes the second term without touching $R$.
+For the dither: $\tr\Sigma_w=\tr(P\Sigma_w P)+\tr((I-P)\Sigma_w(I-P))$,
+and the second term has zero effect on $R$; optimality forces it to
+zero, and a PSD matrix with a vanishing diagonal block has vanishing
+off-diagonal blocks, giving $\Sigma_w=P\Sigma_w P$.
+\end{proof}
+
+\begin{proposition}[The budgeted reader's value is a Ky Fan sum]
+\label{prop:kyfan}
+With $G \;=\; N^{-1/2} F H^\top H F^\top N^{-1/2}$,
+\[
+\max_{\Theta\in\mathbb R^{k\times m}} R(\Theta;F,\Sigma_w)
+\;=\; \sum_{i=1}^{k}\lambda_i(G) \;=\; \KF{G},
+\]
+attained by any $\Theta$ whose whitened row space
+$N^{1/2}\Theta^\top$ spans the top-$k$ eigenspace of $G$.
+\end{proposition}
+
+\begin{proof}
+Substitute $U=N^{1/2}\Theta^\top$, so $\Theta N\Theta^\top=U^\top U$
+and $\Theta F H^\top=U^\top M$ with $M=N^{-1/2}FH^\top$. Then
+$R=\tr(M^\top P_U M)$ with $P_U$ the orthogonal projection onto
+$\operatorname{col}(U)$, maximized over $k$-dimensional subspaces by
+the top-$k$ eigenspace of $MM^\top=G$, with value the Ky Fan
+$k$-sum.
+\end{proof}
+
+\begin{corollary}[Rank saturation: HUD width beyond the exploit rank
+is wasted]
+\label{cor:rank}
+$\KF{G}$ is constant in $k$ for $k\ge\operatorname{rank}(HF^\top)$;
+in particular a rank-one exploit statistic ($p=1$) makes every reader
+budget $k\ge1$ equivalent.
+\end{corollary}
+
+The encoder's Stackelberg problem is therefore
+\[
+\min_{F,\;\Sigma_w\succeq0}\;
+\lVert F-S\rVert_F^2+\tr\Sigma_w+\lambda\,\KF{G(F,\Sigma_w)},
+\]
+a Ky Fan minimization --- convex in $G$, not jointly convex in
+$(F,\Sigma_w)$; its curvature structure is an open item below.
+
+\section{The opening probe (exploratory, disclosed)}
+
+\texttt{experiments/go16\_adversarial\_probe.py}, seed 20260821,
+$n{=}m{=}6$, deterministic (numpy/scipy, L-BFGS-B with restarts);
+result JSON committed at
+\texttt{results/go16-adversarial-probe.json}. Diagonal $\Sigma_w$
+(a subclass of Proposition~\ref{prop:kernel}'s general PSD dither).
+No registration governs this run; every number is an exploratory
+upper-bound-quality observation.
+
+\begin{itemize}
+\item \textbf{(C1) Kernel-freeness, confirmed exact.} Fixed random
+  $\Theta$ ($k{=}2$, $\lambda{=}1$): kernel residual
+  $\lVert(I-P)(F^\star-S)\rVert = 2.2\times10^{-7}$, kernel dither
+  $5\times10^{-16}$, against a read-subspace deviation of $0.545$.
+\item \textbf{(C5) Rank saturation, confirmed.} $p{=}1$: $J$ is flat
+  to six digits across $k=1..5$ ($5.024983$), with a $3.5\times10^{-5}$
+  optimizer-noise uptick at $k{=}6$.
+\item \textbf{(C4) The LQG game never dithers.} Across the full
+  sweep ($\lambda\in\{0.01,0.3,1,3\}$, $k=1..6$): total dither
+  $\le1.1\times10^{-4}$ against $O(1)$ value losses. Deception is
+  implemented entirely by \emph{shrinkage} of $F$ toward reduced
+  legibility, never by randomization.
+\item \textbf{(C2) The indifference conjecture, refined.} The naive
+  transplant of poker indifference --- ``at the optimum the
+  $G$-spectrum ties at the $k$-th eigenvalue, making the reader
+  indifferent at its margin'' --- is \emph{wrong as phrased}. Ties
+  appear only where shielding is active at the reader's margin:
+  relative gap $\lambda_k-\lambda_{k+1}$ over $\lambda_1$ is $0.48$
+  at $(\lambda{=}1,k{=}1)$ (strict; the contested top direction is
+  shielded but not down to $\lambda_2$) yet $2.6\times10^{-7}$ at
+  $(\lambda{=}3,k{=}5)$ and $1.9\times10^{-3}$ at
+  $(\lambda{=}0.3,k{=}5)$. This is exactly poker's structure:
+  indifference holds \emph{on the support of the mixed strategy
+  only}; off-support, strict inequalities persist.
+\item \textbf{(C3) An activation threshold (unlooked-for).} At
+  $\lambda{=}0.3$, $k\le3$: the encoder does not shield at all
+  (value loss $\sim10^{-13}$) and simply pays the leak; shielding
+  activates between $k{=}3$ and $k{=}4$, when the $\lambda$-weighted
+  marginal spectral mass first exceeds the quadratic cost of moving
+  $F$. There is a lazy regime --- ``the pool isn't reading enough to
+  be worth balancing against'' --- with a computable boundary.
+\end{itemize}
+
+\section{Conjectures}
+
+\begin{conjecture}[On-support indifference; complementary slackness]
+\label{conj:ties}
+At the Stackelberg optimum, generically:\;
+$\lambda_k(G^\star)=\lambda_{k+1}(G^\star)$ if and only if the
+shielding is active at the reader's marginal direction (the
+subgradient of $\KF{\cdot}$ is non-singleton exactly on the contested
+set), and the optimum partitions the record directions into
+\emph{exploited} (unread: $\ker\Theta^\star$, carrying $S$ exactly),
+\emph{contested} (read, shielded, tied spectrum --- the mixing
+support), and \emph{conceded} (read, unshielded --- the lazy set).
+The Ky Fan subdifferential machinery should make this a theorem in
+the LQG game.
+\end{conjecture}
+
+\begin{conjecture}[Deception is shrinkage; bluffing is a support
+artifact]
+\label{conj:dither}
+In $\mathcal{D}(S,H,k,\lambda)$ with the $\tr\Sigma_w$ action cost,
+every optimum has $\Sigma_w^\star=0$: randomization is strictly
+dominated by deterministic shrinkage. Randomized bluffing in real
+games is then the shadow of \emph{discrete action support} (mixing is
+the only way to interpolate between actions the alphabet forces
+apart), not an intrinsic feature of optimal deception. The discrete
+twin (Conjecture~\ref{conj:poker}) is where randomization must
+reappear.
+\end{conjecture}
+
+\begin{conjecture}[The negative-weight consumer]
+\label{conj:signed}
+The encoder's objective is the GO-10/11 two-consumer program with a
+signed weight: own-consumer distortion weighted $+1$, the
+adversary-consumer's \emph{fidelity} weighted $+\lambda$ (i.e., its
+distortion weighted $-\lambda$). The $m{=}2$ moment machinery of
+GO-11/GO-13 (water levels, the convexity lemma of 074) continues to
+signed weight with a characterizable loss of structure --- expected:
+convexity survives in $G$ (Ky Fan) but the two-water-level geometry
+does not survive the sign flip unmodified; what replaces it is the
+three-way partition of Conjecture~\ref{conj:ties}.
+\end{conjecture}
+
+\begin{conjecture}[Commitment gap]
+\label{conj:commit}
+The Stackelberg value (encoder commits; the HUD adapts) and the
+simultaneous saddle value differ in general; the gap is priced by the
+contested set alone (kernel and conceded directions contribute
+nothing). Poker reading: population play against an adapting pool is
+the commitment game, and the value of ``playing your own game''
+versus leveling wars lives only on the contested directions.
+\end{conjecture}
+
+\begin{conjecture}[The poker shadow --- the discrete twin]
+\label{conj:poker}
+In a solvable discrete game (Kuhn-scale, or a river toy game) with an
+explicitly $k$-statistic-bounded opponent model: (i) the
+free-exploitation subspace survives as the set of strategy deviations
+invisible to the $k$ statistics; (ii) optimal play against the
+bounded reader mixes \emph{only} where the reader's margin is
+contested, and the mixing indifference conditions are the discrete
+shadow of the spectral ties; (iii) per the GO-13 binary-twin
+discipline, exact LQG identities should hold only approximately, with
+measurable gaps to be reported, not hidden.
+\end{conjecture}
+
+\section{Novelty position (RECON-GRADE)}
+
+One web pass, 2026-08-21; the full arXiv/DBLP flank with must-cite
+list is owed before any seal. Conceded neighbors:
+\begin{itemize}
+\item \textbf{Quantitative information flow / $g$-leakage} (Alvim,
+  Chatzikokolakis, McIver, Morgan, Palamidessi, Smith):
+  adversary-objective-relative leakage via gain functions ---
+  leakage-through-the-adversary's-functional is theirs. No budgeted
+  subspace reader, no payoff-instrument record, no equilibrium
+  geometry.
+\item \textbf{Estimation-theoretic privacy} (privacy-utility
+  tradeoffs against MMSE adversaries; Gaussian mechanisms; Fisher
+  information privacy): additive-noise release against a quadratic
+  adversary is well-plowed. The release there has no intrinsic
+  payoff role, the adversary is unbudgeted (or budgeted in bits, not
+  rank), and there is no Stackelberg spectral structure.
+\item \textbf{Persuasion under rational inattention}
+  (Bloedel--Segal): sender vs.\ attention-constrained receiver, with
+  MI-costed attention and strategic attention manipulation --- the
+  closest game-theoretic neighbor. Their receiver is a
+  Shannon-channel chooser and the sender's signal is costless; the
+  rank-$k$ geometric budget, the Ky Fan structure, kernel-freeness,
+  and the tie/partition geometry do not appear.
+\item \textbf{Poker theory itself}: exploitation priced by EV risk
+  (restricted Nash, safe exploitation) --- never by read geometry.
+\end{itemize}
+The claimed open conjunction: \emph{rank-budgeted subspace reader
+(Ky Fan values) $\times$ record-as-payoff-instrument $\times$
+commitment saddle geometry (kernel-freeness / three-way partition /
+on-support ties) $\times$ the discrete game instantiation}.
+
+\section{Campaign gates}
+
+\begin{enumerate}
+\item \textbf{Theory gate:} prove Conjecture~\ref{conj:ties} (the
+  partition + tie theorem) and settle
+  Conjecture~\ref{conj:dither} in the LQG game --- both look
+  reachable with Ky Fan subdifferential calculus; a refutation of
+  either is equally a result.
+\item \textbf{Twin gate:} the discrete probe of
+  Conjecture~\ref{conj:poker} (exact small game, bounded reader,
+  measured gaps).
+\item \textbf{Operational face (deferred until the theory gate):}
+  query-only recovery of a static pool bot's read operator (the
+  GO-EC-3 transplant --- 94.6\% blind-capture precedent), then
+  exploitation constructed in its kernel with measured
+  leakage-vs-EV. No seal before the fresh-context read of this
+  statement and the novelty flank.
+\end{enumerate}
+
+House rules bind: this document asserts nothing above
+\texttt{[exploratory]}; the probe is disclosed, seeded, and
+committed; misses at any gate enter the ledger at equal prominence.
+
+\end{document}
