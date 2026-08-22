@@ -135,8 +135,38 @@ the sweep document does not enumerate are accounted for here:
 **Supersession chains** (each miss/flaw reported, then corrected): 001→002 ·
 007→008→009 · 012→013→014 · 016→017→018→019 · 020→021 · 032→033 · 035→036.
 
-**No file drawer holds:** every sealed run appears in the ledger regardless of
-sign; the only gaps in the ID sequence (029, 030) carried no run.
+### Extension through 091 (updated 2026-08-22)
+
+The argument above covered 001–041 when written; the sequence now runs to
+**091** and the same claim holds block by block:
+
+- **042–054** — the Paper V (Landauer) block: theorem harnesses (042, 044) and
+  the GO-7/8/9 operational faces. Four registered misses, each superseded
+  in-place with its instrument defect named: **046→047 · 048→049 · 051→053 ·
+  052→054**. Every miss row carries its notes file.
+- **055–074** — the GO-10…GO-13 block (tax, region, dynamic theory): all
+  sealed-and-run, including the honest ones: **056** (KV-serving operational
+  MISS at its registered effect sizes, power note pre-verdict), **057** (the
+  Bell negative → NEG-15), **069** (one-cell V6 instrumentation amendment,
+  rerun ALL PASS, both artifacts kept).
+- **075** — **reserved-unsealed, burned honestly**: the disclosed pilot killed
+  the design before any bar was set or seal placed; no governed run ever
+  existed. Successor: **077** (the split verdict).
+- **076–086** — the GO-14 block: eleven sealed registrations, every pilot and
+  amendment disclosed in-row.
+- **087–089** — the OT-EC campaigns: **sealed in this repository** (63a6f56 /
+  705f068 — the binding timestamps), then migrated 2026-08-19 to
+  `observation-theory-campaigns`, where the run artifacts live; the rows above
+  record both.
+- **090–091** — the GO-16 block (sealed 3a74638 pre-run, governed 20260822).
+
+**No file drawer holds, restated for the full sequence:** every ID in 001–091
+has a disposition row above. The only IDs without a sealed governed run are
+**029/030** (never assigned — proven absent from git history), **040** (void
+reservation, failed validation pre-seal), and **075** (design failure disclosed
+by its own pilot pre-seal) — each with its reason on record, none with a hidden
+measurement. Extended supersession chains: 046→047 · 048→049 · 051→053 ·
+052→054 · 056→(075 burned)→077.
 
 ## Commit-ordering audit (seal predates run)
 
@@ -160,6 +190,39 @@ sealed at `1843ebd` (D2) / `2de7927` (D3) — both descendants of `3b76e11` and
 ancestors of their runs, so the seal-before-run chain holds a fortiori. Every
 result commit is strictly downstream of its seal; the ordering is verifiable at
 any snapshot (including the DOI'd release).
+
+### Post-041 blocks (audited 2026-08-22)
+
+Every row from 042 on records its seal hash inline (here and in its prereg).
+Ancestry re-verified for eighteen flagship rows spanning every block, with
+`git merge-base --is-ancestor <seal> <first-commit-adding-result>`; **all
+pass**:
+
+| Row | Seal | Result-add | Ancestry |
+|---|---|---|---|
+| 055 (GO-10 C3) | e1e9dfe | 732ffca | ✅ |
+| 058 (GO-10 op, Gaussian) | 44752c9 | 9230dd2 | ✅ |
+| 059 (GO-10 op, binary) | 76b5154 | 62014ae | ✅ |
+| 060 (GO-11 region) | 3aff029 | 1fce63c | ✅ |
+| 064 (GO-11 Thms 9–10) | c286759 | 2b67ea3 | ✅ |
+| 065 (GO-12 opening) | 3ba5ac7 | 0363f36 | ✅ |
+| 067 (GO-13 Thm 1) | aa8d663 | 23a5a99 | ✅ |
+| 069 (GO-13 op face) | b1984fb | 35239a7 | ✅ |
+| 072 (GO-13 binary twin) | 2f8e3ad | db9bca6 | ✅ |
+| 074 (convexity lemma) | 087c902 | 6c41229 | ✅ |
+| 078 (GO-14 process limit) | 6cafb72 | 563bddd | ✅ |
+| 082 (GO-14 plateau) | 35ffdf7 | 42c83ba | ✅ |
+| 083 (GO-14 R1) | 021beb0 | c2502e5 | ✅ |
+| 084 (GO-14 achievability) | 46ef7c9 | e00081c | ✅ |
+| 085 (GO-14 FIR density) | 5349fc5 | cb8aae4 | ✅ |
+| 086 (GO-14 per-cell) | 43d78dd | 5ea9e81 | ✅ |
+| 090 (GO-16 partition/tie) | 3a74638 | 2b90441 | ✅ |
+| 091 (GO-16 discrete twin) | 3a74638 | 2b90441 | ✅ |
+
+The remaining post-041 rows follow the identical pattern (seal hash in-row,
+result strictly downstream). 087–089 were sealed here (63a6f56 / 705f068)
+before migration to the campaigns repository; the original seals remain the
+binding timestamps.
 
 ## Statistical audit of the sealed rows
 

@@ -118,6 +118,18 @@ this plan reduces surface area.
 - Nomenclature decision: **collapse to "Observation Theory"** as the public
   program name; "geometric-observation" persists as the ledger namespace with
   a one-line note. Two names read as two programs.
+  **EXECUTED 2026-08-22:** README retitled with the one-name note, the
+  new-reader path (OBSERVATION.md → Part A instrument chapters), and the
+  DRI/Bond-Index provenance line. Part A (ch10 probe · ch11 recognizer ·
+  ch12 failure taxonomy + κ · ch15 method · App. D registry) is declared the
+  canonical single-source instrument documentation in the README layout
+  table. U0's remaining holes closed the same day: the completeness argument
+  extended through 091 block-by-block (042–054 / 055–074 / 075 burned /
+  076–086 / 087–089 migrated / 090–091), and the commit-ordering audit
+  extended with an 18-row post-041 ancestry table (all pass) —
+  `claims/REGISTRY-ACCOUNTING.md`. The no-file-drawer claim now rides on a
+  closed argument: every ID in 001–091 has a disposition; the only unsealed
+  IDs (029/030, 040, 075) carry their reasons on record.
 
 ## U4 — The keystone theorem slot (choose one, defer the rest)
 - T1 learn-then-serve (probe sample complexity ∘ mismatch bounds): the

@@ -1,4 +1,19 @@
-﻿# Geometric Observation
+﻿# Observation Theory
+
+> **One name.** The program is **Observation Theory**. `geometric-observation`
+> is its **ledger namespace** — the preregistration registry, harnesses, and
+> claims ledger live under this repository name, and nothing else hangs on the
+> historical title. **New readers start here:** the one-page
+> [OBSERVATION.md](OBSERVATION.md), then Part A of the book — the instruments
+> are documented once and reused everywhere:
+> [the blind probe](chapters/ch10_the_blind_probe.md) ·
+> [the recognizer](chapters/ch11_the_recognizer.md) ·
+> [the failure taxonomy (the four degeneracies of P_C) and κ](chapters/ch12_failure_taxonomy_and_kappa.md) ·
+> [registration-first method](chapters/ch15_registration_first.md) ·
+> [the registry](chapters/appendix_d_the_registry.md). The public index name is
+> **DRI** (the "Bond Index" of early drafts, renamed — provenance footnoted in
+> the sweep). Paper numerals I–V are internal shorthand; every public claim
+> resolves to a ledger row, not a numeral.
 
 [![CI](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/ahb-sjsu/geometric-observation?label=release)](https://github.com/ahb-sjsu/geometric-observation/releases/latest)
@@ -71,7 +86,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`DOMAIN-GENERALITY-SWEEP.md`](DOMAIN-GENERALITY-SWEEP.md) | The consumer-relative flip across domains, one row per sealed prereg + result |
 | [`experiments/`](experiments/) | The three-arm instance runs (§3) and scripts |
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
-| [`chapters/`](chapters/) | Chapter → claim map and drafts |
+| [`chapters/`](chapters/) | The book (ch00–ch18 + appendices A–G). **Part A = the canonical instrument docs**: probe (ch10), recognizer (ch11), failure taxonomy + κ (ch12), method (ch15), registry (App. D) — single-sourced, cited from everywhere else |
 
 ## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the tax and its region are replicated; the dynamic theory is closed through the spectral pair and the m=2 endgame; causal erasure is netted through its convex program and an unconditional process limit; reference-coupled erasure is open; the estimation-and-control extension is drafted with its flagship sealed and passed
 
