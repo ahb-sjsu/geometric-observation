@@ -106,3 +106,33 @@ step in achievability's K-verification — standard-cited and netted by
 **Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
 built clean 2026-08-21 on the Atlas workstation (`lake build`, 8663 jobs,
 zero errors, zero `sorry`).
+
+`ObservationTheory/AdversarialObserverDiscrete.lean` machine-checks the
+v0.5 extensions (Theorems 4–6: the binary water-level theorem, commuting
+scope, no fixed-instrument commitment gap):
+
+- `evar_closed_form` / `rho_closed_form` — the exact binary channel
+  algebra: ρ = (q₁−q₀)²/((q₀+q₁)(2−q₀−q₁));
+- `frontier_bound` / `frontier_attained` / `symmetric_rho` — the
+  shielding frontier as a theorem: err ≥ (1−√ρ)/2, equality on the
+  symmetric family (supersedes GO-P-2026-091's SLSQP pilot instrument);
+- `sqrt_midpoint_concave` — frontier-cost convexity;
+- `shield_foc_identity` / `shield_foc_bound` — the per-coordinate
+  completion of squares (the fifth-class FOC);
+- `sign_flip_average` — the entrywise sign-symmetrization step behind
+  diagonal/commuting optima (Theorems 3/5);
+- `attention_exchange` / `fractional_pair_tie` — the reader-side
+  exchange lemma: two fractional attention coordinates carry equal g —
+  the discrete tie, alphabet-independent;
+- `junk_domination` — Theorem 6's row reduction (against axis glances,
+  cross-signal mass is dominated by dither).
+
+Unformalized remainder (named): the probabilistic EVar derivation, the
+water-level assembly and integer-k counting, joint diagonalization and
+convex averaging, Theorem 6's assembly — netted by
+`experiments/go16_theory_extensions.py` (S3 ALL PASS) and the governed
+090/091 harnesses.
+
+**Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
+built clean 2026-08-21 on the Atlas workstation (`lake build`, 8664 jobs,
+zero errors, zero `sorry`).

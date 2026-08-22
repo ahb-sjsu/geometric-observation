@@ -5,3 +5,4 @@ import ObservationTheory.FrontLaw
 import ObservationTheory.SpaceComms
 import ObservationTheory.OwedLaws
 import ObservationTheory.AdversarialObserver
+import ObservationTheory.AdversarialObserverDiscrete

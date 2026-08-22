@@ -17,7 +17,7 @@
 \newcommand{\sym}{\operatorname{sym}}
 
 \title{GO-16: The Adversarial Observer\\
-\large Statement v0.4 --- the revelation reduction and the partition/tie theorem\\
+\large Statement v0.5 --- the revelation reduction and the partition/tie theorem\\
 \normalsize status: theory netted at LQG scope, R-IND-5-verified, and
 GOVERNED --- opened 2026-08-21 at \texttt{[exploratory]} (v0.1,
 un-parked from U4 out of \texttt{paper/OT-POKER-SURVEY.md}); v0.2 same
@@ -30,9 +30,19 @@ seed 20260822, both in CI's re-run tier, LEDGER row added --- theorems
 citable at \texttt{[predicted]}-grade; quote-level citation sweep
 complete (13 verified / 2 corrected / 1 unverifiable-at-primary of 16,
 record in the flank file); the campaign itself remains
-\texttt{[exploratory]} pending the operational face}
+\texttt{[exploratory]} pending the operational face; v0.5 same day:
+\textbf{Theorem 4} (the binary water-level theorem, theorem-grade ---
+exact channel closed form, the frontier as a two-line theorem
+superseding 091's SLSQP instrument, exchange-lemma ties),
+\textbf{Theorem 5} (Theorem 3 upgraded to commuting scope),
+\textbf{Theorem 6} (NO fixed-instrument commitment gap at commuting
+scope --- the open question of v0.3 resolved, with an explicit
+optimal glance mixture), the commuting-alignment scan refining
+Conjecture 1 (the contested phase is OPEN around commuting, not
+measure-zero), and a second Lean module (11 lemmas, built clean on
+Atlas, zero \texttt{sorry})}
 \author{Geometric Observation program}
-\date{2026-08-21 (v0.4)}
+\date{2026-08-21 (v0.5)}
 
 \begin{document}
 \maketitle
@@ -509,6 +519,38 @@ achievability's $K$-verification, and the KKT bookkeeping of
 Theorems~\ref{thm:partition}--\ref{thm:diagonal}; these are
 standard-cited and harness-netted.
 
+\textbf{Lean, second module}
+(\texttt{lean/ObservationTheory/AdversarialObserverDiscrete.lean};
+same toolchain, rebuilt clean 2026-08-21 on Atlas, 8664 jobs, zero
+errors, zero \texttt{sorry}): eleven lemmas for \S\ref{sec:v05} ---
+\texttt{evar\_closed\_form} / \texttt{rho\_closed\_form} (the exact
+channel algebra), \texttt{frontier\_bound} /
+\texttt{frontier\_attained} / \texttt{symmetric\_rho} (the frontier
+theorem), \texttt{sqrt\_midpoint\_concave} (frontier-cost
+convexity), \texttt{shield\_foc\_identity} / \texttt{\_bound} (the
+fifth-class FOC), \texttt{sign\_flip\_average} (the symmetrization
+step of Theorems 3/5), \texttt{attention\_exchange} /
+\texttt{fractional\_pair\_tie} (the reader-side exchange lemma and
+the discrete tie), \texttt{junk\_domination}
+(Theorem~\ref{thm:nogap}'s row reduction). \emph{Unformalized
+remainder, named:} the probabilistic EVar derivation, the
+water-level assembly and integer-$k$ counting, joint
+diagonalization and convex averaging (Theorem~\ref{thm:commuting}),
+and Theorem~\ref{thm:nogap}'s assembly --- standard-cited and netted
+by S1--S3 plus the governed 090/091 harnesses.
+
+\textbf{Theory-extensions harness}
+(\texttt{experiments/go16\_theory\_extensions.py}, seed 20260821,
+dev-disclosed, ALL PASS 3/3,
+\texttt{results/go16-theory-extensions.json}): S3 exact-identity
+gates ($\rho$ closed form $3.3\times10^{-16}$, frontier bound
+violation $1.3\times10^{-15}$, symmetric attainment
+$8.2\times10^{-15}$, FOC identity $4.0\times10^{-15}$); S1 the
+commuting-alignment scan; S2 the fixed-instrument gap measurements.
+A governed seal for this harness is owed if its results are ever
+promoted beyond the theorem-netting role (the theorems themselves
+are carried by proof + Lean).
+
 \textbf{Correction ledger for the dither question (all steps kept at
 equal prominence):} v0.1 conjectured never-dither from probe C4;
 v0.2 refuted the conjecture (Corollary~\ref{cor:dither}) but
@@ -577,9 +619,133 @@ mixes.
 \end{itemize}
 v0.2's Conjecture 2 (the discrete twin) is thereby settled at probe
 level, with the class structure \emph{refined} rather than merely
-confirmed; the theorem-grade write-up of the binary water-level
-construction (the analytic solver is already a closed-form
-construction with saddle verification) is owed.
+confirmed; the theorem-grade write-up follows in
+\S\ref{sec:v05}.
+
+\section{The binary theorem, commuting scope, and the
+fixed-instrument game (v0.5)}\label{sec:v05}
+
+All load-bearing algebra of this section is machine-checked in
+\texttt{lean/ObservationTheory/AdversarialObserverDiscrete.lean}
+(cited per step); the exact identities are additionally netted by
+\texttt{experiments/go16\_theory\_extensions.py} (S3, all gates at
+$10^{-13}$--$10^{-15}$).
+
+\begin{theorem}[The binary water-level theorem]\label{thm:binary}
+In the binary disclosure game of \S\ref{sec:twin} with per-spot
+policy $(q_0, q_1)$:
+\emph{(i) (Exact channel algebra.)} The resolved-variance ratio has
+the closed form
+\[
+\rho(q_0, q_1) \;=\;
+\frac{(q_1 - q_0)^2}{(q_0 + q_1)\,(2 - q_0 - q_1)}
+\qquad\text{(Lean: \texttt{rho\_closed\_form}),}
+\]
+on the nondegenerate domain, with the convention $\rho = 0$ at the
+constant channels.
+\emph{(ii) (The frontier, as a theorem.)} Since $u(2-u)\le1$ for
+$u = q_0+q_1$, every policy satisfies
+$\mathrm{err} \ge (1-\sqrt\rho)/2$, with equality exactly on the
+symmetric family $q_0 + q_1 = 1$ (Lean: \texttt{frontier\_bound},
+\texttt{frontier\_attained}, \texttt{symmetric\_rho}); deterministic
+policies have $\rho\in\{0,1\}$. The 091 pilot's SLSQP refinement is
+hereby superseded by proof. The frontier cost
+$c(\rho) = s^2(1-\sqrt\rho)/2$ is convex (midpoint concavity of
+$\sqrt{\cdot}$, Lean: \texttt{sqrt\_midpoint\_concave}, plus
+continuity).
+\emph{(iii) (Saddle and classes.)} The reduced game
+$\sum_i c_i(\rho_i) + \lambda\,\phi_k(\mu\circ\rho)$ is convex; a
+saddle against the attention polytope
+$\{\theta\in[0,1]^n,\ \sum\theta = k\}$ exists (Sion). At a saddle,
+each coordinate's response to $\theta_i$ is governed by the exact
+completion of squares
+$s^2(1-x)/2 + cx^2 = s^2/2 - s^4/(16c) + c\,(x - s^2/(4c))^2$
+($x=\sqrt\rho$, $c = \lambda\theta_i\mu_i$; Lean:
+\texttt{shield\_foc\_identity}, \texttt{\_bound}), giving the five
+classes measured by 091: conceded ($s_i^2 \ge 4\lambda\mu_i$,
+$\theta_i = 1$), interior-contested-above (interior FOC,
+$\theta_i=1$), tied (fractional $\theta_i =
+s_i^2/(4\lambda\sqrt{\mu_i t^\ast})$), level, submerged; the water
+level solves the attention-budget equation $D(t^\ast) = k$.
+\emph{(iv) (Ties.)} Any optimal attention vector satisfies the
+exchange property --- it cannot be interior at a strictly leakier
+coordinate while positive at a less leaky one (Lean:
+\texttt{attention\_exchange}) --- so any two fractional coordinates
+carry \emph{equal} $g$ (Lean: \texttt{fractional\_pair\_tie});
+since $k$ is an integer, a lone fractional coordinate is impossible
+($\sum\theta$ would not be an integer), so fractional attention
+forces a genuine tie $\lambda_k = \lambda_{k+1}$. The tie is
+reader-side and alphabet-independent, exactly as \S\ref{sec:twin}
+measured.
+\end{theorem}
+
+\begin{theorem}[Commuting scope]\label{thm:commuting}
+If $[\Sigma_S, M] = 0$, Theorem~\ref{thm:diagonal} holds verbatim in
+the joint eigenbasis, with $(s_i^2, \mu_i)$ the jointly paired
+eigenvalues: conjugating $K$ by joint-eigenbasis sign flips leaves
+both terms invariant (the entrywise step is Lean:
+\texttt{sign\_flip\_average}), so averaging over the $2^n$ flips
+yields a jointly-diagonal optimum by convexity. The governed face is
+090's V9 (the rotated instance --- a commuting pair --- whose
+fractional spectrum and tie the generic SDP solver recovers).
+\end{theorem}
+
+\begin{theorem}[No fixed-instrument commitment gap at commuting
+scope]\label{thm:nogap}
+In the commuting (WLOG diagonal) game, let $(\rho^\ast,
+\theta^\ast)$ be the saddle of Theorem~\ref{thm:diagonal} (or its
+binary twin) with value $V^\ast$. Consider the
+\emph{fixed-instrument} reader who commits, before seeing anything,
+to a random single-coordinate glance drawn with marginals
+$\theta^\ast$ ($k$ glances in expectation; for $k=1$ this is exactly
+the fixed rank-one-instrument game over all mixtures of reads).
+Then the encoder's infimum over ALL policies $(F, \Sigma_w)$ ---
+including non-diagonal ones --- equals $V^\ast$: \textbf{the v0.3
+open question is resolved --- there is no commitment gap at
+commuting scope, and the optimal committed mixture is explicit}
+(eigenbasis glances at the saddle attention).
+\end{theorem}
+
+\begin{proof}
+($\le$) is the minimax inequality: the saddle policy is held to
+exactly $V^\ast$ by every mixture (at the saddle, every glance
+resolves its coordinate's saddle leakage). ($\ge$): against axis
+glances the objective \emph{separates across record rows} --- the
+glance at row $i$ sees only $N_{ii} = \lVert f_i\rVert^2 + w_{ii}$
+($f_i$ the $i$-th row of $F$), the value loss and $\tr\Sigma_w$ are
+row/diagonal sums, and off-diagonal $\Sigma_w$ entries appear
+nowhere. Within a row, moving cross-signal mass into dither
+($f_{ij}\mapsto 0$, $w_{ii}\mapsto w_{ii} + f_{ij}^2$, $j\neq i$)
+leaves the value cost and the read variance unchanged and weakly
+lowers the resolved numerator (Lean: \texttt{junk\_domination}), so
+scalar rows are optimal; the scalar row problem reduces to the
+shrink-and-dither cost (Lean: \texttt{scalar\_shielding\_identity},
+\texttt{\_cost\_bound}), giving row value $\ge \min_\rho\,
+[s_i^2(1-\rho) + \lambda\theta^\ast_i\mu_i\rho]$; summing and using
+the saddle property of $(\rho^\ast,\theta^\ast)$ gives $\ge
+V^\ast$. Netted: S2 of
+\texttt{go16\_theory\_extensions.py} measures the gap at
+$1.4\times10^{-12}$ ($m=2$ exact instance, full-matrix encoder
+search over mixtures including three-atom non-axis families) and
+$-1.4\times10^{-10}$ (the governed $6$-coordinate instance).
+\emph{Open residue:} the rank-$k$ \emph{joint-subset} instrument
+variant (a committed mixture of $k$-subsets read jointly) is upper-
+bounded by $V^\ast$ but its converse needs a subadditivity argument
+not given here; and the non-commuting fixed-instrument game remains
+open.
+\end{proof}
+
+\textbf{The commuting-alignment scan (S1, exploratory).} The V10
+hypothesis is refined by measurement: along random symmetric
+perturbations of a commuting pair, the contested (fractional
+revelation) mass stays \emph{high} --- $0.49$--$0.77$ for
+commutator norms up to $\approx 2$ --- and collapses ($\le 0.02$)
+only under strong misalignment (norms $\approx 2.3$--$4.6$).
+\textbf{The contested phase is an open region around the commuting
+stratum, not a measure-zero coincidence}; what vanishes is contested
+mass in the strongly misaligned regime.
+Conjecture~\ref{conj:converse} is updated accordingly: the refined
+question is the alignment functional governing the phase boundary.
 
 \section{What remains open}
 
@@ -590,27 +756,29 @@ At general (non-diagonal) scope, for generic $(\Sigma_S, M,
 fractional (hence the tie, by Theorem~\ref{thm:partition}(iii)); the
 missing step is ruling out a \emph{projection} $W^\ast$ satisfying
 $\lambda M^{1/2}W^\ast M^{1/2} = \Sigma_S$ on a nontrivial subspace.
-The V10 measurement adds a sharper hypothesis to test: the contested
-phase appears to \emph{concentrate on commuting-aligned}
-$(\Sigma_S, M)$ pairs (robustly open within the commuting family,
-where Theorem~\ref{thm:diagonal} applies; all four generic
-non-commuting cells measured had near-projection optima). The
-refined question: is contested $\neq\emptyset$ non-generic in the
-full instance space, generic within the commuting stratum, and
-governed by a computable alignment criterion between them?
+The V10 measurement suggested concentration on commuting-aligned
+pairs; the S1 scan (\S\ref{sec:v05}) \emph{refines} this: the
+contested phase is an \textbf{open region} around the commuting
+stratum (mass $0.49$--$0.77$ at commutator norms up to $\approx2$),
+collapsing only under strong misalignment. The refined question: the
+alignment functional governing the phase boundary --- what quantity,
+computable from $(\Sigma_S, M, \lambda, k)$, separates the
+contested-rich neighborhood of commuting from the near-projection
+regime V10 measured at generic far-from-commuting instances?
 \end{conjecture}
 
-\textbf{Discrete twin (v0.2 Conjecture 2): settled at probe level}
-(\S\ref{sec:twin}); the theorem-grade binary water-level write-up is
-owed. \textbf{Signed-weight reduction (v0.1 Conjecture 3), resolved
-in form:} revelation coordinates convexify the signed-weight
-two-consumer program; the attention water level with the class
-partition replaces the two-water-level geometry. \textbf{Commitment
-gap (v0.1 Conjecture 4):} resolved as \emph{no gap} for the
-whitened-attention ($N$-conditioned) game; \textbf{open} for the
-fixed-instrument $\Theta$-mixture game (Corollary~\ref{cor:commit},
-as corrected), alongside any support-constraint gap in discrete
-games.
+\textbf{Discrete twin (v0.2 Conjecture 2): theorem-grade}
+(Theorem~\ref{thm:binary}; governed face 091). \textbf{Signed-weight
+reduction (v0.1 Conjecture 3), resolved in form:} revelation
+coordinates convexify the signed-weight two-consumer program; the
+attention water level with the class partition replaces the
+two-water-level geometry. \textbf{Commitment gap (v0.1 Conjecture
+4):} no gap for the whitened-attention game
+(Corollary~\ref{cor:commit}); \textbf{no gap for the
+fixed-instrument glance-mixture game at commuting scope}
+(Theorem~\ref{thm:nogap} --- the v0.3 open question, resolved with
+an explicit optimal mixture). Still open: the rank-$k$ joint-subset
+instrument converse, and the non-commuting fixed-instrument game.
 
 \section{Novelty position and campaign gates}
 
@@ -658,12 +826,16 @@ added --- Theorems 1--3 and the twin results are citable at
 \texttt{[predicted]}-grade. The quote-level citation sweep is
 complete (13/2/1 of 16; the two corrections and the linear-cost
 phrasing nuance are folded into this version and the flank file).
-Next in the campaign: the theorem-grade binary water-level write-up;
-the general-scope converse (Conjecture~\ref{conj:converse}, with the
-V10 alignment hypothesis); the fixed-instrument commitment-gap
-question; then the operational face (query-only read-operator
-recovery of a static pool bot, with exploitation constructed in the
-kernel and submerged classes and measured leakage) --- the campaign
-node stays \texttt{[exploratory]} until that face lands. House rules
-bind; misses enter the ledger at equal prominence.
+v0.5 discharges three of the four campaign items: the binary
+write-up is theorem-grade (Theorem~\ref{thm:binary}), the
+fixed-instrument gap is resolved at commuting scope
+(Theorem~\ref{thm:nogap}), and Conjecture~\ref{conj:converse} is
+sharpened to a phase-boundary question by the S1 scan. Next in the
+campaign: the alignment functional (Conjecture~\ref{conj:converse});
+the joint-subset and non-commuting fixed-instrument residues; then
+the operational face (query-only read-operator recovery of a static
+pool bot, with exploitation constructed in the kernel and submerged
+classes and measured leakage) --- the campaign node stays
+\texttt{[exploratory]} until that face lands. House rules bind;
+misses enter the ledger at equal prominence.
 \end{document}
