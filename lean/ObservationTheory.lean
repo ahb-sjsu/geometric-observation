@@ -4,3 +4,4 @@ import ObservationTheory.WeightedMeanInvariance
 import ObservationTheory.FrontLaw
 import ObservationTheory.SpaceComms
 import ObservationTheory.OwedLaws
+import ObservationTheory.AdversarialObserver

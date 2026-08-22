@@ -73,3 +73,31 @@ algebraic anchors of the estimation-and-control paper
 **Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
 built clean 2026-08-18 on the Atlas workstation (`lake build`, 8659 jobs,
 zero errors, zero `sorry`).
+
+## GO-16 — the adversarial observer
+
+`ObservationTheory/AdversarialObserver.lean` machine-checks the
+load-bearing algebra of the revelation reduction (GO-16 v0.2,
+`paper/go16-adversarial-observer.tex`, Theorem 1):
+
+- `shrink_dither_key` — the noncommutative ring identity
+  `(1−K)(1−K) + K(1−K) = 1−K` behind the shrink-and-dither cost
+  telescope;
+- `shrink_dither_cost` — the achievability side: the policy
+  `F = SK`, `Σ_w = SK(1−K)Sᵀ` costs exactly `S(1−K)Sᵀ` (as a matrix;
+  trace for the scalar cost), for symmetric `K`;
+- `trace_sq_le_trace_mul_transpose` — `tr(Z²) ≤ tr(ZZᵀ)`, the
+  converse's only inequality;
+- `scalar_shielding_identity` / `scalar_shielding_cost_bound` — the
+  per-coordinate completion of squares that makes shielding cost
+  linear in SNR (the mechanism forcing the water level and the
+  on-support ties of Theorem 3).
+
+Unformalized remainder (named): Ky Fan's maximum principle, saddle
+existence (Sion), the KKT bookkeeping of Theorems 2–3, and the SVD
+step in achievability's K-verification — standard-cited and netted by
+`experiments/go16_verify_partition.py` (ALL PASS 9/9).
+
+**Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
+built clean 2026-08-21 on the Atlas workstation (`lake build`, 8663 jobs,
+zero errors, zero `sorry`).
