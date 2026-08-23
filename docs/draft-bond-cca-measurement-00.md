@@ -1,7 +1,7 @@
 ---
 title: "Receiver-Relative Measurement of False-Idle CCA Outcomes in IEEE 802.11"
 abbrev: "Receiver-Relative CCA Measurement"
-docname: draft-bond-ot80211-freshness-01
+docname: draft-bond-cca-measurement-00
 category: exp
 ipr: trust200902
 area: "Operations and Management"
@@ -760,9 +760,12 @@ interleaving; and the plan, bars, and manipulation checks must be
 registered immutably before the run, with an unsealed feasibility
 shakedown first. This experiment has not been run ({{status}}).
 
-# Changes from draft-bond-ot80211-freshness-00 {#changes}
+# Changes from the Precursor Draft {#changes}
 
-(To be removed before publication.)
+(To be removed before publication.) This document replaces the
+never-submitted precursor draft-bond-ot80211-freshness-00, renamed to
+match its narrowed scope; the changes below are relative to that
+precursor.
 
 - Narrowed normative scope to CCA measurement and the basic-access
   versus RTS/CTS comparison; NAV, rate selection, spatial reuse, and

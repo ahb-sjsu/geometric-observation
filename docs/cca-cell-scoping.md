@@ -1,7 +1,8 @@
 # CCA cell — scoping: measuring the interferer-overlap loss rate of 802.11 CCA with a receiver-co-located witness
 
-Companion to `draft-bond-ot80211-freshness-01` (revised per the
-2026-08 technical review; terminology and requirements follow the -01
+Companion to `draft-bond-cca-measurement-00` (formerly
+draft-bond-ot80211-freshness, renamed pre-submission after the
+2026-08 technical review; terminology and requirements follow that
 draft). The draft defines *how* to measure the receiver-relative
 interferer-overlap loss rate (IOLR) of transmissions attempted after
 an idle CCA indication, but reports no number — its example values
@@ -21,7 +22,7 @@ design moves from paired runs to randomized interleaving with a
 directly computed difference interval, and the interferer must be a
 MAC participant for the comparative arm.
 
-## The measurement (from the RFC, -01 terms)
+## The measurement (from the RFC)
 
 - **Assertion under test:** CCA — the transmitter's "medium idle →
   transmit," performed at the transmitter.
@@ -31,17 +32,17 @@ MAC participant for the comparative arm.
   idle CCA indication, the fraction lost at Rx WITH witnessed
   interferer overlap. The cell's controlled design (known interferer
   schedule + link-sanity check + validated overlap classifier) meets
-  the -01 attribution bar, so its IOLR may be described as a
+  the draft's attribution bar, so its IOLR may be described as a
   false-idle rate; overlap alone is never called causation.
 - **Witness (compound):** Rx's own per-frame decode log
   (consumer outcome) + an SDR capturing IQ **at the Rx port**
   (overlap), independent of the transmitter's CCA. The overlap
   classifier's detection/false-detection rates are measured with
-  injected calibration bursts (a -01 requirement).
+  injected calibration bursts (a draft requirement).
 
 The cell also measures the RFC's **comparative claim**: basic-access
 IOLR vs RTS/CTS-access IOLR under randomized interleaved assignment,
-both graded against the same witness. Note the -01 correction: the
+both graded against the same witness. Note the review-driven correction: the
 CTS is part of the access *treatment* (it silences C via the NAV iff
 C decodes and honors it); the witness is the decode-log + IQ
 compound, never the CTS itself.
@@ -108,7 +109,7 @@ that appears in W's capture and is timestamped by A, aligning by
 correlation. The sealed cell SHOULD use (a); alignment residual is a
 manipulation check (MC4).
 
-## Grading and statistics (per draft -01)
+## Grading and statistics (per the draft)
 
 Atomic unit: one PPDU transmission attempt after an idle CCA
 indication; each retry is a distinct opportunity. Per opportunity,
@@ -133,9 +134,10 @@ per-opportunity Wilson intervals are not valid under bursty
 interference. Report cluster and opportunity counts per arm, and the
 indeterminate-handling sensitivity bounds (indeterminates as losses
 / as successes). **False-alarm is out of this cell's scope** — it is
-counterfactual (requires CCA-override intervention) and is the -01
-draft's separate OPTIONAL procedure; the -00 requirement to report
-both rates (which this cell could not meet) was removed in -01.
+counterfactual (requires CCA-override intervention) and is the
+draft's separate OPTIONAL procedure; the freshness-precursor's
+requirement to report both rates (which this cell could not meet)
+was removed in the revision.
 
 ## Draft bars (registration-first; validated by shakedown before seal)
 
@@ -196,7 +198,7 @@ reported).
 ## Phasing
 
 - **Phase A0 — platform feasibility (unsealed).** Demonstrate OpenWiFi
-  RTS/CTS operation and per-opportunity CCA logging against the -01
+  RTS/CTS operation and per-opportunity CCA logging against the draft's
   requirements. No bars are fixed before this passes.
 - **Phase A — conducted bench (the sealed cell).** Everything above,
   fully controlled and reproducible → prereg → shakedown → fresh-day seal.
@@ -211,6 +213,6 @@ A Phase-A PASS replaces the draft's illustrative example with a
 measured, sealed CCA IOLR and a measured RTS/CTS difference (with its
 own interval) — turning the Experimental draft from "here is how to
 measure" into "here is how to measure, and here is the first
-measurement," and populating the -01 Implementation Status section.
+measurement," and populating the draft's Implementation Status section.
 That is the same shakedown→seal arc the database cells followed, on
 an SDR witness instead of a WAL/oplog one.
