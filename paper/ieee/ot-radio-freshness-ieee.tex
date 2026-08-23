@@ -1,0 +1,390 @@
+%% IEEE single-column review manuscript (converts to two-column on acceptance).
+%% Applied companion in the Observation-Theory program: the 5G/6G radio-access
+%% instance of consumer-relative, witnessed reliability certificates.
+\documentclass[lettersize,onecolumn]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{framed}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\fc}{\mathrm{FC}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\E}{\mathbb{E}}
+
+\begin{document}
+
+\title{Freshness Is Consumer-Relative and Witnessed:\\ Sealed Measurement of Adaptation-Certificate\\ Vacuity in 5G/6G Radio Access}
+
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
+\thanks{Manuscript prepared August 2026. The author is with the Department of
+Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA
+(e-mail: andrew.bond@sjsu.edu; ORCID 0009-0003-2599-6158).}%
+\thanks{Every empirical claim in this paper is governed by a sealed
+pre-registration and a coded verdict runner committed before the graded runs;
+the pre-registrations, runners, and graded records are archived with the
+Observation-Theory program. The physical-layer substrate is the open-source
+Sionna library over an NVIDIA Quadro GV100.}}
+
+\markboth{PREPRINT -- OBSERVATION THEORY, RADIO-ACCESS INSTANCE (2026)}%
+{BOND: FRESHNESS IS CONSUMER-RELATIVE AND WITNESSED}
+\maketitle
+
+\begin{abstract}
+Radio-access networks run on \emph{adaptation certificates}: a channel-quality
+indicator (CQI) that certifies a modulation and coding scheme, a beam report
+that certifies a direction, a channel-state-information (CSI) feedback that
+certifies a precoder, a reference-signal-received-power (RSRP) report that
+certifies a serving cell. Each is a claim that a transmission decision is
+supportable. We argue, and measure, that such certificates are
+\emph{vacuous under aging}: when the certificate ages faster than its report
+cadence the certified decision fails, yet the certificate still reads
+``adequate.'' We formalize the resulting \emph{false-clear rate} as a
+consumer-relative quantity graded against an independent \emph{witness}---the
+hybrid-ARQ (HARQ) acknowledgement, or the served-link outcome---and we measure
+it under a sealed-preregistration protocol: bars committed before any graded
+run, a structural cooling-off enforced in code, manipulation checks that are
+themselves bars, and graded seeds disjoint from calibration. Across four cells
+on a real 3GPP 5G New Radio (NR) physical layer (5G low-density parity-check
+coding and TR38.901 channels), the naive certificate false-clears at
+$2.6$--$4.4\times$ the $10\%$ target block-error rate, while a witnessed policy
+holds at target on every graded seed: CQI aging ($0.34$--$0.37$ vs.\ outer-loop
+$0.10$), millimeter-wave beam aging ($0.31$--$0.33$ vs.\ beam-failure recovery
+$0.10$), learned CSI-feedback reconstruction vacuity ($0.27$--$0.30$ vs.\
+consumer-aware $0.13$), and stale-RSRP handover ($0.26$--$0.34$ vs.\
+radio-link-monitoring re-selection $0.10$). We derive and measure a
+\emph{refresh-floor law}---the maximum report period holding false-clear at
+target is proportional to the channel coherence time (measured slope $0.177$,
+$R^2=0.915$). The CSI-feedback cell is the compression-domain instance: a codec
+optimal in reconstruction error still false-clears at the consumer because the
+precoder reads a low-dimensional projection of the channel, not its Frobenius
+norm.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Link adaptation, CSI feedback, beam management, handover, hybrid ARQ,
+age of information, reliability, pre-registration, 5G NR, 6G.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{A}{} modern radio link is a chain of decisions taken on the basis
+of \emph{reports}. The user equipment (UE) measures the channel and reports a
+CQI; the base station (gNB) selects a modulation and coding scheme (MCS) to hit
+a target block-error rate (BLER), conventionally $10\%$. The UE reports a
+best-beam index; the gNB steers a narrow beam to it. The UE feeds back
+compressed CSI; the gNB computes a precoder from it. The UE reports the RSRP of
+neighboring cells; the network decides which cell serves. Each report is, in
+effect, a \emph{certificate}: an assertion that the decision it induces is
+supportable.
+
+Certificates are trusted at a cadence. Between reports the channel evolves. When
+the channel decorrelates faster than the report period---high Doppler, fast
+rotation, mobility---the certificate \emph{ages}: the decision it certified is no
+longer supportable by the time the transmission occurs, and it fails. The
+failure is observable to the network only through an independent channel: the
+HARQ acknowledgement (ACK/NACK), which reports whether the receiver actually
+decoded. We call a report that certifies ``adequate'' while the witnessed
+transmission fails a \emph{false-clear}, and its rate the \emph{false-clear
+rate}. This paper measures the false-clear rate of the four principal
+5G/6G adaptation certificates and shows, in each case, that (i) the naive
+fixed-cadence certificate is measurably vacuous---its false-clear rate is far
+above the target BLER---and (ii) a policy that grades the certificate against
+the HARQ witness holds the false-clear rate at target.
+
+\subsection{Freshness is not a property of the report}
+The central conceptual claim is that freshness---whether a certificate is
+``fresh enough''---is not a property of the report in isolation. It is a
+\emph{relation} among the report, the consumer that acts on it, and the channel
+dynamics that age it. Two consumers reading the same report at the same instant
+can experience different false-clear rates because they read the channel through
+different functionals: a robust low-rate link tolerates a stale CQI that a
+high-rate link cannot; a wide beam tolerates an angular drift that a pencil beam
+cannot. This \emph{consumer-relativity} is the radio-access instance of a thesis
+we develop generally elsewhere~\cite{bond_ot}: operational reliability is a
+property of the observer relation, not of the observed object.
+Age-of-information theory~\cite{kaul2012aoi} quantifies staleness on the report
+channel; consumer-relative false-clear quantifies its \emph{consequence} at the
+receiver, which is what a reliability claim must ultimately bound.
+
+\subsection{Contributions}
+\begin{enumerate}
+\item A unifying framework (Section~\ref{sec:framework}): every 5G/6G adaptation
+certificate has an independent witness (HARQ or the served-link outcome), a
+consumer-relative false-clear rate, and a derivable refresh floor.
+\item A sealed-preregistration measurement protocol (Section~\ref{sec:protocol})
+that makes each reliability claim falsifiable before it is measured, adapted
+from the Observation-Theory program to radio-access experiments.
+\item Four sealed cells on a real 5G NR physical layer
+(Sections~\ref{sec:substrate}--\ref{sec:cells}): CQI aging, beam aging, learned
+CSI-feedback vacuity, and stale-RSRP handover. Every bar and manipulation check
+passes on three graded seeds disjoint from calibration.
+\item A measured refresh-floor law (Section~\ref{sec:floor}): the maximum report
+period holding false-clear at target scales linearly with coherence time.
+\item The CSI-feedback cell (Section~\ref{sec:aicsi}) demonstrates a
+\emph{reconstruction paradox}: a codec that wins the reconstruction metric it was
+trained on loses at the consumer, the compression-domain instance of the same
+grammar.
+\end{enumerate}
+We claim measurement discipline and a cross-cutting framework, not new
+adaptation mechanisms; outer-loop link adaptation, beam-failure recovery, and
+radio-link monitoring are credited prior art. The delta is the
+\emph{measured, consumer-relative, calibrated} false-clear rate and the
+witnessed alternative, reported under a protocol designed to make the claim
+refutable.
+
+\section{Certificates, Consumers, and Witnesses}\label{sec:framework}
+\begin{definition}[Adaptation certificate]
+A report $r_t$ emitted at time $t$ that induces a network decision
+$a_t=\pi(r_t)$ (an MCS, a beam, a precoder, a serving cell) intended to satisfy a
+performance target on the resulting transmission.
+\end{definition}
+\begin{definition}[Witness]
+An independent binary outcome $w_t\in\{\text{ACK},\text{NACK}\}$ of the
+transmission taken under $a_t$, observed after the fact. For all four cells the
+witness is HARQ or, equivalently at the mobility layer, whether the served link
+decoded.
+\end{definition}
+\begin{definition}[False-clear rate]
+$\fc(\pi)=\Pr[w_t=\text{NACK}\mid a_t=\pi(r_t)]$, the probability that the
+certified decision fails at the witness. A monitor is \emph{vacuous} when
+$\fc$ exceeds the target it purports to certify.
+\end{definition}
+
+Freshness enters through the aging of $r_t$. Let $\tau$ be the report period and
+$T_c$ the channel coherence time. The certificate is measured at the last report
+instant and applied until the next; the mismatch grows with $\tau/T_c$. A
+\emph{witnessed policy} augments $\pi$ with feedback from $w_t$: outer-loop link
+adaptation (OLLA) adds a HARQ-driven offset to the CQI; beam-failure recovery
+(BFR) re-selects on consecutive NACKs; radio-link monitoring (RLM) triggers
+re-selection of the serving cell. Each converts the open-loop certificate into a
+closed loop around the witness.
+
+\begin{proposition}[Refresh floor, informal]\label{prop:floor}
+For a fixed target $\beta$ and operating SINR, there is a maximum report period
+$\tau^\star(\beta)$---the \emph{refresh floor}---below which the naive
+false-clear stays at or under $\beta$, and $\tau^\star$ is proportional to the
+coherence time $T_c$ of the aging process.
+\end{proposition}
+Proposition~\ref{prop:floor} is the radio-access form of a refresh-floor law we
+state generally in the program; we measure its constant in
+Section~\ref{sec:floor}. Intuitively, the certificate must be refreshed on the
+timescale over which the channel it certifies decorrelates.
+
+\section{Sealed-Preregistration Measurement}\label{sec:protocol}
+Reliability claims are unusually easy to overstate: thresholds, seeds, and
+success criteria chosen after seeing results manufacture significance. We
+therefore bind each cell to a protocol that fixes the claim before the graded
+run.
+
+\emph{Bars.} Each cell commits three bars---B1 (the naive certificate is
+vacuous), B2 (the witnessed policy holds), B3 (dominance: the witnessed
+false-clear is at most half the naive)---as numeric thresholds in a
+pre-registration document, together with three \emph{manipulation checks}
+(MCs) that are also bars: MC1 that the aging is real (a nonzero certificate
+error), MC2 that the control with a fresh certificate is sane (so failures are
+attributable to aging, not a broken link), and MC3 non-degeneracy (the
+certificate is actually exercised). \emph{Any} MC failure voids the cell.
+
+\emph{Cooling-off.} A verdict runner refuses to grade unless the
+pre-registration is sealed at least one day after its construction date; the
+rule is enforced in code, not convention. \emph{Disjoint seeds.} Bars are
+calibrated on shakedown seeds $\{0,1,2\}$; the sealed verdict is computed on
+graded seeds $\{s_1,s_2,s_3\}$ never seen during calibration. \emph{Kept
+failures.} A failing graded run is recorded as executed; the protocol has no
+escape hatch. The four cells below were constructed on one day and sealed and
+graded on the next, on graded seeds $\{$20260823, 20260824, 20260825$\}$
+disjoint from calibration.
+
+\section{Substrate: A Real 5G NR Physical Layer}\label{sec:substrate}
+All decoding is performed on standard-compliant 5G NR physical-layer
+components from the open-source Sionna library~\cite{sionna2022}: 5G LDPC
+encoding and decoding~\cite{ts38212} with $20$ belief-propagation iterations,
+Gray-mapped $M$-QAM, and TR38.901 tapped-delay-line channels~\cite{ts38901}.
+For each MCS in a $13$-entry span of the 3GPP MCS table~\cite{ts38214}
+(rate-floored at $1/5$, the LDPC minimum), we measure a real BLER-versus-SINR
+curve by batched Monte-Carlo decoding on a GPU; these curves are the link-level
+model of the actual NR decoder, not a fitted sigmoid. The time-varying channel
+is a real TR38.901 process; per-transmission HARQ outcomes are drawn from the
+measured curve at the \emph{actual, aged} SINR---the standard link-to-system
+methodology, with real link curves. This is one rung below a full system-level
+stack and several rungs above a synthetic fading simulator; we state the ladder
+explicitly and label each cell by the rung it occupies.
+
+\section{Four Sealed Cells}\label{sec:cells}
+Table~\ref{tab:results} summarizes the sealed, graded results. All cells target
+$\beta=10\%$ BLER. We describe each in turn.
+
+\begin{table*}[t]
+\caption{Sealed cells, graded on disjoint seeds $\{$20260823--25$\}$ on the real
+5G NR substrate. Ranges span the three graded seeds. Every bar (B1--B3) and
+manipulation check (MC1--MC3) passed on every seed.}
+\label{tab:results}
+\centering
+\begin{tabular}{@{}L{2.2cm} L{3.0cm} L{2.4cm} C{2.0cm} C{2.4cm} C{1.8cm} c@{}}
+\toprule
+Cell & Certificate $\to$ decision & Witness & naive $\fc$ & witnessed $\fc$ &
+control & verdict \\
+\midrule
+CSI (\S\ref{sec:csi})   & CQI $\to$ MCS            & HARQ ACK/NACK & $0.34$--$0.37$ & OLLA $0.10$ & fresh $0.11$ & PASS \\
+BEAM (\S\ref{sec:beam}) & beam index $\to$ beam    & HARQ / BFR    & $0.31$--$0.33$ & BFR $0.10$  & fresh $0.02$ & PASS \\
+AICSI (\S\ref{sec:aicsi})& CSI feedback $\to$ precoder & HARQ      & $0.27$--$0.30$ & aware $0.13$ & recon paradox\footnotemark & PASS \\
+HO (\S\ref{sec:ho})     & RSRP $\to$ serving cell  & served-link   & $0.26$--$0.34$ & RLM $0.10$--$0.11$ & fresh $0.08$--$0.09$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table*}
+\footnotetext{The reconstruction-optimal codec attains \emph{lower} normalized
+reconstruction error ($0.66$--$0.68$) than the consumer-aware codec
+($1.13$--$1.19$) yet a \emph{higher} consumer false-clear---the paradox is the
+result (Section~\ref{sec:aicsi}).}
+
+\subsection{CSI aging: CQI $\to$ MCS}\label{sec:csi}
+The UE reports a CQI every $\tau=20$ transmission-time intervals; the gNB selects
+the highest MCS whose measured BLER-at-target SINR is supportable. The channel is
+TR38.901 TDL-A at Doppler $f_d=200$\,Hz ($v\approx17$\,m/s at $3.5$\,GHz),
+coherence time $T_c=0.423/f_d\approx2.1$\,ms, so the report is stale by roughly
+ten coherence times. Three policies share each channel realization: \emph{naive}
+(raw CQI), \emph{OLLA} (a HARQ-driven SINR offset with equilibrium at target),
+and \emph{fresh} (a per-interval CQI, the no-aging control). Graded, the raw CQI
+false-clears at $0.34$--$0.37$---$3.4$--$3.7\times$ the $10\%$ target---while OLLA
+holds at $0.10$ and fresh at $0.11$; the mean reported-versus-realized SINR error
+is $5.6$--$5.9$\,dB (MC1), confirming a genuine aging regime.
+
+\subsection{Beam aging: index $\to$ beam}\label{sec:beam}
+At millimeter wave the gNB serves through a narrow analog beam chosen from the
+UE's reported best-beam index. We model the beamforming gain with an exact
+$16$-element half-wavelength uniform-linear-array factor and drive the true
+angle at $300^\circ/$s; the block decode uses the same real NR LDPC curves. The
+reported beam is measured with $1^\circ$ error every $20$ slots and held.
+\emph{naive} holds the periodic beam; \emph{BFR} re-selects on two consecutive
+NACKs (the deployed witnessed correction~\cite{ts38213}); \emph{fresh}
+re-selects every slot. Graded, the stale beam false-clears at $0.31$--$0.33$,
+BFR holds at $0.10$, fresh at $0.02$; the mean beamforming-gain loss under the
+naive policy is $4.7$\,dB (MC1). The angular refresh floor is the beam-domain
+form of Proposition~\ref{prop:floor}.
+
+\subsection{Learned CSI feedback: the reconstruction paradox}\label{sec:aicsi}
+In (6G) AI-native CSI feedback the UE compresses the measured MIMO channel with a
+learned codec; the gNB reconstructs it and derives a precoder. Codecs are
+conventionally trained to minimize reconstruction error (normalized mean-squared
+error, NMSE)~\cite{wen2018csinet}. But the consumer---the precoder and the served
+link---reads the channel through its dominant eigen-direction, a low-dimensional
+projection, not the Frobenius norm. We train two autoencoders with an identical
+architecture and bottleneck on $2\times16$ channels with angular structure: one on
+reconstruction NMSE, one on the achieved beamforming gain of the induced
+maximum-ratio precoder (a tail-sensitive, log-gain objective). The consumer's SINR
+is the operating SINR plus the achieved gain fraction in dB; HARQ is drawn from the
+real NR curves.
+
+Graded, the reconstruction-optimal codec attains \emph{lower} NMSE
+($0.66$--$0.68$) than the consumer-aware codec ($1.13$--$1.19$)---it wins the
+metric it was trained on---yet false-clears at the consumer at $0.27$--$0.30$,
+while the consumer-aware codec holds at $0.13$. A perfect-CSI control false-clears
+at $0.0$, so the link is sane; the aware codec's achieved gain exceeds the NMSE
+codec's on every seed (the mechanism). This is the compression-domain instance of
+the same grammar: \emph{reconstruction fidelity is a certificate that false-clears
+at the consumer}, exactly the consumer-relative distortion principle we ship
+publicly in the compression setting~\cite{bond_turboquant}. It argues that
+AI-native CSI codecs should be trained and \emph{certified} against the HARQ
+witness, not reconstruction NMSE.
+
+\subsection{Handover under stale RSRP}\label{sec:ho}
+The UE's RSRP measurement report certifies a serving cell. Under mobility the
+report ages: the UE crosses the cell edge but the stale periodic report keeps it
+on the old cell, whose RSRP has dropped and whose former neighbor now interferes,
+collapsing the serving SINR. We use a two-cell interference-limited geometry
+(pathloss, correlated shadowing L3-filtered for handover decisions, a mild
+fast-fade term for the PHY) with the serving-link BLER from the real NR curves; a
+UE at $30$\,m/s oscillates across the edge with a $300$-slot report period.
+\emph{naive} hands over only on the stale report; \emph{RLM} re-measures and
+re-selects on three consecutive serving NACKs (the outcome-witnessed correction);
+\emph{fresh} tracks the best cell. Graded, the stale report false-clears at
+$0.26$--$0.34$, RLM holds at $0.10$--$0.11$, fresh at $0.08$--$0.09$; the naive
+policy spends $24$--$31\%$ of the time on a non-best cell (MC1). This is the
+radio-access twin of a routing-under-staleness problem---which replica, or cell,
+to serve from when the freshness certificate is stale---and is best graduated to
+a system-level multi-cell simulator, which we note as external-validity work.
+
+\section{The Refresh-Floor Law, Measured}\label{sec:floor}
+Proposition~\ref{prop:floor} predicts the refresh floor scales with coherence
+time. We measure it on the CSI substrate by sweeping Doppler
+$f_d\in\{10,25,50,100,200,400\}$\,Hz against report period, recording the
+largest period holding the naive false-clear at or under $1.5\times$ target.
+The floor falls from $7.4$\,ms at $f_d=10$\,Hz ($T_c=42$\,ms) to $1.2$\,ms at
+$f_d=400$\,Hz ($T_c=1.1$\,ms). A regression through the origin gives
+\[
+\tau^\star \approx 0.177\,T_c, \qquad R^2 = 0.915,
+\]
+i.e., the report must be refreshed roughly every one-sixth of a coherence time
+at this SINR and target. The high-Doppler points sit slightly above the line at
+the one-interval reporting-rate wall (the report cannot be faster than every
+slot), which we disclose rather than trim. The law converts a qualitative
+``report often enough'' into a quantitative floor derivable from the UE's own
+Doppler.
+
+\section{Discussion and Related Work}
+\emph{Adaptation mechanisms.} OLLA~\cite{sampath1997olla}, BFR, and RLM are
+deployed, HARQ- or outcome-witnessed corrections; we credit them and measure
+what they buy. The contribution is not a new controller but the calibrated
+false-clear rate of the naive certificate and the demonstration that a single
+grammar---certificate, witness, refresh floor---spans CQI, beam, CSI feedback,
+and handover.
+
+\emph{AI-native CSI.} Learned CSI feedback is typically evaluated by
+reconstruction NMSE or cosine similarity~\cite{wen2018csinet}. The reconstruction
+paradox (Section~\ref{sec:aicsi}) shows that metric can be won while the consumer
+loses, and argues for consumer-aware training and HARQ-witnessed certification.
+
+\emph{Staleness and age of information.} Age-of-information~\cite{kaul2012aoi}
+bounds staleness on the report channel; consumer-relative false-clear measures
+its consequence at the receiver, the quantity a reliability target constrains.
+The same certificate/witness grammar recurs in distributed data systems, where
+replication-freshness monitors are consumer-relative vacuous and a
+write-ahead-log--witnessed certificate holds~\cite{bond_ot}; probabilistically
+bounded staleness~\cite{bailis2012pbs} and commit-wait~\cite{corbett2012spanner}
+are the database analogues of the refresh floor and the witness.
+
+\section{Limitations and External Validity}
+The substrate is link-level: real NR LDPC decoding and real TR38.901 channels,
+but a link-to-system HARQ draw rather than full per-block per-slot decoding, and
+narrowband SISO for the CQI and beam cells. The learned-CSI cell uses a
+continuous bottleneck as a feedback-bit proxy and an MRT precoder; the handover
+cell is a two-cell link proxy. Each cell names its rung and its graduation:
+full per-block decoding, wideband MIMO, a quantized CsiNet-class codec, and a
+system-level multi-cell simulator with time-to-trigger and radio-link-failure
+timers. The bars are cell-specific and calibrated with margin; we report the
+demonstrated values alongside the committed thresholds so the margins are
+transparent. Normative air-interface behavior is 3GPP's remit; this paper is
+measurement methodology.
+
+\section{Conclusion}
+Freshness in 5G/6G radio access is not a property of a report but of the relation
+among the report, the consumer, and the channel. Measured under a protocol
+designed to make each claim refutable, the four principal adaptation
+certificates---CQI, beam, CSI feedback, RSRP---are each vacuous under aging at
+$2.6$--$4.4\times$ their target, and each is repaired by grading against the HARQ
+or served-link witness. The maximum safe report period scales with coherence
+time (slope $0.177$). The learned-CSI cell shows the same failure in the
+compression domain: reconstruction fidelity is a certificate that false-clears at
+the consumer. We recommend that adaptation certificates---and, increasingly,
+learned ones---be specified, measured, and \emph{certified} against the witness
+that reports what the consumer actually received.
+
+\section*{Reproducibility}
+Each cell's pre-registration, coded verdict runner (with the cooling-off and
+substrate guards), family record, and graded verdict are archived with the
+program~\cite{bond_prereg}. The physical-layer curves are regenerable from the
+open-source substrate~\cite{sionna2022}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ot-radio-freshness}
+\end{document}

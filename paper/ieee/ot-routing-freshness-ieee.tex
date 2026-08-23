@@ -1,0 +1,152 @@
+%% IEEE single-column review manuscript -- SKELETON (gated on D8-V1 data).
+%% Routing instance of the Observation-Theory program. The control-plane cells
+%% (BGP / IS-IS / OSPF / BMP / RPKI) are SEALED and filled in below; the
+%% dataplane-join result (D8-V1) and the posterior-detector dominance-band
+%% CONFIRMATION are the pending measurement -- marked \TODO. Do not submit until
+%% every \TODO is discharged with the sealed D8-V1 graded record.
+\documentclass[lettersize,onecolumn]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,xcolor}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\newcommand{\fc}{\mathrm{FC}}
+\newcommand{\TODO}[1]{{\color{red}\textbf{[TODO/D8-V1: #1]}}}
+\newtheorem{definition}{Definition}
+
+\begin{document}
+\title{Reachability Freshness Is Consumer-Relative and\\ Witnessed: Sealed Measurement of Quiescence-Monitor\\ Vacuity in Interdomain and Link-State Routing}
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
+\thanks{Manuscript in preparation, 2026. Dept. of Computer Engineering, San Jos\'e
+State University (andrew.bond@sjsu.edu; ORCID 0009-0003-2599-6158).}%
+\thanks{Every empirical claim is governed by a sealed pre-registration and coded
+verdict runner committed before the graded runs, archived with the program.}}
+\markboth{PREPRINT (DRAFT, GATED ON D8-V1) -- OBSERVATION THEORY, ROUTING INSTANCE}{BOND: REACHABILITY FRESHNESS IS CONSUMER-RELATIVE AND WITNESSED}
+\maketitle
+
+\begin{abstract}
+Routing systems monitor \emph{reachability freshness}: whether the control plane
+has converged, whether a route is stable, whether a prefix is still validly
+originated. Each such monitor is a \emph{certificate}. We show, and measure, that
+quiescence-style monitors---``no update seen for $T$ seconds, therefore
+converged''---are \emph{consumer-relative vacuous}: the false-clear rate depends
+on the observer's vantage and the protocol's opacity, and a monitor that infers
+quiescence from update silence clears while the network is still churning. We
+formalize the false-clear rate against an independent \emph{witness}---a
+BGP Monitoring Protocol (BMP) feed, a receiver-side adjacency-in change-point, or
+a dataplane probe---and measure it under a sealed-preregistration protocol.
+Across control-plane substrates the $60$\,s quiescence certificate false-clears at
+$0.351$ (BGP), $0.184$ (IS-IS), and $0.083$ (OSPF), an ordering set by protocol
+opacity; a posterior detector holds a dominance band at $30$--$120$\,s.
+\TODO{one-sentence dataplane headline: the D8-V1 join confirms the band and the
+consumer-relative vacuity on live reachability.}
+\end{abstract}
+
+\begin{IEEEkeywords}
+BGP, IS-IS, OSPF, route monitoring, convergence, BMP, RPKI, reachability,
+pre-registration, age of information.
+\end{IEEEkeywords}
+
+\section{Introduction}
+The routing instance of the program: a reachability certificate (converged /
+stable / validly-originated) that ages, is graded against a witness (BMP, the
+receiver's adjacency-in, or a dataplane probe), and has a consumer-relative
+false-clear rate ordered by protocol opacity. Contributions: (i) the framework
+specialized to routing; (ii) sealed control-plane cells (below); (iii)
+\TODO{the D8-V1 dataplane-join cell on live RIPE Atlas reachability}; (iv)
+\TODO{the confirmed posterior-detector dominance band as the product surface}.
+This paper shares the certificate/witness/refresh-floor grammar with the
+radio-access and database instances of the program~\cite{bond_ot}.
+
+\section{Certificates, Consumers, Witnesses}
+\begin{definition}[Quiescence certificate]
+An assertion that the routing state is converged/stable, inferred from the
+absence of updates over a window $T$ at an observer's vantage.
+\end{definition}
+\begin{definition}[Witness]
+An independent signal of actual churn: a BMP route-monitoring feed
+(RFC~7854)~\cite{rfc7854}, the receiver-side adjacency-in change-points at the
+consumer router, or a dataplane reachability probe. The witness reports what the
+quiescence certificate can only infer.
+\end{definition}
+The false-clear rate is consumer-relative: it depends on vantage (a distant
+observer sees fewer updates) and on protocol opacity (link-state floods differ
+from path-vector churn). Route-flap damping~\cite{rfc2439} and origin
+validation~\cite{rfc6811} are the deployed witnessed corrections for two adjacent
+certificates.
+
+\section{Sealed-Preregistration Measurement}
+Identical protocol to the program's other instances: bars committed before graded
+runs, manipulation checks that are bars, a coded cooling-off, disjoint graded
+seeds, kept failures. \TODO{state the D8-V1 prereg's UP-phase responsiveness gate,
+change-point rule, and the eight screened live beacon targets as sealed.}
+
+\section{Sealed Control-Plane Cells}
+Table~\ref{tab:cp} gives the sealed, graded control-plane results; these are the
+data that is in.
+
+\begin{table}[t]
+\caption{Sealed control-plane cells (graded, committed as executed). The $60$\,s
+quiescence certificate's false-clear is ordered by protocol opacity.}
+\label{tab:cp}\centering
+\begin{tabular}{@{}L{2.4cm} C{2.2cm} C{2.0cm} c@{}}
+\toprule
+Cell & protocol & $60$\,s $\fc$ & verdict \\
+\midrule
+XPROTO-BGP  & BGP (path-vector)   & $0.351$ & PASS \\
+XPROTO-ISIS & IS-IS (link-state)  & $0.184$ & PASS \\
+XPROTO-OSPF & OSPF (link-state)   & $0.083$ & PASS \\
+XPROTO-BMP  & BMP witness-grading & validated & PASS/FAIL kept \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The ordering $0.351>0.184>0.083$ tracks protocol opacity (path-vector churn is
+less visible on the update channel than link-state floods); within the
+link-state family OSPF and IS-IS differ by $2.2\times$ at matched normalization,
+placed by implementation evidence-pacing. The BMP cell validates the witness
+channel itself: on that substrate the retrofit buys visibility structure
+($2\times$ events, $137$\,ms vs.\ $5.18$\,s p95), and a measured falsity gap needs
+churn that never surfaces on the update channel (policy/damping)---the wild's
+lane, which the dataplane cell enters.
+
+\section{The Dataplane-Join Cell (D8-V1)}
+\TODO{This is the decisive cell and the reason the paper is gated. Fill from the
+sealed D8-V1 graded record once RIPE Atlas credits reach the launch threshold and
+the eight beacon measurements run: the live-reachability false-clear of the
+quiescence certificate vs.\ the dataplane witness, the consumer-relative spread
+by vantage, and the confirmation (or refutation) of the $30$--$120$\,s
+posterior-detector dominance band. If the band is refuted, the paper's product
+claim reverts to control-plane only and says so.}
+
+\section{The Posterior-Detector Dominance Band}
+The $30$--$120$\,s band is where a calibrated posterior detector dominates the
+naive quiescence monitor. It was V0-discovered (the sealed B3 bar failed and the
+band is where the two wins landed); its status is \emph{confirmation pending}.
+\TODO{promote to a confirmed claim iff D8-V1 passes; otherwise keep the honest
+``discovered, not confirmed'' wording.}
+
+\section{Discussion and Related Work}
+Age of information~\cite{kaul2012aoi} bounds update staleness; consumer-relative
+false-clear measures the reachability consequence. The certificate/witness
+grammar is shared with the database instance (replication-log witness) and the
+radio-access instance (HARQ witness); routing contributes the
+\emph{opacity-orders-the-band} finding. \TODO{position vs.\ specific
+convergence-monitoring and BGP-anomaly-detection literature after the D8-V1
+result fixes the headline.}
+
+\section{Conclusion}
+\TODO{Write after D8-V1. The control-plane cells establish opacity-ordered
+quiescence vacuity; the dataplane cell is required to claim the live-reachability
+result and the product surface.}
+
+\section*{Reproducibility}
+Pre-registrations, verdict runners, and graded records are archived with the
+program~\cite{bond_prereg}; the dataplane cell uses the RIPE Atlas
+network~\cite{ripeatlas}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ot-routing-freshness}
+\end{document}
