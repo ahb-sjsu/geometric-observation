@@ -1,0 +1,301 @@
+%% IEEE single-column review manuscript (converts to two-column on acceptance).
+%% Applied companion in the Observation-Theory program: the distributed-database
+%% instance of consumer-relative, witnessed reliability certificates.
+\documentclass[lettersize,onecolumn]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\fc}{\mathrm{FC}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\PC}{P_{\mathcal{C}}}
+
+\begin{document}
+
+\title{Replication Freshness Is Consumer-Relative and\\ Witnessed: Sealed Measurement of Staleness-Monitor\\ Vacuity Across Database Substrates}
+
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
+\thanks{Manuscript prepared August 2026. The author is with the Department of
+Computer Engineering, San Jos\'e State University, San Jos\'e, CA 95192 USA
+(e-mail: andrew.bond@sjsu.edu; ORCID 0009-0003-2599-6158).}%
+\thanks{Every empirical claim is governed by a sealed pre-registration and a
+coded verdict runner committed before the graded runs, archived with the
+program. Substrates are unmodified PostgreSQL and MongoDB and a geo-distributed
+PostgreSQL fleet on the National Research Platform.}}
+
+\markboth{PREPRINT -- OBSERVATION THEORY, DATABASE INSTANCE (2026)}%
+{BOND: REPLICATION FRESHNESS IS CONSUMER-RELATIVE AND WITNESSED}
+\maketitle
+
+\begin{abstract}
+Replicated data stores expose \emph{staleness monitors}: a replica-lag
+threshold that certifies a replica ``fresh enough'' to read. We show, and
+measure, that such monitors are \emph{consumer-relative vacuous}: no single lag
+threshold serves heterogeneous consumers, because staleness is a property of
+\emph{what a given consumer reads}, not of the replica in aggregate. We
+formalize a \emph{footprint certificate}---the divergence the actual consumer
+feels, $\tr(\PC\,\Sigma)$ for a consumer read-operator $\PC$ and a replica drift
+$\Sigma$---graded against an independent \emph{witness}: the write-ahead-log
+sequence number, the oplog timestamp, or the replica's own replay position. Under
+a sealed-preregistration protocol (bars committed before graded runs, a coded
+cooling-off, manipulation checks, disjoint seeds), we measure the false-clear
+rate of the naive lag monitor and the footprint certificate across four
+substrates: a PostgreSQL lab, a MongoDB replica set, a production PostgreSQL
+instance with footprints derived from live query statistics, and a
+geo-distributed PostgreSQL fleet spanning three real datacenters. In every cell
+the naive monitor false-clears near $0.5$ (two-sided: it both admits stale reads
+and rejects fresh ones), while the witnessed footprint certificate holds at
+$0.01$--$0.06$; on the geo-fleet a \emph{nearest-certified} router is both
+fresher than nearest-replica routing and more local than least-lag routing. The
+result is the database instance of a program thesis: reliability is a property of
+the consumer relation, and a monitor that does not read the consumer's footprint,
+graded against a witness, is measurably vacuous.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Replication, consistency, staleness, read routing, write-ahead log, PostgreSQL,
+MongoDB, pre-registration, CAP, PACELC.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{A}{} read served from a replica may be stale. Systems therefore
+ship \emph{staleness monitors}: bounded-staleness reads, maximum replica lag
+thresholds, ``read-your-writes'' flags. Each is a \emph{certificate}---an
+assertion that a replica is fresh enough to serve a read. This paper asks what
+such certificates actually certify, and measures how often they are wrong.
+
+The central finding is that a replica-lag threshold is the wrong object.
+Staleness is not a scalar property of a replica; it is a property of the
+relation between a replica's divergence and \emph{what a particular consumer
+reads}. A consumer that reads only slowly-changing objects tolerates a lag that
+would corrupt a consumer reading a hot object. Consequently no single lag
+threshold serves a heterogeneous workload: set it low and the monitor
+false-alarms on consumers who do not care; set it high and it admits stale reads
+to consumers who do. We measure this two-sided failure directly: a hot consumer
+sees a truth-staleness rate near $0.5$ above the threshold, while a cold consumer
+pays a false-alarm rate near $0.9$ below it.
+
+The repair is to certify the quantity the consumer feels. Let $\PC$ be a
+consumer's \emph{footprint}---a positive operator encoding which objects (or
+query results) it reads and how heavily---and let $\Sigma$ be the replica's drift
+(the divergence of replicated state from the primary). The consumer's felt
+staleness is $\tr(\PC\,\Sigma)$; a \emph{footprint certificate} clears a read iff
+this quantity is within tolerance. Crucially, $\Sigma$ is witnessed
+natively: the write-ahead log (WAL) sequence number in PostgreSQL, the oplog
+timestamp in MongoDB, and the replica's replay position are exactly the
+independent ground truth of how far behind the replica is, per object. The
+certificate is thus \emph{consumer-relative} (it reads $\PC$) and \emph{witnessed}
+(it grades against the log), the same $\tr(\PC\,\Sigma)$ form we develop generally
+in the Observation-Theory program~\cite{bond_ot} and ship publicly for
+compression~\cite{bond_turboquant}.
+
+\subsection{Contributions}
+\begin{enumerate}
+\item The footprint certificate for replication freshness
+(Section~\ref{sec:framework}): $\tr(\PC\,\Sigma)$ witnessed by the replication
+log, and the two-sided vacuity of scalar lag thresholds.
+\item Four sealed cells (Section~\ref{sec:cells}) on unmodified substrates:
+a PostgreSQL lab, a MongoDB replica set (a second substrate, a second witness),
+a \emph{production} PostgreSQL instance whose footprints are derived from live
+query statistics, and a geo-distributed fleet across three real datacenters.
+All pass every bar and manipulation check on disjoint graded seeds.
+\item A measurement, on real WAN geography, that a nearest-certified read router
+dominates both nearest-replica and least-lag routing on the axes each optimizes
+(Section~\ref{sec:geo}).
+\item A placement of the result in the consistency design space
+(Section~\ref{sec:space}) and the CAP/PACELC tradeoff
+(Section~\ref{sec:discussion}): the certificate is the constructive form of the
+staleness face of consistency.
+\end{enumerate}
+We credit the deployed mechanisms---probabilistically bounded
+staleness~\cite{bailis2012pbs}, commit-wait~\cite{corbett2012spanner}, session
+guarantees~\cite{terry1994session}---and measure what a consumer-relative,
+witnessed, calibrated certificate adds over each.
+
+\section{Footprint Certificates and Their Witnesses}\label{sec:framework}
+\begin{definition}[Footprint certificate]
+For a consumer with read-operator $\PC\succeq0$ (which objects/queries it reads,
+weighted) and a replica with per-object drift $\Sigma$, the felt staleness is
+$d_{\mathcal{C}}=\tr(\PC\,\Sigma)$; the certificate clears a read from that
+replica iff $d_{\mathcal{C}}\le\epsilon$ for a tolerance $\epsilon$.
+\end{definition}
+\begin{definition}[Witness]
+An independent measurement of $\Sigma$ from the replication substrate itself:
+the WAL log-sequence number (LSN) reached by the replica versus the primary in
+PostgreSQL, the oplog applied-timestamp in MongoDB, or the replica's replay
+position. The witness is not an inference; it is the ground truth the substrate
+already maintains.
+\end{definition}
+\begin{definition}[False-clear rate]
+$\fc$ is the rate at which a monitor clears a read whose witnessed felt staleness
+exceeds tolerance (admitting stale) or rejects a read whose felt staleness is
+within tolerance (false alarm). A scalar lag monitor incurs both; a footprint
+certificate reads $\PC$ and grades against the witness, and incurs neither beyond
+sampling.
+\end{definition}
+
+\begin{proposition}[Two-sided vacuity of scalar lag, informal]
+For a workload with heterogeneous footprints there is no replica-lag threshold
+that simultaneously bounds admitted-stale rate for hot consumers and false-alarm
+rate for cold consumers; the two error rates trade off along the threshold and
+meet near $\tfrac12$ at the crossover, independent of the threshold.
+\end{proposition}
+This is the object we measure. The consumer-relativity is not a modeling choice;
+it is forced by the workload, and the witness makes the felt staleness
+observable per read.
+
+\section{Sealed-Preregistration Measurement}\label{sec:protocol}
+Each cell commits, before any graded run, three bars---B1 (the naive lag monitor
+is vacuous, false-clear $\ge$ a threshold near $\tfrac12$), B2 (the footprint
+certificate holds, false-clear $\le$ a small tolerance), B3 (dominance)---and
+manipulation checks that are also bars: that the induced staleness is real, that
+a fresh replica is certified sane, that the certificate is non-degenerate, and,
+for the production cell, that the footprint derivation from live statistics is
+exact. A verdict runner refuses to grade unless the pre-registration was sealed
+at least one day after construction (enforced in code), and grades on seeds
+disjoint from the shakedown used to calibrate the bars. Failing runs are kept as
+executed. This is the same protocol used for the radio-access instance and the
+routing instance of the program.
+
+\section{Four Sealed Cells}\label{sec:cells}
+Table~\ref{tab:results} summarizes the sealed, graded results.
+
+\begin{table*}[t]
+\caption{Sealed database cells, graded on disjoint seeds. ``naive'' is the
+scalar replica-lag monitor (min--max over graded seeds; near $0.5$ = two-sided
+vacuity); ``witnessed'' is the footprint certificate graded against the
+replication log. Every bar and manipulation check passed on every seed.}
+\label{tab:results}
+\centering
+\begin{tabular}{@{}L{3.0cm} L{3.6cm} L{3.0cm} C{2.2cm} C{2.2cm} c@{}}
+\toprule
+Cell & Substrate & Witness & naive $\fc$ & witnessed $\fc$ & verdict \\
+\midrule
+XPROTO-PG  & PostgreSQL (lab)               & WAL LSN                 & $0.50$          & $0.05$--$0.06$ & PASS \\
+XPROTO-MG  & MongoDB replica set            & oplog timestamp         & $0.45$--$0.48$  & $0.03$--$0.05$ & PASS \\
+XPROTO-PGX & PostgreSQL (production)        & WAL LSN, derived footprint & $0.46$--$0.47$ & $0.01$--$0.03$ & PASS \\
+XPROTO-GEO & PostgreSQL fleet (3 datacenters)& WAL LSN per replica    & \multicolumn{2}{c}{nearest-certified dominates (\S\ref{sec:geo})} & PASS \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{PostgreSQL lab and the MongoDB twin}
+The base cell runs a PostgreSQL primary and a replica with a bounded apply delay;
+a seeded write schedule drives heterogeneous consumer footprints. The naive
+monitor---a single replica-lag threshold---is two-sidedly vacuous: below the
+apply delay a cold consumer pays a $0.90$ false-alarm rate (an idle
+replay-timestamp pathology inflates apparent lag), while above it a hot consumer's
+admitted-stale rate is $0.50$; the min--max false-clear across graded seeds sits
+at $0.50$. The WAL-witnessed footprint certificate---$\tr(\PC\,\Sigma)$ against
+the replica's replay LSN---holds at $0.05$--$0.06$. The MongoDB cell reproduces
+the result on a second substrate and a \emph{second witness}: a replica set with a
+delayed secondary, the oplog applied-timestamp as $\Sigma$. Graded, the naive
+monitor is $0.45$--$0.48$ and the oplog-witnessed certificate $0.03$--$0.05$. Two
+substrate-specific pitfalls, found and fixed during shakedown, are reported in the
+cell: a majority write-concern that erases the modeled staleness, and reading a
+secondary's applied time through the primary's heartbeat (which itself adds
+staleness); the certificate must read the secondary's own member position.
+
+\subsection{Production PostgreSQL with derived footprints}
+The production cell earns two graduations over the lab. First, the consumer
+footprints $\PC$ are not seeded but \emph{derived} from live query statistics
+(\texttt{pg\_stat\_statements}); a manipulation check verifies the derivation is
+exact on every seed. Second, the replica lag is emergent (network-emulated,
+not dialed). Graded, the naive monitor is $0.46$--$0.47$ and the WAL-witnessed
+certificate over the derived footprint $0.01$--$0.03$. The guard rule that makes
+the certificate robust---a witness horizon matched to the truth oracle's
+guard---generalizes directly to the geo setting: each replica's own minimum
+round-trip time sets its guard.
+
+\subsection{Geo-distributed nearest-certified routing}\label{sec:geo}
+The geo cell is the read-routing endgame and the bridge to the routing instance
+of the program. A PostgreSQL primary and three streaming replicas are placed in
+three real, geographically separated datacenters on the National Research
+Platform. Three routers compete on two axes: \emph{nearest} minimizes
+round-trip time, \emph{least-lag} minimizes replica lag, and \emph{certified}
+routes to the nearest replica whose footprint certificate clears against its own
+witnessed replay LSN. Graded, the certified router attains a false-clear of $0$
+at round-trip $\approx11$\,ms, while nearest pays a false-clear of $\approx0.30$
+(it routes local but stale) and least-lag pays $16$--$18$\,ms (it routes fresh
+but far). The certificate is thus \emph{fresher than nearest and more local than
+least-lag}: it is the only router that reads both the consumer's footprint and
+the witness. A guard-consistency lesson recurs from the production cell---the
+witness horizon must match the truth oracle's guard, or every replica is
+disqualified by in-flight writes and the router falls back to the distant
+primary.
+
+\section{The Consistency Design Space}\label{sec:space}
+A survey of the replication and consistency design space through the certificate
+lens (archived with the program) organizes the space by one claim: the
+\emph{form} of the certificate follows the order structure of the consistency
+model. A total order (consensus, strongly consistent stores) admits a scalar
+log-position certificate---the LSN or oplog timestamp used above. A partial order
+(leaderless, causal, CRDT stores~\cite{shapiro2011crdt}) requires a version-set
+dominance certificate. A probabilistic model~\cite{bailis2012pbs} requires a
+calibrated depth. A physical-time model~\cite{corbett2012spanner} requires a
+lease. The witness leg is near-universal, and prior art already ships pieces:
+Nakamoto confirmations and Spanner commit-wait are \emph{already} calibrated;
+session guarantees~\cite{terry1994session} and vendor bounded-staleness reads are
+consumer-relative by construction but \emph{uncalibrated}. The program's delta is
+to ship all four grammar words together---consumer-relative, witnessed,
+calibrated, derivable---and to \emph{measure the rate}. ZooKeeper's local-read
+staleness under \texttt{sync}~\cite{hunt2010zookeeper,junqueira2011zab} is a
+natural next cell.
+
+\section{Discussion}\label{sec:discussion}
+\emph{CAP and PACELC.} The footprint certificate is the constructive form of the
+staleness face of consistency. Where CAP~\cite{gilbert2002cap} and
+PACELC~\cite{abadi2012pacelc} name a tradeoff between consistency and latency
+(or availability), the certificate \emph{quantifies the interior}: it prices the
+consistency each consumer actually needs, per read, and routes to the nearest
+replica that supplies it. Partition is the limiting case where the witnessed
+staleness diverges; the else-latency regime is exactly where nearest-certified
+routing wins. \emph{Age of information.} As in the radio-access
+instance~\cite{kaul2012aoi}, age bounds staleness on the log; the footprint
+certificate measures its consequence for the specific consumer, which is what a
+consistency SLA must bound. \emph{Benchmarking.} The cells are amenable to
+YCSB-lineage workloads~\cite{cooper2010ycsb}; the footprint is exactly the
+per-record read distribution such benchmarks parameterize.
+
+\section{Limitations and External Validity}
+The lab and production cells are single-primary, single- or few-replica; the geo
+cell is three replicas across three datacenters but still PostgreSQL streaming
+replication. Footprints are diagonal read-operators (per-object weights); a full
+$\PC$ over query-result functionals is a natural extension already used in the
+compression instance~\cite{bond_turboquant}. Induced staleness in the geo cell is
+partly disclosed (a rotating apply-pause) because the research backbone is faster
+than the guard; the locality axis is real inter-datacenter round-trip. The
+consistency-model taxonomy of Section~\ref{sec:space} is argued from the survey,
+not measured cell-by-cell; leaderless and CRDT certificates are future cells.
+
+\section{Conclusion}
+Replication freshness is not a scalar property of a replica but a relation between
+its drift and what a consumer reads. A replica-lag threshold is two-sidedly
+vacuous on a heterogeneous workload; a footprint certificate $\tr(\PC\,\Sigma)$,
+graded against the replication log the substrate already maintains, holds at a
+percent-level false-clear across PostgreSQL, MongoDB, a production instance with
+derived footprints, and a three-datacenter fleet. Nearest-certified read routing
+is simultaneously fresher than nearest and more local than least-lag. We
+recommend that bounded-staleness reads be specified, measured, and
+\emph{certified} against the consumer's footprint and the replication witness,
+rather than a global lag bound.
+
+\section*{Reproducibility}
+Each cell's pre-registration, coded verdict runner (cooling-off and
+substrate guards), family record, and graded verdict are archived with the
+program~\cite{bond_prereg}; substrates are unmodified PostgreSQL and MongoDB.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ot-replication-freshness}
+\end{document}
