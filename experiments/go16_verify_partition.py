@@ -195,8 +195,19 @@ def diag_attention(mu, s2, lam, k, sol, tol=1e-9):
     return theta, classes
 
 
-def direct_solve(S, M, lam, k, rng, restarts=8, scale=0.4):
-    """Full-matrix minimization of the original (F, Sigma_w) game."""
+def direct_solve(S, M, lam, k, rng, restarts=8, scale=0.4,
+                 extra_restarts=16, extra_seed=777001):
+    """Full-matrix minimization of the original (F, Sigma_w) game.
+
+    Cross-platform robustness (CI 2026-08-23): the original 8-restart
+    multistart found the optimum on Windows BLAS but landed 0.15%
+    high on Linux BLAS, flipping V5's 1e-3 verification tolerance.
+    Extra restarts come from a SEPARATE fixed-seed generator so the
+    shared `rng` stream (consumed downstream by V7's saddle probes)
+    is byte-identical to the committed governed run, and a
+    deterministic polish pass tightens the winner. The tolerance is
+    unchanged — the instrument got stronger, the bar did not move.
+    """
     m, n = S.shape
     tril = np.tril_indices(m)
 
@@ -211,15 +222,28 @@ def direct_solve(S, M, lam, k, rng, restarts=8, scale=0.4):
         return (np.sum((F - S) ** 2) + np.trace(Sw)
                 + lam * kyfan(G_of(F, Sw, M), k))
 
-    best = None
+    starts = []
     for r in range(restarts):
         F0 = S + scale * r * rng.standard_normal((m, n)) / max(1, r)
-        z0 = np.concatenate([F0.ravel(),
-                             0.2 * rng.standard_normal(len(tril[0]))])
+        starts.append(np.concatenate(
+            [F0.ravel(), 0.2 * rng.standard_normal(len(tril[0]))]))
+    rng2 = np.random.default_rng(extra_seed)
+    for _ in range(extra_restarts):
+        F0 = S + scale * rng2.standard_normal((m, n))
+        starts.append(np.concatenate(
+            [F0.ravel(), 0.2 * rng2.standard_normal(len(tril[0]))]))
+
+    best = None
+    for z0 in starts:
         res = minimize(obj, z0, method="L-BFGS-B",
                        options=dict(maxiter=6000, maxfun=300000))
         if best is None or res.fun < best.fun:
             best = res
+    polish = minimize(obj, best.x, method="L-BFGS-B",
+                      options=dict(maxiter=20000, maxfun=1000000,
+                                   ftol=1e-14, gtol=1e-10))
+    if polish.fun < best.fun:
+        best = polish
     F, Sw = unpack(best.x)
     return float(best.fun), F, Sw
 
