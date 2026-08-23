@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Receiver-Relative Measurement of False-Idle CCA Outcomes in IEEE 802.11</title>
+<meta content="Andrew H. Bond" name="author">
+<meta content="
+       IEEE 802.11 Clear Channel Assessment (CCA) is performed at the
+transmitter, but the harm it is meant to prevent -- a collision --
+occurs at the receiver. Whenever the transmitter's view of the medium
+differs from the receiver's, CCA can report idle while the receiver is
+being interfered with by a station the transmitter cannot sense: the
+classical hidden-node case. 
+       This document defines an EXPERIMENTAL methodology for measuring, at
+the receiver, the rate at which transmissions attempted after an idle
+CCA indication are lost with witnessed interferer overlap
+(the interferer-overlap loss rate), and for comparing that rate
+between basic access and RTS/CTS access under randomized, interleaved
+assignment. It also defines a CCA Measurement Report information model
+for expressing such measurements with their witness, statistical
+method, context, and provenance. It specifies measurement and
+reporting only. Normative changes to IEEE 802.11 PHY or MAC behavior
+are out of scope and are the remit of IEEE 802.11; this document is
+intended to inform such work with a common measurement vocabulary. 
+    " name="description">
+<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="802.11" name="keyword">
+<meta content="Wi-Fi" name="keyword">
+<meta content="clear channel assessment" name="keyword">
+<meta content="hidden node" name="keyword">
+<meta content="measurement" name="keyword">
+<meta content="false-idle" name="keyword">
+<meta content="interferer-overlap loss" name="keyword">
+<meta content="observation theory" name="keyword">
+<meta content="draft-bond-ot80211-freshness-01" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.0
+    Python 3.12.2
+    ConfigArgParse 1.7.5
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.0.2
+    natsort 8.4.0
+    platformdirs 4.5.0
+    pycountry 26.2.16
+    pypdf 6.10.0
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.6.0
+    weasyprint 68.0
+-->
+<link href="draft-bond-ot80211-freshness-01.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
+
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
+
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
+
+*/
+
+/* fonts */
+@import url('https://static.ietf.org/fonts/noto-sans/import.css'); /* Sans-serif */
+@import url('https://static.ietf.org/fonts/noto-serif/import.css'); /* Serif (print) */
+@import url('https://static.ietf.org/fonts/roboto-mono/import.css'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
+
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+@media print {
+  svg {
+    max-height: 850px;
+    max-width: 660px;
+  }
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    max-width: 100%;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code, dt tt, dt code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > blockquote:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Receiver-Relative CCA Measurement</td>
+<td class="right">August 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Bond</td>
+<td class="center">Expires 23 February 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Individual Submission</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-bond-ot80211-freshness-01</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-08-22" class="published">22 August 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Experimental</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-02-23">23 February 2027</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">A. H. Bond</div>
+<div class="org">San José State University</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Receiver-Relative Measurement of False-Idle CCA Outcomes in IEEE 802.11</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">IEEE 802.11 Clear Channel Assessment (CCA) is performed at the
+transmitter, but the harm it is meant to prevent -- a collision --
+occurs at the receiver. Whenever the transmitter's view of the medium
+differs from the receiver's, CCA can report idle while the receiver is
+being interfered with by a station the transmitter cannot sense: the
+classical hidden-node case.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document defines an EXPERIMENTAL methodology for measuring, at
+the receiver, the rate at which transmissions attempted after an idle
+CCA indication are lost with witnessed interferer overlap
+(the interferer-overlap loss rate), and for comparing that rate
+between basic access and RTS/CTS access under randomized, interleaved
+assignment. It also defines a CCA Measurement Report information model
+for expressing such measurements with their witness, statistical
+method, context, and provenance. It specifies measurement and
+reporting only. Normative changes to IEEE 802.11 PHY or MAC behavior
+are out of scope and are the remit of IEEE 802.11; this document is
+intended to inform such work with a common measurement vocabulary.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 23 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-scope-and-non-goals" class="internal xref">Scope and Non-Goals</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-receiver-relative-framing-i" class="internal xref">Receiver-Relative Framing (Informative)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-measurement-model" class="internal xref">Measurement Model</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-separation-of-concerns" class="internal xref">Separation of Concerns</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-consumer-footprint" class="internal xref">Consumer Footprint</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-outcome-taxonomy" class="internal xref">Outcome Taxonomy</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-witness-requirements" class="internal xref">Witness Requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-rate-definition-and-attribu" class="internal xref">Rate Definition and Attribution</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-registration-first-discipli" class="internal xref">Registration-First Discipline</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-comparative-procedure-basic" class="internal xref">Comparative Procedure: Basic Access versus RTS/CTS</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-treatment-assignment" class="internal xref">Treatment Assignment</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-held-constant-conditions" class="internal xref">Held-Constant Conditions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-interferer-requirements" class="internal xref">Interferer Requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-statistics" class="internal xref">Statistics</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-active-false-alarm-procedur" class="internal xref">Active False-Alarm Procedure (Optional)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-cca-measurement-report-info" class="internal xref">CCA Measurement Report Information Model</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-report-structure" class="internal xref">Report Structure</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-example-illustrative-only" class="internal xref">Example (Illustrative Only)</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-relationship-to-ieee-80211" class="internal xref">Relationship to IEEE 802.11</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-candidate-future-measuremen" class="internal xref">Candidate Future Measurement Profiles (Informative)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-conducted-hidden-node-exper" class="internal xref">Conducted Hidden-Node Experiment Sketch (Informative)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-changes-from-draft-bond-ot8" class="internal xref">Changes from draft-bond-ot80211-freshness-00</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">Carrier-sense multiple access with collision avoidance (CSMA/CA), as
+specified for IEEE 802.11 <span>[<a href="#IEEE802.11" class="cite xref">IEEE802.11</a>]</span>, makes each transmission
+conditional on an assessment that the medium is available. That
+assessment -- Clear Channel Assessment (CCA) -- is performed at the
+<em>transmitter</em>. The event it is meant to prevent, a collision, occurs
+at the <em>receiver</em>. Whenever the transmitter's local view of the medium
+differs from the receiver's, the assessment can be wrong in the
+dangerous direction: the transmitter senses the medium idle and
+transmits, and the receiver, in range of a station the transmitter
+cannot hear, experiences interference. This is the classical
+hidden-node problem <span>[<a href="#MACA" class="cite xref">MACA</a>]</span> <span>[<a href="#MACAW" class="cite xref">MACAW</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">How often this actually happens for a given link -- the rate at which
+"idle" at the transmitter coincides with witnessed interference at the
+receiver -- is not routinely measured in deployed networks. RTS/CTS
+access <span>[<a href="#MACA" class="cite xref">MACA</a>]</span> <span>[<a href="#MACAW" class="cite xref">MACAW</a>]</span> exists to reduce it, and its cost/benefit has
+been analyzed extensively since <span>[<a href="#BIANCHI" class="cite xref">BIANCHI</a>]</span>, but the residual rate for
+a specific link, receiver, and traffic class is generally unmeasured,
+and there is no common form in which to express such a measurement.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-1-4">
+<li id="section-1-4.1">
+          <p id="section-1-4.1.1">terminology that separates the access method, the CCA observation,
+the consumer outcome, and the outcome witness (<a href="#definitions" class="auto internal xref">Section 2</a>);<a href="#section-1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.2">
+          <p id="section-1-4.2.1">a receiver-relative measurement methodology for the
+interferer-overlap loss rate of transmissions attempted after an
+idle CCA indication (<a href="#model" class="auto internal xref">Section 4</a>);<a href="#section-1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.3">
+          <p id="section-1-4.3.1">a randomized comparative procedure for grading basic access against
+RTS/CTS access on the same link (<a href="#comparative" class="auto internal xref">Section 5</a>);<a href="#section-1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.4">
+          <p id="section-1-4.4.1">an <span class="bcp14">OPTIONAL</span> active procedure for the counterfactual false-alarm
+(exposed-node) direction (<a href="#false-alarm" class="auto internal xref">Section 6</a>);<a href="#section-1-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.5">
+          <p id="section-1-4.5.1">a CCA Measurement Report information model for expressing results
+(<a href="#infomodel" class="auto internal xref">Section 7</a>).<a href="#section-1-4.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-1-5">The methodology is motivated by a broader program on receiver-relative
+(consumer-relative) reliability measurement <span>[<a href="#OT" class="cite xref">OT</a>]</span> <span>[<a href="#VACUITY" class="cite xref">VACUITY</a>]</span>; the
+motivation is summarized in <a href="#framing" class="auto internal xref">Section 3</a> and is not normative.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<div id="scope-and-non-goals">
+<section id="section-1.1">
+        <h3 id="name-scope-and-non-goals">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-scope-and-non-goals" class="section-name selfRef">Scope and Non-Goals</a>
+        </h3>
+<p id="section-1.1-1">This document's normative scope is the measurement of CCA outcomes for
+unicast data transmissions and the comparison of basic access with
+RTS/CTS access, together with the report format for those
+measurements.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">This document does NOT specify, and explicitly defers to IEEE 802.11:<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1-3.1">
+            <p id="section-1.1-3.1.1">any change to CCA, NAV, RTS/CTS, rate selection, spatial reuse, or
+any other PHY or MAC behavior;<a href="#section-1.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-3.2">
+            <p id="section-1.1-3.2.1">any new frame format transmitted over the air as part of the MAC.<a href="#section-1.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-1.1-4">Other channel-access decisions to which a receiver-relative
+measurement discipline might later be applied (NAV expiry, rate
+selection, spatial reuse, roaming triggers) are NOT covered by the
+normative sections of this document; <a href="#profiles" class="auto internal xref">Appendix A</a> records them as
+candidate future measurement profiles and the reasons they are harder
+than CCA. The relationship to IEEE 802.11 is stated in <a href="#ieee" class="auto internal xref">Section 9</a>.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<p id="section-1.1-5">The CCA Measurement Report defined here is a management/telemetry
+information model (<a href="#infomodel" class="auto internal xref">Section 7</a>); this document does not select a
+wire encoding or transport.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The requirement keywords in this document constrain conformance to the
+measurement methodology (<a href="#model" class="auto internal xref">Section 4</a>, <a href="#comparative" class="auto internal xref">Section 5</a>, <a href="#false-alarm" class="auto internal xref">Section 6</a>)
+and to the report model (<a href="#infomodel" class="auto internal xref">Section 7</a>), NOT the behavior of any
+802.11 station.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-3">
+        <dt id="section-2-3.1">Access Method:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.2">
+          <p id="section-2-3.2.1">The channel-access procedure in use for an opportunity: <code>basic</code>
+(data transmission following CCA and backoff) or <code>rts-cts</code> (the
+RTS/CTS exchange preceding the data transmission). Both access
+methods use CCA; "basic access" is therefore the correct name for
+what earlier drafts called "CCA-alone".<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.3">CCA Observation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.4">
+          <p id="section-2-3.4.1">The transmitter's CCA indication (idle or busy) for the primary
+channel at the moment a transmission opportunity arises, together
+with the CCA configuration under which it was made (energy-detect
+and preamble-detect thresholds, channel, and bandwidth).<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.5">Transmission Opportunity (atomic unit):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.6">
+          <p id="section-2-3.6.1">A single PPDU transmission attempt initiated after an idle CCA
+observation. Each retry attempt is a distinct opportunity, tagged
+with its retry number. For an A-MPDU, the PPDU is the opportunity
+and per-MPDU outcomes are recorded within it (<a href="#outcomes" class="auto internal xref">Section 4.3</a>).<a href="#section-2-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.7">Consumer:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.8">
+          <p id="section-2-3.8.1">The party whose successful reception the CCA indication is meant to
+protect: the intended receiver of the PPDU and, transitively, the
+traffic class (TID) it carries.<a href="#section-2-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.9">Consumer Footprint:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.10">
+          <p id="section-2-3.10.1">The set of receivers and/or TIDs over which a measurement is graded.
+Results are reported per footprint element with a declared
+aggregation rule (<a href="#infomodel" class="auto internal xref">Section 7</a>).<a href="#section-2-3.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.11">Consumer Outcome:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.12">
+          <p id="section-2-3.12.1">The receiver-side result of one opportunity: <code>complete-success</code>,
+<code>partial-success</code> (a proper subset of an A-MPDU's MPDUs delivered,
+per Block Ack), <code>decode-failure</code>, or <code>indeterminate</code> (<a href="#outcomes" class="auto internal xref">Section 4.3</a>).<a href="#section-2-3.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.13">Outcome Witness:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.14">
+          <p id="section-2-3.14.1">The evidence channel used to establish the consumer outcome and the
+presence or absence of interferer overlap, independent of the
+transmitter's own sensing: <code>receiver-trace</code> (the receiver's own
+per-MPDU decode log), <code>ack-evidence</code> (ACK or Block Ack received at
+the transmitter), <code>iq-capture</code> (a synchronized IQ recording at or
+adjacent to the receiver), or <code>compound</code> (a declared combination).
+Witness requirements are given in <a href="#witness" class="auto internal xref">Section 4.4</a>.<a href="#section-2-3.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.15">Interferer-Overlap Loss:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.16">
+          <p id="section-2-3.16.1">An opportunity in which the CCA observation was idle, the
+transmission was attempted, the consumer outcome was
+<code>decode-failure</code> (or <code>partial-success</code>, counted per <a href="#outcomes" class="auto internal xref">Section 4.3</a>),
+AND the witness confirms interfering energy or a decodable
+interfering waveform overlapping the PPDU at the receiver.
+Overlap is an observed coincidence; it is causal attribution only
+under a controlled design that identifies causation
+(<a href="#attribution" class="auto internal xref">Section 4.5</a>).<a href="#section-2-3.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.17">Interferer-Overlap Loss Rate (IOLR):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.18">
+          <p id="section-2-3.18.1">N(interferer-overlap losses) / N(opportunities with idle CCA and an
+attempted transmission), for a declared footprint element and
+interval.<a href="#section-2-3.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.19">False-Idle Outcome:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.20">
+          <p id="section-2-3.20.1">An interferer-overlap loss under an experimental design that
+identifies the overlap as causal (<a href="#attribution" class="auto internal xref">Section 4.5</a>). The IOLR of
+such a design <span class="bcp14">MAY</span> be described as a false-idle rate; otherwise the
+neutral term IOLR <span class="bcp14">MUST</span> be used.<a href="#section-2-3.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.21">CCA Measurement Report (CMR):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.22">
+          <p id="section-2-3.22.1">The structured object defined in <a href="#infomodel" class="auto internal xref">Section 7</a> expressing one
+measurement: profile, subject, access method, footprint, witness,
+counts, rate estimates with their statistical method, context, and
+provenance.<a href="#section-2-3.22.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.23">Registration-First Measurement:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.24">
+          <p id="section-2-3.24.1">A measurement discipline in which the analysis plan, thresholds, and
+manipulation checks are committed immutably before the measurement
+is run, and every outcome -- including negative results -- is
+retained (<a href="#registration" class="auto internal xref">Section 4.6</a>).<a href="#section-2-3.24.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="framing">
+<section id="section-3">
+      <h2 id="name-receiver-relative-framing-i">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-receiver-relative-framing-i" class="section-name selfRef">Receiver-Relative Framing (Informative)</a>
+      </h2>
+<p id="section-3-1">In the vocabulary of <span>[<a href="#OT" class="cite xref">OT</a>]</span>, the CCA indication is an assertion made
+by one party (the transmitter) on which a different party (the
+receiver, and the flow it carries) depends. Three properties make such
+an assertion meaningful to its consumer: it is <em>consumer-relative</em>
+(graded against the receiver's condition, not the transmitter's
+sensing), <em>witnessed</em> (graded against evidence independent of the
+asserting party), and <em>calibrated</em> (carrying a measured error rate
+with known provenance rather than an assumed one). The hidden-node
+case is precisely the gap between transmitter-relative sensing and
+receiver-relative truth; the exposed-node case is the availability
+analogue. This document instantiates that framing for exactly one
+assertion -- CCA idle -- and otherwise leaves the general program to
+<span>[<a href="#OT" class="cite xref">OT</a>]</span> and <span>[<a href="#VACUITY" class="cite xref">VACUITY</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="model">
+<section id="section-4">
+      <h2 id="name-measurement-model">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-measurement-model" class="section-name selfRef">Measurement Model</a>
+      </h2>
+<div id="separation-of-concerns">
+<section id="section-4.1">
+        <h3 id="name-separation-of-concerns">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-separation-of-concerns" class="section-name selfRef">Separation of Concerns</a>
+        </h3>
+<p id="section-4.1-1">An experiment conformant with this document records, for every
+transmission opportunity, four separate facts:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.1-2">
+<li id="section-4.1-2.1">
+            <p id="section-4.1-2.1.1">the <strong>access method</strong> in effect (<code>basic</code> or <code>rts-cts</code>);<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.1-2.2">
+            <p id="section-4.1-2.2.1">the <strong>CCA observation</strong> (idle or busy) and its configuration;<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.1-2.3">
+            <p id="section-4.1-2.3.1">the <strong>consumer outcome</strong> (<a href="#outcomes" class="auto internal xref">Section 4.3</a>);<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.1-2.4">
+            <p id="section-4.1-2.4.1">the <strong>outcome witness</strong> evidence used, and what it shows about
+interferer overlap.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-4.1-3">Conflating these was the central defect of draft -00: an RTS/CTS
+exchange is part of the access <em>treatment</em> (it changes other
+stations' behavior via the NAV), not an independent witness of the
+data transmission's outcome; a received ACK or Block Ack evidences
+reception, but a <em>missing</em> ACK does not distinguish collision, fading,
+rate mismatch, receiver failure, ACK loss, or implementation error;
+and an IQ capture establishes overlapping energy, not causation.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="consumer-footprint">
+<section id="section-4.2">
+        <h3 id="name-consumer-footprint">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-consumer-footprint" class="section-name selfRef">Consumer Footprint</a>
+        </h3>
+<p id="section-4.2-1">The experiment <span class="bcp14">MUST</span> declare the consumer footprint. Results <span class="bcp14">MUST</span> be
+reported per footprint element together with the aggregation rule and
+weighting used for any aggregate (<a href="#infomodel" class="auto internal xref">Section 7</a>); a single
+device-global number without a declared footprint is not a
+receiver-relative result and <span class="bcp14">MUST NOT</span> be presented as one.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="outcomes">
+<section id="section-4.3">
+        <h3 id="name-outcome-taxonomy">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-outcome-taxonomy" class="section-name selfRef">Outcome Taxonomy</a>
+        </h3>
+<p id="section-4.3-1">Every opportunity <span class="bcp14">MUST</span> be classified into exactly one consumer
+outcome:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.3-2.1">
+            <p id="section-4.3-2.1.1"><code>complete-success</code>: all MPDUs of the PPDU acknowledged;<a href="#section-4.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.2">
+            <p id="section-4.3-2.2.1"><code>partial-success</code>: a proper subset of an A-MPDU's MPDUs
+acknowledged (the Block Ack bitmap is recorded; the delivered and
+total MPDU counts are reported);<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.3">
+            <p id="section-4.3-2.3.1"><code>decode-failure</code>: no MPDU acknowledged and the witness establishes
+the receiver did not deliver the frame(s);<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.4">
+            <p id="section-4.3-2.4.1"><code>indeterminate</code>: the outcome cannot be established from the
+declared witness (for example, the ACK itself may have been lost).<a href="#section-4.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-4.3-3"><code>indeterminate</code> opportunities <span class="bcp14">MUST</span> be counted and reported, not
+discarded. Rate estimates <span class="bcp14">MUST</span> be accompanied by a sensitivity bound
+computed with indeterminate outcomes counted first as losses and then
+as successes.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">For rate computation, a <code>partial-success</code> PPDU contributes its lost
+MPDUs to the loss numerator only if per-MPDU overlap evidence is
+available; otherwise the experiment <span class="bcp14">MUST</span> declare, in the plan, whether
+partial successes are graded at PPDU or MPDU granularity, and report
+both counts.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="witness">
+<section id="section-4.4">
+        <h3 id="name-witness-requirements">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-witness-requirements" class="section-name selfRef">Witness Requirements</a>
+        </h3>
+<p id="section-4.4-1">The experiment <span class="bcp14">MUST</span> declare the outcome witness and <span class="bcp14">MUST</span> justify its
+independence from the transmitter's own sensing. For each witness
+class:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.4-2.1">
+            <p id="section-4.4-2.1.1"><code>receiver-trace</code>: the receiver's per-MPDU decode log. Establishes
+the consumer outcome directly; establishes overlap only if the
+receiver also records PHY-level indications, which <span class="bcp14">MUST</span> then be
+described.<a href="#section-4.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-2.2">
+            <p id="section-4.4-2.2.1"><code>ack-evidence</code>: ACK/Block Ack reception at the transmitter.
+Establishes success; on its own it CANNOT establish the cause of a
+failure and an experiment using it alone <span class="bcp14">MUST</span> classify unexplained
+failures as <code>indeterminate</code> or <code>decode-failure</code> without overlap
+attribution, never as interferer-overlap losses.<a href="#section-4.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-2.3">
+            <p id="section-4.4-2.3.1"><code>iq-capture</code>: a synchronized IQ recording at or adjacent to the
+receiver. Establishes overlap; establishes the consumer outcome
+only in combination with a receiver trace or ACK evidence.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-2.4">
+            <p id="section-4.4-2.4.1"><code>compound</code>: a declared combination (for example receiver-trace +
+iq-capture, the reference design of <a href="#sketch" class="auto internal xref">Appendix B</a>).<a href="#section-4.4-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-4.4-3">For any witness the report <span class="bcp14">MUST</span> include: the witness source and
+physical placement relative to the receiver; the overlap classifier
+and its version; the synchronization method between witness and
+transmitter timelines; and the measured or bounded timing error.
+The witness classifier's detection performance <span class="bcp14">MUST</span> be checked by
+manipulation checks using injected calibration events (interferer
+transmissions at known times), and the measured detection and
+false-detection rates <span class="bcp14">MUST</span> be reported (<a href="#infomodel" class="auto internal xref">Section 7</a>).<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="attribution">
+<section id="section-4.5">
+        <h3 id="name-rate-definition-and-attribu">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-rate-definition-and-attribu" class="section-name selfRef">Rate Definition and Attribution</a>
+        </h3>
+<p id="section-4.5-1">The primary observable is:<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.5-2">
+<pre>
+IOLR = N(CCA idle AND attempted AND loss AND witnessed overlap)
+       / N(CCA idle AND attempted)
+</pre><a href="#section-4.5-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5-3">per footprint element, access method, and interval.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.5-4">Overlap is not causation: capture effect can deliver a frame despite
+overlap, and a loss can coincide with overlap yet be caused by fading
+or rate mismatch. An experiment <span class="bcp14">MAY</span> describe its IOLR as a
+<em>false-idle rate</em> only when its design identifies causation, at
+minimum: (a) a controlled interferer whose transmission schedule is
+known and manipulable; (b) a link-sanity manipulation check showing
+the same link delivers at or above a declared success rate when the
+interferer is silenced; and (c) an overlap classifier validated per
+<a href="#witness" class="auto internal xref">Section 4.4</a>. Reports of designs not meeting these conditions <span class="bcp14">MUST</span> use
+the neutral term IOLR.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="registration">
+<section id="section-4.6">
+        <h3 id="name-registration-first-discipli">
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-registration-first-discipli" class="section-name selfRef">Registration-First Discipline</a>
+        </h3>
+<p id="section-4.6-1">To carry evidential weight, an experiment <span class="bcp14">SHOULD</span> commit, before the
+measurement is run and in an immutable, third-party-verifiable form:
+(a) the analysis plan including thresholds and estimators, (b) the
+manipulation checks and their bars, and (c) the handling of
+indeterminate outcomes. Every outcome, including a negative result,
+<span class="bcp14">SHOULD</span> be retained and reported. An experiment that adjusts
+thresholds after seeing results, or discards runs, <span class="bcp14">MUST</span> disclose
+this; such results do not carry the evidential weight this
+methodology is designed to confer. The provenance fields of the CMR
+(<a href="#infomodel" class="auto internal xref">Section 7</a>) carry the plan URI, plan digest, commitment time, and
+result digest.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="comparative">
+<section id="section-5">
+      <h2 id="name-comparative-procedure-basic">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-comparative-procedure-basic" class="section-name selfRef">Comparative Procedure: Basic Access versus RTS/CTS</a>
+      </h2>
+<p id="section-5-1">A claim that RTS/CTS access reduces the IOLR for a footprint relative
+to basic access <span class="bcp14">MUST</span> be produced by the following procedure.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="treatment-assignment">
+<section id="section-5.1">
+        <h3 id="name-treatment-assignment">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-treatment-assignment" class="section-name selfRef">Treatment Assignment</a>
+        </h3>
+<p id="section-5.1-1">Basic and RTS/CTS access cannot be applied to the same opportunity,
+and channel conditions are correlated over time. The experiment <span class="bcp14">MUST</span>
+therefore assign access method by randomized interleaving: either
+per-opportunity randomization or randomized blocks with a declared,
+pre-registered block length. Alternating fixed schedules ("same
+footprint and interval") do NOT satisfy this requirement.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="held-constant-conditions">
+<section id="section-5.2">
+        <h3 id="name-held-constant-conditions">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-held-constant-conditions" class="section-name selfRef">Held-Constant Conditions</a>
+        </h3>
+<p id="section-5.2-1">Traffic generation rules, interferer generation rules, PHY
+configuration, and CCA configuration <span class="bcp14">MUST</span> be identical across
+treatments, and <span class="bcp14">MUST</span> be recorded in the report context
+(<a href="#infomodel" class="auto internal xref">Section 7</a>).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="interferer-requirements">
+<section id="section-5.3">
+        <h3 id="name-interferer-requirements">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-interferer-requirements" class="section-name selfRef">Interferer Requirements</a>
+        </h3>
+<p id="section-5.3-1">If the interferer does not decode CTS and honor the NAV, RTS/CTS
+cannot causally reduce interference and the comparison is void by
+construction. For the comparative claim the interferer <span class="bcp14">MUST</span> be a MAC
+participant: it <span class="bcp14">MUST</span> decode the receiver's CTS and defer per the NAV.
+A scheduled burst generator that ignores CTS <span class="bcp14">MAY</span> be used only for the
+single-arm IOLR measurement of <a href="#model" class="auto internal xref">Section 4</a>, and this <span class="bcp14">MUST</span> be disclosed.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="statistics">
+<section id="section-5.4">
+        <h3 id="name-statistics">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-statistics" class="section-name selfRef">Statistics</a>
+        </h3>
+<p id="section-5.4-1">The comparative estimand is the difference (or ratio) of the two
+IOLRs. The experiment <span class="bcp14">MUST</span>:<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4-2.1">
+            <p id="section-5.4-2.1.1">compute a confidence interval for the difference or ratio directly,
+not merely separate intervals per arm;<a href="#section-5.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-2.2">
+            <p id="section-5.4-2.2.1">declare the clustering unit (RF run, interference burst, or time
+block) and use an interval method valid under that clustering --
+block bootstrap, run-level resampling, or cluster-robust variance.
+A Wilson interval on per-opportunity counts is acceptable ONLY with
+a demonstrated justification of independence, which bursty
+interference generally defeats;<a href="#section-5.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-2.3">
+            <p id="section-5.4-2.3.1">report the number of clusters and opportunities per arm;<a href="#section-5.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-2.4">
+            <p id="section-5.4-2.4.1">state how indeterminate outcomes were handled in the comparison,
+with the sensitivity bounds of <a href="#outcomes" class="auto internal xref">Section 4.3</a>;<a href="#section-5.4-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.4-2.5">
+            <p id="section-5.4-2.5.1">report the manipulation checks of <a href="#model" class="auto internal xref">Section 4</a> and, additionally, a
+check that the randomization produced comparable interferer
+exposure across arms.<a href="#section-5.4-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="false-alarm">
+<section id="section-6">
+      <h2 id="name-active-false-alarm-procedur">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-active-false-alarm-procedur" class="section-name selfRef">Active False-Alarm Procedure (Optional)</a>
+      </h2>
+<p id="section-6-1">When CCA reports busy, no frame is sent; whether the transmission
+<em>would have</em> succeeded is a counterfactual that passive observation
+cannot establish. Measuring the false-alarm (exposed-node) direction
+therefore requires an intervention: transmitting on a controlled
+subset of busy indications under conditions that bound the harm, or a
+disclosed counterfactual model.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This procedure is <span class="bcp14">OPTIONAL</span> and is NOT required for conformance with
+<a href="#model" class="auto internal xref">Section 4</a> or <a href="#comparative" class="auto internal xref">Section 5</a>. An experiment implementing it <span class="bcp14">MUST</span>:
+randomize the override decision within declared safety bounds; grade
+outcomes with the same witness discipline as <a href="#model" class="auto internal xref">Section 4</a>; report the
+override rate and its selection rule; and hold a regulatory posture
+appropriate to deliberate transmission during busy indications (a
+conducted, cabled environment is <span class="bcp14">RECOMMENDED</span>). Reports <span class="bcp14">MUST</span> keep
+false-alarm estimates in fields distinct from IOLR fields, with their
+own denominators (<a href="#infomodel" class="auto internal xref">Section 7</a>); the two rates have different
+denominators and <span class="bcp14">MUST NOT</span> be pooled.<a href="#section-6-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="infomodel">
+<section id="section-7">
+      <h2 id="name-cca-measurement-report-info">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-cca-measurement-report-info" class="section-name selfRef">CCA Measurement Report Information Model</a>
+      </h2>
+<p id="section-7-1">This section defines an information model: named fields, their
+semantics, and presence requirements. It deliberately does not select
+an encoding (JSON, CBOR, YANG) or transport; interoperable exchange
+requires a future companion document binding this model to a concrete
+schema. The example in <a href="#example" class="auto internal xref">Section 7.2</a> is illustrative pseudo-JSON, not a
+wire format.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div id="report-structure">
+<section id="section-7.1">
+        <h3 id="name-report-structure">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-report-structure" class="section-name selfRef">Report Structure</a>
+        </h3>
+<p id="section-7.1-1">A CMR consists of the following groups. Fields are <span class="bcp14">REQUIRED</span> unless
+marked optional.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-7.1-2">
+          <dt id="section-7.1-2.1">
+<code>schema</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.2">
+            <p id="section-7.1-2.2.1"><code>name</code> (fixed: <code>cca-measurement-report</code>) and <code>version</code> (this model:
+<code>1</code>). A consumer <span class="bcp14">MUST NOT</span> interpret a report whose <code>schema.version</code>
+it does not implement.<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.3">
+<code>profile</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.4">
+            <p id="section-7.1-2.4.1">The measurement profile and its version. This document defines
+profile <code>cca-iolr/1</code> (<a href="#model" class="auto internal xref">Section 4</a>), <code>cca-comparative/1</code>
+(<a href="#comparative" class="auto internal xref">Section 5</a>), and <code>cca-false-alarm/1</code> (<a href="#false-alarm" class="auto internal xref">Section 6</a>).<a href="#section-7.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.5">
+<code>subject</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.6">
+            <p id="section-7.1-2.6.1">The measured entity: transmitter identifier and link (transmitter,
+receiver, BSS). Identifiers <span class="bcp14">SHOULD</span> be stable pseudonyms
+(<a href="#security" class="auto internal xref">Section 10</a>).<a href="#section-7.1-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.7">
+<code>producer</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.8">
+            <p id="section-7.1-2.8.1">The entity that produced the report, when distinct from the
+subject (for example an offline grader). Distinguishing the
+measured subject from the report producer is <span class="bcp14">REQUIRED</span> whenever they
+differ.<a href="#section-7.1-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.9">
+<code>access-method</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.10">
+            <p id="section-7.1-2.10.1"><code>basic</code> or <code>rts-cts</code>; for profile <code>cca-comparative/1</code>, both arms
+appear with per-arm counts.<a href="#section-7.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.11">
+<code>consumer-scope</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.12">
+            <p id="section-7.1-2.12.1">The footprint: receiver identifier(s), TID(s) or access
+categories, the aggregation rule for any pooled figures, and the
+weighting (for example opportunity-weighted).<a href="#section-7.1-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.13">
+<code>witness</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.14">
+            <p id="section-7.1-2.14.1">Source (<code>receiver-trace</code>, <code>ack-evidence</code>, <code>iq-capture</code>,
+<code>compound</code>), placement relative to the receiver, synchronization
+method, measured timing-error bound, and for overlap classifiers:
+classifier identifier, version, and measured detection /
+false-detection rates from calibration events (<a href="#witness" class="auto internal xref">Section 4.4</a>).<a href="#section-7.1-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.15">
+<code>counts</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.16">
+            <p id="section-7.1-2.16.1">Per footprint element and access method: <code>eligible</code>, <code>cca-idle</code>,
+<code>cca-busy</code>, <code>attempted</code>, <code>complete-success</code>, <code>partial-success</code>
+(with delivered/total MPDU counts), <code>overlap-loss</code>, <code>other-loss</code>,
+<code>indeterminate</code>. False-alarm profiles add <code>override-attempted</code> and
+its outcome counts under a distinct group, preserving the separate
+denominators.<a href="#section-7.1-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.17">
+<code>estimates</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.18">
+            <p id="section-7.1-2.18.1">For each reported rate: <code>value</code>, <code>ci-low</code>, <code>ci-high</code>, <code>ci-level</code>
+(for example 0.95), <code>estimator</code> (for example <code>block-bootstrap</code>),
+<code>clustering-unit</code>, <code>assumptions</code> (free text, <span class="bcp14">REQUIRED</span>), and the
+sensitivity bounds for indeterminate handling (<a href="#outcomes" class="auto internal xref">Section 4.3</a>). For
+profile <code>cca-comparative/1</code>, the difference or ratio estimate with
+its own interval is <span class="bcp14">REQUIRED</span>.<a href="#section-7.1-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.19">
+<code>context</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.20">
+            <p id="section-7.1-2.20.1">Channel, bandwidth, PHY, MCS or rate-control setting, transmit
+powers, CCA thresholds (energy detect and preamble detect), retry
+limit, aggregation settings, topology reference (for a conducted
+bench: the attenuation network), and software/firmware versions of
+every measurement component.<a href="#section-7.1-2.20.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.21">
+<code>interval</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.22">
+            <p id="section-7.1-2.22.1">Measurement start and end times and the time source.<a href="#section-7.1-2.22.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.23">
+<code>max-age</code> (optional):</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.24">
+            <p id="section-7.1-2.24.1">A duration after which the producer advises the report no longer
+be treated as current. (This replaces the -00 field
+<code>refresh-floor</code>; a validity duration is advisory metadata, not a
+measured quantity.)<a href="#section-7.1-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.25">
+<code>provenance</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.26">
+            <p id="section-7.1-2.26.1"><code>plan-uri</code> (immutable URI of the registered plan), <code>plan-digest</code>
+(cryptographic digest of the plan), <code>commit-time</code>, and
+<code>result-digest</code> (digest of the raw result artifact). A bare
+assertion of registration without these fields carries no weight
+and <span class="bcp14">MUST NOT</span> be emitted in their place.<a href="#section-7.1-2.26.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.27">
+<code>extensions</code> (optional):</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.28">
+            <p id="section-7.1-2.28.1">A container for implementation-specific members. Consumers <span class="bcp14">MUST</span>
+ignore unrecognized members inside <code>extensions</code> and <span class="bcp14">MUST NOT</span>
+ignore unrecognized members elsewhere; a report with unrecognized
+members outside <code>extensions</code> is malformed under this model.<a href="#section-7.1-2.28.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="example">
+<section id="section-7.2">
+        <h3 id="name-example-illustrative-only">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-example-illustrative-only" class="section-name selfRef">Example (Illustrative Only)</a>
+        </h3>
+<div class="alignLeft art-text artwork" id="section-7.2-1">
+<pre>
+{
+  "schema": { "name": "cca-measurement-report", "version": "1" },
+  "profile": { "id": "cca-comparative", "version": "1" },
+  "subject": { "tx": "sta-anon-12", "rx": "sta-anon-7",
+               "bss": "bss-anon-3" },
+  "producer": { "id": "grader-bench-1" },
+  "consumer-scope": { "receivers": ["sta-anon-7"],
+                      "tids": [0, 5],
+                      "aggregation": "per-tid",
+                      "weighting": "opportunity-weighted" },
+  "witness": { "source": "compound",
+               "components": ["receiver-trace", "iq-capture"],
+               "placement": "rx-port-conducted-tap",
+               "sync-method": "shared-10mhz-pps",
+               "timing-error-bound-us": 1.0,
+               "classifier": { "id": "overlap-xcorr", "version":
+                 "0.3", "detection-rate": 0.98,
+                 "false-detection-rate": 0.01 } },
+  "counts": { "basic":   { "eligible": 24011, "cca-idle": 20110,
+                "cca-busy": 3901, "attempted": 20110,
+                "complete-success": 16221, "partial-success": 1120,
+                "overlap-loss": 2410, "other-loss": 201,
+                "indeterminate": 158 },
+              "rts-cts": { "eligible": 23987, "cca-idle": 20066,
+                "cca-busy": 3921, "attempted": 20066,
+                "complete-success": 18804, "partial-success": 704,
+                "overlap-loss": 322, "other-loss": 196,
+                "indeterminate": 40 } },
+  "estimates": { "iolr-basic": { "value": 0.120, "ci-low": 0.101,
+                   "ci-high": 0.141, "ci-level": 0.95,
+                   "estimator": "block-bootstrap",
+                   "clustering-unit": "interference-burst",
+                   "assumptions": "bursty interferer; 412 bursts" },
+                 "iolr-rts-cts": { "value": 0.016, "ci-low": 0.011,
+                   "ci-high": 0.023, "ci-level": 0.95,
+                   "estimator": "block-bootstrap",
+                   "clustering-unit": "interference-burst",
+                   "assumptions": "as above" },
+                 "difference": { "value": 0.104, "ci-low": 0.083,
+                   "ci-high": 0.125, "ci-level": 0.95,
+                   "estimator": "block-bootstrap",
+                   "clustering-unit": "interference-burst",
+                   "assumptions": "paired within block" } },
+  "context": { "channel": 6, "bandwidth-mhz": 20, "phy": "erp-ofdm",
+               "mcs": "12mbps", "tx-power-dbm": -30,
+               "cca-ed-dbm": -62, "cca-pd-dbm": -82,
+               "retry-limit": 4, "ampdu": false,
+               "topology": "conducted-triangle-rev2",
+               "versions": { "platform": "openwifi-x.y",
+                             "grader": "cca-grader-0.4" } },
+  "interval": { "start": "2026-09-01T18:00:00Z",
+                "end": "2026-09-01T19:00:00Z",
+                "time-source": "gps-pps" },
+  "provenance": { "plan-uri":
+      "https://example.org/prereg/PREREG-CCA-001/immutable",
+      "plan-digest": "sha256:...", "commit-time":
+      "2026-08-30T12:00:00Z", "result-digest": "sha256:..." }
+}
+</pre><a href="#section-7.2-1" class="pilcrow">¶</a>
+</div>
+<p id="section-7.2-2">All numeric values above are ILLUSTRATIVE. This document defines how
+to measure and express such a report; it does not report a measured
+rate for any deployment, and no conformant experiment has yet been
+run (<a href="#status" class="auto internal xref">Section 8</a>).<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="status">
+<section id="section-8">
+      <h2 id="name-implementation-status">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
+      </h2>
+<p id="section-8-1">(This section follows the spirit of <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span> and is to be removed
+before any publication as an RFC.)<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">No implementation of this methodology exists at the time of writing,
+and no conformant experiment has been run. All numeric examples in
+this document are illustrative.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">Platform assessment for the reference experiment (<a href="#sketch" class="auto internal xref">Appendix B</a>):<a href="#section-8-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8-4.1">
+          <p id="section-8-4.1.1"><code>gr-ieee802-11</code> (GNU Radio 802.11a/g/p transceiver) is NOT suitable
+for the comparative procedure: its upstream documentation states
+that it implements no CSMA/CA mechanism and that RTS/CTS does not
+work within its timing constraints. It is therefore also unable to
+provide the logged per-opportunity CCA decisions this methodology
+requires of the device under test.<a href="#section-8-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-4.2">
+          <p id="section-8-4.2.1">OpenWiFi (FPGA-based SDR 802.11 stack) is the current candidate
+substrate: it exposes DCF/CSMA-CA in the FPGA, CCA threshold
+configuration, NAV handling, ACK generation, and IQ access. It is
+a candidate, not a validated platform: its RTS/CTS behavior and
+per-opportunity CCA logging have not yet been demonstrated against
+the requirements of this document.<a href="#section-8-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-4.3">
+          <p id="section-8-4.3.1">The interferer for the comparative procedure must itself be a MAC
+participant (<a href="#comparative" class="auto internal xref">Section 5</a>); a scheduled burst generator does not
+qualify.<a href="#section-8-4.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="ieee">
+<section id="section-9">
+      <h2 id="name-relationship-to-ieee-80211">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-relationship-to-ieee-80211" class="section-name selfRef">Relationship to IEEE 802.11</a>
+      </h2>
+<p id="section-9-1">IEEE 802.11 <span>[<a href="#IEEE802.11" class="cite xref">IEEE802.11</a>]</span> is the normative authority for the PHY and
+MAC behavior discussed here, including CCA, the NAV, RTS/CTS, and
+channel access generally. This document defines neither new on-air
+behavior nor new MAC frames. It offers a measurement vocabulary, a
+measurement methodology, and a report information model, so that the
+receiver-relative error rate of unmodified 802.11 CCA can be measured
+and compared on a common basis. Its intended contribution to IEEE
+work is that vocabulary and those measurements, not a MAC change.<a href="#section-9-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security">
+<section id="section-10">
+      <h2 id="name-security-considerations">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-10-1">A CMR is measurement telemetry about a deployment; it is not a
+cryptographic certificate and carries no intrinsic authentication.
+The following considerations apply.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-10-2">
+        <dt id="section-10-2.1">Producer authentication and authorization:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.2">
+          <p id="section-10-2.2.1">A consumer acting on CMRs <span class="bcp14">MUST</span> be able to authenticate the producer
+and decide whether it is authorized to describe the claimed
+subject. This document does not define the mechanism; deployments
+<span class="bcp14">MUST</span> protect CMRs with the authentication and integrity mechanisms
+of their telemetry transport, or detached signatures.<a href="#section-10-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.3">Tampering, replay, and rollback:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.4">
+          <p id="section-10-2.4.1">An attacker who can modify, replay, or re-present old reports can
+misrepresent current conditions. The <code>interval</code>, <code>provenance</code>
+digests, and transport integrity together allow a consumer to
+detect stale or altered reports; consumers <span class="bcp14">SHOULD</span> reject reports
+older than <code>max-age</code> and <span class="bcp14">SHOULD</span> verify <code>result-digest</code> against the
+artifact when acting on a report.<a href="#section-10-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.5">Clock manipulation:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.6">
+          <p id="section-10-2.6.1">Both the witness alignment (<a href="#witness" class="auto internal xref">Section 4.4</a>) and replay detection
+depend on time. The time source <span class="bcp14">MUST</span> be reported; a consumer
+<span class="bcp14">SHOULD</span> treat reports with unverifiable synchronization claims as
+unwitnessed.<a href="#section-10-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.7">Witness compromise:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.8">
+          <p id="section-10-2.8.1">The report's value rests on its witness. A forged or misplaced
+witness (for example, a capture at the transmitter presented as
+receiver-adjacent) reintroduces the transmitter-relativity the
+method exists to remove. Placement, classifier version, and
+calibration performance are <span class="bcp14">REQUIRED</span> fields for this reason;
+experiments <span class="bcp14">SHOULD</span> prefer witness components that an adversary in
+the measured environment cannot spoof.<a href="#section-10-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.9">Linkability and privacy:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.10">
+          <p id="section-10-2.10.1">Per-TID footprints reveal which traffic classes a station carries
+and how well they are delivered. Subject and receiver identifiers
+<span class="bcp14">SHOULD</span> be stable pseudonyms scoped to the measurement context;
+footprint granularity <span class="bcp14">SHOULD</span> be minimized to what the experiment
+requires; and emitted reports <span class="bcp14">SHOULD</span> receive the deployment's
+normal telemetry confidentiality protections.<a href="#section-10-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.11">Induced overhead:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.12">
+          <p id="section-10-2.12.1">Mechanisms that actuate on measured rates (for example enabling
+RTS/CTS more aggressively) consume airtime. Actuation is out of
+scope here, but a consumer that actuates on CMRs <span class="bcp14">SHOULD</span> bound the
+overhead an adversarially inflated rate could induce, and <span class="bcp14">SHOULD</span>
+weigh reports by their provenance (<a href="#registration" class="auto internal xref">Section 4.6</a>).<a href="#section-10-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-11">
+      <h2 id="name-iana-considerations">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-11-1">This document has no IANA actions.<a href="#section-11-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-12">
+      <h2 id="name-references">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-12.1">
+        <h3 id="name-normative-references">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-12.2">
+        <h3 id="name-informative-references">
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="BIANCHI">[BIANCHI]</dt>
+        <dd>
+<span class="refAuthor">Bianchi, G.</span>, <span class="refTitle">"Performance Analysis of the IEEE 802.11 Distributed Coordination Function"</span>, <span class="seriesInfo">IEEE Journal on Selected Areas in Communications vol. 18, no. 3, pp. 535-547</span>, <span class="seriesInfo">DOI 10.1109/49.840210</span>, <time datetime="2000" class="refDate">2000</time>, <span>&lt;<a href="https://doi.org/10.1109/49.840210">https://doi.org/10.1109/49.840210</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IEEE802.11">[IEEE802.11]</dt>
+        <dd>
+<span class="refAuthor">IEEE</span>, <span class="refTitle">"IEEE Standard for Information Technology--Telecommunications and Information Exchange between Systems--Local and Metropolitan Area Networks--Specific Requirements--Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications"</span>, <span class="seriesInfo">IEEE Std 802.11-2024</span>, <time datetime="2024" class="refDate">2024</time>, <span>&lt;<a href="https://standards.ieee.org/ieee/802.11/7028/">https://standards.ieee.org/ieee/802.11/7028/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MACA">[MACA]</dt>
+        <dd>
+<span class="refAuthor">Karn, P.</span>, <span class="refTitle">"MACA - A New Channel Access Method for Packet Radio"</span>, <span class="seriesInfo">ARRL/CRRL Amateur Radio 9th Computer Networking Conference pp. 134-140</span>, <time datetime="1990" class="refDate">1990</time>. </dd>
+<dd class="break"></dd>
+<dt id="MACAW">[MACAW]</dt>
+        <dd>
+<span class="refAuthor">Bharghavan, V.</span>, <span class="refAuthor">Demers, A.</span>, <span class="refAuthor">Shenker, S.</span>, and <span class="refAuthor">L. Zhang</span>, <span class="refTitle">"MACAW: A Media Access Protocol for Wireless LAN's"</span>, <span class="seriesInfo">Proc. ACM SIGCOMM 1994 pp. 212-225</span>, <span class="seriesInfo">DOI 10.1145/190314.190334</span>, <time datetime="1994" class="refDate">1994</time>, <span>&lt;<a href="https://doi.org/10.1145/190314.190334">https://doi.org/10.1145/190314.190334</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="OT">[OT]</dt>
+        <dd>
+<span class="refAuthor">Bond, A. H.</span>, <span class="refTitle">"Observation Theory for Estimation and Control: Consumer-Induced Geometry as a Complement to Observability, Filtering, and Feedback"</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://github.com/ahb-sjsu/geometric-observation/blob/38c682571f8345a6bffe6a29699e4d307988609d/paper/ot-estimation-control.pdf">https://github.com/ahb-sjsu/geometric-observation/blob/38c682571f8345a6bffe6a29699e4d307988609d/paper/ot-estimation-control.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7942">[RFC7942]</dt>
+        <dd>
+<span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7942">https://www.rfc-editor.org/rfc/rfc7942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="VACUITY">[VACUITY]</dt>
+      <dd>
+<span class="refAuthor">Bond, A. H.</span>, <span class="refTitle">"The Vacuity of 'Fresh': A Survey of Replication and Consistency Schemes through the Consumer-Relative Witnessed Certificate"</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://github.com/ahb-sjsu/geometric-observation/blob/e8edc78c9b1302b3787a069152a60b0e871a5239/docs/replication-vacuity-survey.md">https://github.com/ahb-sjsu/geometric-observation/blob/e8edc78c9b1302b3787a069152a60b0e871a5239/docs/replication-vacuity-survey.md</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="profiles">
+<section id="appendix-A">
+      <h2 id="name-candidate-future-measuremen">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-candidate-future-measuremen" class="section-name selfRef">Candidate Future Measurement Profiles (Informative)</a>
+      </h2>
+<p id="appendix-A-1">Draft -00 of this document enumerated NAV expiry, rate selection,
+spatial reuse, and roaming triggers alongside CCA. They are removed
+from the normative scope because they do not share CCA's event unit,
+witness availability, or validity model:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-2.1">
+          <p id="appendix-A-2.1.1">NAV expiry: an expired NAV means the station has no currently known
+virtual-carrier-sense reservation, not that no reservation exists;
+grading it requires global on-air state that a single monitor does
+not establish.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.2">
+          <p id="appendix-A-2.2.1">Rate selection: IEEE 802.11 defines rates, MCSs, and signaling, not
+a rate-selection algorithm; the "assertion" being graded is an
+implementation choice and differs per vendor.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.3">
+          <p id="appendix-A-2.3.1">Spatial reuse: the reuse condition is more conditional than "will
+not harm the overlapping BSS", and the affected consumers are in
+another BSS, complicating both footprint and witness.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.4">
+          <p id="appendix-A-2.4.1">Roaming triggers: policy is implementation- and
+deployment-specific, and the event unit (a roam decision) is rare
+and confounded.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-3">Each could become a measurement profile with its own event unit,
+witness, and validity analysis; none is defined here.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sketch">
+<section id="appendix-B">
+      <h2 id="name-conducted-hidden-node-exper">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-conducted-hidden-node-exper" class="section-name selfRef">Conducted Hidden-Node Experiment Sketch (Informative)</a>
+      </h2>
+<p id="appendix-B-1">The reference experiment is a conducted (cabled) hidden-node
+triangle: transmitter A, interferer C, receiver Rx, and a witness tap
+W at the Rx port. Attenuators set the defining relationship -- A
+cannot sense C (A's CCA reads idle while C transmits) but C's signal
+reaches Rx at colliding level. A conducted bench removes over-the-air
+regulatory exposure, makes the hidden relationship a set quantity,
+and is reproducible; over-the-air replication is external-validity
+work, not the first experiment.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">Requirements flowing from the normative sections: A and Rx must be a
+platform exposing per-opportunity CCA decisions and RTS/CTS operation
+(see <a href="#status" class="auto internal xref">Section 8</a> for the platform assessment); C must be a MAC
+participant that decodes CTS and honors the NAV for the comparative
+arm; W must be synchronized to the transmitter timeline with a
+reported timing-error bound, and its overlap classifier calibrated
+with injected events; treatment assignment must be randomized
+interleaving; and the plan, bars, and manipulation checks must be
+registered immutably before the run, with an unsealed feasibility
+shakedown first. This experiment has not been run (<a href="#status" class="auto internal xref">Section 8</a>).<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="changes">
+<section id="appendix-C">
+      <h2 id="name-changes-from-draft-bond-ot8">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-changes-from-draft-bond-ot8" class="section-name selfRef">Changes from draft-bond-ot80211-freshness-00</a>
+      </h2>
+<p id="appendix-C-1">(To be removed before publication.)<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-C-2.1">
+          <p id="appendix-C-2.1.1">Narrowed normative scope to CCA measurement and the basic-access
+versus RTS/CTS comparison; NAV, rate selection, spatial reuse, and
+roaming moved to <a href="#profiles" class="auto internal xref">Appendix A</a> with the reasons they are harder.<a href="#appendix-C-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.2">
+          <p id="appendix-C-2.2.1">Separated access method, CCA observation, consumer outcome, and
+outcome witness; retitled the document accordingly.<a href="#appendix-C-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.3">
+          <p id="appendix-C-2.3.1">Replaced "false-clear rate attributable to the condition" with the
+neutral interferer-overlap loss rate and an explicit attribution
+bar (<a href="#attribution" class="auto internal xref">Section 4.5</a>); "CCA-alone" replaced by "basic access".<a href="#appendix-C-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.4">
+          <p id="appendix-C-2.4.1">Defined the atomic transmission opportunity, the outcome taxonomy
+including partial Block Ack and indeterminate outcomes, and their
+handling in estimates.<a href="#appendix-C-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.5">
+          <p id="appendix-C-2.5.1">Moved false-alarm measurement to a separate <span class="bcp14">OPTIONAL</span> active
+procedure with its own denominators; passive experiments are no
+longer required to report it.<a href="#appendix-C-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.6">
+          <p id="appendix-C-2.6.1">Replaced the "Freshness Certificate" format with the CCA
+Measurement Report information model: schema/versioning,
+subject/producer split, witness classifier and synchronization
+fields, full count vector with distinct denominators, estimator
+and clustering fields, context, <code>max-age</code> (was <code>refresh-floor</code>),
+and digest-based provenance; removed the claim of wire
+interoperability.<a href="#appendix-C-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.7">
+          <p id="appendix-C-2.7.1">Added the comparative-procedure statistics requirements
+(randomized interleaving, direct interval on the difference,
+declared clustering, indeterminate sensitivity bounds) and the
+MAC-participant interferer requirement.<a href="#appendix-C-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.8">
+          <p id="appendix-C-2.8.1">Added an Implementation Status section recording that no
+experiment has been run and that <code>gr-ieee802-11</code> cannot support
+the required behavior; OpenWiFi is the unvalidated candidate.<a href="#appendix-C-2.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.9">
+          <p id="appendix-C-2.9.1">Rewrote Security Considerations (producer authentication,
+tampering/replay/rollback, clock manipulation, witness compromise,
+linkability, induced overhead).<a href="#appendix-C-2.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-2.10">
+          <p id="appendix-C-2.10.1">Updated the IEEE reference to Std 802.11-2024; fixed internal
+cross-references; removed the duplicated BCP 14 paragraph; "no
+IANA actions"; archival citations pinned (MACA, MACAW, BIANCHI
+publication data; <span>[<a href="#OT" class="cite xref">OT</a>]</span> title corrected; <span>[<a href="#VACUITY" class="cite xref">VACUITY</a>]</span> pinned to an
+immutable commit).<a href="#appendix-C-2.10.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="acknowledgements">
+<section id="appendix-D">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-D-1">This work applies the consumer-relative, witnessed, calibrated
+framing of Observation Theory <span>[<a href="#OT" class="cite xref">OT</a>]</span> and the cross-substrate survey
+<span>[<a href="#VACUITY" class="cite xref">VACUITY</a>]</span> to IEEE 802.11 channel access. It takes the hidden- and
+exposed-node framing from the MACA/MACAW line of work <span>[<a href="#MACA" class="cite xref">MACA</a>]</span>
+        <span>[<a href="#MACAW" class="cite xref">MACAW</a>]</span> and the DCF analysis of <span>[<a href="#BIANCHI" class="cite xref">BIANCHI</a>]</span>. The -01 revision
+responds to a detailed technical review; the reviewer's separation of
+access method, observation, outcome, and witness now structures the
+measurement model.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-E">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Andrew H. Bond</span></div>
+<div dir="auto" class="left"><span class="org">San José State University</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:andrew.bond@sjsu.edu" class="email">andrew.bond@sjsu.edu</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
