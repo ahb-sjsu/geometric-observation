@@ -6,6 +6,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs,array}
+\usepackage{graphicx}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \usepackage{xcolor}
@@ -41,7 +42,14 @@ false-clears $\approx99\%$ of the time while a cold-footprint reader reads
 $\approx1\%$ stale; graded against the \texttt{zxid}, \texttt{sync()} drives the
 false-clear to zero. Staleness is thus a property of the reader's footprint, not
 of the replica---and \texttt{sync()} certifies not ``the follower is caught up''
-but ``the consumer's footprint is caught up.''
+but ``the consumer's footprint is caught up.'' We then propose and measure a
+client-side fix, \texttt{read\_fresh}: a reader declares the \texttt{zxid}
+watermark it needs, the read is certified locally when the follower already
+satisfies it, and \texttt{sync()} is paid only otherwise. It is a \emph{sound}
+witness---false-clear zero at every tolerance---and its cost traces the
+follower-lag CDF between the two blind endpoints (naive and \texttt{sync()}-
+always); a self-verifying use-case notebook reproduces the result on a live
+ensemble.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -177,6 +185,71 @@ it reads $\PC$ (only the footprint) and grades against $\Sigma$ (the
 \texttt{zxid}). \texttt{sync()} certifies not ``the follower is caught up'' but
 ``the consumer's footprint is caught up.''
 
+\section{A Fix: Watermark-Scoped Local Reads}\label{sec:fix}
+The result suggests a fix that reads $\PC$ and the witness directly, without an
+unconditional barrier. Let a reader declare the watermark $W$ it requires---the
+\texttt{zxid} of the writes it causally depends on. Then
+\texttt{read\_fresh}$(\mathit{path},W)$ does an ordinary local read and, because
+every reply carries the follower's applied \texttt{zxid}, certifies it
+\emph{locally} iff that \texttt{zxid} $\ge W$; only when the follower is behind
+$W$ does it fall to \texttt{sync()}. Because Zab totally orders writes, the
+follower's single applied watermark certifies \emph{every} footprint at once (an
+applied \texttt{zxid} $\ge W$ holds all writes $\le W$), so the fix needs no
+per-znode tracking---the consumer-relativity is entirely in $W$. A causal token
+suffices: a writer captures its write's \texttt{zxid} and hands it to readers
+that must observe it. This reuses the \texttt{zxid}-watermark check ZooKeeper
+already performs at session reconnect to preserve monotonic reads.
+
+Modeling the requirement as a tolerance $\tau$ (the reader needs state at least
+as fresh as $\tau$ ago; $W$ is the leader \texttt{zxid} as of now${}-\tau$), we
+sweep $\tau$ on the same lab (Fig.~\ref{fig:fix}). Two facts hold across the
+sweep. First, the false-clear against the reader's own watermark is exactly
+\emph{zero}: the \texttt{zxid} is a \emph{sound} witness---a certified-local read
+never violates the freshness it promised (verified against a per-znode write
+log). Second, the cost (fraction of reads needing a \texttt{sync()}) equals the
+probability that the follower's lag exceeds $\tau$---the lag CDF---so
+\texttt{read\_fresh} traces a smooth curve from \texttt{sync()}-always cost (a
+reader needing the latest) to zero cost (a reader tolerating the lag),
+\emph{correct at every point}. Naive ($0$ cost, ${\approx}99\%$ wrong) and
+\texttt{sync()}-always ($1.0$ cost, correct) are its two blind endpoints. At a
+tolerance equal to the follower's own lag, a reader gets guaranteed freshness for
+a \texttt{sync()} on only ${\sim}11\%$ of reads.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{zk-fix-cost-curve.png}
+\caption{\texttt{read\_fresh} cost vs.\ the reader's declared tolerance $\tau$.
+Cost (sync rate) is the follower-lag CDF; the false-clear against the reader's
+watermark is zero throughout (the \texttt{zxid} is a sound witness). Naive and
+\texttt{sync()}-always are the two blind endpoints.}
+\label{fig:fix}
+\end{figure}
+
+Table~\ref{tab:uc} places the phenomenon and the fix in four real ZooKeeper
+roles, drawn from a self-verifying use-case notebook that runs against the live
+ensemble and asserts each outcome. A configuration reader (a cold footprint) is
+served fresh locally; a service-discovery reader (a hot footprint) on the
+\emph{same} follower is almost always stale; a bounded-staleness reader gets
+guaranteed freshness at ${\sim}0.16$ sync cost; a leader/lock reader that needs
+the latest correctly pays \texttt{sync()} on every read---and only it does.
+
+\begin{table}[t]
+\caption{Four ZooKeeper roles on the \emph{same} delayed follower, from the
+self-verifying use-case notebook. Rows 1--2 are consumer-relativity; rows 3--4
+are the fix.}
+\label{tab:uc}\centering
+\begin{tabular}{@{}L{3.4cm} C{1.5cm} C{1.5cm}@{}}
+\toprule
+role (footprint, policy) & stale / sync & false-clear \\
+\midrule
+config store (cold, naive)        & $0.033$ stale & --- \\
+service discovery (hot, naive)    & $0.930$ stale & --- \\
+bounded-staleness (\texttt{read\_fresh}, $\tau{=}$lag) & $0.156$ sync & $0.000$ \\
+leader/lock (\texttt{read\_fresh}, $\tau{=}0$) & $1.000$ sync & $0.000$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Discussion}
 \emph{What this says about bounded-staleness reads.} Systems commonly expose a
 staleness bound as a scalar (a lag threshold, a bounded-staleness read level).
@@ -215,8 +288,12 @@ correction the theory asks for.
 
 \section*{Reproducibility}
 The pre-registration, the coded verdict runner (with the cooling-off and
-substrate guards), the ensemble scripts, and the graded record are archived with
-the program~\cite{bond_prereg}; the substrate is unmodified ZooKeeper~3.9.
+substrate guards), the ensemble scripts, the \texttt{read\_fresh} prototype, and
+the graded record are archived with the program~\cite{bond_prereg}; the substrate
+is unmodified ZooKeeper~3.9. A self-verifying use-case notebook
+(\texttt{ZK-USE-CASES.ipynb}) stands up the ensemble, runs the four roles of
+Table~\ref{tab:uc}, and \texttt{assert}s each outcome, so a clean run is a
+passing suite.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ot-replication-freshness}
