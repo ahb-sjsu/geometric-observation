@@ -34,8 +34,8 @@ that reliability is a property of the relation between a system's error and
 an independent \emph{witness}. In OT terms a local read is a \emph{certificate}
 (this follower is fresh enough), the ZooKeeper transaction id (\texttt{zxid}) is
 its \emph{witness}, and \texttt{sync()} is a witnessed correction. We measure, on
-a three-node ensemble under a sealed pre-registration, the \emph{false-clear
-rate} of the local-read certificate. The result is a clean statement of
+a three-node ensemble under a pre-registration whose pass/fail bars are fixed
+before the runs, the \emph{false-clear rate} of the local-read certificate. The result is a clean statement of
 consumer-relativity: on the \emph{same} lagging follower, a hot-footprint reader
 false-clears $\approx99\%$ of the time while a cold-footprint reader reads
 $\approx1\%$ stale; graded against the \texttt{zxid}, \texttt{sync()} drives the
@@ -142,14 +142,16 @@ follower is fresh (so the follower is sane and the staleness is footprint-relati
 and that the run is non-degenerate.
 
 \section{Results}\label{sec:results}
-Table~\ref{tab:res} reports the sealed measurement. On the same delayed follower,
-the hot-footprint local read is stale $\approx99\%$ of the time, while the cold
-footprint reads $\approx1\%$ stale; \texttt{sync()} holds the false-clear at
-zero; the mean leader--follower \texttt{zxid} gap is ${\sim}12$. The bars and all
-manipulation checks pass on every seed.
+Table~\ref{tab:res} reports the pre-seal shakedown; the sealed graded run (on
+seeds disjoint from these) is expected to match and will replace it. On the same
+delayed follower, the hot-footprint local read is stale $\approx99\%$ of the
+time, while the cold footprint reads $\approx1\%$ stale; \texttt{sync()} holds
+the false-clear at zero; the mean leader--follower \texttt{zxid} gap is
+${\sim}12$. The bars and all manipulation checks pass on every seed.
 
 \begin{table}[t]
-\caption{Sealed XPROTO-ZK measurement (three graded seeds). ``naive-hot''/
+\caption{XPROTO-ZK shakedown measurement (pre-seal, seeds $\{0,1,2\}$); the
+sealed graded run uses disjoint seeds and is expected to match. ``naive-hot''/
 ``naive-cold'' are the local-read stale rates for a hot/cold footprint on the
 \emph{same} delayed follower; ``\texttt{sync()}'' is the witnessed policy.}
 \label{tab:res}\centering
