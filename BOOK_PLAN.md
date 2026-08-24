@@ -48,6 +48,19 @@ Chapters below are marked **[A]** (draftable now) or **[B]** (gated).
 | `ch16_honest_negatives.md` | 16 — Honest Negatives | A | ✅ drafted |
 | `ch17_open_problems_and_the_keystone_theorem.md` | 17 — Open Problems & the Keystone Theorem | B | ✅ drafted |
 | `ch18_the_principle.md` | 18 — The Principle | B | ✅ drafted |
+| `ch19_the_certificate_that_ages.md` | 19 — The Certificate That Ages | A | ✅ drafted (sample) |
+| `ch20_the_false_clear_rate.md` | 20 — The False-Clear Rate | A | 🟡 stub |
+| `ch21_the_refresh_floor.md` | 21 — The Refresh Floor | A | 🟡 stub |
+| `ch22_the_freshness_sweep.md` | 22 — The Freshness Sweep | A | 🟡 stub |
+| `ch23_the_governor.md` | 23 — The Governor | A | 🟡 stub |
+
+**Part [new] — RELIABILITY: The Witnessed Certificate (Ch. 19–23).** Folds the
+freshness / witnessed-certificate program (`observation-theory-campaigns`: 20 cells,
+the OT-14 refresh-floor law, the governor) into the volume as the *temporal face* of
+`tr(P_C·Σ)` — the reading the title promises and the original draft omitted (grep of
+the pre-existing chapters finds zero freshness terms). Integration plan, page budget,
+source map, and the Vol-14-Part-vs-Vol-15 decision: [`BOOK-OUTLINE.md`](BOOK-OUTLINE.md).
+Ch. 19 drafted as the voice sample; 20–23 stubbed with source maps + honest tiers.
 | `appendix_a_related_work.md` | A — Related Work & Differentiation | A | ✅ drafted |
 | `appendix_b_cost_ledger.md` | B — The COST Ledger | B | ✅ drafted |
 | `appendix_c_reproduction_cookbook.md` | C — Reproduction Cookbook | A | ✅ drafted |
