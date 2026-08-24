@@ -35,7 +35,15 @@ safe; it is (1) **consumer-relative** — evaluated through `P_C`, not an aggreg
 a **coherence floor**. The reported metric is the **false-clear rate**. This is the
 `tr(P_C·Σ)` staleness reading, dual to the allocation reading.
 
-## 3. Structural options (owner's call)
+## 3. Structural decision — **Option A chosen (owner, 2026-08-24)**
+
+Freshness is a **new Part in Volume 14** (Ch. 19–23), making it the complete
+consumer-relative-observation thesis — both readings of `tr(P_C·Σ)`, allocation and
+freshness, in one volume (~140–160 pp). Ch. 19–23 stay `chapters/ch19…ch23`; the
+Vol-15 spin-out option below is retained only as a contingency if the Part outgrows
+the volume.
+
+### Options (for the record)
 
 - **Option A — a new Part in Volume 14** (recommended). The volume is lean (~100
   pp); a ~30–40 pp freshness Part makes it the *complete* consumer-relative-
