@@ -1,0 +1,45 @@
+#!/bin/sh
+# Refuse to rebase a range containing a sealing commit.
+#
+# PE-CLS-1.0 section 7.1.1: rebasing rewrites commit hashes, and a recorded
+# seal hash is a reference to an object that rebasing destroys.  The priority
+# it proved was real; the proof is what dies.  This programme lost eleven
+# seal identities to exactly this before the rule existed.
+#
+# Install:  git config core.hooksPath .githooks
+# Override (only with a plan to re-anchor):  ALLOW_SEAL_REBASE=1 git rebase ...
+
+upstream="$1"
+branch="$2"
+[ -z "$branch" ] && branch=HEAD
+
+if [ "$ALLOW_SEAL_REBASE" = "1" ]; then
+    echo "pre-rebase: OVERRIDDEN. Re-anchor every affected seal afterwards" >&2
+    echo "            (scripts/reanchor_seals.py) or P1 conformance is lost." >&2
+    exit 0
+fi
+
+seal_commits=$(git rev-list "$upstream".."$branch" --  prereg/ 2>/dev/null \
+               | head -50)
+
+if [ -n "$seal_commits" ]; then
+    n=$(printf '%s\n' "$seal_commits" | wc -l | tr -d ' ')
+    cat >&2 <<EOF
+
+  REFUSED: this rebase would rewrite $n commit(s) touching prereg/.
+
+  Those commits are the registration seals.  Their hashes are cited in
+  claims/REGISTRY-ACCOUNTING.md as the proof that registration preceded
+  measurement (PE-CLS-1.0 P1).  Rewriting them destroys that proof even
+  though the priority itself was genuine.
+
+  Options:
+    * merge instead of rebase (preserves the sealing commits), or
+    * ALLOW_SEAL_REBASE=1 git rebase ...   then immediately re-anchor:
+        python scripts/reanchor_seals.py --apply
+
+EOF
+    exit 1
+fi
+
+exit 0
