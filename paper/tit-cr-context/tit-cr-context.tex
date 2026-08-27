@@ -662,7 +662,7 @@ Table~\ref{tab:notation} collects the notation used from here on.
 \label{tab:notation}
 \centering
 \footnotesize
-\begin{tabular}{ll}
+\begin{tabular}{p{1.35in}p{4.55in}}
 \hline
 Symbol & Meaning\\
 \hline
@@ -678,12 +678,30 @@ $M$, $R_n$, $L_n$ & stored index; rate $\tfrac1n\log|\mathcal M_n|$;
 Landauer content $\tfrac1n H(M\mid S^n)$\\
 $R_{\min}(D)$, $L(D)$ & the two single-letter functions of
 \eqref{eq:work-endpoint}\\
-$g^\star$ & larger root of the quadratic \eqref{eq:Pg};
-$L(D)=\tfrac12\log_2 g^\star$\\
 $\Bdet$, $\Delta$, $\beta$ & determinant lower bound, distortion matrix
 $\mathrm{diag}(D_A,D_B)$, and $\Cov(Y,V)$ of Section~\ref{sec:floor}\\
-$\Lambda$, $c$ & whitened conditional covariance and regression vector
-(Sections~\ref{sec:region}, \ref{sec:vector})\\
+\hline
+\multicolumn{2}{l}{\emph{Derived quantities}}\\
+\hline
+$(a,b)$, $n$ & regression coordinates of the test channel
+$\hY=aY+bV+N$, and the noise variance $n=\operatorname{Var}N$
+(Section~\ref{sec:function})\\
+$Q_0$, $Q_1$ & unconditional and $S$-conditional signal parts of the
+reproduction, $\operatorname{Var}(aY+bV)$ and
+$\operatorname{Var}(aY+bV\mid S)$ (Section~\ref{sec:function})\\
+$h(a,b)$ & noise-free distortion contribution
+$\operatorname{Var}\bigl((1-a)Y-bV\bigr)$, so that
+$\E(Y-\hY)^2=h+n$ \eqref{eq:distortion}\\
+$\mu_c=(a\rho+b)/s$ & regression coefficient of the reproduction on
+$S$ (proof of Theorem~\ref{thm:function})\\
+$P(g)$, $g^\star$ & the quadratic \eqref{eq:Pg} and its larger root;
+$L(D)=\tfrac12\log_2 g^\star$\\
+$\alpha$; $\gamma_0$, $\gamma_1$ & frontier weight (rate versus
+content); the two water levels $n/(Q_0+n)$ and $n/(Q_1+n)$
+(Theorem~\ref{thm:region})\\
+$\Lambda$, $c$, $y_0$ & whitened conditional covariance, regression
+vector, and the unit vector with $Y=y_0^{\mathsf T}Z$
+\eqref{eq:whitening} (Sections~\ref{sec:region}, \ref{sec:vector})\\
 \hline
 \end{tabular}
 \end{table}
@@ -746,8 +764,10 @@ only through $Y$ (that is, $\hY-Y-(X,S)$), then given $(Y,S)$, $\hY$ is
 independent of $X$, so $I(X;\hY\mid S)=I(Y;\hY\mid S)$, and the class
 optimum is exactly the scalar-corner value
 $\tfrac12\log_2\bigl[(\sigma^2(1-\rho_{YS}^2)+\rho_{YS}^2D)/D\bigr]$ of the
-pair $(Y,S)$ \cite{bond2026landauer,steinberg2009}; the corner's converse
-applies to every $p(\hat y\mid y)$, discrete or not.
+pair $(Y,S)$, where $\sigma^2=\operatorname{Var}Y$ and $\rho_{YS}$ is the
+correlation of that pair, $\rho_{YS}^2=\rho^2/s$ after the normalization
+of Section~\ref{sec:pair} \cite{bond2026landauer,steinberg2009}; the
+corner's converse applies to every $p(\hat y\mid y)$, discrete or not.
 
 \begin{proposition}[Anchor: marginalization is strictly
 suboptimal]\label{prop:marg}
@@ -798,7 +818,17 @@ numerically.
 
 The closed form occupies the rest of this section. By
 Theorem~\ref{thm:pair} we restrict to $T$-channels, $T=(Y,V)$, with
-scalar reproduction $\hY$. The converse rests on one
+scalar reproduction $\hY$. The working coordinates deserve a plain
+statement before the machinery. Every jointly Gaussian test channel
+takes the form $\hY=aY+bV+N$ with $N$ independent noise of variance
+$n$, and every admissible channel, Gaussian or not, is measured through
+the same three moments of its regression on $T$: the unconditional
+signal part $Q_0=\operatorname{Var}(aY+bV)$, the $S$-conditional signal
+part $Q_1=\operatorname{Var}(aY+bV\mid S)$, and the noise-free
+distortion contribution $h=\operatorname{Var}\bigl((1-a)Y-bV\bigr)$, so
+that $\E(Y-\hY)^2=h+n$. Everything from here through
+Section~\ref{sec:vector} is expressed in $(a,b,n)$ and these moments;
+Table~\ref{tab:notation} collects them. The converse rests on one
 estimation-theoretic lemma. We state it for vector reproductions and
 vector conditioners, in the generality that
 Sections~\ref{sec:region}, \ref{sec:floor}, and~\ref{sec:vector} reuse.
@@ -1234,7 +1264,12 @@ The work-only endpoint of Theorem~\ref{thm:function} does not come for
 free in rate. This section characterizes the full tradeoff between the
 two coordinates of \eqref{eq:main-region} for the Gaussian pair source.
 Throughout, $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, and $h$, $Q_0$,
-$Q_1$, $\mu_c$ are as in the proof of Theorem~\ref{thm:function}.
+$Q_1$, $\mu_c$ are as in the proof of Theorem~\ref{thm:function}. In
+the frontier system below, $\alpha\in[0,1]$ weights rate against
+conditional content, and $\gamma_0=n/(Q_0+n)$ and $\gamma_1=n/(Q_1+n)$
+are the two water levels the stationarity system balances: the
+frontier point at weight $\alpha$ is
+$\bigl(\tfrac12\log_2(1/\gamma_0),\,\tfrac12\log_2(1/\gamma_1)\bigr)$.
 
 \begin{theorem}[Core: the rate--content region]\label{thm:region}
 The closure of the achievable rate--content pairs at distortion $D$ is
