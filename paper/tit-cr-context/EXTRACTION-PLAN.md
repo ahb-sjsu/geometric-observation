@@ -136,3 +136,31 @@ information bottleneck — one paragraph, precise, no containment claims.
 
 Working file: `tit-cr-context.tex` in this directory. Do not modify
 `go11-conditional-region.tex` (it stays the program's research log).
+
+## Status log
+
+- **M1 (2026-08-26):** skeleton + this plan; binary prior-art sweep run
+  (Steinberg 2009 / Ahmadi et al. carry DSBS-CR in the decoder-SI setting;
+  third-party-conditioner + encoder-pair-access object not found;
+  institutional reads owed).
+- **M1b (2026-08-26):** five full-proof transplants in (operational theorem
+  with the bounded-distortion scoping made visible; pair sufficiency;
+  marginalization dichotomy; floor iff; binary Thm). 8 pp.
+- **M2 (2026-08-26): ALL THREE CONVERSE DEBTS CLOSED AT FULL RIGOR.** Prover
+  round: lem:gauss (Gaussian exhaustion + determinant identity, shared by
+  Secs. IV/V/VI/VII), thm:function full converse with the exact reduction
+  identity (g−1)(D−h) − Q₁ = (g−1)P(g)/(gk), cor:anchors, thm:region with
+  both determinant identities + four gradient identities + two-water-level
+  reduction, lem:mxconvex written out, prop:uniq STRENGTHENED to α∈[0,1],
+  cor:misalign full, cor:notmarginal PROVED with exact surds, thm:vector
+  closed at full rigor (not demoted). `verify_converses.py` 12/12 PASS.
+  **Fresh-context adversarial verification (independent agent, forbidden from
+  all sources, own scripts): CONFIRMED — no errors, no gaps, no overclaims;
+  46 symbolic + 46 numeric checks pass** (`verifier_sym_checks.py`,
+  `verifier_num_checks.py`, archived here). Four exposition NITs folded in
+  same day (h=−∞ convention; endpoint-weight scalarization wording;
+  regular-conditional-probability clause; cor:notmarginal τ²=0 boundary
+  acknowledgment). 18 pp, zero undefined references.
+- **Next: M3** (related work + citation verification + the owed binary
+  delineation reads), then M4 (notation table, numerical-verification
+  appendix content, abstract polish, cover letter).

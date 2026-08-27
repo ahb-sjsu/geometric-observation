@@ -1,9 +1,10 @@
 % T-IT submission draft -- "best shot" extraction per EXTRACTION-PLAN.md.
 % Source of record: ../go11-conditional-region.tex (v0.11, theorems settled and
 % harness-netted) + ../consumer-relative-landauer.tex (operational layer).
-% STATUS: M1 skeleton (2026-08-26). Sections marked %% TRANSPLANT pull from the
-% named source labels; sections marked %% DEBT need the converse written to full
-% rigor and then an R-IND-5 fresh-context pass BEFORE assertion.
+% STATUS: M2 converse closure (2026-08-26). PROOF DEBTS 1-3 are closed at full
+% rigor (Secs. IV, V, VII); every closed-form step is checked by
+% verify_converses.py in this directory. The R-IND-5 fresh-context pass on the
+% new prose remains OWED before assertion (house rule).
 % House rules: no governance register in the body; single theorem counter;
 % notation overloads fixed (u->c whitened coefficient, Thm-3 scalar m -> mu_c);
 % no em-dashes in prose.
@@ -450,22 +451,870 @@ $I(X;\hY\mid S)=0$.
 numerically.
 \end{proof}
 
-%% DEBT 1: thm:function (the closed form L(D) = 1/2 log2 g*, g* the larger
-%% root of P(g) = Dsg^2 - (D+s-rho^2)g + (1-rho^2)) goes HERE. Write the
-%% converse in full (determinant identity
-%% det Sigma_{T|S}/det Sigma_e = (Var(aY+bV|S)+n)/n and the (a,b) linear
-%% system at fixed g), currently compressed/outsourced to the NOVELTY addendum.
-%% Then R-IND-5 pass. Label: \label{thm:function}.
+The closed form occupies the rest of this section. By
+Theorem~\ref{thm:pair} we restrict to $T$-channels, $T=(Y,V)$, with
+scalar reproduction $\hY$. The converse rests on one
+estimation-theoretic lemma. We state it for vector reproductions and
+vector conditioners, in the generality that
+Sections~\ref{sec:region}, \ref{sec:floor}, and~\ref{sec:vector} reuse.
+
+\begin{lemma}[Gaussian exhaustion and the determinant identity]
+\label{lem:gauss}
+Let $(T,S)$ be jointly Gaussian and centered, $T\in\R^p$, $S\in\R^r$,
+with $\Cov\bigl((T,S)\bigr)\succ0$. Let $\hat{\mathbf Y}\in\R^m$ be any
+centered random vector with finite second moments, and define
+\[
+A:=\Cov(\hat{\mathbf Y},T)\,\Sigma_T^{-1}\in\R^{m\times p},\qquad
+N':=\hat{\mathbf Y}-AT,\qquad
+\Sigma_N:=\Cov(N')=\Cov(\hat{\mathbf Y})-A\Sigma_TA^{\mathsf T}.
+\]
+Assume $\Sigma_N\succ0$ and $\Cov(N',S)=0$. Then
+\begin{equation}
+I(T;\hat{\mathbf Y}\mid S)\;\ge\;\tfrac12\log_2
+\frac{\det\Sigma_{T\mid S}}{\det\Sigma_e}
+\;=\;\tfrac12\log_2
+\frac{\det\bigl(A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N\bigr)}
+{\det\Sigma_N},
+\label{eq:lem-cond}
+\end{equation}
+where $\Sigma_{T\mid S}=\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}$
+and $\Sigma_e$ is the error covariance of the best linear estimator of
+$T$ from $(\hat{\mathbf Y},S)$. With $S$ deleted throughout, the
+hypothesis $\Cov(N',S)=0$ becomes vacuous and the same argument gives
+\begin{equation}
+I(T;\hat{\mathbf Y})\;\ge\;\tfrac12\log_2
+\frac{\det\bigl(A\Sigma_TA^{\mathsf T}+\Sigma_N\bigr)}{\det\Sigma_N}.
+\label{eq:lem-rate}
+\end{equation}
+The jointly Gaussian channel $\hat{\mathbf Y}=AT+N$,
+$N\sim\mathcal N(0,\Sigma_N)$ independent of $(T,S)$, realizes the same
+second moments and attains both bounds with equality simultaneously.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: the max-entropy bound.} Write
+$M:=\Cov\bigl((\hat{\mathbf Y},S)\bigr)$ and
+$J:=\Cov\bigl(T,(\hat{\mathbf Y},S)\bigr)\in\R^{p\times(m+r)}$. First,
+$M\succ0$: by the Schur-complement criterion on
+\[
+M=\begin{bmatrix}
+\Cov(\hat{\mathbf Y})&\Cov(\hat{\mathbf Y},S)\\[2pt]
+\Cov(S,\hat{\mathbf Y})&\Sigma_S
+\end{bmatrix},
+\]
+positivity is equivalent to $\Sigma_S\succ0$ together with
+$\Cov(\hat{\mathbf Y})-\Cov(\hat{\mathbf Y},S)\Sigma_S^{-1}
+\Cov(S,\hat{\mathbf Y})\succ0$; the first holds because
+$\Cov((T,S))\succ0$, and the second is evaluated in Step 2 to equal
+$A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N\succeq\Sigma_N\succ0$. The best
+linear estimator of $T$ from $(\hat{\mathbf Y},S)$ is
+$\widehat T=JM^{-1}(\hat{\mathbf Y};S)$, with error covariance
+$\Sigma_e=\Sigma_T-JM^{-1}J^{\mathsf T}$. Since $(T,S)$ is jointly
+Gaussian,
+$h(T\mid S)=\tfrac12\log_2\bigl((2\pi e)^p\det\Sigma_{T\mid S}\bigr)$
+exactly. For the other term, translation invariance of differential
+entropy, conditioning reduces entropy, and the Gaussian maximum-entropy
+bound at fixed covariance give
+\[
+h(T\mid\hat{\mathbf Y},S)
+=h\bigl(T-\widehat T\;\big|\;\hat{\mathbf Y},S\bigr)
+\;\le\;h\bigl(T-\widehat T\bigr)
+\;\le\;\tfrac12\log_2\bigl((2\pi e)^p\det\Sigma_e\bigr)
+\]
+(with the usual convention that $h=-\infty$ for laws without a
+density, in which case the bound is trivial).
+Subtracting the two displays inside
+$I(T;\hat{\mathbf Y}\mid S)=h(T\mid S)-h(T\mid\hat{\mathbf Y},S)$
+yields the inequality in \eqref{eq:lem-cond}.
+
+\emph{Step 2: the determinant identity.} Let
+$K:=\Cov\bigl((T,S,\hat{\mathbf Y})\bigr)$. The residual $N'$ is
+uncorrelated with $T$ by construction of the regression and with $S$ by
+hypothesis, and the change of variables
+$(T,S,\hat{\mathbf Y})\mapsto(T,S,N')$ is block lower triangular with
+unit diagonal, hence determinant preserving:
+\[
+\det K=\det\Cov\bigl((T,S,N')\bigr)
+=\det\begin{bmatrix}
+\Sigma_T&\Sigma_{TS}&0\\
+\Sigma_{ST}&\Sigma_S&0\\
+0&0&\Sigma_N
+\end{bmatrix}
+=\det\Sigma_S\,\det\Sigma_{T\mid S}\,\det\Sigma_N,
+\]
+using in the last step the Schur factorization
+$\det\Cov((T,S))=\det\Sigma_S\,\det\Sigma_{T\mid S}$. The same Schur
+factorization applied to $K$ in the other block order gives
+$\det K=\det M\,\det\Sigma_e$, and applied to $M$ itself gives
+\[
+\det M=\det\Sigma_S\cdot\det\Bigl(\Cov(\hat{\mathbf Y})
+-\Cov(\hat{\mathbf Y},S)\Sigma_S^{-1}\Cov(S,\hat{\mathbf Y})\Bigr).
+\]
+It remains to evaluate the conditional block. From
+$\hat{\mathbf Y}=AT+N'$ with $\Cov(N',T)=0$ and $\Cov(N',S)=0$,
+$\Cov(\hat{\mathbf Y})=A\Sigma_TA^{\mathsf T}+\Sigma_N$ and
+$\Cov(\hat{\mathbf Y},S)=A\Sigma_{TS}$, so
+\[
+\Cov(\hat{\mathbf Y})-\Cov(\hat{\mathbf Y},S)\Sigma_S^{-1}
+\Cov(S,\hat{\mathbf Y})
+=A\bigl(\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}\bigr)A^{\mathsf T}
++\Sigma_N
+=A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N .
+\]
+Combining the three displays,
+\[
+\det\Sigma_e=\frac{\det K}{\det M}
+=\frac{\det\Sigma_{T\mid S}\,\det\Sigma_N}
+{\det\bigl(A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N\bigr)},
+\]
+which is the identity in \eqref{eq:lem-cond}; in particular
+$\Sigma_e\succ0$, so Step 1's bound is finite. Deleting $S$ (formally
+$r=0$: $K=\Cov((T,\hat{\mathbf Y}))$, $M=\Cov(\hat{\mathbf Y})$) gives
+$\det\Sigma_{e0}=\det\Sigma_T\det\Sigma_N/
+\det(A\Sigma_TA^{\mathsf T}+\Sigma_N)$ and hence \eqref{eq:lem-rate}.
+
+\emph{Step 3: equality.} For the stated Gaussian channel the conditional
+law of $T$ given $(\hat{\mathbf Y},S)$ is Gaussian with covariance
+$\Sigma_e$ for every realization, so
+$h(T\mid\hat{\mathbf Y},S)=\tfrac12\log_2\bigl((2\pi e)^p
+\det\Sigma_e\bigr)$ and \eqref{eq:lem-cond} holds with equality;
+likewise for \eqref{eq:lem-rate}. The channel's moments match those of
+the given channel: $\Cov(AT+N,T)=A\Sigma_T$ and
+$\Cov(AT+N)=A\Sigma_TA^{\mathsf T}+\Sigma_N$.
+\end{proof}
+
+\begin{remark}[Degenerate residuals]\label{rem:degenerate}
+If $\Sigma_N$ is singular, some combination
+$\eta^{\mathsf T}\hat{\mathbf Y}$ equals $\eta^{\mathsf T}AT$ almost
+surely. If $\eta^{\mathsf T}A\ne0$ the record reveals a noiseless linear
+functional of the continuous $T$, so
+$I(T;\hat{\mathbf Y}\mid S)=\infty$ and every bound below holds
+trivially; if $\eta^{\mathsf T}A=0$ that combination of the record is
+zero and may be dropped, reducing $m$. All uses of
+Lemma~\ref{lem:gauss} below may therefore assume $\Sigma_N\succ0$.
+\end{remark}
+
+\begin{theorem}[The function]\label{thm:function}
+Write $s=1+\tau^2$. For $0<D<1$,
+\begin{equation}
+L(D)=\tfrac12\log_2 g^\star,\qquad
+g^\star=\frac{(D+s-\rho^2)+\sqrt{(D+s-\rho^2)^2-4Ds(1-\rho^2)}}{2Ds},
+\label{eq:quadratic}
+\end{equation}
+the larger root of the quadratic
+\begin{equation}
+P(g)=Dsg^2-(D+s-\rho^2)g+(1-\rho^2).
+\label{eq:Pg}
+\end{equation}
+Since $P(1)=(D-1)\tau^2<0$, exactly one root exceeds $1$, so $g^\star$
+is well defined. The optimum is attained by the jointly Gaussian channel
+\begin{equation}
+\hY=aY+bV+N,\qquad
+a=\frac{g^\star-1}{g^\star},\quad
+b=\frac{(g^\star-1)\rho}{g^\star k},\quad
+k=g^\star s-1,\quad
+N\sim\mathcal N\Bigl(0,\;\frac{Q_1}{g^\star-1}\Bigr),
+\label{eq:channel}
+\end{equation}
+where $Q_1=a^2+b^2+2ab\rho-(a\rho+b)^2/s$ is evaluated at these
+$(a,b)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Moments.} By Theorem~\ref{thm:pair} and the scalar-reproduction
+reduction of Section~\ref{sec:pair}, restrict to channels
+$p(\hat y\mid t)$. Fix an admissible channel with
+$\E(Y-\hY)^2\le D$. Centering $\hY$ leaves $I(T;\hY\mid S)$ unchanged
+and can only decrease the distortion, so take $\E\hY=0$. Define the
+regression coordinates
+\[
+\begin{pmatrix}a\\b\end{pmatrix}
+:=\Sigma_T^{-1}\begin{pmatrix}\E[Y\hY]\\ \E[V\hY]\end{pmatrix},
+\qquad
+Q_0:=a^2+b^2+2ab\rho=\operatorname{Var}(aY+bV),
+\qquad
+n:=\operatorname{Var}\hY-Q_0,
+\]
+so that $\E[Y\hY]=a+b\rho$ and $\E[V\hY]=a\rho+b$; $n\ge0$ is the
+residual variance of $\hY$ after linear regression on $T$. If $n=0$,
+Remark~\ref{rem:degenerate} applies: either $(a,b)\ne(0,0)$ and
+$I(T;\hY\mid S)=\infty$, or $(a,b)=(0,0)$ and $\hY=0$ with distortion
+$1>D$. So take $n>0$.
+
+\emph{The Markov moment identity.} The residual $N'=\hY-aY-bV$ is
+uncorrelated with $T$ by construction. It is also uncorrelated with
+$S=V+U$: it is uncorrelated with $V$, a coordinate of $T$, and
+$\E[UN']=0$ because $U$ is independent of $(X,\hY)$ by the mutual
+independence of $X$, $U$, and the channel randomness. Hence
+$\Cov(N',S)=0$, which is the hypothesis of Lemma~\ref{lem:gauss}, and
+which restates the moment identity $\E[S\hY]=\E[V\hY]$.
+
+\emph{The converse bound, written out.} Here $p=2$, $m=1$, $r=1$,
+$A=(a,b)$, $\Sigma_N=n$, and
+\[
+\Sigma_T=\begin{bmatrix}1&\rho\\ \rho&1\end{bmatrix},
+\qquad
+\Sigma_{TS}=\begin{bmatrix}\rho\\ 1\end{bmatrix},
+\qquad
+\Sigma_S=s,
+\]
+\[
+\Sigma_{T\mid S}
+=\Sigma_T-\frac1s\,\Sigma_{TS}\Sigma_{TS}^{\mathsf T}
+=\begin{bmatrix}1-\rho^2/s&\rho\tau^2/s\\[2pt]
+\rho\tau^2/s&\tau^2/s\end{bmatrix},
+\qquad
+\det\Sigma_{T\mid S}=\frac{\tau^2(1-\rho^2)}{s}>0 .
+\]
+The quadratic form in \eqref{eq:lem-cond} is
+\[
+A\Sigma_{T\mid S}A^{\mathsf T}
+=Q_0-\frac{(a\rho+b)^2}{s}
+=\operatorname{Var}(aY+bV\mid S)=:Q_1 ,
+\]
+and, explicitly, $M=\Cov\bigl((\hY,S)\bigr)=
+\bigl[\begin{smallmatrix}Q_0+n&a\rho+b\\ a\rho+b&s\end{smallmatrix}\bigr]$
+with $\det M=s(Q_0+n)-(a\rho+b)^2=s(Q_1+n)$, while
+$\det\Cov\bigl((T,S,\hY)\bigr)=s\,\det\Sigma_{T\mid S}\cdot n$, so
+$\det\Sigma_e=n\det\Sigma_{T\mid S}/(Q_1+n)$ and Lemma~\ref{lem:gauss}
+reads
+\begin{equation}
+I(T;\hY\mid S)\;\ge\;
+\tfrac12\log_2\frac{\det\Sigma_{T\mid S}}{\det\Sigma_e}
+\;=\;\tfrac12\log_2\frac{Q_1+n}{n} .
+\label{eq:scalar-detid}
+\end{equation}
+The distortion is a function of the same moments:
+\begin{equation}
+\E(Y-\hY)^2=1-2(a+b\rho)+Q_0+n=h(a,b)+n,
+\qquad
+h(a,b):=(1-a)^2-2(1-a)b\rho+b^2,
+\label{eq:distortion}
+\end{equation}
+and $h(a,b)=\operatorname{Var}\bigl((1-a)Y-bV\bigr)\ge0$. Therefore
+\begin{equation}
+L(D)\;\ge\;
+\inf\Bigl\{B(a,b,n):=\tfrac12\log_2\tfrac{Q_1+n}{n}
+\;:\;h(a,b)+n\le D,\ n>0\Bigr\},
+\label{eq:moment-program}
+\end{equation}
+and it suffices to evaluate the right side; achievability below
+matches it.
+
+\emph{Activity, coercivity, existence.} At fixed $(a,b)$ with $Q_1>0$,
+$B$ is strictly decreasing in $n$
+($\partial_n[\ln(Q_1+n)-\ln n]=(Q_1+n)^{-1}-n^{-1}<0$), so the infimum
+is unchanged by imposing the active constraint $n=D-h(a,b)$. On the
+feasible set, $(a,b)$ is confined to the compact set $\{h\le D\}$;
+since $\Sigma_{T\mid S}\succ0$, the form
+$Q_1=(a,b)\,\Sigma_{T\mid S}\,(a,b)^{\mathsf T}$ vanishes only at
+$(a,b)=(0,0)$, where $h=1>D$, so by continuity $Q_1\ge q_0>0$ on the
+feasible set. Hence $B\ge\tfrac12\log_2\bigl((q_0+n)/n\bigr)\to\infty$
+as $n\to0$, the sublevel sets of the reduced objective
+\[
+\Phi(a,b):=\tfrac12\log_2\frac{Q_1(a,b)+n(a,b)}{n(a,b)},
+\qquad n(a,b)=D-h(a,b),
+\]
+are compact, and the infimum in \eqref{eq:moment-program} is attained
+at some $(a,b)$ with $h(a,b)<D$: an interior stationary point of
+$\Phi$.
+
+\emph{The stationarity system is linear in $(a,b)$ at fixed $g$.} At a
+stationary point write $g:=(Q_1+n)/n$ and $\mu_c:=(a\rho+b)/s$; note
+$g>1$ because $Q_1>0$. The partial derivatives of the three quadratics
+are
+\[
+\partial_aQ_0=2(a+b\rho),\qquad
+\partial_bQ_0=2(b+a\rho),\qquad
+\partial_ah=\partial_aQ_0-2,\qquad
+\partial_bh=\partial_bQ_0-2\rho,
+\]
+\[
+\partial_aQ_1=\partial_aQ_0-2\rho\mu_c,\qquad
+\partial_bQ_1=\partial_bQ_0-2\mu_c,
+\]
+hence the four gradient identities
+\begin{equation}
+\partial_a(Q_0-h)=2,\quad
+\partial_b(Q_0-h)=2\rho,\quad
+\partial_a(Q_1-h)=2(1-\rho\mu_c),\quad
+\partial_b(Q_1-h)=2(\rho-\mu_c).
+\label{eq:grad-ids}
+\end{equation}
+(Only the last two enter here; all four enter the weighted system of
+Theorem~\ref{thm:region}.) With $n=D-h$, so
+$\partial_xn=-\partial_xh$, stationarity of
+$2\ln2\cdot\Phi=\ln(Q_1+n)-\ln n$ in $x\in\{a,b\}$ reads
+\[
+\frac{\partial_x(Q_1-h)}{Q_1+n}+\frac{\partial_xh}{n}=0,
+\qquad\text{that is,}\qquad
+\frac1g\,\partial_x(Q_1-h)+\partial_xh=0 .
+\]
+By \eqref{eq:grad-ids} and
+$\partial_ah=2(a+b\rho-1)$, $\partial_bh=2(a\rho+b-\rho)$, the two
+equations are
+\begin{equation}
+a+b\rho=1-\frac{1-\rho\mu_c}{g},
+\qquad
+a\rho+b=\rho-\frac{\rho-\mu_c}{g} .
+\label{eq:foc}
+\end{equation}
+Substituting $\mu_c=(a\rho+b)/s$ makes \eqref{eq:foc} a $2\times2$
+linear system in $(a,b)$ whose coefficients depend on $g$ alone, and it
+solves in closed form. The second equation reads
+$gs\mu_c-\mu_c=\rho(g-1)$, so with $k:=gs-1>0$,
+\begin{equation}
+\mu_c=\frac{\rho(g-1)}{k} .
+\label{eq:mu}
+\end{equation}
+Subtracting $\rho$ times the first equation of \eqref{eq:foc} from the
+second gives
+$(a\rho+b)-\rho(a+b\rho)=b(1-\rho^2)$ on the left and
+$\mu_c(1-\rho^2)/g$ on the right, so $b=\mu_c/g$; the first equation
+then yields $a=1-(1-\rho\mu_c)/g-b\rho=1-1/g$. The stationary channel
+coefficients at level $g$ are therefore
+\begin{equation}
+1-a=\frac1g,
+\qquad
+b=\frac{\mu_c}{g}=\frac{(g-1)\rho}{gk} .
+\label{eq:ab}
+\end{equation}
+
+\emph{Reduction to the quadratic.} At the values \eqref{eq:ab},
+$(1-a)Y-bV=(Y-\mu_cV)/g$, so
+\begin{equation}
+h=\frac{1-2\rho\mu_c+\mu_c^2}{g^2},
+\label{eq:h-at-foc}
+\end{equation}
+and, writing $aY+bV=Y-(Y-\mu_cV)/g$ and using the definition
+$a\rho+b=s\mu_c$,
+\[
+Q_0=1-\frac{2(1-\rho\mu_c)}{g}+h,
+\qquad
+Q_1=Q_0-\frac{(a\rho+b)^2}{s}
+=1-\frac{2(1-\rho\mu_c)}{g}+h-s\mu_c^2 .
+\]
+The definition of $g$ and the active constraint combine to
+$(g-1)(D-h)=Q_1$. Substituting the display for $Q_1$ and collecting
+the $h$ terms ($h+(g-1)h=gh=(1-2\rho\mu_c+\mu_c^2)/g$ by
+\eqref{eq:h-at-foc}), the terms in $\rho\mu_c$ cancel and
+\begin{equation}
+1+\frac{\mu_c^2-1}{g}-s\mu_c^2=(g-1)D .
+\label{eq:pre-quadratic}
+\end{equation}
+Finally substitute \eqref{eq:mu}. Multiplying
+\eqref{eq:pre-quadratic} by $gk^2$ and using
+$k^2\mu_c^2=\rho^2(g-1)^2$,
+\[
+gk^2+\rho^2(g-1)^2-k^2-gs\rho^2(g-1)^2=g(g-1)Dk^2 .
+\]
+Since $1-gs=-k$, the second and fourth terms on the left combine to
+$-\rho^2(g-1)^2k$, so the left side is
+$(g-1)k\bigl[k-\rho^2(g-1)\bigr]$, and dividing by $(g-1)k>0$,
+\[
+k-\rho^2(g-1)=gDk
+\quad\Longleftrightarrow\quad
+Dsg^2-(D+s-\rho^2)g+(1-\rho^2)=0,
+\]
+that is, $P(g)=0$. Every interior stationary point of $\Phi$ therefore
+sits at a root of $P$ exceeding $1$.
+
+\emph{Root bracketing and uniqueness.}
+$P(1)=Ds-(D+s-\rho^2)+(1-\rho^2)=(D-1)(s-1)=(D-1)\tau^2<0$ for $D<1$,
+$\tau^2>0$. The leading coefficient $Ds$ is positive and
+$P(0)=1-\rho^2>0$, so $P$ has two real roots, exactly one exceeding
+$1$ (the other lies in $(0,1)$). Hence every stationary point has
+$g=g^\star$, and by \eqref{eq:ab} the stationary $(a,b)$, and with it
+$n=Q_1/(g^\star-1)$, is unique. The attained minimum of
+\eqref{eq:moment-program} is $\tfrac12\log_2 g^\star$.
+
+\emph{Achievability.} The channel \eqref{eq:channel} has exactly the
+moments \eqref{eq:ab} with residual variance $n=Q_1/(g^\star-1)$. Its
+distortion is $h+n$, and $(g^\star-1)n=Q_1$ together with
+$P(g^\star)=0$ is, by the chain of equivalences above run backward,
+the statement $h+n=D$. The channel is jointly Gaussian with $(T,S)$,
+so the equality clause of Lemma~\ref{lem:gauss} gives
+\[
+I(T;\hY\mid S)=\tfrac12\log_2\frac{Q_1+n}{n}=\tfrac12\log_2 g^\star .
+\]
+Hence $L(D)=\tfrac12\log_2 g^\star$.
+\end{proof}
+
+\begin{corollary}[Anchors]\label{cor:anchors}
+(i) At $\rho=0$, $P(g)=(Dg-1)(sg-1)$ and $g^\star=1/D$:
+$L(D)=\tfrac12\log_2(1/D)$ is the classical rate--distortion function,
+attained with $b=0$ by the classical reverse test channel.
+(ii) As $\tau^2\to0$,
+$L(D)\to\tfrac12\log_2^{+}\bigl((1-\rho^2)/D\bigr)$, Gray's
+conditional rate--distortion function of the pair $(Y,V)$
+\cite{gray1973}, matching Proposition~\ref{prop:marg}.
+(iii) As $\rho^2\to1$,
+$L(D)\to\tfrac12\log_2\bigl[(D+\tau^2)/(D(1+\tau^2))\bigr]$,
+Steinberg's common-reconstruction function at the induced correlation
+$\rho_{YS}^2=1/s$ \cite{steinberg2009}.
+\end{corollary}
+
+\begin{proof}
+(i) $(Dg-1)(sg-1)=Dsg^2-(D+s)g+1=P(g)\big|_{\rho=0}$. The roots are
+$1/D>1$ and $1/s<1$, so $g^\star=1/D$. At this root \eqref{eq:channel}
+gives $b=0$, $a=1-D$, $Q_1=(1-D)^2$, and
+$\operatorname{Var}N=(1-D)^2/(1/D-1)=D(1-D)$: the classical reverse
+channel.
+
+(ii) At $s=1$,
+$P(g)=Dg^2-(D+1-\rho^2)g+(1-\rho^2)=(g-1)\bigl(Dg-(1-\rho^2)\bigr)$,
+with discriminant $\bigl(D-(1-\rho^2)\bigr)^2$, so the larger root at
+$s=1$ is exactly $\max\{1,(1-\rho^2)/D\}$; the roots of $P$ are
+continuous in $s$, and the limit follows. For $D<1-\rho^2$ the value
+is $\tfrac12\log_2\bigl(\operatorname{Var}(Y\mid V)/D\bigr)$ with
+$\operatorname{Var}(Y\mid V)=1-\rho^2$, Gray's conditional function;
+for $D\ge1-\rho^2$ it is $0$.
+
+(iii) At $\rho^2=1$ the constant term of $P$ vanishes:
+$P(g)=g\bigl(Dsg-(D+\tau^2)\bigr)$, with roots $0$ and
+$(D+\tau^2)/(Ds)$; the latter exceeds $1$ because
+$(D+\tau^2)-Ds=\tau^2(1-D)>0$. By root continuity
+$g^\star\to(D+\tau^2)/(Ds)$ as $\rho^2\to1$. Steinberg's scalar
+function at unit source variance and side-information correlation
+$\rho_{YS}^2$ is
+$\tfrac12\log_2\bigl[(1-\rho_{YS}^2+\rho_{YS}^2D)/D\bigr]$
+\cite{steinberg2009,bond2026landauer}; at $\rho_{YS}^2=\rho^2/s\to1/s$
+this is $\tfrac12\log_2\bigl[(\tau^2+D)/(sD)\bigr]$, the same value.
+\end{proof}
 
 \section{The Rate--Content Region and Misalignment}
 \label{sec:region}
-%% TRANSPLANT: go11 thm:frontier -> thm:region + cor:sep -> cor:misalign +
-%% rem:uniq -> Proposition (interior uniqueness; fix the label).
-%% DEBT 2: the two determinant identities + four-gradient reduction in full;
-%% the matrix-convexity lemma written out. Then R-IND-5 pass.
-%% Also state cor:notmarginal here (from go11 cor:kaspi part (ii)): same
-%% (Y,S) law, different L -- the delineation centerpiece. STATED below;
-%% its proof is the closed form of thm:function (DEBT M2).
+
+The work-only endpoint of Theorem~\ref{thm:function} does not come for
+free in rate. This section characterizes the full tradeoff between the
+two coordinates of \eqref{eq:main-region} for the Gaussian pair source.
+Throughout, $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, and $h$, $Q_0$,
+$Q_1$, $\mu_c$ are as in the proof of Theorem~\ref{thm:function}.
+
+\begin{theorem}[The rate--content region]\label{thm:region}
+The closure of the achievable rate--content pairs at distortion $D$ is
+the closed convex set whose Pareto frontier is traced by
+$\alpha\in[0,1]$ as follows. Let
+$(a,b,n,\gamma_0,\gamma_1)$, with $n>0$ and
+$\gamma_0,\gamma_1\in(0,1)$, solve the stationarity system
+\begin{equation}
+a=1-\alpha\gamma_0-(1-\alpha)\gamma_1,
+\qquad
+\mu_c=\frac{a\rho}{s-(1-\alpha)\gamma_1},
+\qquad
+b=(1-\alpha)\gamma_1\mu_c,
+\label{eq:twolevel-1}
+\end{equation}
+\begin{equation}
+n=D-h(a,b),
+\qquad
+\gamma_0=\frac{n}{Q_0+n},
+\qquad
+\gamma_1=\frac{n}{Q_1+n}.
+\label{eq:twolevel-2}
+\end{equation}
+The solution exists and is unique at every $\alpha$
+(Proposition~\ref{prop:uniq}; at $\alpha=0$ uniqueness also follows
+from Theorem~\ref{thm:function}), and the frontier point is
+\[
+\bigl(R(\alpha),L(\alpha)\bigr)
+=\Bigl(\tfrac12\log_2\frac1{\gamma_0},\
+\tfrac12\log_2\frac1{\gamma_1}\Bigr),
+\]
+achieved by $\hY=aY+bV+N$, $N\sim\mathcal N(0,n)$. Endpoints:
+$\alpha=1$ recovers the classical reverse channel ($b=0$, $a=1-D$,
+$\gamma_0=D$, $R=\tfrac12\log_2(1/D)$); $\alpha=0$ recovers the channel
+and value of Theorem~\ref{thm:function} ($\gamma_1=1/g^\star$).
+\end{theorem}
+
+\begin{proof}
+\emph{Convexity and scalarization.} Both coordinates are convex in the
+test channel: Lemma~\ref{lem:convexity} and the per-$s$ decomposition
+\eqref{eq:per-s-decomposition} apply verbatim with the sum over $s$
+replaced by an integral against the law of $S$, the conditional laws
+$p(t\mid s)$ being furnished by disintegration through a regular
+conditional probability ($S$ takes values in a standard Borel space).
+The achievable set of pairs at distortion $D$ is therefore convex,
+closed, and upward closed in each coordinate, so every point of its
+Pareto frontier minimizes one of the weighted objectives
+\[
+J_\alpha:=\alpha\,I(T;\hY)+(1-\alpha)\,I(T;\hY\mid S),
+\qquad\alpha\in[0,1],
+\]
+over admissible channels, by the supporting-hyperplane argument. At
+the interior weights each $J_\alpha$-minimizer is a frontier point;
+at the endpoint weights $\alpha\in\{0,1\}$ this a priori fixes only
+one coordinate of the minimizer, and the value of the other
+coordinate is pinned by the uniqueness of the minimizing moments
+(Proposition~\ref{prop:uniq}; the argument is run in detail in
+Corollary~\ref{cor:misalign}'s proof).
+
+\emph{The two determinant identities.} Fix an admissible channel,
+centered without loss, with regression coordinates $(a,b,n)$, $n>0$,
+as in the proof of Theorem~\ref{thm:function}; the Markov moment
+identity $\Cov(N',S)=0$ holds as there. Lemma~\ref{lem:gauss} applies
+twice to the same three moments, once with the conditioner $S$ and once
+with $S$ deleted:
+\begin{equation}
+I(T;\hY)\ \ge\
+\tfrac12\log_2\frac{\det\Sigma_T}{\det\Sigma_{e0}}
+=\tfrac12\log_2\frac{Q_0+n}{n},
+\qquad
+I(T;\hY\mid S)\ \ge\
+\tfrac12\log_2\frac{\det\Sigma_{T\mid S}}{\det\Sigma_{e}}
+=\tfrac12\log_2\frac{Q_1+n}{n},
+\label{eq:two-detids}
+\end{equation}
+where $\Sigma_{e0}$ is the error covariance of the best linear
+estimate of $T$ from $\hY$ alone. The conditional identity is written
+out in the proof of Theorem~\ref{thm:function}. The rate identity, in
+full: with $\hat c:=\E[T\hY]=\Sigma_T(a,b)^{\mathsf T}$ and
+$\operatorname{Var}\hY=Q_0+n$,
+\[
+\Sigma_{e0}=\Sigma_T-\frac{\hat c\,\hat c^{\mathsf T}}{Q_0+n},
+\qquad
+\det\Sigma_{e0}
+=\det\Sigma_T\,
+\Bigl(1-\frac{\hat c^{\mathsf T}\Sigma_T^{-1}\hat c}{Q_0+n}\Bigr)
+=\det\Sigma_T\,\frac{n}{Q_0+n},
+\]
+by the rank-one determinant identity
+$\det(\Sigma-\hat c\hat c^{\mathsf T}/v)
+=\det\Sigma\,(1-\hat c^{\mathsf T}\Sigma^{-1}\hat c/v)$ and
+$\hat c^{\mathsf T}\Sigma_T^{-1}\hat c
+=(a,b)\,\Sigma_T\,(a,b)^{\mathsf T}=Q_0$.
+
+\emph{The weighted moment program.} Combining, $J_\alpha$ is bounded
+below by
+\begin{equation}
+\min_{(a,b,n)}\ \varphi_\alpha(a,b,n):=
+\frac\alpha2\log_2\frac{Q_0+n}{n}
++\frac{1-\alpha}2\log_2\frac{Q_1+n}{n}
+\quad\text{s.t.}\quad h(a,b)+n\le D,\ n>0 .
+\label{eq:weighted-program}
+\end{equation}
+As in Theorem~\ref{thm:function}'s proof: $\varphi_\alpha$ is strictly
+decreasing in $n$ at fixed $(a,b)\ne(0,0)$, so the distortion
+constraint is active at the optimum; on the feasible set
+$Q_0\ge Q_1\ge q_0>0$, so $\varphi_\alpha\to\infty$ as $n\to0$ and the
+minimum is attained at an interior stationary point of
+$\varphi_\alpha(a,b,D-h(a,b))$.
+
+\emph{The gradient identities reduce the first-order system linearly.}
+At a stationary point set $\gamma_0=n/(Q_0+n)$ and
+$\gamma_1=n/(Q_1+n)$, both in $(0,1)$. For $x\in\{a,b\}$, using
+$\partial_xn=-\partial_xh$,
+\[
+\alpha\,\frac{\partial_x(Q_0-h)}{Q_0+n}
++(1-\alpha)\,\frac{\partial_x(Q_1-h)}{Q_1+n}
++\frac{\partial_xh}{n}=0 ;
+\]
+multiplying by $n/2$ and inserting the four gradient identities
+\eqref{eq:grad-ids}:
+\begin{align}
+x=a:&\quad
+\alpha\gamma_0+(1-\alpha)\gamma_1(1-\rho\mu_c)+(a+b\rho-1)=0,
+\label{eq:foc-a}\\
+x=b:&\quad
+\alpha\gamma_0\rho+(1-\alpha)\gamma_1(\rho-\mu_c)+(a\rho+b-\rho)=0 .
+\label{eq:foc-b}
+\end{align}
+Subtract $\rho$ times \eqref{eq:foc-a} from \eqref{eq:foc-b}: the
+$\gamma_0$ terms cancel, the $\gamma_1$ terms give
+$(1-\alpha)\gamma_1\bigl[(\rho-\mu_c)-\rho(1-\rho\mu_c)\bigr]
+=-(1-\alpha)\gamma_1\mu_c(1-\rho^2)$, and the moment terms give
+$(a\rho+b)-\rho(a+b\rho)=b(1-\rho^2)$, so
+\[
+b(1-\rho^2)=(1-\alpha)\gamma_1\mu_c(1-\rho^2)
+\quad\Longrightarrow\quad
+b=(1-\alpha)\gamma_1\mu_c .
+\]
+Equation~\eqref{eq:foc-a} then reads
+$a+b\rho=1-\alpha\gamma_0-(1-\alpha)\gamma_1+(1-\alpha)\gamma_1\rho\mu_c
+=1-\alpha\gamma_0-(1-\alpha)\gamma_1+b\rho$, so
+$a=1-\alpha\gamma_0-(1-\alpha)\gamma_1$. Finally
+$s\mu_c=a\rho+b=a\rho+(1-\alpha)\gamma_1\mu_c$ rearranges to
+$\mu_c=a\rho/\bigl(s-(1-\alpha)\gamma_1\bigr)$, the denominator being
+positive since $s>1>(1-\alpha)\gamma_1$. This is
+\eqref{eq:twolevel-1}; \eqref{eq:twolevel-2} restates the activity of
+the constraint and the definitions of $(\gamma_0,\gamma_1)$.
+Conversely, every solution of the system with $n>0$ is a stationary
+point of the reduced program, and by Proposition~\ref{prop:uniq} the
+program is convex in moment coordinates with a unique minimizer, so
+the system's solution is unique and is that minimizer.
+
+\emph{Achievability.} The jointly Gaussian channel $\hY=aY+bV+N$,
+$N\sim\mathcal N(0,n)$, with the optimal $(a,b,n)$ realizes the same
+moments and, by the equality clause of Lemma~\ref{lem:gauss}, attains
+both bounds of \eqref{eq:two-detids} simultaneously:
+$I(T;\hY)=\tfrac12\log_2(1/\gamma_0)$ and
+$I(T;\hY\mid S)=\tfrac12\log_2(1/\gamma_1)$. Hence the value of
+\eqref{eq:weighted-program} equals the minimum of $J_\alpha$, the
+frontier point is as displayed, and the trace over $\alpha\in[0,1]$ is
+the entire Pareto boundary.
+
+\emph{Endpoints.} At $\alpha=1$, \eqref{eq:twolevel-1} gives $b=0$ and
+$a=1-\gamma_0$; then $h=(1-a)^2=\gamma_0^2$, $Q_0=a^2$, and
+$\gamma_0(Q_0+n)=n$ forces $\gamma_0a^2=n(1-\gamma_0)=na$, so
+$n=\gamma_0a$; combined with $n=D-\gamma_0^2$ this gives
+$\gamma_0(1-\gamma_0)=D-\gamma_0^2$, that is, $\gamma_0=D$, $a=1-D$,
+$n=D(1-D)$: the classical reverse channel. At $\alpha=0$ the
+$\gamma_0$ terms drop from \eqref{eq:foc-a}--\eqref{eq:foc-b}, which
+become \eqref{eq:foc} with $g=1/\gamma_1$; Theorem~\ref{thm:function}
+identifies $\gamma_1=1/g^\star$ and the channel \eqref{eq:channel}.
+\end{proof}
+
+Uniqueness at every weight is a convexity statement in moment
+coordinates. It is cleanest, and no harder, in the whitened frame that
+Section~\ref{sec:vector} also uses; we set it up once. Since
+$\Sigma_T\succ0$ and $0\prec\Sigma_{T\mid S}\preceq\Sigma_T$, there is
+a nonsingular $W$ with
+\begin{equation}
+W\Sigma_TW^{\mathsf T}=I,
+\qquad
+W\Sigma_{T\mid S}W^{\mathsf T}
+=\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_p),
+\qquad 0\prec\Lambda\preceq I
+\label{eq:whitening}
+\end{equation}
+(factor $\Sigma_T=LL^{\mathsf T}$, diagonalize
+$L^{-1}\Sigma_{T\mid S}L^{-\mathsf T}=O\Lambda O^{\mathsf T}$, and set
+$W=O^{\mathsf T}L^{-1}$). Write $Z=WT$, so $\Cov Z=I$; the read becomes
+$Y=y_0^{\mathsf T}Z$ with $y_0=W^{-\mathsf T}e_Y$ and
+$|y_0|^2=e_Y^{\mathsf T}\Sigma_Te_Y=1$. A channel with regression
+vector $(a,b)^{\mathsf T}$ on $T$ has regression vector
+$c=W^{-\mathsf T}(a,b)^{\mathsf T}$ on $Z$, and
+\[
+Q_0=|c|^2,\qquad Q_1=c^{\mathsf T}\Lambda c,\qquad
+h=|y_0-c|^2,\qquad
+\E(Y-\hY)^2=|y_0-c|^2+n .
+\]
+Here $p=2$; Section~\ref{sec:vector} uses $p=1+r$.
+
+\begin{lemma}[Matrix convexity of the Schur ratio]\label{lem:mxconvex}
+Let $\mathcal Z\subseteq\R^q$ be convex, $a:\mathcal Z\to\R^p$ affine,
+and $\sigma:\mathcal Z\to(0,\infty)$ concave. Then
+\[
+F(z):=\frac{a(z)\,a(z)^{\mathsf T}}{\sigma(z)}
+\]
+is matrix-convex: $F(z_t)\preceq(1-t)F(z_0)+tF(z_1)$ for all
+$z_0,z_1\in\mathcal Z$, $t\in[0,1]$, $z_t=(1-t)z_0+tz_1$.
+\end{lemma}
+
+\begin{proof}
+For $\sigma>0$ the Schur-complement criterion states
+\[
+\begin{bmatrix}W&a\\ a^{\mathsf T}&\sigma\end{bmatrix}\succeq0
+\quad\Longleftrightarrow\quad
+W\succeq\frac{aa^{\mathsf T}}{\sigma},
+\]
+so $F(z)$ is the smallest matrix admitted by the certificate at $z$.
+Fix $z_0,z_1,t$ and abbreviate $a_i=a(z_i)$, $\sigma_i=\sigma(z_i)$,
+$F_i=F(z_i)$. The two certificates
+\[
+\begin{bmatrix}F_0&a_0\\ a_0^{\mathsf T}&\sigma_0\end{bmatrix}
+\succeq0,
+\qquad
+\begin{bmatrix}F_1&a_1\\ a_1^{\mathsf T}&\sigma_1\end{bmatrix}
+\succeq0
+\]
+average, with weights $(1-t,t)$, to
+\[
+\begin{bmatrix}
+(1-t)F_0+tF_1&a(z_t)\\
+a(z_t)^{\mathsf T}&(1-t)\sigma_0+t\sigma_1
+\end{bmatrix}\succeq0,
+\]
+using affinity of $a$ in the off-diagonal blocks. Concavity gives
+$\sigma(z_t)\ge(1-t)\sigma_0+t\sigma_1$, and adding the positive
+semidefinite matrix
+$\mathrm{diag}\bigl(0,\sigma(z_t)-(1-t)\sigma_0-t\sigma_1\bigr)$
+raises the corner:
+\[
+\begin{bmatrix}
+(1-t)F_0+tF_1&a(z_t)\\
+a(z_t)^{\mathsf T}&\sigma(z_t)
+\end{bmatrix}\succeq0 .
+\]
+By the criterion again,
+$(1-t)F_0+tF_1\succeq a(z_t)a(z_t)^{\mathsf T}/\sigma(z_t)=F(z_t)$.
+\end{proof}
+
+\begin{proposition}[Uniqueness at every weight]\label{prop:uniq}
+In the whitened frame \eqref{eq:whitening}, with $0\prec\Lambda\preceq
+I$, $|y_0|=1$, $D\in(0,1)$, and any $\alpha\in[0,1]$, the weighted
+program \eqref{eq:weighted-program} (with $Q_0=|c|^2$,
+$Q_1=c^{\mathsf T}\Lambda c$, $h=|y_0-c|^2$, minimized over $(c,n)$)
+has a unique minimizer, and every stationary point with $n>0$ is that
+minimizer. Since the change of variables
+$c=W^{-\mathsf T}(a,b)^{\mathsf T}$ is a linear bijection, the same
+holds for the program in the coordinates of
+Theorem~\ref{thm:region}.
+\end{proposition}
+
+\begin{proof}
+Work in the moment coordinates $z=(c,v)$,
+$v=\operatorname{Var}\hY=|c|^2+n$, on the domain
+\[
+\mathcal D=\bigl\{(c,v):v>|c|^2,\ 1-2y_0^{\mathsf T}c+v\le D\bigr\},
+\]
+which is convex: $v>|c|^2$ is the strict epigraph of a convex
+function, and the distortion constraint
+$h+n=1-2y_0^{\mathsf T}c+v\le D$ is linear in $z$. On $\mathcal D$
+define $\sigma:=v-c^{\mathsf T}(I-\Lambda)c=Q_1+n>0$ and
+\begin{align*}
+B_0&=\tfrac12\log_2\frac{Q_0+n}{n}
+=-\tfrac12\log_2\det\Bigl(I-\frac{cc^{\mathsf T}}{v}\Bigr),\\
+B_1&=\tfrac12\log_2\frac{Q_1+n}{n}
+=\tfrac12\log_2\det\Lambda
+-\tfrac12\log_2\det\Bigl(\Lambda
+-\frac{(\Lambda c)(\Lambda c)^{\mathsf T}}{\sigma}\Bigr);
+\end{align*}
+the first equality holds because
+$\det(I-cc^{\mathsf T}/v)=1-|c|^2/v=n/v$, the second because
+$\det\bigl(\Lambda-(\Lambda c)(\Lambda c)^{\mathsf T}/\sigma\bigr)
+=\det\Lambda\,\bigl(1-c^{\mathsf T}\Lambda c/\sigma\bigr)
+=\det\Lambda\cdot n/\sigma$.
+
+\emph{Convexity.} Apply Lemma~\ref{lem:mxconvex} twice. For $B_0$:
+$z\mapsto c$ is affine and $z\mapsto v$ is affine, hence concave and
+positive on $\mathcal D$, so $W_0(z)=cc^{\mathsf T}/v$ is
+matrix-convex, $I-W_0$ is matrix-concave, and $I-W_0\succ0$ on
+$\mathcal D$ (Schur criterion with $v-|c|^2=n>0$). For $B_1$:
+$z\mapsto\Lambda c$ is affine and $z\mapsto\sigma$ is concave (affine
+minus a convex quadratic, $I-\Lambda\succeq0$) and positive, so
+$W_1(z)=(\Lambda c)(\Lambda c)^{\mathsf T}/\sigma$ is matrix-convex,
+$\Lambda-W_1$ is matrix-concave, and $\Lambda-W_1\succ0$ since
+$c^{\mathsf T}\Lambda c=Q_1<\sigma$. The map
+$\Sigma\mapsto-\log_2\det\Sigma$ on positive definite matrices is
+convex and antitone in the semidefinite order, and composing a convex
+antitone function with a matrix-concave map preserves convexity: for
+matrix-concave $F\succ0$,
+\[
+-\log\det F(z_t)
+\;\le\;-\log\det\bigl((1-t)F(z_0)+tF(z_1)\bigr)
+\;\le\;(1-t)\bigl(-\log\det F(z_0)\bigr)
++t\bigl(-\log\det F(z_1)\bigr).
+\]
+Hence $B_0$, $B_1$, and every
+$B_\alpha:=\alpha B_0+(1-\alpha)B_1$ are convex on $\mathcal D$.
+
+\emph{Reduction to the active slice.} On $\mathcal D$, feasibility
+forces $c\ne0$: from $v>|c|^2\ge0$ and
+$1-2y_0^{\mathsf T}c+v\le D$,
+\begin{equation}
+2\,y_0^{\mathsf T}c\;\ge\;1-D+v\;>\;1-D\;>\;0 .
+\label{eq:cnonzero}
+\end{equation}
+At fixed $c\ne0$ both $B_0$ and $B_1$ strictly decrease in $v$
+($\partial_v[\ln v-\ln n]=v^{-1}-n^{-1}<0$ and
+$\partial_v[\ln\sigma-\ln n]=\sigma^{-1}-n^{-1}<0$, since
+$Q_0\ge Q_1>0$), so every minimizer of $B_\alpha$ lies on the active
+slice $v=D-1+2y_0^{\mathsf T}c$, an affine section of $\mathcal D$. On
+the slice $B_\alpha$ is convex, so its stationary points are exactly
+its global minimizers and the minimizer set is convex; coercivity as
+in Theorem~\ref{thm:region}'s proof gives attainment.
+
+\emph{Strictness.} Suppose $z_0\ne z_1$ are both minimizers on the
+slice, and let $z_t$ run over the segment, along which $v$ and $c$ are
+affine in $t$. Then $B_\alpha$ is affine on the segment, and since
+$B_0$, $B_1$ are convex and their weighted sum is affine, each $B_i$
+carrying nonzero weight is affine on the segment. We use twice the
+following fact: for an affine positive definite matrix segment
+$\Sigma_t=(1-t)\Sigma_0+t\Sigma_1$, the function
+$t\mapsto-\log\det\Sigma_t$ has second derivative
+$\tr\bigl[(\Sigma_t^{-1}\dot\Sigma)^2\bigr]\ge0$, which vanishes only
+if $\dot\Sigma=0$, because
+$\Sigma_t^{-1/2}\dot\Sigma\Sigma_t^{-1/2}$ is symmetric and a
+symmetric matrix whose square has zero trace is zero. Moreover, if a
+matrix-concave $F$ has $-\log\det F$ affine on the segment, then
+squeezing
+$-\log\det F(z_t)\le-\log\det\bigl((1-t)F(z_0)+tF(z_1)\bigr)\le$
+the affine interpolant forces both inequalities to be equalities;
+the second forces $F(z_0)=F(z_1)=:\bar F$ by the fact just stated,
+and the first then forces $F(z_t)\succeq\bar F$ with
+$\det F(z_t)=\det\bar F$, hence $F(z_t)=\bar F$ for all $t$
+(if $A\succeq B\succ0$ and $\det A=\det B$ then $A=B$).
+
+Case $\alpha>0$: $B_0$ is affine, so $W_0(z_t)=c(t)c(t)^{\mathsf
+T}/v(t)$ is constant, a rank-one matrix $\bar W_0\ne0$ by
+\eqref{eq:cnonzero}. Then $c(t)=\theta(t)e$ for a fixed unit vector
+$e$, with $\theta$ affine (a coordinate of the affine $c$), and
+$\theta(t)^2=v(t)\,(e^{\mathsf T}\bar W_0e)$ with $v$ affine. An
+affine function whose square is affine is constant, so $\theta$, hence
+$c$, hence $v=D-1+2y_0^{\mathsf T}c$, is constant: $z_0=z_1$, a
+contradiction.
+
+Case $\alpha<1$: $B_1$ is affine, so
+$W_1(z_t)=(\Lambda c)(\Lambda c)^{\mathsf T}/\sigma$ is constant and
+nonzero. Then $\Lambda c(t)=\theta(t)e$ with $\theta$ affine, and
+$\theta(t)^2=\sigma(t)\,(e^{\mathsf T}\bar W_1e)$. Along the segment
+$\sigma(t)=v(t)-c(t)^{\mathsf T}(I-\Lambda)c(t)$ is a concave
+quadratic in $t$, while $\theta^2$ is a convex quadratic; equality up
+to the positive constant $e^{\mathsf T}\bar W_1e$ forces both to be
+affine, so $\theta$ is an affine function with affine square, hence
+constant. Then $\Lambda c$ is constant, $c$ is constant ($\Lambda$
+nonsingular), and $z_0=z_1$ as before, a contradiction.
+
+Every $\alpha\in[0,1]$ falls in at least one case, so the minimizer is
+unique.
+\end{proof}
+
+\begin{corollary}[Misalignment opens a strict tradeoff]
+\label{cor:misalign}
+For $\rho^2\in(0,1)$ and $\tau^2>0$ the frontier is nondegenerate: any
+channel attaining $L(D)$ has rate strictly above
+$R_{\min}=\tfrac12\log_2(1/D)$, and any channel attaining $R_{\min}$
+has conditional content strictly above $L(D)$. In particular
+\[
+L(1)=\tfrac12\log_2\frac{(1-D)(1-\rho^2/s)+D}{D}\;>\;L(D),
+\]
+the content of the classical reverse channel, and
+$R(0)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]$ evaluated at the channel of
+Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. (Numerically,
+at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $R(0)-R_{\min}=0.0400$ and
+$L(1)-L(D)=0.0349$ bits.) The collapse degeneracies are exactly the
+alignment boundaries: at $\rho=0$ the classical reverse channel
+attains both minima and the frontier is a single corner, and the
+frontier collapses in the limits $\rho^2\to1$ (the scalar corner of
+\cite{bond2026landauer}) and $\tau^2\to\infty$ (where
+$L\to R$ coordinatewise).
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:function}, the moment program for the conditional
+coordinate alone has the unique minimizer
+$(a^\star,b^\star,n^\star)$ of \eqref{eq:ab}, and
+$b^\star=(g^\star-1)\rho/(g^\star k)\ne0$ since $\rho\ne0$,
+$g^\star>1$, $k>0$. By the $\alpha=1$ endpoint computation in
+Theorem~\ref{thm:region}'s proof (uniqueness by
+Proposition~\ref{prop:uniq}), the moment program for the rate
+coordinate alone has the unique minimizer
+$\bigl(1-D,\,0,\,D(1-D)\bigr)$, with $b=0$. The two minimizers are
+distinct.
+
+Let a channel attain $L(D)$. Writing $B_0,B_1$ for the two bounds of
+\eqref{eq:two-detids} as functions of the channel's moments,
+$L(D)=I(T;\hY\mid S)\ge B_1(\text{its moments})\ge\min B_1=L(D)$
+forces equality throughout, so its moments minimize $B_1$ and equal
+$(a^\star,b^\star,n^\star)$. Its rate then satisfies
+$R\ge B_0(a^\star,b^\star,n^\star)>\min B_0=R_{\min}$: strict, because
+$B_0$'s minimizer is unique and differs from
+$(a^\star,b^\star,n^\star)$. Symmetrically, any rate-optimal channel
+carries the moments $(1-D,0,D(1-D))$ and its content is at least $B_1$
+there, which strictly exceeds $L(D)$; evaluating, $b=0$ gives
+$Q_1=(1-D)^2(1-\rho^2/s)$ and $n=D(1-D)$, so
+$(Q_1+n)/n=\bigl[(1-D)(1-\rho^2/s)+D\bigr]/D$, the displayed $L(1)$.
+
+At $\rho=0$, $b^\star=0$ and $g^\star=1/D$
+(Corollary~\ref{cor:anchors}(i)) give
+$(a^\star,n^\star)=(1-D,D(1-D))$: the two minimizers coincide and the
+frontier is the corner $R_{\min}=L(D)=\tfrac12\log_2(1/D)$. As
+$\rho^2\to1$ the whole frontier converges to the scalar corner of
+\cite{bond2026landauer}, and as $\tau^2\to\infty$,
+$\Sigma_{T\mid S}\to\Sigma_T$ makes the two coordinates, and so the
+two endpoints, coincide in the limit.
+\end{proof}
 
 \begin{corollary}[$L$ is not a functional of the $(Y,S)$ law]
 \label{cor:notmarginal}
@@ -478,8 +1327,58 @@ below the Steinberg value of the margin ($1.2297$ and $0.5577$ bits
 respectively). In particular $L(D)$ is not Steinberg's function composed
 with any modified pair, nor Gray's, nor any functional of the $(Y,S)$
 joint law: the encoder's access to the clean context $V$ is load-bearing.
-%% proof follows Thm \ref{thm:function} (DEBT M2)
 \end{corollary}
+
+\begin{proof}
+The two instances share the $(Y,S)$ joint law: in both, $Y$ is standard
+and
+$\rho_{YS}^2=\Cov(Y,S)^2/\operatorname{Var}S=\rho^2/s$ equals
+$\tfrac12$, namely $(\tfrac12)/1$ and $(\tfrac34)/(\tfrac32)$, and
+rescaling $S$ changes none of the quantities considered.
+
+\emph{First instance,} $(\rho^2,\tau^2)=(\tfrac12,0)$: the context is
+clean. This instance sits at the boundary $\tau^2=0$ excluded by the
+standing assumption $\tau^2>0$ of Section~\ref{sec:pair}, so its value
+is supplied not by Theorem~\ref{thm:function} but directly by
+Proposition~\ref{prop:marg}(ii), which is proved at $\tau^2=0$ (and
+which the $\tau^2\to0$ anchor of Corollary~\ref{cor:anchors} matches
+in the limit):
+$L=\tfrac12\log_2\bigl(1/(2D)\bigr)$: $L=\tfrac12\log_2 5=1.1610$ bits
+at $D=0.1$, and $L=\tfrac12\log_2(5/3)=0.3685$ bits at $D=0.3$.
+
+\emph{Second instance,} $(\rho^2,\tau^2)=(\tfrac34,\tfrac12)$:
+$s=\tfrac32$, and \eqref{eq:Pg} becomes, at $D=0.1$,
+\[
+P(g)=\tfrac{3}{20}g^2-\tfrac{17}{20}g+\tfrac14,
+\qquad
+g^\star=\frac{17+\sqrt{229}}{6}=5.3555,
+\qquad
+L=\tfrac12\log_2 g^\star=1.2105\ \text{bits},
+\]
+and, at $D=0.3$,
+\[
+P(g)=\tfrac{9}{20}g^2-\tfrac{21}{20}g+\tfrac14,
+\qquad
+g^\star=\frac{21+\sqrt{261}}{18}=2.0642,
+\qquad
+L=\tfrac12\log_2 g^\star=0.5228\ \text{bits}.
+\]
+
+\emph{The Steinberg value of the margin:} an encoder observing $Y$
+alone pays the marginalized-class optimum of
+Section~\ref{sec:function}, the scalar-corner value
+$\tfrac12\log_2\bigl[(1-\rho_{YS}^2+\rho_{YS}^2D)/D\bigr]$ at
+$\rho_{YS}^2=\tfrac12$, that is,
+$\tfrac12\log_2\bigl[(1+D)/(2D)\bigr]$: $\tfrac12\log_2 5.5=1.2297$
+bits at $D=0.1$, and $\tfrac12\log_2(13/6)=0.5577$ bits at $D=0.3$.
+Both instances lie strictly below it ($1.1610,\,1.2105<1.2297$ and
+$0.3685,\,0.5228<0.5577$), as Proposition~\ref{prop:marg} requires.
+
+Since the two instances have the same $(Y,S)$ law and different $L$,
+no functional of the $(Y,S)$ joint law, in particular neither
+Steinberg's function nor Gray's under any reparameterization of the
+pair, can equal $L$.
+\end{proof}
 
 \section{When the Floor Is Attained}
 \label{sec:floor}
@@ -523,12 +1422,16 @@ $I(X;\hat{\mathbf Y}\mid S)=I(T;\hat{\mathbf Y}\mid S)$. Second, the same
 mutual independence forces the Markov moment identity
 $\Cov(S,\hat{\mathbf Y})=\Cov(V,\hat{\mathbf Y})$. Third, jointly Gaussian
 channels $\hat{\mathbf Y}=AT+N$, $N\sim\mathcal N(0,\Sigma_N)$, exhaust
-the problem: for any admissible $T$-channel with
-$C=\Cov(T,\hat{\mathbf Y})$ and $\Sigma_{\hat Y}=\Cov(\hat{\mathbf Y})$,
-set $A:=C^{\mathsf T}\Sigma_T^{-1}$ and
+the problem, by Lemma~\ref{lem:gauss}: for any admissible $T$-channel
+with $C=\Cov(T,\hat{\mathbf Y})$ and
+$\Sigma_{\hat Y}=\Cov(\hat{\mathbf Y})$, set
+$A:=C^{\mathsf T}\Sigma_T^{-1}$ and
 $\Sigma_N:=\Sigma_{\hat Y}-A\Sigma_TA^{\mathsf T}\succeq0$ (assume
 $\Sigma_T\succ0$; degenerate instances reduce by dropping dependent
-context components); a maximum-entropy bound on these moments gives
+context components; singular $\Sigma_N$ is dispatched by
+Remark~\ref{rem:degenerate}). The residual $\hat{\mathbf Y}-AT$ is
+uncorrelated with $T$, hence with $V$, and with $U$ by mutual
+independence, hence with $S$, so the lemma's hypothesis holds and
 \begin{equation}
  L\;\ge\;\tfrac12\log_2
  \frac{\det\bigl(A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N\bigr)}
@@ -543,10 +1446,6 @@ with equality for the jointly Gaussian channel realizing the same moments,
 and the distortion constraints
 $(e_i-A_{i\cdot})^{\mathsf T}\Sigma_T(e_i-A_{i\cdot})+(\Sigma_N)_{ii}\le D_i$
 depend on the channel only through those moments.
-%% The determinant identity behind eq:gauss-exhaust is the same Schur
-%% computation as the scalar converse (the S-column of the moment matrix is
-%% the V-column plus tau^2 e_S); it is written out in full with the
-%% converses of Secs. IV--V (DEBT M2).
 Consequently $L_{\min}$ is the minimum of \eqref{eq:gauss-exhaust} over a
 compact feasible set of pairs $(A,\Sigma_N)$ and is attained.
 
@@ -634,9 +1533,7 @@ floor continuity.
 regime $D\le\operatorname{Var}(Y\mid V)$, the floor
 $\tfrac12\log_2(\operatorname{Var}(Y\mid S)/D)$ is attained iff
 $\rho\tau=0$: substituting $g_f=(s-\rho^2)/(Ds)$ into the quadratic
-%% dependency: Thm thm:function (DEBT M2) supplies P(g) and g*; the
-%% polynomial is quoted inline so this step is checkable now.
-$P(g)=Dsg^2-(D+s-\rho^2)g+(1-\rho^2)$ of Theorem~\ref{thm:function}, whose
+$P(g)$ of Theorem~\ref{thm:function}, equation \eqref{eq:Pg}, whose
 larger root $g^\star$ gives $L(D)=\tfrac12\log_2 g^\star$, yields
 $P(g_f)=-\rho^2\tau^2/s$, which is $<0$ (hence $g^\star>g_f$ strictly)
 exactly when $\rho\tau\ne0$. (The regime qualifier is the single-read
@@ -647,10 +1544,153 @@ root.)
 
 \section{Vector Context}
 \label{sec:vector}
-%% TRANSPLANT: go11 thm:vecS -> thm:vector.
-%% DEBT 3: the FOC derivation at vector S in full. If it resists, demote this
-%% section to a remark and scope the paper to scalar context + binary; the
-%% paper stands without it.
+
+The frontier survives a vector conditioner. Let
+$S=\Gamma^{\mathsf T}X+U\in\R^r$, $U\sim\mathcal N(0,\Sigma_U)$,
+$\Sigma_U\succ0$, with $X$, $U$, and all channel randomness mutually
+independent. Write $V:=\Gamma^{\mathsf T}X\in\R^r$ and
+$T:=(Y,V)\in\R^{1+r}$, and assume $\Sigma_T\succ0$; degenerate
+instances reduce by dropping linearly dependent context components.
+Reproductions are scalar without loss of optimality by the
+data-processing reduction of Section~\ref{sec:pair}, which is generic
+in $S$.
+
+\begin{theorem}[Vector context]\label{thm:vector}
+Let $0<D<1$.
+(i) \emph{Sufficiency:} it is without loss of optimality to let the
+channel depend on $X$ only through $T$, and then
+$I(X;\hY\mid S)=I(T;\hY\mid S)$.
+(ii) \emph{Whitened form:} with $W$, $Z=WT$,
+$\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_{1+r})$,
+$0\prec\Lambda\preceq I$, and the unit vector $y_0$ of
+\eqref{eq:whitening} at $p=1+r$, every admissible channel with
+regression vector $c=\E[Z\hY]$ and residual variance $n>0$ satisfies
+\begin{equation}
+R\ \ge\ \tfrac12\log_2\frac{|c|^2+n}{n},
+\qquad
+L\ \ge\ \tfrac12\log_2\frac{c^{\mathsf T}\Lambda c+n}{n},
+\qquad
+\E(Y-\hY)^2=|y_0-c|^2+n,
+\label{eq:vec-bounds}
+\end{equation}
+with both bounds attained simultaneously by the jointly Gaussian
+channel $\hY=c^{\mathsf T}Z+N$, $N\sim\mathcal N(0,n)$.
+(iii) \emph{The frontier}, traced by $\alpha\in[0,1]$: with
+$\gamma_0=n/(|c|^2+n)$ and
+$\gamma_1=n/(c^{\mathsf T}\Lambda c+n)$, the Pareto-optimal channel is
+the unique solution with $n>0$ of the generalized two-water-level
+system
+\begin{equation}
+c=\bigl(1-\alpha\gamma_0-(1-\alpha)\gamma_1\bigr)
+\bigl[\bigl(1-(1-\alpha)\gamma_1\bigr)I
++(1-\alpha)\gamma_1\Lambda\bigr]^{-1}y_0,
+\qquad
+n=D-|y_0-c|^2,
+\label{eq:vecfoc}
+\end{equation}
+per-mode explicit given the two scalars $(\gamma_0,\gamma_1)$, and the
+frontier point is
+$\bigl(\tfrac12\log_2(1/\gamma_0),\,\tfrac12\log_2(1/\gamma_1)\bigr)$.
+For $r=1$ the program coincides with that of Theorem~\ref{thm:region}
+under the linear bijection $c=W^{-\mathsf T}(a,b)^{\mathsf T}$, so the
+two systems trace the same frontier. The $\alpha=0$ endpoint gives the
+vector-context function $L(D)$ as a one-dimensional root problem in
+$\gamma_1$.
+\end{theorem}
+
+\begin{proof}
+(i) In the resampling proof of Theorem~\ref{thm:pair}, the only
+property of $S$ used is that its conditional law given $(X,\hY)$, and
+given $(X,\hY')$, is the fixed kernel
+$p(s\mid t,\hat y)=p_U(s-v)$, depending on $x$ only through $t$. This
+holds verbatim for the vector $S=V+U$ with
+$U\sim\mathcal N(0,\Sigma_U)$ jointly independent of $X$ and the
+channel randomness. Steps (a) through (d) of that proof are unchanged.
+
+(ii) \emph{Whitening.} First,
+$\Sigma_{T\mid S}=\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}\succ0$:
+positivity of $\Cov((T,S))$ holds because $\Sigma_T\succ0$ and
+$\Sigma_{S\mid T}=\Cov(\Gamma^{\mathsf T}X\mid T)+\Sigma_U\succeq
+\Sigma_U\succ0$, and the Schur complement of a positive definite
+matrix is positive definite. Also $\Sigma_{T\mid S}\preceq\Sigma_T$.
+The congruence \eqref{eq:whitening} therefore exists at $p=1+r$ with
+$0\prec\Lambda\preceq I$, and $\Cov Z=I$ makes the read a unit vector:
+$Y=y_0^{\mathsf T}Z$, $|y_0|^2=e_Y^{\mathsf T}\Sigma_Te_Y=1$.
+
+\emph{Moments and the two bounds.} Fix an admissible channel, centered
+without loss, with $c=\E[Z\hY]$ and
+$n=\operatorname{Var}\hY-|c|^2$; the case $n=0$ is dispatched by
+Remark~\ref{rem:degenerate}. The residual $N'=\hY-c^{\mathsf T}Z$ is
+uncorrelated with $Z$, hence with $T$ and with its subvector $V$; and
+it is uncorrelated with $U$ by mutual independence, hence with
+$S=V+U$: componentwise, $\Cov(N',S)=0$. Lemma~\ref{lem:gauss} applies
+with $A=c^{\mathsf T}W$:
+$A\Sigma_TA^{\mathsf T}=c^{\mathsf T}W\Sigma_TW^{\mathsf T}c=|c|^2$
+and
+$A\Sigma_{T\mid S}A^{\mathsf T}=c^{\mathsf T}\Lambda c$, giving the
+two bounds of \eqref{eq:vec-bounds}. The distortion evaluation is
+exact because $Z$ is white:
+$\E(Y-\hY)^2=1-2y_0^{\mathsf T}c+(|c|^2+n)=|y_0-c|^2+n$. Equality for
+the Gaussian channel is Lemma~\ref{lem:gauss}'s equality clause.
+
+(iii) \emph{The weighted program.} As in
+Theorem~\ref{thm:region}: both coordinates are convex in the channel,
+so the frontier is the trace of the weighted minimizations, and the
+weighted objective is bounded below by the moment program
+\[
+\min_{c,n}\
+\frac\alpha2\log_2\frac{Q_0+n}{n}
++\frac{1-\alpha}2\log_2\frac{Q_1+n}{n},
+\qquad
+Q_0=|c|^2,\quad
+Q_1=c^{\mathsf T}\Lambda c,\quad
+|y_0-c|^2+n\le D,\ n>0,
+\]
+whose value the Gaussian channel of (ii) attains. The objective is
+strictly decreasing in $n$ at fixed $c\ne0$, so the distortion
+constraint is active at the optimum. Feasibility forces
+$2y_0^{\mathsf T}c\ge1-D+v>1-D>0$ as in \eqref{eq:cnonzero}, so
+$c\ne0$ and $Q_1\ge\lambda_{\min}|c|^2$ is bounded away from zero on
+the feasible set, giving coercivity as $n\to0$ and attainment at an
+interior stationary point of the reduced objective in $c$, with
+$n=D-|y_0-c|^2$.
+
+\emph{The first-order system.} At such a point, with
+$h=|y_0-c|^2$, $\nabla h=-2(y_0-c)$, $\nabla n=2(y_0-c)$,
+$\nabla Q_0=2c$, and $\nabla Q_1=2\Lambda c$, stationarity of
+$\alpha\ln(Q_0+n)+(1-\alpha)\ln(Q_1+n)-\ln n$ reads, after
+multiplying by $n/2$,
+\[
+\alpha\gamma_0\bigl(c+(y_0-c)\bigr)
++(1-\alpha)\gamma_1\bigl(\Lambda c+(y_0-c)\bigr)
+-(y_0-c)=0 .
+\]
+The first parenthesis collapses, $c+(y_0-c)=y_0$; collecting the $c$
+terms,
+\[
+\bigl[\bigl(1-(1-\alpha)\gamma_1\bigr)I
++(1-\alpha)\gamma_1\Lambda\bigr]c
+=\bigl(1-\alpha\gamma_0-(1-\alpha)\gamma_1\bigr)y_0,
+\]
+which is \eqref{eq:vecfoc}. The bracket is invertible: each diagonal
+entry $\bigl(1-(1-\alpha)\gamma_1\bigr)+(1-\alpha)\gamma_1\lambda_j$
+is a convex combination of $1$ and $\lambda_j>0$, since
+$(1-\alpha)\gamma_1\in[0,1)$. Uniqueness of the minimizer, and hence
+of the system's solution with $n>0$, at every $\alpha\in[0,1]$ is
+Proposition~\ref{prop:uniq} at $p=1+r$; its proof is dimension-free.
+Achievability of the frontier point is (ii).
+
+For $r=1$ the bijection $c=W^{-\mathsf T}(a,b)^{\mathsf T}$ carries
+$(Q_0,Q_1,h)$ and the constraint to their Section~\ref{sec:function}
+forms, so the two weighted programs are identical with the same unique
+minimizer, and the two stationarity systems are equivalent
+parameterizations of it. At $\alpha=0$, \eqref{eq:vecfoc} reads
+$c=(1-\gamma_1)\bigl[(1-\gamma_1)I+\gamma_1\Lambda\bigr]^{-1}y_0$;
+substituting into $n=D-|y_0-c|^2$ and
+$\gamma_1=n/(c^{\mathsf T}\Lambda c+n)$ leaves one scalar equation in
+$\gamma_1\in(0,1)$, the vector-context generalization of the
+quadratic \eqref{eq:Pg}.
+\end{proof}
 
 \section{The Binary Solution}
 \label{sec:binary}
