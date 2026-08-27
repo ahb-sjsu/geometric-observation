@@ -2851,16 +2851,20 @@ In the application below, $\Sigma_{S\mid\hY}\succeq\Sigma_U\succ0$
 automatically, because $S=V+U$ with $U$ independent of $(X,\hY)$.
 
 \begin{theorem}[Extension: the Gaussian operational region]\label{thm:gaussop}
-For the Gaussian source,
+For the Gaussian source and every $0<D<1$,
 \[
 \RW(D)=\bigcup_{p(\hat y\mid x):\,\E(Y-\hY)^2\le D}
 \bigl\{(R,L):R\ge I(X;\hY),\ L\ge I(X;\hY\mid S)\bigr\},
 \]
 and the union is unchanged when restricted to jointly Gaussian test
-channels. Throughout, $L_n$ is a coding quantity, the normalized
-conditional entropy of the stored index; its thermodynamic reading is
-the idealized bound \eqref{eq:landauer-bound}, and no step of the proof
-depends on that reading.
+channels. The nontrivial range is $0<D<1$, and the compactness step of
+the proof uses $D<1$. For $D\ge1$ the result follows from the zero
+reproduction, which meets the distortion constraint with $R=L=0$; the
+point $D=0$ follows as the extended-real limiting case, both
+coordinates diverging. Throughout, $L_n$ is a coding quantity, the
+normalized conditional entropy of the stored index; its thermodynamic
+reading is the idealized bound \eqref{eq:landauer-bound}, and no step
+of the proof depends on that reading.
 \end{theorem}
 
 \begin{proof}
