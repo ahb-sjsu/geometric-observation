@@ -161,6 +161,65 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   same day (h=−∞ convention; endpoint-weight scalarization wording;
   regular-conditional-probability clause; cor:notmarginal τ²=0 boundary
   acknowledgment). 18 pp, zero undefined references.
-- **Next: M3** (related work + citation verification + the owed binary
-  delineation reads), then M4 (notation table, numerical-verification
-  appendix content, abstract polish, cover letter).
+- **M3 (2026-08-26):** related-work subsection written (end of Sec. I);
+  binary delineation paragraph written (end of Sec. VIII); every bib entry
+  verified against DBLP/arXiv/primary records and all % verify flags
+  cleared (fixes: lapidoth2014 real title "Constrained source-coding with
+  side information" T-IT 60(6):3218-3237; ahmadi2013 pages 1458-1474;
+  xiaoluo2005 J.-J. Xiao, Allerton 2005 pp. 438-447; Kaspi = A. H. Kaspi,
+  kept as the encoder-informed-SI cite; Gray 1972 TR 6502-2 added; Berger
+  1971 full book title). New entries: nayak2010, stylianou2021,
+  shlezinger2019, gunduz2023, tishby1999. 1112.1762 read in full (binary
+  CR calculations are all erased-SI, decoder-side); Steinberg 2009 binary
+  example (eq. (14), h(rho*D)-h(D), BSC(D) reverse channel) confirmed via
+  Vellambi-Timo arXiv:1611.05467 Lemma 9(c) -- PRIMARY read of the
+  paywalled T-IT text STILL OWED. Novelty re-sweep clean (no vector-
+  Gaussian CR, no third-party-conditioner region, no rate-work region
+  2024-2026; nearest adjacent title: Lu-Xu-Zhang-Feng-Wang WCSP 2016
+  binary encoder-SI + CR, abstract inaccessible, 2016 so not a
+  headline threat -- pull at submission sweep). 19 pp, zero undefined
+  references.
+- **M3b (2026-08-26):** terminology-defusing pass over the whole manuscript,
+  motivated by T-IT's ill-defined-terms complaint on the predecessor paper:
+  "consumer"->decoder (0 body uses left), noun "read"->described variable /
+  Y coordinate (0 left), noun "record"->description/reproduction (0 left),
+  "certificate"->criterion/checks/Lagrangian bounds (0 left); "context"
+  formally introduced in abstract + Sec. III; "conditional content" defined
+  at first use in abstract and intro (tied to H(M|S^n)/n and I(X;X-hat|S));
+  reset mechanism = third party identified in abstract and Sec. II; abstract
+  opening rewritten in standard encoder/decoder/description language. 19 pp,
+  zero undefined references, no proof mathematics changed.
+- **M3c (2026-08-26):** Sec. IX "Discussion and Conclusion" + Appendix B
+  "Numerical Verification" written (all table numbers taken from the archived
+  script outputs, two of the briefed numbers corrected against them; binary
+  Lagrangian row sourced from results/GO11-m2sys-binary.json). 20 pp.
+- **M3d (2026-08-26): owner review round applied.** MAJOR 1: Sec. II
+  restructured (model paragraph + TikZ Fig. 1 who-sees-what diagram;
+  R_min(D) and L(D) defined as displays BEFORE lemma/theorem; work-endpoint
+  display moved up); all cross-section theorem forward refs eliminated
+  (intro roadmap + related work now cite sections; in-proof thm:region ref
+  -> section; the four unavoidable within-Sec.-V refs to prop:uniq /
+  cor:misalign marked "below", reordering impossible since prop:uniq needs
+  the whitened frame from thm:region's proof). MAJOR 2: prop:uniq convexity
+  chain written out (I-W0 strict via n>0; sigma=Q1+n>0; Lambda-W1 strict via
+  Q1<sigma; one-line Loewner-monotonicity proof of det; strictness mechanism
+  named at the head of each case). MAJOR 3: cor:notmarginal sigma-algebra
+  rescaling line + displayed L=(1/2)log2(1/(2D)) for the (1/2,0) instance.
+  MAJOR 4: binary symmetrization justified (DSBS fair marginals + independent
+  Bern(q) noise flips S with V); shared-channel convexity sentence rewritten
+  (input laws depend on s; each I_s convex in the common channel C). MAJOR 5:
+  companion-measurement paragraph added to Sec. IX (3 sentences, cites
+  bond2026landauer, no equivalence claim). MINORS: hidelinks; s=1+tau^2
+  recalled in thm:function statement; 1-rho^2>0 division justified in the
+  region FOC; work-floor footnote (Landauer/Bennett/Faist); plot_frontier.py
+  written + run (endpoint excesses 0.0400/0.0349 from its own output,
+  endpoints tie closed forms at 1e-16), Fig. 2 in Sec. V.
+  verify_converses.py re-run: 12/12 PASS. 21 pp, zero undefined references,
+  zero errors; only residual overfull is the pre-existing 6.2pt one.
+- **M3e (2026-08-26):** machine-check record added to Appendix B only: Lean 4
+  module lean/ObservationTheory/CRContext.lean (built clean, zero sorry;
+  quadratic/root/anchor/surd/binary-anchor algebra) + MATLAB Symbolic R2026a
+  matlab_checks.m (11/11), with the honest-scope sentence on what stays
+  written-proof-only; Table I extended by two rows. 21 pp, zero undefined
+  references.
+- **Next: M4** (notation table, abstract polish, cover letter).
