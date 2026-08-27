@@ -257,4 +257,28 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   tightened. 27 pp, zero undefined refs. NOTE for owner (from reviewer):
   Section VI could be split out if length becomes an issue -- owner's
   decision, not taken.
-- **Next: M4** (notation table, abstract polish, cover letter).
+- **M4 (2026-08-27): DONE.** (1) Result-role labeling: "Results at a glance"
+  table (Table I) early in the intro, role words in ten bracketed titles
+  (Core: thm:function/region/binary; Consequence: cor:misalign+
+  rem:cleanboundary, thm:floor, cor:notmarginal; Extension: thm:vector,
+  thm:gaussop; Anchor: cor:anchors, prop:marg + the IB identity), roadmap
+  rewritten to walk the roles. (2) Novelty strengthening: "What is new"
+  subsection with the six-row theorem-level comparison table (Table II:
+  vs Steinberg 2009 / LMW 2014 / GIB 2005 / Xiao-Luo+Chen / Steinberg-
+  binary+Ahmadi; every prior-column claim matches what was verified) and
+  the four direct answers (reduction-vs-evaluation, operational theorem is
+  mathematics, classical machinery vs new objects, no two-coupled-level
+  water-filling and no such quadratic in the cited literature); related-
+  work duplication trimmed to a table pointer. (3) Polish: notation table
+  at end of Sec. II; abstract at 249 rendered words, no verification
+  claims; header compressed to a STATUS block; 1pt psi-display overfull
+  fixed (qquad->quad); zero em-dashes / % verify flags / program vocab
+  (single "consumer" = cited title). (4) cover-letter-tit.tex written and
+  built (1 page): contributions by role, frank paragraph on the rejected
+  synthesis (different single-object work, no shared theorems, standard
+  vocabulary adopted), Zenodo-record relationship (supersedes its source-
+  coding content), verification apparatus sentence, standard statements.
+  Manuscript: 29 pp, zero undefined refs, zero overfull.
+- **REMAINING (owner items only):** R-IND-5 fresh-context pass on all new
+  prose; Steinberg 2009 + Lu et al. WCSP 2016 primary reads; the reviewer's
+  Sec-VI split-out suggestion (owner decision); submission-time full sweep.
