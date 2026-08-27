@@ -296,6 +296,25 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   with the Gaussian-conditional-mean clause, (44)-bracket invertibility
   confirmed present. Manuscript 30 pp, cover letter 1 p, zero undefined,
   zero overfull; verify_converses.py 16/16.
+- **M5 (2026-08-27): MINOR REVISION round applied** (external review:
+  "technical core appears sound"): App. B quantizers made explicit (nested
+  saturating dyadic family, sigma-fields to Borel, Pinsker Ch. 2 monotone
+  convergence) + cell-bound lemma PROVED (inf/sup density-ratio on bounded
+  cells, Mills-type tails, clipped-rectangle bound for vector S) closing
+  the Wyner integrability import + closedness/right-continuity made
+  self-contained in the appendix; Fig. 1 corrected (M-branch into the
+  reset mechanism, relabeled "accesses M, retains S^n", caption + Sec. II
+  prose aligned); endpoint symbols renamed L_R*(D)/R_L*(D) throughout
+  (cor:misalign, rem:cleanboundary, Fig. 2 labels regenerated via
+  plot_frontier.py, notation-table row added); dimension claim narrowed
+  everywhere to "Y and V scalar linear functionals of an
+  arbitrary-dimensional jointly Gaussian source"; "What is new" recast as
+  neutral "Relation to prior formulations" with to-our-knowledge
+  softening; Table I (results-at-a-glance) folded into the roadmap prose;
+  App. C compressed to one paragraph + table, full inventory moved to
+  VERIFICATION.md (new); Chen et al. checked — still no IEEE
+  volume/pages/DOI, bibitem stays "to be published". Manuscript 31 pp,
+  zero undefined, zero overfull; verify_converses.py 16/16.
 - **REMAINING (owner items only):** R-IND-5 fresh-context pass on all new
   prose; Steinberg 2009 + Lu et al. WCSP 2016 primary reads; the reviewer's
   Sec-VI split-out suggestion (owner decision); submission-time full sweep.

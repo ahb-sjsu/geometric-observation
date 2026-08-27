@@ -21,6 +21,8 @@
 \newcommand{\hY}{\widehat{Y}}
 \newcommand{\RW}{\mathcal{R}\!\mathcal{W}}
 \newcommand{\Bdet}{\mathsf{B}_{\det}}
+\newcommand{\LRs}{L_{R}^{\star}}
+\newcommand{\RLs}{R_{L}^{\star}}
 \newcommand{\kb}{k_{\mathrm{B}}}
 
 \begin{document}
@@ -48,8 +50,9 @@ description by a reset mechanism retaining $S$. This is Steinberg's
 common-reconstruction functional applied to the augmented source $X=(Y,V)$
 with distortion on $Y$ alone. We evaluate it in closed form:
 $L(D)=\tfrac12\log_2 g^{*}$, with $g^{*}$ the larger root of an explicit
-quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, in any ambient
-dimension. The closed form recovers the classical rate--distortion
+quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, when $Y$ and
+$V$ are scalar linear functionals of an arbitrary-dimensional jointly
+Gaussian source. The closed form recovers the classical rate--distortion
 function at $\rho=0$ and Gray's conditional function as $\tau^2\to0$, and
 meets Steinberg's scalar Gaussian formula at the $\rho^2\to1$ boundary. The
 function is not determined by the reduced $(Y,S)$ marginal: two instances
@@ -110,8 +113,9 @@ distortion ignore the extra coordinate. What this paper adds is, first, an
 operational reading: $L(D)$ is the minimal ideal conditional-erasure work of
 the stored description against a third party that retains $S$ and never
 decodes. Second, an evaluation: we solve the augmented Gaussian problem in
-closed form in any ambient dimension, where the known Gaussian solutions
-\cite{steinberg2009,lapidoth2014} are scalar and unaugmented. Three
+closed form when $Y$ and $V$ are scalar linear functionals of an
+arbitrary-dimensional jointly Gaussian source, where the known Gaussian
+solutions \cite{steinberg2009,lapidoth2014} are scalar and unaugmented. Three
 classical objects sit at the corners of the closed form. When the described
 variable and the context decouple ($\rho=0$), $L$ is Shannon's
 rate--distortion function \cite{shannon1959}. When the third party's copy is
@@ -126,11 +130,13 @@ not determined by the reduced marginal $(Y,S)$; the encoder's access to the
 clean context $V$, which neither the decoder nor the third party shares,
 enters the function itself.
 
-The results fall into four roles, and Table~\ref{tab:glance} lists them.
-The core results are three. Section~\ref{sec:function} gives the closed
+The results fall into four roles: core results, structural consequences,
+extensions, and consistency anchors, and the bracketed words in the
+theorem titles carry the roles. The core results are three. Section~\ref{sec:function} gives the closed
 form $L(D)=\tfrac12\log_2 g^{*}$ with $g^{*}$ the larger root of an
 explicit quadratic, together with the achieving channel, after
-Section~\ref{sec:pair} reduces the problem in any ambient dimension to the
+Section~\ref{sec:pair} reduces the problem, for $Y$ and $V$ scalar linear
+functionals of an arbitrary-dimensional jointly Gaussian source, to the
 pair $(\rho,\tau^2)$. Section~\ref{sec:region} characterizes the exact
 region of achievable rate--content pairs, whose Pareto frontier is traced
 by a two-water-level stationarity system. Section~\ref{sec:binary} closes
@@ -154,57 +160,25 @@ anchors: the three classical corners, the strict suboptimality of
 marginalization, and an exact information-bottleneck identity for the
 weighted objective.
 
-\begin{table}[!t]
-\caption{Results at a glance.}
-\label{tab:glance}
-\centering
-\footnotesize
-\begin{tabular}{lp{3.5in}l}
-\hline
-Result & One-line statement & Role\\
-\hline
-Theorem~\ref{thm:function} & $L(D)=\tfrac12\log_2 g^\star$, $g^\star$ the
-larger root of the quadratic \eqref{eq:Pg}; achieving channel & Core\\
-Theorem~\ref{thm:region} & Exact rate--content region; two-water-level
-Pareto frontier & Core\\
-Theorem~\ref{thm:binary} & Complete binary solution through the tilt
-equation & Core\\
-Corollary~\ref{cor:misalign}, Remark~\ref{rem:cleanboundary} & Strict
-tradeoff iff $0<\rho^2<1$ under $\tau^2>0$; persists at $\tau^2=0$ &
-Consequence\\
-Theorem~\ref{thm:floor} & Exact attainment condition for the determinant
-bound, governed by $\Sigma_{Y\mid V}$ & Consequence\\
-Corollary~\ref{cor:notmarginal} & $L$ not determined by the reduced
-marginal $(Y,S)$ & Consequence\\
-Theorem~\ref{thm:vector} & Frontier with vector context & Extension\\
-Theorem~\ref{thm:gaussop} & Operational region theorem for the Gaussian
-source & Extension\\
-Corollary~\ref{cor:anchors}, Proposition~\ref{prop:marg} & Classical, Gray,
-and Steinberg corners; marginalization strictly suboptimal & Anchor\\
-Eq.~\eqref{eq:ib-identity} & The weighted objective is an IB Lagrangian
-plus a hard distortion constraint & Anchor\\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection*{What is new}
+\subsection*{Relation to prior formulations}
 
 Table~\ref{tab:whatsnew} places each main result against its nearest
-published neighbor. Four objections deserve direct answers. First, the
-single-letter functional is Steinberg's; we say so, and claim the
-functional nowhere. Second, the augmentation device is Remark~8 of
-\cite{lapidoth2014}; but observing that a reduction exists is not
-evaluating the reduced problem, and the closed form, the two coupled water
-levels, the misalignment dichotomy, and the non-determination phenomenon
-of Corollary~\ref{cor:notmarginal} are properties of the solution, not of
-the reduction. Third, the physical reading does not alter the mathematics,
-and it is not asked to: the coordinate $H(M\mid S^n)/n$ is characterized
-by a proved coding theorem (Section~\ref{sec:operational} and
-Appendix~\ref{app:gaussian}), and the thermodynamic sentence is one
-consequence of that theorem. Fourth, the machinery is classical, but the
-objects computed with it are not: no water-filling in the cited literature
-carries two coupled levels tied by a common distortion constraint, and the
-quadratic of Section~\ref{sec:function} appears nowhere in it.
+published neighbor. The single-letter functional is inherited: it is
+Steinberg's common-reconstruction functional \cite{steinberg2009},
+applied unchanged to the augmented source. The augmentation device is
+also inherited, as Remark~8 of \cite{lapidoth2014}; what is contributed
+is the evaluation of the reduced problem, and the closed form, the two
+coupled water levels, the misalignment dichotomy, and the
+non-determination phenomenon of Corollary~\ref{cor:notmarginal} are
+properties of the solution rather than of the reduction. The physical
+reading leaves the mathematics unchanged: the coordinate
+$H(M\mid S^n)/n$ is characterized by a proved coding theorem
+(Section~\ref{sec:operational} and Appendix~\ref{app:gaussian}), and
+the thermodynamic sentence is one consequence of that theorem. The
+machinery is classical; to our knowledge, no water-filling in this
+literature carries two coupled levels tied by a common distortion
+constraint, and the quadratic of Section~\ref{sec:function} does not
+appear in it.
 
 \begin{table}[!t]
 \caption{Theorem-level comparison with the nearest prior results.}
@@ -220,7 +194,8 @@ Closed form (Theorem~\ref{thm:function}) & Steinberg
 \cite{steinberg2009}; Lapidoth--Mal\"ar--Wigger \cite{lapidoth2014} &
 Scalar Gaussian CR formula; scalar formula with general jointly Gaussian
 SI. Both scalar, encoder observes the source alone & The augmented source
-$(Y,V)$ in any ambient dimension; the quadratic $g^\star$; the achieving
+$(Y,V)$, with $Y$ and $V$ scalar linear functionals of an
+arbitrary-dimensional source; the quadratic $g^\star$; the achieving
 channel\\
 Rate--content region (Theorem~\ref{thm:region}) & \cite{steinberg2009,
 lapidoth2014}; Gaussian IB \cite{chechik2005} & Rate under a CR
@@ -228,7 +203,7 @@ constraint; unconstrained IB Lagrangian with its eigenmode structure &
 The joint $(R,L)$ region; a two-water-level frontier under a hard
 distortion constraint\\
 Misalignment dichotomy (Corollary~\ref{cor:misalign},
-Remark~\ref{rem:cleanboundary}) & none known & & Strict tradeoff iff
+Remark~\ref{rem:cleanboundary}) & none known to us & & Strict tradeoff iff
 $0<\rho^2<1$ under $\tau^2>0$; persistence at $\tau^2=0$\\
 Non-determination by the reduced marginal
 (Corollary~\ref{cor:notmarginal}) & Remark~8 of \cite{lapidoth2014} &
@@ -361,8 +336,9 @@ alone and emits the description $M$. The decoder observes $M$ alone and
 outputs the reproduction; the general discrete theorem below reproduces the
 full letter, $\hXn$, while in the Gaussian sections the reproduction is a
 scalar estimate $\hY$ of $Y$ alone. The reset mechanism, which is the third
-party of Section~\ref{sec:intro}, alone has access to $S^n$, which remains
-unchanged by the reset; it never decodes.
+party of Section~\ref{sec:intro}, retains $S^n$, which remains unchanged by
+the reset, and accesses the stored index $M$ in order to erase it; it never
+decodes.
 
 \begin{figure}[!t]
 \centering
@@ -379,14 +355,17 @@ unchanged by the reset; it never decodes.
 \draw[->] (enc) -- node[above] {$M$} (dec);
 \draw[->] (dec) -- (xhat);
 \draw[->] (s) -- (rst);
+\draw[->] (4.7,0) -- (4.7,-1.3) node[midway,left,lbl] {$M$} -| (rst.north);
 \node[lbl] at (2.7,-0.78) {sees $X^n$ only};
 \node[lbl] at (6.7,-0.78) {sees $M$ only};
-\node[lbl] at (6.7,-2.88) {sees $S^n$ only; never decodes};
+\node[lbl] at (6.7,-2.88) {accesses $M$, retains $S^n$, does not
+reconstruct $\hY^n$};
 \end{tikzpicture}
 \caption{The system. The encoder observes the source $X^n$ alone and stores
 the description $M$ at rate $R_n$; the decoder reconstructs from $M$ alone;
-the third party (the reset mechanism) holds the side information
-$S^n$ alone and prices the erasure of $M$. The figure shows the Gaussian
+the third party (the reset mechanism) retains the side information
+$S^n$ and accesses the stored index $M$ in order to erase it; it never
+reconstructs. The figure shows the Gaussian
 instantiation, where $X=(Y,V)$, $S=V+U$ with $U$ independent of $X$, and
 the reproduction is $\hY^n$, an estimate of $Y^n$ alone; the general
 discrete theorem reproduces the full letter.}
@@ -699,6 +678,8 @@ $L(D)=\tfrac12\log_2 g^\star$\\
 $\alpha$; $\gamma_0$, $\gamma_1$ & frontier weight (rate versus
 content); the two water levels $n/(Q_0+n)$ and $n/(Q_1+n)$
 (Theorem~\ref{thm:region})\\
+$\LRs(D)$, $\RLs(D)$ & conditional content of the rate-optimal channel;
+rate of the content-optimal channel (Corollary~\ref{cor:misalign})\\
 $\Lambda$, $c$, $y_0$ & whitened conditional covariance, regression
 vector, and the unit vector with $Y=y_0^{\mathsf T}Z$
 \eqref{eq:whitening} (Sections~\ref{sec:region}, \ref{sec:vector})\\
@@ -737,8 +718,9 @@ In the problem
 $L(D)=\min\{I(X;\hY\mid S):\hY-X-S,\ \E(Y-\hY)^2\le D\}$, it is without
 loss of optimality to let the channel depend on $X$ only through
 $T=(Y,V)$, and then $I(X;\hY\mid S)=I(T;\hY\mid S)$. Consequently $L(D)$
-depends on $(\Sigma_x,w,\gamma,\tau^2)$, in any ambient dimension $d$,
-only through $(\rho,\tau^2)$.
+depends on $(\Sigma_x,w,\gamma,\tau^2)$, for the scalar linear functionals
+$Y=w^{\mathsf T}X$ and $V=\gamma^{\mathsf T}X/\sigma_\gamma$ of a source of
+arbitrary dimension $d$, only through $(\rho,\tau^2)$.
 \end{theorem}
 \begin{proof}
 Given an admissible $p(\hat y\mid x)$, draw $\hY'$ from the conditional
@@ -1670,15 +1652,17 @@ $|\rho|<1$, $0<D<1$), the frontier is nondegenerate if and only if
 $\rho^2\in(0,1)$. When $\rho^2\in(0,1)$: any channel attaining $L(D)$
 has rate strictly above $R_{\min}=\tfrac12\log_2(1/D)$, and any
 channel attaining $R_{\min}$ has conditional content strictly above
-$L(D)$. In particular
+$L(D)$. In particular, writing $\LRs(D)$ for the conditional content of
+the rate-optimal channel and $\RLs(D)$ for the rate of the
+content-optimal channel,
 \[
-L(1)=\tfrac12\log_2\frac{(1-D)(1-\rho^2/s)+D}{D}\;>\;L(D),
+\LRs(D)=\tfrac12\log_2\frac{(1-D)(1-\rho^2/s)+D}{D}\;>\;L(D),
 \]
 the content of the classical reverse channel, and
-$R(0)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]$ evaluated at the channel of
+$\RLs(D)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]$ evaluated at the channel of
 Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. (Numerically,
-at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $R(0)-R_{\min}=0.0400$ and
-$L(1)-L(D)=0.0349$ bits; Fig.~\ref{fig:frontier}.) When $\rho=0$ the classical reverse channel
+at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $\RLs(D)-R_{\min}=0.0400$ and
+$\LRs(D)-L(D)=0.0349$ bits; Fig.~\ref{fig:frontier}.) When $\rho=0$ the classical reverse channel
 attains both minima and the frontier is a single corner. The frontier
 also collapses in the limits $\rho^2\to1$ (the scalar corner of
 \cite{bond2026landauer}) and $\tau^2\to\infty$ (where
@@ -1710,7 +1694,7 @@ $(a^\star,b^\star,n^\star)$. Symmetrically, any rate-optimal channel
 carries the moments $(1-D,0,D(1-D))$ and its content is at least $B_1$
 there, which strictly exceeds $L(D)$; evaluating, $b=0$ gives
 $Q_1=(1-D)^2(1-\rho^2/s)$ and $n=D(1-D)$, so
-$(Q_1+n)/n=\bigl[(1-D)(1-\rho^2/s)+D\bigr]/D$, the displayed $L(1)$.
+$(Q_1+n)/n=\bigl[(1-D)(1-\rho^2/s)+D\bigr]/D$, the displayed $\LRs(D)$.
 
 At $\rho=0$, $b^\star=0$ and $g^\star=1/D$
 (Corollary~\ref{cor:anchors}(i)) give
@@ -1732,8 +1716,9 @@ Corollary~\ref{cor:misalign}.
 \caption{The Pareto frontier of the rate--content region at
 $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$, traced by the two-water-level system of
 Theorem~\ref{thm:region}. The tradeoff is strict: the rate-optimal channel
-pays $L(1)-L(D)=0.0349$ bits of excess conditional content, and the
-content-optimal channel pays $R(0)-R_{\min}=0.0400$ bits of excess rate.}
+pays $\LRs(D)-L(D)=0.0349$ bits of excess conditional content, and the
+content-optimal channel pays $\RLs(D)-R_{\min}=0.0400$ bits of excess
+rate.}
 \label{fig:frontier}
 \end{figure}
 
@@ -1751,7 +1736,7 @@ $R_{\min}=\tfrac12\log_2(1/D)$, in particular the classical reverse
 channel $\hY_R=(1-D)Y+W$ with $W\sim\mathcal N(0,D(1-D))$ independent
 of $X$, has conditional content exactly
 \begin{equation}
-L_R(D)\;=\;\tfrac12\log_2\frac{(1-D)(1-\rho^2)+D}{D}
+\LRs(D)\;=\;\tfrac12\log_2\frac{(1-D)(1-\rho^2)+D}{D}
 \;=\;\tfrac12\log_2\frac{1-\rho^2+D\rho^2}{D}\;>\;L_{\min}(D),
 \label{eq:cleanrev}
 \end{equation}
@@ -1759,7 +1744,7 @@ strictly, on all of $0<D<1$. In particular no channel attains
 $R_{\min}$ and $L_{\min}$ simultaneously: a clean context trades rate
 against content just as a noisy one does, for $D<1-\rho^2$ with both
 quantities positive, and for $D\ge1-\rho^2$ with $L_{\min}=0$ but
-$L_R>0$.
+$\LRs>0$.
 \end{remark}
 
 \begin{proof}
@@ -1790,7 +1775,7 @@ $\operatorname{Var}(\hY_R\mid V)=(1-D)^2\operatorname{Var}(Y\mid
 V)+\operatorname{Var}W=(1-D)^2(1-\rho^2)+D(1-D)$ and
 $\operatorname{Var}(\hY_R\mid T)=\operatorname{Var}W=D(1-D)$, so
 \[
-L_R(D)=\tfrac12\log_2
+\LRs(D)=\tfrac12\log_2
 \frac{(1-D)^2(1-\rho^2)+D(1-D)}{D(1-D)}
 =\tfrac12\log_2\frac{(1-D)(1-\rho^2)+D}{D}\,,
 \]
@@ -1826,9 +1811,9 @@ I(T;\hY\mid V)
 which is \eqref{eq:cleanrev}.
 
 \emph{Strictness.} For $D<1-\rho^2$:
-$1-\rho^2+D\rho^2>1-\rho^2$ since $D\rho^2>0$, so $L_R>L_{\min}$. For
+$1-\rho^2+D\rho^2>1-\rho^2$ since $D\rho^2>0$, so $\LRs>L_{\min}$. For
 $1-\rho^2\le D<1$: $L_{\min}=0$, while
-$1-\rho^2+D\rho^2>D\Leftrightarrow(1-\rho^2)(1-D)>0$, so $L_R>0$.
+$1-\rho^2+D\rho^2>D\Leftrightarrow(1-\rho^2)(1-D)>0$, so $\LRs>0$.
 \end{proof}
 
 \begin{corollary}[Consequence: $L$ is not determined by the reduced
@@ -2498,10 +2483,12 @@ $(d_0,d_1)\in(0,1)^2$, by
 $d_0\in\bigl(\max\{0,\tfrac{D-p}{1-p}\},\ \tfrac{D}{1-p}\bigr)$, an
 open subinterval of $(0,1)$, and define the tilt residual
 \[
-\psi(d_0):=\ell(d_0)-\ell\bigl(d_1(d_0)\bigr)-2(1-2q)\,\ell\bigl(u(d_0)\bigr),
-\quad
-d_1(d_0)=\frac{D-(1-p)d_0}{p},\quad
-u=a*q,\quad a=2(1-p)d_0+p-D .
+\psi(d_0):=\ell(d_0)-\ell\bigl(d_1(d_0)\bigr)
+-2(1-2q)\,\ell\bigl(u(d_0)\bigr),
+\]
+\[
+d_1(d_0)=\frac{D-(1-p)d_0}{p},\qquad
+u=a*q,\qquad a=2(1-p)d_0+p-D .
 \]
 Then $\psi$ has exactly one zero on the open segment, and the family
 value $L(d_0)$ attains its minimum over the closed segment exactly
@@ -2694,8 +2681,9 @@ alphabet-free); the tilt equation is the price of pair access.
 
 This paper characterized the minimal conditional content of a description
 whose encoder observes the pair $(Y,V)$ while the conditioner $S$ stays with
-a third party: the closed form of Theorem~\ref{thm:function} in any ambient
-dimension, the exact rate--content region of Theorem~\ref{thm:region} with
+a third party: the closed form of Theorem~\ref{thm:function} for $Y$ and
+$V$ scalar linear functionals of an arbitrary-dimensional jointly Gaussian
+source, the exact rate--content region of Theorem~\ref{thm:region} with
 its two-water-level frontier and the misalignment dichotomy of
 Corollary~\ref{cor:misalign}, the determinant-bound attainment condition
 of Theorem~\ref{thm:floor}, the vector-context extension of
@@ -2774,6 +2762,94 @@ $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
 $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
 achievability is Definition~\ref{def:achievability}.
 
+Two devices are fixed first. The \emph{saturating dyadic quantizers}:
+for $k\ge1$, let $q_k$ partition $\R$ into the bounded cells
+$[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, together with the two
+saturating tail cells $(-\infty,-2^k)$ and $[2^k,\infty)$; for a vector
+conditioner $S\in\R^r$, apply $q_k$ to each coordinate, so the cells
+are rectangles. The partitions are nested, every cell edge of $q_k$
+being an edge of $q_{k+1}$, so the generated $\sigma$-fields
+$\sigma(q_k(S))$ increase, and their union generates the Borel
+$\sigma$-field of $S$, since the dyadic intervals do. Write
+$S_k:=q_k(S)$. The second device is an integrability bound for the
+quantized pair.
+
+\begin{lemma}[Cell bound]\label{lem:cellbound}
+Let $(\hY,S)$ be jointly Gaussian, $\hY$ scalar and centered, $S\in\R^r$,
+with $\Sigma_{S\mid\hY}\succ0$, and fix $k$. For every cell $A$ of the
+product quantizer $q_k$ there is a constant $C_A<\infty$ such that
+\[
+\Bigl|\,\ln\frac{\Pr(S\in A\mid\hY=\hat y)}{\Pr(S\in A)}\Bigr|
+\;\le\;C_A\bigl(1+\hat y^{\,2}\bigr)
+\qquad\text{for every }\hat y\in\R .
+\]
+Consequently the information density of the pair $(\hY,S_k)$ is bounded
+in magnitude by a fixed quadratic in $\hat y$, and has finite moments
+of all orders.
+\end{lemma}
+
+\begin{proof}
+The conditional law of $S$ given $\hY=\hat y$ is Gaussian with mean
+$m\hat y$ linear in $\hat y$ and fixed covariance
+$\widetilde\Sigma:=\Sigma_{S\mid\hY}\succ0$; the marginal of $S$ is
+Gaussian with covariance $\Sigma_S\succ0$.
+
+\emph{Scalar $S$, bounded cells.} For a bounded cell $A=[u,v)$, the
+ratio of the two integrals lies between the infimum and the supremum
+over $A$ of the integrand ratio
+$r(u',\hat y):=f_{S\mid\hY}(u'\mid\hat y)/f_S(u')$, so
+$|\ln(\Pr(A\mid\hat y)/\Pr(A))|\le\sup_{u'\in A}|\ln r(u',\hat y)|$.
+Here
+\[
+\ln r(u',\hat y)
+=\ln\frac{\sigma_S}{\widetilde\sigma}
+-\frac{(u'-m\hat y)^2}{2\widetilde\sigma^2}
++\frac{u'^2}{2\sigma_S^2},
+\]
+a quadratic in $(u',\hat y)$; taking the supremum over the bounded
+range $u'\in[u,v)$ leaves a quadratic in $\hat y$ with coefficients
+determined by the cell endpoints, which is the claimed bound.
+
+\emph{Scalar $S$, tail cells.} For $A=[2^k,\infty)$,
+$\Pr(A\mid\hat y)=\overline\Phi\bigl((2^k-m\hat y)/\widetilde\sigma\bigr)$
+and $\Pr(A)=\overline\Phi(2^k/\sigma_S)$, a constant, where
+$\overline\Phi$ is the standard Gaussian tail. The elementary bound
+$|\ln\overline\Phi(z)|\le C(1+z^2)$ holds on all of $\R$: for
+$z\le0$, $\overline\Phi(z)\in[\tfrac12,1)$; for $0<z\le1$,
+$\overline\Phi(z)\in[\overline\Phi(1),\tfrac12)$; and for $z>1$ the
+Mills-ratio bounds
+$z\varphi(z)/(1+z^2)\le\overline\Phi(z)\le\varphi(z)/z$ give
+$|\ln\overline\Phi(z)|\le z^2/2+\ln\sqrt{2\pi}+\ln(2z)$. With
+$z=(2^k-m\hat y)/\widetilde\sigma$, $z^2\le2(4^k+m^2\hat
+y^{\,2})/\widetilde\sigma^2$ is a quadratic in $\hat y$, and the
+marginal term is a constant; the mirror cell is symmetric.
+
+\emph{Vector $S$, rectangular cells.} For probabilities in $(0,1]$,
+$|\ln(P/Q)|\le|\ln P|+|\ln Q|$, so it suffices to bound
+$|\ln\Pr(S\in A\mid\hat y)|$ (the marginal term is a constant). The
+rectangle $A$ contains the bounded rectangle $A'$ obtained by clipping
+each infinite side to length one at its finite end, and
+\[
+\Pr(S\in A\mid\hat y)\;\ge\;\Pr(S\in A'\mid\hat y)
+\;\ge\;\operatorname{vol}(A')\,
+\frac{\exp\bigl(-\tfrac12\sup_{u\in A'}
+(u-m\hat y)^{\mathsf T}\widetilde\Sigma^{-1}(u-m\hat y)\bigr)}
+{(2\pi)^{r/2}\det(\widetilde\Sigma)^{1/2}},
+\]
+where the supremum over the bounded $A'$ is a quadratic in $\hat y$
+(here $m$ is the vector regression coefficient). Since also
+$\ln\Pr(S\in A\mid\hat y)\le0$, the claimed bound follows.
+
+\emph{Consequence.} The information density of $(\hY,S_k)$ at
+$(\hat y,j)$ is $\ln[\Pr(S_k=j\mid\hat y)/\Pr(S_k=j)]$; taking
+$C:=\max_jC_{A_j}$ over the finitely many cells bounds it by
+$C(1+\hat y^{\,2})$, which has finite moments of all orders under the
+Gaussian law of $\hY$.
+\end{proof}
+
+In the application below, $\Sigma_{S\mid\hY}\succeq\Sigma_U\succ0$
+automatically, because $S=V+U$ with $U$ independent of $(X,\hY)$.
+
 \begin{theorem}[Extension: the Gaussian operational region]\label{thm:gaussop}
 For the Gaussian source,
 \[
@@ -2807,15 +2883,35 @@ conditional laws, its distortion is $D_n$, and the convexity step is
 Lemma~\ref{lem:convexity} with the per-$s$ sum replaced by the integral
 against the law of $S$ (regular conditional probabilities, as in
 Theorem~\ref{thm:region}'s proof). Hence
-$(R_n,L_n)$ lies in the displayed union at distortion $D_n$, and the
-union is convex and closed by the same lemma together with the
-attainment argument of Section~\ref{sec:floor} (compact moment sets,
-lower semicontinuity of mutual information \cite{posner1975}). The
-passage from $D_n$ to $D$ is as in Theorem~\ref{thm:main-region}: the
-union is monotone in the distortion level and right-continuous in it
-(the constraint sets are nested, with compact moment sections and both
-coordinates lower semicontinuous), so $\limsup D_n\le D$ places every
-limit point of $(R_n,L_n)$ in the union at $D$.
+$(R_n,L_n)$ lies in the displayed union at distortion $D_n$.
+
+\emph{Closedness and the passage from $D_n$ to $D$.} By the restriction
+step below, the union at any distortion level $D'\in(0,1)$ equals the
+union over jointly Gaussian test channels, and these are parameterized
+by their regression vector and residual variance: in the whitened
+coordinates of \eqref{eq:whitening}, by pairs $\theta=(c,n)$ with
+$Q_0=|c|^2$, $Q_1=c^{\mathsf T}\Lambda c$, distortion
+$|y_0-c|^2+n\le D'$, and coordinates
+$\bigl(\tfrac12\log_2\tfrac{Q_0+n}{n},\
+\tfrac12\log_2\tfrac{Q_1+n}{n}\bigr)$. The distortion constraint
+confines $\theta$ to a compact set: $|y_0-c|^2\le D'$ is a closed ball
+and $0\le n\le D'$; and feasibility forces $c\ne0$ there, since $c=0$
+gives distortion at least $|y_0|^2=1>D'$. Both coordinates are lower
+semicontinuous on that set with values in $(0,\infty]$, finite and
+continuous where $n>0$ and diverging as $n\to0$ at $c\ne0$. Now let
+$(R_j,L_j)$ lie in the union at levels $D_j'$ with
+$\limsup_jD_j'\le D$ and $(R_j,L_j)\to(R,L)$ finite. Pick feasible
+$\theta_j$ whose quadrant contains $(R_j,L_j)$; the $\theta_j$
+eventually lie in the compact set at level $D+\delta$ for each
+$\delta>0$, so a subsequence converges to some $\theta^*$, feasible at
+$D$ by continuity of the distortion in $\theta$. Lower semicontinuity
+gives $\tfrac12\log_2\bigl[(Q_0+n)/n\bigr](\theta^*)\le
+\liminf_j\tfrac12\log_2\bigl[(Q_0+n)/n\bigr](\theta_j)\le R$, and
+likewise for the conditional coordinate, so $(R,L)$ lies in
+$\theta^*$'s quadrant, hence in the union at $D$. This establishes
+both closedness at fixed distortion and right-continuity in the
+distortion level, and with $\limsup D_n\le D$ places every limit point
+of $(R_n,L_n)$ in the union at $D$.
 
 \emph{Restriction to Gaussian channels.} For any admissible channel,
 Lemma~\ref{lem:gauss} produces the jointly Gaussian channel with the
@@ -2828,14 +2924,23 @@ suffices to prove achievability for a jointly Gaussian test channel.
 
 \emph{Achievability, Step A: quantizing the conditioner.} Fix a jointly
 Gaussian admissible channel $p(\hat y\mid x)$ with distortion at most
-$D$, and fix $\epsilon>0$. Mutual information is the supremum of the
-mutual informations of finite quantizations of its arguments, and is
-monotone under refinement by data processing \cite{pinsker1964}; a
-supremum over quantizers of one argument at a time suffices, since
-$I(\hY;q(S))$ is itself a supremum over finite quantizers of $\hY$.
-Choose a finite quantizer $S_\Delta=q(S)$ with
+$D$, and fix $\epsilon>0$. Along the saturating dyadic quantizers,
 \begin{equation}
-I(\hY;S_\Delta)\;\ge\;I(\hY;S)-\epsilon .
+I(\hY;S_k)\;\uparrow\;I(\hY;S)\qquad(k\to\infty):
+\label{eq:quant-mono}
+\end{equation}
+the sequence is nondecreasing because the partitions are nested (data
+processing), and its supremum is $I(\hY;S)$ by monotone convergence of
+mutual information under $\sigma$-fields increasing to the Borel
+$\sigma$-field of $S$ \cite[Ch.~2]{pinsker1964}: mutual information is
+the supremum of the mutual informations of finite measurable
+partitions of the two sample spaces, and every finite Borel partition
+of the $S$-space is approximated, up to sets of arbitrarily small
+measure, by partitions measurable with respect to some
+$\sigma(S_k)$. Choose $k$ with
+\begin{equation}
+I(\hY;S_\Delta)\;\ge\;I(\hY;S)-\epsilon,
+\qquad S_\Delta:=S_k .
 \label{eq:quant-approx}
 \end{equation}
 $S_\Delta$ is a function of $S$, so the Markov chain $\hY-X-S_\Delta$
@@ -2867,12 +2972,10 @@ wrong codewords in a bin, is the abstract-alphabet analysis of Wyner
 information densities of the pairs $(X,\hY)$ and $(\hY,S_\Delta)$ be
 integrable, so that they obey the law of large numbers and the
 density-typical sets carry the standard change-of-measure bounds. Both
-conditions hold here: for the jointly Gaussian $(X,\hY)$ the
-information density is a quadratic polynomial in $(x,\hat y)$, and for
-$(\hY,S_\Delta)$ with $S_\Delta$ finite the density
-$\log\bigl[P(s_\Delta\mid\hat y)/P(s_\Delta)\bigr]$ is bounded in
-magnitude by a quadratic in $\hat y$ (log-ratios of Gaussian cell
-probabilities), so both densities have finite moments of all orders.
+conditions hold here: the $(X,\hY)$ density is a quadratic polynomial
+in $(x,\hat y)$ for the jointly Gaussian pair, and the
+$(\hY,S_\Delta)$ density is bounded by a fixed quadratic in $\hat y$,
+with finite moments of all orders, by Lemma~\ref{lem:cellbound}.
 Everything else,
 in particular the expurgation selecting one deterministic
 (codebook, binning) pair meeting the distortion and the
@@ -2922,47 +3025,23 @@ step is proved here or in Section~\ref{sec:operational}.
 \section{Numerical Verification}
 \label{app:numver}
 
-Every closed form and every identity used in the converses was checked
-independently of the derivations, twice: symbolically, by exact computer
-algebra, and numerically, against direct optimization over test-channel
-moments. The script \texttt{verify\_converses.py}, written by the author
-alongside the proofs, performs twelve checks. The scripts
-\texttt{verifier\_sym\_checks.py} and \texttt{verifier\_num\_checks.py} come
-from an independent re-derivation that had no access to the derivations or
-to the first script; they perform 46 symbolic and 46 numeric checks. All
-pass. The Lagrangian bounds for the binary theorem are produced by the
-repository harness \texttt{verify\_go11\_m2sys\_binary.py}. A
-finite-blocklength check of the binning step of
-Theorem~\ref{thm:main-region}, in-bin decoders recovering $M$ from
-$(B,S^n)$ near the predicted bin rate and failing at every bin rate
-without $S^n$, is archived with the same repository record. All scripts and
-their archived outputs accompany the manuscript sources at the repository of
-the title footnote. Table~\ref{tab:numver} summarizes the main checks.
-
-The load-bearing algebra has additionally been machine-checked in two more
-engines. The Lean~4/Mathlib module
-\texttt{lean/ObservationTheory/CRContext.lean}, built clean with zero
-\texttt{sorry}, formalizes the identity $P(1)=(D-1)\tau^2$ and its
-negativity, the positivity of the discriminant for $0<D<1$ and $\tau^2>0$
-with no hypothesis on $\rho^2$, the closed-form root $g^\star$ satisfying
-$P(g^\star)=0$ together with $g^\star>1$, the identity
-$P(g_f)=-\rho^2\tau^2/s$, all three anchor factorizations of
-Corollary~\ref{cor:anchors}, the $L(1)$ endpoint algebra of
-Corollary~\ref{cor:misalign}, the two exact surds of
-Corollary~\ref{cor:notmarginal}, and the binary $q=\tfrac12$ anchor and the
-$R-L$ chain-rule bookkeeping of Theorem~\ref{thm:binary} with the binary
-entropy kept abstract. The MATLAB Symbolic toolbox (R2026a), a third
-independent engine alongside \texttt{sympy}, passes 11 of 11 symbolic checks
-on the scalar-instantiation determinant identities of
-Lemma~\ref{lem:gauss}, the solution of the stationarity system, the
-constraint-to-quadratic reduction identity, and the four gradient
-identities (script \texttt{matlab\_checks.m} in this directory, run output
-archived in the script). The matrix-general exhaustion lemma, the
-measure-theoretic steps (single-letterization, covering and binning,
-disintegration), the matrix-convexity lemma, the uniqueness proposition,
-and the binary theorem's symmetrization and positivity arguments are
-verified by written proof and the numerical harnesses, not by the proof
-assistant.
+Each closed form and each displayed matrix identity was checked
+independently of the derivations, symbolically by exact computer algebra
+and numerically against direct optimization over test-channel moments,
+twice over: by the author's harness, written alongside the proofs, and
+by a separately commissioned re-derivation, archived with the
+repository. All checks pass. The load-bearing scalar algebra is
+additionally machine-checked in two further engines, a Lean~4/Mathlib
+module built clean with zero \texttt{sorry} and the MATLAB Symbolic
+toolbox. The matrix-general exhaustion lemma, the measure-theoretic
+steps (single-letterization, covering and binning, disintegration), the
+matrix-convexity lemma, the uniqueness proposition, and the binary
+theorem's symmetrization and positivity arguments are verified by
+written proof and the numerical harnesses, not by the proof assistant.
+The scripts, their archived run outputs, and the full check inventory
+accompany the manuscript sources at the repository of the title
+footnote (\texttt{VERIFICATION.md} in the paper directory).
+Table~\ref{tab:numver} summarizes the main checks.
 
 \begin{table}[!t]
 \caption{Independent checks of the closed forms and proof identities.}

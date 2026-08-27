@@ -5,12 +5,13 @@ Traces (R(alpha), L(alpha)) for alpha in [0,1] at (rho^2, tau^2, D) =
 phi_alpha = alpha*B0 + (1-alpha)*B1 over (a, b) with n = D - h(a, b),
 the same routine that verifier_num_checks.py uses.  Endpoints are
 checked against the closed forms: alpha=1 gives the classical reverse
-channel (R_min = 0.5*log2(1/D), content L(1)); alpha=0 gives the channel
-of Theorem 2 (rate R(0), content L_min = L(D) = 0.5*log2(g*)).
+channel (R_min = 0.5*log2(1/D), content L_R* = L_R^star(D)); alpha=0
+gives the channel of Theorem 2 (rate R_L* = R_L^star(D), content
+L_min = L(D) = 0.5*log2(g*)).
 
-Output: frontier.pdf (300 dpi, grayscale, serif).  The script prints the
-endpoint excesses R(0)-R_min and L(1)-L_min; the figure caption quotes
-those printed numbers.
+Output: frontier.pdf and frontier.png (300 dpi, grayscale, serif).  The
+script prints the endpoint excesses R_L*-R_min and L_R*-L_min; the
+figure caption quotes those printed numbers.
 """
 
 import numpy as np
@@ -75,17 +76,17 @@ Rmin = 0.5 * log2(1 / D)                      # alpha = 1 endpoint rate
 g = gstar(RHO2, TAU2, D)
 Lmin = 0.5 * log2(g)                          # alpha = 0 endpoint content
 s = 1 + TAU2
-L1 = 0.5 * log2(((1 - D) * (1 - RHO2 / s) + D) / D)   # content of reverse channel
+LRstar = 0.5 * log2(((1 - D) * (1 - RHO2 / s) + D) / D)  # L_R^star(D), content of reverse channel
 
 print(f"R_min          = {Rmin:.6f} bits (closed form 0.5*log2(1/D))")
 print(f"L_min = L(D)   = {Lmin:.6f} bits (closed form 0.5*log2(g*))")
-print(f"R(0)           = {R[0]:.6f} bits  (traced endpoint, alpha=0)")
-print(f"L(1)           = {L[-1]:.6f} bits  (traced endpoint, alpha=1)")
-print(f"closed-form L(1) = {L1:.6f}")
-print(f"excess rate    R(0)-R_min = {R[0]-Rmin:.4f} bits")
-print(f"excess content L(1)-L_min = {L[-1]-Lmin:.4f} bits")
-print(f"endpoint residuals: dR(1)={abs(R[-1]-Rmin):.2e}  dL(0)={abs(L[0]-Lmin):.2e}"
-      f"  dL(1) vs closed form={abs(L[-1]-L1):.2e}")
+print(f"R_L*(D)        = {R[0]:.6f} bits  (traced endpoint, alpha=0)")
+print(f"L_R*(D)        = {L[-1]:.6f} bits  (traced endpoint, alpha=1)")
+print(f"closed-form L_R*(D) = {LRstar:.6f}")
+print(f"excess rate    R_L*-R_min = {R[0]-Rmin:.4f} bits")
+print(f"excess content L_R*-L_min = {L[-1]-Lmin:.4f} bits")
+print(f"endpoint residuals: dR(alpha=1)={abs(R[-1]-Rmin):.2e}  dL(alpha=0)={abs(L[0]-Lmin):.2e}"
+      f"  dL_R* vs closed form={abs(L[-1]-LRstar):.2e}")
 
 plt.rcParams.update({
     "font.family": "serif",
@@ -96,9 +97,9 @@ fig, ax = plt.subplots(figsize=(6.4, 4.4))
 ax.plot(R, L, color="0.2", lw=1.6)
 ax.plot(Rmin, L[-1], marker="s", color="0.2", ms=7)
 ax.plot(R[0], Lmin, marker="o", color="0.2", ms=7)
-ax.annotate(r"$(R_{\min},\,L(1))$", (Rmin, L[-1]),
+ax.annotate(r"$(R_{\min},\,L_R^{\star})$", (Rmin, L[-1]),
             textcoords="offset points", xytext=(14, -6))
-ax.annotate(r"$(R(0),\,L_{\min})$", (R[0], Lmin),
+ax.annotate(r"$(R_L^{\star},\,L_{\min})$", (R[0], Lmin),
             textcoords="offset points", xytext=(-10, 12), ha="right")
 ax.margins(x=0.08, y=0.10)
 ax.set_xlabel(r"rate $R$ (bits)")
@@ -106,4 +107,5 @@ ax.set_ylabel(r"conditional content $L$ (bits)")
 ax.grid(True, color="0.85", lw=0.5)
 fig.tight_layout()
 fig.savefig("frontier.pdf", dpi=300)
-print("wrote frontier.pdf")
+fig.savefig("frontier.png", dpi=300)
+print("wrote frontier.pdf and frontier.png")
