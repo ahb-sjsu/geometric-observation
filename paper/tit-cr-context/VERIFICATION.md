@@ -10,7 +10,7 @@ footnote (doi:10.5281/zenodo.21776291).
 ## Script inventory
 
 - `verify_converses.py` — the author's harness, written alongside the
-  proofs. Sixteen checks: seven exact-symbolic (sympy) on the
+  proofs. Seventeen checks: seven exact-symbolic (sympy) on the
   determinant identities, the four gradient identities, the linearity
   and closed-form solution of the stationarity system, the
   constraint-to-quadratic reduction with its cofactor, the floor value
@@ -20,8 +20,10 @@ footnote (doi:10.5281/zenodo.21776291).
   non-determination corollary, the endpoint excesses, the
   vector-context FOC at r = 2, the clean-boundary (tau = 0) displays,
   the binary tilt-root sign-change scan (729 grid cells), the
-  clean-context conditional program vs the determinant bound, and the
-  quantization convergence I(Yhat; S_Delta) increasing to I(Yhat; S).
+  clean-context conditional program vs the determinant bound, the
+  quantization convergence I(Yhat; S_Delta) increasing to I(Yhat; S),
+  and the binary rate--content frontier (closed forms vs joint-pmf
+  evaluation, plus the Fig. 3 caption numbers).
 - `verifier_sym_checks.py`, `verifier_num_checks.py` — a separately
   commissioned re-derivation, produced without access to the
   derivations or to the first script, archived with the repository:

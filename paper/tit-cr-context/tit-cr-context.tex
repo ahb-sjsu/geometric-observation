@@ -650,7 +650,8 @@ $X=(Y,V)$ & source letter: described variable $Y$, context $V$
 $S=V+U$ & the third party's copy; $U\sim\mathcal N(0,\tau^2)$
 independent of $X$\\
 $s=1+\tau^2$ & variance of $S$ after normalization (scalar conditioner;
-the vector-context section uses $\Sigma_U$)\\
+the vector-context section uses $\Sigma_U$, with conditioner covariance
+$\Sigma_S=\Sigma_V+\Sigma_U$)\\
 $\rho=\E[YV]$ & correlation of the described variable and the context\\
 $D$ & distortion level, $\E(Y-\hY)^2\le D$\\
 $M$, $R_n$, $L_n$ & stored index; rate $\tfrac1n\log|\mathcal M_n|$;
@@ -748,7 +749,7 @@ optimum is exactly the scalar-corner value
 $\tfrac12\log_2\bigl[(\sigma^2(1-\rho_{YS}^2)+\rho_{YS}^2D)/D\bigr]$ of the
 pair $(Y,S)$, where $\sigma^2=\operatorname{Var}Y$ and $\rho_{YS}$ is the
 correlation of that pair, $\rho_{YS}^2=\rho^2/s$ after the normalization
-of Section~\ref{sec:pair} \cite{bond2026landauer,steinberg2009}; the
+of Section~\ref{sec:pair} \cite{steinberg2009}; the
 corner's converse applies to every $p(\hat y\mid y)$, discrete or not.
 
 \begin{proposition}[Anchor: marginalization is strictly
@@ -1235,7 +1236,7 @@ $g^\star\to(D+\tau^2)/(Ds)$ as $\rho^2\to1$. Steinberg's scalar
 function at unit source variance and side-information correlation
 $\rho_{YS}^2$ is
 $\tfrac12\log_2\bigl[(1-\rho_{YS}^2+\rho_{YS}^2D)/D\bigr]$
-\cite{steinberg2009,bond2026landauer}; at $\rho_{YS}^2=\rho^2/s\to1/s$
+\cite{steinberg2009}; at $\rho_{YS}^2=\rho^2/s\to1/s$
 this is $\tfrac12\log_2\bigl[(\tau^2+D)/(sD)\bigr]$, the same value.
 \end{proof}
 
@@ -1664,8 +1665,8 @@ Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. (Numerically,
 at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $\RLs(D)-R_{\min}=0.0400$ and
 $\LRs(D)-L(D)=0.0349$ bits; Fig.~\ref{fig:frontier}.) When $\rho=0$ the classical reverse channel
 attains both minima and the frontier is a single corner. The frontier
-also collapses in the limits $\rho^2\to1$ (the scalar corner of
-\cite{bond2026landauer}) and $\tau^2\to\infty$ (where
+also collapses in the limits $\rho^2\to1$ (where both endpoint
+excesses vanish; see the proof) and $\tau^2\to\infty$ (where
 $L\to R$ coordinatewise); positivity of $\tau^2$, by contrast, is a
 modeling assumption and not necessary for the tradeoff
 (Remark~\ref{rem:cleanboundary}).
@@ -1700,9 +1701,21 @@ At $\rho=0$, $b^\star=0$ and $g^\star=1/D$
 (Corollary~\ref{cor:anchors}(i)) give
 $(a^\star,n^\star)=(1-D,D(1-D))$: the two minimizers coincide and the
 frontier is the corner $R_{\min}=L(D)=\tfrac12\log_2(1/D)$. As
-$\rho^2\to1$ the whole frontier converges to the scalar corner of
-\cite{bond2026landauer}, where the classical reverse channel minimizes
-both coordinates simultaneously, and as $\tau^2\to\infty$,
+$\rho^2\to1$ both endpoint excesses vanish, so the frontier collapses
+to a corner in the limit: by Corollary~\ref{cor:anchors}(iii),
+$L(D)\to\tfrac12\log_2\bigl[(D+\tau^2)/(Ds)\bigr]$, and the displayed
+$\LRs(D)$ has the same limit, since
+$(1-D)(1-\rho^2/s)+D\to(1-D)\tau^2/s+D=(D+\tau^2)/s$; for the rate
+side, the channel \eqref{eq:channel} has, as $\rho^2\to1$,
+$g^\star\to(D+\tau^2)/(Ds)$ and
+\[
+(a,b,n)\;\longrightarrow\;
+\Bigl(\frac{\tau^2(1-D)}{D+\tau^2},\
+\frac{D(1-D)}{D+\tau^2},\ D(1-D)\Bigr),
+\]
+whence $a+b\to1-D$, $Q_0\to(1-D)^2$, and
+$\RLs(D)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]
+\to\tfrac12\log_2(1/D)=R_{\min}$. As $\tau^2\to\infty$,
 $\Sigma_{T\mid S}\to\Sigma_T$ makes the two coordinates, and so the
 two endpoints, coincide in the limit.
 \end{proof}
@@ -2355,7 +2368,9 @@ $U\sim\mathcal N(0,\Sigma_U)$ jointly independent of $X$ and the
 channel randomness. Steps (a) through (d) of that proof are unchanged.
 
 (ii) \emph{Whitening.} First,
-$\Sigma_{T\mid S}=\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}\succ0$:
+$\Sigma_{T\mid S}=\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}\succ0$,
+where $\Sigma_S=\Sigma_V+\Sigma_U$ is the conditioner's covariance
+($V$ is not renormalized in this section):
 positivity of $\Cov((T,S))$ holds because $\Sigma_T\succ0$ and
 $\Sigma_{S\mid T}=\Cov(\Gamma^{\mathsf T}X\mid T)+\Sigma_U\succeq
 \Sigma_U\succ0$, and the Schur complement of a positive definite
@@ -2544,17 +2559,25 @@ endpoint is $d_0=0$ with $d_1(0)=D/p<1$, and $u=a\in(p-D,p+D)\subset
 and the analyticity are as before.
 \end{proof}
 
-Fig.~\ref{fig:binary} shows the objective and the tilt residual at a
-representative instance.
+Fig.~\ref{fig:binary} shows the objective, the tilt residual, and the
+rate--content frontier at representative instances.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.8\columnwidth]{binary}
 \caption{The binary objective $L(d_0)$ (top) and the tilt residual
-$\psi(d_0)$ (bottom) along the constraint segment $(1-p)d_0+pd_1=D$ at
-$(p,q,D)=(0.25,0.15,0.15)$. The residual crosses zero exactly once, at
+$\psi(d_0)$ (middle) along the constraint segment $(1-p)d_0+pd_1=D$ at
+$(p,q,D)=(0.25,0.15,0.15)$: the residual crosses zero exactly once, at
 $d_0^\star=0.1173$ ($d_1^\star=0.2480$), and $L$ attains its unique
-minimum $0.3346$ bits there, as Lemma~\ref{lem:tiltroot} asserts.}
+minimum $0.3346$ bits there, as Lemma~\ref{lem:tiltroot} asserts.
+Bottom: the binary rate--content frontier at $(p,q,D)=(0.1,0.1,0.05)$,
+the curve $\bigl(R(d_0),L(d_0)\bigr)$ along the segment
+(Remark~\ref{rem:binfrontier}), with the Pareto arc from the tilt root
+$d_0^\star=0.0282$ (the $L$-minimizer, $L_{\min}=0.4341$ bits) to
+$d_0=D$ (the $R$-minimizer, $R_{\min}=1-h_2(D)=0.7136$ bits) drawn
+bold. The tradeoff is strict: the $L$-optimal point pays
+$0.0391$ bits of excess rate and the $R$-optimal point pays $0.0248$
+bits of excess conditional content.}
 \label{fig:binary}
 \end{figure}
 
@@ -2648,6 +2671,44 @@ data-processing reduction that opens this section; no separate argument
 is needed for them. The unconditional Lagrangian bounds, which assume no
 convexity, numerically re-confirm that reduction and the
 family-plus-tilt optimum.
+
+\begin{remark}[The binary rate--content frontier]\label{rem:binfrontier}
+The symmetric family exhausts not only the conditional coordinate but
+the entire rate--content frontier at distortion $D$. The rate
+coordinate $R=I(Y,V;\hat Y)$ is convex in the shared channel by the
+argument of Lemma~\ref{lem:binconvex} with the trivial conditioner, so
+every weighted objective $\alpha R+(1-\alpha)L$, $\alpha\in[0,1]$, is
+convex in the channel. The global bit flip $\sigma$ of
+Theorem~\ref{thm:binary}'s proof preserves the joint law of $(Y,V,S)$,
+the distortion, and both coordinates: the flip is a law-preserving
+bijective relabeling of both arguments of each mutual information, so
+$R(C^\sigma)=R(C)$ and $L(C^\sigma)=L(C)$. Averaging a channel with its
+flip therefore preserves the distortion and, by convexity, does not
+increase any weighted objective, and larger reproduction alphabets are
+covered by the data-processing reduction in both coordinates. Every
+weighted optimum is thus attained in the family $\{(d_0,d_1)\}$, and
+the Pareto frontier of the binary rate--content region at distortion
+$D$ is the lower-left envelope of the curve
+\[
+d_0\;\longmapsto\;\bigl(R(d_0),\,L(d_0)\bigr),
+\qquad
+R(d_0)=1-(1-p)\,h_2(d_0)-p\,h_2\bigl(d_1(d_0)\bigr),
+\]
+along the constraint segment. On the segment, $R$ is strictly convex
+with its unique minimum at $d_0=d_1=D$ (strict concavity of
+$(1-p)h_2(d_0)+p\,h_2(d_1)$ and the stationarity
+$\ell(d_0)=\ell(d_1)$), where $R=1-h_2(D)$, the marginal
+rate--distortion function; $L$ has its unique minimum at the tilt root
+$d_0^\star$ (Lemma~\ref{lem:tiltroot}). For $q\in(0,\tfrac12)$ the two
+minimizers are distinct, since
+$\psi(D)=-2(1-2q)\,\ell\bigl(u(D)\bigr)<0$ (there $u(D)<\tfrac12$
+because $a(D)=p+D(1-2p)<\tfrac12$), so $d_0^\star<D$: on
+$[d_0^\star,D]$ the curve is a strict tradeoff arc, $L$ increasing and
+$R$ decreasing, and outside that arc both coordinates worsen. At
+$q=\tfrac12$ the two minimizers coincide at $d_0=D$ and the frontier
+is a single corner. Fig.~\ref{fig:binary} traces the frontier at a
+representative instance.
+\end{remark}
 
 The nearest published binary calculations are common-reconstruction
 functions with decoder side information. Steinberg's binary example
@@ -2869,7 +2930,8 @@ of the proof depends on that reading.
 
 \begin{proof}
 \emph{Converse.} The chain of Theorem~\ref{thm:main-region}'s converse
-holds verbatim with differential entropies for the continuous source.
+(the discrete operational region theorem) holds verbatim with
+differential entropies for the continuous source.
 $M$ is discrete, so $\log|\mathcal M_n|\ge H(M)\ge I(X^n;M)\ge
 I(X^n;\hY^n)$ and $H(M\mid S^n)\ge I(X^n;M\mid S^n)\ge
 I(X^n;\hY^n\mid S^n)$ are unchanged. The single-letterization of
@@ -2884,7 +2946,8 @@ conditioning reduces differential entropy. The per-letter induced channels satis
 Markov constraint by the i.i.d.\ structure, exactly as in the finite
 case; the mixture channel $\bar q$ is defined by averaging the induced
 conditional laws, its distortion is $D_n$, and the convexity step is
-Lemma~\ref{lem:convexity} with the per-$s$ sum replaced by the integral
+Lemma~\ref{lem:convexity} (convexity of both coordinates in the test
+channel) with the per-$s$ sum replaced by the integral
 against the law of $S$ (regular conditional probabilities, as in
 Theorem~\ref{thm:region}'s proof). Hence
 $(R_n,L_n)$ lies in the displayed union at distortion $D_n$.
@@ -2893,7 +2956,9 @@ $(R_n,L_n)$ lies in the displayed union at distortion $D_n$.
 step below, the union at any distortion level $D'\in(0,1)$ equals the
 union over jointly Gaussian test channels, and these are parameterized
 by their regression vector and residual variance: in the whitened
-coordinates of \eqref{eq:whitening}, by pairs $\theta=(c,n)$ with
+coordinates of \eqref{eq:whitening} (the simultaneous congruence
+$\Sigma_T\to I$, $\Sigma_{T\mid S}\to\Lambda$), by pairs
+$\theta=(c,n)$ with
 $Q_0=|c|^2$, $Q_1=c^{\mathsf T}\Lambda c$, distortion
 $|y_0-c|^2+n\le D'$, and coordinates
 $\bigl(\tfrac12\log_2\tfrac{Q_0+n}{n},\
@@ -2918,7 +2983,9 @@ distortion level, and with $\limsup D_n\le D$ places every limit point
 of $(R_n,L_n)$ in the union at $D$.
 
 \emph{Restriction to Gaussian channels.} For any admissible channel,
-Lemma~\ref{lem:gauss} produces the jointly Gaussian channel with the
+Lemma~\ref{lem:gauss} (Gaussian exhaustion: the two determinant lower
+bounds, met with equality by the jointly Gaussian channel matching the
+second moments) produces the jointly Gaussian channel with the
 same second moments and the same distortion, whose coordinates
 $I(X;\hY)$ and $I(X;\hY\mid S)$ are componentwise no larger than the
 original channel's. Its quadrant therefore
@@ -2960,7 +3027,8 @@ I(X;\hY\mid S_\Delta)=I(X;\hY)-I(\hY;S_\Delta)
 \emph{Achievability, Step B: coding against the quantized conditioner.}
 The pair source is now $(X,S_\Delta)$ with continuous $X$ and finite
 $S_\Delta$. Build the code of Theorem~\ref{thm:main-region}'s
-achievability proof for this pair: a codebook of
+achievability proof (covering, binning, and expurgation, as in the
+discrete theorem) for this pair: a codebook of
 $2^{n(I(X;\hY)+2\epsilon)}$ codewords drawn from the $\hY$-marginal
 with quadratic-distortion covering, a uniform random binning at rate
 $I(X;\hY\mid S_\Delta)+3\epsilon$, and the side-information proof

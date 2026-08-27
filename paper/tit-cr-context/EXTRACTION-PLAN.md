@@ -315,6 +315,20 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   VERIFICATION.md (new); Chen et al. checked — still no IEEE
   volume/pages/DOI, bibitem stays "to be published". Manuscript 31 pp,
   zero undefined, zero overfull; verify_converses.py 16/16.
+- **M6 (2026-08-27): camera-ready deltas** — binary Pareto frontier: the
+  sigma-symmetrization extension to the weighted objective PROVED
+  (rem:binfrontier: R convex by lem:binconvex with trivial conditioner,
+  flip preserves both coordinates, R-minimizer d0=D unique by strict
+  concavity, tilt root < D strict for q in (0,1/2)); Fig. 3 third panel at
+  (0.1, 0.1, 0.05): d0*=0.0282, L_min=0.4341, R_min=0.7136, excesses
+  0.0391/0.0248 bits (binary.pdf/png regenerated, caption quotes script);
+  appendix recaps added at every cross-section invocation in app:gaussian;
+  Zenodo record made provenance-only (rho^2->1 collapse now proved inline
+  via the (a,b,n) limit, two formula cites reduced to steinberg2009);
+  Sigma_S = Sigma_V + Sigma_U made explicit in Sec. VII (no s-collision;
+  I_r+Sigma_U would presume a normalization the section does not impose).
+  Manuscript 32 pp, zero undefined, zero overfull; verify_converses.py
+  extended to 17/17 (new N10: binary frontier closed forms vs joint-pmf).
 - **REMAINING (owner items only):** R-IND-5 fresh-context pass on all new
   prose; Steinberg 2009 + Lu et al. WCSP 2016 primary reads; the reviewer's
   Sec-VI split-out suggestion (owner decision); submission-time full sweep.

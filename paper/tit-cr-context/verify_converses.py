@@ -27,6 +27,9 @@ Numeric (numpy/scipy):
       outside the semidefinite condition
   N9  quantization convergence of Appendix app:gaussian: I(Yhat; S_Delta)
       increases to I(Yhat; S) under refining quantizers
+  N10 binary frontier closed forms (rem:binfrontier / Fig. 3 panel):
+      R(d0), L(d0) along the segment vs direct evaluation from the joint
+      pmf at (p,q,D) = (0.1, 0.1, 0.05); frontier endpoint numbers
 """
 
 import numpy as np
@@ -497,6 +500,90 @@ close = I_closed - vals[-1] <= 1e-3
 report("N9 I(Yhat;S_Delta) increases to I(Yhat;S) under refinement",
        increasing and below and close,
        f"I_Delta: {', '.join(f'{v:.5f}' for v in vals)} -> {I_closed:.5f}")
+
+
+# N10: binary frontier closed forms vs direct evaluation from the joint pmf
+def h2b(x):
+    x = np.clip(x, 1e-300, 1 - 1e-15)
+    return -(x * np.log2(x) + (1 - x) * np.log2(1 - x))
+
+
+def binary_direct(pb, qb, d0, d1):
+    """Direct (R, L) = (I(Y,V;Yhat), I(Y,V;Yhat|S)) from the joint pmf of
+    the family channel Yhat = Y xor E, P(E=1 | Y xor V = j) = d_j."""
+    P = np.zeros((2, 2, 2, 2))  # (y, v, s, yhat)
+    for y in (0, 1):
+        for v in (0, 1):
+            pyv = 0.5 * ((1 - pb) if y == v else pb)
+            j = y ^ v
+            dj = d0 if j == 0 else d1
+            for s in (0, 1):
+                ps = (1 - qb) if s == v else qb
+                for e in (0, 1):
+                    pe = dj if e == 1 else 1 - dj
+                    P[y, v, s, y ^ e] += pyv * ps * pe
+    Pf = P.reshape(4, 2, 2)  # (yv, s, yhat)
+
+    def MI(joint):  # I between axis0 and axis1 of a 2-d joint
+        a = joint.sum(1, keepdims=True)
+        b = joint.sum(0, keepdims=True)
+        m = joint > 0
+        return float((joint[m] * np.log2(joint[m] / (a * b + 1e-300)[m])).sum())
+
+    R = MI(Pf.sum(1))  # I(Y,V; Yhat)
+    L = 0.0
+    for s in (0, 1):
+        Js = Pf[:, s, :]
+        L += Js.sum() * MI(Js / Js.sum())
+    return R, L
+
+
+pb, qb, Db = 0.1, 0.1, 0.05
+lo_b, hi_b = max(0.0, (Db - pb) / (1 - pb)), Db / (1 - pb)
+worst = 0.0
+for d0 in np.linspace(lo_b + 1e-3 * (hi_b - lo_b), hi_b - 1e-3 * (hi_b - lo_b), 9):
+    d1 = (Db - (1 - pb) * d0) / pb
+    aa = 2 * (1 - pb) * d0 + pb - Db
+    u = aa * (1 - 2 * qb) + qb
+    R_cf = 1 - (1 - pb) * h2b(d0) - pb * h2b(d1)
+    L_cf = h2b(u) - (1 - pb) * h2b(d0) - pb * h2b(d1)
+    R_dir, L_dir = binary_direct(pb, qb, d0, d1)
+    worst = max(worst, abs(R_cf - R_dir), abs(L_cf - L_dir))
+# frontier endpoint numbers quoted in Fig. 3's caption
+from scipy.optimize import brentq
+
+
+def psi_b(d0):
+    d1 = (Db - (1 - pb) * d0) / pb
+    aa = 2 * (1 - pb) * d0 + pb - Db
+    u = aa * (1 - 2 * qb) + qb
+    lg = lambda x: np.log((1 - x) / x)
+    return lg(d0) - lg(d1) - 2 * (1 - 2 * qb) * lg(u)
+
+
+root_b = brentq(psi_b, lo_b + 1e-9, hi_b - 1e-9, xtol=1e-14)
+
+
+def RL_b(d0):
+    d1 = (Db - (1 - pb) * d0) / pb
+    aa = 2 * (1 - pb) * d0 + pb - Db
+    u = aa * (1 - 2 * qb) + qb
+    base = (1 - pb) * h2b(d0) + pb * h2b(d1)
+    return 1 - base, h2b(u) - base
+
+
+R_root, L_root = RL_b(root_b)
+R_D, L_D = RL_b(Db)
+caption_ok = (abs(round(root_b, 4) - 0.0282) < 5e-5
+              and abs(round(L_root, 4) - 0.4341) < 5e-5
+              and abs(round(1 - h2b(Db), 4) - 0.7136) < 5e-5
+              and abs(round(R_root - (1 - h2b(Db)), 4) - 0.0391) < 5e-5
+              and abs(round(L_D - L_root, 4) - 0.0248) < 5e-5)
+ok = worst <= 1e-12 and caption_ok
+report("N10 binary frontier: closed forms vs joint-pmf evaluation + caption",
+       ok, f"max dev {worst:.2e}; d0*={root_b:.4f}, Lmin={L_root:.4f}, "
+           f"Rmin={1-h2b(Db):.4f}, dR={R_root-(1-h2b(Db)):.4f}, "
+           f"dL={L_D-L_root:.4f}")
 
 # ----------------------------------------------------------------------------
 print()
