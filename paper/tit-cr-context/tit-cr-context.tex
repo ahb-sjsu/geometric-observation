@@ -1,10 +1,3 @@
-% STATUS (M4, 2026-08-27): submission-ready draft; all proofs closed at full
-% rigor and externally reviewed; framing = Steinberg functional on the
-% augmented source (LMW Remark 8). History: EXTRACTION-PLAN.md status log.
-% Verification: verify_converses.py 12/12; verifier_{sym,num}_checks.py 46+46;
-% matlab_checks.m 11/11; lean/ObservationTheory/CRContext.lean zero sorry.
-% OWED (owner): R-IND-5 fresh-prose pass; Steinberg-2009/Lu-2016 primary
-% reads; Sec-VI split decision; submission-time sweep.
 \documentclass[11pt,onecolumn]{IEEEtran}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
@@ -40,7 +33,7 @@ State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
 Numerical verification harnesses and archived records:
 \url{https://github.com/ahb-sjsu/geometric-observation} (doi:10.5281/zenodo.21776291).}}
 
-\markboth{IEEE Transactions on Information Theory (draft)}{Bond: Rate--Conditional-Content Tradeoffs with Encoder-Observed Context}
+\markboth{IEEE Transactions on Information Theory}{Bond: Rate--Conditional-Content Tradeoffs with Encoder-Observed Context}
 
 \maketitle
 
@@ -55,7 +48,8 @@ description by a reset mechanism retaining $S$. This is Steinberg's
 common-reconstruction functional applied to the augmented source $X=(Y,V)$
 with distortion on $Y$ alone. We evaluate it in closed form:
 $L(D)=\tfrac12\log_2 g^{*}$, with $g^{*}$ the larger root of an explicit
-quadratic in $\rho$ and $\tau^2$, in any ambient dimension. The closed form recovers the classical rate--distortion
+quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, in any ambient
+dimension. The closed form recovers the classical rate--distortion
 function at $\rho=0$ and Gray's conditional function as $\tau^2\to0$, and
 meets Steinberg's scalar Gaussian formula at the $\rho^2\to1$ boundary. The
 function is not determined by the reduced $(Y,S)$ marginal: two instances
@@ -120,7 +114,8 @@ closed form in any ambient dimension, where the known Gaussian solutions
 \cite{steinberg2009,lapidoth2014} are scalar and unaugmented. Three
 classical objects sit at the corners of the closed form. When the described
 variable and the context decouple ($\rho=0$), $L$ is Shannon's
-rate--distortion function. When the third party's copy is clean
+rate--distortion function \cite{shannon1959}. When the third party's copy is
+clean
 ($\tau^2\to 0$), $L$ is Gray's conditional rate--distortion function
 \cite{gray1973}. When the described variable and the context merge
 ($\rho^2\to 1$), $L$ meets Steinberg's scalar Gaussian formula at the
@@ -177,8 +172,8 @@ equation & Core\\
 Corollary~\ref{cor:misalign}, Remark~\ref{rem:cleanboundary} & Strict
 tradeoff iff $0<\rho^2<1$ under $\tau^2>0$; persists at $\tau^2=0$ &
 Consequence\\
-Theorem~\ref{thm:floor} & Determinant-bound exactness iff, governed by
-$\Sigma_{Y\mid V}$ & Consequence\\
+Theorem~\ref{thm:floor} & Exact attainment condition for the determinant
+bound, governed by $\Sigma_{Y\mid V}$ & Consequence\\
 Corollary~\ref{cor:notmarginal} & $L$ not determined by the reduced
 marginal $(Y,S)$ & Consequence\\
 Theorem~\ref{thm:vector} & Frontier with vector context & Extension\\
@@ -462,7 +457,28 @@ rate--distortion function and the work endpoint,
 \end{equation}
 Both minima exist by compactness of $\mathcal T(D)$ and continuity of the
 two coordinates. The coding theorem below gives both functions their
-operational meaning.
+operational meaning. The following box fixes the two notational scopes of
+the paper.
+
+\begin{definition}[The problem in one box]\label{def:problem}
+\emph{General letters}, used for the discrete theorem of this section:
+source $(X,S)\sim p_{XS}$, i.i.d.\ copies $(X^n,S^n)$, test channel
+$p(\hat x\mid x)$ with the Markov chain $\hX-X-S$, constraint set
+$\mathcal T(D)$, and the two functions of \eqref{eq:work-endpoint}.
+\emph{Gaussian letters}, used from Section~\ref{sec:pair} on: the source
+letter is the jointly Gaussian pair $T=(Y,V)$ with
+$\operatorname{Var}Y=\operatorname{Var}V=1$ and $\E[YV]=\rho$; the context
+copy is generated as $S=V+U$ with $U\sim\mathcal N(0,\tau^2)$ independent
+of everything else; the test channel is $P_{\hY\mid T}$, the reproduction
+$\hY$ does not see $S$, and the Markov chain is $\hY-T-S$; the constraint
+is $\E(Y-\hY)^2\le D$; and
+\[
+R_{\min}(D)=\min I(T;\hY),
+\qquad
+L(D)=\min I(T;\hY\mid S),
+\]
+both minima over test channels meeting the constraint.
+\end{definition}
 
 \begin{lemma}[Convexity in the test channel]\label{lem:convexity}
 For fixed $p_{XS}$, both coordinates $I(X;\hX)$ and $I(X;\hX\mid S)$ are
@@ -536,7 +552,15 @@ $\bar q\in\mathcal T(D_n)$, and by Lemma~\ref{lem:convexity},
  L_n\ \ge\ \frac1n\sum_i I(X_i;\hX_i\mid S_i)\ \ge\ I_{\bar q}(X;\hX\mid S),
 \end{equation*}
 which places $(R_n,L_n)$ in the (already convex and closed) union of
-\eqref{eq:main-region} at distortion $D_n$.
+\eqref{eq:main-region} at distortion $D_n$. To pass from $D_n$ to $D$: for
+an achievable triple $\limsup D_n\le D$, the right side of
+\eqref{eq:main-region} is monotone in the distortion level, and it is
+right-continuous in it, because
+$\mathcal T(D)=\bigcap_{D'>D}\mathcal T(D')$ with each $\mathcal T(D')$
+compact and both coordinates continuous, so the intersection of the
+regions over $D'>D$ is the region at $D$; hence every limit point of
+$(R_n,L_n)$, and with it $(R,L)$, lies in the right side of
+\eqref{eq:main-region} at $D$.
 
 For achievability, fix $p(\hat x\mid x)\in\mathcal T(D)$ and $\epsilon>0$.
 Generate a random codebook $\mathcal C$ of $2^{n(I(X;\hX)+2\epsilon)}$
@@ -554,8 +578,9 @@ side-information proof device fails. Because $\hX-X-S$,
 \begin{equation}
  I(X;\hX\mid S)=I(X;\hX)-I(S;\hX),
 \end{equation}
-so the bin rate exceeds $I(X;\hX)-I(S;\hX)$ by $\epsilon$, and the
-Wyner--Ziv packing argument \cite{wynerziv1976} (the Markov lemma for
+so each bin holds $2^{n(I(S;\hX)-\epsilon)}$ codewords on average, a
+per-bin codeword rate $\epsilon$ below the packing threshold $I(S;\hX)$,
+and the Wyner--Ziv packing argument \cite{wynerziv1976} (the Markov lemma for
 the typicality of the selected codeword with $S^n$, and the packing
 bound for wrong codewords in the bin) gives a decoder that recovers $M$
 from $(B,S^n)$, $B=b(M)$, with
@@ -596,9 +621,8 @@ The binning step in the proof has a simple interpretation. The full codeword
 index is required by the decoder. At reset, side information identifies the
 codeword up to a bin of asymptotic size $2^{nI(X;\hX\mid S)}$. Only that
 residual uncertainty is thermodynamically irreducible. The step has also been
-verified numerically at finite blocklength, by in-bin decoders that succeed
-from $(B,S^n)$ near the predicted bin rate and fail at every bin rate without
-$S^n$.
+verified numerically at finite blocklength
+(Appendix~\ref{app:numver}).
 
 The work-only endpoint of the region is the minimum Landauer content, the
 function $L(D)$ defined in \eqref{eq:work-endpoint}.
@@ -646,7 +670,8 @@ $X=(Y,V)$ & source letter: described variable $Y$, context $V$
 (normalized in Section~\ref{sec:pair})\\
 $S=V+U$ & the third party's copy; $U\sim\mathcal N(0,\tau^2)$
 independent of $X$\\
-$s=1+\tau^2$ & variance of $S$ after normalization\\
+$s=1+\tau^2$ & variance of $S$ after normalization (scalar conditioner;
+the vector-context section uses $\Sigma_U$)\\
 $\rho=\E[YV]$ & correlation of the described variable and the context\\
 $D$ & distortion level, $\E(Y-\hY)^2\le D$\\
 $M$, $R_n$, $L_n$ & stored index; rate $\tfrac1n\log|\mathcal M_n|$;
@@ -680,7 +705,11 @@ below) are \emph{mutually} independent. This joint form of the independence
 assumption is load-bearing: it is exactly what the $S$-kernel argument in
 the next proof uses.
 
-Reproductions may be taken scalar without loss of optimality: replacing
+From here on the Gaussian scope of Definition~\ref{def:problem} is in
+force: the ambient source is $X$, the pair is $T=(Y,V)$, the reproduction
+is $\hY$, and once Theorem~\ref{thm:pair} below is proved, all
+information quantities are written on $(T,\hY,S)$. Reproductions may be
+taken scalar without loss of optimality: replacing
 $\hX$ by $\hY:=w^{\mathsf T}\hX$ leaves the distortion unchanged and can
 only decrease $I(X;\cdot\mid S)$ (conditional data processing), and
 $\hY-X-S$ persists.
@@ -1614,7 +1643,7 @@ the content of the classical reverse channel, and
 $R(0)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]$ evaluated at the channel of
 Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. (Numerically,
 at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $R(0)-R_{\min}=0.0400$ and
-$L(1)-L(D)=0.0349$ bits.) When $\rho=0$ the classical reverse channel
+$L(1)-L(D)=0.0349$ bits; Fig.~\ref{fig:frontier}.) When $\rho=0$ the classical reverse channel
 attains both minima and the frontier is a single corner. The frontier
 also collapses in the limits $\rho^2\to1$ (the scalar corner of
 \cite{bond2026landauer}) and $\tau^2\to\infty$ (where
@@ -1653,7 +1682,8 @@ At $\rho=0$, $b^\star=0$ and $g^\star=1/D$
 $(a^\star,n^\star)=(1-D,D(1-D))$: the two minimizers coincide and the
 frontier is the corner $R_{\min}=L(D)=\tfrac12\log_2(1/D)$. As
 $\rho^2\to1$ the whole frontier converges to the scalar corner of
-\cite{bond2026landauer}, and as $\tau^2\to\infty$,
+\cite{bond2026landauer}, where the classical reverse channel minimizes
+both coordinates simultaneously, and as $\tau^2\to\infty$,
 $\Sigma_{T\mid S}\to\Sigma_T$ makes the two coordinates, and so the
 two endpoints, coincide in the limit.
 \end{proof}
@@ -1910,7 +1940,9 @@ $A:=C^{\mathsf T}\Sigma_T^{-1}$ and
 $\Sigma_N:=\Sigma_{\hat Y}-A\Sigma_TA^{\mathsf T}\succeq0$ (assume
 $\Sigma_T\succ0$; degenerate instances reduce by dropping dependent
 context components; singular $\Sigma_N$ is dispatched by
-Remark~\ref{rem:degenerate}). The lemma's positivity hypothesis
+Remark~\ref{rem:degenerate}, whereby a singular residual either reveals
+a noiseless linear functional of $T$, making every bound trivial, or
+has a removable zero component). The lemma's positivity hypothesis
 $\Cov((T,S))\succ0$ holds exactly when $\tau^2>0$, since
 $\Sigma_{S\mid T}=\tau^2$; the boundary $\tau^2=0$, where $S=V$ is a
 coordinate of $T$ and the joint covariance is singular, is treated
@@ -2146,10 +2178,11 @@ $\hat{\mathbf Y}$ from $(Y,S)$,
 \operatorname{pCov}\bigl(\hat{\mathbf Y},V\bigr)
 :=\Cov\bigl(\hat{\mathbf Y}-\hat{\mathbf Y}_{\mathrm{lin}},\,
 V-V_{\mathrm{lin}}\bigr)
-=\E\bigl[\Cov(\hat{\mathbf Y},V\mid Y,S)\bigr]
-+\Cov\bigl(\E[\hat{\mathbf Y}\mid Y,S]-\hat{\mathbf
-Y}_{\mathrm{lin}},\,0\bigr)=0 .
+=\E\bigl[\Cov(\hat{\mathbf Y},V\mid Y,S)\bigr]=0 ,
 \]
+where the cross term of the total-covariance decomposition vanishes
+identically because $V_{\mathrm{lin}}$ coincides with the conditional
+mean $\E[V\mid Y,S]$ for the jointly Gaussian triple $(V,Y,S)$.
 Now evaluate $\operatorname{pCov}$ from the pinned moments. With
 $M:=\Cov\bigl((Y,S)\bigr)=
 \bigl[\begin{smallmatrix}\Sigma_Y&\beta\\
@@ -2314,11 +2347,14 @@ $Y=y_0^{\mathsf T}Z$, $|y_0|^2=e_Y^{\mathsf T}\Sigma_Te_Y=1$.
 \emph{Moments and the two bounds.} Fix an admissible channel, centered
 without loss, with $c=\E[Z\hY]$ and
 $n=\operatorname{Var}\hY-|c|^2$; the case $n=0$ is dispatched by
-Remark~\ref{rem:degenerate}. The residual $N'=\hY-c^{\mathsf T}Z$ is
+Remark~\ref{rem:degenerate} (the reproduction is then a noiseless
+linear functional of $T$, so either every bound is trivial or the
+reproduction is null). The residual $N'=\hY-c^{\mathsf T}Z$ is
 uncorrelated with $Z$, hence with $T$ and with its subvector $V$; and
 it is uncorrelated with $U$ by mutual independence, hence with
-$S=V+U$: componentwise, $\Cov(N',S)=0$. Lemma~\ref{lem:gauss} applies
-with $A=c^{\mathsf T}W$:
+$S=V+U$: componentwise, $\Cov(N',S)=0$. Lemma~\ref{lem:gauss} (the two
+determinant lower bounds, with equality for the jointly Gaussian
+channel matching the second moments) applies with $A=c^{\mathsf T}W$:
 $A\Sigma_TA^{\mathsf T}=c^{\mathsf T}W\Sigma_TW^{\mathsf T}c=|c|^2$
 and
 $A\Sigma_{T\mid S}A^{\mathsf T}=c^{\mathsf T}\Lambda c$, giving the
@@ -2371,7 +2407,10 @@ entry $\bigl(1-(1-\alpha)\gamma_1\bigr)+(1-\alpha)\gamma_1\lambda_j$
 is a convex combination of $1$ and $\lambda_j>0$, since
 $(1-\alpha)\gamma_1\in[0,1)$. Uniqueness of the minimizer, and hence
 of the system's solution with $n>0$, at every $\alpha\in[0,1]$ is
-Proposition~\ref{prop:uniq} at $p=1+r$; its proof is dimension-free.
+Proposition~\ref{prop:uniq} at $p=1+r$ (the weighted program is convex
+in the moment coordinates with a unique minimizer, and every
+stationary point with $n>0$ is that minimizer); its proof is
+dimension-free.
 Achievability of the frontier point is (ii).
 
 For $r=1$ the bijection $c=W^{-\mathsf T}(a,b)^{\mathsf T}$ carries
@@ -2482,6 +2521,20 @@ endpoint is $d_0=0$ with $d_1(0)=D/p<1$, and $u=a\in(p-D,p+D)\subset
 (0,1)$ stays bounded away from $0$ and $1$, so the boundary blow-ups
 and the analyticity are as before.
 \end{proof}
+
+Fig.~\ref{fig:binary} shows the objective and the tilt residual at a
+representative instance.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.8\columnwidth]{binary}
+\caption{The binary objective $L(d_0)$ (top) and the tilt residual
+$\psi(d_0)$ (bottom) along the constraint segment $(1-p)d_0+pd_1=D$ at
+$(p,q,D)=(0.25,0.15,0.15)$. The residual crosses zero exactly once, at
+$d_0^\star=0.1173$ ($d_1^\star=0.2480$), and $L$ attains its unique
+minimum $0.3346$ bits there, as Lemma~\ref{lem:tiltroot} asserts.}
+\label{fig:binary}
+\end{figure}
 
 \begin{theorem}[Core: the binary function]
 \label{thm:binary}
@@ -2600,9 +2653,6 @@ exactly the constrained problem of the pair $(Y,S)$, a binary
 symmetric pair with crossover $p*q$, and pays Steinberg's value there
 (the marginalization identity of Section~\ref{sec:function} is
 alphabet-free); the tilt equation is the price of pair access.
-%% Steinberg 2009 eq. (14) (binary example) confirmed via a citing
-%% source (Vellambi-Timo, arXiv:1611.05467, Lemma 9 step (c));
-%% primary read of the paywalled T-IT text still owed (house rule).
 
 \section{Discussion and Conclusion}
 \label{sec:discussion}
@@ -2706,14 +2756,14 @@ depends on that reading.
 \emph{Converse.} The chain of Theorem~\ref{thm:main-region}'s converse
 holds verbatim with differential entropies for the continuous source.
 $M$ is discrete, so $\log|\mathcal M_n|\ge H(M)\ge I(X^n;M)\ge
-I(X^n;\hXn)$ and $H(M\mid S^n)\ge I(X^n;M\mid S^n)\ge
-I(X^n;\hXn\mid S^n)$ are unchanged. The single-letterization of
+I(X^n;\hY^n)$ and $H(M\mid S^n)\ge I(X^n;M\mid S^n)\ge
+I(X^n;\hY^n\mid S^n)$ are unchanged. The single-letterization of
 Appendix~\ref{app:converse} holds with $h$ in place of $H$: for the
 jointly Gaussian source all the differential entropies involved are
 finite (the unconditional ones are Gaussian values, and each
 conditional one differs from an unconditional one by a mutual
 information pinned between $0$ and
-$H(M)\le\log|\mathcal M_n|<\infty$, since $\hXn$ is a function of the
+$H(M)\le\log|\mathcal M_n|<\infty$, since $\hY^n$ is a function of the
 finite-valued $M$), the i.i.d.\ chain rules are unchanged, and
 conditioning reduces differential entropy. The per-letter induced channels satisfy the
 Markov constraint by the i.i.d.\ structure, exactly as in the finite
@@ -2725,7 +2775,12 @@ Theorem~\ref{thm:region}'s proof). Hence
 $(R_n,L_n)$ lies in the displayed union at distortion $D_n$, and the
 union is convex and closed by the same lemma together with the
 attainment argument of Section~\ref{sec:floor} (compact moment sets,
-lower semicontinuity of mutual information \cite{posner1975}).
+lower semicontinuity of mutual information \cite{posner1975}). The
+passage from $D_n$ to $D$ is as in Theorem~\ref{thm:main-region}: the
+union is monotone in the distortion level and right-continuous in it
+(the constraint sets are nested, with compact moment sections and both
+coordinates lower semicontinuous), so $\limsup D_n\le D$ places every
+limit point of $(R_n,L_n)$ in the union at $D$.
 
 \emph{Restriction to Gaussian channels.} For any admissible channel,
 Lemma~\ref{lem:gauss} produces the jointly Gaussian channel with the
@@ -2841,7 +2896,11 @@ alongside the proofs, performs twelve checks. The scripts
 from an independent re-derivation that had no access to the derivations or
 to the first script; they perform 46 symbolic and 46 numeric checks. All
 pass. The Lagrangian bounds for the binary theorem are produced by the
-repository harness \texttt{verify\_go11\_m2sys\_binary.py}. All scripts and
+repository harness \texttt{verify\_go11\_m2sys\_binary.py}. A
+finite-blocklength check of the binning step of
+Theorem~\ref{thm:main-region}, in-bin decoders recovering $M$ from
+$(B,S^n)$ near the predicted bin rate and failing at every bin rate
+without $S^n$, is archived with the same repository record. All scripts and
 their archived outputs accompany the manuscript sources at the repository of
 the title footnote. Table~\ref{tab:numver} summarizes the main checks.
 

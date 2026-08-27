@@ -279,6 +279,23 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   vocabulary adopted), Zenodo-record relationship (supersedes its source-
   coding content), verification apparatus sentence, standard statements.
   Manuscript: 29 pp, zero undefined refs, zero overfull.
+- **M4b (2026-08-27): final fix round** (third verification pass, verdict
+  submit-ready, + new reviewer set): V1 limsup-D_n closure sentences added
+  to both operational converses; V2/V3 cover-letter overclaim fixed ("two
+  written independently") + declined-submission vs Zenodo-record
+  distinctness made explicit; V4 nits (markboth draft tag, shannon1959
+  cited, ALL internal comments stripped from the tex, abstract quadratic
+  wording "(D, rho^2, tau^2)", Table-I floor row, per-bin packing-threshold
+  wording, in-bin check moved to App C, rho^2->1 reverse-channel clause).
+  R1 problem-in-one-box Definition + Gaussian-scope handoff sentence +
+  Yhat^n sweep in the Gaussian appendix; R2 one-clause recaps at every
+  cross-section lemma invocation in Secs. VI-VII; R3 Fig-2 pointer in
+  cor:misalign statement + NEW Fig. 3 (plot_binary.py at p,q,D=
+  0.25,0.15,0.15: tilt root d0*=0.1173, d1*=0.2480, L*=0.3346 bits, one
+  sign change); R4 s-scope note in notation table, pCov zero-term dropped
+  with the Gaussian-conditional-mean clause, (44)-bracket invertibility
+  confirmed present. Manuscript 30 pp, cover letter 1 p, zero undefined,
+  zero overfull; verify_converses.py 16/16.
 - **REMAINING (owner items only):** R-IND-5 fresh-context pass on all new
   prose; Steinberg 2009 + Lu et al. WCSP 2016 primary reads; the reviewer's
   Sec-VI split-out suggestion (owner decision); submission-time full sweep.
