@@ -329,7 +329,25 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   I_r+Sigma_U would presume a normalization the section does not impose).
   Manuscript 32 pp, zero undefined, zero overfull; verify_converses.py
   extended to 17/17 (new N10: binary frontier closed forms vs joint-pmf).
-- **REMAINING (owner items only):** R-IND-5 fresh-context pass on all new
-  prose; Steinberg 2009 + Lu et al. WCSP 2016 primary reads; the reviewer's
-  Sec-VI split-out suggestion (owner decision); submission-time full sweep.
+- **M7 (2026-08-27): R-IND-5 pass #5 on the complete 32-pp manuscript —
+  CONFIRMED.** Fresh-context adversarial verifier (no prover access):
+  re-derived rem:binfrontier end to end (flip invariance, weighted-objective
+  convexity, R-minimizer uniqueness, psi(D)<0 sign chain), sympy-verified
+  all seven rho^2->1 limits, checked every appendix recap against its
+  target, re-ran both plot scripts (all caption numbers exact), swept all
+  265 refs post-renumbering (all resolve correctly), brute-forced the
+  binary theorem over general 4-parameter channels (family optimum never
+  beaten; the one apparent break was the verifier's own soft-penalty
+  infeasibility leak). Scripts: 17/17, 46/46 sym, 42/42 num. Six findings,
+  all applied: (MINOR) rem:binfrontier constraint-activeness sentence added
+  (slack optima slide to the segment: coordinates vanish at (1/2,1/2),
+  convexity makes the path non-increasing, distortion rises to 1/2>D);
+  (MINOR) VERIFICATION.md numeric count 46->42; (NIT) "nine"->"ten"
+  numeric items; (NIT) cor:misalign limit display scoped to rho->1 with
+  the rho->-1 sign-of-b clause; (NIT) g^{*}->g^\star in abstract+intro;
+  (NIT) "decisions consumed by parties"->"descriptions read by parties"
+  in the Discussion. Rebuilt clean: 32 pp, zero undefined, zero overfull.
+- **REMAINING (owner items only):** Steinberg 2009 + Lu et al. WCSP 2016
+  primary reads; the reviewer's Sec-VI split-out suggestion (owner
+  decision); submission-time full sweep; ScholarOne upload.
 

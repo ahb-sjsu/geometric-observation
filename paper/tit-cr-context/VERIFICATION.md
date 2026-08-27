@@ -14,7 +14,7 @@ footnote (doi:10.5281/zenodo.21776291).
   determinant identities, the four gradient identities, the linearity
   and closed-form solution of the stationarity system, the
   constraint-to-quadratic reduction with its cofactor, the floor value
-  `P(g_f) = -rho^2 tau^2/s`, and the weighted-FOC reduction; nine
+  `P(g_f) = -rho^2 tau^2/s`, and the weighted-FOC reduction; ten
   numeric (numpy/scipy) on the closed form vs direct minimization, the
   frontier at alpha in {0, 1/2, 1}, the six values of the
   non-determination corollary, the endpoint excesses, the
@@ -27,7 +27,7 @@ footnote (doi:10.5281/zenodo.21776291).
 - `verifier_sym_checks.py`, `verifier_num_checks.py` — a separately
   commissioned re-derivation, produced without access to the
   derivations or to the first script, archived with the repository:
-  46 symbolic and 46 numeric checks. All pass.
+  46 symbolic and 42 numeric checks. All pass.
 - `verify_go11_m2sys_binary.py` (repository harness) — the
   unconditional Lagrangian bounds for the binary theorem: no convexity
   assumed, reproduction alphabets 2, 4, and 6; worst residual

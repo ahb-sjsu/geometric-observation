@@ -49,7 +49,7 @@ minimal ideal work, in units of $k_BT\ln 2$, to erase the stored
 description by a reset mechanism retaining $S$. This is Steinberg's
 common-reconstruction functional applied to the augmented source $X=(Y,V)$
 with distortion on $Y$ alone. We evaluate it in closed form:
-$L(D)=\tfrac12\log_2 g^{*}$, with $g^{*}$ the larger root of an explicit
+$L(D)=\tfrac12\log_2 g^\star$, with $g^\star$ the larger root of an explicit
 quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, when $Y$ and
 $V$ are scalar linear functionals of an arbitrary-dimensional jointly
 Gaussian source. The closed form recovers the classical rate--distortion
@@ -133,7 +133,7 @@ enters the function itself.
 The results fall into four roles: core results, structural consequences,
 extensions, and consistency anchors, and the bracketed words in the
 theorem titles carry the roles. The core results are three. Section~\ref{sec:function} gives the closed
-form $L(D)=\tfrac12\log_2 g^{*}$ with $g^{*}$ the larger root of an
+form $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of an
 explicit quadratic, together with the achieving channel, after
 Section~\ref{sec:pair} reduces the problem, for $Y$ and $V$ scalar linear
 functionals of an arbitrary-dimensional jointly Gaussian source, to the
@@ -1706,7 +1706,7 @@ to a corner in the limit: by Corollary~\ref{cor:anchors}(iii),
 $L(D)\to\tfrac12\log_2\bigl[(D+\tau^2)/(Ds)\bigr]$, and the displayed
 $\LRs(D)$ has the same limit, since
 $(1-D)(1-\rho^2/s)+D\to(1-D)\tau^2/s+D=(D+\tau^2)/s$; for the rate
-side, the channel \eqref{eq:channel} has, as $\rho^2\to1$,
+side, the channel \eqref{eq:channel} has, as $\rho\to1$,
 $g^\star\to(D+\tau^2)/(Ds)$ and
 \[
 (a,b,n)\;\longrightarrow\;
@@ -1715,7 +1715,8 @@ $g^\star\to(D+\tau^2)/(Ds)$ and
 \]
 whence $a+b\to1-D$, $Q_0\to(1-D)^2$, and
 $\RLs(D)=\tfrac12\log_2\bigl[(Q_0+n)/n\bigr]
-\to\tfrac12\log_2(1/D)=R_{\min}$. As $\tau^2\to\infty$,
+\to\tfrac12\log_2(1/D)=R_{\min}$; for $\rho\to-1$ only the sign of $b$
+flips, leaving $Q_0$ and $\RLs$ unchanged. As $\tau^2\to\infty$,
 $\Sigma_{T\mid S}\to\Sigma_T$ makes the two coordinates, and so the
 two endpoints, coincide in the limit.
 \end{proof}
@@ -2687,8 +2688,14 @@ flip therefore preserves the distortion and, by convexity, does not
 increase any weighted objective, and larger reproduction alphabets are
 covered by the data-processing reduction in both coordinates. Every
 weighted optimum is thus attained in the family $\{(d_0,d_1)\}$, and
-the Pareto frontier of the binary rate--content region at distortion
-$D$ is the lower-left envelope of the curve
+the distortion constraint may be taken active there: both coordinates
+are nonnegative and vanish at $d_0=d_1=\tfrac12$, so by convexity the
+objective does not increase along the straight path from any point
+with distortion slack toward $(\tfrac12,\tfrac12)$, while the
+distortion, affine in $(d_0,d_1)$ with positive weights, rises
+continuously to $\tfrac12>D$ and meets the budget on the way. The
+Pareto frontier of the binary rate--content region at distortion
+$D$ is therefore the lower-left envelope of the curve
 \[
 d_0\;\longmapsto\;\bigl(R(d_0),\,L(d_0)\bigr),
 \qquad
@@ -2766,8 +2773,8 @@ cheaply and erasing cheaply are compatible: at $\rho=0$ one channel minimizes
 both coordinates, and under misalignment ($\rho^2\in(0,1)$, $\tau^2>0$) the
 two costs strictly trade off.
 
-The same asymmetry, decisions consumed by parties whose requirements the
-description was not sized to, extends beyond source coding. In companion
+The same asymmetry, descriptions read by parties whose requirements they
+were not sized to, extends beyond source coding. In companion
 empirical work by the author, the operational failure rate of decisions
 made from stale or mismatched descriptions plays the role that $L$ plays
 here as an information price. The misaligned regime $\tau^2>0$ is exactly
