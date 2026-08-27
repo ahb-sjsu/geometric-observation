@@ -22,6 +22,13 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\hX}{\widehat{X}}
+\newcommand{\hXn}{\widehat{X}^{n}}
+\newcommand{\hY}{\widehat{Y}}
+\newcommand{\RW}{\mathcal{R}\!\mathcal{W}}
+\newcommand{\kb}{k_{\mathrm{B}}}
 
 \begin{document}
 
@@ -137,27 +144,318 @@ marginal rate--distortion function at the other.
 
 \section{Problem Formulation and the Operational Theorem}
 \label{sec:operational}
-%% TRANSPLANT: consumer-relative-landauer.tex Sec. II (definitions R_n, D_n,
-%% L_n = H(M|S^n)/n) + Theorem 1 (region coding theorem: converse +
-%% Wyner-Ziv-binning achievability) + Appendix A single-letterization, restated
-%% for the (Y,V)-observing encoder. Verify the restatement leaves the proof
-%% untouched (f_n already maps X^n; here X=(Y,V) with distortion on the Y
-%% coordinate). Cite Steinberg's operational CR framing.
+
+All logarithms are base two. Random variables have finite alphabets unless a
+Gaussian specialization is stated. Let $(X,S)\sim p_{XS}$, and let
+$(X^n,S^n)$ be i.i.d. copies. The encoder observes $X^n$ but not $S^n$. The
+consumer and its decoder also do not observe $S^n$. The reset mechanism alone
+has access to $S^n$, which remains unchanged by the reset.
+
+A distortion measure is a bounded function
+\begin{equation}
+ d:\cX\times\widehat{\cX}\longrightarrow[0,d_{\max}].
+\end{equation}
+An $(n,\mathcal M_n)$ observation code consists of an encoder and decoder
+\begin{equation}
+ f_n:\cX^n\to\mathcal M_n,
+ \qquad
+ g_n:\mathcal M_n\to\widehat{\cX}^{n}.
+\end{equation}
+We write $M=f_n(X^n)$ and $\hXn=g_n(M)$. Randomized encoders do not improve
+the region below, but allowing them in the converse is harmless.
+
+The three operational quantities are
+\begin{align}
+ R_n&=\frac{1}{n}\log |\mathcal M_n|,\label{eq:rate-def}\\
+ D_n&=\frac{1}{n}\sum_{i=1}^{n}\E\,d(X_i,\hX_i),\label{eq:dist-def}\\
+ L_n&=\frac{1}{n}H(M\mid S^n).\label{eq:work-def}
+\end{align}
+The dimensionless quantity $L_n$ is the \emph{Landauer content} of the memory
+relative to the retained side information. Under an ideal conditional reset,
+the average work satisfies
+\begin{equation}
+ W_n\ \ge\ n\kb T\ln2\,L_n.
+ \label{eq:landauer-bound}
+\end{equation}
+In the classical asymptotic regime, conditional erasure protocols make this
+bound tight up to sublinear terms \cite{delrio2011,faist2015}. We therefore
+state the coding theorem in bits per source symbol and restore physical units
+by multiplying by $\kb T\ln2$. The bound \eqref{eq:landauer-bound} prices
+only the logically irreversible reset of the volatile index $M$; it does not
+count the work of acquiring $X^n$, driving a channel, correcting errors, or
+finishing in finite time \cite{landauer1961,bennett1973}. The codebook,
+wiring, and any permanent lookup tables are treated as part of the apparatus
+rather than a per-cycle record.
+
+\begin{definition}[Achievability]\label{def:achievability}
+A triple $(R,L,D)$ is achievable if there is a sequence of observation codes
+such that
+\begin{equation}
+ \limsup_{n\to\infty}R_n\le R,\qquad
+ \limsup_{n\to\infty}L_n\le L,\qquad
+ \limsup_{n\to\infty}D_n\le D.
+\end{equation}
+The closure of the achievable set at distortion $D$ is denoted $\RW(D)$.
+\end{definition}
+
+For a test channel $p(\hat x\mid x)$, the Markov chain $\hX-X-S$ holds
+because side information is unavailable when the observation is formed.
+Define
+\begin{equation}
+ \mathcal T(D)
+ =\left\{p(\hat x\mid x):\E d(X,\hX)\le D\right\}.
+\end{equation}
+
+\begin{lemma}[Convexity in the test channel]\label{lem:convexity}
+For fixed $p_{XS}$, both coordinates $I(X;\hX)$ and $I(X;\hX\mid S)$ are
+convex functions of the test channel $q(\hat x\mid x)$.
+\end{lemma}
+
+\begin{proof}
+Convexity of $I(X;\hX)$ in the channel at fixed input is classical. For the
+conditional coordinate, the Markov chain $\hX-X-S$ gives
+$p(\hat x\mid x,s)=q(\hat x\mid x)$, so
+\begin{equation}
+ I(X;\hX\mid S)=\sum_s p(s)\,I_{p(x\mid s)}(q),
+ \label{eq:per-s-decomposition}
+\end{equation}
+a nonnegative combination of mutual informations, each with fixed input
+distribution $p(x\mid s)$ and the common channel $q$; each term is convex in
+$q$, hence so is the sum. We note that the decomposition
+$I(X;\hX\mid S)=I(X;\hX)-I(S;\hX)$ does \emph{not} yield this conclusion:
+$I(S;\hX)$ is itself convex in $q$ (the induced channel
+$p(\hat x\mid s)=\sum_x p(x\mid s)q(\hat x\mid x)$ is linear in $q$), so the
+difference is a priori indefinite.
+\end{proof}
+
+\begin{theorem}[Rate--work--distortion region]\label{thm:main-region}
+For a discrete memoryless source $(X,S)$ and bounded distortion $d$,
+\begin{equation}
+\boxed{
+ \RW(D)
+ =\bigcup_{p(\hat x\mid x)\in\mathcal T(D)}
+ \left\{(R,L):
+ R\ge I(X;\hX),\
+ L\ge I(X;\hX\mid S)
+ \right\}.}
+ \label{eq:main-region}
+\end{equation}
+The physical reset-work coordinate is $W/n=\kb T\ln2\,L$ in the ideal model.
+By Lemma~\ref{lem:convexity} the union is already convex, and it is closed by
+compactness of $\mathcal T(D)$ and continuity of both coordinates; no time
+sharing is required, and every boundary point is attained by a single test
+channel.
+\end{theorem}
+
+\begin{proof}
+We first prove the converse. Let a code produce $M$ and $\hXn$. Since $\hXn$
+is a function of $M$,
+\begin{align}
+ \log|\mathcal M_n|
+ &\ge H(M)\ge I(X^n;M)\ge I(X^n;\hXn)\nonumber\\
+ &\ge \sum_{i=1}^{n}I(X_i;\hX_i),
+ \label{eq:rate-conv}
+\end{align}
+where the last step follows from memorylessness and conditioning reducing
+entropy (Appendix~\ref{app:converse}). Likewise,
+\begin{align}
+ H(M\mid S^n)
+ &\ge I(X^n;M\mid S^n)
+ \ge I(X^n;\hXn\mid S^n)\nonumber\\
+ &\ge \sum_{i=1}^{n}I(X_i;\hX_i\mid S_i).
+ \label{eq:work-conv}
+\end{align}
+Each induced per-letter channel $p(\hat x_i\mid x_i)$ satisfies the Markov
+constraint $\hX_i-X_i-S_i$: $\hX_i$ is a function of $(X_i,X_{\ne i})$ and
+$S_i$ is independent of $X_{\ne i}$ given $X_i$ for i.i.d. pairs. Let
+$\bar q(\hat x\mid x)=\frac1n\sum_{i=1}^{n}p(\hat x_i=\hat x\mid X_i=x)$ be
+the mixture channel; the constraint survives the mixture because
+$p(s\mid x)$ is common across $i$. Its distortion is $D_n$, so
+$\bar q\in\mathcal T(D_n)$, and by Lemma~\ref{lem:convexity},
+\begin{equation*}
+ R_n\ \ge\ \frac1n\sum_i I(X_i;\hX_i)\ \ge\ I_{\bar q}(X;\hX),
+ \qquad
+ L_n\ \ge\ \frac1n\sum_i I(X_i;\hX_i\mid S_i)\ \ge\ I_{\bar q}(X;\hX\mid S),
+\end{equation*}
+which places $(R_n,L_n)$ in the (already convex and closed) union of
+\eqref{eq:main-region} at distortion $D_n$.
+
+For achievability, fix $p(\hat x\mid x)\in\mathcal T(D)$ and $\epsilon>0$.
+Generate a standard rate--distortion codebook containing
+$2^{n(I(X;\hX)+2\epsilon)}$ independent $\hat x^n$ codewords. A covering
+encoder selects a codeword jointly typical with $x^n$ and stores its index
+$M$. The consumer reconstructs that codeword from $M$ alone. Standard
+typicality arguments give rate $I(X;\hX)+2\epsilon$ and distortion at most
+$D+o(1)$.
+
+To bound the reset work, randomly partition the codeword indices into
+$2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins, and let $B=b(M)$ be the bin index.
+Because $\hX-X-S$,
+\begin{equation}
+ I(X;\hX\mid S)=I(X;\hX)-I(S;\hX).
+\end{equation}
+The usual Wyner--Ziv packing argument \cite{wynerziv1976} therefore gives a
+decoder that recovers $M$ from $(B,S^n)$ with probability of error tending to
+zero. This decoder is a proof device; the consumer still receives no side
+information. By Fano's inequality,
+\begin{align}
+ H(M\mid S^n)
+ &\le H(B)+H(M\mid B,S^n)\nonumber\\
+ &\le n\bigl(I(X;\hX\mid S)+3\epsilon\bigr)+o(n).
+ \label{eq:entropy-ach}
+\end{align}
+Thus the same stored index has ordinary description rate $I(X;\hX)$ and
+conditional Landauer content $I(X;\hX\mid S)$. Since the union in
+\eqref{eq:main-region} is already convex and closed
+(Lemma~\ref{lem:convexity}), this exhibits the entire region.
+\end{proof}
+
+The binning step in the proof has a simple interpretation. The full codeword
+index is required by the consumer. At reset, side information identifies the
+codeword up to a bin of asymptotic size $2^{nI(X;\hX\mid S)}$. Only that
+residual uncertainty is thermodynamically irreducible. The step has also been
+verified numerically at finite blocklength, by in-bin decoders that succeed
+from $(B,S^n)$ near the predicted bin rate and fail at every bin rate without
+$S^n$.
+
+The work-only endpoint of the region is the minimum Landauer content
+\begin{equation}
+ L(D)=\min_{p(\hat x\mid x)\in\mathcal T(D)}I(X;\hX\mid S).
+ \label{eq:work-endpoint}
+\end{equation}
+As an information quantity, $L(D)$ is Steinberg's common-reconstruction
+rate--distortion function for side information $S$ \cite{steinberg2009}: the
+reproduction must be determined without access to $S$. The operational roles
+differ. In the common-reconstruction problem, $S$ is decoder side information
+that must not corrupt reproducibility; here $S$ is held by a reset mechanism
+that never serves the consumer. The remainder of the paper characterizes
+$L(D)$, and the region around it, for the source of Section~\ref{sec:pair}.
+
+\begin{remark}[The Gaussian pair specialization]\label{rem:specialization}
+From Section~\ref{sec:pair} on, the source letter is the jointly Gaussian
+pair $X=(Y,V)$ introduced there, and the distortion is
+$d(x,\hat x)=(y-\hat y)^2$ on the read coordinate: the consumer is judged on
+$Y$ alone, while the encoder observes the pair.
+\end{remark}
+
+\begin{remark}[Scope of the coding theorem]\label{rem:scope}
+Theorem~\ref{thm:main-region} is stated and proved for finite alphabets and
+bounded per-letter distortion. Its application to the Gaussian source with
+unbounded quadratic distortion is the standard abstract-alphabet extension of
+the coding theorem \cite{berger1971}. The Gaussian closed forms of
+Sections~\ref{sec:pair}--\ref{sec:floor} are evaluations of the single-letter
+coordinates in \eqref{eq:main-region}, and their operational meaning is
+inherited through that extension.
+\end{remark}
 
 \section{Pair Sufficiency}
 \label{sec:pair}
-%% TRANSPLANT: go11 thm:pair (Theorem 1) verbatim modulo notation table.
-%% Full proof travels as-is (resampling + S-kernel identity).
+
+Let $X\sim\mathcal N(0,\Sigma_x)$ on $\R^d$, i.i.d. across source symbols.
+The consumer's read is the linear functional $Y=w^{\mathsf T}X$; the third
+party's copy is a second linear functional observed in noise,
+$S=\gamma^{\mathsf T}X+U$. Normalize
+$\operatorname{Var}(w^{\mathsf T}X)=1$ (rescaling $D$), write
+$V=\gamma^{\mathsf T}X/\sigma_{\gamma}$ with $\rho:=\E[YV]$, $|\rho|<1$, and
+rescale $S$ (invariantly for all mutual informations) to $S=V+U$,
+$U\sim\mathcal N(0,\tau^2)$, $\tau^2>0$. Write $s=1+\tau^2$. Throughout,
+$X$, $U$, and all channel randomness (including any resampling randomness
+below) are \emph{mutually} independent. This joint form of the independence
+assumption is load-bearing: it is exactly what the $S$-kernel argument in
+the next proof uses.
+
+Reproductions may be taken scalar without loss of optimality: replacing
+$\hX$ by $\hY:=w^{\mathsf T}\hX$ leaves the distortion unchanged and can
+only decrease $I(X;\cdot\mid S)$ (conditional data processing), and
+$\hY-X-S$ persists.
+
+\begin{theorem}[Pair sufficiency]\label{thm:pair}
+In the single-consumer problem
+$L(D)=\min\{I(X;\hY\mid S):\hY-X-S,\ \E(Y-\hY)^2\le D\}$, it is without
+loss of optimality to let the channel depend on $X$ only through
+$T=(Y,V)$, and then $I(X;\hY\mid S)=I(T;\hY\mid S)$. Consequently $L(D)$
+depends on $(\Sigma_x,w,\gamma,\tau^2)$, in any ambient dimension $d$,
+only through $(\rho,\tau^2)$.
+\end{theorem}
+\begin{proof}
+Given an admissible $p(\hat y\mid x)$, draw $\hY'$ from the conditional
+law $p(\hat y\mid T=t)$ using fresh randomness. (a) $(T,\hY')\overset{d}=
+(T,\hY)$, so the distortion (a functional of $(Y,\hY)$) is unchanged.
+(b) $S=V+U$ with $U$ independent of $(X,\hY)$ and of $(X,\hY')$, so in
+both joints $p(s\mid t,\hat y)=p_U(s-v)$: hence
+$(T,\hY',S)\overset{d}=(T,\hY,S)$. (c) Given $T$, $\hY'$ is independent
+of $(X,S)$, so $I(X;\hY'\mid S)=I(T;\hY'\mid S)+I(X;\hY'\mid T,S)
+=I(T;\hY\mid S)\le I(X;\hY\mid S)$, the last step because $T$ is a
+function of $X$. (d) $\hY'-X-S$ holds since $\hY'$ is a function of
+$(X,\text{fresh noise})$ with the noise independent of $(X,U)$. The same
+computation applied to a $T$-channel directly gives
+$I(X;\hY\mid S)=I(T;\hY\mid S)$.
+\end{proof}
 
 \section{The Function: Scalar Context}
 \label{sec:function}
-%% TRANSPLANT: go11 prop:marg (marginalization dichotomy, full proof) +
-%% thm:cubic -> rename thm:function (drop "cubic"; the polynomial is
-%% quadratic).
-%% DEBT 1: write the converse in full (determinant identity
+
+One further reduction identifies the class the closed form must beat.
+\emph{(Marginalized class $=$ scalar corner.)} If the channel depends on $X$
+only through $Y$ (that is, $\hY-Y-(X,S)$), then given $(Y,S)$, $\hY$ is
+independent of $X$, so $I(X;\hY\mid S)=I(Y;\hY\mid S)$, and the class
+optimum is exactly the scalar-corner value
+$\tfrac12\log_2\bigl[(\sigma^2(1-\rho_{YS}^2)+\rho_{YS}^2D)/D\bigr]$ of the
+pair $(Y,S)$ \cite{bond2026landauer,steinberg2009}; the corner's converse
+applies to every $p(\hat y\mid y)$, discrete or not.
+
+\begin{proposition}[Marginalization is strictly suboptimal]\label{prop:marg}
+Let $d=2$, $X\sim\mathcal N(0,I_2)$, $Y=X_1$, and $S=X_1+X_2$ (so
+$\rho^2_{YS}=\tfrac12$ and $S$ is $X$-measurable). For $0<D<1$:
+\begin{enumerate}
+\item[(i)] the marginalized-class optimum is the scalar corner
+$L_{\mathrm{marg}}(D)=\tfrac12\log_2\!\frac{1+D}{2D}$;
+\item[(ii)] the vector problem has the exact value
+\[
+L_{\mathrm{vec}}(D)\;=\;\tfrac12\log_2^{+}\!\frac{1}{2D}
+\;=\;R_{Y\mid S}(D),
+\]
+Gray's conditional rate--distortion function of $(Y,S)$ \cite{gray1973}
+($\operatorname{Var}(Y\mid S)=\tfrac12$), attained by the linear channel
+$\hY=(1-D)X_1+DX_2+N$, $N\sim\mathcal N(0,D(1-2D))$, for $D\le\tfrac12$,
+and by $\hY=S/2$ (zero conditional content) for $D\ge\tfrac12$;
+\item[(iii)] hence the strict gap
+$L_{\mathrm{marg}}(D)-L_{\mathrm{vec}}(D)=\tfrac12\log_2(1+D)>0$ on
+$(0,\tfrac12]$, and equal to the full marginalized value on
+$[\tfrac12,1)$ (where $L_{\mathrm{vec}}=0$; the absolute gap is decreasing
+there, but it is all of $L_{\mathrm{marg}}$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) is the reduction above, evaluated at $\sigma^2=1$,
+$\rho_{YS}^2=\tfrac12$.
+
+(ii) \emph{Converse.} For any admissible $\hY$ (Markov $\hY-X-S$),
+$I(X;\hY\mid S)\ge I(Y;\hY\mid S)$, and the induced conditional channel
+$p(\hat y\mid y,s)$ is feasible for Gray's conditional problem at the same
+distortion, so $I(Y;\hY\mid S)\ge R_{Y\mid S}(D)=\tfrac12\log_2^{+}
+\bigl(\operatorname{Var}(Y\mid S)/D\bigr)=\tfrac12\log_2^{+}(1/(2D))$.
+\emph{Achievability.} For $D\le\tfrac12$ take
+$\hY=(1-D)X_1+DX_2+N$: distortion $D^2+D^2+D(1-2D)=D$;
+$\operatorname{Var}(\hY)=1-D$, $\Cov(\hY,S)=1$,
+$\operatorname{Var}(\hY\mid S)=1-D-\tfrac12=\tfrac12-D$, so
+$I(X;\hY\mid S)=\tfrac12\log_2\frac{(1-2D)/2}{D(1-2D)}
+=\tfrac12\log_2\frac1{2D}$. For $D\ge\tfrac12$, $\hY=S/2$ is a
+deterministic function of $X$, has distortion
+$\E\bigl((X_1-X_2)/2\bigr)^2=\tfrac12\le D$, and is constant given $S$, so
+$I(X;\hY\mid S)=0$.
+
+(iii) Subtract. The closed forms on both sides have been verified
+numerically.
+\end{proof}
+
+%% DEBT 1: thm:function (the closed form L(D) = 1/2 log2 g*, g* the larger
+%% root of P(g) = Dsg^2 - (D+s-rho^2)g + (1-rho^2)) goes HERE. Write the
+%% converse in full (determinant identity
 %% det Sigma_{T|S}/det Sigma_e = (Var(aY+bV|S)+n)/n and the (a,b) linear
 %% system at fixed g), currently compressed/outsourced to the NOVELTY addendum.
-%% Then R-IND-5 pass.
+%% Then R-IND-5 pass. Label: \label{thm:function}.
 
 \section{The Rate--Content Region and Misalignment}
 \label{sec:region}
@@ -166,13 +464,186 @@ marginal rate--distortion function at the other.
 %% DEBT 2: the two determinant identities + four-gradient reduction in full;
 %% the matrix-convexity lemma written out. Then R-IND-5 pass.
 %% Also state cor:notmarginal here (from go11 cor:kaspi part (ii)): same
-%% (Y,S) law, different L -- the delineation centerpiece.
+%% (Y,S) law, different L -- the delineation centerpiece. STATED below;
+%% its proof is the closed form of thm:function (DEBT M2).
+
+\begin{corollary}[$L$ is not a functional of the $(Y,S)$ law]
+\label{cor:notmarginal}
+Two instances with the same $(Y,S)$ joint law can have different minimal
+conditional content: the instances $(\rho^2,\tau^2)=(\tfrac12,0)$ and
+$(\tfrac34,\tfrac12)$ have identical $(Y,S)$ margins
+($\rho_{YS}^2=\tfrac12$) yet $L=1.1610$ versus $1.2105$ bits at $D=0.1$,
+and $L=0.3685$ versus $0.5228$ bits at $D=0.3$, in both cases strictly
+below the Steinberg value of the margin ($1.2297$ and $0.5577$ bits
+respectively). In particular $L(D)$ is not Steinberg's function composed
+with any modified pair, nor Gray's, nor any functional of the $(Y,S)$
+joint law: the encoder's access to the clean context $V$ is load-bearing.
+%% proof follows Thm \ref{thm:function} (DEBT M2)
+\end{corollary}
 
 \section{When the Floor Is Attained}
 \label{sec:floor}
-%% TRANSPLANT: go11 thm:c3 -> thm:floor, full proof travels. Keep the
-%% correction narrative to one sentence (the attainment condition is the
-%% encoder-accessible Sigma_{Y|V}, not Sigma_{Y|S}).
+
+The conditional content of any admissible description is floored by a
+determinant ratio, and it is natural to ask when the floor is exact. The
+question is sharpest for a joint description serving two reads, and this
+section settles it there; the single-read answer appears as a corollary
+inside the proof. In this section only, $Y=(Y_A,Y_B)$ denotes a pair of
+normalized reads of the source, jointly Gaussian with the normalized
+context $V$, with an arbitrary correlation pattern; the third party again
+holds $S=V+U$, $U\sim\mathcal N(0,\tau^2)$, with $X$, $U$, and all channel
+randomness mutually independent. A joint channel produces
+$\hat{\mathbf Y}=(\hY_A,\hY_B)$ with $\hat{\mathbf Y}-X-S$ and must meet
+$\E(Y_A-\hY_A)^2\le D_A$ and $\E(Y_B-\hY_B)^2\le D_B$; write
+$L_{\min}(D_A,D_B)=\min I(X;\hat{\mathbf Y}\mid S)$.
+
+Write $\Sigma_Y$ for the read-pair covariance,
+$\beta=\Cov(Y,V)\in\R^2$, $\Sigma_{Y\mid V}=\Sigma_Y-\beta\beta^{\mathsf T}$,
+$\Sigma_{Y\mid S}=\Sigma_Y-\beta\beta^{\mathsf T}/(1{+}\tau^2)$, and
+$\Delta=\mathrm{diag}(D_A,D_B)\succ0$. Every admissible channel obeys the
+\emph{work floor}
+\begin{equation}
+ L\;\ge\;I(Y;\hat{\mathbf Y}\mid S)
+ \;=\;h(Y\mid S)-h(Y\mid\hat{\mathbf Y},S)
+ \;\ge\;\tfrac12\log_2\frac{\det\Sigma_{Y\mid S}}{\det\Delta},
+ \label{eq:floor}
+\end{equation}
+since $h(Y\mid S)=\tfrac12\log_2\bigl((2\pi e)^2\det\Sigma_{Y\mid S}\bigr)$
+and
+$h(Y\mid\hat{\mathbf Y},S)\le\sum_{i\in\{A,B\}}h(Y_i-\hY_i)
+\le\tfrac12\log_2\bigl((2\pi e)^2 D_AD_B\bigr)$.
+
+Three facts from the machinery already built carry over. First, pair
+sufficiency extends verbatim: the resampling proof of
+Theorem~\ref{thm:pair} applies with $T=(Y_A,Y_B,V)$, since $S=V+U$ with
+$U$ jointly independent of $(X,\text{all channel randomness})$ and the
+distortions are functionals of the pairs $(Y_i,\hY_i)$; so the channel may
+be restricted to depend on $X$ only through $T$, and then
+$I(X;\hat{\mathbf Y}\mid S)=I(T;\hat{\mathbf Y}\mid S)$. Second, the same
+mutual independence forces the Markov moment identity
+$\Cov(S,\hat{\mathbf Y})=\Cov(V,\hat{\mathbf Y})$. Third, jointly Gaussian
+channels $\hat{\mathbf Y}=AT+N$, $N\sim\mathcal N(0,\Sigma_N)$, exhaust
+the problem: for any admissible $T$-channel with
+$C=\Cov(T,\hat{\mathbf Y})$ and $\Sigma_{\hat Y}=\Cov(\hat{\mathbf Y})$,
+set $A:=C^{\mathsf T}\Sigma_T^{-1}$ and
+$\Sigma_N:=\Sigma_{\hat Y}-A\Sigma_TA^{\mathsf T}\succeq0$ (assume
+$\Sigma_T\succ0$; degenerate instances reduce by dropping dependent
+context components); a maximum-entropy bound on these moments gives
+\begin{equation}
+ L\;\ge\;\tfrac12\log_2
+ \frac{\det\bigl(A\Sigma_{T\mid S}A^{\mathsf T}+\Sigma_N\bigr)}
+ {\det\Sigma_N},
+ \qquad
+ \Sigma_{T\mid S}
+ =\Sigma_T-\frac{\sigma_{TS}\sigma_{TS}^{\mathsf T}}{1+\tau^2},
+ \quad \sigma_{TS}=\Sigma_Te_V,
+ \label{eq:gauss-exhaust}
+\end{equation}
+with equality for the jointly Gaussian channel realizing the same moments,
+and the distortion constraints
+$(e_i-A_{i\cdot})^{\mathsf T}\Sigma_T(e_i-A_{i\cdot})+(\Sigma_N)_{ii}\le D_i$
+depend on the channel only through those moments.
+%% The determinant identity behind eq:gauss-exhaust is the same Schur
+%% computation as the scalar converse (the S-column of the moment matrix is
+%% the V-column plus tau^2 e_S); it is written out in full with the
+%% converses of Secs. IV--V (DEBT M2).
+Consequently $L_{\min}$ is the minimum of \eqref{eq:gauss-exhaust} over a
+compact feasible set of pairs $(A,\Sigma_N)$ and is attained.
+
+A plausible conjecture states the attainment condition for \eqref{eq:floor}
+through the third party's conditional covariance $\Sigma_{Y\mid S}$; the
+truth involves the encoder-accessible $\Sigma_{Y\mid V}$, the same
+$S$-versus-$V$ substitution as in Proposition~\ref{prop:marg}.
+
+\begin{theorem}[Work-floor exactness]\label{thm:c3}\label{thm:floor}
+The work floor $\tfrac12\log_2\bigl(\det\Sigma_{Y\mid S}/\det\Delta\bigr)$
+of \eqref{eq:floor} is attained iff
+\[
+\text{(a) } \tau^2=0 \text{ and } \Delta\preceq\Sigma_{Y\mid V},
+\qquad\text{or}\qquad
+\text{(b) } \beta=0 \text{ and } \Delta\preceq\Sigma_Y .
+\]
+In every other case the floor is strict, both on the misaligned branch
+($\tau^2>0$ and $\beta\ne0$, at every positive $(D_A,D_B)$) and outside
+the semidefinite conditions of (a) and (b). On the misaligned branch with
+$\Delta\prec\Sigma_{Y\mid V}$, the deficit obeys the sandwich
+\[
+0\;<\;L_{\min}-\mathrm{floor}\;\le\;
+\tfrac12\log_2\frac{\det\bigl(I-\Sigma_{Y\mid S}^{-1}\Delta\bigr)}
+{\det\bigl(I-\Sigma_{Y\mid V}^{-1}\Delta\bigr)}
+\;=\;\tfrac12\,\tr\bigl[(\Sigma_{Y\mid V}^{-1}-\Sigma_{Y\mid S}^{-1})
+\Delta\bigr]\log_2 e+O(\|\Delta\|^2)\;\longrightarrow\;0
+\ \ (\Delta\to0).
+\]
+\end{theorem}
+\begin{proof}
+\emph{Necessity.} Suppose the floor is attained. Equality in the chain
+\eqref{eq:floor} forces, at the moment level (max-entropy tightness makes
+the joint WLOG Gaussian): $E_S:=\E[\Cov(Y\mid\hat{\mathbf Y},S)]=\Delta$
+with per-consumer equality, so $Z:=Y-\hat{\mathbf Y}$ has $\Cov Z=\Delta$,
+$\Cov(Z,\hat{\mathbf Y})=0$, $\Cov(Z,S)=0$; the latter with the Markov
+moment identity gives $\Cov(Z,V)=0$, hence
+$\Cov(\hat{\mathbf Y},V)=\beta$. Since $E_S\preceq\Sigma_{Y\mid S}$ always,
+$\Delta\preceq\Sigma_{Y\mid S}$ is necessary; at $\tau^2=0$ this is
+$\Delta\preceq\Sigma_{Y\mid V}$. Tightness of
+$I(T;\hat{\mathbf Y}\mid S)=I(Y;\hat{\mathbf Y}\mid S)$ additionally
+requires $\Cov(V,\hat{\mathbf Y}\mid Y,S)=0$; with the pinned moments this
+evaluates to
+$[\Delta\ \ 0]\,M^{-1}\bigl[\beta;\ \Cov(S,V)\bigr]=0$, $M=\Cov(Y,S)$,
+which (for $\Delta\succ0$) holds iff $\beta=0$ or
+$\Cov(S,V)=\operatorname{Var}S$, i.e.\ $\tau^2=0$.
+
+\emph{Sufficiency (a).} At $\tau^2=0$ take $Z\sim\mathcal N(0,\Delta)$
+jointly Gaussian with $\Cov(Z,Y)=\Delta$, $\Cov(Z,V)=0$; such a $Z$ exists
+iff $\Delta-\Delta\Sigma_{Y\mid V}^{-1}\Delta\succeq0
+\Leftrightarrow\Delta\preceq\Sigma_{Y\mid V}$ (Schur complement). Set
+$\hat{\mathbf Y}=Y-Z$: then $\Cov(\hat{\mathbf Y}\mid S)
+=\Sigma_{Y\mid S}-\Delta$ and
+$\Cov(\hat{\mathbf Y}\mid T,S)=\Delta-\Delta\Sigma_{Y\mid V}^{-1}\Delta$,
+and at $\tau^2=0$ (where $\Sigma_{Y\mid S}=\Sigma_{Y\mid V}=:\Sigma_c$)
+\[
+L=\tfrac12\log_2\frac{\det(\Sigma_c-\Delta)}
+{\det\Delta\,\det(I-\Sigma_c^{-1}\Delta)}
+=\tfrac12\log_2\frac{\det\Sigma_c}{\det\Delta}=\mathrm{floor}.
+\]
+
+\emph{Sufficiency (b).} At $\beta=0$, $\Sigma_{Y\mid S}=\Sigma_Y$ and a
+channel depending on $X$ only through $Y$ has $\hat{\mathbf Y}\perp S$, so
+$L=I(Y;\hat{\mathbf Y})$, attained at the floor iff $\Delta\preceq\Sigma_Y$
+(the exactness condition of the bivariate rate--distortion function under
+individual distortion constraints \cite{xiaoluo2005}); necessity of
+$\Delta\preceq\Sigma_Y$ is the $E_S\preceq\Sigma_{Y\mid S}=\Sigma_Y$
+bound.
+
+\emph{Sandwich.} The same $Z$-construction at $\tau^2>0$ is admissible
+whenever $\Delta\prec\Sigma_{Y\mid V}$ and yields
+$L\le\tfrac12\log_2[\det(\Sigma_{Y\mid S}-\Delta)/\det(\Delta-
+\Delta\Sigma_{Y\mid V}^{-1}\Delta)]=\mathrm{floor}
++\tfrac12\log_2[\det(I-\Sigma_{Y\mid S}^{-1}\Delta)/\det(I-
+\Sigma_{Y\mid V}^{-1}\Delta)]$; the ratio is $\ge1$ because
+$\Sigma_{Y\mid S}\succeq\Sigma_{Y\mid V}$ (congruence by $\Delta^{1/2}$
+keeps both factors in the PSD order where $\det$ is monotone), and $\to1$
+as $\Delta\to0$. Strictness ($>0$) is the necessity direction, using that
+$L_{\min}$ is \emph{attained} (compact feasible $(A,\Sigma_N)$ set, lower
+semicontinuity); at the non-strict boundary of
+$\Delta\preceq\Sigma_{Y\mid V}$ in case (a), where the displayed ratio is
+$0/0$, attainment follows by $\Delta_t\uparrow\Delta$ feasibility and
+floor continuity.
+
+\emph{The single-read corollary.} For one consumer, on the active-floor
+regime $D\le\operatorname{Var}(Y\mid V)$, the floor
+$\tfrac12\log_2(\operatorname{Var}(Y\mid S)/D)$ is attained iff
+$\rho\tau=0$: substituting $g_f=(s-\rho^2)/(Ds)$ into the quadratic
+%% dependency: Thm thm:function (DEBT M2) supplies P(g) and g*; the
+%% polynomial is quoted inline so this step is checkable now.
+$P(g)=Dsg^2-(D+s-\rho^2)g+(1-\rho^2)$ of Theorem~\ref{thm:function}, whose
+larger root $g^\star$ gives $L(D)=\tfrac12\log_2 g^\star$, yields
+$P(g_f)=-\rho^2\tau^2/s$, which is $<0$ (hence $g^\star>g_f$ strictly)
+exactly when $\rho\tau\ne0$. (The regime qualifier is the single-read
+shadow of condition (a): for $\tau=0$, $D>1-\rho^2$ the clamped floor and
+$L=0$ meet trivially while $g_f<1$ becomes the quadratic's \emph{smaller}
+root.)
+\end{proof}
 
 \section{Vector Context}
 \label{sec:vector}
@@ -183,8 +654,104 @@ marginal rate--distortion function at the other.
 
 \section{The Binary Solution}
 \label{sec:binary}
-%% TRANSPLANT: go11 thm:binary (Theorem 10) with its complete elementary
-%% proof, verbatim modulo notation.
+
+The binary case closes completely and, unlike its Gaussian counterpart,
+with an elementary self-contained proof.
+
+Let $(Y,V)$ be a doubly symmetric binary pair (fair marginals,
+$\Pr[Y\ne V]=p\in(0,\tfrac12)$), context $V$, side information
+$S=V\oplus W$ with $W\sim\mathrm{Bern}(q)$, $q\in[0,\tfrac12]$,
+independent. The record is the reproduction $\hat Y\in\{0,1\}$ itself
+(richer records only cost more: for any stored $Z$ from which the
+consumer computes $\hat Y=f(Z)$, $I(Y,V;Z\mid S)\ge I(Y,V;\hat Y\mid S)$
+by the data-processing inequality), Hamming distortion
+$\Pr[\hat Y\ne Y]\le D$. Write $x*q=x(1-q)+(1-x)q$ and
+$\ell(x)=\ln\frac{1-x}{x}$.
+
+\begin{theorem}[The binary conditional common-reconstruction function]
+\label{thm:binary}
+For $D\in(0,\tfrac12)$, the conditional coordinate
+$L(D)=\min I(Y,V;\hat Y\mid S)$ over channels $P(\hat Y\mid Y,V)$
+(Markov $\hat Y-(Y,V)-S$) with $\Pr[\hat Y\ne Y]\le D$ is attained in
+the two-parameter symmetric family $\hat Y=Y\oplus E$,
+$\Pr[E=1\mid Y\oplus V=j]=d_j$, and equals
+\[
+L(D)\;=\;h_2(u)-(1-p)\,h_2(d_0)-p\,h_2(d_1),\qquad
+u=a*q,\quad a=(1-p)d_0+p(1-d_1),
+\]
+where, for $q\in(0,\tfrac12]$ with any $D\in(0,\tfrac12)$, and for $q=0$
+with $D\le p$, the pair $(d_0,d_1)$ solves the active constraint
+$(1-p)d_0+pd_1=D$ together with the \emph{tilt equation}
+\[
+\ell(d_0)-\ell(d_1)\;=\;2(1-2q)\,\ell(u).
+\]
+(In the excluded sliver $q=0$, $D>p$, the constraint is inactive and
+$L(D)=0$, attained non-uniquely by records measurable in $V$ alone; the
+tilt system still has a root there, the degenerate point $d_1=1-d_0$,
+which evaluates to the correct value $0$. For $q>0$ the constraint is
+active on all of $(0,\tfrac12)$: $L$ is convex, nonincreasing, positive
+by the last claim below, and $0$ at $D=\tfrac12$, hence strictly
+decreasing.)
+On the same channel the rate coordinate is $R=1-(1-p)h_2(d_0)-p\,h_2(d_1)$
+and the discount is exactly $R-L=1-h_2(u)=I(\hat Y;S)$ (the chain-rule
+identity $I(Y,V;\hat Y)-I(Y,V;\hat Y\mid S)=I(\hat Y;S)$, valid under the
+Markov chain, in closed form: $a=\Pr[\hat Y\ne V]$,
+$u=\Pr[\hat Y\ne S]$). Anchors: at $q=0$ the system gives
+$a=(p-D)/(1-2D)$ and $L=h_2(p)-h_2(D)$ (Gray's conditional
+rate--distortion function \cite{gray1973}, for $D\le p$); at $q=\tfrac12$
+it gives $d_0=d_1=D$ and $L=1-h_2(D)$ (the marginal rate--distortion
+function; the context is useless exactly when the side information is).
+For $q\in(0,\tfrac12]$ and $D<\tfrac12$, $L(D)>0$.
+\end{theorem}
+\begin{proof}
+\emph{Reduction and convexity.} Binary $\hat Y$ is definitional (DPI
+above). With $P(Y,V\mid S=s)$ fixed and the channel shared across $s$
+(Markov), $I(Y,V;\hat Y\mid S)=\sum_sP(s)\,I_s$ is a nonnegative
+combination of mutual informations each convex in the channel, hence
+convex in the channel; the distortion is linear.
+
+\emph{Symmetrization.} The global bit flip
+$\sigma:(y,v,s,\hat y)\mapsto(1{-}y,1{-}v,1{-}s,1{-}\hat y)$ preserves
+the joint law of $(Y,V,S)$ and the distortion, and $L(C^\sigma)=L(C)$;
+averaging $C$ with $C^\sigma$ preserves distortion and, by convexity,
+does not increase $L$. So an optimum exists among $\sigma$-symmetric
+channels, and these are exactly the family $\{(d_0,d_1)\}$:
+$\sigma$-symmetry forces $\Pr[\hat Y\ne Y\mid y,v]$ to depend only on
+$y\oplus v$.
+
+\emph{Closed form.} On the family, $H(\hat Y\mid Y,V)=
+(1-p)h_2(d_0)+p\,h_2(d_1)$, and $\hat Y\oplus S=J\oplus E\oplus W$
+($J=Y\oplus V$) with $\Pr[J\oplus E=1]=a$. The step
+$H(\hat Y\mid S)=h_2(a*q)$ needs $\hat Y\oplus S\perp S$, which holds
+because the joint law of $(\hat Y,S)$ is $\sigma$-invariant
+($\sigma$-invariant source, $\sigma$-symmetric channel), forcing equal
+conditional flip probabilities given either value of $S$; the same
+symmetry gives $H(\hat Y)=1$, hence $R$.
+
+\emph{Tilt equation.} Substituting $d_1=(D-(1-p)d_0)/p$ makes
+$a=2(1-p)d_0+p-D$ affine in $d_0$; differentiating $L$ and using
+$h_2'(x)=\ell(x)$ (nats) gives
+$(1-p)[2(1-2q)\ell(u)-\ell(d_0)+\ell(d_1)]=0$. Since $L$ restricted to
+the affine family slice is convex (restriction of a convex function),
+interior stationarity is sufficient, not merely necessary.
+
+\emph{Anchors and positivity.} $q=\tfrac12$: $u=\tfrac12$, the tilt
+equation forces $d_0=d_1=D$. $q=0$: substitution of Gray's backward
+channel; equality of values is elementary algebra. Positivity, in two
+branches over the family (which suffices by attainment): if
+$a\ne\tfrac12$, then $h_2(u)>h_2(a)\ge(1-p)h_2(d_0)+p\,h_2(1-d_1)
+=(1-p)h_2(d_0)+p\,h_2(d_1)$, where the strict step holds because $u=a*q$
+is strictly closer to $\tfrac12$ for $q\in(0,\tfrac12]$ and the second
+step by concavity; so $L>0$. If $a=\tfrac12$, then $u=\tfrac12$,
+$h_2(u)=1$, and $L=1-(1-p)h_2(d_0)-p\,h_2(d_1)\ge1-h_2(D)>0$ by
+concavity at the distortion.
+\end{proof}
+
+Global optimality of the family-plus-tilt solution over all channels,
+including larger reproduction alphabets, has additionally been verified
+numerically by unconditional Lagrangian certificates, which assume no
+convexity.
+
 %% M3: delineation paragraph vs Steinberg 2009's binary example and the
 %% CR-constrained Heegard-Berger/cascade DSBS calculations (decoder-SI
 %% setting; our conditioner is third-party and our encoder holds the pair).
@@ -200,7 +767,28 @@ marginal rate--distortion function at the other.
 
 \appendices
 \section{Single-Letterization}
-%% TRANSPLANT: consumer-relative-landauer.tex Appendix A.
+\label{app:converse}
+
+For completeness, we justify the last inequalities in
+\eqref{eq:rate-conv} and \eqref{eq:work-conv}. For the rate coordinate,
+\begin{align}
+ I(X^n;\hXn)
+ &=H(X^n)-H(X^n\mid\hXn)\nonumber\\
+ &=\sum_{i=1}^{n}H(X_i)
+   -\sum_{i=1}^{n}H(X_i\mid X^{i-1},\hXn)\nonumber\\
+ &\ge\sum_{i=1}^{n}\left[H(X_i)-H(X_i\mid\hX_i)\right]\nonumber\\
+ &=\sum_{i=1}^{n}I(X_i;\hX_i).
+\end{align}
+For the work coordinate,
+\begin{align}
+ I(X^n;\hXn\mid S^n)
+ &=H(X^n\mid S^n)-H(X^n\mid\hXn,S^n)\nonumber\\
+ &=\sum_{i=1}^{n}H(X_i\mid S_i)
+   -\sum_{i=1}^{n}H(X_i\mid X^{i-1},\hXn,S^n)\nonumber\\
+ &\ge\sum_{i=1}^{n}
+ \left[H(X_i\mid S_i)-H(X_i\mid\hX_i,S_i)\right]\nonumber\\
+ &=\sum_{i=1}^{n}I(X_i;\hX_i\mid S_i).
+\end{align}
 
 \section{Numerical Verification}
 %% M4: table tying each closed form to its independent certificate
@@ -247,6 +835,12 @@ the computing process,'' \emph{IBM J. Res. Dev.}, vol. 5, no. 3, pp. 183--191,
 1961.
 \bibitem{bennett1973} C. H. Bennett, ``Logical reversibility of computation,''
 \emph{IBM J. Res. Dev.}, vol. 17, no. 6, pp. 525--532, 1973.
+\bibitem{delrio2011} L. del Rio, J. \AA berg, R. Renner, O. Dahlsten, and
+V. Vedral, ``The thermodynamic meaning of negative entropy,'' \emph{Nature},
+vol. 474, pp. 61--63, 2011. % verify pages/authors against the primary record
+\bibitem{faist2015} P. Faist, F. Dupuis, J. Oppenheim, and R. Renner, ``The
+minimal work cost of information processing,'' \emph{Nature Commun.}, vol. 6,
+art. 7669, 2015. % verify article number/authors against the primary record
 \bibitem{bond2026landauer} A. H. Bond, ``A rate--work--distortion region for
 consumer-relative observation,'' 2026, archived record
 doi:10.5281/zenodo.21776291.
