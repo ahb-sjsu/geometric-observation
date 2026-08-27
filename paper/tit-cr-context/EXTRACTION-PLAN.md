@@ -347,6 +347,46 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   the rho->-1 sign-of-b clause; (NIT) g^{*}->g^\star in abstract+intro;
   (NIT) "decisions consumed by parties"->"descriptions read by parties"
   in the Discussion. Rebuilt clean: 32 pp, zero undefined, zero overfull.
+- **M8 (2026-08-27): mock T-IT review round (Weak Accept, clarity 7.5)** —
+  proof-architecture roadmap before Thm 4 (six steps, WZ-confusion
+  preempted; proof itself untouched per freeze); abstract + Sec. I
+  restructured so the trio leads (closed form / region+misalignment /
+  non-determination; role brackets updated: cor:misalign + cor:notmarginal
+  -> Core, thm:binary -> Extension); Landauer demoted to interpretation
+  (abstract, L_n definition IT-first with "Landauer content" marked as our
+  term, thm title -> Rate--content--distortion, work-vocabulary sweep);
+  non-determination significance sentence added; reset-model sentence
+  written against delrio2011/faist2015 (classical specialization: ideal
+  joint ops conditioned on undisturbed classical S^n, only M to standard
+  state) + terminology stabilized (third party primary; reset mechanism /
+  conditioner defined as synonyms); water-level analogy scoped;
+  assumptions-and-degeneracies paragraph in Sec. III; necessity map before
+  Thm 20's proof (audit: no gap; tacit h(Z)-finiteness step made
+  explicit); binary-section purpose sentences; cor:notmarginal values ->
+  Table (surds kept in caption/proof); no-time-sharing mechanism attached
+  in statement; "machinery classical" strengthened; frontier magnitudes
+  quantified (box maxima 0.1138/0.0770 bits; dR unbounded at the
+  tau^2->0, D=1-rho^2 edge, 1.537 bits at (0.5,1e-3,0.5); dL saturates at
+  (1/2)log2(1+rho^2)) with new script check N11; box retitled; s named
+  the context-noise parameter. NOT done (deliberate): no second Fig-2
+  curve; no 15-20% cut; no section moves. 33 pp, 0 undefined, 0 overfull;
+  verify_converses.py 18/18.
+- **M8b (2026-08-27): Thm-4 audit closeout** — audit verdict SOUND on all
+  five probes, freeze lifted; three presentational fixes applied:
+  right-continuity/closure prose promoted to standalone
+  lem:rightcont (closed, nondecreasing, right-continuous single-letter
+  region; three-line compactness proof; converse + theorem statement now
+  invoke it in one clause each); Gaussian L(D)'s operational meaning
+  co-cited to Sec. II + App. app:gaussian at the intro definition and the
+  Discussion thermodynamic-reading sentence; thm:region's opening
+  qualified ("single-letter pairs ... which thm:gaussop identifies with
+  the operational region"). Also caught and fixed the M8 role-bracket
+  miss on cor:notmarginal (now Core). Numbering shifted by one from
+  lem:rightcont on: main-region Thm 5, pair Thm 8, exhaustion Lem 10,
+  closed form Thm 12, region Thm 14, misalign Cor 17, notmarginal Cor 19,
+  cleanctx Lem 20, floor Thm 21, vector Thm 22, binary Thm 25, cell bound
+  Lem 27, Gaussian operational Thm 28. 34 pp, 0 undefined, 0 overfull;
+  verify_converses.py 18/18.
 - **REMAINING (owner items only):** Steinberg 2009 + Lu et al. WCSP 2016
   primary reads; the reviewer's Sec-VI split-out suggestion (owner
   decision); submission-time full sweep; ScholarOne upload.

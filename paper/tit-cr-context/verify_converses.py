@@ -30,6 +30,10 @@ Numeric (numpy/scipy):
   N10 binary frontier closed forms (rem:binfrontier / Fig. 3 panel):
       R(d0), L(d0) along the segment vs direct evaluation from the joint
       pmf at (p,q,D) = (0.1, 0.1, 0.05); frontier endpoint numbers
+  N11 endpoint-excess magnitudes quoted in Sec. V: interior-box maxima
+      (0.1138 / 0.0770 bits), the divergence probe 1.537 bits at
+      (0.5, 1e-3, 0.5), and the clean-boundary saturation
+      (1/2) log2(1 + rho^2) of the content excess
 """
 
 import numpy as np
@@ -584,6 +588,48 @@ report("N10 binary frontier: closed forms vs joint-pmf evaluation + caption",
        ok, f"max dev {worst:.2e}; d0*={root_b:.4f}, Lmin={L_root:.4f}, "
            f"Rmin={1-h2b(Db):.4f}, dR={R_root-(1-h2b(Db)):.4f}, "
            f"dL={L_D-L_root:.4f}")
+
+
+# N11: endpoint-excess magnitudes quoted in Sec. V
+def excess_pair(r2, t2, Dv):
+    """(R_L*-R_min, L_R*-L(D)) from the closed forms."""
+    sv = 1 + t2
+    gs = gstar(r2, t2, Dv)
+    Lmin = 0.5 * np.log2(gs)
+    dLx = 0.5 * np.log2(((1 - Dv) * (1 - r2 / sv) + Dv) / Dv) - Lmin
+    kk = gs * sv - 1
+    r = np.sqrt(r2)
+    av, bv = (gs - 1) / gs, (gs - 1) * r / (gs * kk)
+    q0 = av**2 + bv**2 + 2 * av * bv * r
+    q1 = q0 - (av * r + bv) ** 2 / sv
+    nv = q1 / (gs - 1)
+    dRx = 0.5 * np.log2((q0 + nv) / nv) - 0.5 * np.log2(1 / Dv)
+    return dRx, dLx
+
+
+best_dR, best_dL = 0.0, 0.0
+arg_dR = arg_dL = None
+for r2 in np.linspace(0.05, 0.95, 181):
+    for t2 in np.linspace(0.25, 4.0, 76):
+        for Dv in np.linspace(0.05, 0.95, 181):
+            dRx, dLx = excess_pair(r2, t2, Dv)
+            if dRx > best_dR:
+                best_dR, arg_dR = dRx, (round(r2, 3), round(t2, 3), round(Dv, 3))
+            if dLx > best_dL:
+                best_dL, arg_dL = dLx, (round(r2, 3), round(t2, 3), round(Dv, 3))
+dR_div, dL_div = excess_pair(0.5, 1e-3, 0.5)
+sat_pred = 0.5 * np.log2(1 + 0.5)  # clean-boundary saturation at rho^2=0.5
+dL_tiny = excess_pair(0.5, 1e-7, 0.5)[1]
+ok = (abs(round(best_dR, 4) - 0.1138) < 5e-5
+      and arg_dR == (0.5, 0.25, 0.5)
+      and abs(round(best_dL, 4) - 0.0770) < 5e-5
+      and arg_dL == (0.615, 0.25, 0.385)
+      and abs(round(dR_div, 3) - 1.537) < 5e-4
+      and abs(dL_tiny - sat_pred) < 1e-3)
+report("N11 endpoint-excess magnitudes: box maxima, divergence, saturation",
+       ok, f"box max dR={best_dR:.4f}@{arg_dR}, dL={best_dL:.4f}@{arg_dL}; "
+           f"dR(0.5,1e-3,0.5)={dR_div:.3f}; dL->half*log2(1.5)={dL_tiny:.4f} "
+           f"vs {sat_pred:.4f}")
 
 # ----------------------------------------------------------------------------
 print()
