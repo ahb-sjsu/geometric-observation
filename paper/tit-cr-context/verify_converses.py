@@ -18,6 +18,15 @@ Numeric (numpy/scipy):
   N4  cor:misalign endpoint excesses 0.0400 / 0.0349 at (0.75, 0.5, 0.3)
   N5  vector-context FOC (eq:vecfoc) at r = 2, one instance, alpha in
       {0, 0.5, 1} (residual <= 1e-7)
+  N6  rem:cleanboundary displays at tau = 0: L_min and reverse-channel
+      content vs direct computation at 3 instances; strict gap
+  N7  binary tilt residual: exactly one sign change on the feasible
+      segment over a (p, q, D) grid (lem:tiltroot)
+  N8  clean-context branch of thm:floor (lem:cleanctx): conditional-space
+      program vs determinant bound at a tau = 0 instance, inside and
+      outside the semidefinite condition
+  N9  quantization convergence of Appendix app:gaussian: I(Yhat; S_Delta)
+      increases to I(Yhat; S) under refining quantizers
 """
 
 import numpy as np
@@ -320,6 +329,174 @@ for aw in (0.0, 0.5, 1.0):
 ok = worst <= 1e-7
 report("N5 vector-context FOC eq:vecfoc at r=2, alpha in {0,0.5,1}", ok,
        f"max residual {worst:.2e}")
+
+# N6: rem:cleanboundary at tau = 0, three instances
+def L_direct_tau0(r2, Dv, nstarts=60):
+    """Direct minimization of the conditional content over linear channels
+    at tau = 0 (Q1 = Var(aY+bV|V) = a^2(1-r2))."""
+
+    def f(x):
+        av, bv = x
+        r = np.sqrt(r2)
+        q1 = av**2 * (1 - r2)
+        hv = (1 - av) ** 2 - 2 * (1 - av) * bv * r + bv**2
+        nv = Dv - hv
+        if nv <= 1e-14:
+            return 1e6
+        return 0.5 * np.log2((q1 + nv) / nv) if q1 > 0 else 0.0
+
+    best = np.inf
+    for x0 in [(1 - Dv, 0.0)] + [tuple(rng.uniform(-1, 1.5, 2)) for _ in range(nstarts)]:
+        res = minimize(f, x0, method="Nelder-Mead",
+                       options=dict(xatol=1e-13, fatol=1e-14, maxiter=20000,
+                                    maxfev=20000))
+        best = min(best, res.fun)
+    return best
+
+
+ok = True
+detail = []
+for (r2, Dv) in [(0.5, 0.2), (0.75, 0.1), (0.3, 0.8)]:
+    Lmin_disp = max(0.0, 0.5 * np.log2((1 - r2) / Dv))
+    Lmin_dir = L_direct_tau0(r2, Dv)
+    # reverse channel Yhat = (1-D)Y + W, Var W = D(1-D): content display
+    varYS = (1 - Dv) ** 2 * (1 - r2) + Dv * (1 - Dv)
+    LR_disp = 0.5 * np.log2(((1 - Dv) * (1 - r2) + Dv) / Dv)
+    LR_alg = 0.5 * np.log2(varYS / (Dv * (1 - Dv)))
+    ok &= abs(Lmin_disp - Lmin_dir) <= 1e-7
+    ok &= abs(LR_disp - LR_alg) <= 1e-12
+    ok &= LR_disp > Lmin_disp + 1e-6  # strict tradeoff at every instance
+    detail.append(f"({r2},{Dv}): Lmin={Lmin_disp:.4f}, LR={LR_disp:.4f}")
+report("N6 rem:cleanboundary tau=0 displays and strict gap, 3 instances", ok,
+       "; ".join(detail))
+
+
+# N7: binary tilt residual sign-change scan
+def ell(x):
+    return np.log((1 - x) / x)
+
+
+ok = True
+worst_cfg = None
+for p in np.linspace(0.05, 0.45, 9):
+    for q in list(np.linspace(0.02, 0.5, 9)):
+        for Dv in np.linspace(0.05, 0.45, 9):
+            lo = max(0.0, (Dv - p) / (1 - p))
+            hi = Dv / (1 - p)
+            d0 = np.linspace(lo + 1e-9 + 1e-7 * (hi - lo), hi - 1e-9 - 1e-7 * (hi - lo), 4001)
+            d1 = (Dv - (1 - p) * d0) / p
+            m = (d1 > 1e-12) & (d1 < 1 - 1e-12)
+            d0, d1 = d0[m], d1[m]
+            aa = 2 * (1 - p) * d0 + p - Dv
+            u = aa * (1 - 2 * q) + q
+            psi = ell(d0) - ell(d1) - 2 * (1 - 2 * q) * ell(u)
+            signs = np.sign(psi)
+            changes = int(np.sum(signs[:-1] * signs[1:] < 0))
+            if changes != 1:
+                ok = False
+                worst_cfg = (p, q, Dv, changes)
+report("N7 binary tilt residual: exactly one sign change on segment (grid)",
+       ok, "729 (p,q,D) cells" if ok else f"failed at {worst_cfg}")
+
+# N8: clean-context branch of thm:floor (lem:cleanctx) at tau = 0
+SigY = np.array([[1.0, 0.35], [0.35, 1.0]])
+beta_v = np.array([0.6, 0.25])
+Sig_c = SigY - np.outer(beta_v, beta_v)  # Sigma_{Y|V}
+
+
+def cond_program(Sig_c, DA, DB, nstarts=50):
+    """Minimize (1/2)log2 det(A Sig_c A' + Sig_N)/det Sig_N over the
+    conditional-space Gaussian channels with individual distortions."""
+
+    def unpack(x):
+        A = x[:4].reshape(2, 2)
+        Ln = np.array([[abs(x[4]) + 1e-9, 0.0], [x[5], abs(x[6]) + 1e-9]])
+        return A, Ln @ Ln.T
+
+    def f(x):
+        A, SN = unpack(x)
+        E = np.eye(2) - A
+        c1 = E[0] @ Sig_c @ E[0] + SN[0, 0]
+        c2 = E[1] @ Sig_c @ E[1] + SN[1, 1]
+        pen = 1e4 * (max(0, c1 - DA) + max(0, c2 - DB))
+        s1 = np.linalg.slogdet(A @ Sig_c @ A.T + SN)[1]
+        s0 = np.linalg.slogdet(SN)[1]
+        return 0.5 * (s1 - s0) / np.log(2) + pen
+
+    # seed the reverse channel (the known optimum inside the SDC) plus
+    # random starts; NM polishes from there cheaply
+    starts = []
+    Delta = np.diag([DA, DB])
+    if np.all(np.linalg.eigvalsh(Sig_c - Delta) >= 0):
+        A_rev = (Sig_c - Delta) @ np.linalg.inv(Sig_c)
+        SN_rev = (Sig_c - Delta) @ np.linalg.inv(Sig_c) @ Delta
+        SN_rev = (SN_rev + SN_rev.T) / 2
+        Lc0 = np.linalg.cholesky(SN_rev + 1e-12 * np.eye(2))
+        starts.append(np.concatenate([A_rev.ravel(),
+                                      [Lc0[0, 0], Lc0[1, 0], Lc0[1, 1]]]))
+    for _ in range(nstarts):
+        starts.append(np.concatenate(
+            [(np.eye(2) + 0.2 * rng.normal(size=(2, 2))).ravel(),
+             rng.uniform(0.05, 0.5, 3)]))
+    best = np.inf
+    for x0 in starts:
+        res = minimize(f, x0, method="Nelder-Mead",
+                       options=dict(xatol=1e-11, fatol=1e-12, maxiter=12000,
+                                    maxfev=12000))
+        best = min(best, res.fun)
+    return best
+
+
+# inside the condition: Delta < Sig_c
+DA, DB = 0.15, 0.10
+inside = np.all(np.linalg.eigvalsh(Sig_c - np.diag([DA, DB])) > 0)
+floor_in = 0.5 * np.log2(np.linalg.det(Sig_c) / (DA * DB))
+val_in = cond_program(Sig_c, DA, DB)
+# outside the condition: Delta not <= Sig_c (but B_det still positive)
+DA2, DB2 = 0.62, 0.05
+outside = not np.all(np.linalg.eigvalsh(Sig_c - np.diag([DA2, DB2])) >= 0)
+floor_out = 0.5 * np.log2(np.linalg.det(Sig_c) / (DA2 * DB2))
+val_out = cond_program(Sig_c, DA2, DB2)
+ok = (inside and outside
+      and abs(val_in - floor_in) <= 1e-6
+      and val_out > floor_out + 1e-4)
+report("N8 lem:cleanctx: conditional program = B_det iff Delta <= Sigma_{Y|V}",
+       ok, f"inside: {val_in:.6f} vs {floor_in:.6f}; "
+           f"outside: {val_out:.6f} > {floor_out:.6f}")
+
+# N9: quantization convergence I(Yhat; S_Delta) -> I(Yhat; S)
+from scipy.stats import norm
+from numpy.polynomial.hermite_e import hermegauss
+
+r_ys = 0.7  # correlation of the jointly Gaussian (Yhat, S), standardized
+I_closed = -0.5 * np.log2(1 - r_ys**2)
+nodes, weights = hermegauss(160)
+weights = weights / np.sqrt(2 * np.pi)
+
+
+def I_quant(K):
+    """I(Yhat; q(S)) for a uniform K-bin quantizer of S on [-8, 8] with
+    unbounded outer cells (edges nest as K doubles)."""
+    edges = np.concatenate([[-np.inf], np.linspace(-8, 8, K - 1), [np.inf]])
+    sd = np.sqrt(1 - r_ys**2)
+    # P(bin | yhat) at Gauss-Hermite nodes; S | Yhat=y ~ N(r y, 1-r^2)
+    up = norm.cdf((edges[None, 1:] - r_ys * nodes[:, None]) / sd)
+    lo = norm.cdf((edges[None, :-1] - r_ys * nodes[:, None]) / sd)
+    pcond = np.clip(up - lo, 1e-300, 1.0)
+    pmarg = weights @ pcond
+    HS = -np.sum(pmarg * np.log2(pmarg))
+    HScond = -weights @ np.sum(pcond * np.log2(pcond), axis=1)
+    return HS - HScond
+
+
+Ks = [4, 8, 16, 32, 64, 128]
+vals = [I_quant(K) for K in Ks]
+increasing = all(vals[i + 1] > vals[i] - 1e-12 for i in range(len(vals) - 1))
+below = all(v <= I_closed + 1e-9 for v in vals)
+close = I_closed - vals[-1] <= 1e-3
+report("N9 I(Yhat;S_Delta) increases to I(Yhat;S) under refinement",
+       increasing and below and close,
+       f"I_Delta: {', '.join(f'{v:.5f}' for v in vals)} -> {I_closed:.5f}")
 
 # ----------------------------------------------------------------------------
 print()

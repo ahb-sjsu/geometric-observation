@@ -139,6 +139,15 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
 
 ## Status log
 
+- 2026-08-27: external-review mathematical repairs verified by fresh-context
+  pass — CONFIRMED (no errors, no overclaims); the 2 GAPs (Wyner-import
+  conditions enumerated and verified; τ=0 rate-side closed via the Λ-free
+  α=1 uniqueness plus Cramér decomposition) and 4 NITs (finiteness line,
+  binary convexity lemma hoisted, duplicate label, covering-import wording)
+  closed same day. verify_converses.py 16/16.
+
+## Status log
+
 - **M1 (2026-08-26):** skeleton + this plan; binary prior-art sweep run
   (Steinberg 2009 / Ahmadi et al. carry DSBS-CR in the decoder-SI setting;
   third-party-conditioner + encoder-pair-access object not found;
@@ -222,4 +231,30 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   matlab_checks.m (11/11), with the honest-scope sentence on what stays
   written-proof-only; Table I extended by two rows. 21 pp, zero undefined
   references.
+- **M3f (2026-08-27): external-review REPOSITIONING round (comments 1, 4, 7 +
+  minors).** (1) Novelty reframe adopted fully: title now "Rate-Conditional-
+  Content Tradeoffs with Encoder-Observed Context"; LMW Remark 8 verified
+  verbatim against the ETH PDF (encoder observations = source augmentation
+  with distortion ignoring the extra coordinate) and cited; abstract/intro/
+  related-work/cor:notmarginal/Sec-IX rewritten: the functional IS
+  Steinberg's on the augmented source, our contribution = conditional-
+  erasure reading + closed-form augmented evaluation + joint tradeoff +
+  reduced-marginal non-determination; "Steinberg's scalar Gaussian formula
+  at the rho^2->1 boundary" wording everywhere; all three %% REPOSITION
+  markers discharged with the repaired iff + determinant-lower-bound
+  wording. (4) IB identity J_alpha = I(T;Yhat)-(1-alpha)I(S;Yhat) added as a
+  display in related work; chechik2005 (JMLR 6:165-188, DBLP-verified)
+  added; no-containment phrasing replaced by the precise GIB relationship.
+  (7) bond2026landauer delineation paragraph at end of related work
+  (preliminary manuscript; Sec.-II theorem + single-letterization + scalar
+  corner appeared there; Secs. III+ new; supersedes its source-coding
+  content); Sec-IX companion sentence rewritten without the cite; bibitem
+  reworded "preliminary manuscript, archived at [same DOI as footnote,
+  intentionally one record]". Minors: Fig. 1 reproduction now Yhat^n with
+  general-theorem caveat; "possibly stale" removed; Fig. 2 regenerated at
+  columnwidth/13pt with label moved inside; Table I merged to 6 rows (Lean
+  + MATLAB kept); abstract verification sentence removed and abstract
+  tightened. 27 pp, zero undefined refs. NOTE for owner (from reviewer):
+  Section VI could be split out if length becomes an issue -- owner's
+  decision, not taken.
 - **Next: M4** (notation table, abstract polish, cover letter).

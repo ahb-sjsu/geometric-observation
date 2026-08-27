@@ -90,16 +90,17 @@ print(f"endpoint residuals: dR(1)={abs(R[-1]-Rmin):.2e}  dL(0)={abs(L[0]-Lmin):.
 plt.rcParams.update({
     "font.family": "serif",
     "mathtext.fontset": "cm",
-    "font.size": 10,
+    "font.size": 13,
 })
-fig, ax = plt.subplots(figsize=(4.2, 3.2))
-ax.plot(R, L, color="0.2", lw=1.4)
-ax.plot(Rmin, L[-1], marker="s", color="0.2", ms=6)
-ax.plot(R[0], Lmin, marker="o", color="0.2", ms=6)
+fig, ax = plt.subplots(figsize=(6.4, 4.4))
+ax.plot(R, L, color="0.2", lw=1.6)
+ax.plot(Rmin, L[-1], marker="s", color="0.2", ms=7)
+ax.plot(R[0], Lmin, marker="o", color="0.2", ms=7)
 ax.annotate(r"$(R_{\min},\,L(1))$", (Rmin, L[-1]),
-            textcoords="offset points", xytext=(8, 4))
+            textcoords="offset points", xytext=(14, -6))
 ax.annotate(r"$(R(0),\,L_{\min})$", (R[0], Lmin),
-            textcoords="offset points", xytext=(-8, 10), ha="right")
+            textcoords="offset points", xytext=(-10, 12), ha="right")
+ax.margins(x=0.08, y=0.10)
 ax.set_xlabel(r"rate $R$ (bits)")
 ax.set_ylabel(r"conditional content $L$ (bits)")
 ax.grid(True, color="0.85", lw=0.5)
