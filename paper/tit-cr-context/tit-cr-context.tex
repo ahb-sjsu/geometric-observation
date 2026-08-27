@@ -1,0 +1,258 @@
+% T-IT submission draft -- "best shot" extraction per EXTRACTION-PLAN.md.
+% Source of record: ../go11-conditional-region.tex (v0.11, theorems settled and
+% harness-netted) + ../consumer-relative-landauer.tex (operational layer).
+% STATUS: M1 skeleton (2026-08-26). Sections marked %% TRANSPLANT pull from the
+% named source labels; sections marked %% DEBT need the converse written to full
+% rigor and then an R-IND-5 fresh-context pass BEFORE assertion.
+% House rules: no governance register in the body; single theorem counter;
+% notation overloads fixed (u->c whitened coefficient, Thm-3 scalar m -> mu_c);
+% no em-dashes in prose.
+\documentclass[11pt,onecolumn]{IEEEtran}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[colorlinks=false]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\begin{document}
+
+\title{The Common-Reconstruction Rate--Distortion Function\\ with Noisy Context}
+
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior Member,~IEEE}%
+\thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e
+State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
+Numerical verification harnesses and archived records:
+\url{https://github.com/ahb-sjsu/geometric-observation} (doi:10.5281/zenodo.21776291).}}
+
+\markboth{IEEE Transactions on Information Theory (draft)}{Bond: The Common-Reconstruction Rate--Distortion Function with Noisy Context}
+
+\maketitle
+
+\begin{abstract}
+An encoder observes a jointly Gaussian pair $(Y,V)$ and describes $Y$ at rate
+$R$ for a consumer that sees the description alone. A third party holds a noisy
+copy $S=V+U$ of the context $V$. Neither the consumer nor the third party
+decodes with $S$; instead $S$ prices the description's conditional content
+$L=I(X;\hat{X}\mid S)$, the minimal ideal work, in units of $k_BT\ln 2$, that a
+reset mechanism retaining $S$ must pay to erase the record. We characterize the
+minimal conditional content at consumer distortion $D$. The function has a
+closed form: $L(D)=\tfrac12\log_2 g^{*}$, where $g^{*}$ is the larger root of
+an explicit quadratic in the correlation $\rho$ between read and context and
+the context noise $\tau^2$, in any ambient dimension. It recovers the classical
+rate--distortion function, Gray's conditional rate--distortion function, and
+Steinberg's common-reconstruction function as degenerations, and it is not a
+functional of the $(Y,S)$ joint law alone: two instances with the same
+$(Y,S)$ law and different encoder access have different $L$. We give the exact
+rate--content region, whose Pareto frontier is a two-water-level system, and
+prove that a strict tradeoff between rate and content opens exactly when the
+context is misaligned with the read. We settle when the natural determinant
+floor is attained. For the doubly symmetric binary source with a binary
+symmetric context channel the function closes completely, with an elementary
+proof, through a tilt equation anchored at Gray's conditional function on one
+end and the marginal rate--distortion function on the other. Every closed form
+is verified by independent numerical certificates.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Rate--distortion theory, side information, common reconstruction, conditional
+mutual information, Landauer principle, Gaussian sources.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:intro}
+
+%% DRAFT (M1) -- tighten at M4.
+A stored description of data has two prices. The first is its rate, the space
+the description occupies, and rate--distortion theory prices it against the
+fidelity a consumer requires. The second is paid at the end of the
+description's life: erasing a record irreversibly costs work, and when the
+mechanism performing the reset retains correlated information, the work is
+governed not by the record's entropy but by its conditional entropy given what
+the mechanism holds. The two prices are set by different parties. The consumer
+never sees the reset mechanism's information, and the reset mechanism never
+serves the consumer. This paper solves the source coding problem that this
+asymmetry creates, for Gaussian and binary sources, in closed form.
+
+The setting is as follows. An encoder observes a jointly Gaussian pair
+$(Y,V)$: $Y$ is the variable a consumer cares about, $V$ is context correlated
+with it ($\rho=\E[YV]$ after normalization). The encoder emits a description
+under a distortion constraint $\E(Y-\hat{Y})^2\le D$ that binds the
+unconditional error; the consumer decodes from the description alone. A third
+party holds $S=V+U$, a noisy observation of the context with noise variance
+$\tau^2$, and possibly a stale one. The quantity of interest is
+$L(D)=\min I(X;\hat{X}\mid S)$ over test channels satisfying the distortion
+constraint and the Markov chain $\hat{X}-X-S$: the minimal conditional content
+of any admissible description, and, by the operational theorem of
+Section~\ref{sec:operational}, the minimal ideal erasure work per symbol in
+units of $k_BT\ln 2$.
+
+Three classical objects sit at the corners of this problem, and the function
+we characterize is none of them. When the read and the context decouple
+($\rho=0$), $L$ is Shannon's rate--distortion function. When the third party's
+copy is clean ($\tau^2\to 0$), $L$ is Gray's conditional rate--distortion
+function \cite{gray1973}. When read and context merge ($\rho^2\to 1$), $L$ is
+Steinberg's common-reconstruction function \cite{steinberg2009} at the
+induced correlation. Between the corners the function is new, and the
+distinction is not cosmetic: we exhibit two instances with the same $(Y,S)$
+joint law whose values of $L$ differ (Corollary~\ref{cor:notmarginal}). The
+encoder's access to the clean context $V$, which neither the consumer nor the
+third party shares, is load-bearing. To our knowledge no vector-Gaussian
+common-reconstruction-type function has been published under any formulation;
+the scalar Gaussian case is due to Steinberg \cite{steinberg2009} and, for
+general jointly Gaussian side information, Lapidoth, Mal\"ar, and Wigger
+\cite{lapidoth2014}. %% verify venue/pages on final
+
+The main results are these. Theorem~\ref{thm:pair} reduces the problem in any
+ambient dimension to the pair $(\rho,\tau^2)$. Theorem~\ref{thm:function}
+gives the closed form $L(D)=\tfrac12\log_2 g^{*}$ with $g^{*}$ the larger root
+of an explicit quadratic, together with the achieving channel.
+Theorem~\ref{thm:region} characterizes the exact region of achievable
+rate--content pairs; its Pareto frontier is traced by a two-water-level
+stationarity system, and Corollary~\ref{cor:misalign} shows the frontier is
+nondegenerate, so that rate and content genuinely trade off, exactly when
+$\rho^2\in(0,1)$ and $\tau^2>0$. Theorem~\ref{thm:floor} settles when the
+natural determinant floor is attained, correcting a plausible conjecture: the
+attainment condition involves the encoder-accessible conditional covariance,
+not the third party's. Theorem~\ref{thm:vector} extends the frontier to vector
+context. Theorem~\ref{thm:binary} closes the binary case completely: for a
+doubly symmetric binary source with a binary symmetric context channel, an
+elementary and self-contained proof yields the function through a tilt
+equation, anchored at Gray's binary conditional function at one end and the
+marginal rate--distortion function at the other.
+
+%% M3: one-paragraph related-work delineation (Wyner-Ziv: decoder SI, ours has
+%% none; Kaspi: encoder SI, structurally closest, cite properly; Heegard-Berger
+%% and the CR-constrained HB/cascade line incl. their DSBS calculations;
+%% Xiao-Luo / Lapidoth-Tinguely / Stylianou et al.; task-based quantization,
+%% semantic communication, IB -- one paragraph, no containment claims.)
+
+\section{Problem Formulation and the Operational Theorem}
+\label{sec:operational}
+%% TRANSPLANT: consumer-relative-landauer.tex Sec. II (definitions R_n, D_n,
+%% L_n = H(M|S^n)/n) + Theorem 1 (region coding theorem: converse +
+%% Wyner-Ziv-binning achievability) + Appendix A single-letterization, restated
+%% for the (Y,V)-observing encoder. Verify the restatement leaves the proof
+%% untouched (f_n already maps X^n; here X=(Y,V) with distortion on the Y
+%% coordinate). Cite Steinberg's operational CR framing.
+
+\section{Pair Sufficiency}
+\label{sec:pair}
+%% TRANSPLANT: go11 thm:pair (Theorem 1) verbatim modulo notation table.
+%% Full proof travels as-is (resampling + S-kernel identity).
+
+\section{The Function: Scalar Context}
+\label{sec:function}
+%% TRANSPLANT: go11 prop:marg (marginalization dichotomy, full proof) +
+%% thm:cubic -> rename thm:function (drop "cubic"; the polynomial is
+%% quadratic).
+%% DEBT 1: write the converse in full (determinant identity
+%% det Sigma_{T|S}/det Sigma_e = (Var(aY+bV|S)+n)/n and the (a,b) linear
+%% system at fixed g), currently compressed/outsourced to the NOVELTY addendum.
+%% Then R-IND-5 pass.
+
+\section{The Rate--Content Region and Misalignment}
+\label{sec:region}
+%% TRANSPLANT: go11 thm:frontier -> thm:region + cor:sep -> cor:misalign +
+%% rem:uniq -> Proposition (interior uniqueness; fix the label).
+%% DEBT 2: the two determinant identities + four-gradient reduction in full;
+%% the matrix-convexity lemma written out. Then R-IND-5 pass.
+%% Also state cor:notmarginal here (from go11 cor:kaspi part (ii)): same
+%% (Y,S) law, different L -- the delineation centerpiece.
+
+\section{When the Floor Is Attained}
+\label{sec:floor}
+%% TRANSPLANT: go11 thm:c3 -> thm:floor, full proof travels. Keep the
+%% correction narrative to one sentence (the attainment condition is the
+%% encoder-accessible Sigma_{Y|V}, not Sigma_{Y|S}).
+
+\section{Vector Context}
+\label{sec:vector}
+%% TRANSPLANT: go11 thm:vecS -> thm:vector.
+%% DEBT 3: the FOC derivation at vector S in full. If it resists, demote this
+%% section to a remark and scope the paper to scalar context + binary; the
+%% paper stands without it.
+
+\section{The Binary Solution}
+\label{sec:binary}
+%% TRANSPLANT: go11 thm:binary (Theorem 10) with its complete elementary
+%% proof, verbatim modulo notation.
+%% M3: delineation paragraph vs Steinberg 2009's binary example and the
+%% CR-constrained Heegard-Berger/cascade DSBS calculations (decoder-SI
+%% setting; our conditioner is third-party and our encoder holds the pair).
+%% OWED: institutional read of both sources before the wording is final.
+
+\section{Discussion}
+\label{sec:discussion}
+%% M4: anchors recovered; open problems (the exact m=2 region and matrix
+%% water levels are necessary-condition results and are future work; process
+%% and spectral extensions are a separate paper); one paragraph on the
+%% Landauer reading; one sentence on the broader program. Numerical
+%% verification appendix pointer.
+
+\appendices
+\section{Single-Letterization}
+%% TRANSPLANT: consumer-relative-landauer.tex Appendix A.
+
+\section{Numerical Verification}
+%% M4: table tying each closed form to its independent certificate
+%% (harnesses 060/063/064 lineage; Lagrangian certificates for the binary
+%% theorem at 1e-15 grade), pointing at results/*.json in the repository.
+
+\begin{thebibliography}{99}
+\bibitem{shannon1959} C. E. Shannon, ``Coding theorems for a discrete source
+with a fidelity criterion,'' in \emph{IRE Nat. Conv. Rec.}, 1959, pp. 142--163.
+\bibitem{berger1971} T. Berger, \emph{Rate Distortion Theory}. Englewood
+Cliffs, NJ: Prentice-Hall, 1971.
+\bibitem{gray1973} R. M. Gray, ``A new class of lower bounds to information
+rates of stationary sources via conditional rate-distortion functions,''
+\emph{IEEE Trans. Inf. Theory}, vol. 19, no. 4, pp. 480--489, 1973.
+% + the 1972 Stanford TR (conditional RDF) -- verify TR number 6502-2
+\bibitem{wynerziv1976} A. D. Wyner and J. Ziv, ``The rate-distortion function
+for source coding with side information at the decoder,'' \emph{IEEE Trans.
+Inf. Theory}, vol. 22, no. 1, pp. 1--10, 1976.
+\bibitem{kaspi1994} A. Kaspi, ``Rate-distortion function when side-information
+may be present at the decoder,'' \emph{IEEE Trans. Inf. Theory}, vol. 40,
+no. 6, pp. 2031--2034, 1994. % verify which Kaspi paper is the right cite for
+% encoder-side-information; possibly Kaspi 1985 two-way
+\bibitem{heegardberger1985} C. Heegard and T. Berger, ``Rate distortion when
+side information may be absent,'' \emph{IEEE Trans. Inf. Theory}, vol. 31,
+no. 6, pp. 727--734, 1985.
+\bibitem{steinberg2009} Y. Steinberg, ``Coding and common reconstruction,''
+\emph{IEEE Trans. Inf. Theory}, vol. 55, no. 11, pp. 4995--5010, 2009.
+% verify pages
+\bibitem{lapidoth2014} A. Lapidoth, A. Mal\"ar, and M. Wigger, ``The Gaussian
+source with common reconstruction,'' % verify exact title/venue/year/pages
+\emph{IEEE Trans. Inf. Theory}, 2014.
+\bibitem{ahmadi2013} B. Ahmadi, R. Tandon, O. Simeone, and H. V. Poor,
+``Heegard-Berger and cascade source coding problems with common reconstruction
+constraints,'' \emph{IEEE Trans. Inf. Theory}, vol. 59, no. 3, 2013.
+% verify authors/pages (arXiv:1112.1762)
+\bibitem{xiaoluo2005} S. Xiao and Z.-Q. Luo, % verify exact title/venue
+``Compression of correlated Gaussian sources under individual distortion
+criteria,'' in \emph{Proc. Allerton Conf.}, 2005.
+\bibitem{lapidothtinguely2010} A. Lapidoth and S. Tinguely, ``Sending a
+bivariate Gaussian over a Gaussian MAC,'' \emph{IEEE Trans. Inf. Theory},
+vol. 56, no. 6, 2010. % verify
+\bibitem{landauer1961} R. Landauer, ``Irreversibility and heat generation in
+the computing process,'' \emph{IBM J. Res. Dev.}, vol. 5, no. 3, pp. 183--191,
+1961.
+\bibitem{bennett1973} C. H. Bennett, ``Logical reversibility of computation,''
+\emph{IBM J. Res. Dev.}, vol. 17, no. 6, pp. 525--532, 1973.
+\bibitem{bond2026landauer} A. H. Bond, ``A rate--work--distortion region for
+consumer-relative observation,'' 2026, archived record
+doi:10.5281/zenodo.21776291.
+%% M3: add Nayak-Tuncel-Gunduz-Erkip, Stylianou et al., delineation cites
+%% (Shlezinger-Eldar task-based quantization; Gunduz et al. semantic survey;
+%% Tishby et al. IB), Gray 1972 TR, Leiner-Gray if needed.
+\end{thebibliography}
+
+\end{document}
