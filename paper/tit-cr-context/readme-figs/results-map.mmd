@@ -1,0 +1,60 @@
+flowchart TD
+  D2["Def 2<br/>problem statement"]
+  L3["Lem 3<br/>convexity in the channel"]
+  L4["Lem 4<br/>closure, right-continuity"]
+  T5["Thm 5<br/>discrete rate–content region"]
+  R6["Rem 6<br/>thermodynamic reading"]
+  L29["Lem 29<br/>cell bound"]
+  T30["Thm 30<br/>Gaussian operational region"]
+
+  T9["Thm 9<br/>pair sufficiency"]
+  L11["Lem 11<br/>Gaussian exhaustion"]
+  T13["Thm 13<br/>closed form L(D)"]
+  T16["Thm 16<br/>exact region<br/>two water levels"]
+
+  C14["Cor 14<br/>classical, Gray, Steinberg"]
+  R15["Rem 15<br/>convergence rates"]
+  C19["Cor 19<br/>strict misalignment"]
+  L22["Lem 22<br/>clean-context reduction"]
+  C21["Cor 21<br/>non-determination by (Y,S)"]
+
+  T23["Thm 23<br/>determinant-bound attainment"]
+  T24["Thm 24<br/>vector context"]
+  T27["Thm 27<br/>binary DSBS + BSC"]
+  R28["Rem 28<br/>binary frontier exhaustive"]
+
+  D2 --> T5
+  L3 --> T5
+  L4 --> T5
+  T5 --> R6
+  T5 -. "construction pattern only" .-> T30
+  L29 --> T30
+
+  D2 --> T9
+  T9 --> T13
+  L11 --> T13
+  T13 --> T16
+  L3 --> T16
+  L11 --> T16
+
+  T13 --> C14
+  C14 --> R15
+  T13 --> C21
+  T16 --> C19
+  L22 --> C19
+  T16 --> T24
+  L11 --> T23
+  L3 --> T27
+  T27 --> R28
+
+  classDef setup fill:#4c5b8a,color:#ffffff,stroke:#2e3757,stroke-width:1px
+  classDef core fill:#1f4e79,color:#ffffff,stroke:#12314c,stroke-width:1px
+  classDef supp fill:#dfe3e8,color:#1b1b1b,stroke:#8b96a3,stroke-width:1px
+  classDef ext fill:#3f6f52,color:#ffffff,stroke:#264432,stroke-width:1px
+  classDef anch fill:#7a5c33,color:#ffffff,stroke:#4e3a20,stroke-width:1px
+
+  class D2,T5,R6,T30 setup
+  class T9,T13,T16,C19,C21 core
+  class L3,L4,L11,L22,L29 supp
+  class T23,T24,T27,R28 ext
+  class C14,R15 anch

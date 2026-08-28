@@ -1,5 +1,10 @@
 # Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context
 
+**→ [Read the paper (PDF, 35 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
+
+The PDF is canonical. The HTML is a self-contained reading convenience with
+the mathematics as MathML and the figures inlined.
+
 IEEE Transactions on Information Theory submission. Single author. 35 pp.
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
@@ -53,6 +58,13 @@ flowchart LR
   enc --> R
   reset --> L
 ```
+
+<details>
+<summary>Static PNG, if the diagram above does not render</summary>
+
+![Operational model: the source feeds an encoder observing the pair; the encoder emits a description to a decoder that sees it alone, and the same description to a reset mechanism conditioned on the third party's noisy context copy. The two price coordinates are the rate and the conditional content.](readme-figs/model.png)
+
+</details>
 
 Two things the diagram is drawn to make unmistakable. The decoder never sees
 `S`, so this is not a decoder-side-information problem and the rate coordinate
@@ -130,6 +142,13 @@ flowchart TD
   class C14,R15 anch
 ```
 
+<details>
+<summary>Static PNG, if the diagram above does not render</summary>
+
+![Dependency map of the thirty numbered results, colored by role: setup and operational layer, the five core results, supporting lemmas, extensions, and consistency anchors. The core spine runs from the problem statement through pair sufficiency and Gaussian exhaustion to the closed form, the exact region, and the three corollaries.](readme-figs/results-map.png)
+
+</details>
+
 Reading the colors: dark blue is the setup and operational layer, deep blue the
 five core results, grey the supporting lemmas, green the extensions, brown the
 anchors.
@@ -157,6 +176,13 @@ flowchart TD
   main -- "ρ² → 1" --> stein
   main -- "τ² → ∞" --> coin
 ```
+
+<details>
+<summary>Static PNG, if the diagram above does not render</summary>
+
+![Degeneration map: the closed form recovers the classical rate-distortion function as the correlation vanishes, Gray's conditional rate-distortion function as the context noise vanishes, and Steinberg's scalar Gaussian formula as the correlation approaches one; the two coordinates coincide as the context noise diverges.](readme-figs/anchors.png)
+
+</details>
 
 Each limit is a check, not decoration: recovering three known functions at
 three boundaries is what makes a sign or normalization error unlikely.
@@ -194,7 +220,18 @@ python verifier_num_checks.py     # 42 numeric,  independently commissioned
 python plot_frontier.py
 python plot_notmarginal.py
 python plot_binary.py
+
+# this README's diagram fallbacks, after editing any mermaid block above
+cd readme-figs
+for n in model results-map anchors; do
+  npx -y @mermaid-js/mermaid-cli -i $n.mmd -o $n.png -b white -w 1400 -s 2
+done
 ```
+
+The `.mmd` sources under `readme-figs/` are copies of the mermaid blocks in
+this file. If you edit a diagram here, update the matching `.mmd` and
+re-render, or the fallback PNG will silently disagree with the diagram above
+it.
 
 MATLAB Symbolic checks are in `matlab_checks.m` (11 checks, archived result).
 The Lean 4 formalization of the load-bearing algebra lives outside this folder
@@ -218,6 +255,7 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | `plot_binary.py` → `binary.pdf/.png` | Fig 4: binary tilt root, objective, and rate–content frontier. |
 | `VERIFICATION.md` | Full script inventory and what each check covers. |
 | `EXTRACTION-PLAN.md` | Provenance and the complete revision log, M1 through M9. |
+| `readme-figs/*.mmd`, `*.png` | Sources and static renderings of this file's three diagrams. The mermaid blocks below each heading are authoritative; the PNGs are fallbacks for viewers that do not render mermaid. |
 
 Figure 1 (the system diagram) is TikZ inline in the `.tex`, not a separate file.
 `*.log`, `*.aux`, `*.out` are build scratch and are gitignored.

@@ -1,0 +1,11 @@
+flowchart TD
+  main["L(D) = ½ log₂ g⋆"]
+  cls["Classical rate–distortion<br/>½ log₂ (1/D)"]
+  gray["Gray's conditional<br/>rate–distortion function"]
+  stein["Steinberg's scalar<br/>Gaussian formula"]
+  coin["Both coordinates coincide<br/>tradeoff vanishes"]
+
+  main -- "ρ → 0" --> cls
+  main -- "τ² → 0" --> gray
+  main -- "ρ² → 1" --> stein
+  main -- "τ² → ∞" --> coin

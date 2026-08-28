@@ -1,0 +1,18 @@
+flowchart LR
+  src["Source<br/>(Y, V) jointly Gaussian"]
+  enc["Encoder<br/>observes (Y, V)"]
+  dec["Decoder<br/>sees M only"]
+  rec["Reconstruction Ŷ<br/>distortion ≤ D"]
+  tp["Third party<br/>retains S = V + U"]
+  reset["Reset mechanism<br/>erases M, conditioned on S"]
+  R["Rate R<br/>description size per symbol"]
+  L["Conditional content<br/>L = H(M ∣ Sⁿ) / n"]
+
+  src --> enc
+  enc -- "M" --> dec
+  dec --> rec
+  src -. "V + U" .-> tp
+  enc -- "M" --> reset
+  tp -. "S" .-> reset
+  enc --> R
+  reset --> L
