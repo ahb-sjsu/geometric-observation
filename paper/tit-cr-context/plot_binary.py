@@ -1,4 +1,5 @@
-"""Figure 3: the binary objective, the tilt residual, and the frontier.
+"""Figure 4 (fig:binary): the binary objective, the tilt residual, and the
+frontier.
 
 Panels 1-2, at (p, q, D) = (0.25, 0.15, 0.15), along the constraint
 segment (1-p) d0 + p d1 = D, parameterized by d0:

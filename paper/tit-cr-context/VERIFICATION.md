@@ -10,11 +10,11 @@ footnote (doi:10.5281/zenodo.21776291).
 ## Script inventory
 
 - `verify_converses.py` — the author's harness, written alongside the
-  proofs. Eighteen checks: seven exact-symbolic (sympy) on the
+  proofs. Nineteen checks: seven exact-symbolic (sympy) on the
   determinant identities, the four gradient identities, the linearity
   and closed-form solution of the stationarity system, the
   constraint-to-quadratic reduction with its cofactor, the floor value
-  `P(g_f) = -rho^2 tau^2/s`, and the weighted-FOC reduction; ten
+  `P(g_f) = -rho^2 tau^2/s`, and the weighted-FOC reduction; twelve
   numeric (numpy/scipy) on the closed form vs direct minimization, the
   frontier at alpha in {0, 1/2, 1}, the six values of the
   non-determination corollary, the endpoint excesses, the
@@ -23,9 +23,14 @@ footnote (doi:10.5281/zenodo.21776291).
   clean-context conditional program vs the determinant bound, the
   quantization convergence I(Yhat; S_Delta) increasing to I(Yhat; S),
   the binary rate--content frontier (closed forms vs joint-pmf
-  evaluation, plus the Fig. 3 caption numbers), and the endpoint-excess
+  evaluation, plus the fig:binary caption numbers), the endpoint-excess
   magnitudes quoted in Sec. V (interior-box maxima, the divergence probe,
-  and the clean-boundary saturation).
+  and the clean-boundary saturation), and the anchor convergence rates
+  of rem:anchorrates (N12: the three first-order gap coefficients by
+  sympy implicit differentiation at the simple root, matched exactly
+  against the displayed closed forms and against direct numeric
+  evaluation at eps down to 1e-6, including the far branch
+  D > 1-rho^2 of the tau^2 -> 0 anchor; worst |ratio-1| = 8.0e-4).
 - `verifier_sym_checks.py`, `verifier_num_checks.py` — a separately
   commissioned re-derivation, produced without access to the
   derivations or to the first script, archived with the repository:
@@ -51,9 +56,12 @@ footnote (doi:10.5281/zenodo.21776291).
   non-determination corollary; and the binary q = 1/2 anchor and the
   R - L chain-rule bookkeeping of the binary theorem with the binary
   entropy kept abstract.
-- `plot_frontier.py`, `plot_binary.py` — figure scripts; the frontier
-  script re-derives the endpoint excesses R_L* - R_min = 0.0400 and
-  L_R* - L_min = 0.0349 bits quoted in the caption.
+- `plot_frontier.py`, `plot_notmarginal.py`, `plot_binary.py` — figure
+  scripts; the frontier script re-derives the endpoint excesses
+  R_L* - R_min = 0.0400 and L_R* - L_min = 0.0349 bits quoted in the
+  caption; the notmarginal script prints the two instance values and
+  gaps (0.0495 bits at D = 0.1, 0.1543 bits at D = 0.3) and the common
+  reduced correlation 0.7071 quoted in fig:notmarginal's caption.
 
 ## Finite-blocklength diagnostic
 

@@ -27,13 +27,19 @@ Numeric (numpy/scipy):
       outside the semidefinite condition
   N9  quantization convergence of Appendix app:gaussian: I(Yhat; S_Delta)
       increases to I(Yhat; S) under refining quantizers
-  N10 binary frontier closed forms (rem:binfrontier / Fig. 3 panel):
+  N10 binary frontier closed forms (rem:binfrontier / fig:binary panel):
       R(d0), L(d0) along the segment vs direct evaluation from the joint
       pmf at (p,q,D) = (0.1, 0.1, 0.05); frontier endpoint numbers
   N11 endpoint-excess magnitudes quoted in Sec. V: interior-box maxima
       (0.1138 / 0.0770 bits), the divergence probe 1.537 bits at
       (0.5, 1e-3, 0.5), and the clean-boundary saturation
       (1/2) log2(1 + rho^2) of the content excess
+  N12 anchor convergence rates (rem:anchorrates): the three first-order
+      gap coefficients derived by sympy implicit differentiation at the
+      simple root (dg/de = -P_e/P_g), matched against the displayed
+      closed forms EXACTLY, and against direct numeric evaluation of
+      L(D) at small parameter values (ratio -> 1); includes the far
+      branch D > 1-rho^2 of the tau^2 -> 0 anchor
 """
 
 import numpy as np
@@ -553,7 +559,7 @@ for d0 in np.linspace(lo_b + 1e-3 * (hi_b - lo_b), hi_b - 1e-3 * (hi_b - lo_b), 
     L_cf = h2b(u) - (1 - pb) * h2b(d0) - pb * h2b(d1)
     R_dir, L_dir = binary_direct(pb, qb, d0, d1)
     worst = max(worst, abs(R_cf - R_dir), abs(L_cf - L_dir))
-# frontier endpoint numbers quoted in Fig. 3's caption
+# frontier endpoint numbers quoted in fig:binary's caption
 from scipy.optimize import brentq
 
 
@@ -578,7 +584,7 @@ def RL_b(d0):
 
 R_root, L_root = RL_b(root_b)
 R_D, L_D = RL_b(Db)
-caption_ok = (abs(round(root_b, 4) - 0.0282) < 5e-5
+caption_ok = (abs(round(root_b, 4) - 0.0282) < 5e-5  # fig:binary caption
               and abs(round(L_root, 4) - 0.4341) < 5e-5
               and abs(round(1 - h2b(Db), 4) - 0.7136) < 5e-5
               and abs(round(R_root - (1 - h2b(Db)), 4) - 0.0391) < 5e-5
@@ -630,6 +636,80 @@ report("N11 endpoint-excess magnitudes: box maxima, divergence, saturation",
        ok, f"box max dR={best_dR:.4f}@{arg_dR}, dL={best_dL:.4f}@{arg_dL}; "
            f"dR(0.5,1e-3,0.5)={dR_div:.3f}; dL->half*log2(1.5)={dL_tiny:.4f} "
            f"vs {sat_pred:.4f}")
+
+# N12: anchor convergence rates (rem:anchorrates)
+# Symbolic: at each anchor, the value is a simple root of P, so
+# dg*/de = -P_e/P_g there; the displayed gap coefficient is
+# (dg*/de) / (2 ln2 g*).  Verified exactly in sympy.  Numeric: the gap
+# (L(exact) - L(anchor))/eps must approach the coefficient as eps -> 0.
+_g, _e = sp.symbols("g epsN", positive=True)
+_D, _t, _r2 = sp.symbols("DN tauN rho2N", positive=True)
+_ln2 = sp.log(2)
+
+
+def _coeff_at(P_expr, g_anchor):
+    """First-order gap coefficient of (1/2)log2 g* at the simple root."""
+    Pg_ = sp.simplify(sp.diff(P_expr, _g).subs([(_g, g_anchor), (_e, 0)]))
+    Pe_ = sp.diff(P_expr, _e).subs([(_g, g_anchor), (_e, 0)])
+    return sp.simplify(-Pe_ / Pg_ / (2 * _ln2 * g_anchor)), Pg_
+
+
+_s = 1 + _t**2
+# (i) rho^2 = e -> 0, anchor g = 1/D
+P_i = _D * _s * _g**2 - (_D + _s - _e) * _g + (1 - _e)
+c_i, Pg_i = _coeff_at(P_i, 1 / _D)
+ok_i = (sp.simplify(P_i.subs([(_g, 1 / _D), (_e, 0)])) == 0
+        and sp.simplify(Pg_i - (_s - _D)) == 0
+        and sp.simplify(c_i - (-(1 - _D) / (2 * _ln2 * (_s - _D)))) == 0)
+# (ii) tau^2 = e -> 0, anchor g = (1-rho^2)/D (branch D < 1-rho^2)
+P_ii = _D * (1 + _e) * _g**2 - (_D + (1 + _e) - _r2) * _g + (1 - _r2)
+c_ii, Pg_ii = _coeff_at(P_ii, (1 - _r2) / _D)
+ok_ii = (sp.simplify(P_ii.subs([(_g, (1 - _r2) / _D), (_e, 0)])) == 0
+         and sp.simplify(Pg_ii - (1 - _r2 - _D)) == 0
+         and sp.simplify(c_ii - _r2 / (2 * _ln2 * (1 - _r2 - _D))) == 0)
+# (ii') far branch D > 1-rho^2: anchor g = 1, Gray value 0
+c_ii2, Pg_ii2 = _coeff_at(P_ii, sp.Integer(1))
+ok_ii2 = (sp.simplify(P_ii.subs([(_g, 1), (_e, 0)])) == 0
+          and sp.simplify(Pg_ii2 - (_D - (1 - _r2))) == 0
+          and sp.simplify(c_ii2 - (1 - _D) / (2 * _ln2 * (_D - (1 - _r2)))) == 0)
+# (iii) 1 - rho^2 = e -> 0, anchor g = (D+tau^2)/(Ds)
+P_iii = _D * _s * _g**2 - (_D + _s - (1 - _e)) * _g + _e
+c_iii, Pg_iii = _coeff_at(P_iii, (_D + _t**2) / (_D * _s))
+ok_iii = (sp.simplify(P_iii.subs([(_g, (_D + _t**2) / (_D * _s)), (_e, 0)])) == 0
+          and sp.simplify(Pg_iii - (_D + _t**2)) == 0
+          and sp.simplify(
+              c_iii - _t**2 * (1 - _D) / (2 * _ln2 * (_D + _t**2) ** 2)) == 0)
+sym_ok = ok_i and ok_ii and ok_ii2 and ok_iii
+
+# numeric ratio tests: gap/(coeff*eps) -> 1
+ln2 = np.log(2)
+num_ok = True
+ratios = []
+for (r2, t2, Dv) in [(None, 0.5, 0.3), (None, 2.0, 0.6)]:  # anchor (i)
+    coeff = -(1 - Dv) / (2 * ln2 * (1 + t2 - Dv))
+    for eps in (1e-4, 1e-6):
+        gap = L_closed(eps, t2, Dv) - 0.5 * np.log2(1 / Dv)
+        ratios.append(gap / (coeff * eps))
+for (r2, Dv) in [(0.5, 0.3), (0.75, 0.1)]:  # anchor (ii), D < 1-rho^2
+    coeff = r2 / (2 * ln2 * (1 - r2 - Dv))
+    for eps in (1e-4, 1e-6):
+        gap = L_closed(r2, eps, Dv) - 0.5 * np.log2((1 - r2) / Dv)
+        ratios.append(gap / (coeff * eps))
+for (r2, Dv) in [(0.5, 0.7)]:  # anchor (ii'), far branch D > 1-rho^2
+    coeff = (1 - Dv) / (2 * ln2 * (Dv - (1 - r2)))
+    for eps in (1e-4, 1e-6):
+        ratios.append(L_closed(r2, eps, Dv) / (coeff * eps))
+for (t2, Dv) in [(0.5, 0.3), (1.5, 0.15)]:  # anchor (iii)
+    coeff = t2 * (1 - Dv) / (2 * ln2 * (Dv + t2) ** 2)
+    for eps in (1e-4, 1e-6):
+        gap = L_closed(1 - eps, t2, Dv) - 0.5 * np.log2(
+            (Dv + t2) / (Dv * (1 + t2)))
+        ratios.append(gap / (coeff * eps))
+num_ok = all(abs(r - 1) < 2e-3 for r in ratios)
+report("N12 anchor convergence rates: implicit-diff coefficients + numeric",
+       sym_ok and num_ok,
+       f"sym exact: {sym_ok}; worst |ratio-1| = "
+       f"{max(abs(r - 1) for r in ratios):.1e}")
 
 # ----------------------------------------------------------------------------
 print()

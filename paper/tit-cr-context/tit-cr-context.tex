@@ -101,8 +101,9 @@ conditional content of an admissible description; by the operational
 theorems of Section~\ref{sec:operational} and, for the Gaussian source,
 Appendix~\ref{app:gaussian}, it is the least asymptotically achievable
 value of the normalized conditional entropy $H(M\mid S^n)/n$ of the stored
-index $M$ among codes meeting the distortion constraint, and hence the
-minimal ideal erasure work per symbol in units of $k_BT\ln 2$.
+index $M$ among codes meeting the distortion constraint. The
+thermodynamic reading of this quantity, as minimal ideal erasure work
+per symbol, is stated once, as Remark~\ref{rem:thermo}.
 
 The single-letter functional itself is not new. With the augmented source
 $X=(Y,V)$ and a distortion that ignores the $V$ coordinate,
@@ -139,8 +140,8 @@ leading them: coding theorems characterize $L(D)$ as the least
 asymptotically achievable normalized conditional entropy $H(M\mid S^n)/n$
 of the stored index (Section~\ref{sec:operational}, and
 Appendix~\ref{app:gaussian} for the Gaussian source), and the
-thermodynamic reading of $L(D)$ as minimal ideal conditional-erasure work
-is one consequence of that characterization.
+thermodynamic reading of $L(D)$ (Remark~\ref{rem:thermo}) is one
+consequence of that characterization.
 
 The remaining results present as structural consequences, extensions, and
 consistency anchors, and the bracketed words in the theorem titles carry
@@ -176,7 +177,8 @@ properties of the solution rather than of the reduction. The physical
 reading leaves the mathematics unchanged: the coordinate
 $H(M\mid S^n)/n$ is characterized by a proved coding theorem
 (Section~\ref{sec:operational} and Appendix~\ref{app:gaussian}), and
-the thermodynamic sentence is one consequence of that theorem. The proof
+the thermodynamic reading is confined to Remark~\ref{rem:thermo}, one
+consequence of that theorem. The proof
 machinery is classical, but the solved augmented optimization and its
 joint region are, to our knowledge, new: no water-filling in this
 literature carries two coupled levels tied by a common distortion
@@ -286,8 +288,8 @@ Section~\ref{sec:floor}.
 
 The thermodynamic reading of $L$ rests on Landauer's principle
 \cite{landauer1961} and its conditional sharpenings
-\cite{delrio2011,faist2015}; Section~\ref{sec:operational} states the
-operational content and its scope. Task-based quantization
+\cite{delrio2011,faist2015}; Remark~\ref{rem:thermo} states the reading
+and its scope, the paper's only physical claim. Task-based quantization
 \cite{shlezinger2019} and semantic and goal-oriented communication
 \cite{gunduz2023} also price descriptions by a downstream objective
 rather than by reconstruction alone; the structural difference here is
@@ -403,28 +405,9 @@ The dimensionless quantity $L_n$ is the residual description content: the
 uncertainty about the stored index that remains given the retained side
 information. We name it the \emph{Landauer content} of the memory relative
 to the retained side information; the term is ours, chosen for the
-thermodynamic reading that follows. Under an ideal conditional reset, the
-average work satisfies
-\begin{equation}
- W_n\ \ge\ n\kb T\ln2\,L_n.
- \label{eq:landauer-bound}
-\end{equation}
-The reset model behind \eqref{eq:landauer-bound} is the ideal
-conditional-erasure model of \cite{delrio2011,faist2015}, specialized to
-classical side information: the third party may apply ideal joint
-operations to the record and a work reservoir, conditioned on the
-classical side information $S^n$, which is read without disturbance and
-remains unchanged; only the record $M$ is required to return to a
-standard state. In the classical asymptotic regime, conditional erasure
-protocols make the
-bound tight up to sublinear terms \cite{delrio2011,faist2015}. We therefore
-state the coding theorem in bits per source symbol and restore physical units
-by multiplying by $\kb T\ln2$. The bound \eqref{eq:landauer-bound} prices
-only the logically irreversible reset of the volatile index $M$; it does not
-count the work of acquiring $X^n$, driving a channel, correcting errors, or
-finishing in finite time \cite{landauer1961,bennett1973}. The codebook,
-wiring, and any permanent lookup tables are treated as part of the apparatus
-and are not erased in each cycle.
+thermodynamic reading consolidated in Remark~\ref{rem:thermo} after the
+coding theorem. Every statement and proof of the paper treats $L_n$ as
+the coding quantity \eqref{eq:work-def}, in bits per source symbol.
 
 \begin{definition}[Achievability]\label{def:achievability}
 A triple $(R,L,D)$ is achievable if there is a sequence of observation codes
@@ -565,7 +548,6 @@ For a discrete memoryless source $(X,S)$ and bounded distortion $d$,
  \right\}.}
  \label{eq:main-region}
 \end{equation}
-The physical reset-work coordinate is $W/n=\kb T\ln2\,L$ in the ideal model.
 By Lemma~\ref{lem:convexity} both coordinates are convex in the common
 test channel, so the union is already convex, and it is closed and
 right-continuous in the distortion level (Lemma~\ref{lem:rightcont});
@@ -667,11 +649,42 @@ union in \eqref{eq:main-region} is already convex and closed
 \end{proof}
 
 The binning step in the proof has a simple interpretation. The full codeword
-index is required by the decoder. At reset, side information identifies the
-codeword up to a bin of asymptotic size $2^{nI(X;\hX\mid S)}$. Only that
-residual uncertainty is thermodynamically irreducible. The step has also been
-verified numerically at finite blocklength
+index is required by the decoder. Given the side information, the codeword
+is identified up to a bin of asymptotic size $2^{nI(X;\hX\mid S)}$; only
+that residual uncertainty remains in the stored index. The step has also
+been verified numerically at finite blocklength
 (Appendix~\ref{app:numver}).
+
+\begin{remark}[Thermodynamic reading]\label{rem:thermo}
+This remark states the paper's only physical claim; everywhere else,
+$L_n$ and $L(D)$ are the coding quantities \eqref{eq:work-def} and
+\eqref{eq:work-endpoint}. The reset model is the ideal
+conditional-erasure protocol of \cite{delrio2011,faist2015}, specialized
+to classical side information: the third party may apply ideal joint
+operations to the record and a work reservoir, conditioned on the
+classical side information $S^n$, which is read without disturbance and
+remains unchanged; only the record $M$ is required to return to a
+standard state. Under these protocols, the minimal average work to reset
+$M$ while the third party retains $S^n$ is
+\begin{equation}
+ W_n^{\min}\;=\;\kb T\ln2\,H(M\mid S^n)+o(n)
+ \;=\;n\,\kb T\ln2\,\bigl(L_n+o(1)\bigr),
+ \label{eq:landauer-bound}
+\end{equation}
+Landauer's bound \cite{landauer1961} conditioned on the retained side
+information, tight up to sublinear terms in the classical asymptotic
+regime \cite{delrio2011,faist2015}. Hence, by
+Theorem~\ref{thm:main-region}, and by Theorem~\ref{thm:gaussop} for the
+Gaussian source, $L(D)$ is the least asymptotic erasure work per symbol,
+in units of $\kb T\ln2$, over codes meeting the distortion constraint.
+The scope of the claim: \eqref{eq:landauer-bound} prices only the
+logically irreversible reset of the volatile index $M$; it does not
+count the work of acquiring $X^n$, driving a channel, correcting errors,
+or finishing in finite time \cite{landauer1961,bennett1973}, and the
+codebook, wiring, and any permanent lookup tables are part of the
+apparatus and are not erased in each cycle. Physical units are restored
+by multiplying any content value in bits per symbol by $\kb T\ln2$.
+\end{remark}
 
 The content-only endpoint of the region is the minimum Landauer content, the
 function $L(D)$ defined in \eqref{eq:work-endpoint}.
@@ -1338,10 +1351,54 @@ $\tfrac12\log_2\bigl[(1-\rho_{YS}^2+\rho_{YS}^2D)/D\bigr]$
 this is $\tfrac12\log_2\bigl[(\tau^2+D)/(sD)\bigr]$, the same value.
 \end{proof}
 
+\begin{remark}[Convergence rates at the anchors]\label{rem:anchorrates}
+Each anchor of Corollary~\ref{cor:anchors} is approached at a linear
+rate, with an explicit first-order coefficient. In every case the
+anchor value is a simple root of $P$ ($P'(g^\star)\ne0$, evaluated
+below), so the root is differentiable in the perturbing parameter
+$\epsilon$ with $dg^\star/d\epsilon=-P_\epsilon/P'(g^\star)$, and
+$L=\tfrac12\log_2 g^\star$ converts the derivative to the gap
+coefficient; the three evaluations are verified symbolically and
+numerically (Appendix~\ref{app:numver}). All values are in bits; the
+factor $\ln2$ converts the natural-log derivative to base two.
+(i) As $\rho^2\to0$ at fixed $(\tau^2,D)$, with $P'(1/D)=s-D>0$,
+\[
+L(D)-\tfrac12\log_2\frac1D
+=-\frac{1-D}{2\ln2\,(s-D)}\,\rho^2+O(\rho^4):
+\]
+the gap to the classical rate--distortion function closes linearly in
+$\rho^2$ with coefficient $-(1-D)/\bigl(2\ln2\,(s-D)\bigr)$, from
+below (even a weakly correlated context lowers the conditional
+content; $L(D)\le R_{\min}(D)$ always, with equality at $\rho=0$).
+(ii) As $\tau^2\to0$ at fixed $(\rho^2,D)$ with $D<1-\rho^2$, with
+$P'\bigl((1-\rho^2)/D\bigr)=1-\rho^2-D>0$ at $s=1$,
+\[
+L(D)-\tfrac12\log_2\frac{1-\rho^2}{D}
+=\frac{\rho^2}{2\ln2\,(1-\rho^2-D)}\,\tau^2+O(\tau^4):
+\]
+the gap to Gray's conditional function closes linearly in $\tau^2$,
+from above, with coefficient $\rho^2/\bigl(2\ln2\,(1-\rho^2-D)\bigr)$.
+The coefficient diverges as $D\uparrow1-\rho^2$, where the two roots of
+$P$ collide at $g=1$ and the linear rate fails; on the far branch
+$D>1-\rho^2$, where Gray's value is zero, the gap is $L(D)$ itself and
+closes linearly with coefficient
+$(1-D)/\bigl(2\ln2\,(D-(1-\rho^2))\bigr)$.
+(iii) As $\rho^2\to1$ at fixed $(\tau^2,D)$, with
+$P'\bigl((D+\tau^2)/(Ds)\bigr)=D+\tau^2>0$,
+\[
+L(D)-\tfrac12\log_2\frac{D+\tau^2}{Ds}
+=\frac{\tau^2(1-D)}{2\ln2\,(D+\tau^2)^2}\,(1-\rho^2)
++O\bigl((1-\rho^2)^2\bigr):
+\]
+the gap to Steinberg's scalar formula closes linearly in $1-\rho^2$,
+from above, with coefficient
+$\tau^2(1-D)/\bigl(2\ln2\,(D+\tau^2)^2\bigr)$.
+\end{remark}
+
 \section{The Rate--Content Region and Misalignment}
 \label{sec:region}
 
-The work-only endpoint of Theorem~\ref{thm:function} does not come for
+The content-only endpoint of Theorem~\ref{thm:function} does not come for
 free in rate. This section characterizes the full tradeoff between the
 two coordinates of \eqref{eq:main-region} for the Gaussian pair source.
 Throughout, $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, and $h$, $Q_0$,
@@ -1975,16 +2032,30 @@ $D=0.3$ (displayed in the proof).}
 \label{tab:notmarginal}
 \centering
 \footnotesize
-\begin{tabular}{lcc}
+\begin{tabular}{lccc}
 \hline
- & $L$ at $D=0.1$ & $L$ at $D=0.3$\\
+ & $\operatorname{Corr}(Y,S)=\rho/\sqrt{s}$ & $L$ at $D=0.1$ & $L$ at $D=0.3$\\
 \hline
-Instance $(\rho^2,\tau^2)=(\tfrac12,0)$ & $1.1610$ & $0.3685$\\
-Instance $(\rho^2,\tau^2)=(\tfrac34,\tfrac12)$ & $1.2105$ & $0.5228$\\
-Steinberg's scalar formula on the reduced pair & $1.2297$ & $0.5577$\\
+Instance $(\rho^2,\tau^2)=(\tfrac12,0)$ & $1/\sqrt2$ & $1.1610$ & $0.3685$\\
+Instance $(\rho^2,\tau^2)=(\tfrac34,\tfrac12)$ & $1/\sqrt2$ & $1.2105$ & $0.5228$\\
+Steinberg's scalar formula on the reduced pair & $1/\sqrt2$ & $1.2297$ & $0.5577$\\
 \hline
 \end{tabular}
 \end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{notmarginal}
+\caption{Non-determination by the reduced marginal
+(Corollary~\ref{cor:notmarginal}): $L(D)$ against $D$ for the two
+instances $(\rho^2,\tau^2)=(\tfrac12,0)$ (dashed, squares) and
+$(\tfrac34,\tfrac12)$ (solid, circles), which share the reduced
+correlation $\operatorname{Corr}(Y,S)=\rho/\sqrt{s}=1/\sqrt2=0.7071$.
+The two functions differ at every distortion shown; at the tabulated
+levels (markers; Table~\ref{tab:notmarginal}) the gap is $0.0495$ bits
+at $D=0.1$ and $0.1543$ bits at $D=0.3$.}
+\label{fig:notmarginal}
+\end{figure}
 
 \begin{proof}
 The two instances share the $(Y,S)$ joint law: in both, $Y$ is standard
@@ -2046,6 +2117,20 @@ law, in particular neither Steinberg's scalar formula evaluated on the
 pair nor Gray's under any reparameterization, can equal $L$.
 \end{proof}
 
+The mechanism is worth stating plainly. Both instances have the same
+reduced correlation $\operatorname{Corr}(Y,S)=\rho/\sqrt{s}=1/\sqrt2$,
+realized by different splits: entirely through a clean context in the
+first instance ($\rho^2=\tfrac12$, $\tau^2=0$), through a stronger
+context read in noise in the second ($\rho^2=\tfrac34$,
+$\tau^2=\tfrac12$). The function depends on $(\rho^2,\tau^2)$
+separately, not only through the ratio $\rho^2/s$, because the
+encoder's channel acts on its observation of $(Y,V)$, not on $(Y,S)$:
+two sources with identical $(Y,S)$ joint laws but different internal
+splits of the correlation admit different optimal channels.
+Fig.~\ref{fig:notmarginal} plots the two functions across distortions;
+the gap at the tabulated levels is $0.0495$ bits at $D=0.1$ and
+$0.1543$ bits at $D=0.3$.
+
 \section{When the Determinant Bound Is Attained}
 \label{sec:floor}
 
@@ -2083,12 +2168,11 @@ which can be negative at large distortions. Every admissible channel obeys
 since $h(Y\mid S)=\tfrac12\log_2\bigl((2\pi e)^2\det\Sigma_{Y\mid S}\bigr)$,
 $h(Y\mid\hat{\mathbf Y},S)\le\sum_{i\in\{A,B\}}h(Y_i-\hY_i)
 \le\tfrac12\log_2\bigl((2\pi e)^2 D_AD_B\bigr)$, and $L\ge0$
-always.\footnote{The thermodynamic reading of
-Section~\ref{sec:operational} concerns the clipped form: by
-\eqref{eq:landauer-bound} the \emph{work floor} on the reset work per
-symbol is $\kb T\ln2\,[\Bdet]^{+}$, the positive part reflecting that
-the bound carries no information where the determinant expression is
-negative \cite{landauer1961,bennett1973,faist2015}.} The exactness
+always.\footnote{In the thermodynamic reading of
+Remark~\ref{rem:thermo}, the clipped form is the \emph{work floor} on
+the reset work per symbol, $\kb T\ln2\,[\Bdet]^{+}$, the positive part
+reflecting that the bound carries no information where the determinant
+expression is negative.} The exactness
 question below concerns $\Bdet$ itself: on the attainment branches of
 Theorem~\ref{thm:floor} the semidefinite conditions force
 $\det\Delta\le\det\Sigma_{Y\mid S}$, so there $\Bdet\ge0$ and the two
@@ -2945,11 +3029,9 @@ reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
 description content is a property of the encoding configuration, not of the
 source and side-information pair alone.
 
-The thermodynamic reading is fixed by the operational theorems of
-Section~\ref{sec:operational} and, for the Gaussian source,
-Appendix~\ref{app:gaussian}: $L(D)$ is the minimal ideal erasure work per
-symbol, in units of $\kb T\ln2$, paid by a reset mechanism that retains $S$
-\cite{landauer1961,delrio2011,faist2015}. The region states when storing
+The thermodynamic reading is that of Remark~\ref{rem:thermo}: $L(D)$ is
+the minimal ideal erasure work per symbol, in units of $\kb T\ln2$, paid
+by a reset mechanism that retains $S$. The region states when storing
 cheaply and erasing cheaply are compatible: at $\rho=0$ one channel minimizes
 both coordinates, and under misalignment ($\rho^2\in(0,1)$, $\tau^2>0$) the
 two costs strictly trade off.
@@ -3112,8 +3194,8 @@ reproduction, which meets the distortion constraint with $R=L=0$; the
 point $D=0$ follows as the extended-real limiting case, both
 coordinates diverging. Throughout, $L_n$ is a coding quantity, the
 normalized conditional entropy of the stored index; its thermodynamic
-reading is the idealized bound \eqref{eq:landauer-bound}, and no step
-of the proof depends on that reading.
+reading is confined to Remark~\ref{rem:thermo}, and no step of the
+proof depends on it.
 \end{theorem}
 
 \begin{proof}
@@ -3327,6 +3409,10 @@ four-decimal values confirmed\\
 Global optimality in Theorem~\ref{thm:binary} & Lagrangian bounds, no
 convexity assumed, reproduction alphabets $2,4,6$ & worst residual
 $3.4\times10^{-14}$\\
+Anchor convergence rates (Remark~\ref{rem:anchorrates}) & symbolic
+implicit differentiation at the simple root; numeric gap ratios down to
+$\epsilon=10^{-6}$ & coefficients exact; ratios within
+$8.0\times10^{-4}$ of $1$\\
 Algebraic core (quadratic, roots, anchors, surds, binary anchor) &
 Lean~4/Mathlib, \texttt{CRContext.lean} & builds clean; zero
 \texttt{sorry}\\

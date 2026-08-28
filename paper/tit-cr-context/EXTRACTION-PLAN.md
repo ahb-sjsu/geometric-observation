@@ -387,6 +387,43 @@ Working file: `tit-cr-context.tex` in this directory. Do not modify
   cleanctx Lem 20, floor Thm 21, vector Thm 22, binary Thm 25, cell bound
   Lem 27, Gaussian operational Thm 28. 34 pp, 0 undefined, 0 overfull;
   verify_converses.py 18/18.
+- **M9 (2026-08-27): reviewer round, three items.** (1) Thermodynamics
+  consolidated into ONE numbered remark (rem:thermo, Remark 6, after
+  Thm 5): the delrio2011/faist2015 classical-side-information protocol
+  sentence moved there, eq:landauer-bound restated as the tight form
+  W_n^min = kB T ln2 H(M|S^n) + o(n), "L(D) = least asymptotic erasure
+  work per symbol" derived from Thm 5 + Thm 30, scope sentences
+  (volatile index only; apparatus not erased) moved in; audit swept the
+  rest: intro para-2 + para-3, relation-to-prior, related-work Landauer
+  paragraph, Sec-VI floor footnote, thm:gaussop statement, Discussion
+  all now POINT at the remark; Thm 5's "physical reset-work coordinate"
+  sentence deleted; L_n definition IT-only; "work-only endpoint" ->
+  "content-only" (Sec. V opener); abstract's single interpretation
+  sentence and the Sec-I motivation paragraph kept (allowed carve-outs).
+  (2) cor:notmarginal mechanized: mechanism paragraph after the proof
+  (common Corr(Y,S) = rho/sqrt(s) = 1/sqrt2; L depends on (rho^2,tau^2)
+  separately, not through rho^2/s; encoder acts on (Y,V) not (Y,S));
+  Corr(Y,S) column added to tab:notmarginal; NEW Fig. 3
+  (plot_notmarginal.py, house style): L(D) vs D for both instances,
+  gaps 0.0495 bits at D=0.1 and 0.1543 at D=0.3 (script-printed,
+  caption-quoted); binary figure shifts to Fig. 4. (3) Anchor
+  convergence rates (rem:anchorrates, Remark 15, after cor:anchors),
+  sympy-derived FIRST by implicit differentiation at the simple root
+  (dg/de = -P_e/P_g), all linear: rho^2->0 gap to classical RDF =
+  -(1-D)/(2 ln2 (s-D)) * rho^2 (from below); tau^2->0 gap to Gray =
+  rho^2/(2 ln2 (1-rho^2-D)) * tau^2 for D<1-rho^2 (coefficient diverges
+  at the double root D=1-rho^2; far branch D>1-rho^2 has L itself
+  linear with coeff (1-D)/(2 ln2 (D-(1-rho^2)))); rho^2->1 gap to
+  Steinberg = tau^2(1-D)/(2 ln2 (D+tau^2)^2) * (1-rho^2). New check
+  N12 (symbolic exact + numeric ratios to 8.0e-4); verify_converses.py
+  19/19; appendix Table row added; VERIFICATION.md updated. Numbering
+  shifted: rem:thermo=6 pushes 7+, rem:anchorrates=15 pushes 16+; new
+  landmark map: Lem 4 rightcont, Thm 5 main-region, Rem 6 thermo,
+  Thm 9 pair, Prop 10 marg, Lem 11 gauss, Thm 13 function, Cor 14
+  anchors, Rem 15 anchorrates, Thm 16 region, Cor 19 misalign, Cor 21
+  notmarginal, Thm 23 floor, Thm 24 vector, Thm 27 binary, Rem 28
+  binfrontier, Lem 29 cellbound, Thm 30 gaussop. 35 pp, zero
+  undefined, zero overfull.
 - **REMAINING (owner items only):** Steinberg 2009 + Lu et al. WCSP 2016
   primary reads; the reviewer's Sec-VI split-out suggestion (owner
   decision); submission-time full sweep; ScholarOne upload.
