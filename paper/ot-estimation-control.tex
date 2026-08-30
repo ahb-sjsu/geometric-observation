@@ -981,6 +981,77 @@ PASS 7/7 (one prior miss on the record: baseline degeneracy) \\
 \end{tabular}
 \end{table}
 
+\emph{The same objective governs where a shared sensor spends its
+budget.} The program's sensor-management (SM) track applies the
+consumer-relative value to a multifunction phased aperture time-shared,
+at a matched time budget, across active imaging of scene cells, a passive
+listen channel for a radio-command detection, and direction-finding. The
+consumer is the operational decision --- a bounded reaction deadline on
+the command detection and a stationary-occupant detection --- so $\PC$
+weights exactly those state directions. Two established results bound the
+claim and are credited, not restated: task-driven scheduling already
+beats information-driven scheduling on a decision metric
+\cite{kreucher2005}, and adaptive scheduling already beats fixed-revisit
+scheduling in radar resource management, whose task priorities are
+hand-set as a quality-of-service utility \cite{rajkumar1997}. SM-1
+(measurement, sealed, governed all-pass) isolates the regime the anchor
+leaves implicit: in a clutter-limited model where the decision-critical
+channel is \emph{low}-uncertainty, information-greedy scheduling ---
+minimizing $\tr\Sig$ or maximizing mutual information --- structurally
+never attends it (mutual-information scheduling misses the reaction
+deadline in $100\%$ of runs), fair round-robin meets it only $38\%$ of
+the time under the clutter-driven dwell cost, and consumer-relative
+scheduling meets it $95\%$ while detecting the stationary occupant
+$99.7\%$. SM-2 (derivation, sealed, governed all-pass) closes the
+question the quality-of-service literature leaves open, namely where the
+priorities come from: the consumer projection \emph{derives} a
+state-dependent value $\tr(\PC\,\Delta\Sig)/\mathrm{dwell}$ that, with no
+per-task tuning, matches or beats fixed priorities selected per scenario
+with hindsight from a grid (joint success $\mathbf{98.8\%}$ against the
+hindsight oracle's $94.5\%$), because the schedule that meets both
+objectives is time-varying within an encounter --- confirm the stationary
+occupant, then guard the command channel --- and no fixed revisit
+interval can be. The contribution is not that consumer-relevance or
+adaptivity is new; it is that the \emph{same} $\PC$ object supplies the
+scheduling objective that radar resource management otherwise
+hand-crafts, the object recovered in \S\ref{sec:campaigns}'s estimation,
+dynamic-relevance and language-model tracks. The same principle is
+arriving independently from the communication side, where goal-oriented
+and semantic scheduling move past information freshness to the consumer's
+use of the information; OT is its geometric form. Scope, plainly: a
+linear-Gaussian model with clutter abstracted as a two-state
+platform-motion process, myopic greedy selection, and a comparison
+against hand-tuned \emph{fixed} priorities rather than an adaptive
+scheduler, which would itself require the objective $\PC$ supplies;
+fielded validation is future work.
+
+\begin{table}[t]
+\caption{Governed SM-track results (single sealed runs after the sealing
+commit; a multifunction aperture time-shared at a matched budget; the
+harness and gate evaluation are the committed artifacts).}
+\label{tab:sm-evidence}
+\centering
+\begin{tabular}{@{}p{0.26\linewidth}p{0.43\linewidth}p{0.22\linewidth}@{}}
+\toprule
+\textbf{Campaign (seals)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
+\midrule
+SM-1: consumer-relative vs information-greedy at matched time (SM1-001) &
+consumer-relative meets the $30$\,ms reaction deadline \textbf{95\%} of
+runs; information-greedy misses it (mutual-information $0\%$ met) and fair
+round-robin only $38\%$, both structural; stationary-occupant detection
+$99.7\%$ at $0.5\%$ false alarm; lowest decision cost &
+ALL PASS 5/5 (measurement; anchor \cite{kreucher2005}) \\
+\addlinespace
+SM-2: derived vs hand-tuned fixed priorities at matched time (SM2-001) &
+the derived value $\tr(\PC\Delta\Sig)/\mathrm{dwell}$, untuned, beats the
+hindsight grid oracle by \textbf{+4.3} points joint success ($98.8\%$ vs
+$94.5\%$); every fixed tuning is brittle ($73.8\%$ worst); the
+trigger/imaging trade-off spans $21.7$ points &
+ALL PASS 3/3 (derivation; QoS priorities \cite{rajkumar1997}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Falsifiers}
 \label{sec:falsifiers}
 
@@ -1228,6 +1299,15 @@ Express}, vol.~28, no.~9, pp.~13141--13154, 2020.
 \bibitem{alahdab2025} M.~Al Ahdab, J.~Leth, and Z.-H. Tan, ``Optimal sensor
 scheduling and selection for continuous-discrete Kalman filtering with
 auxiliary dynamics,'' in \emph{Proc. Int. Conf. Machine Learning}, 2025.
+
+\bibitem{kreucher2005} C.~M. Kreucher, A.~O. Hero, and K.~D. Kastella, ``A
+comparison of task driven and information driven sensor management for
+target tracking,'' in \emph{Proc. 44th IEEE Conf. Decision and Control
+(CDC-ECC)}, 2005. % verify pages on final
+
+\bibitem{rajkumar1997} R.~Rajkumar, C.~Lee, J.~Lehoczky, and D.~Siewiorek,
+``A resource allocation model for QoS management,'' in \emph{Proc. 18th
+IEEE Real-Time Systems Symp. (RTSS)}, 1997. % verify pages on final
 
 \end{thebibliography}
 
