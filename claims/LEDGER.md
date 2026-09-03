@@ -51,6 +51,8 @@ Sealed 2026-08-15 before any test ran ([OT-CRUCIBLE-2](../crucible/OT-CRUCIBLE-2
 
 **Campaign verdict (2026-08-15):** G1 FAIL (3/5 core) → **Observation Theory v1.0 NOT declared**, per the frozen rule. Full scorecard and post-closure revision queue: [OT-CAMPAIGN-VERDICT](../crucible/OT-CAMPAIGN-VERDICT.md). G2 ✅ G3 ✅ G4 ✅.
 
+**Current status (added 2026-09-03 for cold readers; no verdict above changes).** The two verdicts above are the dated close-outs of the v0.1 and Second Crucibles and are superseded in *status* by later sealed acts: v0.2 revised P4 and P5 as the refutations demanded ([OT-V0.2-REVISION](../crucible/OT-V0.2-REVISION.md)); the Third Crucible earned P4 and P2 (OT-14, OT-15) and closed OT-13 unresolved ([OT-CRUCIBLE-3-VERDICT](../crucible/OT-CRUCIBLE-3-VERDICT.md)); the Fourth discharged P5 (OT-18, [OT-CRUCIBLE-4](../crucible/OT-CRUCIBLE-4.md)); and with zero owed predictions outstanding **Observation Theory v1.0 was declared 2026-08-18** ([DECLARATION-V1](../crucible/DECLARATION-V1.md)), the v0.2 text of the five principles (readscope `PRINCIPLES.md` at `b70fc17`) frozen verbatim. The v1-line owed predictions live in [OWED-V1](../crucible/OWED-V1.md). Readers who stop at the 2026-08-15 line above will misreport the theory's status; this paragraph exists because one did.
+
 ## The falsifiable core (GO-1 … GO-5)
 
 Risk-bearing claims (§2). `pending` = registry entry and/or run not yet complete.
