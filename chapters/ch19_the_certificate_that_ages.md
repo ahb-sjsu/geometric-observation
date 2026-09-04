@@ -62,10 +62,15 @@ measures the constant.
 
 The one number this Part is built on:
 
-$$ \boxed{\,\mathrm{FC} \;=\; \Pr\big[\,\mathcal{C}_t \text{ clears} \;\wedge\;
-   W \text{ refutes it}\,\big]\,} $$
+$$ \boxed{\,\mathrm{FC} \;=\; \Pr\big[\,W \text{ refutes it} \;\big|\;
+   \mathcal{C}_t \text{ clears}\,\big]\,}, \qquad
+   \text{coverage} \;=\; \Pr\big[\,\mathcal{C}_t \text{ clears}\,\big] $$
 
-— the rate at which the certificate says *safe* while the witness says *not*. A
+— the rate at which a clearance is wrong, conditional on the certificate having
+cleared, reported beside the certificate's coverage. (An earlier draft wrote the joint
+probability $\Pr[\text{clears} \wedge \text{refutes}]$; the joint rate is the product of
+the two and is what a naive certificate that clears everything reports, since its
+coverage is one. Corrected 2026-09-03.) A
 certificate whose false-clear rate exceeds the target it purports to guarantee is
 **vacuous** for that consumer, however confident it looks. FC is measurable wherever
 a witness exists, which — per the table — is nearly everywhere it matters.

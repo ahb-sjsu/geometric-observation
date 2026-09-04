@@ -48,8 +48,9 @@ the alignment law $\kappa$ (Chapter 12).
 
 ## The read distortion
 
-Now let a code introduce error $\delta = \hat x - x$ with covariance $\Sigma_\delta =
-\mathbb{E}[\delta\delta^\top]$. Taking expectations of the local cost,
+Now let a code introduce error $\delta = \hat x - x$ with second moment $\Sigma_\delta =
+\mathbb{E}[\delta\delta^\top]$, which is its covariance when the error is centered (every code error
+in this book is; an uncentered error adds $\mu_\delta^\top P_C \mu_\delta$ to the identity below). Taking expectations of the local cost,
 
 $$ \mathbb{E}\,\|C(\hat x) - C(x)\|_G^2 \;\approx\; \mathbb{E}[\delta^\top P_C \delta]
    \;=\; \operatorname{tr}(P_C\, \Sigma_\delta). $$
