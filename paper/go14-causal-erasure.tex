@@ -88,7 +88,7 @@ pointwise-limit-of-convex-functions \emph{hypothesis} --- is now
 \textbf{Theorem~\ref{lem:R1}}, proved on the window-free class
 $\mathcal K_n(\varepsilon,M)$ in four steps, with the matrix
 Szeg\H o/Wiener--Masani theorem as the only analytic input and the
-inf-of-affine representation of the leak pivots as the load-bearing new
+inf-of-affine representation of the leak pivots as the essential new
 step; the three justification steps recorded at v0.7 are
 \emph{demoted} --- two of them are a genuine gap and an ill-posed
 statement, and the new route uses neither
@@ -229,7 +229,7 @@ exact \emph{Collapse identity} --- $2\ln2\,n\,L_a=\sum_t\ln\sigma_t
 -\ln\det N$ for every record, every $n$ and every nondecreasing
 schedule --- turns the two remaining steps into one-liners.
 \emph{Step~(A)}, periodization with \emph{independent noise copies}
-(a load-bearing hypothesis: correlating them breaks the step
+(an essential hypothesis: correlating them breaks the step
 outright), gives $L^{\mathrm{process}}(D)\le\phi_n$ for every $n$.
 \emph{Step~(B)}, shift-averaging, produces from any period-$n$ record
 an \emph{explicit} stationary record of no larger rate and identical
@@ -270,7 +270,7 @@ survives as a \emph{specification} of the object the argument
 constructs rather than an assumption about anything unknown. The value
 $\Psi$ itself remains a two-sided \emph{certified bracket} under this
 document's floating-point convention, and the chain remains
-one-directional. Two scoping results are load-bearing and
+one-directional. Two scoping results are essential and
 stated as hard terms: (i) the record family --- jointly Gaussian
 with $(V,Y)$, \emph{independent of the reference noise $U$} --- is a
 numbered hypothesis on the chain rule and on every minimum quoted
@@ -352,7 +352,7 @@ I\!\left(T^n;\hat Y_t\,\middle|\,S^{t+\Delta},\hat Y^{t-1}\right),
 \qquad T=(V,Y).
 \]
 
-\begin{hypothesis}[U-independence --- hard, load-bearing]
+\begin{hypothesis}[U-independence --- hard, essential]
 \label{hyp:uind}
 The record family $\mathcal F_0$: $\hat Y^n$ jointly Gaussian with
 $(V^n,Y^n)$ and \emph{independent of $U^n$ given $(V^n,Y^n)$};
@@ -454,7 +454,7 @@ structure carry real value.
 \end{enumerate}
 \end{theorem}
 
-\begin{remark}[Class scoping --- load-bearing]
+\begin{remark}[Class scoping --- essential]
 The diagonal (stationary-symmetric) class is \emph{provably
 suboptimal} for $L_a$: at $\Delta=0$, $n=16$, $D=0.3$ the
 first-order optimality certificate fails at the diagonal optimum
@@ -550,7 +550,7 @@ gives $\sum_j\ln\operatorname{Var}(S_j\mid S^{j-1},\hat Y^{k(j)})$
 --- this regrouping is the whole trick (and the reason single-cell
 convexity is never needed). (2) U-independence enters \emph{exactly
 once} as a premise --- the residuals $(U,Z)$ are independent given
-$W$ --- but is load-bearing in \emph{two} legs of the computation:
+$W$ --- but is essential in \emph{two} legs of the computation:
 $\operatorname{Cov}(S,\hat Y)=KH^{\!\top}$ with
 $K=\Sigma_{WS}^{\!\top}\Sigma_W^{-1}$ (numerator/leak leg, giving the
 $Q$-Schur complement $\Gamma-HQH^{\!\top}$ since
@@ -1330,7 +1330,7 @@ every $\Delta$.
 \end{lemma}
 
 \begin{hypothesis}[(H$^{\ast\ast}$) --- the cross-block read at
-dyadic-chain optimizers; hard, load-bearing]
+dyadic-chain optimizers; hard, essential]
 \label{hyp:hstarstar}
 Fix $\Delta$ and a base window length $n$. At every optimizer of the
 dyadic chain $n\cdot2^k$, $k=0,1,2,\dots$, the cross-block read of the
@@ -1644,8 +1644,8 @@ coupled to $U^{b_2}$ the zero-claim is violated by $0.2223$ bits, and
 with the coupling confined to \emph{block-2 rows only} it is still
 violated by $0.0950$ bits --- in the latter case the violation is
 induced purely through the conditioning, with no block-1 record
-touching $U$ at all. So $U$-independence is load-bearing here in the
-same way it is load-bearing in Theorem~\ref{thm:repr}
+touching $U$ at all. So $U$-independence is essential here in the
+same way it is essential in Theorem~\ref{thm:repr}
 (Remark~\ref{rem:ulegs}), and for a third time.
 \end{remark}
 
@@ -1705,7 +1705,7 @@ $0.5654101216-0.4266326/24=0.5476338<0.5479448$: it \emph{fails} by
 $3.11\times10^{-4}$ (and by $2.757\times10^{-3}$ under (D)$+$(F)) ---
 so the enlarged constant makes the no-slack claim \emph{stronger} than
 at v0.5, where the base-24 shortfall was $4.7\times10^{-5}$. The
-hypothesis is genuinely load-bearing, and so is the choice of base
+hypothesis is genuinely essential, and so is the choice of base
 window. $\Delta=1$ and $\Delta=2$ remain
 $O(1/n)$-model-conditional: their constants are $2.7\times$ larger and
 their plateaus $3.6$/$18\times$ smaller, so a certified anchor at
@@ -1961,7 +1961,7 @@ results must not be conflated.
 \subsection{Step (A): periodization}
 
 \begin{hypothesis}[(IC) --- independent noise copies; a hypothesis of
-the \emph{construction}, load-bearing]
+the \emph{construction}, essential]
 \label{hyp:indcopies}
 In the periodization of Theorem~\ref{thm:period} the noise blocks of
 distinct translates are \emph{independent}: the tiled noise covariance
@@ -1993,7 +1993,7 @@ displayed reason. Measured boundary charge $0.04205/n$, flat to five
 digits at the certified optimizers.
 \end{namedthm}
 
-\begin{remark}[R7 --- (IC) is load-bearing, not decorative]
+\begin{remark}[R7 --- (IC) is essential, not decorative]
 \label{rem:R7}
 Correlating the noise copies \emph{breaks} Theorem~\ref{thm:period}
 outright. At cross-block noise correlation $0.3/0.6/0.9$ the tiled
@@ -2107,7 +2107,7 @@ that attribution here too (GO-P-2026-074, attribution amendment dated
 2026-08-07): \emph{the lift into the moment chart is the program's
 contribution, not the convexity}.
 
-\emph{(3b) (III) is convex --- the load-bearing step of this route.}
+\emph{(3b) (III) is convex --- the essential step of this route.}
 \textbf{The mechanism is classical and no novelty is claimed for it}:
 that a prediction-error variance is concave in the spectral density
 \emph{precisely because} it is an infimum, over frozen predictors, of
@@ -2222,7 +2222,7 @@ an artefact of the date range --- that literature is 1983--85, before
 arXiv --- and are \emph{not} quoted here as a null set.
 
 \emph{The genuinely defensible point.} \textbf{The moment chart is
-load-bearing.} The same functional is \emph{non-convex in record
+essential.} The same functional is \emph{non-convex in record
 coordinates} --- $1206/3960$ negative second differences, with a
 directed search reaching $-23.4$ --- so \textbf{the choice of chart,
 not the convexity machinery, is the contribution}.
@@ -2471,7 +2471,7 @@ no kernel-summability and no window length.
 \textbf{This is the class in Corollary~\ref{cor:onedir}, in
 Theorem~\ref{thm:cert} and in Theorem~\ref{thm:D}, in that same form each
 time.} (R-IND-5 restatement F10: earlier revisions left this class to an
-unqualified clause that was doing load-bearing work in three separate places.
+unqualified clause that was doing essential work in three separate places.
 The identification was re-derived rather than taken: Theorem~\ref{thm:cert}'s
 dual is an infimum over $\{h,\,n>0\}$ per frequency with no further
 restriction, so the 082 bracket brackets exactly this $\Psi$;
@@ -2654,7 +2654,7 @@ decoration.
 necessary; this supersedes (R12)]
 \label{rem:R24}
 The earlier text called $Q\succeq0$ and $R=P-Q\succeq0$ ``both
-load-bearing''. That is too strong, and the evidence separates them.
+essential''. That is too strong, and the evidence separates them.
 \textbf{$R=P-Q\succeq0$ is demonstrated necessary}: the $R$-breaking
 control $Q'=1.3P$ violates the statement, $165/645$ and $185/505$ on a
 second seed (this document's re-run: $198/673$, worst $+2.14$).
@@ -2684,7 +2684,7 @@ is \emph{affine} in $x$ and satisfies $\hat s\ge s$ \emph{always}.
 \textbf{This definition is now used twice}: inside the certificate of
 Theorem~\ref{thm:cert}, and --- as the inf-of-affine representation of
 the leak pivots --- in step~(3b) of Theorem~\ref{lem:R1}, where it is
-the load-bearing step.
+the essential step.
 \end{definition}
 
 \begin{remark}[R11 --- admissibility is a hypothesis, not an adjective]
@@ -3611,7 +3611,7 @@ so the Fej\'er means of the two signal kernels converge in $L^2$ \emph{with no
 cap at all}. No statement below depends on Lemma~\ref{lem:Bprime}.
 \end{lemma}
 
-\begin{lemma}[C$'$ --- the white-noise floor; \emph{load-bearing}]
+\begin{lemma}[C$'$ --- the white-noise floor; \emph{essential}]
 \label{lem:Cprime}
 Adding $\delta$ white noise to a feasible record is \emph{affine} in
 distortion, \emph{helps} $\langle\ln n\rangle$, and raises $\sigma$ by at most
@@ -3620,7 +3620,7 @@ $\Psi(D;\Delta)$ is unchanged if the class of
 Definition~\ref{def:psiclass} is further restricted to records with
 $n\ge\nu>0$, and \textbf{no convexity is used} (the earlier convex-mixing
 regularisation is unnecessary).
-\textbf{(F4c) This lemma is what is load-bearing}, and the control has power:
+\textbf{(F4c) This lemma is what is essential}, and the control has power:
 on a feasible family whose noise is \emph{not} bounded below, the Fej\'er
 error in $\langle\ln n\rangle$ does \emph{not} vanish --- at
 $\nu=3.100\times10^{-6}$ it is $0.371$, against $9.9\times10^{-4}$ at
@@ -3655,7 +3655,7 @@ from convexity of the value function (Remark~\ref{rem:feas}); the proof picks
 a near-optimal record at a slightly \emph{smaller} distortion and needs the
 loss to vanish as the shift does.
 \item[(c)] \textbf{Lemma~\ref{lem:Cprime}} (the floor), which is
-load-bearing.
+essential.
 \item[(d)] \textbf{Lemma~\ref{lem:Bprime} (the cap) is \emph{not} a
 hypothesis: it is deleted from this proof} --- feasibility alone supplies the
 $L^2$ bounds quoted there.
@@ -3834,7 +3834,7 @@ Two bookkeeping corrections, both on record.
 \emph{(i)} The correct reference to Lemma~\ref{lem:W} in any chain below is
 \textbf{``steps~(1)--(4), with~(3) carrying the classical citation,
 and~(5) superseded by Lemma~\ref{lem:M}''}. Writing ``Lemma~W(1,2,4)''
-\emph{undercounts}: \textbf{step~(3) is load-bearing} and carries the only
+\emph{undercounts}: \textbf{step~(3) is essential} and carries the only
 analytic input that is cited rather than re-proved, namely the standard
 rational-spectral-factorization/Riccati fact \cite{bib:am79,bib:ksh00}. Its
 hypotheses were re-verified independently and hold: the joint $(S,R)$ spectrum
@@ -4260,7 +4260,7 @@ notions of \S\ref{sec:twoadm} (Definition~\ref{def:admA} beside
 Definition~\ref{def:adm}, F2), Lemma~\ref{lem:Aprime} with its Hilbert-space
 proof and the six admissibility controls of Remark~\ref{rem:F3} (F1, F3,
 F14), Lemma~\ref{lem:Bprime} as a \emph{recorded} a-priori fact and
-Lemma~\ref{lem:Cprime} as the load-bearing one (F4c, F4d),
+Lemma~\ref{lem:Cprime} as the essential one (F4c, F4d),
 Theorem~\ref{thm:D} with its printed hypothesis list (F4) and
 Remark~\ref{rem:F12} (F12), Remark~\ref{rem:F5F8} (F5--F8) and
 Lemma~\ref{lem:M} (F9), Remarks~\ref{rem:F11} (F11) and~\ref{rem:F13} (F13),
@@ -4281,7 +4281,7 @@ rung to $L=200$, \emph{root-free} Fej\'er--Riesz realisability, the
 $\Theta(L^{-2})$ rate, the exact preservation of $\langle n\rangle$, and the
 root-finding route gated as a must-fail control at $L=128$ (F12); s4 the cap
 dispensable (the $L^2$ bounds from feasibility alone) and the floor
-load-bearing (the $\langle\ln n\rangle$ error that does \emph{not} vanish at
+essential (the $\langle\ln n\rangle$ error that does \emph{not} vanish at
 $\nu\approx3\times10^{-6}$); s5 Lemma~\ref{lem:M} --- the exact distortion
 identity rebuilt from primitives with the edge cell at $1+\varepsilon$
 exactly, $D$-feasibility with no rescale, and the \emph{three must-fail
