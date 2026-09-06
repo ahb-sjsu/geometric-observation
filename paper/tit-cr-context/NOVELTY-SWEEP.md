@@ -62,15 +62,23 @@ by fetch (wrong arXiv ID on the one attempt; no search budget to find the right
 one), so a low-but-nonzero scoop risk on the Gaussian region remains until the
 owner checks the papers named below.
 
-**Recommended action (one paragraph in Related Work):** cite and distinguish
-Yamamoto (rate-distortion with secrecy, 1988/1997), Villard-Piantanida (secure
-multiterminal source coding with side information at the eavesdropper, IEEE T-IT
-2013), Schieler-Cuff (rate-distortion theory for secrecy systems, IEEE T-IT
-2014), and Prabhakaran-Ramchandran (source coding with a helper/eavesdropper);
-state that (a) `H(M|S)` here is message equivocation priced as erasure cost, not
-source secrecy maximized; (b) the encoder observes clean context; (c) the exact
-Gaussian rate-content region, the misalignment dichotomy, and non-determination
-are new relative to that line.
+**Recommended action (one paragraph in Related Work): DONE 2026-09-06.** Added a
+"security reading" paragraph to the Related Work section citing Yamamoto (Shannon
+cipher system, `yamamoto1997`), Villard-Piantanida (secure source coding with SI
+at the eavesdropper, `villard2013`), and Schieler-Cuff (rate-distortion theory
+for secrecy systems, `schieler2014`), drawing the distinction: (a) `H(M|S)` is
+the equivocation of the DESCRIPTION, minimized as erasure cost, not source
+secrecy maximized; (b) the encoder observes clean context `V`; (c) Thm-region,
+Cor-misalign, and Cor-notmarginal are, to our knowledge, new relative to this
+line. Rebuild verified: 35 pp, 0 undefined, 0 overfull. **TWO THINGS STILL
+OWED:** (i) the three new bibitems carry `% verify vol/no/pp/year before
+submission` flags -- confirm the citation details against the real records (I
+could not this session: search budget exhausted, and one WebFetch by guessed
+arXiv id returned the wrong paper); (ii) the live scoop-check below still must be
+run to confirm none of that line already gives the augmented Gaussian region.
+Prabhakaran-Ramchandran (source coding with a helper/eavesdropper) was NOT cited
+(kept the paragraph to three well-identified references); add it if the live
+search shows it is closer than the three.
 
 ## 4. Secondary risk (framing, not prior art)
 

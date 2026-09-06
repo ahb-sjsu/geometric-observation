@@ -286,6 +286,26 @@ refinement and to tuples of vector sources. These results enter this
 paper only at one corner of the attainment condition in
 Section~\ref{sec:floor}.
 
+The priced coordinate also has a security reading. Because $L$ is the
+normalized conditional entropy $H(M\mid S^n)/n$ of the stored description given
+the third party's observation, it is the equivocation of that description at a
+party holding the noisy context, and rate--distortion problems under a secrecy
+constraint form a long line. Yamamoto priced distortion against the equivocation
+of the source in the Shannon cipher system \cite{yamamoto1997}, Villard and
+Piantanida characterized secure source coding with side information at the
+eavesdropper \cite{villard2013}, and Schieler and Cuff developed a
+rate--distortion theory for secrecy systems \cite{schieler2014}. Two structural
+differences separate the present problem from that line. Those results price the
+equivocation of the \emph{source} and, under a secrecy requirement, seek to make
+it large, whereas $L$ is the equivocation of the \emph{description} and is made
+small, as the cost of a conditional reset rather than a secrecy guarantee. And
+the encoder here observes the clean context $V$, an access the
+eavesdropper-side-information models do not grant. The exact Gaussian
+rate--content region (Theorem~\ref{thm:region}), the strict-misalignment
+dichotomy (Corollary~\ref{cor:misalign}), and the non-determination by the
+reduced marginal (Corollary~\ref{cor:notmarginal}) are, to our knowledge, new
+relative to this line.
+
 The thermodynamic reading of $L$ rests on Landauer's principle
 \cite{landauer1961} and its conditional sharpenings
 \cite{delrio2011,faist2015}; Remark~\ref{rem:thermo} states the reading
@@ -3463,6 +3483,18 @@ vol. 60, no. 6, pp. 3218--3237, 2014.
 ``Heegard-Berger and cascade source coding problems with common reconstruction
 constraints,'' \emph{IEEE Trans. Inf. Theory}, vol. 59, no. 3,
 pp. 1458--1474, 2013.
+\bibitem{yamamoto1997} H. Yamamoto, ``Rate-distortion theory for the Shannon
+cipher system,'' \emph{IEEE Trans. Inf. Theory}, vol. 43, no. 3, pp. 827--835,
+1997.
+% verify vol/no/pp/year before submission
+\bibitem{villard2013} J. Villard and P. Piantanida, ``Secure multiterminal
+source coding with side information at the eavesdropper,'' \emph{IEEE Trans.
+Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.
+% verify vol/no/pp/year before submission
+\bibitem{schieler2014} C. Schieler and P. Cuff, ``Rate-distortion theory for
+secrecy systems,'' \emph{IEEE Trans. Inf. Theory}, vol. 60, no. 12,
+pp. 7584--7605, 2014.
+% verify vol/no/pp/year before submission
 \bibitem{xiaoluo2005} J.-J. Xiao and Z.-Q. Luo, ``Compression of correlated
 Gaussian sources under individual distortion criteria,'' in \emph{Proc. 43rd
 Allerton Conf. Commun., Control, Comput.}, Monticello, IL, 2005,
