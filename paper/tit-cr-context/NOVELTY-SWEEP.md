@@ -126,6 +126,23 @@ REMOVED. Build 37 pp, 0 undefined/overfull. Bibitem lu2016lossy added (page rang
 carries a verify flag: read from the author PDF while DBLP was in maintenance).
 Only genuinely-remaining pre-submission item is the Steinberg 2009 binary
 institutional read (minor, decoder-SI comparison).
+
+**STEINBERG 2009 BINARY read -- VERIFIED VIA CROSS-SOURCE 2026-09-06.** Steinberg
+2009 ("Coding and Common Reconstruction," T-IT 55(11):4995-5010) is not available
+locally and is paywalled (search exhausted), so its original text was NOT read.
+But the paper's characterization of its binary example -- value $h(\rho_0*D)-h(D)$
+with a BSC($D$) reverse test channel, decoder SI = source through BSC($\rho_0$),
+Hamming distortion -- is CORROBORATED by the primary Lu et al. 2016 source we do
+have: their Remark 2 / eq (39) gives the $p_1=0$ (decoder-SI, Wyner-Ziv-under-CR)
+case as $\widetilde R^{CR}_{WZ}(D)=h(p_2*D)-h(D)$ ($\rho_0\leftrightarrow p_2$),
+and their Table I / eq (14) construction gives the BSC($D$) reverse channel; Lu
+et al. attribute the CR framework to Steinberg [6]. So the formula and the
+test-channel claim the manuscript makes about Steinberg's binary example are
+confirmed; the attribution rests on Lu's corroboration plus standard knowledge.
+No manuscript change needed (the claim is correct). A direct read of Steinberg
+2009's own text remains available belt-and-suspenders if the owner supplies the
+PDF (IEEE doc 5290311). This closes the sweep's remaining item to a reasonable
+standard for a secondary comparison.
 Prabhakaran-Ramchandran (source coding with a helper/eavesdropper) was NOT cited
 (kept the paragraph to three well-identified references); add it if the live
 search shows it is closer than the three.
