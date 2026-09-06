@@ -59,7 +59,7 @@ strict tradeoff persisting at the clean-context boundary. Third,
 non-determination: two instances whose $(Y,S)$ laws are equivalent up to
 bijective scaling have different $L$, so replacing the encoder's
 observation of $(Y,V)$ by its reduced relation to $S$ changes the
-operational problem, and the augmentation is load-bearing. The closed form
+operational problem, and the augmentation is essential. The closed form
 recovers the classical rate--distortion function at $\rho=0$ and Gray's
 conditional function as $\tau^2\to0$, and meets Steinberg's scalar
 Gaussian formula as $\rho^2\to1$. We further settle exactly when the
@@ -126,7 +126,7 @@ $(\rho,\tau^2)$; the known Gaussian solutions
 exact rate--content region with its strict misalignment dichotomy: the
 Pareto frontier is traced by a coupled two-water-level stationarity
 system, and within the strictly noisy model $\tau^2>0$ it is
-nondegenerate, so that rate and content genuinely trade off, exactly when
+nondegenerate, so that rate and content strictly trade off, exactly when
 $0<\rho^2<1$, with the tradeoff persisting at the clean-context boundary
 (Theorem~\ref{thm:region} and Corollary~\ref{cor:misalign}). Third,
 non-determination by the reduced marginal
@@ -833,7 +833,7 @@ context-noise parameter (a scalar, not to be confused with the random
 variable $S$). Throughout,
 $X$, $U$, and all channel randomness (including any resampling randomness
 below) are \emph{mutually} independent. This joint form of the independence
-assumption is load-bearing: it is exactly what the $S$-kernel argument in
+assumption is essential: it is exactly what the $S$-kernel argument in
 the next proof uses.
 
 From here on the Gaussian scope of Definition~\ref{def:problem} is in
@@ -2087,7 +2087,7 @@ So no functional of the $(Y,S)$
 joint law, in particular neither Steinberg's scalar formula evaluated on
 $(Y,S)$ nor Gray's, can equal $L$. This is no departure from Steinberg's
 functional, whose source here is the full pair $(Y,V)$; it shows the
-augmentation is load-bearing: the encoder's access to the clean context
+augmentation is essential: the encoder's access to the clean context
 $V$ enters the function.
 \end{corollary}
 
@@ -3101,7 +3101,7 @@ Theorem~\ref{thm:vector}, and the complete binary solution of
 Theorem~\ref{thm:binary}. The function degenerates to the classical
 rate--distortion function at $\rho=0$ and to Gray's conditional function as
 $\tau^2\to0$, and meets Steinberg's scalar Gaussian formula at the
-$\rho^2\to1$ boundary. The structural moral is
+$\rho^2\to1$ boundary. The structural conclusion is
 Corollary~\ref{cor:notmarginal}: the function is not determined by the
 reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
 description content is a property of the encoding configuration, not of the
@@ -3458,7 +3458,7 @@ independently of the derivations, symbolically by exact computer algebra
 and numerically against direct optimization over test-channel moments,
 twice over: by the author's harness, written alongside the proofs, and
 by a separately commissioned re-derivation, archived with the
-repository. All checks pass. The load-bearing scalar algebra is
+repository. All checks pass. The core scalar algebra is
 additionally machine-checked in two further engines, a Lean~4/Mathlib
 module built clean with zero \texttt{sorry} and the MATLAB Symbolic
 toolbox. The matrix-general exhaustion lemma, the measure-theoretic
