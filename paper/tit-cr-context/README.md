@@ -1,11 +1,11 @@
 # Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context
 
-**→ [Read the paper (PDF, 35 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
+**→ [Read the paper (PDF, 37 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
 
 The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
-IEEE Transactions on Information Theory submission. Single author. 35 pp.
+IEEE Transactions on Information Theory submission. Single author. 37 pp.
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
@@ -206,7 +206,7 @@ collide; the paper states the far branch `D > 1 − ρ²` separately.
 # manuscript (run twice for cross-references)
 pdflatex -interaction=nonstopmode tit-cr-context.tex
 pdflatex -interaction=nonstopmode tit-cr-context.tex
-# expect: 35 pages, zero undefined references, zero overfull hboxes
+# expect: 37 pages, zero undefined references, zero overfull hboxes
 
 # cover letter
 pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 1 page
@@ -218,6 +218,7 @@ python verifier_num_checks.py     # 42 numeric,  independently commissioned
 
 # figures (regenerate PDFs and PNGs; each prints the numbers its caption quotes)
 python plot_frontier.py
+python plot_frontier_multi.py
 python plot_notmarginal.py
 python plot_binary.py
 
@@ -251,10 +252,12 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | `verifier_sym_checks.py`, `verifier_num_checks.py` | Re-derivation commissioned without access to the derivations or to the first harness. 46 + 42 checks. |
 | `matlab_checks.m` | MATLAB Symbolic cross-check, 11 checks. |
 | `plot_frontier.py` → `frontier.pdf/.png` | Fig 2: Pareto frontier at `(ρ², τ², D) = (0.75, 0.5, 0.3)`. |
-| `plot_notmarginal.py` → `notmarginal.pdf/.png` | Fig 3: the two non-determination instances contrasted. |
-| `plot_binary.py` → `binary.pdf/.png` | Fig 4: binary tilt root, objective, and rate–content frontier. |
+| `plot_frontier_multi.py` → `frontier_multi.pdf/.png` | Fig 3: the frontier at ρ² = 0.2, 0.5, 0.8 (fixed τ² = 0.5, D = 0.3), with the endpoint gaps. Added in the September 2026 revision. |
+| `plot_notmarginal.py` → `notmarginal.pdf/.png` | Fig 4: the two non-determination instances contrasted. |
+| `plot_binary.py` → `binary.pdf/.png` | Fig 5: binary tilt root, objective, and rate–content frontier. |
 | `VERIFICATION.md` | Full script inventory and what each check covers. |
 | `EXTRACTION-PLAN.md` | Provenance and the complete revision log, M1 through M9. |
+| `NOVELTY-SWEEP.md` | The September 2026 prior-art screen: what was checked, the Lu et al. comparison, and the outcomes. |
 | `readme-figs/*.mmd`, `*.png` | Sources and static renderings of this file's three diagrams. The mermaid blocks below each heading are authoritative; the PNGs are fallbacks for viewers that do not render mermaid. |
 
 Figure 1 (the system diagram) is TikZ inline in the `.tex`, not a separate file.
@@ -269,6 +272,7 @@ Every one is printed by a script; none is transcribed by hand.
 | Quantity | Value | Source |
 |---|---|---|
 | Frontier endpoint excesses at `(0.75, 0.5, 0.3)` | `0.0400` and `0.0349` bits | `plot_frontier.py` |
+| Frontier gaps at `ρ² = 0.2 / 0.5 / 0.8` (`τ² = 0.5, D = 0.3`) | ΔR `0.021 / 0.044 / 0.035`, ΔL `0.017 / 0.036 / 0.031` bits | `plot_frontier_multi.py` |
 | Largest excesses over the interior box | `ΔR = 0.1138`, `ΔL = 0.0770` bits | `verify_converses.py` N11 |
 | Rate excess near the clean-context boundary | `1.537` bits at `τ² = 10⁻³`, and unbounded | N11 |
 | Content-excess saturation there | `½ log₂(1+ρ²)` | N11 |
@@ -298,9 +302,12 @@ records each round.
 
 ## Before submission (owner only)
 
-- [ ] Steinberg 2009 binary example, institutional read
-- [ ] Lu et al., WCSP 2016, institutional read
-- [ ] Chen et al. (arXiv:2607.09545) — re-check for an Xplore record; currently cited as to be published
-- [ ] Re-run the novelty sweep at submission time (house rule)
-- [ ] Decide the Section VI split-out question raised in external review
+A prior-art screen was run in September 2026 (`NOVELTY-SWEEP.md`) and the
+manuscript was revised for it. Status of the earlier gates:
+
+- [x] Novelty sweep — done (`NOVELTY-SWEEP.md`); Gaussian results survive
+- [x] Lu et al. 2016 — read (the "Binary Lossy Coding…" paper, the reviewer's IEEE 7752468, distinct from the Heegard–Berger companion 7752469). The binary `L(D)` **coincides** with their common-reconstruction rate; it is credited in Appendix D, and the binary contribution is the joint `(R,L)` frontier
+- [x] Chen et al. (arXiv:2607.09545) — re-checked; still a preprint, cited as such; not a core competitor (vector-Gaussian RDF with individual distortion constraints)
+- [x] Steinberg 2009 binary — verified via the Lu cross-source (their Remark 2 gives the same `h(ρ₀·D)−h(D)`); a direct-text read of IEEE 5290311 is optional
+- [ ] Final owner read of the revised Sections II and VIII and the new Appendix D
 - [ ] Upload to ScholarOne with `cover-letter-tit.pdf`
