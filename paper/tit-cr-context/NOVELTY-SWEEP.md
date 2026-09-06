@@ -1,0 +1,99 @@
+# Novelty sweep — partial (2026-09-06)
+
+**Scope and honest limitation.** This is a delineation analysis plus targeted
+record checks, NOT a live literature crawl: the web-search budget was exhausted
+this session, so the open-ended "is there a 2024-2026 paper that pre-empts the
+augmented region" question is left as owner search items below, with exact
+queries. What was done: (1) audited the manuscript's own prior-art delineation,
+(2) fetched and characterized the closest flagged preprint, (3) identified one
+literature line the paper does not engage.
+
+## 1. The manuscript's existing delineation is strong
+
+The paper already carries a theorem-level "nearest prior" comparison table and a
+Related Work section that positions against the correct core line: Gray's
+conditional RDF (`gray1972tr,gray1973`, the `tau^2 -> 0` anchor), Steinberg's
+common-reconstruction functional (`steinberg2009`, which `min I(X;\hat X | S)`
+equals), the Lapidoth-Malar-Wigger augmentation device (`lapidoth2014`, Remark 8,
+credited for the encoder-pair-access idea), Wyner-Ziv (`wynerziv1976`, proof
+device only), Kaspi (`kaspi1994`), Heegard-Berger (`heegardberger1985`), Ahmadi
+et al. (`ahmadi2013`), the Xiao-Luo / Lapidoth-Tinguely / Nayak / Stylianou floor
+line, Gaussian IB (`chechik2005`), and the Landauer thermodynamic line. This is
+more thorough than most T-IT submissions and is a genuine strength; the claimed
+deltas (exact Gaussian closed form of the AUGMENTED functional; the 2-D
+rate-content region with two water levels; the misalignment dichotomy; the
+non-determination corollary) are stated against named priors.
+
+## 2. Verified by direct fetch: Chen et al. is not a core competitor
+
+`chen2026` = arXiv:2607.09545, Chen, Gao, Shi, Wu, Caire, Poor, Zhang (2026),
+"On the Gaussian-Quadratic Rate-Distortion Function for Vector Sources with
+Individual Distortion Constraints." It is vector Gaussian RDF under per-component
+distortion constraints (Hadamard-bound tightness), with no conditional content,
+side information, common reconstruction, or encoder-observed context. The
+manuscript cites it correctly, for the vector/floor comparison only (near
+Theorem 24), not the core. Status: still an arXiv preprint (submitted 2026-07-10),
+so no IEEE Xplore record yet -> keep the "to be published"/arXiv citation. This
+closes the README checklist item "Chen et al. re-check for an Xplore record"
+(answer: none yet).
+
+## 3. THE GAP: the rate-distortion-equivocation / secure-source-coding line
+
+The paper's priced quantity is `L = H(M | S^n)/n`, the conditional entropy of the
+stored description given a third party's noisy copy `S = V + U`. The manuscript
+motivates this thermodynamically (Landauer erasure work) and positions it only
+through Steinberg's common-reconstruction tradition. But mathematically
+`H(M | S)` is the **equivocation of the transmitted description at a party holding
+noisy side information**, and there is an entire information-theoretic-security
+line on rate-distortion-equivocation and secure source coding with side
+information at an eavesdropper that the manuscript does not cite. A T-IT referee
+from that community will recognize `H(M|S)` as equivocation and expect it engaged.
+Currently the manuscript contains no reference to it (grep: no equivocation,
+secrecy, secure, wiretap, eavesdropper, Yamamoto, Villard, Piantanida, Schieler,
+Cuff, Prabhakaran; one incidental "no-leakage condition" at a technical step).
+
+**Assessment: likely a delineation gap, not a scoop** — those results typically
+price equivocation of the SOURCE `H(X^n | Z, M)` and maximize secrecy, whereas
+this paper prices the DESCRIPTION's entropy `H(M|S)` and minimizes it as an
+erasure cost, with the encoder observing the clean context and an exact Gaussian
+region as the deliverable. That distinction is real and defensible, but it must
+be drawn explicitly. I could not confirm the closest secrecy paper's exact region
+by fetch (wrong arXiv ID on the one attempt; no search budget to find the right
+one), so a low-but-nonzero scoop risk on the Gaussian region remains until the
+owner checks the papers named below.
+
+**Recommended action (one paragraph in Related Work):** cite and distinguish
+Yamamoto (rate-distortion with secrecy, 1988/1997), Villard-Piantanida (secure
+multiterminal source coding with side information at the eavesdropper, IEEE T-IT
+2013), Schieler-Cuff (rate-distortion theory for secrecy systems, IEEE T-IT
+2014), and Prabhakaran-Ramchandran (source coding with a helper/eavesdropper);
+state that (a) `H(M|S)` here is message equivocation priced as erasure cost, not
+source secrecy maximized; (b) the encoder observes clean context; (c) the exact
+Gaussian rate-content region, the misalignment dichotomy, and non-determination
+are new relative to that line.
+
+## 4. Secondary risk (framing, not prior art)
+
+The nearest prior is Steinberg CR + LMW Remark 8, which already identify the
+augmented functional in the abstract. A referee could frame the Gaussian closed
+form as an evaluation of a known object. Mitigation is already in the paper's
+structure: lead the contribution with the 2-D region (Thm 16), the misalignment
+dichotomy (Cor 19), and non-determination (Cor 21), which are new phenomena, not
+with the closed form alone. Keep the abstract and intro weighted that way.
+
+## 5. Owner search items (need live search; run at submission)
+
+Exact queries to run (Google Scholar / IEEE Xplore / arXiv):
+- "rate distortion equivocation" side information eavesdropper Gaussian
+- "secure source coding" "side information" eavesdropper region  (Villard Piantanida)
+- "rate-distortion" secrecy systems  (Schieler Cuff 2014) — read the Gaussian case
+- Yamamoto rate distortion secrecy 1997 — the scalar/Gaussian result
+- conditional content OR "message equivocation" "common reconstruction" Gaussian  (2023-2026)
+- "encoder observed context" OR "encoder side information" "common reconstruction" region
+- Steinberg 2009 binary example — institutional read (README item, still open)
+- Lu et al., WCSP 2016 — institutional read (README item, still open); resolve exact title
+
+Goal of the sweep: confirm no existing result already gives the exact Gaussian
+augmented rate-content region (Thm 16) or the misalignment dichotomy (Cor 19). If
+clean, the paper's novelty stands; the only required manuscript change is the
+Related Work paragraph in section 3 above.
