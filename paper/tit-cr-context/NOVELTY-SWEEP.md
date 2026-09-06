@@ -70,12 +70,16 @@ for secrecy systems, `schieler2014`), drawing the distinction: (a) `H(M|S)` is
 the equivocation of the DESCRIPTION, minimized as erasure cost, not source
 secrecy maximized; (b) the encoder observes clean context `V`; (c) Thm-region,
 Cor-misalign, and Cor-notmarginal are, to our knowledge, new relative to this
-line. Rebuild verified: 35 pp, 0 undefined, 0 overfull. **TWO THINGS STILL
-OWED:** (i) the three new bibitems carry `% verify vol/no/pp/year before
-submission` flags -- confirm the citation details against the real records (I
-could not this session: search budget exhausted, and one WebFetch by guessed
-arXiv id returned the wrong paper); (ii) the live scoop-check below still must be
-run to confirm none of that line already gives the augmented Gaussian region.
+line. Rebuild verified: 35 pp, 0 undefined, 0 overfull. **Citation details VERIFIED
+2026-09-06** against DBLP (via curl; the WebFetch/DBLP-API 503'd, curl with a
+normal UA worked): all three exact, `% verify` flags removed:
+- Yamamoto, IEEE T-IT 43(3):827--835, 1997, doi 10.1109/18.568694.
+- Villard & Piantanida, IEEE T-IT 59(6):3668--3692, 2013, doi 10.1109/TIT.2013.2245394.
+- Schieler & Cuff, IEEE T-IT 60(12):7584--7605, 2014, doi 10.1109/TIT.2014.2365175.
+(DOIs recorded here for provenance; not added to the bibitems, matching the
+manuscript's convention of omitting DOIs on published journal entries.)
+**ONE THING STILL OWED:** (ii) the live scoop-check below must be run to confirm
+none of that line already gives the augmented Gaussian region.
 Prabhakaran-Ramchandran (source coding with a helper/eavesdropper) was NOT cited
 (kept the paragraph to three well-identified references); add it if the live
 search shows it is closer than the three.
