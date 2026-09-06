@@ -78,8 +78,40 @@ normal UA worked): all three exact, `% verify` flags removed:
 - Schieler & Cuff, IEEE T-IT 60(12):7584--7605, 2014, doi 10.1109/TIT.2014.2365175.
 (DOIs recorded here for provenance; not added to the bibitems, matching the
 manuscript's convention of omitting DOIs on published journal entries.)
-**ONE THING STILL OWED:** (ii) the live scoop-check below must be run to confirm
-none of that line already gives the augmented Gaussian region.
+**LIVE SCOOP-CHECK RUN 2026-09-06 (external reviewer screen through 2026-09-06).**
+Result: the Gaussian core survives; the BINARY endpoint (Thm 27) is unsafe.
+Applied to the manuscript this session (all reviewer "immediate changes"):
+- Gaussian quadratic (Thm 13), joint frontier + misalignment dichotomy (Thm 16 /
+  Cor 19), non-determination (Cor 21): survive; retained. "no water-filling"
+  softened to "we are unaware of a prior derivation of this coupled frontier".
+- Pair sufficiency (Thm 9): recast as a distortion-preserving specialization of
+  Armstrong 2026 (arXiv:2604.26744, source-side sufficiency for the IB); cited;
+  intro "everything ... is new" qualified accordingly.
+- BINARY (Thm 27): nearest prior is Lu, Xu, Qian, Wang, "The binary
+  Heegard-Berger problem with encoder side information and common reconstruction
+  constraints," WCSP 2016 (encoder SI + CR = the real overlap). Table I row
+  replaced; the p.30 "nearest = decoder-SI" claim replaced with the Lu et al.
+  paragraph; abstract "solve the DSBS case completely" recast to "give the joint
+  rate-content frontier"; binary contribution recast around the tilt + joint
+  (R,L) frontier (Remark 28), which appears to survive. Appendix app:lucompare
+  added as a SCAFFOLD (relabeling X_Lu<->Y, S_enc<->V, S_dec<->S fixed; the
+  formula-by-formula identification of their value with L(D) at q=0 is NOT
+  asserted).
+- Added: Guler-MolavianJazi-Yener ISIT 2015 (remote source coding w/ two-sided
+  info) as the non-CR baseline; Meidlinger-Winkelbauer-Matz SSP 2014 (Gaussian
+  IB <-> MSE RD quantization); Lu-Xu WCSP 2021 (vector Gaussian HB w/ CR) as the
+  vector counterpart, limit-correspondence noted not resolved. All 5 new cites
+  from DBLP canonical records. Rebuild: 36 pp, 0 undefined, 0 overfull, all cites
+  + app:lucompare resolve.
+
+**STILL OWED (owner, load-bearing, needs closed-access WCSP 2016):** obtain Lu et
+al. 2016 full text and complete the app:lucompare formula-by-formula comparison;
+either confirm Thm 27's q=0 endpoint is inherited (and keep the paper's binary
+claim scoped to the joint frontier / tilt) or withdraw the endpoint novelty. Do
+NOT submit until this is done -- the appendix carries an explicit OWNER TODO
+comment. Also still open: the two institutional reads (Steinberg 2009 binary; the
+Lu et al. paper itself), and confirm whether IEEE 7752468 is a second distinct Lu
+et al. 2016 item beyond the WCSP conference paper DBLP lists.
 Prabhakaran-Ramchandran (source coding with a helper/eavesdropper) was NOT cited
 (kept the paragraph to three well-identified references); add it if the live
 search shows it is closer than the three.

@@ -63,9 +63,10 @@ operational problem, and the augmentation is load-bearing. The closed form
 recovers the classical rate--distortion function at $\rho=0$ and Gray's
 conditional function as $\tau^2\to0$, and meets Steinberg's scalar
 Gaussian formula as $\rho^2\to1$. We further settle exactly when the
-natural determinant lower bound is attained, and solve the doubly
-symmetric binary case completely through a tilt equation anchored at
-Gray's function and the marginal rate--distortion function.
+natural determinant lower bound is attained, and give the joint
+rate--content frontier of the doubly symmetric binary case through a tilt
+equation anchored at Gray's function and the marginal rate--distortion
+function.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -180,10 +181,10 @@ $H(M\mid S^n)/n$ is characterized by a proved coding theorem
 the thermodynamic reading is confined to Remark~\ref{rem:thermo}, one
 consequence of that theorem. The proof
 machinery is classical, but the solved augmented optimization and its
-joint region are, to our knowledge, new: no water-filling in this
-literature carries two coupled levels tied by a common distortion
-constraint, and the quadratic of Section~\ref{sec:function} does not
-appear in it.
+joint region are, to our knowledge, new: we are unaware of a prior
+derivation of this particular coupled frontier, in which two levels are
+tied by a common distortion constraint, and the quadratic of
+Section~\ref{sec:function} does not appear in the literature we surveyed.
 
 \begin{table}[!t]
 \caption{Theorem-level comparison with the nearest prior results.}
@@ -218,11 +219,14 @@ Determinant-bound attainment (Theorem~\ref{thm:floor}) & Xiao--Luo
 \cite{xiaoluo2005}; Chen et al. \cite{chen2026} & Rate-only exactness of
 the determinant bound, without a conditioner & A conditioner present;
 attainment governed by $\Sigma_{Y\mid V}$, not $\Sigma_{Y\mid S}$\\
-Binary function (Theorem~\ref{thm:binary}) & Steinberg's binary example
-\cite{steinberg2009}; Ahmadi et al. \cite{ahmadi2013} & Decoder-SI CR
-values: BSC and erased-SI formulas & Third-party conditioner and encoder
-pair access; a tilt equation interpolating Gray at $q=0$ to the marginal
-RDF at $q=\tfrac12$\\
+Binary function (Theorem~\ref{thm:binary}) & Lu \emph{et al.}
+\cite{lu2016binary}; Steinberg \cite{steinberg2009}; Ahmadi et al.
+\cite{ahmadi2013} & Binary Heegard--Berger with encoder side information
+and common reconstruction \cite{lu2016binary}; decoder-SI CR values
+\cite{steinberg2009,ahmadi2013} & Third-party conditioner; the joint
+$(R,L)$ frontier and its tilt parametrization interpolating Gray at $q=0$
+to the marginal RDF at $q=\tfrac12$; the conditional endpoint is compared
+with \cite{lu2016binary} in Appendix~\ref{app:lucompare}\\
 \hline
 \end{tabular}
 \end{table}
@@ -284,7 +288,13 @@ G\"und\"uz, and Erkip \cite{nayak2010} and Stylianou, Charalambous,
 and Charalambous \cite{stylianou2021} extended the line to successive
 refinement and to tuples of vector sources. These results enter this
 paper only at one corner of the attainment condition in
-Section~\ref{sec:floor}.
+Section~\ref{sec:floor}. The closest common-reconstruction counterpart is
+Lu and Xu's vector Gaussian Heegard--Berger problem with common
+reconstructions \cite{luxu2021}, posed under positive diagonal
+error-covariance constraints; its single-decoder, unpenalized-coordinate
+limit is the natural point of contact with the conditioner-governed
+attainment of Section~\ref{sec:floor}, a correspondence we note but do not
+resolve here.
 
 The priced coordinate also has a security reading. Because $L$ is the
 normalized conditional entropy $H(M\mid S^n)/n$ of the stored description given
@@ -314,8 +324,17 @@ and its scope, the paper's only physical claim. Task-based quantization
 \cite{gunduz2023} also price descriptions by a downstream objective
 rather than by reconstruction alone; the structural difference here is
 the party that holds the conditioning variable and the party that pays
-for it. The relation to the information bottleneck
-\cite{tishby1999} is exact and worth stating. For any channel with
+for it. A non-common-reconstruction baseline is remote source coding with
+two-sided information \cite{guler2015}, in which the reconstruction may
+depend on decoder side information; that freedom is exactly what the
+common-reconstruction constraint removes, and it is what makes $S$ a pure
+conditioner here rather than a reconstruction resource. The relation to the information bottleneck
+\cite{tishby1999} is exact and worth stating; Meidlinger, Winkelbauer,
+and Matz \cite{meidlinger2014} connected the Gaussian information
+bottleneck to mean-square rate--distortion quantization, a connection on
+the rate coordinate alone that does not carry the shared hard-distortion
+constraint or the conditional second coordinate priced here. For any
+channel with
 $\hY-(Y,V)-S$, writing $T=(Y,V)$, the weighted objective traced in
 Section~\ref{sec:region} collapses by the Markov chain:
 \begin{equation}
@@ -339,11 +358,16 @@ by the author, archived at the repository record of the title
 footnote. The operational region theorem for discrete sources
 (Section~\ref{sec:operational}) and its single-letterization appeared
 there, as did the scalar Gaussian corner used in
-Section~\ref{sec:function}. Everything from Section~\ref{sec:pair}
-onward is new here: pair sufficiency, the closed form, the region and
+Section~\ref{sec:function}. The material from Section~\ref{sec:pair}
+onward is developed here: pair sufficiency, the closed form, the region and
 its frontier, the determinant-bound exactness, vector context, the
-binary solution, and the Gaussian operational theorem of
-Appendix~\ref{app:gaussian}. The present paper supersedes the
+binary joint frontier, and the Gaussian operational theorem of
+Appendix~\ref{app:gaussian}. Two of these have close predecessors that we
+credit in place: the pair-sufficiency reduction of Section~\ref{sec:pair}
+is a distortion-preserving specialization of Armstrong's source-side
+sufficiency for the information bottleneck \cite{armstrong2026}, and the
+conditional endpoint of the binary case has a near neighbor in Lu
+\emph{et al.} \cite{lu2016binary}, compared in Appendix~\ref{app:lucompare}. The present paper supersedes the
 source-coding content of that record, which remains the archived
 evidence artifact.
 
@@ -867,6 +891,15 @@ $(X,\text{fresh noise})$ with the noise independent of $(X,U)$. The same
 computation applied to a $T$-channel directly gives
 $I(X;\hY\mid S)=I(T;\hY\mid S)$.
 \end{proof}
+
+This reduction is a distortion-preserving specialization of source-side
+sufficiency for the information bottleneck. Armstrong \cite{armstrong2026}
+establishes that a deterministic sufficient statistic $Z=\phi(T)$ with
+$C-Z-T$ leaves the bottleneck tradeoff unchanged at every blocklength;
+Theorem~\ref{thm:pair} is the case $Z=T=(Y,V)$, with the addition that the
+$T$-measurable mean-square distortion constraint is preserved, so the
+reduction holds for the constrained functional and not only the
+unconstrained bottleneck.
 
 \section{The Function: Scalar Context}
 \label{sec:function}
@@ -3001,8 +3034,15 @@ is a single corner. Fig.~\ref{fig:binary} traces the frontier at a
 representative instance.
 \end{remark}
 
-The nearest published binary calculations are common-reconstruction
-functions with decoder side information. Steinberg's binary example
+The nearest published binary calculation is the binary Heegard--Berger
+problem with encoder side information and common reconstruction of Lu,
+Xu, Qian, and Wang \cite{lu2016binary}, in which the encoder observes
+side information that may differ from the decoder's. Under the natural
+relabeling of their source and side-information variables, that model
+appears closely related to the conditional endpoint considered here;
+Appendix~\ref{app:lucompare} fixes the relabeling and identifies which
+endpoint results are inherited. Two further common-reconstruction
+calculations are decoder-side-information ones. Steinberg's binary example
 \cite{steinberg2009} evaluates the constrained functional for a binary
 symmetric pair: the decoder's side information is the source through a
 binary symmetric channel, the distortion is Hamming, the optimal
@@ -3022,7 +3062,9 @@ $(Y,V)$, and the constraint binds the unconditional Hamming error
 $\Pr[\hat Y\ne Y]$. The function is anchored at Gray's conditional
 function at $q=0$ and at the marginal rate--distortion function at
 $q=\tfrac12$, an interpolation with no counterpart in the
-decoder-side calculations. An encoder restricted to $Y$ alone faces
+decoder-side calculations; whether its $q=0$ conditional endpoint
+coincides with the value of \cite{lu2016binary} under the relabeling is
+settled in Appendix~\ref{app:lucompare}. An encoder restricted to $Y$ alone faces
 exactly the constrained problem of the pair $(Y,S)$, a binary
 symmetric pair with crossover $p*q$, and pays Steinberg's value there
 (the marginalization identity of Section~\ref{sec:function} is
@@ -3443,6 +3485,38 @@ pass\\
 \end{tabular}
 \end{table}
 
+\section{Comparison with the binary common-reconstruction function of Lu \emph{et al.}}
+\label{app:lucompare}
+% OWNER TODO: complete the formula-by-formula comparison after obtaining the
+% closed-access primary source (Lu, Xu, Qian, Wang, WCSP 2016). This appendix is
+% scaffolding: it fixes the relabeling and states what must be matched. Do not
+% submit until the identification below is either confirmed or the endpoint
+% novelty claim is withdrawn.
+
+Lu, Xu, Qian, and Wang \cite{lu2016binary} solve a binary Heegard--Berger
+problem with encoder side information and a common-reconstruction constraint.
+Their setting is matched to the conditional endpoint of
+Section~\ref{sec:binary} by the relabeling
+\[
+  X_{\mathrm{Lu}}\leftrightarrow Y,\qquad
+  S_{\mathrm{enc}}\leftrightarrow V,\qquad
+  S_{\mathrm{dec}}\leftrightarrow S ,
+\]
+under which their encoder-observed side information plays the role of the
+encoder's context $V$ and their decoder side information plays the role of the
+third party's copy $S$. At the conditional endpoint (content only) the present
+functional is $\min I(T;\hY\mid S)$ under $\hY-T-S$ with Hamming distortion on
+$Y$, the object their construction evaluates for the doubly symmetric binary
+source, so under this relabeling their setting appears to reproduce the
+conditional optimization here. The formula-by-formula identification of their
+reported value with $L(D)$ at $q=0$, and the delineation of which endpoint
+results are inherited, are to be completed against the primary source; the
+conference article is closed access and the identification is not asserted until
+it is checked. The joint $(R,L)$ frontier and the tilt parametrization of
+Remark~\ref{rem:binfrontier}, which price both coordinates at once, are not to
+our knowledge given by \cite{lu2016binary} and are the part of the binary
+contribution least affected by this comparison.
+
 \begin{thebibliography}{99}
 \bibitem{shannon1959} C. E. Shannon, ``Coding theorems for a discrete source
 with a fidelity criterion,'' in \emph{IRE Nat. Conv. Rec.}, 1959, pp. 142--163.
@@ -3489,7 +3563,24 @@ cipher system,'' \emph{IEEE Trans. Inf. Theory}, vol. 43, no. 3, pp. 827--835,
 source coding with side information at the eavesdropper,'' \emph{IEEE Trans.
 Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.\bibitem{schieler2014} C. Schieler and P. Cuff, ``Rate-distortion theory for
 secrecy systems,'' \emph{IEEE Trans. Inf. Theory}, vol. 60, no. 12,
-pp. 7584--7605, 2014.\bibitem{xiaoluo2005} J.-J. Xiao and Z.-Q. Luo, ``Compression of correlated
+pp. 7584--7605, 2014.\bibitem{armstrong2026} J. Armstrong, ``Source-side sufficiency for the
+information bottleneck: Exact reduction and finite-block equivalence,''
+arXiv:2604.26744, 2026.
+\bibitem{lu2016binary} J. Lu, Y. Xu, Y. Qian, and Q. Wang, ``The binary
+Heegard-Berger problem with encoder side information and common reconstruction
+constraints,'' in \emph{Proc. Int. Conf. Wireless Commun. Signal Process.
+(WCSP)}, 2016, pp. 1--5.
+\bibitem{luxu2021} J. Lu and Y. Xu, ``Vector Gaussian Heegard-Berger problem
+with common reconstructions,'' in \emph{Proc. Int. Conf. Wireless Commun. Signal
+Process. (WCSP)}, 2021, pp. 1--5.
+\bibitem{guler2015} B. G\"uler, E. MolavianJazi, and A. Yener, ``Remote source
+coding with two-sided information,'' in \emph{Proc. IEEE Int. Symp. Inf. Theory
+(ISIT)}, 2015, pp. 2176--2180.
+\bibitem{meidlinger2014} M. Meidlinger, A. Winkelbauer, and G. Matz, ``On the
+relation between the Gaussian information bottleneck and MSE-optimal
+rate-distortion quantization,'' in \emph{Proc. IEEE Workshop Statistical Signal
+Process. (SSP)}, 2014, pp. 89--92.
+\bibitem{xiaoluo2005} J.-J. Xiao and Z.-Q. Luo, ``Compression of correlated
 Gaussian sources under individual distortion criteria,'' in \emph{Proc. 43rd
 Allerton Conf. Commun., Control, Comput.}, Monticello, IL, 2005,
 pp. 438--447.
