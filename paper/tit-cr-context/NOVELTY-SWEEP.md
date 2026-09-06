@@ -104,14 +104,28 @@ Applied to the manuscript this session (all reviewer "immediate changes"):
   from DBLP canonical records. Rebuild: 36 pp, 0 undefined, 0 overfull, all cites
   + app:lucompare resolve.
 
-**STILL OWED (owner, load-bearing, needs closed-access WCSP 2016):** obtain Lu et
-al. 2016 full text and complete the app:lucompare formula-by-formula comparison;
-either confirm Thm 27's q=0 endpoint is inherited (and keep the paper's binary
-claim scoped to the joint frontier / tilt) or withdraw the endpoint novelty. Do
-NOT submit until this is done -- the appendix carries an explicit OWNER TODO
-comment. Also still open: the two institutional reads (Steinberg 2009 binary; the
-Lu et al. paper itself), and confirm whether IEEE 7752468 is a second distinct Lu
-et al. 2016 item beyond the WCSP conference paper DBLP lists.
+**app:lucompare COMPLETED 2026-09-06 (owner supplied the PDF -> docs/).** The
+primary source is Lu, Xu, Zhang, Feng, Wang, "Binary lossy coding problem with
+encoder side information and common reconstruction constraint," WCSP 2016 (the
+reviewer's IEEE 7752468 -- a DISTINCT paper from the Heegard-Berger companion
+7752469, so that open question is resolved: yes, two Lu et al. 2016 items).
+RESULT: their Theorem 1 rate $\widetilde R^{CR}(D)=\min I(X,S_1;W|S_2)$ is, under
+$X\!\leftrightarrow\!Y,S_1\!\leftrightarrow\!V,S_2\!\leftrightarrow\!S,
+W\!\leftrightarrow\!\hat Y,(p_1,p_2)\!\leftrightarrow\!(p,q)$, IDENTICALLY our
+conditional-content functional $I((Y,V);\hat Y|S)=L$. So our binary $L(D)$
+COINCIDES with their CR rate and is credited, NOT claimed new. Endpoints checked:
+$q=0$ ($p_2=0$) -> Gray $h(p)-h(D)$ (their Remark 3); $q=1/2$ ($p_2=1/2$) ->
+marginal $1-h(D)$; $D=0$ -> $h(p*q)$ (their Remark 1). What stays NEW: the joint
+$(R,L)$ region + tilt parametrization (Remark 28) -- they price the single CR
+rate only, no unconditional rate coordinate, no tradeoff. Also: same functional,
+DIFFERENT operational role (their transmitted Wyner-Ziv rate vs our third-party
+erasure content). Manuscript updated: abstract/intro/Table I/binary prose recast
+to credit $L(D)$ and scope the binary contribution to the frontier; the appendix
+now states the comparison in full; the OWNER-TODO / do-not-submit flag is
+REMOVED. Build 37 pp, 0 undefined/overfull. Bibitem lu2016lossy added (page range
+carries a verify flag: read from the author PDF while DBLP was in maintenance).
+Only genuinely-remaining pre-submission item is the Steinberg 2009 binary
+institutional read (minor, decoder-SI comparison).
 Prabhakaran-Ramchandran (source coding with a helper/eavesdropper) was NOT cited
 (kept the paragraph to three well-identified references); add it if the live
 search shows it is closer than the three.

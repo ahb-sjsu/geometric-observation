@@ -222,13 +222,11 @@ Determinant-bound attainment (Theorem~\ref{thm:floor}) & Xiao--Luo
 the determinant bound, without a conditioner & A conditioner present;
 attainment governed by $\Sigma_{Y\mid V}$, not $\Sigma_{Y\mid S}$\\
 Binary function (Theorem~\ref{thm:binary}) & Lu \emph{et al.}
-\cite{lu2016binary}; Steinberg \cite{steinberg2009}; Ahmadi et al.
-\cite{ahmadi2013} & Binary Heegard--Berger with encoder side information
-and common reconstruction \cite{lu2016binary}; decoder-SI CR values
-\cite{steinberg2009,ahmadi2013} & Third-party conditioner; the joint
-$(R,L)$ frontier and its tilt parametrization interpolating Gray at $q=0$
-to the marginal RDF at $q=\tfrac12$; the conditional endpoint is compared
-with \cite{lu2016binary} in Appendix~\ref{app:lucompare}\\
+\cite{lu2016lossy,lu2016binary}; Steinberg \cite{steinberg2009}; Ahmadi et
+al. \cite{ahmadi2013} & The DSBS common-reconstruction rate, which equals our
+$L(D)$ \cite{lu2016lossy}; decoder-SI CR values \cite{steinberg2009,ahmadi2013}
+& The joint $(R,L)$ frontier and its tilt parametrization; the $L(D)$ value
+itself is inherited from \cite{lu2016lossy} (Appendix~\ref{app:lucompare})\\
 \hline
 \end{tabular}
 \end{table}
@@ -368,8 +366,9 @@ Appendix~\ref{app:gaussian}. Two of these have close predecessors that we
 credit in place: the pair-sufficiency reduction of Section~\ref{sec:pair}
 is a distortion-preserving specialization of Armstrong's source-side
 sufficiency for the information bottleneck \cite{armstrong2026}, and the
-conditional endpoint of the binary case has a near neighbor in Lu
-\emph{et al.} \cite{lu2016binary}, compared in Appendix~\ref{app:lucompare}. The present paper supersedes the
+binary conditional-content function coincides with the common-reconstruction
+rate of Lu \emph{et al.} \cite{lu2016lossy}, which we credit; the binary
+contribution here is the joint frontier (Appendix~\ref{app:lucompare}). The present paper supersedes the
 source-coding content of that record, which remains the archived
 evidence artifact.
 
@@ -3051,15 +3050,15 @@ is a single corner. Fig.~\ref{fig:binary} traces the frontier at a
 representative instance.
 \end{remark}
 
-The nearest published binary calculation is the binary Heegard--Berger
-problem with encoder side information and common reconstruction of Lu,
-Xu, Qian, and Wang \cite{lu2016binary}, in which the encoder observes
-side information that may differ from the decoder's. Under the natural
-relabeling of their source and side-information variables, that model
-appears closely related to the conditional endpoint considered here;
-Appendix~\ref{app:lucompare} fixes the relabeling and identifies which
-endpoint results are inherited. Two further common-reconstruction
-calculations are decoder-side-information ones. Steinberg's binary example
+The binary conditional-content function of this paper coincides with the
+common-reconstruction rate of Lu, Xu, Zhang, Feng, and Wang
+\cite{lu2016lossy} (with the Heegard--Berger companion \cite{lu2016binary}),
+whose encoder observes side information that may differ from the decoder's.
+Under the relabeling of Appendix~\ref{app:lucompare} their function is
+identically $L(D)$, so the binary $L(D)$ here is theirs; the contribution of
+this section is the joint $(R,L)$ frontier they do not treat. Two further
+common-reconstruction calculations are decoder-side-information ones.
+Steinberg's binary example
 \cite{steinberg2009} evaluates the constrained functional for a binary
 symmetric pair: the decoder's side information is the source through a
 binary symmetric channel, the distortion is Hamming, the optimal
@@ -3079,9 +3078,9 @@ $(Y,V)$, and the constraint binds the unconditional Hamming error
 $\Pr[\hat Y\ne Y]$. The function is anchored at Gray's conditional
 function at $q=0$ and at the marginal rate--distortion function at
 $q=\tfrac12$, an interpolation with no counterpart in the
-decoder-side calculations; whether its $q=0$ conditional endpoint
-coincides with the value of \cite{lu2016binary} under the relabeling is
-settled in Appendix~\ref{app:lucompare}. An encoder restricted to $Y$ alone faces
+decoder-side calculations; its $q=0$ conditional endpoint is Gray's
+conditional function, which is the common-reconstruction value of
+\cite{lu2016lossy} at $p_2=0$ (Appendix~\ref{app:lucompare}). An encoder restricted to $Y$ alone faces
 exactly the constrained problem of the pair $(Y,S)$, a binary
 symmetric pair with crossover $p*q$, and pays Steinberg's value there
 (the marginalization identity of Section~\ref{sec:function} is
@@ -3512,35 +3511,49 @@ pass\\
 
 \section{Comparison with the binary common-reconstruction function of Lu \emph{et al.}}
 \label{app:lucompare}
-% OWNER TODO: complete the formula-by-formula comparison after obtaining the
-% closed-access primary source (Lu, Xu, Qian, Wang, WCSP 2016). This appendix is
-% scaffolding: it fixes the relabeling and states what must be matched. Do not
-% submit until the identification below is either confirmed or the endpoint
-% novelty claim is withdrawn.
 
-Lu, Xu, Qian, and Wang \cite{lu2016binary} solve a binary Heegard--Berger
-problem with encoder side information and a common-reconstruction constraint.
-Their setting is matched to the conditional endpoint of
-Section~\ref{sec:binary} by the relabeling
+Lu, Xu, Zhang, Feng, and Wang \cite{lu2016lossy} solve the binary lossy coding
+problem with encoder side information and a common-reconstruction constraint;
+its Heegard--Berger companion is \cite{lu2016binary}. Their model has a source
+$X$, encoder side information $S_1$, and decoder side information $S_2$ forming
+$X-S_1-S_2$, with the encoder observing $(X,S_1)$, the decoder reconstructing
+from the message and $S_2$, and the common-reconstruction constraint that the
+encoder reproduce the decoder's estimate. For the doubly symmetric binary source
+with $\Pr[X\ne S_1]=p_1$ and $S_2=S_1\oplus\mathrm{Bern}(p_2)$ under Hamming
+distortion, their Theorem~1 gives the achievable rate
 \[
-  X_{\mathrm{Lu}}\leftrightarrow Y,\qquad
-  S_{\mathrm{enc}}\leftrightarrow V,\qquad
-  S_{\mathrm{dec}}\leftrightarrow S ,
+  \widetilde R^{\mathrm{CR}}(D)
+  =\min_{W:\ W-(X,S_1)-S_2,\ \E d(X,f(W))\le D} I(X,S_1;W\mid S_2),
 \]
-under which their encoder-observed side information plays the role of the
-encoder's context $V$ and their decoder side information plays the role of the
-third party's copy $S$. At the conditional endpoint (content only) the present
-functional is $\min I(T;\hY\mid S)$ under $\hY-T-S$ with Hamming distortion on
-$Y$, the object their construction evaluates for the doubly symmetric binary
-source, so under this relabeling their setting appears to reproduce the
-conditional optimization here. The formula-by-formula identification of their
-reported value with $L(D)$ at $q=0$, and the delineation of which endpoint
-results are inherited, are to be completed against the primary source; the
-conference article is closed access and the identification is not asserted until
-it is checked. The joint $(R,L)$ frontier and the tilt parametrization of
-Remark~\ref{rem:binfrontier}, which price both coordinates at once, are not to
-our knowledge given by \cite{lu2016binary} and are the part of the binary
-contribution least affected by this comparison.
+evaluated in closed form in their Theorem~2.
+
+Under the relabeling
+\[
+  X\leftrightarrow Y,\quad S_1\leftrightarrow V,\quad S_2\leftrightarrow S,\quad
+  W\leftrightarrow\hat Y,\quad (p_1,p_2)\leftrightarrow(p,q),
+\]
+their functional is identically the conditional-content functional of
+Section~\ref{sec:binary}: $I(X,S_1;W\mid S_2)=I(Y,V;\hat Y\mid S)$ under the same
+Markov chain $\hat Y-(Y,V)-S$ and the same Hamming constraint, which by pair
+sufficiency (Theorem~\ref{thm:pair}) is $L$. The binary conditional-content
+function $L(D)$ of this paper therefore \emph{coincides} with
+$\widetilde R^{\mathrm{CR}}(D)$, and we do not claim it as new. The endpoints
+agree accordingly: at $q=0$ ($p_2=0$) both reduce to Gray's conditional function
+$h(p)-h(D)$ (their Remark~3), the $q=0$ anchor of Theorem~\ref{thm:binary}; at
+$q=\tfrac12$ ($p_2=\tfrac12$) both reduce to the marginal rate--distortion
+function $1-h(D)$; and at $D=0$ both give $h(p*q)$ (their Remark~1).
+
+The operational readings differ, and the second coordinate is new. In
+\cite{lu2016lossy} the conditioning variable $S_2$ is decoder side information,
+so $I(X,S_1;W\mid S_2)$ is a transmitted \emph{rate} with a Wyner--Ziv saving;
+here $S$ is held by a third party that never decodes, so the same quantity is
+the conditional \emph{content} $L$, while the transmitted rate is instead the
+unconditional $R=I(Y,V;\hat Y)$, which their single-coordinate problem does not
+price. The joint $(R,L)$ region and the tilt parametrization of the whole
+frontier (Remark~\ref{rem:binfrontier}) have no counterpart in
+\cite{lu2016lossy}: they price both coordinates of one description at once,
+rather than the single common-reconstruction rate, and are the binary
+contribution of this paper.
 
 \begin{thebibliography}{99}
 \bibitem{shannon1959} C. E. Shannon, ``Coding theorems for a discrete source
@@ -3591,6 +3604,11 @@ secrecy systems,'' \emph{IEEE Trans. Inf. Theory}, vol. 60, no. 12,
 pp. 7584--7605, 2014.\bibitem{armstrong2026} J. Armstrong, ``Source-side sufficiency for the
 information bottleneck: Exact reduction and finite-block equivalence,''
 arXiv:2604.26744, 2026.
+\bibitem{lu2016lossy} J. Lu, Y. Xu, P. Zhang, M. Feng, and Q. Wang, ``Binary
+lossy coding problem with encoder side information and common reconstruction
+constraint,'' in \emph{Proc. Int. Conf. Wireless Commun. Signal Process.
+(WCSP)}, 2016, pp. 1--5.
+% verify page range on final (read from author PDF; DBLP was in maintenance)
 \bibitem{lu2016binary} J. Lu, Y. Xu, Y. Qian, and Q. Wang, ``The binary
 Heegard-Berger problem with encoder side information and common reconstruction
 constraints,'' in \emph{Proc. Int. Conf. Wireless Commun. Signal Process.
