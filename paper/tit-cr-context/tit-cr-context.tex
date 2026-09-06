@@ -185,6 +185,8 @@ joint region are, to our knowledge, new: we are unaware of a prior
 derivation of this particular coupled frontier, in which two levels are
 tied by a common distortion constraint, and the quadratic of
 Section~\ref{sec:function} does not appear in the literature we surveyed.
+Figure~\ref{fig:frontiermulti} shows the resulting tradeoff at three
+correlations.
 
 \begin{table}[!t]
 \caption{Theorem-level comparison with the nearest prior results.}
@@ -1965,6 +1967,20 @@ rate.}
 \label{fig:frontier}
 \end{figure}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{frontier_multi}
+\caption{The frontier at three correlations, fixed $(\tau^2,D)=(0.5,0.3)$.
+The endpoint gap between the rate-optimal and content-optimal channels
+widens from $\rho^2=0.2$ ($\Delta R=0.021$, $\Delta L=0.017$ bits) to
+$\rho^2=0.5$ ($\Delta R=0.044$, $\Delta L=0.036$) and eases at
+$\rho^2=0.8$ ($\Delta R=0.035$, $\Delta L=0.031$): the tradeoff vanishes at
+$\rho^2=0$, is widest at intermediate misalignment, and closes again toward
+the $\rho^2\to1$ boundary. Marker shape distinguishes the curves; the gaps
+are printed by the plotting script.}
+\label{fig:frontiermulti}
+\end{figure}
+
 \begin{remark}[The tradeoff persists at the clean-context boundary]
 \label{rem:cleanboundary}
 The strict tradeoff extends to the boundary $\tau^2=0$ excluded by the
@@ -2413,7 +2429,8 @@ whenever $\Delta\not\preceq\Sigma_c$.
 \end{proof}
 
 \begin{theorem}[Consequence: determinant-bound exactness]\label{thm:floor}
-The determinant lower bound is attained, $L_{\min}=\Bdet$, iff
+The determinant lower bound is attained, $L_{\min}=\Bdet$ (equivalently
+$[\Bdet]^{+}$, since the conditions below force $\Bdet\ge0$), iff
 \[
 \text{(a) } \tau^2=0 \text{ and } \Delta\preceq\Sigma_{Y\mid V},
 \qquad\text{or}\qquad
@@ -3096,7 +3113,10 @@ the minimal ideal erasure work per symbol, in units of $\kb T\ln2$, paid
 by a reset mechanism that retains $S$. The region states when storing
 cheaply and erasing cheaply are compatible: at $\rho=0$ one channel minimizes
 both coordinates, and under misalignment ($\rho^2\in(0,1)$, $\tau^2>0$) the
-two costs strictly trade off.
+two costs strictly trade off. No result of the paper depends on this
+reading: the operational theorems, the closed form, and the region are
+proved without it, and Remark~\ref{rem:thermo} is the only place the
+interpretation is invoked.
 
 The same asymmetry, descriptions read by parties whose requirements they
 were not sized to, extends beyond source coding. In companion
@@ -3112,7 +3132,12 @@ system is known in necessary-condition form only. The analogous function for
 a described variable of dimension greater than one is open. Stationary
 sources, and the process and spectral versions of the function, are not
 treated here. The finite-blocklength behavior of the pair $(R_n,L_n)$ is
-unexplored.
+unexplored, and the content coordinate is not a routine second-order
+corollary of the rate one: the dispersion of $L_n$ is governed by the
+variance of a conditional information density, and the quadratic cell
+bound of Lemma~\ref{lem:cellbound} that controls its mean does not by
+itself pin that variance, so a joint $(R_n,L_n)$ dispersion region does
+not follow from the rate dispersion alone.
 
 Everything in this paper is single-letter and memoryless, Gaussian and
 binary. Every closed form is verified by the independent numerical checks of
