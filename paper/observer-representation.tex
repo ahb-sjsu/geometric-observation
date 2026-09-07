@@ -297,7 +297,8 @@ That last point is the strongest evidence in the program that the quotient of Th
 \label{sec:decision}
 
 The economics paper~\cite{bond2026tcss} encodes each task as a reference point and a menu of alternatives in $\R^{9}$ and scores an alternative by the Mahalanobis distance of its displacement from the reference under a diagonal covariance $\Sigma$.
-Three variances were fitted on nine game targets, and the model matched sixteen aggregate targets within stated tolerances with a mean absolute error of 2.70 percentage points.
+Three variances were fitted on nine game targets, the active-set structure was selected on all sixteen targets, two temperature constants were set from two lottery targets, and the model matched sixteen aggregate targets within stated tolerances with a mean absolute error of 2.70 percentage points.
+The lottery matches are therefore parameter reuse within a jointly selected architecture, not out-of-sample prediction, and the paper says so.
 
 \begin{corollary}[Decision cost is a pullback distance]
 \label{cor:decision}
@@ -306,7 +307,7 @@ Let $\mathcal{A}$ be the set of scenario alternatives of a task, together with i
 c(a)^{2}=\bigl(C(a)-C(r)\bigr)^{\top}\Sigma^{-1}\bigl(C(a)-C(r)\bigr),
 \label{eq:cost}
 \end{equation}
-the game prediction $\arg\min_{a}c(a)$ and the lottery rule $P(A)\propto\exp(-c_{A}/T)$ are the choice rules of that paper, and the inactive dimensions are the coordinate directions in the kernel of $G$. When the scenario space is a continuous manifold and $C$ is $C^{1}$, the local metric on it is $J_{C}^{\top}\Sigma^{-1}J_{C}$, which is \eqref{eq:PC}.
+the game prediction $\arg\min_{a}c(a)$ and the binary lottery rule $P(A)=\bigl(1+\exp(-(c_{B}-c_{A})/T(\Delta c))\bigr)^{-1}$ with $\Delta c=|c_{A}-c_{B}|$ are the choice rules of that paper, and the inactive dimensions are the coordinate directions in the kernel of $G$. When the scenario space is a continuous manifold and $C$ is $C^{1}$, the local metric on it is $J_{C}^{\top}\Sigma^{-1}J_{C}$, which is \eqref{eq:PC}.
 \end{corollary}
 
 \begin{proof}
@@ -315,7 +316,12 @@ For discrete alternatives no Jacobian is needed and \eqref{eq:cost} is the exact
 On a continuous scenario manifold the local statement is Theorem~\ref{thm:rep}(b) with $G=\Sigma^{-1}$.
 \end{proof}
 
-Two clarifications bound the specialization.
+Three clarifications bound the specialization.
+The pullback distance is the cost, and the game predictions are functions of the cost alone.
+The lottery frequencies are not, because the temperature $T(\Delta c)=\max(0.5,\,0.24\,\Delta c^{2.13})$ makes $\Delta c/T(\Delta c)$ decrease for $\Delta c>1.41$, and four of the six lottery targets have cost gaps above that value, namely $3.48$, $2.21$, $2.24$, and $2.21$ for P1, P3, P7, and P11.
+The encoding gives the Allais problem a larger gap than the strong-certainty problem while the data show more risky choice on the Allais problem, and no constant temperature reproduces both.
+The ordering of those two targets is carried by the temperature rule and not by the pullback geometry, which is what the two temperature constants were set to do.
+The corollary therefore identifies the cost with a pullback distance and identifies nothing about the map from cost gaps to lottery frequencies beyond the rule as written.
 The consumer is the encoding, not the identity.
 The encoding is the hand-coded part of the economics paper and it is where that paper's audit tables live.
 The three active dimensions are a sparsity pattern of $G$ selected by a search over active sets.
@@ -336,7 +342,8 @@ The converse divides by the nonzero monetary displacement and by $\lambda^{2}-1\
 \end{proof}
 
 The economics paper reports that on the data of Andersen, Erta\c{c}, Gneezy, Hoffman, and List~\cite{andersen2011}, collected in eight villages of Meghalaya in northeast India with 458 responders and stakes from 20 to 20,000 rupees, the largest exceeding the villagers' average yearly income, offers and rejections vary with the stake at every conventional level.
-By Proposition~\ref{prop:stake} this rejects the conjunction of a stake-blind encoding with an unread monetary direction.
+The calibrated model predicts invariance and that prediction fails.
+By Proposition~\ref{prop:stake} the rejection refutes the conjunction of a stake-blind encoding with an unread monetary direction, and the paper now states it that way.
 It does not estimate the stake at which the monetary direction would enter a budget-selected subspace, and it does not show that any subspace was budget-selected.
 The reference implementation of the economics paper~\cite{bond2026eriseconsw} normalizes the monetary coordinate to the stake, so the encoding as released is stake-blind for every $G$, and a model that fits both stake ranges needs a monetary coordinate that carries the absolute stake together with a finite monetary variance.
 Saying that the monetary direction reactivates at high stakes is an interpretation of the rejection.
@@ -347,8 +354,10 @@ A threshold claim needs a model with a stake-carrying coordinate fitted across s
 
 A skeptic can ask what the geometry predicts that a scalar utility with logit noise cannot.
 For a fixed read operator the answer is nothing.
-The choice rule $P(a)\propto\exp(-c(a)/T)$ with a fixed cost is a Luce model~\cite{luce1959} with utility $-c/T$, it satisfies independence of irrelevant alternatives, and it satisfies regularity.
-The economics paper's model is of this kind and we do not claim otherwise.
+The choice rule $P(a)\propto\exp(-c(a)/T)$ with a fixed cost and a fixed temperature is a Luce model~\cite{luce1959} with utility $-c/T$, it satisfies independence of irrelevant alternatives, and it satisfies regularity.
+The economics paper's game rule is the cost minimum, and its lottery rule is a binary logit whose temperature depends on the cost gap of the pair.
+On binary menus every choice probability is representable by some random-utility model, so that rule makes no prediction outside the random-utility class either, and we do not claim otherwise.
+What the gap-dependent temperature does violate is the strong-utility form, in which the choice probability is an increasing function of a fixed utility difference, since the paper's Allais problem has a larger cost gap and a higher risky-choice rate than its strong-certainty problem.
 
 The claim that survives concerns the budgeted observer, whose read subspace is selected from the menu it faces.
 Such an observer changes what it reads when the menu changes, and the resulting stochastic choice function lies outside every random-utility model.
@@ -379,7 +388,7 @@ Luce models are random-utility models with independent Gumbel noise, so the last
 
 \begin{remark}
 The theorem is a statement about the observer whose budget selects its read subspace from the menu.
-It is not a statement about the economics paper's fitted model, which has a fixed read operator and is a Luce model.
+It is not a statement about the economics paper's fitted model, which has a fixed read operator and makes no prediction outside the random-utility class.
 The empirical question the theorem poses is whether human readers of choice menus behave like the budgeted observer, that is, whether a decoy that changes the second moment of the menu can raise the share of an existing option.
 Attraction and decoy effects in the marketing and psychology literatures~\cite{huber1982} are regularity violations of exactly this form, and the budgeted observer offers one mechanism for them.
 Testing that mechanism is a designed experiment, not a reanalysis of the sixteen aggregate targets.
@@ -560,6 +569,8 @@ Unread money implies stake invariance, and the converse under a stake-carrying e
 A budget cliff at which money enters & not claimed & Section~\ref{sec:decision} \\
 Budgeted menu-relative observer violates regularity and is outside every RUM & proved & Theorem~\ref{thm:nonred} \\
 The fitted economics model is outside RUM & false, and not claimed & Section~\ref{sec:nonred} \\
+Lottery frequencies are a monotone function of the pullback cost gap & false above the turnover, stated & Section~\ref{sec:decision} \\
+The lottery matches of the economics paper are out-of-sample & false, and not claimed & Section~\ref{sec:decision} \\
 Learned-geometry protocol with cliff-derived design bound & protocol & Section~\ref{sec:learned} \\
 BGE with exogenous target exists under compactness, continuity, quasiconvexity & proved & Theorem~\ref{thm:exist} \\
 BGE equals Nash for $u_{i}=K_{i}-c_{i}$ and for concave quadratic games & proved & Theorem~\ref{thm:nash} \\
