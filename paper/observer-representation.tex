@@ -213,8 +213,19 @@ Let $(X,S)$ be jointly distributed, with $S$ the context retained by a third par
 where $\hat{X}=\hat{x}(W)$ and the joint law of $(X,S,W)$ has $W$ conditionally independent of $S$ given $X$.
 \end{definition}
 
-The region is a definition.
-What is proved about it is what the coding paper proved for its instance, and Section~\ref{sec:coding} states that instance.
+The region is a definition, and two facts give it operational content.
+The first is a lemma that lets the reproduction live in the output space, which is where a coding theorem places it.
+
+\begin{lemma}[Reproduction in the output space]
+\label{lem:outputrep}
+Let $C:\M\to\Y$ be surjective. For every test channel $q_{W|X}$ and every reproduction map $\hat{y}:\mathcal{W}\to\Y$ there is a reproduction map $\hat{x}:\mathcal{W}\to\M$ with $C\circ\hat{x}=\hat{y}$, and conversely every $\hat{x}$ induces $\hat{y}=C\circ\hat{x}$, with the same distortion $\E[\dG(C(X),\hat{y}(W))^{2}]$ and the same values of $I(X;W)$ and $I(X;W\mid S)$. The region \eqref{eq:region} is therefore unchanged if the reproduction is taken in $\Y$ and the distortion is $\dG(C(X),\hat{Y})^{2}$.
+\end{lemma}
+
+\begin{proof}
+Choose $\hat{x}(w)$ in the fiber $C^{-1}(\hat{y}(w))$, which is nonempty by surjectivity. The information quantities depend on $(X,S,W)$ only, and the distortion depends on the reproduction only through $C\circ\hat{x}$.
+\end{proof}
+
+The second is the coding theorem of the rate--content paper, which we restate in the vocabulary of \eqref{eq:region} and verify against its operational definitions in Section~\ref{sec:coding}.
 We now record the one rigorous link between the information quantities in \eqref{eq:region} and the read operator.
 It is local.
 
@@ -243,25 +254,43 @@ Every global information quantity in \eqref{eq:region} is built from such diverg
 \section{First Pushforward. The Rate--Content Region with Encoder-Observed Context}
 \label{sec:coding}
 
-The coding paper~\cite{bond2026tit} studies an encoder that observes a jointly Gaussian pair $(Y,V)$, describes $Y$ at rate $R$ for a decoder that sees the description alone, while a third party retains a noisy copy $S=V+U$ of the context and never decodes.
-Its conditional content is $L=I(X;\hat{X}\mid S)$ for the augmented source $X=(Y,V)$ with distortion on $Y$ alone, which is Steinberg's common-reconstruction functional~\cite{steinberg2009} applied to the augmented source.
+The coding paper~\cite{bond2026tit} studies an encoder that observes a source and stores a description $M=f_{n}(X^{n})$ at rate $R_{n}=\tfrac1n\log|\mathcal{M}_{n}|$ for a decoder $g_{n}$ that sees $M$ alone, while a third party retains a noisy copy $S^{n}$ of a context variable and never decodes.
+Its three operational quantities are the rate $R_{n}$, the per-letter distortion $D_{n}$, and the conditional content $L_{n}=\tfrac1n H(M\mid S^{n})$, and a triple $(R,L,D)$ is achievable when a code sequence meets all three in the limit superior.
+Its single-letter characterization is, for a discrete memoryless pair $(X,S)$ with bounded distortion, and again for the jointly Gaussian source with quadratic distortion on $Y$ at every $0<D<1$,
+\begin{equation}
+\mathcal{RW}(D)=\bigcup_{p(\hat{x}\mid x):\,\E d(X,\hat{X})\le D}\bigl\{(R,L):\ R\ge I(X;\hat{X}),\ L\ge I(X;\hat{X}\mid S)\bigr\},
+\label{eq:titregion}
+\end{equation}
+with the Markov chain $\hat{X}-X-S$ imposed because the description is formed without access to $S$.
+The content endpoint $\min I(X;\hat{X}\mid S)$ is Steinberg's common-reconstruction functional~\cite{steinberg2009} as an information quantity, and the coding paper is explicit that the operational roles differ. In Steinberg's problem $S$ is decoder side information that must not affect reproducibility. In the coding paper $S$ is held by a party that never serves the decoder, and no common-reconstruction constraint appears in the code definition.
 
 \begin{corollary}[The coding region is a consumer-relative region]
 \label{cor:coding}
-Take $\M=\R^{2}$ with $\mu$ the law of $X=(Y,V)$, the consumer $C(y,v)=y$, the output metric $G=1$ on $\Y=\R$, and $S=V+U$ with $U$ independent Gaussian noise. Then $D_{C}(x,\hat{x})=(y-\hat{y})^{2}$, the read operator is the constant $\PC=\operatorname{diag}(1,0)$ whose kernel is the context direction, and the region \eqref{eq:region} is the rate--content region of the coding paper at distortion $D$ on $Y$, subject to that paper's operational constraints on the description and the reconstruction.
+Take $\M=\R^{d}$ with $\mu$ a centered Gaussian law, the consumer the linear functional $C(x)=w^{\top}x=Y$ with $\Y=\R$ and $G=1$, the context $V=\gamma^{\top}x/\sigma_{\gamma}$ a second linear functional with $\E[YV]=\rho$, and the retained copy $S=V+U$ with $U\sim\mathcal{N}(0,\tau^{2})$ independent of $X$. Then $D_{C}(x,\hat{x})=(w^{\top}x-w^{\top}\hat{x})^{2}$, the read operator is the constant rank-one form $\PC=ww^{\top}$ whose kernel $w^{\perp}$ contains the context direction unless $\gamma$ is parallel to $w$, and the region of Definition~\ref{def:region} at distortion $D$ equals the operational region \eqref{eq:titregion} of the coding paper for $0<D<1$.
 \end{corollary}
 
 \begin{proof}
-With $C$ the coordinate projection, $J_{C}=(1,0)$ and \eqref{eq:PC} gives $\operatorname{diag}(1,0)$ exactly, with no remainder in \eqref{eq:local} because $C$ is linear and $G$ is constant.
-The distortion in \eqref{eq:region} is then $\E[(Y-\hat{Y})^{2}]\le D$, which is the coding paper's distortion constraint, and the two information inequalities are its rate and conditional content by definition.
+With $C$ linear, $J_{C}=w^{\top}$ and \eqref{eq:PC} gives $ww^{\top}$ exactly, with no remainder in \eqref{eq:local}, and $\ker\PC=w^{\perp}$.
+Definition~\ref{def:region} imposes $W$ conditionally independent of $S$ given $X$, which is the Markov chain $\hat{X}-X-S$ of the coding paper, and its two information inequalities are those of \eqref{eq:titregion}.
+Its distortion is $\E[(w^{\top}X-w^{\top}\hat{X})^{2}]\le D$, and by Lemma~\ref{lem:outputrep} with the surjective $C=w^{\top}$ this is the coding paper's constraint $\E[(Y-\hat{Y})^{2}]\le D$ on an output-space reproduction.
+The coding paper's pair-sufficiency theorem shows that the test channel may depend on $x$ only through $T=(Y,V)$ without loss, and its Gaussian operational theorem identifies the single-letter union with the closure of the achievable triples for $0<D<1$.
+The two regions therefore coincide on that range.
 \end{proof}
 
+The verification behind the corollary is the following list, item by item against the coding paper's problem statement.
+The encoder sees $X^{n}$ only, which is the source law $\mu$ of Definition~\ref{def:region}.
+The decoder sees $M$ only, which is the conditional independence of $W$ and $S$ given $X$.
+The distortion is on $Y$ alone, which is $D_{C}$ for the projection consumer.
+The content is $H(M\mid S^{n})/n$, whose single-letter form is the second inequality.
+The third party never reconstructs, so no common-reconstruction constraint enters, and none is needed in Definition~\ref{def:region}.
+Two hypotheses of the coding theorems are not in Definition~\ref{def:region} and must be carried by the instance. The discrete theorem needs a bounded distortion, and the Gaussian theorem needs $0<D<1$ with the quadratic distortion handled by its own compactness argument.
+
 \begin{remark}
-The corollary is an identification of definitions.
+The corollary is an identification of definitions, now verified.
 The theorems of the coding paper, the closed form for $L(D)$, the coupled two-water-level frontier, and non-determination under reduction of $(Y,V)$ to $(Y,S)$, are theorems about this instance and are not re-derived here.
-What the corollary adds is the reading. The kernel of the read operator is the context, the content $L$ is an information quantity about a variable the consumer never reads, and the non-determination result of that paper says that collapsing the source onto the consumer's quotient before encoding changes the operational problem.
-That last point is the strongest evidence in the program that the quotient of Theorem~\ref{thm:rep}(a) is not the whole story once a third party retains context.
-The operational constraints of the coding paper, in particular its common-reconstruction requirement, must be checked against Definition~\ref{def:region} before the corollary is cited as more than an identification of the distortion and the two information quantities.
+What the corollary adds is the reading.
+The kernel of the read operator is everything orthogonal to the read direction $w$, the context direction $\gamma$ lies in that kernel except when it is parallel to $w$, the content $L$ is an information quantity about a variable the consumer never reads, and the non-determination corollary of that paper says that $L$ is not a functional of the law of $(C(X),S)$ alone.
+That last point is the strongest evidence in the program that the quotient of Theorem~\ref{thm:rep}(a) is not the whole story once a third party retains context, because the encoder's access to the unread direction $V$ enters the answer.
 \end{remark}
 
 \section{Second Pushforward. Geometric Decision Cost}
@@ -525,7 +554,7 @@ Consumer-relative rate--distortion function is nonincreasing and convex; Gaussia
 Rate--content region & defined & Definition~\ref{def:region} \\
 Local divergence geometry of a channel that reads through $C$ is the read operator with the Fisher metric as $G$ & proved, local & Theorem~\ref{thm:fisher} \\
 Conditional mutual information equals an averaged read operator & not claimed & Remark after Theorem~\ref{thm:fisher} \\
-The coding paper's region is the consumer-relative region for the projection consumer & identification of definitions, operational constraints to be checked & Corollary~\ref{cor:coding} \\
+The coding paper's region is the consumer-relative region for the linear-functional consumer & identification of definitions, operational constraints verified item by item & Corollary~\ref{cor:coding} and Lemma~\ref{lem:outputrep} \\
 The economics paper's cost is a pullback distance with the encoding as consumer & proved & Corollary~\ref{cor:decision} \\
 Unread money implies stake invariance, and the converse under a stake-carrying encoding & proved & Proposition~\ref{prop:stake} \\
 A budget cliff at which money enters & not claimed & Section~\ref{sec:decision} \\
