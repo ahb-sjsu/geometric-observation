@@ -128,7 +128,7 @@ with equality if and only if $Q_{1}^{*}$ is also $C_{2}$-optimal in $\mathcal{Q}
 
 \begin{proof}
 (a) Reflexivity, symmetry, and transitivity are those of equality in $\Y$, and the class of $x$ is $C^{-1}(C(x))$ by definition.
-At a regular point the constant-rank theorem gives charts in which $C$ is the linear map $(u_{1},\dots,u_{d})\mapsto(u_{1},\dots,u_{r},0,\dots,0)$, so the fiber is locally the coordinate slice $u_{1}=\dots=u_{r}=\text{const}$, an embedded submanifold of dimension $d-r$ whose tangent space is the kernel of the linearization, which is $\ker J_{C}(x)$.
+At a regular point the constant-rank theorem~\cite{lee2012} gives charts in which $C$ is the linear map $(u_{1},\dots,u_{d})\mapsto(u_{1},\dots,u_{r},0,\dots,0)$, so the fiber is locally the coordinate slice $u_{1}=\dots=u_{r}=\text{const}$, an embedded submanifold of dimension $d-r$ whose tangent space is the kernel of the linearization, which is $\ker J_{C}(x)$.
 If $C$ is a submersion it is an open map, so $C(\M)$ is open in $\Y$.
 The induced map $\bar{C}:\M/\!\sim_{C}\to C(\M)$ is a bijection by construction, continuous because $C$ is, and open because a set $U$ is open in the quotient exactly when its preimage $\pi^{-1}(U)$ is open in $\M$, in which case $\bar{C}(U)=C(\pi^{-1}(U))$ is open.
 A continuous open bijection is a homeomorphism.
@@ -171,7 +171,7 @@ where $\lambda_{1}\ge\dots\ge\lambda_{d}$ are the eigenvalues of $P_{2}$. Equali
 
 \begin{proof}
 With $\delta=(I-\Pi_{U})x$ and a constant read operator, $D_{C_{i}}(U)=\E[\delta^{\top}P_{i}\delta]=\tr\bigl(P_{i}(I-\Pi_{U})\sigma^{2}I(I-\Pi_{U})\bigr)=\sigma^{2}\tr\bigl((I-\Pi_{U})P_{i}\bigr)$, using $(I-\Pi_{U})^{2}=I-\Pi_{U}$ and cyclicity.
-Minimizing over $U$ is maximizing $\tr(\Pi_{U}P_{i})$ over rank-$B$ orthogonal projections, and Ky Fan's maximum principle gives the value $\sum_{j\le B}\lambda_{j}(P_{i})$, attained exactly on top-$B$ eigenspaces.
+Minimizing over $U$ is maximizing $\tr(\Pi_{U}P_{i})$ over rank-$B$ orthogonal projections, and Ky Fan's maximum principle~\cite{fan1949} gives the value $\sum_{j\le B}\lambda_{j}(P_{i})$, attained exactly on top-$B$ eigenspaces.
 Substituting into \eqref{eq:regret} gives \eqref{eq:regret-lin}, and the sign and the equality case are Ky Fan's again.
 The last identity is $\tr(\Pi_{U_{1}}u_{j}u_{j}^{\top})=u_{j}^{\top}\Pi_{U_{1}}u_{j}=\|\Pi_{U_{1}}u_{j}\|^{2}$.
 \end{proof}
@@ -199,8 +199,8 @@ $R_{C}$ is nonincreasing and convex in $D$ on the set where it is finite. If $\P
 
 \begin{proof}
 Monotonicity is immediate from enlarging the constraint set.
-Convexity is the time-sharing argument for a general distortion measure. If $(q_{1},\hat{x}_{1})$ and $(q_{2},\hat{x}_{2})$ meet distortions $D_{1},D_{2}$, the mixture channel that uses the first with probability $\lambda$ and the second otherwise, with the choice encoded in $W$, meets $\lambda D_{1}+(1-\lambda)D_{2}$, and mutual information is convex in the conditional law for a fixed source, so the mixture's rate is at most $\lambda I_{1}+(1-\lambda)I_{2}$.
-The quadratic specialization is the definition, and the Gaussian statement is the change of variables $\tilde{x}=P^{1/2}x$ that turns the weighted quadratic distortion into squared error, after which the classical reverse water-filling applies on the covariance of $\tilde{x}$.
+Convexity is the time-sharing argument for a general distortion measure~\cite{cover2006}. If $(q_{1},\hat{x}_{1})$ and $(q_{2},\hat{x}_{2})$ meet distortions $D_{1},D_{2}$, the mixture channel that uses the first with probability $\lambda$ and the second otherwise, with the choice encoded in $W$, meets $\lambda D_{1}+(1-\lambda)D_{2}$, and mutual information is convex in the conditional law for a fixed source, so the mixture's rate is at most $\lambda I_{1}+(1-\lambda)I_{2}$.
+The quadratic specialization is the definition, and the Gaussian statement is the change of variables $\tilde{x}=P^{1/2}x$ that turns the weighted quadratic distortion into squared error, after which the classical reverse water-filling~\cite{cover2006} applies on the covariance of $\tilde{x}$.
 \end{proof}
 
 \begin{definition}[Rate--content region]
@@ -229,7 +229,7 @@ that is, the local divergence geometry of the channel on $\M$ is the read operat
 \end{theorem}
 
 \begin{proof}
-For a $C^{2}$ family the Kullback--Leibler divergence between $\kappa(\cdot\mid y+\eta)$ and $\kappa(\cdot\mid y)$ equals $\tfrac12\eta^{\top}F(y)\eta+o(\|\eta\|^{2})$, which is the standard second-order expansion of the divergence with vanishing first-order term.
+For a $C^{2}$ family the Kullback--Leibler divergence between $\kappa(\cdot\mid y+\eta)$ and $\kappa(\cdot\mid y)$ equals $\tfrac12\eta^{\top}F(y)\eta+o(\|\eta\|^{2})$, which is the standard second-order expansion of the divergence with vanishing first-order term~\cite{amari2016}.
 Apply it with $y=C(x)$ and $\eta=C(x+\delta)-C(x)=J_{C}(x)\delta+o(\|\delta\|)$, and use continuity of $F$ to absorb the remainder.
 \end{proof}
 
@@ -243,8 +243,8 @@ Every global information quantity in \eqref{eq:region} is built from such diverg
 \section{First Pushforward. The Rate--Content Region with Encoder-Observed Context}
 \label{sec:coding}
 
-The coding paper studies an encoder that observes a jointly Gaussian pair $(Y,V)$, describes $Y$ at rate $R$ for a decoder that sees the description alone, while a third party retains a noisy copy $S=V+U$ of the context and never decodes.
-Its conditional content is $L=I(X;\hat{X}\mid S)$ for the augmented source $X=(Y,V)$ with distortion on $Y$ alone.
+The coding paper~\cite{bond2026tit} studies an encoder that observes a jointly Gaussian pair $(Y,V)$, describes $Y$ at rate $R$ for a decoder that sees the description alone, while a third party retains a noisy copy $S=V+U$ of the context and never decodes.
+Its conditional content is $L=I(X;\hat{X}\mid S)$ for the augmented source $X=(Y,V)$ with distortion on $Y$ alone, which is Steinberg's common-reconstruction functional~\cite{steinberg2009} applied to the augmented source.
 
 \begin{corollary}[The coding region is a consumer-relative region]
 \label{cor:coding}
@@ -267,7 +267,7 @@ The operational constraints of the coding paper, in particular its common-recons
 \section{Second Pushforward. Geometric Decision Cost}
 \label{sec:decision}
 
-The economics paper encodes each task as a reference point and a menu of alternatives in $\R^{9}$ and scores an alternative by the Mahalanobis distance of its displacement from the reference under a diagonal covariance $\Sigma$.
+The economics paper~\cite{bond2026tcss} encodes each task as a reference point and a menu of alternatives in $\R^{9}$ and scores an alternative by the Mahalanobis distance of its displacement from the reference under a diagonal covariance $\Sigma$.
 Three variances were fitted on nine game targets, and the model matched sixteen aggregate targets within stated tolerances with a mean absolute error of 2.70 percentage points.
 
 \begin{corollary}[Decision cost is a pullback distance]
@@ -306,10 +306,10 @@ The forward direction sets $G_{11}=0$.
 The converse divides by the nonzero monetary displacement and by $\lambda^{2}-1\ne0$.
 \end{proof}
 
-The economics paper reports that on the data of Andersen, Erta\c{c}, Gneezy, Hoffman, and List, collected in eight villages of Meghalaya in northeast India with 458 responders and stakes from 20 to 20,000 rupees, the largest exceeding the villagers' average yearly income, offers and rejections vary with the stake at every conventional level.
+The economics paper reports that on the data of Andersen, Erta\c{c}, Gneezy, Hoffman, and List~\cite{andersen2011}, collected in eight villages of Meghalaya in northeast India with 458 responders and stakes from 20 to 20,000 rupees, the largest exceeding the villagers' average yearly income, offers and rejections vary with the stake at every conventional level.
 By Proposition~\ref{prop:stake} this rejects the conjunction of a stake-blind encoding with an unread monetary direction.
 It does not estimate the stake at which the monetary direction would enter a budget-selected subspace, and it does not show that any subspace was budget-selected.
-The reference implementation of the economics paper normalizes the monetary coordinate to the stake, so the encoding as released is stake-blind for every $G$, and a model that fits both stake ranges needs a monetary coordinate that carries the absolute stake together with a finite monetary variance.
+The reference implementation of the economics paper~\cite{bond2026eriseconsw} normalizes the monetary coordinate to the stake, so the encoding as released is stake-blind for every $G$, and a model that fits both stake ranges needs a monetary coordinate that carries the absolute stake together with a finite monetary variance.
 Saying that the monetary direction reactivates at high stakes is an interpretation of the rejection.
 A threshold claim needs a model with a stake-carrying coordinate fitted across stake levels and tested against held-out levels.
 
@@ -318,7 +318,7 @@ A threshold claim needs a model with a stake-carrying coordinate fitted across s
 
 A skeptic can ask what the geometry predicts that a scalar utility with logit noise cannot.
 For a fixed read operator the answer is nothing.
-The choice rule $P(a)\propto\exp(-c(a)/T)$ with a fixed cost is a Luce model with utility $-c/T$, it satisfies independence of irrelevant alternatives, and it satisfies regularity.
+The choice rule $P(a)\propto\exp(-c(a)/T)$ with a fixed cost is a Luce model~\cite{luce1959} with utility $-c/T$, it satisfies independence of irrelevant alternatives, and it satisfies regularity.
 The economics paper's model is of this kind and we do not claim otherwise.
 
 The claim that survives concerns the budgeted observer, whose read subspace is selected from the menu it faces.
@@ -344,7 +344,7 @@ For $A=\{a,b\}$, $M(A)=\operatorname{diag}(4,1)$, the top eigenvector is $e_{1}$
 For $A'=\{a,b,c\}$, $M(A')=\operatorname{diag}(4,10)$, the top eigenvector is $e_{2}$, the projected costs are $0$, $1$, and $9$, and $p(a\mid A')=1/(1+e^{-1}+e^{-9})=0.7310$.
 Adding the alternative $c$ raised the probability of $a$ from $0.018$ to $0.731$.
 Regularity, which requires $p(a\mid A')\le p(a\mid A)$ whenever $A\subseteq A'$, is violated.
-Every random-utility model satisfies regularity, because the event that $a$ has the largest utility in $A'$ is contained in the event that it has the largest utility in $A$.
+Every random-utility model satisfies regularity~\cite{block1960,falmagne1978}, because the event that $a$ has the largest utility in $A'$ is contained in the event that it has the largest utility in $A$.
 Luce models are random-utility models with independent Gumbel noise, so the last claim follows.
 \end{proof}
 
@@ -352,7 +352,7 @@ Luce models are random-utility models with independent Gumbel noise, so the last
 The theorem is a statement about the observer whose budget selects its read subspace from the menu.
 It is not a statement about the economics paper's fitted model, which has a fixed read operator and is a Luce model.
 The empirical question the theorem poses is whether human readers of choice menus behave like the budgeted observer, that is, whether a decoy that changes the second moment of the menu can raise the share of an existing option.
-Attraction and decoy effects in the marketing and psychology literatures are regularity violations of exactly this form, and the budgeted observer offers one mechanism for them.
+Attraction and decoy effects in the marketing and psychology literatures~\cite{huber1982} are regularity violations of exactly this form, and the budgeted observer offers one mechanism for them.
 Testing that mechanism is a designed experiment, not a reanalysis of the sixteen aggregate targets.
 The stake rejection of Section~\ref{sec:decision} is a different statement. It says that no stake-blind encoding fits both stake ranges. It says nothing about scalarization.
 \end{remark}
@@ -362,7 +362,7 @@ The stake rejection of Section~\ref{sec:decision} is a different statement. It s
 
 Everything in this section is protocol, not result.
 The economics paper's encoding assigns coordinates by hand.
-The observation-theory program has an instrument, the blind probe, that recovers a consumer's read operator from calls to the consumer alone, and a theorem, the budget cliff, that says recovery at an operating point is a cliff at the full dimension of the space rather than a slope.
+The observation-theory program has an instrument, the blind probe~\cite{bond2026readscope,bond2026encyclopedia}, that recovers a consumer's read operator from calls to the consumer alone, and a theorem, the budget cliff~\cite{bond2026encyclopedia}, that says recovery at an operating point is a cliff at the full dimension of the space rather than a slope.
 The analogue for a human decision consumer is a designed menu.
 
 \paragraph{Object to be recovered.}
@@ -381,7 +381,7 @@ $\Omega_{i}\sim\mathrm{Wishart}(\bar{\Omega}/\nu,\nu)$, $p_{i}(a\mid A)$ as abov
 The estimator of $\bar{\Omega}$ is the posterior mean, and its leading $k$-dimensional eigenspace $\hat{U}_{k}$ is compared with the hand-coded subspace $U_{0}=\operatorname{span}\{e_{6},e_{7},e_{9}\}$.
 
 \paragraph{Statistic and floor.}
-Overlap $\tr(\Pi_{\hat{U}_{k}}\Pi_{U_{0}})/k$, reported as resolution $(\text{overlap}-\text{chance})/(1-\text{chance})$ with chance $k/9$ for a random $k$-dimensional subspace, together with the rank certificate of the readscope instrument on $\hat{\bar{\Omega}}$.
+Overlap $\tr(\Pi_{\hat{U}_{k}}\Pi_{U_{0}})/k$, reported as resolution $(\text{overlap}-\text{chance})/(1-\text{chance})$ with chance $k/9$ for a random $k$-dimensional subspace, together with the rank certificate of the readscope instrument~\cite{bond2026readscope} on $\hat{\bar{\Omega}}$. In the scalar Euclidean case the population read operator is the active-subspace matrix~\cite{constantine2015}, and the same estimators apply.
 
 \paragraph{Bars.}
 To be frozen before any subject is run. A resolution bar, a rank bar, and an anti-vacuity bar requiring that the battery's displacement directions span $\R^{9}$ with a stated condition number.
@@ -419,8 +419,8 @@ Suppose for every $i$ that $S_{i}$ is nonempty, compact, and convex, that $c_{i}
 \begin{proof}
 Let $\beta_{i}(s_{-i})=\arg\min_{a_{i}\in S_{i}}c_{i}(a_{i};s_{-i})$.
 It is nonempty because a continuous function attains its minimum on a compact set, convex because sublevel sets of a quasiconvex function are convex and $\beta_{i}$ is a sublevel set, and closed-graph by continuity of $c_{i}$, hence upper hemicontinuous into the compact $S_{i}$.
-The product correspondence $\beta=\prod_{i}\beta_{i}$ on the compact convex $S$ inherits these properties, and Kakutani's theorem gives a fixed point, which is a BGE.
-This is the Debreu, Glicksberg, and Fan argument.
+The product correspondence $\beta=\prod_{i}\beta_{i}$ on the compact convex $S$ inherits these properties, and Kakutani's theorem~\cite{kakutani1941} gives a fixed point, which is a BGE.
+This is the Debreu, Glicksberg, and Fan argument~\cite{debreu1952,glicksberg1952,fan1952}.
 For the first special case, $C_{i}(a_{i},s_{-i})-t_{i}(s_{-i})$ is affine in $a_{i}$ and \eqref{eq:bgcost} is a convex quadratic in $a_{i}$.
 For the second, $c_{i}=(t_{i}-C_{i})^{2}$ with $C_{i}\le t_{i}$ is a decreasing function of the affine map $C_{i}$, so its sublevel sets are superlevel sets of an affine function and are convex.
 \end{proof}
@@ -452,7 +452,7 @@ Computing a BGE is PPAD-hard. For the subclass in which each $S_{i}$ is a probab
 
 \begin{proof}
 In the subclass, $c_{i}(a_{i};s_{-i})=(M_{i}-u_{i}(a_{i},s_{-i}))^{2}$ with $u_{i}\le M_{i}$, which is quasiconvex in $a_{i}$ by the second special case of Theorem~\ref{thm:exist} and is minimized exactly where $u_{i}$ is maximized.
-The BGE of the subclass are therefore the mixed Nash equilibria of the finite game, whose computation is PPAD-complete by Daskalakis, Goldberg, and Papadimitriou and by Chen, Deng, and Teng.
+The BGE of the subclass are therefore the mixed Nash equilibria of the finite game, whose computation is PPAD-complete by Daskalakis, Goldberg, and Papadimitriou~\cite{daskalakis2009} and by Chen, Deng, and Teng~\cite{chen2009}.
 Hardness of the general problem follows because it contains the subclass.
 Membership of the general problem in PPAD is not claimed. It requires an approximate-equilibrium formulation with Lipschitz best responses and is left open.
 \end{proof}
@@ -504,8 +504,8 @@ A two-player version needs the responder's target and observer written down and 
 \label{sec:use}
 
 Three things would let outside researchers use the construction without adopting its vocabulary.
-The first is the readscope instrument, already released, which recovers a read operator from consumer calls, certifies its rank, and reports the budget cliff.
-The second is the eris-econ package, already released, which reproduces every number of the economics paper from the encodings of its Table IV.
+The first is the readscope instrument~\cite{bond2026readscope}, already released, which recovers a read operator from consumer calls, certifies its rank, and reports the budget cliff.
+The second is the eris-econ package~\cite{bond2026eriseconsw}, already released, which reproduces every number of the economics paper from the encodings of its Table IV.
 The third is one new domain in which the consumer is a black box and the output metric is a success rate, so that the read operator is recovered rather than coded and the transfer regret of Proposition~\ref{prop:regret} is measured between two consumers of the same representation.
 A tool-selection consumer inside a language-model agent, with the embedding of the tool description as the source and task success as the metric, is one such domain, and it is a measurement to be registered, not a claim.
 
@@ -542,14 +542,74 @@ Two-player BGE shift matching Andersen & not computed & Section~\ref{sec:bge} \\
 \end{tabular}
 \end{center}
 
-\section*{Sources}
-The observer triple, the read operator, the quotient, the blind probe, and the budget cliff are defined in the Observation Theory encyclopedia and in the book chapters on the observer triple and on the read metric and the quotient, with Lean checks of the read-operator lemmas in the data-mining formalization.
-The coding results are in ``Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context.''
-The decision results are in ``Geometric Prediction of Economic Behavior'' (IEEE Transactions on Computational Social Systems, accepted), whose Section IV and Table IV give the encoding used in Corollary~\ref{cor:decision}.
-Regularity for random-utility models is Block and Marschak (1960) and Falmagne (1978).
-Existence is Debreu (1952), Glicksberg (1952), and Fan (1952).
-PPAD-completeness of Nash is Daskalakis, Goldberg, and Papadimitriou (2009) and Chen, Deng, and Teng (2009).
-Ky Fan's maximum principle is Fan (1949).
-Full bibliographic entries with DOIs are to be added before circulation.
+\begin{thebibliography}{99}
+
+\bibitem{lee2012}
+J.~M.~Lee, \emph{Introduction to Smooth Manifolds}, 2nd~ed., Graduate Texts in Mathematics, vol.~218. New York, NY, USA: Springer, 2012, doi: 10.1007/978-1-4419-9982-5.
+
+\bibitem{fan1949}
+K.~Fan, ``On a theorem of Weyl concerning eigenvalues of linear transformations I,'' \emph{Proc. Nat. Acad. Sci. USA}, vol.~35, no.~11, pp.~652--655, 1949, doi: 10.1073/pnas.35.11.652.
+
+\bibitem{cover2006}
+T.~M.~Cover and J.~A.~Thomas, \emph{Elements of Information Theory}, 2nd~ed. Hoboken, NJ, USA: Wiley, 2006, doi: 10.1002/047174882X.
+
+\bibitem{amari2016}
+S.~Amari, \emph{Information Geometry and Its Applications}, Applied Mathematical Sciences, vol.~194. Tokyo, Japan: Springer, 2016, doi: 10.1007/978-4-431-55978-8.
+
+\bibitem{bond2026tit}
+A.~H.~Bond, ``Tradeoffs between rate and conditional content with encoder-observed context,'' manuscript, 2026. Sources archived in the geometric-observation repository, doi: 10.5281/zenodo.21776291.
+
+\bibitem{steinberg2009}
+Y.~Steinberg, ``Coding and common reconstruction,'' \emph{IEEE Trans. Inf. Theory}, vol.~55, no.~11, pp.~4995--5010, Nov. 2009, doi: 10.1109/TIT.2009.2030487.
+
+\bibitem{bond2026tcss}
+A.~H.~Bond, ``Geometric prediction of economic behavior: Cross-domain validation across game theory and prospect theory,'' \emph{IEEE Trans. Comput. Social Syst.}, 2026, accepted for publication.
+
+\bibitem{andersen2011}
+S.~Andersen, S.~Erta\c{c}, U.~Gneezy, M.~Hoffman, and J.~A.~List, ``Stakes matter in ultimatum games,'' \emph{Amer. Econ. Rev.}, vol.~101, no.~7, pp.~3427--3439, Dec. 2011, doi: 10.1257/aer.101.7.3427.
+
+\bibitem{bond2026eriseconsw}
+A.~H.~Bond, ``eris-econ: Geometric economics on multi-dimensional decision manifolds,'' ver.~0.1.0, Zenodo, Jun. 2026, doi: 10.5281/zenodo.20660123. [Online]. Available: \url{https://pypi.org/project/eris-econ/}
+
+\bibitem{luce1959}
+R.~D.~Luce, \emph{Individual Choice Behavior: A Theoretical Analysis}. New York, NY, USA: Wiley, 1959.
+
+\bibitem{block1960}
+H.~D.~Block and J.~Marschak, ``Random orderings and stochastic theories of responses,'' in \emph{Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling}, I.~Olkin, S.~G.~Ghurye, W.~Hoeffding, W.~G.~Madow, and H.~B.~Mann, Eds. Stanford, CA, USA: Stanford Univ. Press, 1960, pp.~97--132.
+
+\bibitem{falmagne1978}
+J.-C.~Falmagne, ``A representation theorem for finite random scale systems,'' \emph{J. Math. Psychol.}, vol.~18, no.~1, pp.~52--72, 1978, doi: 10.1016/0022-2496(78)90048-2.
+
+\bibitem{huber1982}
+J.~Huber, J.~W.~Payne, and C.~Puto, ``Adding asymmetrically dominated alternatives: Violations of regularity and the similarity hypothesis,'' \emph{J. Consumer Res.}, vol.~9, no.~1, pp.~90--98, Jun. 1982, doi: 10.1086/208899.
+
+\bibitem{bond2026readscope}
+A.~H.~Bond, ``readscope: A specified instrument for recovering a consumer's read operator,'' ver.~0.1.0, 2026. [Online]. Available: \url{https://pypi.org/project/readscope/} and \url{https://github.com/ahb-sjsu/readscope}
+
+\bibitem{bond2026encyclopedia}
+A.~H.~Bond, \emph{The Observation Theory Encyclopedia}, entries \emph{observer}, \emph{read operator}, \emph{quotient}, \emph{blind probe}, and \emph{budget cliff}, generated 2026-09-06 from the book \emph{Data Mining as Observation}, draft 0.2. [Online]. Available: \url{https://erisml.org/encyclopedia}
+
+\bibitem{constantine2015}
+P.~G.~Constantine, \emph{Active Subspaces: Emerging Ideas for Dimension Reduction in Parameter Studies}. Philadelphia, PA, USA: SIAM, 2015, doi: 10.1137/1.9781611973860.
+
+\bibitem{kakutani1941}
+S.~Kakutani, ``A generalization of Brouwer's fixed point theorem,'' \emph{Duke Math. J.}, vol.~8, no.~3, pp.~457--459, 1941, doi: 10.1215/S0012-7094-41-00838-4.
+
+\bibitem{debreu1952}
+G.~Debreu, ``A social equilibrium existence theorem,'' \emph{Proc. Nat. Acad. Sci. USA}, vol.~38, no.~10, pp.~886--893, 1952, doi: 10.1073/pnas.38.10.886.
+
+\bibitem{glicksberg1952}
+I.~L.~Glicksberg, ``A further generalization of the Kakutani fixed point theorem, with application to Nash equilibrium points,'' \emph{Proc. Amer. Math. Soc.}, vol.~3, no.~1, pp.~170--174, 1952, doi: 10.1090/S0002-9939-1952-0046638-5.
+
+\bibitem{fan1952}
+K.~Fan, ``Fixed-point and minimax theorems in locally convex topological linear spaces,'' \emph{Proc. Nat. Acad. Sci. USA}, vol.~38, no.~2, pp.~121--126, 1952, doi: 10.1073/pnas.38.2.121.
+
+\bibitem{daskalakis2009}
+C.~Daskalakis, P.~W.~Goldberg, and C.~H.~Papadimitriou, ``The complexity of computing a Nash equilibrium,'' \emph{SIAM J. Comput.}, vol.~39, no.~1, pp.~195--259, 2009, doi: 10.1137/070699652.
+
+\bibitem{chen2009}
+X.~Chen, X.~Deng, and S.-H.~Teng, ``Settling the complexity of computing two-player Nash equilibria,'' \emph{J. ACM}, vol.~56, no.~3, Art.~no.~14, May 2009, doi: 10.1145/1516512.1516516.
+
+\end{thebibliography}
 
 \end{document}
