@@ -1,11 +1,11 @@
 # Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context
 
-**→ [Read the paper (PDF, 37 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
+**→ [Read the paper (PDF, 38 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
 
 The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
-IEEE Transactions on Information Theory submission. Single author. 37 pp.
+IEEE Transactions on Information Theory submission. Single author. 38 pp.
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
@@ -206,7 +206,7 @@ collide; the paper states the far branch `D > 1 − ρ²` separately.
 # manuscript (run twice for cross-references)
 pdflatex -interaction=nonstopmode tit-cr-context.tex
 pdflatex -interaction=nonstopmode tit-cr-context.tex
-# expect: 37 pages, zero undefined references, zero overfull hboxes
+# expect: 38 pages, zero undefined references, zero overfull hboxes
 
 # cover letter
 pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 1 page
