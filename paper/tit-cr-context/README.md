@@ -20,9 +20,11 @@ prices can take.
 are quantized, the paper's own finite-alphabet theorem is invoked, and the
 limit is passed with weak convergence plus lower semicontinuity of mutual
 information; no abstract-alphabet covering or Markov lemma is imported, and
-the former cell-bound lemma is gone. The Landauer reading is stated as a
-hypothesis on the reset protocol (equipartition of the pair (M, S^n)), not
-as a result, and is out of the abstract and keywords. The determinant-bound
+the former cell-bound lemma is gone. The Landauer reading is stated in the
+average-work form of stochastic thermodynamics (Esposito and Van den Broeck
+2011; Sagawa and Ueda 2012; Parrondo, Horowitz, and Sagawa 2015), in which
+W = kT ln2 H(M|S^n) is exact for every code; the single-shot smooth-entropy
+setting is disclaimed, not used. The determinant-bound
 attainment theorem (formerly Section VI) is stated without proof as a remark;
 its proof lives in the archived full-length version under `archive/`. The
 numerical-verification appendix is one paragraph; the check table is in

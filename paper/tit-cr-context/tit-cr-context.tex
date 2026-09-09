@@ -46,8 +46,10 @@ $V$ is the context. A third party retains a noisy copy $S=V+U$ of the
 context and never decodes. We characterize the conditional content
 $L=I(X;\hX\mid S)$ of the stored description relative to the retained
 context: Steinberg's common-reconstruction functional applied to the
-augmented source $X=(Y,V)$ with distortion on $Y$ alone. Three results
-are primary. First, a closed form:
+augmented source $X=(Y,V)$ with distortion on $Y$ alone. In the
+average-work form of Landauer's bound with side information, $L$ is
+exactly the ideal erasure work per symbol in units of $\kb T\ln 2$.
+Three results are primary. First, a closed form:
 $L(D)=\tfrac12\log_2 g^\star$, with $g^\star$ the larger root of an
 explicit quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, when
 $Y$ and $V$ are scalar linear functionals of an arbitrary-dimensional
@@ -101,10 +103,10 @@ conditional content of an admissible description; by the operational
 theorems of Section~\ref{sec:operational} and, for the Gaussian source,
 Appendix~\ref{app:gaussian}, it is the least asymptotically achievable
 value of the normalized conditional entropy $H(M\mid S^n)/n$ of the stored
-index $M$ among codes meeting the distortion constraint. A
-thermodynamic reading of this quantity, as ideal erasure work per
-symbol, is stated once, as a hypothesis on the reset protocol rather
-than a result, in Remark~\ref{rem:thermo}.
+index $M$ among codes meeting the distortion constraint. The
+thermodynamic reading of this quantity, as the minimal average erasure
+work per symbol under an ideal conditional reset, is stated once, in
+Remark~\ref{rem:thermo}, together with the setting it needs.
 
 The single-letter functional itself is not new. With the augmented source
 $X=(Y,V)$ and a distortion that ignores the $V$ coordinate,
@@ -347,9 +349,11 @@ reduced marginal (Corollary~\ref{cor:notmarginal}) are, to our knowledge, new
 relative to this line.
 
 The thermodynamic reading of $L$ rests on Landauer's principle
-\cite{landauer1961} and its conditional sharpenings
-\cite{delrio2011,faist2015}; Remark~\ref{rem:thermo} states the reading,
-its hypothesis, and its scope. Task-based quantization
+\cite{landauer1961} in its average-work form for arbitrary distributions
+\cite{esposito2011} and with side information \cite{sagawa2012,parrondo2015};
+the single-shot sharpenings \cite{delrio2011,faist2015} price the same
+reset by smooth entropies, and Remark~\ref{rem:thermo} states the
+reading, its setting, and its scope. Task-based quantization
 \cite{shlezinger2019} and semantic and goal-oriented communication
 \cite{gunduz2023} also price descriptions by a downstream objective
 rather than by reconstruction alone; the structural difference here is
@@ -736,34 +740,36 @@ been verified numerically at finite blocklength
 (Appendix~\ref{app:numver}).
 
 \begin{remark}[Thermodynamic reading]\label{rem:thermo}
-This remark states the paper's only physical reading. It is a reading
-adopted under a stated hypothesis, not a result of this paper;
-everywhere else $L_n$ and $L(D)$ are the coding quantities
-\eqref{eq:work-def} and \eqref{eq:work-endpoint}. The reset model is the
-ideal conditional-erasure protocol of \cite{delrio2011,faist2015},
-specialized to classical side information: the third party may apply
-ideal joint operations to the record and a work reservoir, conditioned
-on the classical side information $S^n$, which is read without
-disturbance and remains unchanged; only the record $M$ is required to
-return to a standard state. For such protocols the single-shot results
-of \cite{delrio2011,faist2015} bound the work of resetting $M$ above and
-below by smooth conditional entropies of the pair $(M,S^n)$. Whenever
-those smooth entropies agree with the Shannon conditional entropy
-$H(M\mid S^n)$ up to $o(n)$, the minimal average work is
+This remark states the paper's only physical claim; everywhere else
+$L_n$ and $L(D)$ are the coding quantities \eqref{eq:work-def} and
+\eqref{eq:work-endpoint}. The reset model is that of stochastic
+thermodynamics with side information: the third party holds the record
+$M$ and the classical side information $S^n$, which is read without
+disturbance and remains unchanged; it knows the joint law of $(M,S^n)$
+induced by the code; it may drive $M$ by any protocol in contact with a
+heat bath at temperature $T$, conditioned on $S^n$; the work supplied
+may fluctuate from run to run and only its mean is counted; and only
+$M$ is required to return to a standard state. Under these conditions
+the generalized second law with correlations
+\cite{sagawa2012,parrondo2015} bounds the average work of any process
+that resets $M$ below by $\kb T\ln2\,H(M\mid S^n)$: Landauer's bound
+\cite{landauer1961}, valid for arbitrary distributions
+\cite{esposito2011}, with the entropy of the record reduced by its
+mutual information with the retained side information. The bound is
+attained by a quasi-static isothermal protocol conditioned on $S^n$, so
+the minimal average work is exactly
 \begin{equation}
- W_n^{\min}\;=\;\kb T\ln2\,H(M\mid S^n)+o(n)
- \;=\;n\,\kb T\ln2\,\bigl(L_n+o(1)\bigr),
+ W_n^{\min}\;=\;\kb T\ln2\,H(M\mid S^n)\;=\;n\,\kb T\ln2\,L_n ,
  \label{eq:landauer-bound}
 \end{equation}
-Landauer's bound \cite{landauer1961} conditioned on the retained side
-information. That agreement is an equipartition property of the pair
-$(M,S^n)$, which a code does not make i.i.d.; the asymptotic statements
-of \cite{delrio2011,faist2015} establish it for i.i.d.\ pairs, and we do
-not prove it for the codes constructed in this paper. Under that
-hypothesis, and only under it, Theorem~\ref{thm:main-region}, and
-Theorem~\ref{thm:gaussop} for the Gaussian source, identify $L(D)$ with
-the least asymptotic erasure work per symbol, in units of $\kb T\ln2$,
-over codes meeting the distortion constraint. The scope of the reading:
+with no error term and for every code. Hence, by
+Theorem~\ref{thm:main-region}, and by Theorem~\ref{thm:gaussop} for the
+Gaussian source, $L(D)$ is the least asymptotic average erasure work
+per symbol, in units of $\kb T\ln2$, over codes meeting the distortion
+constraint. This is the average-work setting. The single-shot,
+deterministic-work setting of \cite{delrio2011,faist2015} prices the
+same reset by smooth conditional entropies of the pair $(M,S^n)$, and
+we make no claim in that setting. The scope of the claim:
 \eqref{eq:landauer-bound} prices only the logically irreversible reset
 of the volatile index $M$; it does not count the work of acquiring
 $X^n$, driving a channel, correcting errors, or finishing in finite time
@@ -2736,10 +2742,10 @@ reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
 description content is a property of the encoding configuration, not of the
 source and side-information pair alone.
 
-Under the reading of Remark~\ref{rem:thermo}, adopted there as a
-hypothesis on the reset protocol, $L(D)$ is the ideal erasure work per
-symbol, in units of $\kb T\ln2$, paid by a reset mechanism that retains
-$S$. The region states when storing
+Under the average-work Landauer bound with side information
+(Remark~\ref{rem:thermo}), $L(D)$ is exactly the minimal ideal erasure
+work per symbol, in units of $\kb T\ln2$, paid by a reset mechanism that
+retains $S$. The region states when storing
 cheaply and erasing cheaply are compatible: at $\rho=0$ one channel minimizes
 both coordinates, and under misalignment ($\rho^2\in(0,1)$, $\tau^2>0$) the
 two costs strictly trade off. No result of the paper depends on this
@@ -3270,6 +3276,15 @@ vol. 474, pp. 61--63, 2011.
 \bibitem{faist2015} P. Faist, F. Dupuis, J. Oppenheim, and R. Renner, ``The
 minimal work cost of information processing,'' \emph{Nature Commun.}, vol. 6,
 art. 7669, 2015.
+\bibitem{esposito2011} M. Esposito and C. Van den Broeck, ``Second law and
+Landauer principle far from equilibrium,'' \emph{Europhys. Lett.}, vol. 95,
+art. 40004, 2011.
+\bibitem{sagawa2012} T. Sagawa and M. Ueda, ``Fluctuation theorem with
+information exchange: Role of correlations in stochastic thermodynamics,''
+\emph{Phys. Rev. Lett.}, vol. 109, art. 180602, 2012.
+\bibitem{parrondo2015} J. M. R. Parrondo, J. M. Horowitz, and T. Sagawa,
+``Thermodynamics of information,'' \emph{Nature Phys.}, vol. 11,
+pp. 131--139, 2015.
 \bibitem{bond2026landauer} A. H. Bond, ``A rate--work--distortion region for
 consumer-relative observation,'' preliminary manuscript, 2026, archived at
 doi:10.5281/zenodo.21776291.
