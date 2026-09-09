@@ -168,6 +168,16 @@ the induced correlation as $\rho^2\to1$, together with the strict
 suboptimality of marginalization (Corollary~\ref{cor:margstrict}) and an
 exact information-bottleneck identity for the weighted objective.
 
+The dependency chain is short. Theorem~\ref{thm:main-region} and
+Lemma~\ref{lem:construction} give the discrete region and the
+finite-blocklength construction; Lemma~\ref{thm:pair} reduces the
+Gaussian problem to the pair; Lemma~\ref{lem:gauss} supplies the
+Gaussian exhaustion; Theorem~\ref{thm:function}(a) is the closed form;
+Proposition~\ref{prop:uniq} and Theorem~\ref{thm:function}(b) give
+uniqueness and the region; Corollaries~\ref{cor:misalign}
+and~\ref{cor:notmarginal} follow; and Theorems~\ref{thm:vector},
+\ref{thm:binary}, and~\ref{thm:gaussop} are downstream.
+
 \subsection*{Related work}
 
 Conditional rate--distortion theory is due to Gray
@@ -233,7 +243,8 @@ $\tfrac12\log_2\bigl[(1-\rho^2)(\tau^2+D_V)/(sDD_V)\bigr]$: their
 Assumption~1 holds in the $(Y,V)$ coordinates, since
 $\Sigma_{T\mid S}^{-1}-\Sigma_T^{-1}=\mathrm{diag}(0,\tau^{-2})$, and the
 same specialization returns Steinberg's scalar formula when the context
-is dropped. The present problem is the limit $D_V\to\infty$ of theirs,
+is dropped. The present problem is the unpenalized-context limit $D_V\to\infty$ of
+the underlying Lu--Xu constraint family,
 at which the covariance constraint reduces to $\E(Y-\hY)^2\le D$; every
 channel feasible for their constraint is feasible here, and dropping
 $\hat V$ lowers the conditional information by data processing, so
@@ -241,10 +252,13 @@ their function is at least $L(D)$ wherever it is defined. What their
 closed form does not cover is that limit: its hypothesis
 $\mathbf D\preceq\Sigma_X$ forces $(1-D)(1-D_V)\ge\rho^2$, which leaves
 no admissible $D_V$ unless $D<1-\rho^2$ and never leaves the context
-unpenalized. On the admissible range the inequality is strict, the
-constraint on $V$ binding (ten thousand random instances,
-Appendix~\ref{app:numver}), and the formal continuation of the formula
-to $D_V=\operatorname{Var}V$ equals Gray's clean-context function
+unpenalized. On the admissible range the inequality is strict: the specialized
+value decreases in $D_V$, and at the largest admissible $D_V$ it equals
+$\tfrac12\log_2g_R$ with
+$P(g_R)=\rho^2\tau^2(1-D)(1-\rho^2)/\bigl(s(1-D-\rho^2)^2\bigr)>0$, so
+$g_R\ne g^\star$ while $g_R\ge g^\star$ by the inequality just proved.
+The formal continuation of the formula to $D_V=\operatorname{Var}V$
+equals Gray's clean-context function
 $\tfrac12\log_2\bigl((1-\rho^2)/D\bigr)$, strictly below $L(D)$ whenever
 $\rho\tau\ne0$, falling further beyond. Theorem~\ref{thm:function}(a)
 is therefore the value of a limit that their closed form is not stated
@@ -385,7 +399,8 @@ The three operational quantities are
 The dimensionless quantity $L_n$ is the residual description content: the
 uncertainty about the stored index that remains given the retained side
 information. We call it the \emph{conditional content} of the memory relative
-to the retained side information; the thermodynamic reading of
+to the retained side information, a name introduced here for the
+normalized conditional entropy of the index; the thermodynamic reading of
 Remark~\ref{rem:thermo}, after the coding theorem, is the reason for
 pricing it. Every statement and proof of the paper treats $L_n$ as
 the coding quantity \eqref{eq:work-def}, in bits per source symbol.
@@ -543,8 +558,8 @@ For a discrete memoryless source $(X,S)$ and bounded distortion $d$,
 By Lemma~\ref{lem:convexity} both coordinates are convex in the common
 test channel, so the union is already convex, and it is closed and
 right-continuous in the distortion level (Lemma~\ref{lem:rightcont});
-consequently no time sharing is required, and every boundary point is
-attained by a single test channel.
+consequently no time sharing is required, and every Pareto-optimal
+point of the region is attained by a single test channel.
 \end{theorem}
 
 \begin{proof}
@@ -582,7 +597,8 @@ which places $(R_n,L_n)$ in the (already convex and closed) union of
 \eqref{eq:main-region} is the set $\mathcal R(D_n)$ of
 Lemma~\ref{lem:rightcont}, so, for an achievable triple with
 $\limsup D_n\le D$, the sequential form of that lemma places every
-limit point of $(R_n,L_n)$, and with it $(R,L)$, in the right side of
+limit point of $(R_n,L_n)$, a bounded sequence by
+Definition~\ref{def:achievability}, and with it $(R,L)$, in the right side of
 \eqref{eq:main-region} at $D$.
 
 For achievability, fix $p(\hat x\mid x)\in\mathcal T(D)$ and $\epsilon>0$.
@@ -590,8 +606,9 @@ Generate a random codebook $\mathcal C$ of $2^{n(I(X;\hX)+2\epsilon)}$
 independent $\hat x^n$ codewords drawn from the $\hX$-marginal, and,
 independently, a random binning $b$ assigning each codeword index
 uniformly to one of $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins. The covering
-encoder selects a codeword jointly (strongly) typical with $x^n$,
-declaring failure otherwise, and stores its index $M$; the decoder
+encoder selects the smallest index among the codewords jointly
+(strongly) typical with $x^n$, declaring failure otherwise, and stores
+that index $M$; the decoder
 reconstructs the codeword from $M$ alone. Two failure events. First,
 $E_{\mathrm{cov}}$: no jointly typical codeword exists;
 $\Pr(E_{\mathrm{cov}})\to0$, averaged over $(X^n,\mathcal C)$, by the
@@ -607,9 +624,13 @@ and the Wyner--Ziv packing argument \cite{wynerziv1976} (the Markov lemma for
 the typicality of the selected codeword with $S^n$, and the packing
 bound for wrong codewords in the bin) gives a decoder that recovers $M$
 from $(B,S^n)$, $B=b(M)$, with
-$\Pr(E_{\mathrm{bin}})\to0$ averaged over $(X^n,S^n,\mathcal C,b)$.
-This decoder is a proof device; the actual decoder of the code still
-receives no side information.
+$\Pr(E_{\mathrm{bin}})\to0$ averaged over $(X^n,S^n,\mathcal C,b)$: it
+outputs the unique codeword in bin $B$ jointly typical with $S^n$ and
+declares an error otherwise. If $I(S;\hX)=0$, so that
+$I(X;\hX\mid S)=I(X;\hX)$, the number of bins exceeds the number of
+codewords and the bin index determines $M$ with high probability; the
+conclusion is unchanged. This decoder is a proof device; the actual
+decoder of the code still receives no side information.
 
 \emph{Selection of one deterministic code.} Let
 $\epsilon_n:=\E_{\mathcal C,b}\bigl[\Pr(E_{\mathrm{cov}}\mid\mathcal C)
@@ -650,7 +671,8 @@ Let $(X,S)$ be a discrete memoryless source with finite alphabets, $d$ a
 distortion with maximum $d_{\max}$, $p(\hat x\mid x)$ a test channel
 with $\hX-X-S$ and finite reproduction alphabet, and $\epsilon>0$. There
 is a sequence $\epsilon_n\to0$, depending on the joint law, the channel,
-and $\epsilon$, such that for every $n$ there is a deterministic code
+and $\epsilon$, such that for all sufficiently large $n$ there is a
+deterministic code
 with $|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion
 $D_n\le\E\,d(X,\hX)+\epsilon+2\epsilon_nd_{\max}$, and
 \[
@@ -681,7 +703,12 @@ disturbance and remains unchanged; it knows the joint law of $(M,S^n)$
 induced by the code; it may drive $M$ by any protocol in contact with a
 heat bath at temperature $T$ (the temperature, not the pair of Section~\ref{sec:pair}), conditioned on $S^n$; the work supplied
 may fluctuate from run to run and only its mean is counted; and only
-$M$ is required to return to a standard state. Under these conditions
+$M$ is required to return to a standard state. The memory is the
+ideal degenerate logical memory of Landauer's setting: its logical
+states carry no energy difference, the protocol is cyclic in the
+memory's Hamiltonian, and the side-information subsystem is left
+unchanged; the identity below is the infimum in that model, not a claim
+about a particular device. Under these conditions
 the generalized second law with correlations
 \cite{sagawa2012,parrondo2015} bounds the average work of any process
 that resets $M$ below by $\kb T\ln2\,H(M\mid S^n)$: Landauer's bound
@@ -940,8 +967,7 @@ deterministic function of $X$, has distortion
 $\E\bigl((X_1-X_2)/2\bigr)^2=\tfrac12\le D$, and is constant given $S$, so
 $I(X;\hY\mid S)=0$.
 
-(iii) Subtract. The closed forms on both sides have been verified
-numerically.
+(iii) Subtract.
 \end{proof}
 
 The closed form occupies the rest of this section. By
@@ -995,7 +1021,12 @@ second moments and attains both bounds with equality simultaneously.
 \end{lemma}
 
 \begin{proof}
-\emph{Step 1: the max-entropy bound.} Write
+\emph{Step 1: the max-entropy bound.} The identity
+$I(T;\hY\mid S)=h(T\mid S)-h(T\mid\hY,S)$ is used as an extended-real
+identity: mutual information is the relative entropy of the joint law
+with respect to the product of its marginals \cite{pinsker1964}, and
+$h(T\mid\hY,S)=-\infty$ is the case of infinite conditional
+information that Remark~\ref{rem:degenerate} treats. Write
 $M:=\Cov\bigl((\hat{\mathbf Y},S)\bigr)$ and
 $J:=\Cov\bigl(T,(\hat{\mathbf Y},S)\bigr)\in\R^{p\times(m+r)}$. First,
 $M\succ0$: by the Schur-complement criterion on
@@ -1839,9 +1870,7 @@ content-optimal channel,
 \]
 the content of the classical reverse channel, and
 $\RLs(D)=\tfrac12\log_2\bigl[(Q_0+\nu)/\nu\bigr]$ evaluated at the channel of
-Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. (Numerically,
-at $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$: $\RLs(D)-R_{\min}=0.0400$ and
-$\LRs(D)-L(D)=0.0349$ bits; Fig.~\ref{fig:frontier}.) When $\rho=0$ the classical reverse channel
+Theorem~\ref{thm:function} strictly exceeds $R_{\min}$. When $\rho=0$ the classical reverse channel
 attains both minima and the frontier is a single corner. The frontier
 also collapses in the limits $\rho^2\to1$ (where both endpoint
 excesses vanish; see the proof) and $\tau^2\to\infty$ (where
@@ -2668,7 +2697,17 @@ Section~\ref{sec:pair} ($r=1$) or Section~\ref{sec:vector}; the
 distortion is
 $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
 $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
-achievability is Definition~\ref{def:achievability}.
+achievability is Definition~\ref{def:achievability}. The proof
+establishes, in order: the converse with differential entropies;
+closedness and right-continuity of the union; restriction to Gaussian
+channels; and achievability in three steps, quantizing the conditioner
+(Step A), then the source and the reproduction (Step B, with a finite
+reproduction alphabet at every stage and the Markov chain preserved by
+construction), then returning to the unquantized conditioner through
+$H(M\mid S^n)\le H(M\mid S_\Delta^n)$ (Step C). The rate and content
+coordinates converge by data processing, martingale convergence, and
+lower semicontinuity of mutual information; the distortion is
+transferred exactly by memorylessness rather than by weak convergence.
 
 One device is fixed first, the \emph{saturating dyadic quantizers}:
 for $k\ge1$, $q_k$ partitions $\R$ into the bounded cells
