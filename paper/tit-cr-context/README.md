@@ -280,6 +280,7 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | `plot_frontier_multi.py` → `frontier_multi.pdf/.png` | Fig 3: the frontier at ρ² = 0.2, 0.5, 0.8 (fixed τ² = 0.5, D = 0.3), with the endpoint gaps. Added in the September 2026 revision. |
 | `plot_notmarginal.py` → `notmarginal.pdf/.png` | Archived versions only; the figure was cut from the manuscript. |
 | `plot_binary.py` → `binary.pdf/.png` | Fig 4: binary tilt root, objective, and rate–content frontier. |
+| `reproduce.ipynb` | Executed reproduction notebook (supplementary material): closed form vs direct minimization, anchors, frontier and endpoint excesses, non-determination table with exact surds, attainment remark, binary tilt root, the three harnesses; figures regenerated into a scratch directory. |
 | `VERIFICATION.md` | Full script inventory and what each check covers. |
 | `EXTRACTION-PLAN.md` | Provenance and the complete revision log, M1 through M9. |
 | `NOVELTY-SWEEP.md` | The September 2026 prior-art screen: what was checked, the Lu et al. comparison, and the outcomes. |

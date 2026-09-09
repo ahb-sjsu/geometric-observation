@@ -19,6 +19,13 @@ clean object on Atlas with Lean 4.32.2, 298 s, zero errors, zero sorry).
 
 ## Script inventory
 
+- `reproduce.ipynb` (executed 2026-09-09, 12 code cells, 0 errors) -- the
+  supplementary notebook: reproduces the closed form, anchors, frontier,
+  non-determination table, attainment remark, and binary tilt root from first
+  principles, regenerates Figs. 2-4 into a scratch directory, and runs the three
+  Python harnesses below. Re-execute with
+  `jupyter nbconvert --to notebook --execute --inplace reproduce.ipynb`.
+
 - `verify_converses.py` — the author's harness, written alongside the
   proofs. Nineteen checks: seven exact-symbolic (sympy) on the
   determinant identities, the four gradient identities, the linearity
