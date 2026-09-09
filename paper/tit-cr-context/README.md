@@ -1,11 +1,11 @@
 # Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context
 
-**→ [Read the paper (PDF, 38 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
+**→ [Read the paper (PDF, 33 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
 
 The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
-IEEE Transactions on Information Theory submission. Single author. 38 pp.
+IEEE Transactions on Information Theory submission. Single author. 33 pp.
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
@@ -13,6 +13,23 @@ decoder that sees the description alone. A third party retains a noisy copy
 the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
+
+**Revision of 2026-09-09 (referee-driven).** The Gaussian achievability
+(Appendix B, Step B) is now self-contained: the source and the reproduction
+are quantized, the paper's own finite-alphabet theorem is invoked, and the
+limit is passed with weak convergence plus lower semicontinuity of mutual
+information; no abstract-alphabet covering or Markov lemma is imported, and
+the former cell-bound lemma is gone. The Landauer reading is stated as a
+hypothesis on the reset protocol (equipartition of the pair (M, S^n)), not
+as a result, and is out of the abstract and keywords. The determinant-bound
+attainment theorem (formerly Section VI) is stated without proof as a remark;
+its proof lives in the archived full-length version under `archive/`. The
+numerical-verification appendix is one paragraph; the check table is in
+`VERIFICATION.md`. Bracketed role words were removed from theorem titles.
+Scope against Lapidoth-Malar-Wigger (scalar Gaussian, finite-alphabet
+augmentation remark) and Lu-Xu 2021 (positive diagonal constraints on every
+coordinate) is stated in the Introduction and Related Work. The HTML
+rendering has not been regenerated and is stale.
 
 **Status: submission-grade.** Five full independent verification passes plus a
 dedicated audit of the coding theorem, all confirmed. Remaining gates are
@@ -206,7 +223,7 @@ collide; the paper states the far branch `D > 1 − ρ²` separately.
 # manuscript (run twice for cross-references)
 pdflatex -interaction=nonstopmode tit-cr-context.tex
 pdflatex -interaction=nonstopmode tit-cr-context.tex
-# expect: 38 pages, zero undefined references, zero overfull hboxes
+# expect: 33 pages, zero undefined references, zero overfull hboxes
 
 # cover letter
 pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 1 page
