@@ -152,10 +152,10 @@ consequence of that characterization.
 
 The remaining results are extensions, consistency anchors, and one
 attainment remark. Remark~\ref{rem:floor} reads off the closed form when
-the conditional-variance lower bound is attained: the condition involves the encoder-accessible
-conditional variance, not the third party's. Three extensions follow: the binary
-case closes completely, for a doubly symmetric binary source with a
-binary symmetric context channel, through an elementary tilt equation
+the conditional-variance lower bound is attained. Three extensions
+follow: the rate--content frontier of a doubly symmetric binary source
+with a binary symmetric context channel is traced through an elementary
+tilt equation
 anchored at Gray's binary conditional function and the marginal
 rate--distortion function (Section~\ref{sec:binary}); the frontier
 extends to vector context (Section~\ref{sec:vector}); and the operational
@@ -212,7 +212,8 @@ analyzed the configurations in which the encoder is informed of the
 side information. Here the encoder-held context $V$ matters because the
 priced coordinate is conditional on $S$, with which $V$ is correlated,
 and access to $V$ strictly lowers the price for every $\rho\ne0$
-(Corollary~\ref{cor:margstrict}). Heegard and Berger
+(Corollary~\ref{cor:margstrict} for $\tau^2>0$;
+Proposition~\ref{prop:marg} at the clean-context boundary). Heegard and Berger
 \cite{heegardberger1985} serve decoders with and without side
 information from one description, and Ahmadi, Tandon, Simeone, and
 Poor \cite{ahmadi2013} imposed the common-reconstruction constraint on
@@ -1430,20 +1431,20 @@ this is $\tfrac12\log_2\bigl[(\tau^2+D)/(sD)\bigr]$, the same value.
 
 \begin{corollary}\label{cor:margstrict}
 Under the standing model, for every $\rho\ne0$ and $0<D<1$,
-$L(D)<\tfrac12\log_2 g_S$ with $g_S=(s-\rho^2+\rho^2D)/(sD)$, the value
+$L(D)<\tfrac12\log_2 g_{\mathrm m}$ with $g_{\mathrm m}=(s-\rho^2+\rho^2D)/(sD)$, the value
 of Steinberg's scalar formula \cite{steinberg2009} on the reduced pair
 $(Y,S)$; so a channel that depends on $X$ through $Y$ alone is strictly
 suboptimal.
 \end{corollary}
 
 \begin{proof}
-The marginalized class attains exactly $\tfrac12\log_2g_S$, the
+The marginalized class attains exactly $\tfrac12\log_2g_{\mathrm m}$, the
 scalar-corner value of the reduction preceding
 Proposition~\ref{prop:marg} at $\rho_{YS}^2=\rho^2/s$. Substituting into
-\eqref{eq:Pg} gives $P(g_S)=\rho^2(1-D)(1-\rho^2)/s>0$ and
-$g_S-1=(1-D)(s-\rho^2)/(Ds)>0$. Since $P(1)=(D-1)\tau^2<0$, the two
+\eqref{eq:Pg} gives $P(g_{\mathrm m})=\rho^2(1-D)(1-\rho^2)/s>0$ and
+$g_{\mathrm m}-1=(1-D)(s-\rho^2)/(Ds)>0$. Since $P(1)=(D-1)\tau^2<0$, the two
 roots of $P$ bracket $1$; a point above $1$ at which $P>0$ lies above
-the larger root, so $g_S>g^\star$.
+the larger root, so $g_{\mathrm m}>g^\star$.
 \end{proof}
 
 
@@ -1487,7 +1488,7 @@ at the endpoint weights $\alpha\in\{0,1\}$ this a priori fixes only
 one coordinate of the minimizer, and the value of the other
 coordinate is pinned by the uniqueness of the minimizing moments
 (Proposition~\ref{prop:uniq} below; the argument is run in detail in
-the proof of Corollary~\ref{cor:misalign} at the end of this section).
+the proof of Corollary~\ref{cor:misalign} later in this section).
 
 \emph{The two determinant identities.} Fix an admissible channel,
 centered without loss, with regression coordinates $(a,b,\nu)$, $\nu>0$,
@@ -1911,7 +1912,9 @@ reaching, for instance, $\RLs(D)-R_{\min}=1.537$ bits at
 $(0.5,10^{-3},0.5)$; the content excess instead saturates there at
 $\tfrac12\log_2(1+\rho^2)$, the clean-boundary value of
 Proposition~\ref{rem:cleanboundary} evaluated at $D=1-\rho^2$. All quoted
-values are computed by the verification script.
+values are computed by the verification script. Fig.~\ref{fig:frontiermulti} repeats the construction at
+$\rho^2\in\{0.2,0.5,0.8\}$ with $\tau^2=0.5$ and $D=0.3$; the frontier is a
+nondegenerate curve at each, as Corollary~\ref{cor:misalign} states.
 
 \begin{figure}[!t]
 \centering
@@ -2300,16 +2303,17 @@ $\gamma_1\in(0,1)$, the vector-context generalization of the
 quadratic \eqref{eq:Pg}.
 \end{proof}
 
-\section{The Binary Solution}
+\section{The Binary Frontier}
 \label{sec:binary}
 
 The binary case is in this paper for two reasons: it shows that the
 misalignment phenomenon and the strict rate--content tradeoff are not
 Gaussian artifacts, the frontier being fully characterized here too
 (Proposition~\ref{rem:binfrontier}), and it shows the functional is
-explicitly computable outside the Gaussian family. The case closes
-completely and, unlike its Gaussian counterpart, with an elementary
-self-contained proof.
+explicitly computable outside the Gaussian family. The conditional
+content itself coincides with a known common-reconstruction rate
+(Appendix~\ref{app:lucompare}); the frontier is traced here, unlike its
+Gaussian counterpart, by an elementary self-contained argument.
 
 Let $(Y,V)$ be a doubly symmetric binary pair (fair marginals,
 $\Pr[Y\ne V]=p\in(0,\tfrac12)$), context $V$, side information
@@ -2623,8 +2627,8 @@ source, the exact rate--content region of Theorem~\ref{thm:region}(b) with
 its two-water-level frontier and the misalignment dichotomy of
 Corollary~\ref{cor:misalign}, the attainment condition for the conditional-variance bound
 (Remark~\ref{rem:floor}), the vector-context extension of
-Theorem~\ref{thm:vector}, and the complete binary solution of
-Theorem~\ref{thm:binary}. The function degenerates to the classical
+Theorem~\ref{thm:vector}, and the binary rate--content frontier of
+Theorem~\ref{thm:binary} and Proposition~\ref{rem:binfrontier}. The function degenerates to the classical
 rate--distortion function at $\rho=0$ and to Gray's conditional function as
 $\tau^2\to0$, and meets Steinberg's scalar Gaussian formula at the
 $\rho^2\to1$ boundary. The structural conclusion is
@@ -2681,7 +2685,9 @@ $\sigma$-field. Write $S_k:=q_k(S)$.
 
 \begin{theorem}\label{thm:gaussop}
 For the Gaussian source under the standing assumptions of
-Section~\ref{sec:pair} ($\tau^2>0$, $\Sigma_T\succ0$) and every $0<D<1$,
+Section~\ref{sec:pair} ($\tau^2>0$, $\Sigma_T\succ0$), with the pair
+$T=(Y,V)$ taken as the source letter $X$ (Lemma~\ref{thm:pair}), and
+every $0<D<1$,
 \[
 \RW(D)=\bigcup_{p(\hat y\mid x):\,\E(Y-\hY)^2\le D}
 \bigl\{(R,L):R\ge I(X;\hY),\ L\ge I(X;\hY\mid S)\bigr\},
