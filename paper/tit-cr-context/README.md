@@ -6,7 +6,7 @@ The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
 IEEE Transactions on Information Theory submission. Single author. 33 pp.
-Archived at Zenodo: doi:10.5281/zenodo.22678342 (release tit-cr-context-1.1).
+Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.2 = this build).
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
