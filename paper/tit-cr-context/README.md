@@ -26,9 +26,10 @@ the former cell-bound lemma is gone. The Landauer reading is stated in the
 average-work form of stochastic thermodynamics (Esposito and Van den Broeck
 2011; Sagawa and Ueda 2012; Parrondo, Horowitz, and Sagawa 2015), in which
 W = kT ln2 H(M|S^n) is exact for every code; the single-shot smooth-entropy
-setting is disclaimed, not used. The determinant-bound
-attainment theorem (formerly Section VI) is stated without proof as a remark;
-its proof lives in the archived full-length version under `archive/`. The
+setting is disclaimed, not used. The determinant-bound attainment theorem (formerly Section VI) was first reduced
+to a remark without proof and then, in the second round, to the scalar
+condition proved from the closed form (Remark 22); the two-variable theorem
+lives only in the full versions under `archive/`. The
 numerical-verification appendix is one paragraph; the check table is in
 `VERIFICATION.md`. Bracketed role words were removed from theorem titles.
 Scope against Lapidoth-Malar-Wigger (scalar Gaussian, finite-alphabet
@@ -97,9 +98,12 @@ to in order to erase it; `S` only conditions that erasure.
 
 ## Map of the results
 
-Numbers are the shared counter in the current build. Roles follow the paper's
-own labels: core results carry the contribution, consequences follow from them,
-extensions widen the setting, anchors check the formula against known cases.
+The map below still carries the pre-revision numbering and role words and is
+due for regeneration. Current numbering: pair sufficiency is Lemma 11; the
+closed form and the region are Theorem 15(a) and (b); Remark 15 (anchor
+rates), Lemma 22, Theorem 23 (two-variable determinant bound), and Lemma 29
+(cell bound) were cut; the Gaussian operational theorem is Theorem 28; the
+clean-boundary and binary-frontier results are Propositions 20 and 27.
 
 ```mermaid
 flowchart TD
@@ -175,11 +179,9 @@ Reading the colors: dark blue is the setup and operational layer, deep blue the
 five core results, grey the supporting lemmas, green the extensions, brown the
 anchors.
 
-The dashed edge is deliberate and load-bearing. The Gaussian operational
-theorem reuses the *construction pattern* of the discrete one but proves its
-own converse and achievability, so no Gaussian result depends on the
-finite-alphabet theorem. A dedicated audit checked that specific dependency
-direction and confirmed it.
+The dashed edge shows the Gaussian operational theorem reusing the discrete
+one: its achievability invokes Lemma 7, the finite-alphabet construction, on a
+quantized surrogate, and it proves its own converse.
 
 ---
 
@@ -208,7 +210,8 @@ flowchart TD
 
 Each limit is a check, not decoration: recovering three known functions at
 three boundaries is what makes a sign or normalization error unlikely.
-Remark 15 gives the *rates*, all linear, with coefficients derived by implicit
+(Archived versions only: the rates remark was cut from the manuscript in the
+second referee round.) Remark 15 of those versions gives the *rates*, all linear, with coefficients derived by implicit
 differentiation at the simple root:
 
 | Anchor | Leading coefficient of the gap | Approached |
@@ -231,7 +234,7 @@ pdflatex -interaction=nonstopmode tit-cr-context.tex
 # expect: 33 pages, zero undefined references, zero overfull hboxes
 
 # cover letter
-pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 1 page
+pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 2 pages
 
 # verification
 python verify_converses.py        # 19 checks: S1–S7 symbolic, N1–N12 numeric
@@ -257,7 +260,7 @@ re-render, or the fallback PNG will silently disagree with the diagram above
 it.
 
 MATLAB Symbolic checks are in `matlab_checks.m` (11 checks, archived result).
-The Lean 4 formalization of the load-bearing algebra lives outside this folder
+The Lean 4 formalization of the essential algebra lives outside this folder
 at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 
 ---
@@ -267,16 +270,16 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | File | What it is |
 |---|---|
 | `tit-cr-context.tex` | The manuscript. IEEEtran, single shared theorem counter. |
-| `tit-cr-context.pdf` | Canonical build, 35 pp. |
+| `tit-cr-context.pdf` | Canonical build, 33 pp. |
 | `tit-cr-context.html` | Self-contained reading rendering: MathML, figures inlined, theme-aware. Convenience only; the PDF governs. |
-| `cover-letter-tit.tex/.pdf` | Editor cover letter, 1 p. States the three primary contributions and the relationship to the declined synthesis and the archived record. |
+| `cover-letter-tit.tex/.pdf` | Editor cover letter, 2 pp. States the two primary results and the relationship to the declined synthesis and the archived record. |
 | `verify_converses.py` | Author's harness, written alongside the proofs. 19 checks. |
 | `verifier_sym_checks.py`, `verifier_num_checks.py` | Re-derivation commissioned without access to the derivations or to the first harness. 46 + 42 checks. |
 | `matlab_checks.m` | MATLAB Symbolic cross-check, 11 checks. |
 | `plot_frontier.py` → `frontier.pdf/.png` | Fig 2: Pareto frontier at `(ρ², τ², D) = (0.75, 0.5, 0.3)`. |
 | `plot_frontier_multi.py` → `frontier_multi.pdf/.png` | Fig 3: the frontier at ρ² = 0.2, 0.5, 0.8 (fixed τ² = 0.5, D = 0.3), with the endpoint gaps. Added in the September 2026 revision. |
-| `plot_notmarginal.py` → `notmarginal.pdf/.png` | Fig 4: the two non-determination instances contrasted. |
-| `plot_binary.py` → `binary.pdf/.png` | Fig 5: binary tilt root, objective, and rate–content frontier. |
+| `plot_notmarginal.py` → `notmarginal.pdf/.png` | Archived versions only; the figure was cut from the manuscript. |
+| `plot_binary.py` → `binary.pdf/.png` | Fig 4: binary tilt root, objective, and rate–content frontier. |
 | `VERIFICATION.md` | Full script inventory and what each check covers. |
 | `EXTRACTION-PLAN.md` | Provenance and the complete revision log, M1 through M9. |
 | `NOVELTY-SWEEP.md` | The September 2026 prior-art screen: what was checked, the Lu et al. comparison, and the outcomes. |

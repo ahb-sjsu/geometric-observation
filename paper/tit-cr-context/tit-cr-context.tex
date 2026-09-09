@@ -20,7 +20,7 @@
 \newcommand{\hXn}{\widehat{X}^{n}}
 \newcommand{\hY}{\widehat{Y}}
 \newcommand{\RW}{\mathcal{R}\!\mathcal{W}}
-\newcommand{\Bdet}{\mathsf{B}_{\det}}
+
 \newcommand{\LRs}{L_{R}^{\star}}
 \newcommand{\RLs}{R_{L}^{\star}}
 \newcommand{\kb}{k_{\mathrm{B}}}
@@ -54,7 +54,7 @@ source--context correlation, and the noise in the third party's copy.
 And the region of jointly achievable rate and conditional content is
 exact, with a Pareto frontier traced by two coupled water levels; the
 two prices strictly trade off exactly when the context is partially
-informative and the copy is noisy. A structural consequence is that the
+informative, and the tradeoff persists when the copy is clean. A structural consequence is that the
 conditional content is not determined by the joint law of the described
 variable and the retained copy, so the encoder's access to the clean
 context enters the function. The closed form recovers the classical
@@ -117,7 +117,7 @@ solution of the augmented problem, and two contributions are primary.
 First, the closed form: we evaluate the augmented Gaussian functional
 exactly, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of
 an explicit quadratic together with the achieving channel
-(Theorem~\ref{thm:function}), after Lemma~\ref{thm:pair} reduces the
+(Theorem~\ref{thm:function}(a)), after Lemma~\ref{thm:pair} reduces the
 problem, for $Y$ and $V$ scalar linear functionals of an
 arbitrary-dimensional jointly Gaussian source, to the pair
 $(\rho,\tau^2)$. The known Gaussian solutions are scalar and
@@ -132,7 +132,7 @@ Pareto frontier is traced by a coupled two-water-level stationarity
 system, and within the strictly noisy model $\tau^2>0$ it is
 nondegenerate, so that rate and content strictly trade off, exactly when
 $0<\rho^2<1$, with the tradeoff persisting at the clean-context boundary
-(Theorem~\ref{thm:region} and Corollary~\ref{cor:misalign}). A
+(Theorem~\ref{thm:region}(b) and Corollary~\ref{cor:misalign}). A
 structural consequence of the closed form is non-determination by the
 reduced marginal (Corollary~\ref{cor:notmarginal}): replacing the encoder's observation of
 the pair $(Y,V)$ by its reduced relation to $S$ changes the operational
@@ -148,9 +148,9 @@ Appendix~\ref{app:gaussian} for the Gaussian source), and the
 thermodynamic reading of $L(D)$ (Remark~\ref{rem:thermo}) is one
 consequence of that characterization.
 
-The remaining results are extensions and consistency anchors.
-Remark~\ref{rem:floor} reads off the closed form when the determinant
-lower bound is attained: the condition involves the encoder-accessible
+The remaining results are extensions, consistency anchors, and one
+attainment remark. Remark~\ref{rem:floor} reads off the closed form when
+the conditional-variance lower bound is attained: the condition involves the encoder-accessible
 conditional variance, not the third party's. Three extensions follow: the binary
 case closes completely, for a doubly symmetric binary source with a
 binary symmetric context channel, through an elementary tilt equation
@@ -187,7 +187,7 @@ joint region are, to our knowledge, new: we are unaware of a prior
 derivation of this particular coupled frontier, in which two levels are
 tied by a common distortion constraint, and the quadratic of
 Section~\ref{sec:function} does not appear in the literature we surveyed.
-Figure~\ref{fig:frontiermulti} shows the resulting tradeoff at three
+Fig.~\ref{fig:frontiermulti} shows the resulting tradeoff at three
 correlations.
 
 \begin{table}[!t]
@@ -200,7 +200,7 @@ correlations.
 Result here & Nearest prior & What the prior establishes & What is new
 here\\
 \hline
-Closed form (Theorem~\ref{thm:function}) & Steinberg
+Closed form (Theorem~\ref{thm:function}(a)) & Steinberg
 \cite{steinberg2009}; Lapidoth--Mal\"ar--Wigger \cite{lapidoth2014} &
 Scalar Gaussian CR formula; scalar Gaussian theorem with side
 information $X+U$, encoder observing the source alone; the augmentation
@@ -208,7 +208,7 @@ remark stated for finite alphabets & The augmented source
 $(Y,V)$, with $Y$ and $V$ scalar linear functionals of an
 arbitrary-dimensional source; the quadratic $g^\star$; the achieving
 channel\\
-Rate--content region (Theorem~\ref{thm:region}) & \cite{steinberg2009,
+Rate--content region (Theorem~\ref{thm:region}(b)) & \cite{steinberg2009,
 lapidoth2014}; Gaussian IB \cite{chechik2005} & Rate under a CR
 constraint; unconstrained IB Lagrangian with its eigenmode structure &
 The joint $(R,L)$ region; a two-water-level frontier under a hard
@@ -322,7 +322,7 @@ it large, whereas $L$ is the equivocation of the \emph{description} and is made
 small, as the cost of a conditional reset rather than a secrecy guarantee. And
 the encoder here observes the clean context $V$, an access the
 eavesdropper-side-information models do not grant. The exact Gaussian
-rate--content region (Theorem~\ref{thm:region}), the strict-misalignment
+rate--content region (Theorem~\ref{thm:region}(b)), the strict-misalignment
 dichotomy (Corollary~\ref{cor:misalign}), and the non-determination by the
 reduced marginal (Corollary~\ref{cor:notmarginal}) are, to our knowledge, new
 relative to this line.
@@ -332,11 +332,15 @@ The thermodynamic reading of $L$ rests on Landauer's principle
 \cite{esposito2011} and with side information \cite{sagawa2012,parrondo2015};
 the single-shot sharpenings \cite{delrio2011,faist2015} price the same
 reset by smooth entropies, and Remark~\ref{rem:thermo} states the
-reading, its setting, and its scope. A non-common-reconstruction baseline is remote source coding with
+reading, its setting, and its scope.
+
+A non-common-reconstruction baseline is remote source coding with
 two-sided information \cite{guler2015}, in which the reconstruction may
 depend on decoder side information; that freedom is exactly what the
 common-reconstruction constraint removes, and it is what makes $S$ a pure
-conditioner here rather than a reconstruction resource. The relation to the information bottleneck
+conditioner here rather than a reconstruction resource.
+
+The relation to the information bottleneck
 \cite{tishby1999} is exact and worth stating. Meidlinger, Winkelbauer,
 and Matz \cite{meidlinger2014} connected the Gaussian information
 bottleneck to mean-square rate--distortion quantization, a connection on
@@ -362,13 +366,12 @@ lemma (Section~\ref{sec:function}) plays the role here that the
 Gaussian-optimality theorem plays there.
 
 Finally, \cite{bond2026landauer} is a preliminary related manuscript
-by the author, archived at the repository record of the title
-footnote. The operational region theorem for discrete sources
+by the author, archived at doi:10.5281/zenodo.21776291. The operational region theorem for discrete sources
 (Section~\ref{sec:operational}) and its single-letterization appeared
 there, as did the scalar Gaussian corner used in
 Section~\ref{sec:function}. The material from Section~\ref{sec:pair}
 onward is developed here: pair sufficiency, the closed form, the region and
-its frontier, the determinant-bound exactness, vector context, the
+its frontier, the attainment condition of Remark~\ref{rem:floor}, vector context, the
 binary joint frontier, and the Gaussian operational theorem of
 Appendix~\ref{app:gaussian}. Two of these have close predecessors that we
 credit in place: the pair-sufficiency reduction of Section~\ref{sec:pair}
@@ -410,7 +413,7 @@ index $M$ in order to erase it; it never decodes.
 \begin{tikzpicture}[>=stealth,
   blk/.style={draw,rectangle,minimum height=0.85cm,minimum width=2.1cm},
   lbl/.style={font=\footnotesize}]
-\node (x) at (-0.5,0) {$X^n=(Y^n,V^n)$};
+\node (x) at (-0.5,0) {$T^n=(Y^n,V^n)$};
 \node[blk] (enc) at (2.7,0) {Encoder $f_n$};
 \node[blk] (dec) at (6.7,0) {Decoder $g_n$};
 \node (xhat) at (9.5,0) {$\hY^n$};
@@ -754,7 +757,7 @@ thermodynamics with side information: the third party holds the record
 $M$ and the classical side information $S^n$, which is read without
 disturbance and remains unchanged; it knows the joint law of $(M,S^n)$
 induced by the code; it may drive $M$ by any protocol in contact with a
-heat bath at temperature $T$, conditioned on $S^n$; the work supplied
+heat bath at temperature $T$ (the temperature, not the pair of Section~\ref{sec:pair}), conditioned on $S^n$; the work supplied
 may fluctuate from run to run and only its mean is counted; and only
 $M$ is required to return to a standard state. Under these conditions
 the generalized second law with correlations
@@ -862,11 +865,11 @@ $P(g)$, $g^\star$ & the quadratic \eqref{eq:Pg} and its larger root;
 $L(D)=\tfrac12\log_2 g^\star$\\
 $\alpha$; $\gamma_0$, $\gamma_1$ & frontier weight (rate versus
 content); the two water levels $\nu/(Q_0+\nu)$ and $\nu/(Q_1+\nu)$
-(Theorem~\ref{thm:region})\\
+(Theorem~\ref{thm:region}(b))\\
 $\LRs(D)$, $\RLs(D)$ & conditional content of the rate-optimal channel;
 rate of the content-optimal channel (Corollary~\ref{cor:misalign})\\
 $\Lambda$, $c$, $y_0$ & whitened conditional covariance, regression
-vector, and the unit vector with $Y=y_0^{\mathsf T}Z$
+vector, and the unit vector with $Y=y_0^{\mathsf T}Z$, $Z=WT$ the whitened pair of \eqref{eq:whitening}
 \eqref{eq:whitening} (Sections~\ref{sec:region}, \ref{sec:vector})\\
 \hline
 \end{tabular}
@@ -1199,7 +1202,8 @@ N\sim\mathcal N\Bigl(0,\;\frac{Q_1}{g^\star-1}\Bigr),
 where $Q_1=a^2+b^2+2ab\rho-(a\rho+b)^2/s$ is evaluated at these
 $(a,b)$.
 
-\emph{(b) The region.} The closure of the single-letter rate--content pairs
+\emph{(b) The region.} The union of the quadrants above the single-letter
+rate--content pairs
 $\bigl(I(T;\hY),\,I(T;\hY\mid S)\bigr)$ over admissible test channels
 at distortion $D$, which Theorem~\ref{thm:gaussop} identifies with the
 operational region $\RW(D)$, is
@@ -1236,6 +1240,9 @@ $\alpha=1$ recovers the classical reverse channel ($b=0$, $a=1-D$,
 $\gamma_0=D$, $R=\tfrac12\log_2(1/D)$); $\alpha=0$ recovers the channel
 and value of part (a) ($\gamma_1=1/g^\star$).
 \end{theorem}
+
+Part (a) is proved next. Part (b) is proved in Section~\ref{sec:region},
+after Proposition~\ref{prop:uniq} there supplies the uniqueness it uses.
 
 \begin{proof}[Proof of part (a)]
 \emph{Moments.} By Lemma~\ref{thm:pair} and the scalar-reproduction
@@ -1360,7 +1367,7 @@ hence the four gradient identities
 \end{equation}
 (Only the last two enter here; all four enter the weighted system of
 Section~\ref{sec:region}.) With $\nu=D-h$, so
-$\partial_xn=-\partial_xh$, stationarity of
+$\partial_x\nu=-\partial_xh$, stationarity of
 $2\ln2\cdot\Phi=\ln(Q_1+\nu)-\ln \nu$ in $x\in\{a,b\}$ reads
 \[
 \frac{\partial_x(Q_1-h)}{Q_1+\nu}+\frac{\partial_xh}{\nu}=0,
@@ -1506,7 +1513,7 @@ this is $\tfrac12\log_2\bigl[(\tau^2+D)/(sD)\bigr]$, the same value.
 The content-only endpoint of Theorem~\ref{thm:function} does not come for
 free in rate. This section characterizes the full tradeoff between the
 two coordinates of \eqref{eq:main-region} for the Gaussian pair source.
-Throughout, $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, and $h$, $Q_0$,
+Throughout, $|\rho|<1$, $\tau^2>0$, $0<D<1$, and $h$, $Q_0$,
 $Q_1$, $\mu_c$ are as in the proof of Theorem~\ref{thm:function}. In
 the frontier system below, $\alpha\in[0,1]$ weights rate against
 conditional content, and $\gamma_0=\nu/(Q_0+\nu)$ and $\gamma_1=\nu/(Q_1+\nu)$
@@ -1596,7 +1603,7 @@ $\varphi_\alpha(a,b,D-h(a,b))$.
 \emph{The gradient identities reduce the first-order system linearly.}
 At a stationary point set $\gamma_0=\nu/(Q_0+\nu)$ and
 $\gamma_1=\nu/(Q_1+\nu)$, both in $(0,1)$. For $x\in\{a,b\}$, using
-$\partial_xn=-\partial_xh$,
+$\partial_x\nu=-\partial_xh$,
 \[
 \alpha\,\frac{\partial_x(Q_0-h)}{Q_0+\nu}
 +(1-\alpha)\,\frac{\partial_x(Q_1-h)}{Q_1+\nu}
@@ -1622,7 +1629,7 @@ b(1-\rho^2)=(1-\alpha)\gamma_1\mu_c(1-\rho^2)
 \quad\Longrightarrow\quad
 b=(1-\alpha)\gamma_1\mu_c ,
 \]
-dividing by $1-\rho^2>0$, which is in force since $\rho^2\in(0,1)$
+dividing by $1-\rho^2>0$, which is in force since $|\rho|<1$
 throughout this section.
 Equation~\eqref{eq:foc-a} then reads
 $a+b\rho=1-\alpha\gamma_0-(1-\alpha)\gamma_1+(1-\alpha)\gamma_1\rho\mu_c
@@ -1815,7 +1822,7 @@ $Q_0\ge Q_1>0$), so every minimizer of $B_\alpha$ lies on the active
 slice $v=D-1+2y_0^{\mathsf T}c$, an affine section of $\mathcal D$. On
 the slice $B_\alpha$ is convex, so its stationary points are exactly
 its global minimizers and the minimizer set is convex; coercivity as
-in Theorem~\ref{thm:region}'s proof gives attainment.
+in the proof of Theorem~\ref{thm:function}(b) gives attainment.
 
 \emph{Strictness.} Suppose $z_0\ne z_1$ are both minimizers on the
 slice, and let $z_t$ run over the segment, along which $v$ and $c$ are
@@ -1866,7 +1873,7 @@ unique.
 
 We record one further fact for the clean-context boundary. At
 $\alpha=1$ the argument is $\Lambda$-free: the objective is $B_0$
-alone, whose convexity (Lemma~\ref{lem:mxconvex} with $a(z)=c$ and
+alone, whose convexity (Lemma~\ref{lem:mxconvex} with $u(z)=c$ and
 $\sigma=v$), strict decrease in $v$ at $c\ne0$, coercivity through
 $Q_0\ge q_0>0$, and strictness case use only $c$, $v$, and the domain
 $\mathcal D$, never $\Lambda$. The uniqueness of the rate minimizer,
@@ -1903,12 +1910,12 @@ modeling assumption and not necessary for the tradeoff
 \end{corollary}
 
 \begin{proof}
-By Theorem~\ref{thm:function}, the moment program for the conditional
+By part (a) of Theorem~\ref{thm:function}, the moment program for the conditional
 coordinate alone has the unique minimizer
 $(a^\star,b^\star,\nu^\star)$ of \eqref{eq:ab}, and
 $b^\star=(g^\star-1)\rho/(g^\star k)\ne0$ since $\rho\ne0$,
 $g^\star>1$, $k>0$. By the $\alpha=1$ endpoint computation in
-Theorem~\ref{thm:region}'s proof (uniqueness by
+the proof of part (b) (uniqueness by
 Proposition~\ref{prop:uniq}), the moment program for the rate
 coordinate alone has the unique minimizer
 $\bigl(1-D,\,0,\,D(1-D)\bigr)$, with $b=0$. The two minimizers are
@@ -1971,7 +1978,7 @@ values are computed by the verification script.
 \includegraphics[width=\columnwidth]{frontier}
 \caption{The Pareto frontier of the rate--content region at
 $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$, traced by the two-water-level system of
-Theorem~\ref{thm:region}. The tradeoff is strict: the rate-optimal channel
+Theorem~\ref{thm:region}(b). The tradeoff is strict: the rate-optimal channel
 pays $\LRs(D)-L(D)=0.0349$ bits of excess conditional content, and the
 content-optimal channel pays $\RLs(D)-R_{\min}=0.0400$ bits of excess
 rate.}
@@ -2197,7 +2204,7 @@ The gap at the tabulated levels is $0.0495$ bits at $D=0.1$ and
 $0.1543$ bits at $D=0.3$.
 
 \begin{remark}\label{rem:floor}
-The closed form settles when the conditional determinant lower bound is
+The closed form settles when the conditional-variance lower bound is
 attained. Every admissible channel obeys
 $L\ge I(Y;\hY\mid S)=h(Y\mid S)-h(Y\mid\hY,S)\ge h(Y\mid S)-h(Y-\hY)
 \ge\tfrac12\log_2\bigl(\operatorname{Var}(Y\mid S)/D\bigr)
@@ -2261,7 +2268,7 @@ c=\bigl(1-\alpha\gamma_0-(1-\alpha)\gamma_1\bigr)
 per-mode explicit given the two scalars $(\gamma_0,\gamma_1)$, and the
 frontier point is
 $\bigl(\tfrac12\log_2(1/\gamma_0),\,\tfrac12\log_2(1/\gamma_1)\bigr)$.
-For $r=1$ the program coincides with that of Theorem~\ref{thm:region}
+For $r=1$ the program coincides with that of Theorem~\ref{thm:region}(b)
 under the linear bijection $c=W^{-\mathsf T}(a,b)^{\mathsf T}$, so the
 two systems trace the same frontier. The $\alpha=0$ endpoint gives the
 vector-context function $L(D)$ as a one-dimensional root problem in
@@ -2309,7 +2316,7 @@ $\E(Y-\hY)^2=1-2y_0^{\mathsf T}c+(|c|^2+\nu)=|y_0-c|^2+\nu$. Equality for
 the Gaussian channel is Lemma~\ref{lem:gauss}'s equality clause.
 
 (iii) \emph{The weighted program.} As in
-Theorem~\ref{thm:region}: both coordinates are convex in the channel,
+Theorem~\ref{thm:region}(b): both coordinates are convex in the channel,
 so the frontier is the trace of the weighted minimizations, and the
 weighted objective is bounded below by the moment program
 \[
@@ -2428,7 +2435,7 @@ there. The same statements hold at $q=0$ when $D<p$.
 
 \begin{proof}
 Work in nats, with $h_e$ the binary entropy function in nats, so the
-theorem's $L$ in bits is this $L$ divided by $\ln2$:
+$L$ of Theorem~\ref{thm:binary} in bits is this $L$ divided by $\ln2$:
 $L(d_0)=h_e(u)-(1-p)h_e(d_0)-p\,h_e\bigl(d_1(d_0)\bigr)$. Differentiating
 with $h_e'(x)=\ell(x)$, $u'(d_0)=2(1-p)(1-2q)$, and $d_1'(d_0)=-(1-p)/p$,
 \[
@@ -2687,11 +2694,11 @@ alphabet-free); the tilt equation is the price of pair access.
 
 This paper characterized the minimal conditional content of a description
 whose encoder observes the pair $(Y,V)$ while the conditioner $S$ stays with
-a third party: the closed form of Theorem~\ref{thm:function} for $Y$ and
+a third party: the closed form of Theorem~\ref{thm:function}(a) for $Y$ and
 $V$ scalar linear functionals of an arbitrary-dimensional jointly Gaussian
-source, the exact rate--content region of Theorem~\ref{thm:region} with
+source, the exact rate--content region of Theorem~\ref{thm:region}(b) with
 its two-water-level frontier and the misalignment dichotomy of
-Corollary~\ref{cor:misalign}, the attainment condition for the determinant bound
+Corollary~\ref{cor:misalign}, the attainment condition for the conditional-variance bound
 (Remark~\ref{rem:floor}), the vector-context extension of
 Theorem~\ref{thm:vector}, and the complete binary solution of
 Theorem~\ref{thm:binary}. The function degenerates to the classical
