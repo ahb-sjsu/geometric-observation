@@ -40,31 +40,37 @@ Numerical verification harnesses and archived records:
 \maketitle
 
 \begin{abstract}
-An encoder observes a jointly Gaussian pair $(Y,V)$ and describes $Y$ at rate
-$R$ for a decoder that sees the description alone; the correlated variable
-$V$ is the context. A third party retains a noisy copy $S=V+U$ of the
-context and never decodes. We characterize the conditional content
-$L=I(X;\hX\mid S)$ of the stored description relative to the retained
-context: Steinberg's common-reconstruction functional applied to the
-augmented source $X=(Y,V)$ with distortion on $Y$ alone. In the
-average-work form of Landauer's bound with side information, $L$ is
-exactly the ideal erasure work per symbol in units of $\kb T\ln 2$.
-Three results are primary. First, a closed form:
-$L(D)=\tfrac12\log_2 g^\star$, with $g^\star$ the larger root of an
-explicit quadratic whose coefficients are set by $(D,\rho^2,\tau^2)$, when
-$Y$ and $V$ are scalar linear functionals of an arbitrary-dimensional
-jointly Gaussian source. Second, the exact rate--content region: its
-Pareto frontier is a coupled two-water-level system, nondegenerate exactly
-when $0<\rho^2<1$ within the strictly noisy model $\tau^2>0$, with the
-strict tradeoff persisting at the clean-context boundary. Third,
-non-determination: two instances whose $(Y,S)$ laws are equivalent up to
-bijective scaling have different $L$, so replacing the encoder's
-observation of $(Y,V)$ by its reduced relation to $S$ changes the
-operational problem, and the augmentation is essential. The closed form
-recovers the classical rate--distortion function at $\rho=0$ and Gray's
-conditional function as $\tau^2\to0$, and meets Steinberg's scalar
-Gaussian formula as $\rho^2\to1$. We also record exactly when the
-natural determinant lower bound is attained, and give the joint
+An encoder observes a jointly Gaussian pair, a described variable and a
+correlated context, and describes the first for a decoder that sees the
+description alone. A third party retains a noisy copy of the context and
+never decodes. We characterize the conditional content of the stored
+description relative to the retained context, the mutual information
+between source and reproduction conditioned on the third party's copy.
+This is Steinberg's common-reconstruction functional applied to the
+augmented source, with distortion on the described variable alone. In
+the average-work form of Landauer's bound with side information, the
+conditional content is exactly the ideal erasure work per symbol. Three
+results are primary. First, a closed form: the conditional content is
+half the base-two logarithm of the larger root of an explicit quadratic
+whose coefficients are set by the distortion level, the squared
+correlation between the described variable and the context, and the
+variance of the third party's noise, when the two observed variables are
+scalar linear functionals of a jointly Gaussian source of any dimension.
+Second, the exact rate--content region: its Pareto frontier is traced by
+a coupled two-water-level stationarity system, and it is a nondegenerate
+curve, so that rate and content strictly trade off, exactly when the
+correlation is strictly between zero and one and the retained copy is
+noisy, with the strict tradeoff persisting at the clean-context
+boundary. Third, non-determination: two instances whose laws of the
+described variable and the retained copy agree up to bijective scaling
+can have different conditional content, so replacing the encoder's
+observation of the pair by its reduced relation to the retained copy
+changes the operational problem, and the augmentation is essential. The
+closed form recovers the classical rate--distortion function when the
+context is uncorrelated, Gray's conditional function when the retained
+copy is clean, and Steinberg's scalar Gaussian formula when the
+described variable and the context coincide. We also record exactly when
+the natural determinant lower bound is attained, and give the joint
 rate--content frontier of the doubly symmetric binary case through a tilt
 equation anchored at Gray's function and the marginal rate--distortion
 function.
