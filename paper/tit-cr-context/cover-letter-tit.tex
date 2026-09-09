@@ -1,4 +1,4 @@
-﻿\documentclass[11pt]{article}
+\documentclass[11pt]{article}
 \usepackage[margin=0.95in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \pagestyle{empty}
@@ -13,7 +13,7 @@ Department of Computer Engineering\\
 San Jos\'e State University\\
 San Jos\'e, CA 95192 USA\\
 andrew.bond@sjsu.edu\\[0.8em]
-September 6, 2026
+September 9, 2026
 \end{flushright}
 
 To the Editor-in-Chief and Associate Editor\\
@@ -28,20 +28,21 @@ Transactions on Information Theory. I am the sole author.
 The paper evaluates Steinberg's common-reconstruction functional on an
 augmented Gaussian source: the encoder observes a pair $(Y,V)$, the
 distortion binds $Y$ alone, and a third party holds a noisy copy of the
-context $V$ that no decoder uses. Three results are primary: a closed form
+context $V$ that no decoder uses. Two results are primary: a closed form
 for the minimal conditional content, the larger root of an explicit
 quadratic, for $Y$ and $V$ scalar linear functionals of an
-arbitrary-dimensional jointly Gaussian source; the exact region of
+arbitrary-dimensional jointly Gaussian source; and the exact region of
 jointly achievable rate and conditional content, with a two-water-level
 Pareto frontier and a strict tradeoff exactly when the described variable
 and the context are partially correlated, persisting at the clean-context
-boundary; and non-determination: the function is not a functional of the
-reduced source--side-information marginal, so the encoder's access to the
-context changes the operational problem. Consequences and extensions
-settle the exact attainment of the determinant lower bound, the frontier
-with vector context, the binary rate--content frontier through a tilt
-equation, and a direct Gaussian operational theorem. Consistency anchors recover the classical, Gray, and Steinberg
-corners.
+boundary. A structural consequence is non-determination: the function is
+not a functional of the reduced source--side-information marginal, so the
+encoder's access to the context changes the operational problem.
+Extensions give the frontier with vector context, the binary
+rate--content frontier through a tilt equation, and a direct Gaussian
+operational theorem whose achievability quantizes the source and the
+reproduction and invokes the finite-alphabet theorem. Consistency anchors
+recover the classical, Gray, and Steinberg corners.
 
 Two earlier documents are relevant, and they are distinct from one
 another. First, this Transactions recently declined a different
@@ -53,7 +54,7 @@ been addressed here by adopting standard source-coding vocabulary
 throughout.
 
 Second, and separately, the manuscript cites an archived preliminary
-manuscript by the author (Zenodo record, doi:10.5281/zenodo.21776291),
+manuscript by the author (Zenodo record, doi:10.5281/zenodo.21776291; the present manuscript's own sources and verification scripts are archived separately at doi:10.5281/zenodo.22678341),
 as disclosed in its Related Work section. The discrete operational
 region theorem and its single-letterization appeared there, as did the
 scalar Gaussian corner, and both are inherited here with attribution.
@@ -68,8 +69,8 @@ archived evidence artifact.
 
 All closed forms are verified by an apparatus available as supplementary
 repository material: symbolic and numerical verification scripts,
-including two written independently of the derivations, and a partial
-Lean~4 formalization of the core algebra. A prior-art screen
+including two written independently of the derivations, a partial
+Lean~4 formalization of the core algebra, and MATLAB symbolic checks. A prior-art screen
 conducted in September 2026 is documented in the repository.
 
 This manuscript is not under review elsewhere, and I have no conflicts of

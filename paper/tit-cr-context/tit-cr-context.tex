@@ -1,4 +1,4 @@
-﻿\documentclass[11pt,onecolumn]{IEEEtran}
+\documentclass[11pt,onecolumn]{IEEEtran}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{tikz}
@@ -45,32 +45,30 @@ correlated context, and describes the first for a decoder that sees the
 description alone. A third party retains a noisy copy of the context and
 never decodes. We study the conditional content of the stored
 description given that copy: the mutual information between source and
-reproduction conditioned on the third party's side information, which is
-Steinberg's common-reconstruction functional on the augmented source with
-distortion on the described variable alone. Two results are primary. The
-conditional content has a closed form for jointly Gaussian sources of any
-dimension, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root
-of an explicit quadratic in the distortion level, the source--context
-correlation, and the noise in the third party's copy. And the region of
-jointly achievable rate and conditional content is exact, with a Pareto
-frontier traced by two coupled water levels; the two prices strictly
-trade off exactly when the context is informative but not perfectly so
-and the third party's copy is noisy, and the tradeoff persists as that
-noise vanishes. A structural consequence is that the conditional content
-is not determined by the joint law of the described variable and the
-retained copy: the encoder's access to the clean context enters the
-function, so the augmentation is essential. The closed form recovers the
-classical rate--distortion function, Gray's conditional function, and
-Steinberg's scalar Gaussian formula at its three corners. The doubly
-symmetric binary case is solved through a tilt equation. Coding theorems,
-including a direct proof for the Gaussian source, give the conditional
-content its operational meaning as the least normalized conditional
-entropy of the stored index given the third party's side information.
+reproduction conditioned on the third party's side information,
+Steinberg's common-reconstruction functional on the augmented source.
+Two results are primary. The conditional content has a closed form for
+jointly Gaussian sources, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$
+the larger root of an explicit quadratic in the distortion level, the
+source--context correlation, and the noise in the third party's copy.
+And the region of jointly achievable rate and conditional content is
+exact, with a Pareto frontier traced by two coupled water levels; the
+two prices strictly trade off exactly when the context is partially
+informative and the copy is noisy. A structural consequence is that the
+conditional content is not determined by the joint law of the described
+variable and the retained copy, so the encoder's access to the clean
+context enters the function. The closed form recovers the classical
+rate--distortion function, Gray's conditional function, and Steinberg's
+scalar Gaussian formula at its corners. The doubly symmetric binary case
+is solved through a tilt equation, and coding theorems, including a
+direct proof for the Gaussian source, give the conditional content its
+operational meaning as the least normalized conditional entropy of the
+stored index.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Rate--distortion theory, side information, common reconstruction, conditional
-mutual information, Gaussian sources.
+Common reconstruction, conditional mutual information, Gaussian sources,
+rate--distortion theory, side information.
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -3219,6 +3217,10 @@ Cambridge, U.K.: Cambridge Univ. Press, 2004.
 of probability distributions and indirect observations,'' \emph{Studia Sci.
 Math. Hungar.}, vol. 2, pp. 299--318, 1967.
 \end{thebibliography}
+
+\begin{IEEEbiographynophoto}{Andrew H. Bond}
+received the B.S.E.E. degree from North Carolina State University and the M.S.S.E. degree from San Jos\'{e} State University. He has over 20 years of industry experience at AT\&T, Cisco Systems, and Fujitsu Network Communications. He is currently with the Department of Computer Engineering, San Jos\'{e} State University, San Jos\'{e}, CA, USA, where he teaches and advises graduate theses. His research interests include computational models of social and economic behavior, embedding compression, autonomous security agents, and cognitive architectures. He is a Senior Member of IEEE.
+\end{IEEEbiographynophoto}
 
 \end{document}
 

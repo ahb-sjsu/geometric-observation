@@ -2,10 +2,18 @@
 
 Detailed script inventory and check-level notes for the manuscript
 "Tradeoffs Between Rate and Conditional Content with Encoder-Observed
-Context". This file carries the material summarized in the manuscript's
-Numerical Verification appendix. All scripts and archived run outputs
-live in this directory and at the repository of the paper's title
-footnote (doi:10.5281/zenodo.21776291).
+Context". This file carries the check inventory that the manuscript's Numerical
+Verification appendix summarizes in one paragraph. All scripts and
+archived run outputs live in this directory and at the Zenodo concept
+record of the paper's title footnote (doi:10.5281/zenodo.22678341).
+
+Scope note (2026-09-09): the checks below cover more than the current
+manuscript states. The anchor convergence rates (N12), the two-variable
+determinant-bound attainment theorem, and the non-determination figure were
+removed from the manuscript in the referee revision and remain only in the
+full-length versions under `archive/`; their checks still run and still pass
+(re-run 2026-09-09: verify_converses.py 19/19, verifier_sym_checks.py and
+verifier_num_checks.py no failures).
 
 ## Script inventory
 
