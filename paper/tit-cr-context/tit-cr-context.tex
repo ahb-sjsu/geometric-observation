@@ -610,9 +610,10 @@ conditional-entropy accounting only; no party transmits or stores $B$.
 is a proof device, not a change of the model. (v) An expurgation step
 selects one deterministic code satisfying the covering and the
 accounting requirements simultaneously. (vi) The Gaussian source is
-treated separately, in Appendix~\ref{app:gaussian}; no Gaussian result
-of Sections~\ref{sec:pair}--\ref{sec:binary} relies on the
-finite-alphabet theorem below.
+treated in Appendix~\ref{app:gaussian}, whose achievability invokes the
+finite-alphabet theorem below on a quantized surrogate; the closed
+forms of Sections~\ref{sec:pair}--\ref{sec:binary} are single-letter
+evaluations that do not depend on it.
 
 \begin{theorem}[Rate--content--distortion region]\label{thm:main-region}
 For a discrete memoryless source $(X,S)$ and bounded distortion $d$,
@@ -2821,8 +2822,9 @@ Gaussian source of Section~\ref{sec:pair}, replacing the customary
 appeal to an unspecified abstract-alphabet extension. The source letter
 is $X=(Y,V)$, jointly Gaussian, the pair $T$ of Section~\ref{sec:pair}
 taken as the source letter, which Theorem~\ref{thm:pair} permits; the
-conditioner is $S$ as in
-Section~\ref{sec:pair} or Section~\ref{sec:vector}; the distortion is
+conditioner is $S\in\R^r$ as in
+Section~\ref{sec:pair} ($r=1$) or Section~\ref{sec:vector}; the
+distortion is
 $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
 $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
 achievability is Definition~\ref{def:achievability}.
@@ -2841,7 +2843,8 @@ generates $\sigma(Z)$, since the dyadic rectangles generate the Borel
 $\sigma$-field. Write $S_k:=q_k(S)$.
 
 \begin{theorem}[The Gaussian operational region]\label{thm:gaussop}
-For the Gaussian source and every $0<D<1$,
+For the Gaussian source under the standing assumptions of
+Section~\ref{sec:pair} ($\tau^2>0$, $\Sigma_T\succ0$) and every $0<D<1$,
 \[
 \RW(D)=\bigcup_{p(\hat y\mid x):\,\E(Y-\hY)^2\le D}
 \bigl\{(R,L):R\ge I(X;\hY),\ L\ge I(X;\hY\mid S)\bigr\},
@@ -2889,14 +2892,14 @@ coordinates of \eqref{eq:whitening} (the simultaneous congruence
 $\Sigma_T\to I$, $\Sigma_{T\mid S}\to\Lambda$), by pairs
 $\theta=(c,\nu)$ with
 $Q_0=|c|^2$, $Q_1=c^{\mathsf T}\Lambda c$, distortion
-$|y_0-c|^2+n\le D'$, and coordinates
+$|y_0-c|^2+\nu\le D'$, and coordinates
 $\bigl(\tfrac12\log_2\tfrac{Q_0+\nu}{\nu},\
 \tfrac12\log_2\tfrac{Q_1+\nu}{\nu}\bigr)$. The distortion constraint
 confines $\theta$ to a compact set: $|y_0-c|^2\le D'$ is a closed ball
-and $0\le n\le D'$; and feasibility forces $c\ne0$ there, since $c=0$
+and $0\le\nu\le D'$; and feasibility forces $c\ne0$ there, since $c=0$
 gives distortion at least $|y_0|^2=1>D'$. Both coordinates are lower
 semicontinuous on that set with values in $(0,\infty]$, finite and
-continuous where $n>0$ and diverging as $n\to0$ at $c\ne0$. Now let
+continuous where $\nu>0$ and diverging as $\nu\to0$ at $c\ne0$. Now let
 $(R_j,L_j)$ lie in the union at levels $D_j'$ with
 $\limsup_jD_j'\le D$ and $(R_j,L_j)\to(R,L)$ finite. Pick feasible
 $\theta_j$ whose quadrant contains $(R_j,L_j)$; the $\theta_j$
@@ -2924,7 +2927,9 @@ suffices to prove achievability for a jointly Gaussian test channel.
 
 \emph{Achievability, Step A: quantizing the conditioner.} Fix a jointly
 Gaussian admissible channel $p(\hat y\mid x)$ with distortion at most
-$D$, and fix $\epsilon>0$. Along the saturating dyadic quantizers,
+$D$ and residual variance $\nu>0$ (a channel with $\nu=0$ has both
+coordinates infinite, by the closedness step, and contributes nothing
+to the union), and fix $\epsilon>0$. Along the saturating dyadic quantizers,
 \begin{equation}
 I(\hY;S_k)\;\uparrow\;I(\hY;S)\qquad(k\to\infty):
 \label{eq:quant-mono}
