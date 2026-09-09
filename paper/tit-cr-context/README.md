@@ -15,6 +15,8 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Second referee round, same day.** Determinant-bound attainment is now only the scalar condition proved from the closed form (Remark 22); the two-variable theorem and every reference to an archived full-length version are gone from the manuscript (the versions stay under `archive/`). The finite-alphabet construction is Lemma 7; Appendix B cites it with the order of limits explicit. The closed form and the region are parts (a) and (b) of one theorem (Theorem 15); pair sufficiency is Lemma 11; the clean-boundary and binary-frontier results are propositions with separated proofs; statement titles are gone. The Landauer remark states an infimum approached in the quasi-static limit. Lu-Xu 2021 is described as a slack-constraint specialization not yet verified against their expression (owner read needed). Abstract is narrative, 244 words; source is pure ASCII with a biography block. Machine checks re-run: Python harnesses, binary Lagrangian harness, MATLAB 11/11 on Atlas; Lean rebuilt on Atlas (see VERIFICATION.md).
+
 **Revision of 2026-09-09 (referee-driven).** The Gaussian achievability
 (Appendix B, Step B) is now self-contained: the source and the reproduction
 are quantized, the paper's own finite-alphabet theorem is invoked, and the

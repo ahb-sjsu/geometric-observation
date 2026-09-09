@@ -13,7 +13,9 @@ determinant-bound attainment theorem, and the non-determination figure were
 removed from the manuscript in the referee revision and remain only in the
 full-length versions under `archive/`; their checks still run and still pass
 (re-run 2026-09-09: verify_converses.py 19/19, verifier_sym_checks.py and
-verifier_num_checks.py no failures).
+verifier_num_checks.py no failures; verify_go11_m2sys_binary.py all pass;
+matlab_checks.m 11/11 on Atlas, MATLAB R2026a; CRContext.lean recompiled from a
+clean object on Atlas with Lean 4.32.2, 298 s, zero errors, zero sorry).
 
 ## Script inventory
 
