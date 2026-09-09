@@ -172,3 +172,37 @@ Goal of the sweep: confirm no existing result already gives the exact Gaussian
 augmented rate-content region (Thm 16) or the misalignment dichotomy (Cor 19). If
 clean, the paper's novelty stands; the only required manuscript change is the
 Related Work paragraph in section 3 above.
+
+
+## Scope statements for the response letter (2026-09-09, from the PDFs)
+
+**Lapidoth, Malar, Wigger, "Constrained source coding with side information"
+(arXiv:1301.5109 / T-IT 60(6)).** Section II ("Discrete Memoryless Source and
+General Distortions") assumes finite alphabets throughout. Remark 8 there
+(transcribed from the arXiv PDF, p. 4): "Our results can be extended to a
+scenario where the encoder observes not only the source sequence {X_i} but
+also some sequence {W_i} which is correlated with the decoder's
+side-information sequence {Y_i}. [...] To see how this seemingly more general
+scenario reduces to our scenario assume that {(X_i, W_i, Y_i)} are IID random
+triples of law P_XWY and that W_i takes value in the finite set W. Consider
+now a new IID source {X~_i} taking value in the set X x W according to the
+law P_XW with X~_i = (X_i, W_i). [...] Finally define the new decoder
+distortion function d~_d: X~ x X^ -> R+ as d~_d((X_i, W_i), X^_i) =
+d_d(X_i, X^_i)". Section III ("Gaussian Source and Quadratic Distortions"),
+Theorem 9: a scalar centered Gaussian source X of variance sigma_X^2 > 0,
+side information Y = X + U with U centered Gaussian of variance sigma_U^2 > 0
+independent of X, quadratic distortions d_d and d_e; the encoder observes X
+alone. No vector source and no augmentation appear in the Gaussian section.
+
+**Lu and Xu, "Vector Gaussian Heegard-Berger problem with common
+reconstructions" (WCSP 2021, IEEE 9613155).** Theorem 4: "When distortion
+constraints D_1 and D_2 are both diagonal positive matrices and satisfy
+D_1 <= K_X and D_2 <= K_X, the rate distortion function of Fig. 1 is
+R(D_1, D_2) = max{R_1(D_1, D_2), R_2(D_1, D_2)}" with R_1, R_2 given by
+their (15)-(17); Assumption 1 requires K_1 = K_{X|Y1}^{-1} - K_X^{-1} and
+K_2 = K_{X|Y2}^{-1} - K_X^{-1} diagonal, obtainable by a linear transform of
+X (their Appendix). The single-decoder specialization (Y_2 = Y_1, D_2 = D_1,
+K_3 = 0) is R = (1/2) log |K_{X|Y}| |D^{-1} + K_1|; for this paper's source
+K_1 = diag(0, 1/tau^2) and the formula becomes
+(1/2) log [(1-rho^2)(tau^2 + D_V)/(s D D_V)], valid only for
+(1-D)(1-D_V) >= rho^2. See Related Work and notebook section 5b.

@@ -279,17 +279,30 @@ example.
 
 The closest common-reconstruction counterpart is Lu and Xu's vector
 Gaussian Heegard--Berger problem with common reconstructions
-\cite{luxu2021}, stated for two decoders with side information and
-diagonal positive definite constraints on every coordinate of the
-reproduction, with achievability by the Timo--Chan--Grant scheme under
-source enhancement. A constraint equal to the variance of the context
-coordinate is slack, met by the zero reproduction, so the present
-problem, one decoder and a constraint on the described variable alone,
-is the specialization of their setting to a single decoder and a slack
-context constraint. We have not verified that their expression reduces
-to Theorem~\ref{thm:function} under that specialization, and we claim
-the closed form as new only to that extent; both problems evaluate
-Steinberg's functional, so the two must agree wherever both apply.
+\cite{luxu2021}. Their Theorem~4 gives the rate--distortion function
+for two decoders with side information under error-covariance
+constraints $\Cov(X-\hX)\preceq\mathbf D_m$, with $\mathbf D_m$ diagonal
+and positive definite, under the hypothesis $\mathbf D_m\preceq\Sigma_X$
+in the positive semidefinite order. Specialized to one decoder with side
+information $S$ and constraint $\mathrm{diag}(D,D_V)$ on the pair
+$(Y,V)$, it reads
+$\tfrac12\log_2\bigl[(1-\rho^2)(\tau^2+D_V)/(sDD_V)\bigr]$: their
+Assumption~1 holds in the $(Y,V)$ coordinates, since
+$\Sigma_{T\mid S}^{-1}-\Sigma_T^{-1}=\mathrm{diag}(0,\tau^{-2})$, and the
+same specialization returns Steinberg's scalar formula when the context
+is dropped. The hypothesis $\mathbf D\preceq\Sigma_X$ forces
+$(1-D)(1-D_V)\ge\rho^2$, so the context coordinate is never unpenalized
+in their setting, and on the admissible range the specialized function
+exceeds $L(D)$, the constraint on $V$ binding (checked numerically over
+ten thousand instances, Appendix~\ref{app:numver}). Its formal extension
+to $D_V=\operatorname{Var}V$ equals Gray's clean-context function
+$\tfrac12\log_2\bigl((1-\rho^2)/D\bigr)$, a strict lower bound on $L(D)$
+whenever $\rho\tau\ne0$, and it falls below that bound beyond; the
+extension is therefore not valid, and Theorem~\ref{thm:function}(a) is
+neither a specialization nor a limit of \cite{luxu2021}. The
+difference is the constraint itself: a bound on the error of one linear
+functional of the source is not a diagonal covariance constraint in any
+coordinates.
 
 The priced coordinate also has a security reading. Because $L$ is the
 normalized conditional entropy $H(M\mid S^n)/n$ of the stored description given

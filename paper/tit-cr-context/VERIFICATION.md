@@ -25,6 +25,12 @@ clean object on Atlas with Lean 4.32.2, 298 s, zero errors, zero sorry).
   principles, regenerates Figs. 2-4 into a scratch directory, and runs the three
   Python harnesses below. Re-execute with
   `jupyter nbconvert --to notebook --execute --inplace reproduce.ipynb`.
+  Section 5b of the notebook is the Lu-Xu comparison quoted in Related Work:
+  the single-decoder specialization of their Theorem 4 (which returns
+  Steinberg's scalar formula for a scalar source), the diagonality of
+  K_1 = Sigma_{T|S}^{-1} - Sigma_T^{-1} = diag(0, 1/tau^2), the positivity of
+  R(D, D_V^max) - L(D) over 10,000 random admissible instances, and the
+  identity R(D, D_V = Var V) = Gray's function.
 
 - `verify_converses.py` — the author's harness, written alongside the
   proofs. Nineteen checks: seven exact-symbolic (sympy) on the
