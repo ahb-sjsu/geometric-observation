@@ -12,3 +12,5 @@ live source is ../tit-cr-context.tex.
   proof of the determinant-bound attainment theorem (Section VI), the
   cell-bound lemma, the Wyner-import form of Step B, and the numerical
   verification table.
+- tit-cr-context-33pp-2026-09-09-precut.tex/.pdf: the 33-page third-round
+  state (Zenodo 1.3, commit 10efb3d) before the referee-requested length cut.

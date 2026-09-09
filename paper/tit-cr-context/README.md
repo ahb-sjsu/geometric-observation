@@ -1,11 +1,11 @@
 # Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context
 
-**→ [Read the paper (PDF, 33 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
+**→ [Read the paper (PDF, 31 pp)](tit-cr-context.pdf)** · [HTML rendering](tit-cr-context.html) · [cover letter](cover-letter-tit.pdf)
 
 The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
-IEEE Transactions on Information Theory submission. Single author. 33 pp.
+IEEE Transactions on Information Theory submission. Single author. 31 pp.
 Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.2 = this build).
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
@@ -15,7 +15,16 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
-**Second referee round, same day.** Determinant-bound attainment is now only the scalar condition proved from the closed form (Remark 22); the two-variable theorem and every reference to an archived full-length version are gone from the manuscript (the versions stay under `archive/`). The finite-alphabet construction is Lemma 7; Appendix B cites it with the order of limits explicit. The closed form and the region are parts (a) and (b) of one theorem (Theorem 15); pair sufficiency is Lemma 11; the clean-boundary and binary-frontier results are propositions with separated proofs; statement titles are gone. The Landauer remark states an infimum approached in the quasi-static limit. Lu-Xu 2021 is described as a slack-constraint specialization not yet verified against their expression (owner read needed). Abstract is narrative, 244 words; source is pure ASCII with a biography block. Machine checks re-run: Python harnesses, binary Lagrangian harness, MATLAB 11/11 on Atlas; Lean rebuilt on Atlas (see VERIFICATION.md).
+**Third referee round, same day.** Marginalization is now proved strictly
+suboptimal for every rho != 0 (Corollary 17, via P(g_S) > 0); the Lu-Xu
+paragraph states the problem as the limit their closed form is not stated
+for; the attainment remark drops its regime clause; the prior-formulations
+table, Appendix A (single-letterization), the Discussion's thermodynamic
+restatement, and the repeated gradient derivation of the vector-context
+proof are cut, and Related Work is halved. 31 pp single-column, 22 in a
+double-column trial. Snapshot of the 33-page pre-cut state under `archive/`.
+
+**Second referee round, same day.** Determinant-bound attainment is now only the scalar condition proved from the closed form (Remark 23); the two-variable theorem and every reference to an archived full-length version are gone from the manuscript (the versions stay under `archive/`). The finite-alphabet construction is Lemma 7; Appendix B cites it with the order of limits explicit. The closed form and the region are parts (a) and (b) of one theorem (Theorem 15); pair sufficiency is Lemma 11; the clean-boundary and binary-frontier results are propositions with separated proofs; statement titles are gone. The Landauer remark states an infimum approached in the quasi-static limit. Lu-Xu 2021 is described as a slack-constraint specialization not yet verified against their expression (owner read needed). Abstract is narrative, 244 words; source is pure ASCII with a biography block. Machine checks re-run: Python harnesses, binary Lagrangian harness, MATLAB 11/11 on Atlas; Lean rebuilt on Atlas (see VERIFICATION.md).
 
 **Revision of 2026-09-09 (referee-driven).** The Gaussian achievability
 (Appendix B, Step B) is now self-contained: the source and the reproduction
@@ -28,7 +37,7 @@ average-work form of stochastic thermodynamics (Esposito and Van den Broeck
 W = kT ln2 H(M|S^n) is exact for every code; the single-shot smooth-entropy
 setting is disclaimed, not used. The determinant-bound attainment theorem (formerly Section VI) was first reduced
 to a remark without proof and then, in the second round, to the scalar
-condition proved from the closed form (Remark 22); the two-variable theorem
+condition proved from the closed form (Remark 23); the two-variable theorem
 lives only in the full versions under `archive/`. The
 numerical-verification appendix is one paragraph; the check table is in
 `VERIFICATION.md`. Bracketed role words were removed from theorem titles.
@@ -102,8 +111,9 @@ The map below still carries the pre-revision numbering and role words and is
 due for regeneration. Current numbering: pair sufficiency is Lemma 11; the
 closed form and the region are Theorem 15(a) and (b); Remark 15 (anchor
 rates), Lemma 22, Theorem 23 (two-variable determinant bound), and Lemma 29
-(cell bound) were cut; the Gaussian operational theorem is Theorem 28; the
-clean-boundary and binary-frontier results are Propositions 20 and 27.
+(cell bound) were cut; the Gaussian operational theorem is Theorem 29; the
+clean-boundary and binary-frontier results are Propositions 21 and 28;
+strict suboptimality of marginalization is Corollary 17.
 
 ```mermaid
 flowchart TD
@@ -231,7 +241,7 @@ collide; the paper states the far branch `D > 1 − ρ²` separately.
 # manuscript (run twice for cross-references)
 pdflatex -interaction=nonstopmode tit-cr-context.tex
 pdflatex -interaction=nonstopmode tit-cr-context.tex
-# expect: 33 pages, zero undefined references, zero overfull hboxes
+# expect: 31 pages, zero undefined references, zero overfull hboxes
 
 # cover letter
 pdflatex -interaction=nonstopmode cover-letter-tit.tex    # 2 pages
@@ -270,7 +280,7 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | File | What it is |
 |---|---|
 | `tit-cr-context.tex` | The manuscript. IEEEtran, single shared theorem counter. |
-| `tit-cr-context.pdf` | Canonical build, 33 pp. |
+| `tit-cr-context.pdf` | Canonical build, 31 pp. |
 | `tit-cr-context.html` | Self-contained reading rendering: MathML, figures inlined, theme-aware. Convenience only; the PDF governs. |
 | `cover-letter-tit.tex/.pdf` | Editor cover letter, 2 pp. States the two primary results and the relationship to the declined synthesis and the archived record. |
 | `verify_converses.py` | Author's harness, written alongside the proofs. 19 checks. |
