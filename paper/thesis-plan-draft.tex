@@ -1,144 +1,227 @@
 \documentclass[11pt,onecolumn]{IEEEtran}
-\usepackage{amsmath,amssymb,amsthm,graphicx}
+\usepackage{amsmath,amssymb,amsthm,graphicx,booktabs}
 \usepackage[hidelinks]{hyperref}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
 
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\hY}{\hat Y}
+\newcommand{\hX}{\hat X}
 
 \begin{document}
 
-\title{A Unified Price Theory: Rate, Conditional Content, and Geometric Economic Behavior}
+\title{The Price of a Description:\\ Rate, Conditional Content, and the Geometry of Choice\\
+\large A thesis plan}
 
 \author{Andrew H. Bond, Senior Member, IEEE\\
-\thanks{A. H. Bond is with Department of Computer Engineering, San Jos\'e State University. 
-Numerical harnesses: https://github.com/ahb-sjsu/geometric-observation and https://github.com/ahb-sjsu/geometric-economics. 
-Archived records: doi:10.5281/zenodo.22678341 and doi:10.5281/zenodo.21776291.}}
+\thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e State University.
+Numerical harnesses: \url{https://github.com/ahb-sjsu/geometric-observation},
+\url{https://github.com/ahb-sjsu/geometric-economics}, and \url{https://github.com/ahb-sjsu/eris-econ}.
+Archived records: doi:10.5281/zenodo.22678341 (rate--content manuscript and verification),
+doi:10.5281/zenodo.21776291 (prior evidence), doi:10.5281/zenodo.20660122 (eris-econ, concept).
+Draft of 10 September 2026, revised the same day.}}
 
 \maketitle
 
 \begin{abstract}
-We outline a unified price theory that connects two independently developed results: (i) a closed-form rate--content tradeoff for jointly Gaussian sources with encoder-observed context, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of an explicit quadratic in distortion $D$, source-context correlation $\rho$, and third-party noise $\tau^2$, whose Pareto frontier is traced by two coupled water levels and trades off strictly iff $0<\rho^2<1$; and (ii) a geometric model of economic behavior in which choice cost is a diagonal Mahalanobis distance in a 9-dimensional decision space, with active dimensions $\{d_6\text{: social impact}, d_7\text{: identity}, d_9\text{: epistemic status}\}$ and variances $\{78.26,32.28,0.01262\}$ organizing 16 aggregate frequencies from game theory and prospect theory within $\pm5$pp / $\pm10$pp, MAE $2.70\%$ [Table VII, TCSS Part I]. We argue these are two implementations of one principle: every stored description has two prices — rate $R$ to keep it decodable and conditional content $L$ to erase it given what a third party retains. Access to clean context $V$ strictly lowers $L$ even when the reduced $(Y,S)$ laws are equivalent up to scaling. When refactored, prospect theory and inequality aversion emerge as degenerate projections of the rate--content frontier at $\alpha\to1$ and $\alpha\to0$ via the information-bottleneck identity $J_\alpha = I(T;\hat Y)-(1-\alpha)I(S;\hat Y)$. We present a five-paper research program that moves from reproducibility to boundary location to basis invariance to formal reduction, using bundled high-stakes data (Slonim--Roth Slovakia 820 obs, 2.7 days max; Cameron Indonesia 178 obs, 30.9 days; Andersen Meghalaya 458 obs, 24.2 days) with pie in days-of-wages as $\Lambda/Y$.
+This plan sets out a thesis built on two completed pillars and one open question.
+The first pillar is information-theoretic.
+For a jointly Gaussian source with encoder-observed context, the least conditional content of a description given what a third party retains has the closed form $L(D)=\tfrac12\log_2 g^\star$, with $g^\star$ the larger root of an explicit quadratic, and the rate and the conditional content trade off strictly exactly when the context is neither useless nor perfect.
+The second pillar is behavioral.
+A diagonal Mahalanobis cost on a nine-coordinate decision space, with three variances fitted on nine bargaining and public-goods aggregates, reproduces six classic prospect-theory frequencies and one historical replication within stated tolerances, and its sharpest corollary, invariance of offers to the stake, fails on high-stakes data from three countries.
+The two pillars share a method, closed forms where they exist and machine-checked or preregistered falsification where they do not, but they are not yet one theory.
+The plan therefore keeps them separate, states the one conjecture that would connect them as a named test rather than a definition, and treats the nine coordinates as a basis to be earned rather than a fact.
+Five papers follow: a reproducibility lock, a held-out companion, a boundary paper on the bundled high-stakes data, an encoding paper that tests whether the metric result survives a change of basis, and a reduction paper that derives prospect theory and inequality aversion as limits.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Rate--content tradeoff, geometric economics, common reconstruction, Landauer principle, information bottleneck, cross-domain validation, behavioral primitives.
+Rate--content tradeoff, common reconstruction, Landauer principle, geometric economics, cross-domain validation, basis invariance, preregistration.
 \end{IEEEkeywords}
 
-\section{Introduction: Two Prices}
+\section{Two Pillars, Not One Theory}
 
-A stored description has two prices. Shannon priced the first: the rate $R(D)$ needed to reproduce $Y$ within distortion $D$. Landauer priced the second: the average work to erase the stored index $M$ given side information $S^n$, $H(M\mid S^n)/n$.
+A stored description has two prices.
+Shannon priced the first: the rate $R(D)$ needed to reproduce $Y$ within distortion $D$.
+Landauer priced the second: the average work to erase the stored index given what a third party still holds, which in the limit is the conditional entropy rate $H(M\mid S^n)/n$.
+Gray priced the conditional problem when both terminals share the side information \cite{gray1972tr,gray1973}, Wyner and Ziv when only the decoder holds it \cite{wynerziv1976}, and Steinberg priced common reconstruction \cite{steinberg2009}.
+In behavioral economics, Kahneman and Tversky priced risky choice and Fehr and Schmidt priced inequality.
 
-In source coding, Gray priced $R_{Y\mid S}(D)$ when both terminals share $S$, Wyner-Ziv when decoder alone holds $S$, Steinberg \cite{steinberg2009} priced $\min I(X;\hat X\mid S)$ under common reconstruction. In behavioral economics, Kahneman and Tversky priced risky choice via $v(o)w(p)$, Fehr-Schmidt via inequality aversion.
+An earlier synthesis manuscript argued that these were all one price.
+It was declined without review, on scope and presentation, and the argument here does not repeat it.
+The thesis rests on two results that stand on their own, and it treats their connection as an open conjecture with a stated test.
+Nothing in Papers~1 to 4 below depends on that conjecture.
 
-This paper proposes these are not separate prices. They are projections of one frontier.
+\section{Pillar I: The Information-Theoretic Price}
 
-\section{Pillar I: Information-Theoretic Price}
-
-Consider encoder observes jointly Gaussian pair $(Y,V)$, $\rho=\E[YV]$ after normalization. Decoder sees only description $M$. Third party holds $S=V+U$, $U\sim\mathcal N(0,\tau^2)$ independent.
-
-Define
+The encoder observes a jointly Gaussian pair $(Y,V)$ with correlation $\rho$ after normalization.
+The decoder sees only the description $M$.
+A third party holds $S=V+U$ with $U\sim\mathcal N(0,\tau^2)$ independent of $(Y,V)$.
+With the augmented source $X=(Y,V)$ and a distortion that ignores $V$, define
 \begin{equation}
-L(D) = \min I(X;\hat X\mid S) \quad \text{s.t. } \E(Y-\hat Y)^2\le D,\; \hat X-X-S,
+L(D)=\min\bigl\{I(X;\hX\mid S):\ \E(Y-\hY)^2\le D,\ \hX - X - S\bigr\},
 \end{equation}
-with augmented source $X=(Y,V)$ and distortion ignoring $V$. This is Steinberg's functional on augmented alphabet [Lapidoth et al. Remark 8].
+Steinberg's common-reconstruction functional on the augmented alphabet, as Lapidoth, Mal\"ar, and Wigger observed \cite{lapidoth2014}.
 
-\textbf{Result I.1 [Closed form, T-IT CR Thm.~\ref{thm:function}]:} For $Y,V$ scalar linear functionals of arbitrary-dimensional Gaussian source,
-\[
-L(D)=\tfrac12\log_2 g^\star,
-\]
-$g^\star$ larger root of explicit quadratic $P(g)=0$ in $(D,\rho,\tau^2)$, with achieving channel. Recovers Shannon at $\rho=0$, Gray at $\tau^2\to0$, Steinberg scalar Gaussian at $\rho^2\to1$.
+\textbf{Result I.1 (closed form).}
+$L(D)=\tfrac12\log_2 g^\star$, where $g^\star$ is the larger root of an explicit quadratic in $(D,\rho^2,\tau^2)$, with an achieving Gaussian channel.
+The formula recovers Shannon at $\rho=0$, Gray as $\tau^2\to0$, and Steinberg's scalar Gaussian example as $\rho^2\to1$.
+The pair $(Y,V)$ suffices for arbitrary-dimensional Gaussian sources through a pair-sufficiency lemma.
 
-\textbf{Result I.2 [Region, Thm. region]:} Jointly achievable $(R,L)$ region exact, Pareto frontier traced by coupled two-water-level stationarity system. Strict misalignment — $R$ and $L$ strictly trade off — iff $0<\rho^2<1$ in noisy model $\tau^2>0$, persisting at clean boundary. Structural corollary: $L(D)$ not determined by joint law of $(Y,S)$; encoder access to clean $V$ enters function itself [Cor. notmarginal].
+\textbf{Result I.2 (region).}
+The set of jointly achievable rate and conditional-content pairs $(R,L)$ is exact.
+Its Pareto frontier is traced by a two-water-level stationarity system, every Pareto point is attained by a single test channel, and the two prices trade off strictly if and only if $0<\rho^2<1$.
+The conditional content is not determined by the joint law of $(Y,S)$: two problems with the same reduced law can have different $L(D)$, so access to the clean context enters the function itself.
+The problem is the unpenalized-context limit of the Lu--Xu vector Gaussian Heegard--Berger problem with common reconstruction \cite{luxu2021}, whose admissibility condition leaves that limit outside their closed form.
 
-Operational: $L(D)$ is least asymptotically achievable $H(M\mid S^n)/n$. Thermodynamic reading [Remark thermo]: infimum average erasure work per symbol under ideal conditional reset, following Landauer \cite{landauer1961}, Sagawa-Ueda \cite{sagawa2009}, del Rio et al. \cite{delrio2011}, Faist et al. \cite{faist2015}.
+\textbf{Operational and thermodynamic readings.}
+$L(D)$ is the least asymptotically achievable $H(M\mid S^n)/n$ over codes meeting the distortion.
+Under the average-work reading of stochastic thermodynamics \cite{landauer1961,esposito2011,sagawa2012,parrondo2015}, it is the infimum of the average erasure work per symbol for an ideal degenerate logical memory reset against retained side information.
+Single-shot and quantum refinements \cite{sagawa2009} are deliberately not invoked; the manuscript's referee rounds settled on the average-work reading and the thesis keeps to it.
 
-IB identity:
+\textbf{A useful identity.}
+For $T=(Y,V)$ and any $\hY$ with $\hY - T - S$,
 \begin{equation}
-J_\alpha := \alpha I(T;\hat Y)+(1-\alpha)I(T;\hat Y\mid S) = I(T;\hat Y)-(1-\alpha)I(S;\hat Y),
+\alpha\,I(T;\hY)+(1-\alpha)\,I(T;\hY\mid S)=I(T;\hY)-(1-\alpha)\,I(S;\hY),
 \end{equation}
-for $T=(Y,V)$, $\hat Y-(Y,V)-S$. Weighted objective of region is IB Lagrangian with hard $Y$-distortion.
+so the weighted objective of the region is an information-bottleneck Lagrangian with a hard $Y$-distortion.
+This is an identity, not a result, and it is recorded here because Paper~5 (Section~\ref{sec:conjecture}) needs it.
 
-\section{Pillar II: Behavioral Price}
+\section{Pillar II: The Behavioral Price}
 
-Consider agent at reference $r\in\R^9$ choosing $s(x)$ on integer grid $0\le s_k\le10$. Cost
+An agent at a reference point $\mathbf r\in[0,1]^9$ chooses an alternative $\mathbf s(x)$, where $x$ ranges over an integer percentage grid of offers or over a finite menu of lotteries.
+The cost of the move is
 \begin{equation}
-c(\Delta a)=\sqrt{\sum_{k=1}^9 (\Delta a_k)^2/\sigma_k^2},\quad \Delta a=s(x)-r,
+c(\Delta\mathbf a)=\Bigl(\sum_{k=1}^{9}(\Delta a_k)^2/\sigma_k^2\Bigr)^{1/2},\qquad \Delta\mathbf a=\mathbf s(x)-\mathbf r,
 \end{equation}
-with diagonal $\Sigma=\mathrm{diag}(\sigma_k^2)$. Dimensions $d_1$..$d_9$: money, effort, risk, delay, valence, social impact, identity, scarcity, epistemic status. Encoding $s_k(x)$: e.g., $m(x)=\min(2x,1)$, $q(x)=1-P_{rej}$, $P_{rej}$ logistic $x_{th}=0.18,\kappa=15$, public-goods drift $-0.02(j-1)$, certainty $\mathrm{cert}=(\max p_i)^2$, loss-domain reversal on $d_5,d_7,d_9$.
+with diagonal $\Sigma=\mathrm{diag}(\sigma_k^2)$.
+The nine coordinates are consequences ($d_1$), rights ($d_2$), fairness ($d_3$), autonomy ($d_4$), privacy and trust ($d_5$), social impact ($d_6$), virtue and identity ($d_7$), legitimacy ($d_8$), and epistemic status ($d_9$).
+Game predictions are deterministic cost minima on the grid.
+Lottery choices use a softmax with a cost-dependent temperature $T(\Delta c)=\max(0.5,\,0.24\,\Delta c^{2.13})$, which is non-monotone with a turnover at $\Delta c=1.41$.
+The encodings (reference points, alternatives, the rejection logistic with threshold $0.18$ and steepness $15$ per unit share, the public-goods drift, the certainty measure, and the domain-dependent coding on $d_5$, $d_7$, $d_9$) are listed in full in Part~I and reproduced by eris-econ.
 
-\textbf{Result II.1 [TCSS Part I, Table VII]:} On 16 aggregates — 9 game targets (ultimatum, dictator, public goods) + 7 lottery targets (Ruggeri et al. $N=4098$ per item) — active set $\{d_6,d_7,d_9\}$ with variances fitted on 9 game aggregates $\{78.26,32.28,0.01262\}$, temperature constants $T_{base}=0.24,T_\alpha=2.13$ set from P1,P3, $r_9=0.78$ from G\"uth 37\%, passes $\pm5$pp games / $\pm10$pp lottery, 16/16, MAE $2.70\%$, Ruggeri MAE $3.95\%$ with 4 of 6 outside 95\% CI. MRI 1.39pp, perturbation $\epsilon=0.20$ mean 14.8/16, uniform rescaling 16/16. Active set selected from 381 candidates using complete benchmark — cross-domain parameter reuse within jointly selected architecture, not fully out-of-sample.
+\textbf{Result II.1 (Part~I, IEEE TCSS, accepted 6 September 2026).}
+On sixteen aggregates, nine game targets and six Ruggeri et al.\ lottery items ($N=4{,}098$ per item) and one historical ultimatum replication, the active set $\{d_6,d_7,d_9\}$ with variances $\{78.26,\,32.28,\,0.01262\}$ fitted on the nine game targets passes all sixteen within $\pm5$~pp (games) and $\pm10$~pp (lotteries), with unweighted MAE $2.70\%$ and Ruggeri-subset MAE $3.95\%$.
+Four of the six lottery predictions fall outside the Ruggeri 95\% intervals, which the paper states as the principal place where the tolerance band overstates precision.
+The temperature constants were set from P1 and P3, the historical reference coordinate from the G\"uth offer, and the active set was ranked on all sixteen targets, so the lottery results are cross-domain parameter reuse within a jointly selected architecture, not out-of-sample prediction.
+The Andersen high-stakes test is the only result independent of every fitting step.
+As of 10 September 2026 the whole table is recomputed by one command, \texttt{eris-econ-table7}, in eris-econ 0.1.1, with a test that fails if the package ever stops reproducing the paper.
 
-\textbf{Result II.2 [Falsification]:} Corollary: stake-scaling invariance under share-normalized $s_1=q(x)(1-x)$. Tested on bundled openICPSR high-stakes data with column \texttt{days\_of\_wages} $=\Lambda/Y$:
+\textbf{Result II.2 (falsification, and the data already in hand).}
+Share-normalized money makes the model predict offers invariant to the stake.
+The openICPSR package of Andersen et al.\ bundles three individual-level high-stakes studies with the pie expressed in days of wages, which is the ratio $\Lambda/Y$ of stake to income:
 
 \begin{center}
-\begin{tabular}{lcccc}
-Study & N & Max days & Offers low$\to$high & Accept low$\to$high\\
-Slonim--Roth SK & 820 & 2.7 & 44.5\%$\to$42.7\% & 0.83$\to$0.91\\
-Cameron ID & 178 & 30.9 & 42.5\%$\to$41.2\% & 0.78$\to$0.90\\
-Andersen MG & 458 & 24.2 & 24.2\%$\to$12.1\% & 0.64$\to$0.96\\
+\begin{tabular}{@{}l r r l l@{}}
+\toprule
+Study & $N$ & Max days of wages & Offers, low to high stake & Acceptance, low to high \\
+\midrule
+Slonim and Roth, Slovakia \cite{slonim1998} & 820 & 2.7 & 44.5\% to 42.7\% & 0.83 to 0.91 \\
+Cameron, Indonesia \cite{cameron1999} & 178 & 30.9 & 42.5\% to 41.2\% & 0.78 to 0.90 \\
+Andersen et al., Meghalaya \cite{andersen2011} & 458 & 24.2 & 24.2\% to 12.1\% & 0.64 to 0.96 \\
+\bottomrule
 \end{tabular}
 \end{center}
 
-Offers depend not only on $\Lambda/Y$: Meghalaya at 2.9 days offers $14\%$, Slovakia at 2.7 days offers $43\%$, Cameron flat at 31 days. Acceptance rises with days-of-wages in all three. Boundary located: finite monetary variance belongs on rejection function, proposer levels are population reference points $r$.
+Offers do not depend on $\Lambda/Y$ alone: Meghalaya at 2.9 days of wages offers 14\%, Slovakia at 2.7 days offers 43\%, and Cameron's offers are flat at 31 days.
+Acceptance rises with days of wages in all three.
+The boundary is therefore located on the responder side.
+A finite monetary variance belongs on the rejection function, and proposer levels are population reference points $\mathbf r$.
 
-\section{Unification: Refactoring OT into Geometry}
+\section{The Basis Is Arbitrary, and That Is Testable}
+\label{sec:basis}
 
-The T-IT functional is the limit of Lu-Xu vector Gaussian Heegard-Berger with covariance constraint $\mathrm{diag}(D,D_V)$ as $D_V\to\infty$. Their hypothesis $D\preceq\Sigma_X$ requires $(1-D)(1-D_V)\ge\rho^2$, leaving no unpenalized $D_V$. Theorem function(a) evaluates that limit.
+The nine coordinates are a chosen basis, not a discovery.
+The cost $c$ is coordinate-free for a full covariance: under any invertible linear map $A$ of the coordinates, $\Delta\mathbf a\mapsto A\Delta\mathbf a$ and $\Sigma\mapsto A\Sigma A^{\top}$ leave $c$ unchanged.
+The basis enters the model in exactly two places.
+First, the diagonal restriction is not invariant under $A$, so the statement ``three active dimensions'' is a statement about a subspace expressed in a particular basis.
+Second, the encodings $\mathbf s(x)$ were written by hand in that basis.
+Part~II's preregistered result that a rank-one or rank-two precision matrix matches the full metric on three held-out domains is consistent with this reading: what is not arbitrary is the rank and the active subspace, not the axes.
 
-Refactored thesis:
-
-\begin{definition}[Unified Price]
-Let description $M$ of $(Y,V)$ have two prices $(R,L)$. Let agent decision $x$ map to $s(x)$. Then $c(\Delta a)$ is operationalization of $L(D)$ with $V=(d_6,d_7,d_9)$ and $S$ third-party belief.
-\end{definition}
-
-Consequence: $d_9$ variance $0.01262$ is smallest because epistemic status is most informative about $S$. Money $d_1$ inactive at low stakes corresponds to $D_V\to\infty$ limit; finite $\sigma_1^2$ corresponds to $D_V<\infty$ where $\Lambda/Y$ matters for $L$ but not $R$.
-
-Non-monotone temperature $T(\Delta c)=\max(0.5,0.24\Delta c^{2.13})$ with turnover $\Delta c^\dagger=1.41$ — four of six lottery targets above turnover — is artifact of Part I. Information-price fixed $T$ [Part II] restores monotonicity needed for limit theorems.
-
-\textbf{Conjecture [Degenerate Projections]:} Under fixed information-price choice rule,
-\begin{itemize}
-\item As $\sigma_6,\sigma_7\to\infty$, ordering over lotteries induced by $c$ is ordinally equivalent to CPT with $w(p)$ derived from $\mathrm{cert}$ and $v$ from first-order expansion of $c$ near $r$.
-\item As $\sigma_9\to0$, cost minimizer over offers is ordinally equivalent to Fehr-Schmidt with $\alpha,\beta=f(\sigma_6/\sigma_9)$.
-\item Nash equilibrium exists but $A^\ast$ on $\mathcal E$ with heuristic $d_9$ truncation is tractable approximation.
-\end{itemize}
-
-These are Papers 4 theorems, not assumed in Papers 1-3.
+This suggests treating the coordinates as dynamic.
+A scenario can be embedded by a fixed, published encoder, for example a multilingual sentence embedding such as LaBSE \cite{feng2022labse} with 768 coordinates, and the metric can be fitted as a rank-constrained precision matrix on that space, with the nine named directions recovered afterwards by projecting the active subspace onto the codebook.
+Two cautions govern this.
+With sixteen aggregates nothing of that size is identifiable, so the learned-basis arm must be fitted on individual-level data (CPC18, the Fraser--Nettle panels, the Ruggeri country cells) under a preregistered rank bound.
+And a learned basis that reproduces the benchmark says nothing until its active subspace is compared with the hand-coded one across encoders.
+The significance the owner suspects in the number nine is therefore a hypothesis with a measurement: the dimension of the active subspace that survives a change of encoder.
+If it is three under the hand basis, three under raters, and three under a learned embedding, the number is earned.
+If it moves, the thesis reports which dimensions were encoding artifacts.
 
 \section{Program: Five Papers}
 
-\textbf{Now, 1 week: eris-econ 0.1.1.} Add one-command reproduction \texttt{eris-econ reproduce table-vii} asserting 16 predictions and MAE 2.70\%. Cut Zenodo 0.1.1 to match Part I as published. DOI exists.
+\textbf{Paper 1, done: lock Part~I.}
+eris-econ 0.1.1 was released on 10 September 2026 with the one-command reproduction and the assertion test.
+Remaining: confirm the Zenodo version record for 0.1.1 once the Zenodo API recovers, and add its DOI to \texttt{CITATION.cff}.
 
-\textbf{Next, 1 month: Part II.} Draft exists \texttt{experiments/papers/tcss-part2}: CPC18 held-out prediction, preregistered low-rank covariance, projection-gap instrument, information-price temperature repair. Close two citation checks in README. Venue T-CSS. Answers held-out individual-level objection.
+\textbf{Next, one month: Part~II.}
+A complete draft exists (CPC18 held-out prediction, preregistered low-rank covariance, the projection-gap instrument on a language-model panel, the information-price temperature).
+Two citation checks remain in its README.
+Venue: IEEE TCSS.
+It answers the held-out, individual-level objection to Part~I.
 
-\textbf{Months 1-4: Paper 2, Boundary.} Preregister OSF first: acceptance vs days-of-wages model with one shared monetary variance across three countries, proposer within-population slopes, Cameron flat at 31 days named as falsifier. Cite Andersen, Slonim-Roth, Cameron, not only Andersen. Venue JEBO / Experimental Economics. Title: boundary located, not model rescued.
+\textbf{Months 1 to 4, Paper 2: the boundary.}
+Preregister on OSF before any fit: an acceptance-versus-days-of-wages model with one shared monetary variance across the three countries, proposer effects as within-population slopes, and Cameron's flat offers at 31 days named in advance as the falsifier.
+Cite Slonim and Roth, Cameron, and Andersen et al.
+Venue: JEBO or Experimental Economics.
+The title says a boundary was located, not that a model was rescued.
 
-\textbf{Months 3-9: Paper 3, Encoding.} Freeze \texttt{prereg-dimensions-v1} RC, register OSF, run. External-rater or fixed-prompt LLM encoder, reliability, activation of dormant $d_2,d_4,d_5,d_8$, exchange rates vs money. Basis invariance test.
+\textbf{Months 3 to 9, Paper 3: the basis.}
+Freeze \texttt{prereg-dimensions-v1}, register it on OSF, and run it with two encoder arms: external raters or a fixed-prompt language-model extractor on the nine-coordinate codebook, and a learned embedding with a preregistered rank bound (Section~\ref{sec:basis}).
+Report encoder reliability, activation of the dormant coordinates $d_2$, $d_4$, $d_5$, $d_8$, exchange rates against money, and the dimension of the active subspace under each encoder.
+Venue: Nature Human Behaviour, PNAS Nexus, or Computational Economics.
 
-\textbf{Months 9-18: Paper 4, Reductions.} Two theorems + discussion under Part II's fixed $T$. Do not build on Part I's non-monotone $T$. Venue: Nature Human Behaviour / PNAS Nexus / T-IT.
+\textbf{Months 9 to 18, Paper 4: reductions.}
+Two theorems and a discussion, under Part~II's fixed information-price choice rule, since Part~I's temperature is non-monotone and four of six lottery targets sit on its non-monotone branch.
+\begin{conjecture}[Degenerate projections]
+Under the fixed information-price rule:
+(i) as $\sigma_6,\sigma_7\to\infty$ the ordering over lotteries induced by $c$ is ordinally equivalent to cumulative prospect theory with a weighting function derived from the certainty measure and a value function from the first-order expansion of $c$ near $\mathbf r$;
+(ii) as $\sigma_9\to0$ with rejection risk encoded, the cost minimizer over offers is ordinally equivalent to Fehr--Schmidt with $\alpha,\beta$ functions of $\sigma_6/\sigma_9$;
+(iii) heuristic search on $\mathcal E$ with $d_9$ truncation is a tractable approximation where the Nash point exists but is not computed.
+\end{conjecture}
+Title: ``Geometric Reductions of Prospect Theory and Inequality Aversion.''
 
-\section{Economic Consequences When Mature}
+\section{Paper 5, Conditional: The Bridge as a Test}
+\label{sec:conjecture}
 
-If refactor holds, every stored economic commitment has two ledger entries: $R$ to keep it decodable, $L$ to erase it given counterparty retention. Mechanisms optimizing $R$ alone underprice deletion. Data centers, platform contracts, demand-response incentives, credit scoring — all pay $L$.
+The two pillars touch at one coordinate.
+In the games, epistemic status carries what the responder knows, through the rejection probability, and that is an information structure.
+Information structures have conditional entropies.
+The only honest form of the thesis's unifying claim is therefore a measurement:
 
-Policy simulation with EV maximizers fails because it sets $\sigma_6,\sigma_7,\sigma_9\to\infty$. Policy simulation with geometric agents at 0.1.1 reproduces Table VII within 2.7pp but must switch to finite $\sigma_1^2$ on rejection at $>2$ days wages.
+\begin{conjecture}[Bridge]
+For each game target, let $\ell$ be the conditional content of the proposer's decision given the responder's information, computed from the target's information structure under the identity of Section~II.
+Then the fitted epistemic displacements $\Delta a_9$ across the sixteen targets are monotone in $\ell$.
+\end{conjecture}
 
-This is why the concept applies to all domains: rate-content tradeoff is domain-agnostic. Economics is projection at $\alpha$ weighting rate vs leakage $I(\hat X;S)$.
+If the conjecture holds, the epistemic variance $0.01262$ has an information-theoretic reading and Paper~5 can say so with a number.
+If it fails, the thesis reports that the two pillars share a method and a vocabulary, and no more.
+Either outcome is publishable; only the assertion without the test is not.
+No definition in this plan presupposes the outcome, and the phrase ``unified price theory'' does not appear in any paper title.
 
 \section{Conclusion}
 
-We have not unified economics. We have priced its two cheapest errors: forgetting context $V$ matters for $L$, and assuming money coordinate is inactive universally. The five-paper arc makes that price checkable, then locates its boundary, then proves its limits.
+The thesis does not unify economics, and it does not unify information theory with behavior.
+It prices two things exactly, a description against retained context and a choice against a reference point, locates the boundary of the second on data already in hand, tests whether its coordinates are a basis or a fact, and states the one connection between the two as a conjecture with a named measurement.
 
 \begin{thebibliography}{99}
-\bibitem{steinberg2009} Y. Steinberg, IEEE Trans. Inf. Theory, 2009.
-\bibitem{lapidoth2014} A. Lapidoth et al., IEEE Trans. Inf. Theory, 2014.
-\bibitem{landauer1961} R. Landauer, IBM J. Res. Dev., 1961.
-\bibitem{sagawa2009} T. Sagawa and M. Ueda, Phys. Rev. Lett., 2009.
-\bibitem{delrio2011} L. del Rio et al., Nature, 2011.
-\bibitem{faist2015} P. Faist et al., Nature Commun., 2015.
+\bibitem{gray1972tr} R. M. Gray, ``Conditional rate-distortion theory,'' Stanford Electronics Laboratories, Stanford, CA, Tech. Rep. 6502-2, Oct. 1972.
+\bibitem{gray1973} R. M. Gray, ``A new class of lower bounds to information rates of stationary sources via conditional rate-distortion functions,'' \emph{IEEE Trans. Inf. Theory}, vol. 19, no. 4, pp. 480--489, 1973.
+\bibitem{wynerziv1976} A. D. Wyner and J. Ziv, ``The rate-distortion function for source coding with side information at the decoder,'' \emph{IEEE Trans. Inf. Theory}, vol. 22, no. 1, pp. 1--10, 1976.
+\bibitem{steinberg2009} Y. Steinberg, ``Coding and common reconstruction,'' \emph{IEEE Trans. Inf. Theory}, vol. 55, no. 11, pp. 4995--5010, 2009.
+\bibitem{lapidoth2014} A. Lapidoth, A. Mal\"ar, and M. Wigger, ``Constrained source-coding with side information,'' \emph{IEEE Trans. Inf. Theory}, vol. 60, no. 6, pp. 3218--3237, 2014.
+\bibitem{luxu2021} J. Lu and Y. Xu, ``Vector Gaussian Heegard-Berger problem with common reconstructions,'' in \emph{Proc. Int. Conf. Wireless Commun. Signal Process. (WCSP)}, 2021, pp. 1--5.
+\bibitem{landauer1961} R. Landauer, ``Irreversibility and heat generation in the computing process,'' \emph{IBM J. Res. Dev.}, vol. 5, no. 3, pp. 183--191, 1961.
+\bibitem{esposito2011} M. Esposito and C. Van den Broeck, ``Second law and Landauer principle far from equilibrium,'' \emph{Europhys. Lett.}, vol. 95, art. 40004, 2011.
+\bibitem{sagawa2012} T. Sagawa and M. Ueda, ``Fluctuation theorem with information exchange: Role of correlations in stochastic thermodynamics,'' \emph{Phys. Rev. Lett.}, vol. 109, art. 180602, 2012.
+\bibitem{sagawa2009} T. Sagawa and M. Ueda, ``Minimal energy cost for thermodynamic information processing: Measurement and information erasure,'' \emph{Phys. Rev. Lett.}, vol. 102, art. 250602, 2009.
+\bibitem{parrondo2015} J. M. R. Parrondo, J. M. Horowitz, and T. Sagawa, ``Thermodynamics of information,'' \emph{Nature Phys.}, vol. 11, pp. 131--139, 2015.
+\bibitem{slonim1998} R. Slonim and A. E. Roth, ``Learning in high stakes ultimatum games: An experiment in the Slovak Republic,'' \emph{Econometrica}, vol. 66, no. 3, pp. 569--596, 1998.
+\bibitem{cameron1999} L. A. Cameron, ``Raising the stakes in the ultimatum game: Experimental evidence from Indonesia,'' \emph{Econ. Inquiry}, vol. 37, no. 1, pp. 47--59, 1999.
+\bibitem{andersen2011} S. Andersen, S. Erta\c{c}, U. Gneezy, M. Hoffman, and J. A. List, ``Stakes matter in ultimatum games,'' \emph{Amer. Econ. Rev.}, vol. 101, no. 7, pp. 3427--3439, 2011.
+\bibitem{feng2022labse} F. Feng, Y. Yang, D. Cer, N. Arivazhagan, and W. Wang, ``Language-agnostic BERT sentence embedding,'' in \emph{Proc. 60th Annu. Meeting Assoc. Comput. Linguistics (ACL)}, 2022, pp. 878--891. % verify pages on final
 \end{thebibliography}
 
 \end{document}
