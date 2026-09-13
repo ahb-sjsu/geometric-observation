@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix A — Related Work and Differentiation &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix A — Related Work and Differentiation from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_a_related_work">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix A — Related Work and Differentiation</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <span class="nav-prev"></span>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_b_cost_ledger.html" class="nav-next">Appendix B — The COST Ledger: Theorems, Proofs, and Falsific… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-a-related-work-and-differentiation">Appendix A — Related Work and Differentiation</h1>
+<p>This appendix collects, in one place, what the framework owes to which literature and
+where it differs. The governing honesty is Chapter 3&rsquo;s: almost none of the <em>components</em>
+are new, and the contribution is the <em>synthesis and its falsification</em>. The four-column
+posture below — literature, what it owns, what this program adds, the differentiating
+sentence — is meant to let a referee find the seam fast.</p>
+<h2 id="information-geometry-amari-cencov">Information geometry (Amari, Čencov)</h2>
+<p><em>Owns.</em> The pullback metric $P_C = J^\top G J$; the Fisher information metric as the
+canonical output metric $G$ for likelihood consumers; Čencov&rsquo;s uniqueness theorem;
+natural-gradient geometry.</p>
+<p><em>This program adds.</em> The claim that this pullback is the operative object for <em>lossy
+representation across domains</em> — the thing that decides whether a quantizer, embedding,
+or array codec is good — and that it is recoverable <em>blind</em> from a consumer&rsquo;s outputs.</p>
+<p><em>Differentiation.</em> Information geometry studies the pullback to understand estimation
+and inference <em>on</em> statistical manifolds; this program uses it to decide <em>how to
+compress inputs to</em> a consumer. Same operator, different load. The Skeptic&rsquo;s Appendix
+answers &ldquo;isn&rsquo;t $P_C$ just Fisher information?&rdquo; directly (Appendix E): yes, when the
+consumer is a likelihood — and the point is the job, not the algebra.</p>
+<h2 id="ratedistortion-theory-shannon-berger-kostinaverdu-kostinatuncel-rimoldi">Rate–distortion theory (Shannon, Berger; Kostina–Verdú; Kostina–Tuncel; Rimoldi)</h2>
+<p><em>Owns.</em> $R(D)$, reverse water-filling, dispersion (finite-blocklength), successive
+refinement, the multi-stage/$k$-observer rate regions.</p>
+<p><em>This program adds.</em> The consumer-relative $R_C(D)$ with its tilt toward the read
+subspace; the two-observer region whose refinability is exactly Loewner-nesting of read
+metrics; the mismatch <strong>tax</strong> $(r/2)\log(M/m)$ and the omission <strong>floor</strong>
+$\operatorname{tr}(\tilde P\Pi)$ for using the wrong read metric.</p>
+<p><em>Differentiation.</em> Classical rate–distortion fixes the fidelity measure (usually squared
+error) and is recovered here as the $P_C = I$ slice; this program promotes the fidelity
+measure to the observer-dependent variable it always was. Citations are exact:
+the $k \ge 3$ region is Kostina–Tuncel (not an iteration of the two-stage map — VI-5);
+dispersion constants are flagged [C7] to Kostina–Verdú, not re-derived (VI-7).</p>
+<h2 id="perceptual-weighted-distortion-coding">Perceptual / weighted-distortion coding</h2>
+<p><em>Owns.</em> The practice of replacing $I$ with a perceptual weighting because the human
+sensory consumer does not read uniformly.</p>
+<p><em>This program adds.</em> A principled account of <em>where the weighting comes from</em> (the
+consumer&rsquo;s Jacobian pullback), for <em>any</em> consumer, recoverable when the consumer is a
+trained black box.</p>
+<p><em>Differentiation.</em> Perceptual coding hand-tunes one tilt for one consumer (the eye/ear);
+the read metric says every consumer has such a tilt and you can get it from the consumer
+rather than guessing it.</p>
+<h2 id="spectral-embedding-clustering-von-luxburgradlhein-ngjordanweiss-coifmanlafon">Spectral embedding &amp; clustering (von Luxburg–Radl–Hein; Ng–Jordan–Weiss; Coifman–Lafon)</h2>
+<p><em>Owns.</em> The commute/resistance embedding and its large-graph degeneracy; row-
+normalization; diffusion maps and the $\alpha$ family of density normalizations.</p>
+<p><em>This program adds.</em> The polar decomposition that confines the collapse to the radius and
+keeps geodesics in the angle [proved]; the identification of row-normalization as the
+read-subspace projection of the geodesic-rank consumer; the exact $S^1$ rank-collapse and
+flat-torus bounds; the spectral-filter phase diagram (critical dimension $d = 4$) and the
+Green-kernel rank-limit theorem.</p>
+<p><em>Differentiation.</em> Diffusion maps&rsquo; $\alpha = 1$ is <em>retained as the optimal diffusion
+exponent</em> but its density-quotient is <strong>refuted outside diffusion</strong> (NEG-11) — a sharp
+statement of exactly how far the density normalization generalizes.</p>
+<h2 id="task-aware-downstream-aware-compression-learned-compression-bit-allocation-for-a-task">Task-aware / downstream-aware compression (learned compression, bit-allocation for a task)</h2>
+<p><em>Owns.</em> The engineering intuition that compression should serve the downstream task, and
+various end-to-end trained codecs that do so implicitly.</p>
+<p><em>This program adds.</em> An explicit, <em>identifiable</em> task operator $P_C$; a theory of when
+task-awareness <em>matters</em> (the $\kappa$ law and the four degeneracies); and a falsifiable
+prediction — the flip — sealed across domains rather than assumed.</p>
+<p><em>Differentiation.</em> Task-aware compression usually <em>trains</em> a code against a task
+end-to-end; this program <em>identifies the read operator</em> (blind, no labels) and derives
+what to keep, giving a transparent recipe with stated boundaries rather than an opaque
+learned one. The Skeptic&rsquo;s Appendix answers &ldquo;isn&rsquo;t this just task-aware compression?&rdquo;
+(Appendix E).</p>
+<h2 id="decoder-robustness-invariance-methodology-the-series-own-lineage">Decoder-robustness / invariance methodology (the series&rsquo; own lineage)</h2>
+<p><em>Owns.</em> The Bond Index (Geometric Ethics) and its bioacoustic descendant the Decoder
+Robustness Index (DRI): scoring a system by its distortion under read-relevant versus
+invariant transforms.</p>
+<p><em>This program adds.</em> The recognition that these are the <em>same</em> read-operator-distortion
+methodology — invariant transforms are $\ker P_C$, stress transforms are the read
+direction — instantiated in different domains.</p>
+<p><em>Differentiation.</em> This is not a competitor but a unification: the DRI for whale decoders
+and $\operatorname{tr}(P_C\Sigma_\delta)$ for quantizers are one methodology seen in two
+domains, which is itself evidence for the framework&rsquo;s generality.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <span class="nav-prev"></span>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_b_cost_ledger.html" class="nav-next">Appendix B — The COST Ledger: Theorems, Proofs, and Falsific… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

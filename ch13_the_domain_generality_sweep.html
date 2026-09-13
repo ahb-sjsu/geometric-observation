@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Three Physics &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Three Physics from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch13_the_domain_generality_sweep">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Three Physics</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch12_failure_taxonomy_and_kappa.html" class="nav-prev">&larr; Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch14_the_falsifiable_core.html" class="nav-next">Chapter 14 — The Falsifiable Core: GO-1 … GO-6 and Gate B &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-13-the-domain-generality-sweep-twelve-domains-three-physics">Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Three Physics</h1>
+<p>A mechanism first shown on transformer keys and graph embeddings could be a fact about
+transformer keys and graph embeddings. The only way to know whether the flip is a
+<em>property of observation</em> or an artifact of its birth regimes is to put it at risk
+somewhere it has no right to work. This chapter is that sweep: twelve domains, three
+distinct branches of physics, one compressor, every row config-frozen on a calibration
+split and scored on held-out data, every outcome reported regardless of sign. It is the
+book&rsquo;s broadest empirical claim, and its most important negatives are in it, not
+quarantined into Chapter 16.</p>
+<h2 id="the-claim-under-test-once-more">The claim under test, once more</h2>
+<p>At matched bits, a code that preserves what the <em>consumer</em> reads beats a genuinely
+reconstruction-optimal code on the consumer&rsquo;s downstream task — <em>while the
+reconstruction-optimal code reconstructs the signal better.</em> A row is a <strong>flip</strong> only
+if, on held-out data: the read-preserving arm wins downstream, the reconstruction-optimal
+arm reconstructs better (the trade), and the anti-arm (read direction destroyed) is worst
+(the control). The reference for GT and thresholds is frozen <em>before</em> the held-out run.</p>
+<h2 id="the-sweep">The sweep</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Domain</th>
+<th>Consumer</th>
+<th>Read operator</th>
+<th>Outcome</th>
+<th>Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Synthetic ULA</td>
+<td>beamformer-ML + root-MUSIC</td>
+<td>array manifold $\hat g = P_a^\perp a'$</td>
+<td>✅ 6/6</td>
+<td>GO-P-2026-031</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>LLM attention keys (Llama-3.2-3B)</td>
+<td>softmax attention</td>
+<td>query 2nd-moment (blind probe)</td>
+<td>✅ 16/16</td>
+<td>GO-P-2026-021</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>LOCATA acoustic array</td>
+<td>wideband MUSIC</td>
+<td>array manifold</td>
+<td>✅ 11/13</td>
+<td>GO-P-2026-033</td>
+</tr>
+<tr>
+<td><strong>D1</strong></td>
+<td><strong>RaDICaL 77 GHz FMCW radar</strong></td>
+<td>MUSIC DOA</td>
+<td>8-elem virtual array</td>
+<td>◐ <strong>partial</strong></td>
+<td>GO-P-2026-034 D1</td>
+</tr>
+<tr>
+<td><strong>D2</strong></td>
+<td><strong>AV16.3 acoustic (2nd corpus)</strong></td>
+<td>wideband MUSIC (circular)</td>
+<td>array manifold</td>
+<td>✅ <strong>confirmed</strong></td>
+<td>GO-P-2026-034 D2</td>
+</tr>
+<tr>
+<td><strong>D3</strong></td>
+<td><strong>PDAR seismic array</strong></td>
+<td>wideband MUSIC backazimuth</td>
+<td>array manifold</td>
+<td>✅ <strong>confirmed</strong></td>
+<td>GO-P-2026-034 D3</td>
+</tr>
+<tr>
+<td><strong>D4</strong></td>
+<td><strong>Optimization (gradient)</strong></td>
+<td>update distortion (Hessian metric)</td>
+<td>the loss Hessian</td>
+<td>⊘ <strong>honest negative</strong></td>
+<td>GO-P-2026-034 D4</td>
+</tr>
+<tr>
+<td>L</td>
+<td>Legal citation retrieval</td>
+<td>cosine ranking (LaBSE)</td>
+<td>blind probe</td>
+<td>✗035 → ✅036 → ✅039</td>
+<td>GO-P-2026-035/036/039</td>
+</tr>
+<tr>
+<td>M</td>
+<td>Moral judgment (ETHICS)</td>
+<td>fine-tuned classifier</td>
+<td>classifier weight (blind)</td>
+<td>✅ (A2) verdict</td>
+<td>GO-P-2026-037</td>
+</tr>
+<tr>
+<td>K</td>
+<td>LLM KV-keys (post-RoPE)</td>
+<td>attention logits</td>
+<td>(regime reconciled)</td>
+<td>✅ (A2) verdict</td>
+<td>a2_probe</td>
+</tr>
+<tr>
+<td>Mu</td>
+<td>Music aesthetics (FMA CLAP)</td>
+<td>genre classifier</td>
+<td>classifier weight</td>
+<td>✅ (A2) verdict</td>
+<td>a2_probe</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Whale codas (DSWP)</td>
+<td>Clan/dialect classifier</td>
+<td>blind probe (top-4)</td>
+<td>✅ <strong>sealed flip</strong></td>
+<td>GO-P-2026-038</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-three-physics">The three physics</h2>
+<p>The headline is not the count of domains; it is that the flip crosses <em>physical media</em>.
+The read operator in each physical case is the array manifold — the geometry of how a
+wavefront maps to sensor responses — and the flip says a codec that reconstructs the raw
+array signal better points <em>worse</em> at the source. That this holds across three distinct
+wave physics is the strongest evidence that the mechanism is about observation, not about
+any one substrate.</p>
+<p><strong>Electromagnetic (D1, RaDICaL radar) — partial, no file-drawer.</strong> On a real
+automotive-grade 77 GHz FMCW radar, the core dissociation <em>replicates</em>: the angle-favoring
+code beats reconstruction-optimal Lloyd–Max at matched bits on 25/25 held-out frames while
+Lloyd reconstructs the raw signal better on 25/25 (the textbook flip, median flip_fail
+0.41°). But the <strong>anti control is 60% &lt; the sealed 70%</strong> — the tiny 8-element array&rsquo;s ~15°
+resolution lets phase-destroyed snapshots occasionally land near the reference — and the
+data was download-limited (the disjoint-recording set is 310 GB behind a 403), forcing a
+within-recording split. Two of three sealed bars pass; the anti control and the disjoint
+held-out do not → <strong>partial</strong> [predicted → partial, registered miss]. The flip mechanism
+transfers to a different physics; a <em>clean</em> D1 confirm awaits the full data.</p>
+<p><strong>Acoustic (D2, AV16.3) — confirmed.</strong> A genuinely independent corpus from LOCATA:
+different array (8-mic circular), room, speakers; camera-tracked 3D-mouth GT (1.2 cm).
+Scored against <em>absolute</em> tracked GT, no reference amendment. Held-out disjoint
+recordings, $n = 201$: flip 148/201 (74%), recon-trade 201/201, anti 152/201, median
+flip_fail 0.28° [demonstrated — GO-P-2026-034 D2]. The strongest of the real-data domains.</p>
+<p><strong>Elastic (D3, PDAR) — confirmed.</strong> A third distinct physics: elastic waves from real
+M≥6.5 earthquakes, a 13-element IMS short-period array, incoherent wideband MUSIC over
+backazimuth at the theoretical teleseismic-P slowness. Scored against the <em>absolute</em>
+USGS catalogue backazimuth (great-circle array→epicentre; no reference amendment — the
+array resolves baz to a few degrees). Held-out disjoint ~2018 events, $n = 17$: flip
+13/17 (76%), recon-trade 17/17, anti 13/17, median flip_fail 0.00° [demonstrated —
+GO-P-2026-034 D3]. A quantizer that reconstructs the seismogram better locates the
+earthquake worse.</p>
+<p>With D2 and D3 confirmed, the battery&rsquo;s own sealed prediction — flip in ≥2 of the 3 core
+prospective domains — is <strong>met</strong> [predicted → met].</p>
+<h2 id="the-non-physical-confirmations">The non-physical confirmations</h2>
+<p>Beyond physics, the flip appears in consumers of pure information geometry.</p>
+<p><strong>Whale codas (W) — sealed flip.</strong> Sperm-whale coda dialect, a clan classifier, 8718
+codas of inter-click-interval rhythm. Held-out read-preserving AUROC 0.934 &gt; recon-optimal
+0.883, recon-trade (O reconstructs 2× better yet downstream-worse), flip 300/300
+[demonstrated — GO-P-2026-038, promoted from an (A2) verdict]. Distinct biology from every
+other row, and the clean proof (Chapter 12) that the regime map needs two axes.</p>
+<p><strong>Legal (L) — the identifiability story.</strong> Citation-ranking, read operator recovered
+blind, 035 miss → 036/039 hit on a virgin split (R=0.796 &gt; O=0.780, double the margin)
+[demonstrated — GO-P-2026-039]. The first real-consumer demonstration that the blind probe
+recovers a read operator that is both misaligned-with-energy and generalizing.</p>
+<p><strong>Moral, music, KV-keys (M, Mu, K) — (A2) verdicts.</strong> Consistent with the flip via the
+proxy probe but <em>not</em> sealed two-metric flips, and labeled as verdicts, not flips. The
+book does not upgrade them.</p>
+<h2 id="what-the-negatives-bought">What the negatives bought</h2>
+<p>The sweep&rsquo;s honest negatives were more informative than its confirmations, and they are
+the reason the boundary conditions of Chapter 12 exist. <strong>D4 (optimization)</strong> is a true
+coupling null — anti-probe 300/300 but flip 27%, because curvature and gradient energy
+coincide in a trained model; not a data gap, a boundary [refuted, as a flip]. <strong>035</strong> was
+an identifiability failure that the blind probe fixed. <strong>D1</strong> is data-limited and says so.
+The registration discipline caught its own over-reach <em>twice</em> in this sweep — the NEG-14
+shortcut and the 035 estimated read operator — which is exactly what the discipline is
+for.</p>
+<h2 id="the-verdict-of-the-sweep">The verdict of the sweep</h2>
+<p>The consumer-relative flip is a property of observation <strong>wherever the read operator can
+be identified.</strong> It confirms across acoustic, seismic, and synthetic physics; LLM
+attention; moral, genre, and dialect classifiers; and citation retrieval. It fails,
+<em>informatively</em>, exactly where the read operator is unidentifiable (fixable), coupled to
+the signal (a boundary), or attached to a consumer that does not work (a precondition).
+The one-encoder question is thereby answered — <strong>adapt, don&rsquo;t universalize</strong> — and the
+diagnostic that decides the encoding is <code>probe_quotient</code>, per domain, on two axes. Chapter
+14 zooms from the sweep&rsquo;s breadth to the falsifiable core&rsquo;s depth: the GO-1…GO-6 spine and
+how a claim earns each of its class tags.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch12_failure_taxonomy_and_kappa.html" class="nav-prev">&larr; Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch14_the_falsifiable_core.html" class="nav-next">Chapter 14 — The Falsifiable Core: GO-1 … GO-6 and Gate B &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

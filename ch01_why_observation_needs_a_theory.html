@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1 — Why Observation Needs a Theory &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 1 — Why Observation Needs a Theory from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch01_why_observation_needs_a_theory">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 1 — Why Observation Needs a Theory</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch00_front_matter.html" class="nav-prev">&larr; Geometric Observation</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch02_failure_of_observer_free_measurement.html" class="nav-next">Chapter 2 — The Failure of Observer-Free Measurement &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-1-why-observation-needs-a-theory">Chapter 1 — Why Observation Needs a Theory</h1>
+<p>Three engineers, in three different buildings, are about to make the same mistake.</p>
+<p>The first is Maya, whom you met in the Preface. She has quantized a language model&rsquo;s
+key–value cache to the lowest reconstruction error her team has ever recorded, and
+the model has quietly gotten worse. The second is Devi, who builds the retrieval
+index for a legal-search product; she has a new embedding compressor that shrinks
+her vector database by 60% with almost no change in average vector fidelity, and her
+citation-ranking accuracy has fallen off a cliff for reasons her dashboards cannot
+locate. The third is Sun-ho, who works on a direction-finding array — microphones,
+in his case, though it could as easily be radar or a seismometer network. He has a
+codec that compresses the array snapshots with beautiful waveform fidelity, and his
+estimator now points a few degrees wrong, consistently, in a way that averages out
+to nothing and so hides in every summary statistic he trusts.</p>
+<p>None of the three has a bug. Each has a compressor that does exactly what it was
+asked to do — minimize the difference between the input and its reconstruction — and
+each has a <em>downstream system that does not care about that difference.</em> The
+attention head reads a few directions of Maya&rsquo;s keys. The ranking function reads a
+projection of Devi&rsquo;s embeddings. The estimator reads the angle, not the magnitude,
+of Sun-ho&rsquo;s snapshots. In every case the compressor spread its error to be small
+<em>on average</em>, which is to say it put error everywhere, which is to say it put error
+exactly where the consumer was looking. They optimized a quantity that was never the
+one that mattered, and they optimized it well.</p>
+<p>This book is about the quantity that mattered.</p>
+<h2 id="the-claim">The claim</h2>
+<p>Here is the thesis of the whole volume, stated once, plainly, so that everything
+after it is commentary.</p>
+<blockquote>
+<p>Operational geometry, distortion, and reliability are not properties of an object.
+They are properties of a <em>relation</em> — among an object $x$, an observer $O$, a
+channel that carries $x$ to $O$, and a resolution budget $B$ — and they are
+ill-posed until all four are named.</p>
+</blockquote>
+<p>The word doing the work is <em>observer</em>. In this book an observer is not a viewpoint,
+not a person, not a measuring instrument in the physicist&rsquo;s sense. It is a triple</p>
+<p>$$ O = (C, G, B): $$</p>
+<p>a <strong>consumer</strong> $C$ — the thing that acts on the representation, a classifier, an
+attention head, an estimator, a ranking function; an <strong>output metric</strong> $G$ — how the
+consumer&rsquo;s downstream errors are scored; and a <strong>budget</strong> $B$ — the bits, or the
+resolution, you are allowed to spend. Give me those three and I can tell you what
+the observer can distinguish, what it must discard, and what it will cost to serve
+it. Withhold any one of them and the questions &ldquo;how much geometry survived this
+compression?&rdquo; and &ldquo;how good is this code?&rdquo; have no answers — not hard answers,
+<em>no</em> answers, the way &ldquo;how far away is it?&rdquo; has no answer until you say from where.</p>
+<p>The engineers&rsquo; mistake was to answer a relational question with an absolute number.
+Reconstruction error — mean squared error, PSNR, cosine similarity — is a property
+of $x$ and its reconstruction $\hat x$ alone. It names no consumer. It is, as
+Chapter 2 will make precise, the special case of the right quantity when the
+consumer happens to read <em>everything</em> equally, and that case is neither typical nor
+the one any of the three engineers were in.</p>
+<h2 id="what-the-observer-reads-the-read-metric">What the observer reads: the read metric</h2>
+<p>The mechanism that resolves all three stories is a single operator. Fix a consumer
+$C$ and ask the only question that matters: how much does the consumer&rsquo;s output move
+when you perturb its input? Differentiate $C$ at the operating point to get its
+Jacobian $J$, pull the output metric $G$ back through it, and you have</p>
+<p>$$ P_C = J^{\top} G\, J, $$</p>
+<p>a symmetric, positive-semidefinite operator we will call the <strong>read metric</strong>. Its
+range is the small set of directions the consumer can actually tell apart — the
+<em>read subspace</em>. Its kernel is everything the consumer is constitutionally blind to
+— the <em>nuisance</em>. Maya&rsquo;s attention head has a read metric whose range is spanned by
+its query directions; the across-token mean is in the kernel. Sun-ho&rsquo;s estimator has
+a read metric that sees the angle and not the magnitude. Devi&rsquo;s ranker reads a
+projection and discards the off-subspace energy. Three unrelated systems, one object.</p>
+<p>And the quantity the engineers should have been minimizing is not the size of the
+coding error $\delta = \hat x - x$, but the size of the error <em>where the consumer
+looks</em>:</p>
+<p>$$ \operatorname{tr}(P_C\, \Sigma_\delta), $$</p>
+<p>the error covariance projected onto the read metric. This trace and the total
+reconstruction error $\operatorname{tr}(\Sigma_\delta)$ are different numbers, and —
+this is the entire drama of the book — they can move in <em>opposite directions</em>. A
+code that makes the first small can make the second large, and vice versa. When they
+disagree about which of two codes is better, we call the disagreement the
+<strong>consumer-relative flip</strong>, and Chapter 8 shows it is not a curiosity but a
+reproducible property of observation, sealed across twelve domains and three
+branches of physics.</p>
+<h2 id="one-object-three-shadows">One object, three shadows</h2>
+<p>The read metric $P_C$ is the whole book, seen once. But it casts three shadows, and
+the three shadows were discovered as three separate subjects before anyone noticed
+they were one. This volume is organized around that unification.</p>
+<ul>
+<li>
+<p><strong>COST</strong> — what observation charges. If a consumer reads only $P_C$, the bits you
+  must pay to serve it to a given distortion are governed by a <em>tilted</em>
+  rate–distortion function $R_C(D)$, not Shannon&rsquo;s. The tilt bends the optimal
+  bit-allocation toward the read subspace, and it comes with achievability and
+  converse theorems, a rate region for two observers, a tax for using the wrong read
+  metric, and a floor of irreducible error you hit when your code is blind to a
+  direction the consumer needs. This is Part III&rsquo;s Chapter 7. <em>(Paper III.)</em></p>
+</li>
+<li>
+<p><strong>VALUE</strong> — what preserving the read buys. This is the flip: at matched bits,
+  keeping $P_C$ beats reconstructing $x$, and the gap is real money on real tasks.
+  Chapter 8. <em>(Papers II and IV.)</em></p>
+</li>
+<li>
+<p><strong>LEGIBILITY</strong> — what the quotient reveals. When you quotient an object by what an
+  observer cannot see, the structure that survives is often the structure you wanted.
+  In spectral embeddings, the observer that ranks by geodesic distance reads the
+  <em>angle</em> and discards the radius, and so the angle carries the geometry that the
+  distance-based reading loses. This is Keep-the-Angle, Chapter 9. <em>(Papers I and I.5.)</em></p>
+</li>
+</ul>
+<p>Cost, value, legibility: the price of the read, the payoff of the read, the meaning
+of the read. Three literatures, three sets of tools, one operator. The intellectual
+content of this book is the claim that they are the same, and the discipline of this
+book is the ledger that keeps the claim honest.</p>
+<h2 id="why-a-theory-and-not-just-a-warning">Why a theory, and not just a warning</h2>
+<p>One could stop at the warning: <em>do not trust reconstruction error; know your
+consumer.</em> That warning is true and it is not enough, because it gives no way to
+<em>act</em>. A theory has to do three things the warning cannot.</p>
+<p>It has to say <strong>which</strong> directions the consumer reads — and it does, via the read
+metric, which Chapter 10 shows can be recovered <em>blind</em>, from the consumer&rsquo;s outputs
+alone, with no labels and no oracle. It has to say <strong>when</strong> the flip appears and when
+it does not — and it does, via the alignment law $\kappa$ of Chapter 12, which turns
+&ldquo;know your consumer&rdquo; from folklore into a dial you can measure before you compress.
+And it has to say <strong>what it costs</strong> to do the right thing — and it does, via the
+rate–distortion theory of Chapter 7. A warning tells you to be careful. A theory
+tells you what to compute.</p>
+<p>The rest of Part I clears the ground: Chapter 2 shows precisely how
+reconstruction-error thinking fails and why it was ever plausible, and Chapter 3
+places the read metric where it belongs in the histories of information theory and
+information geometry — as an old object we did not invent, pressed into a new job we
+claim it was always the right tool for. Then Part II builds the framework from the
+operator up.</p>
+<p>A last word before we begin, because it governs everything. This is a program
+co-designed with an embedded AI assistant, and it operates under a written charter
+whose first rule is that the assistant may not be the sole grader of its own work,
+and whose house rule — inherited from every volume of this series — is that <em>the book
+may not assert what the ledger cannot show.</em> When a sentence in this book carries a
+tag like [demonstrated] or [refuted], that tag is a promise about a specific row in
+a specific ledger, sealed before it was measured. The three engineers&rsquo; mistake was
+to trust a number that named no consumer. The correction is not to trust a different
+number more; it is to say, every time, whose number it is, and to show the receipt.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch00_front_matter.html" class="nav-prev">&larr; Geometric Observation</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch02_failure_of_observer_free_measurement.html" class="nav-next">Chapter 2 — The Failure of Observer-Free Measurement &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

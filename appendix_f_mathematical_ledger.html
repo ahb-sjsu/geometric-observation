@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix F — Mathematical Ledger: Status of Formal Claims &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix F — Mathematical Ledger: Status of Formal Claims from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_f_mathematical_ledger">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix F — Mathematical Ledger: Status of Formal Claims</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="appendix_e_skeptics_appendix.html" class="nav-prev">&larr; Appendix E — Skeptic&#x27;s Appendix: Objections, Alternatives, a…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_g_hub_mechanism_catalog.html" class="nav-next">Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Obser… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-f-mathematical-ledger-status-of-formal-claims">Appendix F — Mathematical Ledger: Status of Formal Claims</h1>
+<p><em>This appendix is the book&rsquo;s index into <code>claims/LEDGER.md</code>: every formal claim the text
+makes, with its class, its registry, and its custody. It exists so that a reader can audit
+any sentence tag-first — follow a <code>[proved]</code> to its harness, a <code>[demonstrated]</code> to its
+sealed prereg, a <code>[refuted]</code> to the negative it stands as. The living record of record is
+<code>claims/LEDGER.md</code>; if this appendix and the ledger ever disagree, </em><em>the ledger wins</em><em> — it
+is the post-publication erratum, and a claim can be downgraded there after this book is in
+print. Nothing here is load-bearing until its class bar is met and CI is green.</em></p>
+<h2 id="the-six-classes">The six classes</h2>
+<p><code>[proved]</code> — written proof + committed falsification harness + fresh-context adversarial
+re-derivation (both grades). <code>[demonstrated]</code> — sealed prediction passed its ex-ante bar on
+a governed run. <code>[replicated]</code> — <code>[demonstrated]</code> reproduced on a second independent
+instance. <code>[predicted]</code> — sealed, gate stated, prospective/single-instance. <code>[exploratory]</code>
+— green check, unproven derivation; <strong>may not support an umbrella claim</strong>. <code>[refuted]</code> — a
+lost bet, carried at full prominence.</p>
+<h2 id="the-falsifiable-core">The falsifiable core</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Class</th>
+<th>Chapters</th>
+<th>Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GO-1 — read/nuisance split identifiable ex ante from the consumer</td>
+<td><code>[predicted]</code> ✅</td>
+<td>5, 10, 14</td>
+<td>011</td>
+</tr>
+<tr>
+<td>GO-2 (neg-half) — downstream preservation is <strong>not</strong> reconstruction</td>
+<td><code>[demonstrated]</code></td>
+<td>2, 6, 8</td>
+<td>002</td>
+</tr>
+<tr>
+<td>GO-2 (pos-half) — controlled by $\operatorname{tr}(P_C\Sigma_\delta)$</td>
+<td><code>[replicated]</code> (2 instances)</td>
+<td>6, 8</td>
+<td>006 + 009</td>
+</tr>
+<tr>
+<td>GO-3 — certificate vacuity threshold predicts single-stage death</td>
+<td><code>[demonstrated]</code></td>
+<td>11</td>
+<td>014</td>
+</tr>
+<tr>
+<td>GO-4 — fixed-budget verdicts invert under budget-matched observation</td>
+<td><code>[replicated]</code></td>
+<td>4, 14</td>
+<td>015</td>
+</tr>
+<tr>
+<td>GO-5 — α=1 density quotient restores fidelity outside diffusion</td>
+<td><strong><code>[refuted]</code></strong> (NEG-11)</td>
+<td>9, 16</td>
+<td>019</td>
+</tr>
+<tr>
+<td>GO-6 — output ≤ surrogate ≤ reconstruction at matched rate</td>
+<td><code>[demonstrated]</code></td>
+<td>7, App. B</td>
+<td>028</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cost-face-theorems-appendix-b">COST-face theorems (Appendix B)</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Class</th>
+<th>Registry</th>
+<th>Incident</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 — consumer $R_C(D)$ achievability + converse</td>
+<td><code>[proved]</code></td>
+<td>022 blk</td>
+<td>—</td>
+</tr>
+<tr>
+<td>B2 — output ≤ surrogate ≤ reconstruction</td>
+<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>028</td>
+<td>—</td>
+</tr>
+<tr>
+<td>B3 — surrogate–output gap vanishes with rate</td>
+<td><code>[demonstrated]</code></td>
+<td>028</td>
+<td>VI-3</td>
+</tr>
+<tr>
+<td>B4 — two-observer region; refinability = Loewner nesting</td>
+<td><code>[proved]</code></td>
+<td>022</td>
+<td><strong>VI-4</strong></td>
+</tr>
+<tr>
+<td>B5 — complete rate region + k-observer chain</td>
+<td><code>[proved]</code></td>
+<td>023</td>
+<td>VI-5</td>
+</tr>
+<tr>
+<td>B6 — mismatch tax $(r/2)\log(M/m)$ + omission floor $\operatorname{tr}(\tilde P\Pi)$</td>
+<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>024/027</td>
+<td>VI-6, NEG-13</td>
+</tr>
+<tr>
+<td>B7 — dispersion counts read dimensions ($r_D \le r$)</td>
+<td><code>[proved]</code></td>
+<td>025</td>
+<td>VI-7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="legibility-face-theorems-chapter-9">LEGIBILITY-face theorems (Chapter 9)</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Angle carries geodesics; radius carries density (polar decomposition of the collapse)</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Row-normalization = angular read-subspace projection (NJW justified)</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Tangential-noncollapse (A2) normalization identity locates the mechanism</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>$S^1$ exact rank collapse (plain commute filter, rank 1)</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Flat-torus uniform lower angular bound (dyadic-block, co-Lipschitz)</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Exact upper-Lipschitz divergence (commute filter)</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Spectral-filter phase diagram; critical dimension $d = 4$</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Green-kernel rank-limit theorem, $d \le 3$; rank 1 on $S^2,S^3,\mathbb{RP}^2,\mathbb{RP}^3$</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>Green-rank positivity beyond two-point homogeneous spaces</td>
+<td><strong>conjectured</strong> (Ch. 17)</td>
+</tr>
+<tr>
+<td>Heat filter uniform-in-truncation bi-Lipschitz</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>α=1 as the $\ker P_C$ membership-test sign (spectral/operator setting)</td>
+<td><code>[demonstrated]</code></td>
+</tr>
+<tr>
+<td>Dimension emerges before shape (Weyl ordering)</td>
+<td><code>[demonstrated]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-domain-sweep-value-face-chapter-13">The domain sweep (VALUE face; Chapter 13)</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Class</th>
+<th>Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1 synthetic ULA / A2 Llama rematch / A3 LOCATA</td>
+<td><code>[demonstrated]</code> (confirmed anchors)</td>
+<td>031 / 021 / 033</td>
+</tr>
+<tr>
+<td>D2 AV16.3 acoustic / D3 PDAR seismic</td>
+<td><code>[demonstrated]</code> (battery ≥2-of-3 met)</td>
+<td>034</td>
+</tr>
+<tr>
+<td>W whale coda-dialect</td>
+<td><code>[demonstrated]</code> (sealed flip)</td>
+<td>038</td>
+</tr>
+<tr>
+<td>L legal citation retrieval</td>
+<td><code>[demonstrated]</code> (035→036→039)</td>
+<td>039</td>
+</tr>
+<tr>
+<td>M moral / K KV-keys / Mu music</td>
+<td><code>[exploratory]</code> (A2 verdicts — <strong>not</strong> flips)</td>
+<td>037</td>
+</tr>
+<tr>
+<td>D1 RaDICaL radar</td>
+<td><code>[predicted]</code> → <strong>partial</strong> (data-limited)</td>
+<td>034</td>
+</tr>
+<tr>
+<td>D4 optimization (gradient)</td>
+<td><strong><code>[refuted]</code></strong> as a flip (coupling null)</td>
+<td>034</td>
+</tr>
+<tr>
+<td>GO-B-blind 20 Newsgroups</td>
+<td><code>[predicted]</code> → <strong>partial</strong> (direction yes, magnitude no)</td>
+<td>041</td>
+</tr>
+</tbody>
+</table>
+<h2 id="standing-negatives-chapter-16-each-carried-at-full-prominence">Standing negatives (Chapter 16), each carried at full prominence</h2>
+<p>NEG-1 (uniform-in-$m$ commute bi-Lipschitz) · NEG-2 (reconstruction cosine as proxy) ·
+NEG-3 (heat-taper reversal, pending confirm) · NEG-4 (Lloyd recalibration) · NEG-5…9 (the
+KV-key proxy ladder) · NEG-10 (flip needs recon-matched arms) · NEG-11 (α=1 outside
+diffusion) · NEG-12 (real-model blind probe sub-bar) · NEG-13→resolved (omission floor
+shallow-sweep gate) · NEG-14 (one-number regime shortcut). All <code>[refuted]</code> except
+NEG-13 (resolved to <code>[demonstrated]</code> by a fresh held-out test).</p>
+<h2 id="verification-incidents-r-ind-5-caught-pre-publication">Verification incidents (R-IND-5), caught pre-publication</h2>
+<p>VI-2 (extreme-value scaling) · VI-3 (App-B derivation-grade caveats) · <strong>VI-4</strong> (the
+<code>sigma_star</code> false-pass — the standing reminder that the assistant may not grade itself) ·
+VI-5 (k-chain non-iteration + citation) · VI-6 (omission floor: whitened kernel, floor not
+unbounded) · VI-7 (dispersion: covering argument, $r_D \le r$).</p>
+<h2 id="how-to-read-this-appendix">How to read this appendix</h2>
+<p>Every claim above resolves to a row in <code>claims/LEDGER.md</code> with its notebook, result JSON,
+CI status, and replication count. The umbrella text of this book cites only rows at or
+above their class bar; no sentence in the main chapters leans on an <code>[exploratory]</code> row
+(PROTOCOL Rule 1.1), and every <code>[refuted]</code> row appears in Chapter 16 at the prominence of
+the win it bounds. That is the whole contract: the book asserts exactly what the ledger can
+show, and this appendix is the map between the two.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="appendix_e_skeptics_appendix.html" class="nav-prev">&larr; Appendix E — Skeptic&#x27;s Appendix: Objections, Alternatives, a…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_g_hub_mechanism_catalog.html" class="nav-next">Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Obser… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

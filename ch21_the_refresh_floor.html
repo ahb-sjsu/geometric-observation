@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 21 — The Refresh Floor &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 21 — The Refresh Floor from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch21_the_refresh_floor">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 21 — The Refresh Floor</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch20_the_false_clear_rate.html" class="nav-prev">&larr; Chapter 20 — The False-Clear Rate</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch22_the_freshness_sweep.html" class="nav-next">Chapter 22 — The Freshness Sweep &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-21-the-refresh-floor">Chapter 21 — The Refresh Floor</h1>
+<blockquote>
+<p><strong>STUB [A] — draftable now.</strong> Source: OT-14 law
+(<code>analysis/csi/CSI-refreshfloor.{json,png}</code>, <code>csi_sweep.py</code>); the prediction
+results (<code>csi_predict.py</code>, <code>CSI-PREDICT-NOTES.md</code>); NTN (<code>csi_ntn.py</code>). House
+voice per Ch. 19.</p>
+</blockquote>
+<h2 id="what-this-chapter-must-establish">What this chapter must establish</h2>
+<ul>
+<li><strong>The floor is not a convention.</strong> The maximum report/renew interval holding FC at
+  target is proportional to the certified condition&rsquo;s <strong>coherence time</strong>:
+  $\phi \approx K\,T_{\mathrm{coh}}$. Measured on a real 5G NR physical layer (Sionna
+  LDPC + TR38.901 fading): $K \approx 0.177$, $R^2 \approx 0.92$ [demonstrated]
+  (the OT-14 law).</li>
+<li><strong>Prediction cannot buy horizon.</strong> The optimal linear (Wiener) predictor saturates
+  within one coherence time; for a memoryless-past-$T_{\mathrm{coh}}$ Gaussian
+  process this is information-theoretic, not an engineering limit [demonstrated].
+  A wall, not a knob — the freshness dual of the rate–distortion converse.</li>
+<li><strong>The floor is consumer-relative too.</strong> A stricter target (URLLC 1e-3 vs eMBB
+  1e-1) shortens the floor; the same channel, two consumers, two floors.</li>
+<li><strong>When refreshing cannot close the loop.</strong> If already at the floor and still
+  vacuous, the limit is a <em>mechanism</em>, not a cadence (deep-fade outage; NTN
+  RTT $>$ $T_{\mathrm{coh}}$, stale-on-arrival) — motivates the governor&rsquo;s escalation
+  (Ch. 23).</li>
+</ul>
+<h2 id="key-figures-claims-ledger">Key figures / claims (→ ledger)</h2>
+<ul>
+<li>The $\phi$-vs-$T_{\mathrm{coh}}$ line, slope 0.177, $R^2$ 0.92 [demonstrated].</li>
+<li>Predictor-saturation curve (naive vs Wiener, both saturate ≤ $T_{\mathrm{coh}}$) [demonstrated].</li>
+<li>NTN stale-on-arrival regime (RTT vs $T_{\mathrm{coh}}$).</li>
+</ul>
+<h2 id="boundary">Boundary</h2>
+<p>$K$ is measured on one substrate; cross-substrate universality of the constant is
+<code>[predicted]</code>, not claimed. Derive-then-measure, never fit-then-assert.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch20_the_false_clear_rate.html" class="nav-prev">&larr; Chapter 20 — The False-Clear Rate</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch22_the_freshness_sweep.html" class="nav-next">Chapter 22 — The Freshness Sweep &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 23 — The Governor &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 23 — The Governor from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch23_the_governor">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 23 — The Governor</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch22_the_freshness_sweep.html" class="nav-prev">&larr; Chapter 22 — The Freshness Sweep</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="preface.html" class="nav-next">Preface &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-23-the-governor">Chapter 23 — The Governor</h1>
+<blockquote>
+<p><strong>STUB [A] — draftable now.</strong> Source: <code>governor.sealed</code> / <code>governor.detector</code>
+(network-governor), <code>analysis/ran</code> (RAN rApp core), <code>analysis/quantum</code>
+(quantum_governor), <code>freshread</code> (ZK/PG/Mongo witness-gate); <code>standards/
+ieee-sa-ic-freshness-whitepaper.md</code>. House voice per Ch. 19. The instrument
+chapter of the Reliability Part — the freshness counterpart of the blind probe
+(Ch. 10) and the recognizer (Ch. 11).</p>
+</blockquote>
+<h2 id="what-this-chapter-must-establish">What this chapter must establish</h2>
+<ul>
+<li><strong>The operational loop</strong>: observe (certificate + witness streams) → measure FC per
+  <code>(certificate, consumer)</code> → govern → certify. The governor is what turns FC from a
+  post-mortem into a control signal.</li>
+<li><strong>The escalation ladder</strong> (encodes the cells&rsquo; lessons):</li>
+<li><strong>refresh faster</strong> — vacuous and reporting above the floor → shrink the period
+     to the floor (OT-14, Ch. 21);</li>
+<li><strong>change mechanism</strong> — already at the floor and still vacuous → refreshing
+     cannot close the loop → add diversity (link certs) / re-route (serving certs) /
+     re-layout (quantum) / mitigate;</li>
+<li><strong>certify per consumer</strong> — the reliability target <em>is</em> the read operator; the
+     same certificate certified for a lax consumer, vacuous for a strict one.</li>
+<li><strong>The witness-gate</strong> (<code>freshread</code>): certify a local read iff the applied watermark
+  ≥ the reader&rsquo;s requirement, else refresh — the ZK/PG/Mongo generalization; sound
+  witness ⇒ FC = 0 at a stated refresh cost.</li>
+<li><strong>Where it lives</strong>: an O-RAN non-RT rApp / near-RT xApp (E2SM-KPM ingest, E2SM-RC
+  actuation); a governed qiskit backend; a Postgres read-router. One core, many
+  actuation surfaces.</li>
+<li><strong>Standards</strong>: the certificate/witness/false-clear/refresh-floor grammar as a
+  cross-domain measurement methodology → the IEEE-SA Industry Connections path (the
+  false-clear rate as a first-class KPI), complementing 3GPP/O-RAN/IETF/IEEE 802.</li>
+</ul>
+<h2 id="boundary-honesty">Boundary / honesty</h2>
+<p>The governor adds no new physics and does not replace domain machinery (QEC, EMS
+state estimation, HARQ) — it <em>measures and governs</em> the certificate those systems
+already issue. Reference implementation, not a production controller; the integration
+surface is named, not claimed complete.</p>
+<h2 id="close">Close</h2>
+<p>The governor completes the Part&rsquo;s sentence: keep the structure the observer can use,
+keep it current, grade the claim that it is — <strong>and act on the grade.</strong></p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch22_the_freshness_sweep.html" class="nav-prev">&larr; Chapter 22 — The Freshness Sweep</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="preface.html" class="nav-next">Preface &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

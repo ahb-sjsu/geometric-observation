@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 15 — Registration-First: How the Program Keeps Itself Honest &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 15 — Registration-First: How the Program Keeps Itself Honest from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch15_registration_first">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 15 — Registration-First: How the Program Keeps Itself Honest</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch14_the_falsifiable_core.html" class="nav-prev">&larr; Chapter 14 — The Falsifiable Core: GO-1 … GO-6 and Gate B</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch16_honest_negatives.html" class="nav-next">Chapter 16 — Honest Negatives: The Boundaries, Kept With the… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-15-registration-first-how-the-program-keeps-itself-honest">Chapter 15 — Registration-First: How the Program Keeps Itself Honest</h1>
+<p>I have deferred this chapter for fourteen chapters, and I made it a <em>part</em> rather than an
+appendix, for one reason: this is a program co-designed with an embedded AI assistant, and
+in such a program <em>how</em> the claims are kept honest is not separable from <em>what</em> they are.
+An assistant that can propose, derive, implement, and draft can also — fluently,
+persuasively — be wrong, and can pass its own work. The discipline in this chapter exists
+because that assistant <strong>may not be the sole grader of its own work</strong>, and because the
+program must be able to <strong>lose in public and continue smaller.</strong> Everything the book claims
+rests on the machinery described here; if the machinery does not convince you, the results
+should not either, and that is the intended order of reading.</p>
+<p>The whole apparatus serves one house rule, inherited from every volume of the series and
+enforced here by a written charter: <em>the book may not assert what the ledger cannot show.</em></p>
+<h2 id="seal-before-measure">Seal before measure</h2>
+<p>The foundational rule is <strong>REG-1</strong>: a prereg — the claim, the arms, the sample size, and
+the pass/fail bar — is hashed and <strong>git-committed before</strong> the first governed measurement
+it covers. The binding registration timestamp is the git commit, not the file&rsquo;s
+modification time; the sealed state is externally anchored in a DOI deposit (Zenodo concept
+DOI 10.5281/zenodo.21423315), so the registered claim is not merely local (REG-3).
+Corrections to a sealed prereg are appended as dated amendments and re-sealed, with the
+reason stated, and the original remains in git history (REG-2). Registration IDs are a
+single monotone sequence <code>GO-P-2026-###</code> — never reused, never backfilled (REG-4) — which
+is what lets Appendix D present a <em>gap-free</em> disposition table and lets the &ldquo;no file drawer&rdquo;
+claim mean something: an unexplained hole in the sequence would be visible.</p>
+<p>Sealing before measuring is the difference between a prediction and a description. Every
+[demonstrated] and [predicted] tag in this book points to a bar that was written down
+before the number that had to clear it was known. When a bar is missed, the miss is a
+miss — the sealed threshold is not quietly relaxed afterward (the standing over-strict-gate
+rule, below).</p>
+<h2 id="independent-verification-the-r-ind-rules">Independent verification: the R-IND rules</h2>
+<p>Analytic and load-bearing claims are verified by a context <strong>independent of the author&rsquo;s
+chain of reasoning</strong> — not merely re-read by the same author. The rules:</p>
+<ul>
+<li><strong>R-IND-1 (separation).</strong> The verifier works in a fresh context with no access to the
+  derivation&rsquo;s working notes; it receives the claim and the toolkit and reconstructs the
+  argument itself.</li>
+<li><strong>R-IND-2 (adversarial default).</strong> The verifier is tasked to <strong>refute</strong>, defaulting to
+  &ldquo;wrong/unproven,&rdquo; and must be moved off that prior by its own reconstruction.</li>
+<li><strong>R-IND-3 (two grades).</strong> <em>Derivation-grade</em> = the argument re-derived line by line.
+  <em>Conclusion-grade</em> = a committed numerical falsification net that fails if the result is
+  false. A result is not <code>[proved]</code> until it has <strong>both</strong>.</li>
+<li><strong>R-IND-4 (record before assertion).</strong> The verdict, corrections, and citation flags are
+  logged <em>before</em> any paper asserts the result. A pass with caveats is a caveated pass.</li>
+<li><strong>R-IND-5 (the fresh-context derivation-grade pass).</strong> The operative instance for a
+  theorem: a fresh-context, adversarial, line-by-line pass on every lemma it supports,
+  logged with its verdict. This is the rule cited by name throughout the ledger.</li>
+<li><strong>R-IND-6 (out-of-sample for upgrades).</strong> Promoting <code>[exploratory]</code> → <code>[demonstrated]</code>
+  requires a fresh sealed prereg and a run on <em>held-out</em> data — never a replay of the
+  calibration set.</li>
+</ul>
+<h2 id="the-ai-assistant-conflict-stated-plainly">The AI-assistant conflict, stated plainly</h2>
+<p>The charter names the conflict rather than papering over it. The assistant <strong>may</strong> propose,
+derive, implement, and draft (C-AI-1); it <strong>may not</strong> be the sole grader of an item it
+authored — independence is supplied by R-IND-5 (a separate context) and R-IND-6 (held-out,
+sealed-first runs). When the assistant reports its own work as verified, it must state the
+<em>grade</em> (derivation vs conclusion), the verifier&rsquo;s identity, and any caveat — never
+&ldquo;verified&rdquo; unqualified (C-AI-2). Human authorship and accountability are unchanged: the
+human author owns every claim (C-AI-3).</p>
+<p>The standing reminder that this is necessary, not ceremonial, is <strong>VI-4</strong>. An in-context
+self-check of the assistant&rsquo;s own <code>sigma_star</code> formula was partly tautological and <em>passed
+a wrong formula</em>; the two-observer max-determinant error covariance is reverse
+water-filling in the whitened basis, and the cap the formula claimed &ldquo;never binds&rdquo; does
+bind on $\ker P$. A fresh-context adversarial pass caught it, the formula was corrected, the
+prereg amended and re-sealed, and the false pass was logged with the prominence of a
+positive. An assistant grading its own work would have shipped the error. The composition
+that caught it — a fresh-context verifier, differential testing against a second
+implementation, and (for the flagship theorem) a proof assistant — is the program&rsquo;s
+approximation to a standard that does not yet exist.</p>
+<h2 id="theorem-custody">Theorem custody</h2>
+<p>Every <code>[proved]</code> item ships four things (T-CUST-1): a complete written proof; the R-IND-5
+fresh-context pass (verdict + findings logged); a <strong>C3 numerical falsification harness</strong> —
+pure, CPU-reproducible, committed, CI-run, and built to <em>fail</em> if the theorem is false; and
+a constants/slack + known-gaps table. And the standing caution (T-CUST-2): a green harness
+is a <em>net, not a proof</em> — it can only refute. A green C3 with an unverified derivation is
+<code>[exploratory]</code>, not <code>[proved]</code>. Citation flags on external results are checked against the
+source before assertion and grepped out before export (T-CUST-3).</p>
+<h2 id="the-rule-earns-its-place-the-verification-incidents">The rule earns its place: the verification incidents</h2>
+<p>R-IND is not a posture; it has a track record, and the track record is the argument. Caught
+<em>before publication</em>: an extreme-value scaling error (VI-2 — $\exp(-x^a)$ tails give
+$(\ln N)^{1/a}$, not $\sqrt{\ln N}$); the <code>sigma_star</code> false pass (VI-4); a non-iterating
+$k$-stage construction and a mis-attributed citation (VI-5 — the two-stage map does not
+iterate; an accumulating rotation ambiguity leaks Fisher information by $O(0.1)$); a
+naive-kernel floor error (VI-6 — the omission floor uses the <em>whitened</em> kernel, overstated
+$\sim 30\%$ otherwise, and is a <em>floor</em>, not unbounded distortion); and a &ldquo;bijection&rdquo;
+argument that had to be a covering argument (VI-7). Six catches, each a place the book
+would have asserted something false had the rule not fired. A rule earns its cost by its
+catches, and these are the catches.</p>
+<h2 id="standards-alignment-and-the-honest-frontier-gap">Standards alignment, and the honest frontier gap</h2>
+<p>R-IND is not <em>sui generis</em>: REG-1 instantiates registered reports (OSF, AsPredicted);
+R-IND-3&rsquo;s conclusion grade instantiates ACM Artifact Review and CODECHECK; the C3 nets are
+property-based / metamorphic testing; the <code>[proved]</code> theorems are queued for Lean. Naming
+the standard gives a referee a handhold and keeps the charter honest about what is
+established versus frontier.</p>
+<p>And there is a frontier gap, stated rather than hidden: <strong>no mature standard toolkit exists
+for verifying AI-assisted work independently of the assistant that produced it.</strong> The
+program&rsquo;s approximation — a fresh-context verifier (R-IND-5), differential testing against a
+second implementation (R-IND-3), and, for theorems, a proof assistant — is a reasonable
+<em>composition</em> of established methods, not a recognized methodology in its own right. VI-4 is
+the standing evidence that the composition both works and was needed. The charter discloses
+the gap; it does not claim to have closed it.</p>
+<h2 id="the-stand-down-clause">The stand-down clause</h2>
+<p>The last rule is the one that makes the rest credible. The program&rsquo;s pre-committed
+kill/narrow criteria <strong>may fire</strong> (SD-1). When they do, the <em>claims</em> narrow — publicly, in
+the ledger and the umbrella text — and the program <strong>continues smaller.</strong> Losing a bet does
+not end the program; hiding the loss would. No umbrella statement may cite <code>[exploratory]</code>
+rows, and no result earns the name &ldquo;Observation Theory&rdquo; until its ledger row meets its class
+bar (SD-2): the name is load-bearing only where the ledger is.</p>
+<p>This is why Chapter 16 exists, and why it is next. A discipline that can only be described is
+a wish; a discipline that can be <em>seen losing</em> is a method. The honest negatives are the
+method, visible.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch14_the_falsifiable_core.html" class="nav-prev">&larr; Chapter 14 — The Falsifiable Core: GO-1 … GO-6 and Gate B</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch16_honest_negatives.html" class="nav-next">Chapter 16 — Honest Negatives: The Boundaries, Kept With the… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

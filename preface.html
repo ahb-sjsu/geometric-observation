@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preface &mdash; Geometric Observation</title>
+  <meta name="description" content="Preface from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="preface">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Preface</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch23_the_governor.html" class="nav-prev">&larr; Chapter 23 — The Governor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <span class="nav-next"></span>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="preface">Preface</h1>
+<blockquote>
+<p><strong>RUNNING EXAMPLE — Maya&rsquo;s Cache</strong></p>
+<p>Meet Maya Okonkwo. She is twenty-nine, an inference engineer at a company that
+serves a large language model to millions of users a day, and she has just built
+something she is proud of: a quantizer for the model&rsquo;s key–value cache that halves
+its memory footprint. She measured it the way everyone measures a compressor. The
+reconstruction error — the average squared difference between the original cached
+vectors and their compressed versions — is the lowest her team has ever recorded.
+By every number on her dashboard, the compression is nearly lossless. She ships it
+behind a flag to one percent of traffic.</p>
+<p>The model gets dumber. Not catastrophically; subtly. It loses the thread in long
+conversations. It misattributes quotes. Its answers drift. The reconstruction
+error is beautiful and the product is worse, and for two weeks nobody can say why,
+because the one number everyone trusts says nothing is wrong.</p>
+<p>The problem, Maya will discover, is not in any bit of her quantizer. It is
+geometric. The attention head that consumes her cache does not read the key
+vectors. It reads a few <em>directions</em> of them — the ones its queries point along —
+and it is blind to the rest. Her quantizer spent its bits reconstructing the whole
+vector faithfully, which meant spreading its error evenly, which meant putting
+error exactly where the head was looking. A worse-reconstructing quantizer that
+happened to protect those few directions would have kept the model sharp. She had
+been optimizing the wrong metric with great precision. This book is about the
+right one.</p>
+</blockquote>
+<hr />
+<p>This book began as a footnote to someone else&rsquo;s collapse.</p>
+<p>In 2025 I was reading a result I did not like. Ulrike von Luxburg, Agnes Radl, and
+Matthias Hein had proved that the commute-time distance — the resistance metric you
+get from a graph Laplacian, the workhorse of spectral embedding — <em>degenerates</em> on
+large graphs. As the graph grows, the distance between two nodes stops depending on
+the graph&rsquo;s global structure and collapses to a function of their local degrees.
+The embedding everyone used to <em>see</em> the geometry of a dataset was, in the limit,
+seeing almost nothing but density. It was a clean, discouraging theorem, and the
+natural conclusion was that the tool was broken.</p>
+<p>I did not believe the geometry had vanished. It had to have gone <em>somewhere</em>. So I
+did the pedantic thing and wrote each node&rsquo;s low-dimensional embedding in polar
+coordinates — a magnitude times a direction — and asked which half was collapsing.
+The answer was immediate and, in retrospect, obvious: the magnitude was carrying
+the degree, the density, the nuisance that von Luxburg&rsquo;s theorem said would swamp
+everything. And the <em>direction</em> — the angle — was carrying the graph geodesics,
+almost undamaged. The geometry had not died. It had moved into the coordinate
+nobody was reading. Keeping only the angle is exactly the row-normalization step in
+Ng–Jordan–Weiss spectral clustering, a move practitioners had been making for years
+on the grounds that it &ldquo;worked&rdquo;; the polar decomposition said <em>why</em> it worked, and
+gave it a metric-geometric justification. [proved]</p>
+<p>That was supposed to be the whole story: a small correction to a spectral-embedding
+folk theorem. It was a footnote. It refused to stay one.</p>
+<p>Because the shape of the correction generalized before I was ready for it. The
+angle was not special. What was special was that there existed a <em>reader</em> — the
+geodesic-ranking use of the embedding — for whom the angle was signal and the
+radius was nuisance, and the collapse theorem was a theorem about the nuisance
+coordinate only. Change the reader and you change which coordinate is which. An
+attention head reads query-weighted directions and discards the across-token mean.
+An optimizer reads curvature-weighted error and is blind to the flat directions of
+its loss. A retrieval index reads the projection onto its query subspace and throws
+away the rest. Each of these is <em>the same picture as the polar decomposition</em>: a
+reader that keeps a few directions and quotients out the others. The angle was one
+instance of a structure I had mistaken for a special case.</p>
+<p>I started calling the general object the <strong>read metric</strong>. Fix any consumer $C$ — a
+classifier, an estimator, an attention head — and ask how much its output moves
+when you perturb its input. The answer is a symmetric operator, $P_C = J^{\top} G
+J$, the pullback of the consumer&rsquo;s own output metric through its Jacobian. Its
+range is the handful of directions the consumer can actually distinguish; its
+kernel is everything the consumer is constitutionally blind to. This is not a new
+object — it is the pullback metric of classical information geometry, the thing
+Amari and Čencov studied — and I want to be scrupulous that the <em>components</em> are
+old. What was not old, and what this book is about, is the claim that this pullback
+is the operative object for <em>lossy representation</em>: that the right way to compress,
+embed, or quantize anything is to keep the structure inside $P_C$ and spend nothing
+on $\ker P_C$, and that &ldquo;reconstruct the object faithfully&rdquo; is the special, and
+usually wrong, case $P_C = I$.</p>
+<p>Then the correspondences began to accumulate, and each one cost me a month.</p>
+<p>The first was the one that still surprises audiences: the <strong>flip</strong>. If the read
+metric is the object, then at a matched bit budget two codes can be ranked
+<em>oppositely</em> by two different consumers, and — the sharp version — a code that
+reconstructs the source <em>worse</em> can serve a consumer <em>better</em>. This is not a
+tendency; it is a reversal, and it should either be everywhere or be an artifact.
+So we went looking for it, under a discipline I will describe in a moment, and it
+was everywhere. It appears on transformer KV-keys [demonstrated]. It appears on
+embedding retrieval [replicated]. It appears in gradient compression against a
+curvature consumer [predicted]. And then it walked out of machine learning
+entirely: it appears in direction-of-arrival estimation on a microphone array
+[predicted], in a second, independent acoustic corpus [predicted], and — the one I
+did not expect — in <em>seismic backazimuth</em>, elastic waves from real earthquakes read
+by a thirteen-element array in the ground, where a compressor that reconstructs the
+waveform better points at the wrong epicenter [predicted]. Twelve domains. Three
+distinct branches of physics — electromagnetic, acoustic, elastic. One mechanism.
+When a picture drawn from a graph-embedding footnote predicts which quantizer will
+best locate an earthquake, either it is a coincidence of unusual size or the
+footnote was never small.</p>
+<p>The second correspondence was that the read metric has a <em>price</em>, and the price is
+a rate–distortion theory. If a consumer only reads $P_C$, then the number of bits
+you must pay to serve it to distortion $D$ is not Shannon&rsquo;s $R(D)$ but a tilted one,
+$R_C(D)$, whose whole content is that the tilt bends the water-filling toward the
+read subspace. This gave achievability and converse theorems, a two-observer rate
+region whose refinability is exactly a Loewner nesting of read metrics, a mismatch
+tax you pay for using the wrong $P_C$, and an <em>omission floor</em> — a wall of
+irreducible downstream error you hit when your code is blind to a direction the
+consumer reads, no matter how many bits you spend. That floor, predicted from the
+theory, was later measured biting a real language model [demonstrated].</p>
+<p>The third correspondence closed the loop. Cost, value, and legibility were not
+three theories. They were three shadows of one object. The read metric $P_C$ is
+what observation <em>charges</em> for (its rate–distortion function is the COST), what
+preserving it <em>buys</em> (the flip is the VALUE), and what its quotient <em>reveals</em> (the
+angle carrying geodesics is the LEGIBILITY). An observer, I came to think, is not a
+viewpoint or a measurement device. It is a triple $O = (C, G, B)$ — a consumer, an
+output metric, and a budget — and geometry, distortion, and reliability are not
+properties of an object at all. They are properties of the <em>relation</em> among an
+object, an observer, a channel, and a budget, and they are ill-posed until all four
+are named.</p>
+<p>The footnote, it turned out, was the thesis. This book develops it.</p>
+<hr />
+<p><strong>A word on what this book is, and is not.</strong></p>
+<p><em>It is a mathematics book with an instrumented spine.</em> The central contribution is a
+structural claim — that a single pullback operator organizes lossy representation
+across domains — together with the theorems that make it precise and the sealed
+experiments that make it falsifiable. Chapter 6 develops the needed machinery from
+pullbacks and projections, assuming linear algebra and a first course in
+probability. But the mathematics is not ornamental, and neither are the
+experiments. Each is load-bearing for the other: the theory says where to look,
+and the ledger says whether it was there.</p>
+<p><em>It is not a new compression algorithm, and it is not a claim to have invented the
+pullback metric.</em> The components — the pullback of an output metric, reverse
+water-filling, rate–distortion, spectral embedding — are classical, and I have
+tried to cite them exactly where they are owed. The claim is the <em>synthesis</em>: that
+this old object is the operative one for the modern problem of serving
+representations to consumers, and that naming it dissolves a family of apparently
+unrelated engineering surprises into one mechanism with one dial.</p>
+<p><em>It is not a claim that reconstruction never matters.</em> It matters exactly when the
+consumer reads everything — when $P_C = I$ — and that case is common and important
+and is the one all our tools were built for. The book&rsquo;s argument is that this case
+is a <em>slice</em>, not the whole, and that the practice of measuring every compressor by
+its reconstruction error is a habit inherited from the slice.</p>
+<p><em>And it is not a program that hides its losses.</em> This is the part I most want a
+skeptical reader to test first. Every risk-bearing prediction in this book was
+<strong>sealed before it was measured</strong> — hashed and git-committed as a prereg, with its
+pass/fail bar written in advance — and the misses are printed at the same
+prominence as the hits. There is a whole chapter of them (Chapter 16). The
+consumer-relative flip does <em>not</em> appear when the read operator is aligned with the
+signal&rsquo;s energy; we predicted it would appear in real-model gradient compression
+and it did not, because in a trained model curvature and gradient energy are
+coupled, and we say so [refuted]. A density quotient we hoped would generalize
+outside diffusion was refuted across four domains [refuted]. A blind probe on a real
+frontier model recovered the read operator but missed its sealed bar, bounding the
+theory to synthetic consumers on that evidence until a corrected design passed
+[refuted → demonstrated]. These are not embarrassments to be managed. They are the
+boundaries of the result, and a result without stated boundaries is not a result.
+The program&rsquo;s governing sentence, inherited from the series and enforced here by a
+written charter, is: <em>the book may not assert what the ledger cannot show.</em></p>
+<hr />
+<p>The book has seven parts, moving from the problem through the framework and its
+three shadows to the instruments, the evidence, and the discipline that produced
+it. Part VI, on that discipline, could have been an appendix; I have made it a part
+because in a program co-designed with an embedded AI assistant — one that may
+propose and derive and draft, but that <em>may not be the sole grader of its own
+work</em> — how the claims are kept honest is not separable from what they are.</p>
+<p>I did not set out to write it. I set out to fix a footnote about an angle. The
+angle turned out to be one shadow of a thing that casts three, and the thing has a
+name, and this is its book.</p>
+<p><em>A.H.B.</em>
+<em>San José, 2026</em></p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch23_the_governor.html" class="nav-prev">&larr; Chapter 23 — The Governor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <span class="nav-next"></span>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

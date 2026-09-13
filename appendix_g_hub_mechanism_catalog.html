@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Observer-Induced Geometries &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Observer-Induced Geometries from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_g_hub_mechanism_catalog">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Observer-Induced Geometries</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="appendix_f_mathematical_ledger.html" class="nav-prev">&larr; Appendix F — Mathematical Ledger: Status of Formal Claims</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch00_front_matter.html" class="nav-next">Geometric Observation &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-g-a-hub-mechanism-catalog-one-scalar-many-observer-induced-geometries">Appendix G — A Hub-Mechanism Catalog: One Scalar, Many Observer-Induced Geometries</h1>
+<p>Hubness is the cleanest field instance of this book&rsquo;s category error. In a
+high-dimensional embedding corpus a few points appear in <em>hundreds</em> of other
+points&rsquo; $k$-nearest-neighbour lists while most appear in almost none; the standard
+one-number summary is the skewness of that occurrence count (the <code>count_skew</code>
+scalar). This appendix catalogues what that scalar <em>hides</em>. Every entry is a
+distinct <strong>observer-induced quotient geometry</strong> — a different way of arranging a
+corpus under a metric — and several of them produce the <em>same</em> skewness reading.
+The scalar is the reconstruction cosine of Chapter 2 wearing a different costume: a
+blind aggregate that summarizes the wrong thing, green while the mechanism that
+governs downstream behaviour varies underneath it.</p>
+<p>The observer-theoretic reading is exact and worth stating before the list. A
+neighbour count is collected over a query set, so hubness is a property of the
+<em>observation</em> — the tuple $(\text{corpus},\ \text{query measure},\ \text{metric},\
+k)$ — and not of the corpus alone. The corpus and metric partition query space into
+capture basins (the region where a given row wins the top-$k$); a row&rsquo;s count is the
+query mass in its basin. That is a read-metric statement: the &ldquo;observer&rdquo; is the
+query workload and the ranking rule, the count is what the observer <em>reads</em>, and two
+corpora that read identically under one workload can read oppositely under another.
+The mechanisms below are what fills those basins — centrality, local centrality,
+density, a point cluster, a soft gradient — and the discipline the catalogue
+enforces is the book&rsquo;s own: <strong>do not certify a corpus on a scalar its consumer&rsquo;s
+tail can falsify.</strong></p>
+<p><strong>Provenance and epistemic standing.</strong> The measurements catalogued here were made
+in the companion project <code>turboquant-pro</code> on 2026-07-23/24 and are cited by path,
+not re-derived under this volume&rsquo;s registration harness. They therefore carry
+<em>companion-project provenance</em> rather than this book&rsquo;s six-class ledger tags: they
+are not GO-P rows, and the house rule (PROTOCOL Rule 1.1 — no umbrella claim leans
+on an unregistered row) forbids me from dressing them as <code>[demonstrated]</code>. What they
+are is a decisive, independently registered instance of the framework&rsquo;s central
+phenomenon in a domain — retrieval geometry — the GO-P sweep did not itself enter.
+Sources: <code>turboquant-pro/docs/HUBNESS_PRIMER.md</code> (the phenomenon and the mechanism
+taxonomy); <code>docs/RESULTS_multilingual_strata.md</code> and
+<code>docs/RESULTS_strata_phase23_gates.md</code> (the multilingual and remedy measurements,
+each scored against a content-hashed pre-registration); and the confusion-matrix
+fixtures in <code>tests/test_anatomy.py</code>, whose four planted constructions are the
+mechanism definitions used below.</p>
+<h2 id="the-catalogue">The catalogue</h2>
+<p>The entries are ordered from the sharpest observer-induced geometry (a planted
+centre) to the most diffuse (a soft gradient), then the guard that says when to stop
+attributing at all, then the two findings that make the point at scale — that the
+mechanism is <em>training-objective-dependent</em> and that <em>compression destroys exactly
+the information its own remedy needs</em>.</p>
+<h3 id="g-cat-1-shell-plus-centre-pure-centrality-super-hubs">G-cat-1 — Shell-plus-centre: pure centrality super-hubs</h3>
+<p>Plant a handful of points at the <em>centre</em> of a unit shell. Those points beat every
+shell row&rsquo;s nearest neighbour and vacuum up lists: their occurrence counts scale
+like $n$, the corpus size, rather than like $k$. This is the pipeline-artifact
+mechanism — the fingerprint of an aggressive mean shift, a collapsed subspace, or an
+over-regularised compression that has dragged mass toward a single centre. In the
+primer&rsquo;s paired-corpus demonstration a synthetic look-alike carried max occurrence
+count 369 against a real corpus&rsquo;s 78 <em>at the same skewness</em>, with its hubs sitting
+34% closer to the corpus mean than the average row (<code>HUBNESS_PRIMER.md</code>, &ldquo;Two
+corpora, same hubness number, opposite behaviour&rdquo;; fixture <code>_fx_centrality</code> in
+<code>tests/test_anatomy.py</code>). The observer geometry is a delta at the centroid: one basin
+swallows nearly all the query mass.</p>
+<h3 id="g-cat-2-local-centre-shells-density-at-global-scope-centrality-up-close">G-cat-2 — Local-centre shells: density at global scope, centrality up close</h3>
+<p>Now plant points at the <em>local</em> centre of off-centre shells. Each planted point is
+&ldquo;too close to everything&rdquo; within its own region — small $d_k$, large count, occurrence
+scaling like $n_{\text{shell}}$ — while sitting mid-pack in the <em>corpus&rsquo;s</em> centrality
+distribution. Read globally, that is exactly the density signature; there is no global
+centrality to detect. This is a <strong>scope-dependence result</strong>, and a pointed one for
+observer theory: <em>global observation cannot distinguish local centrality from
+density.</em> The two are one point of the global observer&rsquo;s quotient — the coarse
+observer literally cannot tell them apart — and splitting them requires changing the
+observer to a per-area one (the STRATA direction). The correct global remedy
+(mutual-proximity / CSLS rescaling) is the same for both, which is <em>why</em> the global
+observer is allowed to conflate them: on the axis of what to do about it, they are the
+same object (fixture <code>_fx_local_center_shells</code>, <code>tests/test_anatomy.py</code>).</p>
+<h3 id="g-cat-3-the-point-cluster-donor-ceiling-a-math6-bound-in-any-dimension">G-cat-3 — The point-cluster donor ceiling: a $\Theta(k)$ bound in any dimension</h3>
+<p>Take a point-like cluster and ask how many rows have it in their $k$-NN ball — the
+cluster&rsquo;s &ldquo;donors.&rdquo; That number is $\Theta(k)$ in <em>any</em> ambient dimension: the count
+maximum stalls at roughly $2k$ and cannot be pushed higher by adding dimensions or
+corpus size. It is a universal structural bound, not a tunable one. Its role in the
+companion work is a hard negative: it is one of the two ceilings that proved a
+generator-<em>capability</em> failure rather than a search failure — no optimizer pass over a
+point-cluster family can manufacture the long occurrence tail a real hubby corpus has,
+because the geometry caps the tail at $\sim 2k$
+(<code>openvector-bench/results/PREREG_ROUND11.md</code>, citing the <code>turboquant-pro</code>
+<code>docs/RESULTS_strata_phase23_gates.md</code> fixture work). For observer theory the ceiling
+is a statement about basin sizes: a point cluster can only ever be the answer to
+$\Theta(k)$ queries, no matter how the surrounding space is arranged.</p>
+<h3 id="g-cat-4-soft-gradients-the-diffuse-mechanism-and-why-it-needs-concentration">G-cat-4 — Soft gradients: the diffuse mechanism, and why it needs concentration</h3>
+<p>The real-corpus pattern (the primer&rsquo;s &ldquo;corpus A&rdquo;) is not a planted centre at all but a
+soft density gradient — a product-of-rings torus, density-graded angles — where hubs
+are moderately popular points sitting where the corpus is locally denser (occurrence
+correlated with local density, hubs&rsquo; local scale a few percent below population,
+<code>HUBNESS_PRIMER.md</code>). It is the healthy, non-artefact hubness, and it is the one that
+<em>requires distance concentration</em> to appear: without the high-dimensional crowding of
+distances into a narrow band, a small density advantage does not translate into many
+list memberships. At small corpus size the soft-gradient occurrence tail caps at
+roughly $2.2k$ — the second of the two structural ceilings — so even the benign
+mechanism cannot fake an extreme tail on a small corpus
+(<code>openvector-bench/results/PREREG_ROUND11.md</code>). The observer reading: this is the only
+mechanism whose basins are shaped by the <em>query</em> concentration rather than by a
+planted geometry, which is why it is the one that behaves like a distribution rather
+than like an artefact.</p>
+<h3 id="g-cat-5-the-materiality-guard-when-to-abstain">G-cat-5 — The materiality guard: when to abstain</h3>
+<p>Below a count maximum of about $2.5k$, there is no material hub tail: the occurrence
+counts are sampling noise, and any &ldquo;mechanism&rdquo; read off them is a guess. The
+instrument&rsquo;s classifier <em>abstains</em> here rather than attributing — the fixture that
+forces this is a constant-density ring with negligible hubness, and the correct output
+is &ldquo;unclear, no prescription&rdquo; (<code>HUBNESS_PRIMER.md</code>, &ldquo;attribution abstains entirely
+when there is no material hub tail&rdquo;; fixture <code>_fx_unclear</code>, <code>tests/test_anatomy.py</code>).
+This is the catalogue&rsquo;s registration discipline in miniature and the direct analogue
+of the book&rsquo;s own refusal to over-read a scalar: mechanism attribution is a claim, a
+claim needs a signal above noise, and the honest move below threshold is to decline.
+Every entry above is conditioned on clearing this guard.</p>
+<h3 id="g-cat-6-encoder-findings-cross-lingual-architecture-is-training-objective-dependent">G-cat-6 — Encoder findings: cross-lingual architecture is training-objective-dependent</h3>
+<p>The multilingual run (<code>docs/RESULTS_multilingual_strata.md</code>, scored 2026-07-23 against
+a content-hashed prereg) puts two encoders through the same instrument and refutes two
+registered predictions in the informative direction:</p>
+<ul>
+<li><strong>BGE-M3 homogenizes per-language hubness.</strong> Seven eligible languages spanning three
+  scripts and roughly three millennia of text land in a Robin Hood band of width 0.10
+  (0.3447 English … 0.4469 Sanskrit, a 1.30 ratio against a registered $\geq 1.5$), and
+  all seven classify as their own self-contained hub economies. The prediction of
+  strong per-language heterogeneity was <strong>not confirmed</strong>; the encoder flattens the
+  geometry far more than expected.</li>
+<li><strong>A trained interlingua <em>dissolves</em> language borders; emergent multilinguality keeps
+  them.</strong> LaBSE (translation-ranking objective) produces <em>more</em> cross-lingual transit
+  overall (mean transit $\bar\tau$ 0.389 vs BGE-M3&rsquo;s 0.291), carried by rows <em>less</em>
+  central than the population and spread <em>less</em> concentratedly — turning seven of
+  thirteen eligible languages into backbone-class transit areas. BGE-M3 (emergent
+  multilinguality) is the opposite architecture: less transit, concentrated in a
+  semantically central hub region (the centrality signal is significant <em>only</em> there,
+  $+0.0041$, $p<10^{-4}$), and zero backbone areas. The registered thesis that a
+  trained interlingua builds a more <em>concentrated</em> translationese core had its sign
+  flip on both legs.</li>
+</ul>
+<p>The observer-theoretic content: hubness geometry is not a property of &ldquo;language&rdquo; or of
+&ldquo;embeddings&rdquo; but of the <em>training objective</em> that fixes the metric. Change the
+objective and you change which quotient the corpus lives in — borders-with-a-central-hub
+under one, borderless-diffuse-transit under the other — while the surface skewness
+scalar would have told you almost nothing about which.</p>
+<h3 id="g-cat-7-the-remedy-asymmetry-the-codes-find-the-originals-decide">G-cat-7 — The remedy asymmetry: the codes find, the originals decide</h3>
+<p>The density remedy for hubness is CSLS / mutual-proximity rescaling, and the
+compression measurements (<code>docs/RESULTS_strata_phase23_gates.md</code>, measured 2026-07-24
+at a 27.676× operating point) establish that <strong>the correction is unrecoverable from
+the compressed codes</strong>:</p>
+<ul>
+<li>At the <em>exact</em> layer CSLS works — it cuts the count skew, the count maximum, the
+  Robin Hood index, and the above-threshold fraction (by 20–33%). The remedy is real.</li>
+<li>At the <em>compressed</em> layer it fails, and fails in two stages. Shallow candidate lists
+  are <strong>coverage-limited</strong>: CSLS promotes exactly the isolated, fine-distinction rows
+  that 27.7× quantization damages first, so its true neighbours are frequently not in
+  the candidate list at all (min-over-strata anti-hub recall 0.663 against a 0.90 bar).
+  Deepening the candidate list raises coverage from 0.696 to 0.926 but fidelity gains
+  four points and then flatlines at 0.702 — past the coverage regime the ceiling
+  becomes <strong>score precision</strong>: the right neighbour is now <em>in</em> the list and the coarse
+  27.7× scores cannot place it. Reconstruction rerank cannot fix this, because the
+  reconstruction carries exactly the information the codes do.</li>
+<li>Only exact-layer correction, or reranking against <em>stored</em> full-precision originals,
+  clears the bar (0.923 at depth 501 with originals — a storage trade, not a coding
+  one).</li>
+</ul>
+<p>This is the book&rsquo;s compression thesis in its sharpest field form. Compression is an
+observer coarse-graining — a quotient that identifies points the codes cannot tell
+apart — and it destroys <strong>precisely</strong> the fine distinctions the hubness correction
+exists to protect. The remedy needs the anti-hubs&rsquo; small separations; quantization
+rounds those away first; so the corrected ranking is <em>harder</em> to reproduce from
+compressed codes than the uncorrected one. The information the correction needs and the
+information the coarse-graining discards are the same information. The operational
+summary the companion project settled on — <em>the codes find, the originals decide</em> — is
+$\operatorname{tr}(P_C\Sigma_\delta)$ read from the retrieval side: the codes are good
+enough to locate the read subspace&rsquo;s neighbourhood, and not good enough to be the final
+authority inside it.</p>
+<h2 id="what-the-catalogue-is-evidence-for">What the catalogue is evidence for</h2>
+<p>Read across the seven entries, the pattern is the book&rsquo;s, restated in a domain the
+sweep did not run. <strong>The scalar is non-identifying</strong> (G-cat-1 vs G-cat-4: same
+skewness, opposite mechanism). <strong>The mechanism is the observer&rsquo;s, not the corpus&rsquo;s</strong>
+(G-cat-2: local centrality and density are one point of the global quotient and two of
+the per-area one; G-cat-6: the training objective picks the geometry). <strong>Some bounds
+are structural, not tunable</strong> (G-cat-3, G-cat-4: $\Theta(k)$ and $\sim 2.2k$ ceilings).
+<strong>Attribution has a noise floor and must abstain below it</strong> (G-cat-5). And
+<strong>compression is a coarse-graining that removes exactly the read-relevant structure a
+downstream correction depends on</strong> (G-cat-7). None of this is visible from the
+occurrence-skewness number, which is why the companion instruments report a vector and
+a mechanism rather than a scalar — the same move this book makes when it replaces
+reconstruction error with $\operatorname{tr}(P_C\Sigma_\delta)$.</p>
+<h2 id="the-security-corollary">The security corollary</h2>
+<p>The same non-identifiability that makes the scalar a poor quality metric makes the
+mechanism vector a <em>poisoning detector</em>, and two 2026 adversarial results turn the
+catalogue&rsquo;s first entry into a threat model. The <strong>Black-Hole Attack</strong> (&ldquo;Can You Trust
+the Vectors in Your Vector Database?&rdquo;, arXiv:2604.05480, Apr 2026) injects a handful of
+vectors near the embedding centroid — G-cat-1&rsquo;s centrality super-hub, planted on
+purpose on real BGE embeddings — and hijacks the majority of top-10 results; cluster-wise
+centroids amplify it, because a <em>local</em> centre (G-cat-2) need only dominate its own
+neighbourhood. The <strong>Adversarial Hubness Detector</strong> (arXiv:2602.22427, Feb 2026) scans
+production indices for exactly this signature using count z-scores and cross-cluster
+retrieval-spread. The convergence reads cleanly in the framework: a planted super-hub
+<em>is</em> a centrality hub, so a sudden per-area shift from a density mechanism to a
+centrality one, absent any pipeline change, is a poisoning signature rather than a
+quantization artefact. The quality instrument and the security scanner are the same
+instrument — which is what one expects when hubness is a property of the observation and
+an attacker is simply choosing the observation.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="appendix_f_mathematical_ledger.html" class="nav-prev">&larr; Appendix F — Mathematical Ledger: Status of Formal Claims</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch00_front_matter.html" class="nav-next">Geometric Observation &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

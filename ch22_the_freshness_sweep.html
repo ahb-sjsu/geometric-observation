@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 22 — The Freshness Sweep &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 22 — The Freshness Sweep from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch22_the_freshness_sweep">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 22 — The Freshness Sweep</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch21_the_refresh_floor.html" class="nav-prev">&larr; Chapter 21 — The Refresh Floor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch23_the_governor.html" class="nav-next">Chapter 23 — The Governor &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-22-the-freshness-sweep">Chapter 22 — The Freshness Sweep</h1>
+<blockquote>
+<p><strong>STUB [A] — draftable now.</strong> Source: the <code>observation-theory-campaigns</code>
+freshness tracks + <code>SEALS.md</code>. Parallel in form to Ch. 13 (the allocation sweep).
+House rule: the umbrella cites only <code>[replicated]</code>/<code>[demonstrated]</code> rows; breadth
+rows are carried at their honest class; the negative is kept at full prominence.</p>
+</blockquote>
+<h2 id="what-this-chapter-must-establish">What this chapter must establish</h2>
+<p>One witnessed-certificate grammar, measured across substrates — the freshness
+counterpart of the 12-domain allocation sweep. Per domain: certificate → witness,
+sealed bars, naive vs witnessed FC, verdict, tier.</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Cell(s)</th>
+<th>Substrate</th>
+<th>naive → witnessed</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Interdomain routing</td>
+<td>BGP/IS-IS/OSPF/RPKI, BMP, D8</td>
+<td>RIS beacons + labs</td>
+<td>0.351/0.184/0.083 → detector band</td>
+<td><strong>[replicated]</strong></td>
+</tr>
+<tr>
+<td>Replication &amp; coordination</td>
+<td>PG/MG/PGX/GEO/ZK</td>
+<td>real PG/Mongo/ZK, NRP</td>
+<td>~0.5 → ~0.02–0.06; ZK 0.99/0.01→0</td>
+<td><strong>[replicated]</strong></td>
+</tr>
+<tr>
+<td>Cellular PHY/RAN</td>
+<td>CSI/BEAM/AICSI/HO/URLLC/PHY</td>
+<td>Sionna 5G NR</td>
+<td>0.28–0.47 → 0.05–0.13</td>
+<td><strong>[demonstrated]</strong></td>
+</tr>
+<tr>
+<td>Optical</td>
+<td>QOT</td>
+<td>GNPy GN-model</td>
+<td>~0.40 → ~0 per footprint</td>
+<td><code>[predicted]</code></td>
+</tr>
+<tr>
+<td>Power grid</td>
+<td>GRID</td>
+<td>pandapower AC-PF</td>
+<td>~0.25 → ~0.01</td>
+<td><code>[predicted]</code></td>
+</tr>
+<tr>
+<td>AI evaluation</td>
+<td>LLM</td>
+<td>roberta-mnli / HANS</td>
+<td><em>(shakedown)</em></td>
+<td><code>[predicted]</code></td>
+</tr>
+<tr>
+<td>Quantum devices</td>
+<td>QUANTUM</td>
+<td>qiskit-aer (hand-built)</td>
+<td>0.28–0.43 → 0</td>
+<td><code>[exploratory]</code></td>
+</tr>
+<tr>
+<td>Markets</td>
+<td>QUOTE</td>
+<td>efficient-price sim</td>
+<td>0.37 → 0.003</td>
+<td><code>[exploratory]</code></td>
+</tr>
+<tr>
+<td>Sensing</td>
+<td>(sensor)</td>
+<td>real UCI field data</td>
+<td>drift real; linear recal only ~1.6×</td>
+<td><strong>[refuted]</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="narrative-beats">Narrative beats</h2>
+<ul>
+<li>The <strong>replicated core</strong> (routing + replication/coordination): the vacuity result
+  reproduced across six independent data substrates and two witness kinds
+  (LSN/oplog/zxid). The umbrella rests here.</li>
+<li>The <strong>demonstrated wing</strong> (cellular): the certificate ages under a <em>physical</em>
+  coherence process, HARQ-witnessed, on standards-grade LDPC.</li>
+<li>The <strong>breadth</strong> (optical/grid/LLM/quantum/markets): the grammar transfers to new
+  substrates at <code>[predicted]</code>/<code>[exploratory]</code> — pre-registered, awaiting sealed
+  grading or a real substrate (IBM hardware, tick data).</li>
+<li>The <strong>kept negative</strong> (sensor): drift is real but <em>linear recalibration</em> only
+  partially recovers; the clean template failed honestly and is recorded, not
+  tuned into a pass (the redesign — witness-triggered recalibration — is named,
+  not claimed).</li>
+</ul>
+<h2 id="boundary">Boundary</h2>
+<p>Cross-domain magnitude constants are not claimed to coincide; each row stands at its
+own class. This is a <em>generality-of-grammar</em> result, not a universal-number result.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch21_the_refresh_floor.html" class="nav-prev">&larr; Chapter 21 — The Refresh Floor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch23_the_governor.html" class="nav-next">Chapter 23 — The Governor &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

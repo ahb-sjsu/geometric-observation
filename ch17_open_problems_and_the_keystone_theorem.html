@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 17 — Open Problems and the Keystone Theorem &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 17 — Open Problems and the Keystone Theorem from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch17_open_problems_and_the_keystone_theorem">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 17 — Open Problems and the Keystone Theorem</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch16_honest_negatives.html" class="nav-prev">&larr; Chapter 16 — Honest Negatives: The Boundaries, Kept With the…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch18_the_principle.html" class="nav-next">Chapter 18 — The Principle: Keep the Structure the Observer… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-17-open-problems-and-the-keystone-theorem">Chapter 17 — Open Problems and the Keystone Theorem</h1>
+<p>A framework is honest about its frontier when it can say not only what it has shown
+but what it has <em>not yet</em> shown, and which of the unshown things it is chasing versus
+which it has deliberately named and set aside. This chapter is that accounting. It has
+one recommended keystone — a theorem the program should prove next — and a short list
+of genuine open problems, each stated with its current status so no reader mistakes an
+aspiration for a result.</p>
+<h2 id="the-keystone-learn-then-serve-t1">The keystone: learn-then-serve (T1)</h2>
+<p>The single theorem worth proving next is the one that would bridge the two shadows that
+are still only connected empirically: COST and VALUE. Call it <strong>T1, learn-then-serve.</strong></p>
+<p>The empirical situation is this. The COST theory (Chapter 7) prices serving a <em>known</em>
+read metric $P_C$. The blind probe (Chapter 10) recovers $P_C$ from finitely many
+queries. The flip (Chapter 8) shows that serving the recovered $P_C$ beats
+reconstruction. What is missing is a theorem that composes the <em>sample complexity of
+recovering $P_C$</em> with the <em>mismatch bounds of serving an imperfect $\hat P_C$</em> — a
+single guarantee of the form:</p>
+<blockquote>
+<p>Given $N$ blind queries, the probe recovers $\hat P_C$ to accuracy $\varepsilon(N)$,
+and serving $\hat P_C$ instead of $P_C$ costs at most the mismatch tax
+$(r/2)\log(\cdot)$ plus a term in $\varepsilon(N)$ — so that with $N \gtrsim
+(\text{something explicit})$ queries, the learned-then-served code is within a
+stated factor of the oracle code, end to end.</p>
+</blockquote>
+<p>This is the COST↔VALUE bridge, and it is the recommended keystone because it converts
+the program&rsquo;s central practical claim — <em>recover the observer, then serve it</em> — from a
+two-step empirical recipe into one theorem with an end-to-end guarantee. The pieces
+exist: the probe&rsquo;s recovery rate is measured (GO-1, and the rate-dependence of the
+surrogate gap in GO-6), and the mismatch tax and omission floor are proved (Chapter 7,
+Appendix B). T1 would fuse them. It carries no result yet — it is a <strong>stated target</strong>,
+not a theorem — and I flag it as such [status: open, recommended].</p>
+<h2 id="the-cross-domain-magnitude-constant">The cross-domain magnitude constant</h2>
+<p>The sharpest <em>quantitative</em> gap is inherited from the 20-Newsgroups blind test (041,
+Chapter 10). The blind non-oracle probe recovers the winning code&rsquo;s <em>direction</em>
+prospectively — it chooses the better code before any label — and <em>across rates</em> the
+predicted magnitude tracks the measured downstream gap almost perfectly (Pearson
+0.995, both decreasing per the finite-rate criterion). But the <em>cross-domain scale
+constant</em> — the single number that would turn &ldquo;the flip is larger here than there&rdquo; into
+a calibrated point prediction transferable from one domain to the next — did not
+transfer: the point magnitude overshot its sealed band on 041 [refuted, as a point
+prediction; the direction and the within-domain rate-scaling hold]. Finding the
+invariant that fixes this constant across domains is a concrete open problem with a
+clean falsification test already built (the sealed-magnitude protocol of 041). It is
+the difference between a theory that says <em>which</em> code wins and one that says <em>by how
+much</em>, portably.</p>
+<h2 id="the-green-rank-positivity-conjecture">The Green-rank positivity conjecture</h2>
+<p>From the LEGIBILITY leg (Chapter 9) comes a clean mathematical conjecture. The
+Green-kernel rank-limit theorem reduces Angular Preservation, for intrinsic dimension
+$d \le 3$, to the <strong>positivity of a single geometric coefficient</strong> — the leading
+Green-kernel rank coefficient — and proves rank 1 on the two-point homogeneous spaces
+$S^2, S^3, \mathbb{RP}^2, \mathbb{RP}^3$ [proved]. The <strong>conjecture</strong> is that this
+coefficient is positive on a broad class of manifolds beyond the two-point homogeneous
+ones, which would extend Angular Preservation&rsquo;s rank form from the exactly-solvable
+symmetric cases to the general $d \le 3$ setting [status: conjectured]. It is a
+self-contained problem in spectral geometry, and unlike T1 it does not need any new
+empirical apparatus — only a proof.</p>
+<h2 id="named-not-chased">Named, not chased</h2>
+<p>Two directions are deliberately <em>named and set aside</em> — real, but not on the critical
+path, and stated here so that their absence from the program&rsquo;s active work is a choice
+rather than an oversight.</p>
+<p><strong>The channel dual.</strong> The COST theory prices the observer; a dual theory would price
+the <em>channel</em> symmetrically, treating the compression channel and the observer as two
+sides of one variational problem. The structure is visible (the two-observer max-det
+program hints at it) but the program has not developed it, and it is named-not-chased
+[status: named].</p>
+<p><strong>The common-observation problem.</strong> Given a <em>population</em> of observers, is there a single
+representation that serves all of them near-optimally, and what is the price of the
+compromise? The two-observer rate region (Chapter 7) is the $k = 2$ corner; the general
+common-observation problem — the representation-design analogue of a public good — is
+named and deferred [status: named]. The regime map&rsquo;s empty cell (concentrated /
+low-correlation, Chapter 12) is a small instance of the same question and is flagged for
+a synthetic fill or a structural-emptiness argument.</p>
+<h2 id="the-disciplines-own-frontier">The discipline&rsquo;s own frontier</h2>
+<p>The last open problem is methodological and was stated in Chapter 15: there is <strong>no
+mature standard toolkit for verifying AI-assisted work independently of the assistant
+that produced it.</strong> The program&rsquo;s composition — fresh-context adversarial verification,
+differential testing against a second implementation, and a proof assistant for the
+flagship theorem — is a reasonable approximation, and VI-4 is the standing evidence it
+works and was needed. But it is not a recognized methodology, and building one is a real
+open problem that this program can only gesture at from inside. The adopt-now upgrades
+are concrete (mirror sealed preregs to OSF for a third-party timestamp; rewrite the C3
+nets as property-based tests); the <em>general</em> solution is open [status: open, frontier].</p>
+<h2 id="what-is-settled-enough-to-build-on">What is settled enough to build on</h2>
+<p>To end the chapter honestly the other way: the read metric as the operative object, the
+three shadows as one object, the flip as a property of observation wherever the read
+operator is identifiable, the blind probe as a working recovery instrument, and the
+registration discipline as a functioning method — these are settled enough to build the
+next volume on, in the precise sense that they carry ledger rows at their class bars. The
+open problems above are the <em>edges</em> of a solid interior, not cracks in it. Chapter 18
+states what that interior reduces to.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch16_honest_negatives.html" class="nav-prev">&larr; Chapter 16 — Honest Negatives: The Boundaries, Kept With the…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch18_the_principle.html" class="nav-next">Chapter 18 — The Principle: Keep the Structure the Observer… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

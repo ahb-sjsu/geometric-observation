@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix C — Reproduction Cookbook &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix C — Reproduction Cookbook from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_c_reproduction_cookbook">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix C — Reproduction Cookbook</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="appendix_b_cost_ledger.html" class="nav-prev">&larr; Appendix B — The COST Ledger: Theorems, Proofs, and Falsific…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_d_the_registry.html" class="nav-next">Appendix D — The Registry: Every GO-P-2026 ID and Its Dispos… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-c-reproduction-cookbook">Appendix C — Reproduction Cookbook</h1>
+<p>Every headline number in this book is reproducible from committed scripts. This appendix
+says how, without reproducing the repository&rsquo;s own READMEs. The governing facts: results
+are sealed-before-run (Chapter 15), archived at the DOI deposit, and re-run by CI. A
+reader who wants to <em>verify</em> rather than <em>trust</em> starts here.</p>
+<h2 id="where-everything-lives">Where everything lives</h2>
+<ul>
+<li><strong>Ledger of record:</strong> <code>claims/LEDGER.md</code> — every table/figure ID in the book resolves
+  to a row; the row names its registry, notebook, result JSON, class, and replications.</li>
+<li><strong>Registry accounting:</strong> <code>claims/REGISTRY-ACCOUNTING.md</code> — the gap-free ID disposition
+  table (Appendix D), the commit-ordering audit, and the statistical audit.</li>
+<li><strong>Sealed preregs:</strong> <code>prereg/GO-P-2026-###-*.md</code> — each hashed and git-committed before
+  its run.</li>
+<li><strong>Scripts:</strong> <code>experiments/*.py</code> — one driver per GO row.</li>
+<li><strong>Results:</strong> <code>results/*.json</code> — per-run outputs (note: <code>results/</code> JSONs are tracked
+  even though <code>*.json</code> is broadly gitignored; force-added).</li>
+<li><strong>DOI archive:</strong> Zenodo concept DOI <code>10.5281/zenodo.21423315</code> — the externally-anchored
+  snapshot of preregs, results, and harnesses (REG-3).</li>
+</ul>
+<h2 id="the-general-recipe">The general recipe</h2>
+<ol>
+<li><strong>Read the ledger row</strong> for the claim you want to check; note its registry ID, script,
+   and result JSON.</li>
+<li><strong>Verify the seal predates the run.</strong> Use the commit-ordering audit (Appendix D):
+   <code>git merge-base --is-ancestor &lt;seal-commit&gt; &lt;result-add-commit&gt;</code> must return true. The
+   binding timestamp is the git ancestry, not the file mtime.</li>
+<li><strong>Re-run the script</strong> for that row from a clean environment (below). Fixed seeds make
+   the governed rows deterministic on CPU where the theory harnesses are concerned.</li>
+<li><strong>Compare</strong> against the committed result JSON and the sealed bar in the prereg. A pass
+   is a pass only if it clears the bar written <em>before</em> the run.</li>
+</ol>
+<h2 id="environments">Environments</h2>
+<ul>
+<li><strong>Theory / C3 harnesses (COST, Appendix B):</strong> pure, CPU-reproducible, fixed-seed;
+  CI-run. No GPU. These are the falsification nets — they are meant to be cheap to re-run.</li>
+<li><strong>CPU experiment rows</strong> (spectral, synthetic, retrieval, classifier sweeps): standard
+  scientific-Python; pin versions from the repo lockfile.</li>
+<li><strong>GPU rows</strong> (real-LLM Gate-B: Llama-3.2-3B keys, GO-P-2026-020/021/026/027): run on the
+  Atlas GPU host; environment <code>torch 2.10 / transformers 4.46.3</code> (thread caps affect
+  execution only, not results). These need the model weights and are the most involved to
+  reproduce.</li>
+<li><strong>MATLAB rows</strong> (root-MUSIC cross-check for DOA, GO-P-2026-031): the Phased Array
+  toolbox reproduction; its reconstruction-energy columns match the numpy harness to 3
+  significant figures, giving an independent-implementation check (R-IND-3).</li>
+</ul>
+<h2 id="data-provenance-the-physical-domains">Data provenance (the physical domains)</h2>
+<ul>
+<li><strong>A3 LOCATA / D2 AV16.3</strong> — public microphone-array corpora; held-out splits are
+  disjoint recordings, named in the preregs.</li>
+<li><strong>D3 PDAR seismic</strong> — USGS M≥6.5 earthquakes 2017–2018, teleseismic 30–95°, via
+  IRIS/EarthScope FDSN; 34 events cached; calibration ~2017, held-out ~2018 (disjoint
+  events). Ground truth is the USGS catalogue backazimuth.</li>
+<li><strong>D1 RaDICaL radar</strong> — <em>data-limited and stated so</em>: the full disjoint-recording set is
+  ~800 GB (indoor alone 310 GB, ROS-bag, endpoint 403), forcing a within-recording split;
+  the reproduction is therefore partial by construction, not by choice.</li>
+<li><strong>W whale</strong> — Sharma-2024 DSWP sperm-whale codas (8718 codas, 11-d inter-click-interval
+  rhythm); held-out disjoint codas.</li>
+</ul>
+<h2 id="known-reproduction-gotchas-banked">Known reproduction gotchas (banked)</h2>
+<ul>
+<li><strong><code>results/*.json</code> are tracked despite <code>.gitignore</code></strong> — force-add (<code>git add -f</code>) if you
+  regenerate them.</li>
+<li><strong>Real-model runs need <code>python -u</code></strong> and <code>setsid</code>/detached execution on the Atlas host
+  for long jobs; obspy is required for the seismic pipeline.</li>
+<li><strong>The recognizer&rsquo;s <code>max_gen</code> must scale with the budget</strong> (Chapter 11) — reading an
+  emergent-geometry substrate before its geometry settles is a measurement artifact.</li>
+<li><strong>Author math-bearing files with an editor, not a bash heredoc</strong> — heredocs corrupt
+  backslashes (<code>\ref</code> → carriage return), which silently breaks LaTeX/Python source.</li>
+</ul>
+<h2 id="what-reproducible-claims-exactly">What &ldquo;reproducible&rdquo; claims, exactly</h2>
+<p>The program claims: every <em>sealed</em> row&rsquo;s result JSON is regenerable from its committed
+script, its seal is a git ancestor of its run, and its verdict is scored against a bar
+fixed before the run. It does <strong>not</strong> claim that the data-limited D1 radar row is fully
+disjoint-reproducible (it is within-recording, and says so), nor that GPU rows are
+bit-identical across hardware (they are result-identical to stated tolerance). The
+honesty of the cookbook is the honesty of the ledger: what can be reproduced, and the
+named exceptions.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="appendix_b_cost_ledger.html" class="nav-prev">&larr; Appendix B — The COST Ledger: Theorems, Proofs, and Falsific…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_d_the_registry.html" class="nav-next">Appendix D — The Registry: Every GO-P-2026 ID and Its Dispos… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

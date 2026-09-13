@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix B — The COST Ledger: Theorems, Proofs, and Falsification Harnesses &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix B — The COST Ledger: Theorems, Proofs, and Falsification Harnesses from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_b_cost_ledger">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix B — The COST Ledger: Theorems, Proofs, and Falsification Harnesses</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="appendix_a_related_work.html" class="nav-prev">&larr; Appendix A — Related Work and Differentiation</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_c_reproduction_cookbook.html" class="nav-next">Appendix C — Reproduction Cookbook &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-b-the-cost-ledger-theorems-proofs-and-falsification-harnesses">Appendix B — The COST Ledger: Theorems, Proofs, and Falsification Harnesses</h1>
+<p><em>Staging tier [B]. This appendix carries the statements and proof-status of the
+COST-face theorems (Paper III). Each theorem ships, per the charter&rsquo;s theorem-custody
+rule (T-CUST-1), four things: a written proof, an R-IND-5 fresh-context adversarial
+pass, a committed C3 numerical falsification harness built to fail if the theorem is
+false, and a constants/slack + known-gaps table. Full proofs live in Paper III and its
+appendix; this ledger gives statements, status, custody, and the verification incidents
+each one survived. Nothing here is <code>[proved]</code> without </em><em>both</em><em> grades (T-CUST-2: a green
+harness is a net, not a proof).</em></p>
+<h2 id="conventions">Conventions</h2>
+<p>Source $x$ with covariance $\Sigma_x$; observer read metric $P$ (dropping the subscript
+$C$); coding error $\delta$ with covariance $\Sigma_\delta$; read distortion
+$D = \operatorname{tr}(P\Sigma_\delta)$. The <strong>whitened</strong> basis is $\Sigma_x^{1/2} P
+\Sigma_x^{1/2}$; several constants are correct only in this basis (the recurring lesson
+of VI-4/VI-6).</p>
+<h2 id="thm-b1-consumer-ratedistortion-achievability-converse">Thm B1 — Consumer rate–distortion achievability &amp; converse</h2>
+<p><strong>Statement.</strong> For a Gaussian source and read metric $P$, the minimum rate to achieve
+read distortion $D$ is $R_C(D)$, achieved by a test channel that does reverse water-
+filling in the whitened basis; the tilt relative to Shannon&rsquo;s source-only allocation is
+exactly $P$. The reduction in true divergence relative to reconstruction coding is the
+tilt.</p>
+<p><strong>Status.</strong> <code>[proved]</code> — derivation-grade via written proof + R-IND-5 pass; conclusion-
+grade via a committed Blahut–Arimoto harness reproducing the optimum. Registry 022 block
+/ Paper III.</p>
+<p><strong>Custody / gaps.</strong> Verbatim Kostina–Verdú transfer holds for the fixed-$P$ Gaussian
+case; the true-nonlinear consumer keeps a &ldquo;should port&rdquo; hedge (VI-7). Constants in the
+whitened basis only.</p>
+<h2 id="thm-b2-output-surrogate-reconstruction-at-matched-rate">Thm B2 — Output ≤ surrogate ≤ reconstruction at matched rate</h2>
+<p><strong>Statement.</strong> At matched rate, coding for the consumer&rsquo;s output metric is no worse than
+coding for a surrogate read metric, which is no worse than coding for reconstruction, on
+the consumer metric; the output–reconstruction gap is governed by the $\ker P$ entropy
+share.</p>
+<p><strong>Status.</strong> <code>[demonstrated]</code> operationally by GO-6 (GO-P-2026-028): the ordering holds at
+<em>every</em> rate, reconstruction up to ~500× worse at high rate, median gap $+2.45$ (strict,
+kernel positive), isotropic control $P = I$ collapses the three coders. The analytic
+statement is proved; the harness is the conclusion-grade net.</p>
+<p><strong>Custody / gaps.</strong> Nonlinear consumer $d = 8, r = 4$, $\dim\ker P = 4$; synthetic. The
+gap&rsquo;s dependence on the kernel entropy share is the load-bearing structural claim.</p>
+<h2 id="thm-b3-the-surrogateoutput-gap-vanishes-with-rate">Thm B3 — The surrogate–output gap vanishes with rate</h2>
+<p><strong>Statement.</strong> The relative gap $(b - a)/(c - a)$ between a surrogate-optimal and an
+output-optimal code shrinks to zero as the rate grows.</p>
+<p><strong>Status.</strong> <code>[demonstrated]</code> — GO-6 measures it $0.41 \to 0.005$ as rate grows. Analytic
+statement PLAUSIBLE-with-conditions on the R-IND-5 pass (VI-3), pinned by the harness.</p>
+<p><strong>Consequence.</strong> At high resolution a surrogate for $P$ suffices; at low resolution it
+does not — which is why the blind probe (Chapter 10) is load-bearing precisely in the
+bit-starved regime.</p>
+<h2 id="thm-b4-two-observer-region-refinability-loewner-nesting">Thm B4 — Two-observer region &amp; refinability = Loewner nesting</h2>
+<p><strong>Statement.</strong> The achievable rate region for two observers $(P_1, P_2)$ is
+characterized; a single scalable code serves the coarse observer with a prefix of the
+fine observer&rsquo;s bits <strong>iff</strong> $P_1 \preceq P_2$ (Loewner). Non-nested read metrics incur
+an exact rate loss.</p>
+<p><strong>Status.</strong> <code>[proved]</code> — the two-observer max-determinant program; prereg 022.</p>
+<p><strong>Verification incident (VI-4, standing).</strong> An in-context <code>sigma_star</code> formula used
+$(\Sigma^\star)^{-1} = \Sigma_x^{-1} + \lambda P$ with the inline claim &ldquo;the cap never
+binds&rdquo;; a fresh-context adversarial pass found the max-det error covariance is reverse
+water-filling in the whitened basis and the cap <strong>does</strong> bind on $\ker P$. Corrected;
+harness re-run with a nested-Gaussian sufficiency check reproducing both single-stage
+optima to $10^{-10}$; prereg amended and re-sealed; false pass logged. <em>The analytic
+theorem statement was unaffected — the harness was wrong.</em> This is the textbook case for
+why <code>[proved]</code> demands both grades.</p>
+<h2 id="thm-b5-complete-rate-region-the-math25-observer-chain">Thm B5 — Complete rate region &amp; the $k$-observer chain</h2>
+<p><strong>Statement.</strong> For $k \ge 3$ observers in a chain the tight region is Kostina–Tuncel&rsquo;s;
+achievability is via independent Fisher increments from physically-degraded channels.</p>
+<p><strong>Status.</strong> <code>[proved]</code>, corrected. Prereg 023.</p>
+<p><strong>Verification incident (VI-5).</strong> Two errors caught pre-publication: (a) the $k \ge 3$
+region is Kostina–Tuncel, not Rimoldi (which is the finite-alphabet $L$-stage carrier);
+(b) the two-stage K-map <strong>does not iterate</strong> — an accumulating rotation ambiguity $B =
+Q\Lambda^{1/2}$ leaks Fisher information by $O(0.1)$ per stage. Achievability restated via
+independent increments, exact to $10^{-14}$; the $k = 2$ corner unaffected.</p>
+<h2 id="thm-b6-the-price-of-a-misidentified-observer-tax-and-floor">Thm B6 — The price of a misidentified observer: tax and floor</h2>
+<p><strong>Statement (tax).</strong> Coding for a rank-$M$ read metric when the consumer&rsquo;s is rank $m &lt;
+M$ costs excess rate $\sim (r/2)\log(M/m)$. <strong>Statement (floor).</strong> A code blind to a
+direction the consumer reads hits a distortion floor $D \ge D_{\text{floor}} =
+\operatorname{tr}(\tilde P\Pi)$ (whitened kernel), a compact band $[D_{\text{floor}},
+\operatorname{tr}(P\Sigma_x)]$ — a floor, not unbounded distortion.</p>
+<p><strong>Status.</strong> <code>[proved]</code> (prereg 024) and, for the floor, <code>[demonstrated]</code> downstream on a
+trained model (GO-P-2026-027, held-out layers {4,20}, floor 16/16, asymptotic ratio
+800–5700×).</p>
+<p><strong>Verification incident (VI-6).</strong> Two corrections pre-publication: omission gives a
+<em>floor</em>, not unbounded distortion; and the floor uses the <em>whitened</em> kernel
+$\Sigma_x^{-1/2}\ker\hat P$ — a naive kernel projector overstates it by ~30% when
+$\Sigma_x \ne I$. The 0.647 Llama overlap is written as a <strong>conditional</strong> certificate
+(omission + equal weights), not a flat number.</p>
+<p><strong>Related negative (NEG-13 → resolved).</strong> The first sealed finite-rate gate for the floor
+<em>missed</em> (0/16, shallow-sweep artifact conflating floor-reached with floor-exists);
+resolved by a fresh held-out test, not by relaxing the bar (Chapters 15–16).</p>
+<h2 id="thm-b7-dispersion-counts-read-dimensions">Thm B7 — Dispersion counts read dimensions</h2>
+<p><strong>Statement.</strong> The finite-blocklength dispersion counts the <em>read</em> dimensions: effective
+dimension $r_D \le r$, equal to $r$ only as $D \to 0$.</p>
+<p><strong>Status.</strong> <code>[proved]</code>, sharpened. Prereg 025.</p>
+<p><strong>Verification incident (VI-7).</strong> A draft claimed &ldquo;exact at every $n$ because the tilt is
+a bijection&rdquo; and &ldquo;effective dimension $= r$&rdquo;; the fresh-context pass found the finite-$n$
+equivalence rests on a <strong>covering</strong> argument (not a first-order data-processing bound),
+and $r_D \le r$ (not flat $r$). Dispersion constants flagged [C7] to Kostina–Verdú.</p>
+<h2 id="custody-summary">Custody summary</h2>
+<table>
+<thead>
+<tr>
+<th>Thm</th>
+<th>Statement grade</th>
+<th>Harness (C3) grade</th>
+<th>Prereg</th>
+<th>Incident</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>proof + R-IND-5</td>
+<td>Blahut–Arimoto</td>
+<td>022 blk</td>
+<td>—</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>B2</td>
+<td>proof</td>
+<td>GO-6</td>
+<td>028</td>
+<td>—</td>
+<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+</tr>
+<tr>
+<td>B3</td>
+<td>PLAUSIBLE-w/-cond.</td>
+<td>GO-6</td>
+<td>028</td>
+<td>VI-3</td>
+<td><code>[demonstrated]</code></td>
+</tr>
+<tr>
+<td>B4</td>
+<td>proof + R-IND-5</td>
+<td>nested-Gaussian</td>
+<td>022</td>
+<td><strong>VI-4</strong></td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>B5</td>
+<td>proof, corrected</td>
+<td>verify_rate_region</td>
+<td>023</td>
+<td>VI-5</td>
+<td><code>[proved]</code></td>
+</tr>
+<tr>
+<td>B6</td>
+<td>proof + measured floor</td>
+<td>verify_observer_mismatch + 027</td>
+<td>024/026/027</td>
+<td>VI-6, NEG-13</td>
+<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+</tr>
+<tr>
+<td>B7</td>
+<td>proof, sharpened</td>
+<td>verify_dispersion_separation</td>
+<td>025</td>
+<td>VI-7</td>
+<td><code>[proved]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every row that says <code>[proved]</code> carries both grades and a logged fresh-context pass; every
+incident was caught <strong>before</strong> the paper asserted the result. That is the appendix&rsquo;s whole
+claim: not that the derivations were right the first time — four of seven were not — but
+that the discipline caught the errors, and the record shows where.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="appendix_a_related_work.html" class="nav-prev">&larr; Appendix A — Related Work and Differentiation</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_c_reproduction_cookbook.html" class="nav-next">Appendix C — Reproduction Cookbook &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

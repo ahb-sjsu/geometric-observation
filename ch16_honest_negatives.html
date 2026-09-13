@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 16 — Honest Negatives: The Boundaries, Kept With the Results &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 16 — Honest Negatives: The Boundaries, Kept With the Results from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch16_honest_negatives">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 16 — Honest Negatives: The Boundaries, Kept With the Results</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch15_registration_first.html" class="nav-prev">&larr; Chapter 15 — Registration-First: How the Program Keeps Itsel…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch17_open_problems_and_the_keystone_theorem.html" class="nav-next">Chapter 17 — Open Problems and the Keystone Theorem &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-16-honest-negatives-the-boundaries-kept-with-the-results">Chapter 16 — Honest Negatives: The Boundaries, Kept With the Results</h1>
+<p>This is the chapter the discipline of Chapter 15 exists to make possible. Every claim
+below is a bet the program placed and lost, or a plausible idea it refuted, and every one
+is carried here at <em>the same prominence as the win it bounds</em> — because a sealed miss that
+is softened after the fact is not a result, it is a rumor. The house rule has a corollary
+the charter states outright (VI-3): <em>misses are first-class; a refuted or missed-gate row is
+carried into every downstream artifact as prominently as a win it bounds.</em> Read this chapter
+as the load-bearing one. A framework is only as trustworthy as its stated boundaries, and
+these are the boundaries.</p>
+<h2 id="the-negatives-in-order">The negatives, in order</h2>
+<p><strong>NEG-1 — fixed-scale, uniform-in-$m$ bi-Lipschitz for the commute filter.</strong> <code>[refuted]</code>.
+The commute filter&rsquo;s angular bound is <em>scale-dependent</em>; the uniform-in-truncation version
+fails. The heat filter, by contrast, <em>is</em> uniform-in-truncation bi-Lipschitz — the dichotomy
+is sharp and stated both ways (Chapter 9). This is the negative that keeps Keep-the-Angle
+from over-claiming: the angle survives, but not uniformly in the mode count for every filter.</p>
+<p><strong>NEG-2 — reconstruction cosine as a proxy for key quality.</strong> <code>[refuted]</code>. Cosine 0.995,
+perplexity $\sim 10^4$. The founding negative of the whole program (Chapter 2): a
+reconstruction number can say &ldquo;lossless&rdquo; while the consumer says &ldquo;ruined.&rdquo;</p>
+<p><strong>NEG-3 — heat-taper reversal on BGE-M3.</strong> <code>[refuted]</code> (pending confirm). An over-claimed
+taper reversal on a real embedding model, held pending the C2.1 confirmations. Carried even
+though not yet fully resolved, because a pending negative is still a negative.</p>
+<p><strong>NEG-4 — lightweight online (Lloyd) key calibration beats the default.</strong> <code>[refuted]</code>. It
+<em>improves reconstruction and is worse on the consumer metric</em> — reconstruction-is-not-the-
+target, in its purest, most anti-correlated form.</p>
+<p><strong>NEG-5 … NEG-9 — the KV-key ladder that found the right statistic.</strong> Five refuted proxies,
+and together the most instructive sequence in the ledger, because each refutation <em>located</em>
+the next hypothesis:</p>
+<ul>
+<li><strong>NEG-5</strong>: the originally-registered test missed (2/4 bars); the apparent reversal was a
+  matched-bits confound (an uncounted per-block codebook, ~+25% bits). Refutes the <em>test</em>,
+  not GO-2 — and forced a bit-matched redesign.</li>
+<li><strong>NEG-6</strong>: a demeaned-error-norm proxy fails to order the arms. The controlling quantity is
+  the across-token <em>variance</em> of the query-projected error, not an error-magnitude scalar.
+  <em>Magnitude ≠ downstream-relevant structure</em> (Chapter 6&rsquo;s lemma, learned here).</li>
+<li><strong>NEG-7</strong>: at <em>fixed reconstruction</em>, the downstream ranking <strong>flips</strong> with the consumer.
+  Invariant-preservation is a property of the (compressor, consumer) <em>pair</em>, not the
+  compressor — the sharpest form of GO-2&rsquo;s negative half.</li>
+<li><strong>NEG-8</strong>: the variance-ratio proxy reaches only Spearman 0.80; it is a noisy linear
+  estimator of $\operatorname{tr}(P_C\Sigma_\delta)$. Gate on the <em>direct</em> projection instead.</li>
+<li><strong>NEG-9</strong>: even the direct trace $\operatorname{tr}(P_C\Sigma_\delta)$, while nailing the
+  discriminating flip 12/12, is <em>not a complete rank statistic</em> — it misorders a middle pair
+  whose per-token error has structure the trace misses. The mechanism is real; the scalar is
+  not exhaustive.</li>
+</ul>
+<p>The ladder is a model of the discipline working: five sealed misses, each carried, each
+sharpening the claim, converging on a statistic that is <em>load-bearing but bounded</em>. This is
+what it looks like to find the truth by refuting its neighbors.</p>
+<p><strong>NEG-10 — the flip appears on any independent representation (prospective).</strong> <code>[refuted]</code>.
+On embedding retrieval, arm b reconstructed strictly better <em>and</em> Pareto-dominated
+downstream — no flip — so reconstruction was not falsified there. <strong>Precondition discovered:
+the flip is observable only for reconstruction-matched arms.</strong> The anti-probe half still
+transferred. This negative is why every later flip row is built on recon-matched arms; the
+miss defined the protocol.</p>
+<p><strong>NEG-11 — the $\alpha = 1$ density quotient restores fidelity outside diffusion
+(prospective ×4).</strong> <code>[refuted]</code>. Across four non-spectral domains: direct affinity and ADC/PQ
+— $\alpha$ <em>hurts</em> (density not in the retrieval base, entangled with the invariant);
+diffusion-distance — $\alpha = 1$ <em>is</em> the optimal exponent (direction correct) but the
+restoration is $<2\%$ and <em>not density-specific</em> (a uniform control gains as much). The
+density-nuisance-removal mechanism is <strong>absent</strong>; the Laplace–Beltrami effect is
+operator/spectral-confined. Retained positive: $\alpha = 1$ is the optimal diffusion
+exponent, non-spectrally. A clean example of keeping the narrow true thing and refuting the
+broad hoped-for one.</p>
+<p><strong>NEG-12 — the blind probe clears the bar on a real frontier model (prospective).</strong>
+<code>[refuted]</code>. On Llama-3.2-3B keys, recovery was <em>real but sub-bar</em> (median overlap 0.567 vs
+sealed 0.60, ≈4.5× chance), and the registered quantizer pair was not recon-matched, so
+<code>proj_beats_recon</code> could not fire. Two of three sealed triggers missed → the theory was
+bounded to synthetic consumers <em>on that evidence</em>. The corrected rematch (recon-matched arms)
+later passed 4/4 [GO-P-2026-021], but <strong>NEG-12 stands as its own negative</strong> — the first
+sealed real-model design was flawed, and clearing a later, better-designed bar does not erase
+the earlier miss.</p>
+<p><strong>NEG-13 → resolved — the omission floor as a finite-rate wall on a real model.</strong> A sealed
+finite-rate gate <strong>missed</strong> 0/16 (softmax-KL was still improving at the top swept rate). This
+was a <em>shallow-sweep artifact</em>, not a refutation — the criterion conflated <em>floor-reached</em>
+with <em>floor-exists</em>. The resolution is the model of the standing over-strict-gate rule
+(VI-2): the gate flaw was logged, and the claim was resolved <strong>not by relaxing the sealed
+bar</strong> but by a <em>fresh</em> R-IND-6 test — GO-P-2026-027, sealed before the run, on held-out layers
+{4,20}, a different corpus — which <strong>passed</strong> (read-metric floor 16/16, downstream floor 16/16,
+asymptotic ratio 800–5700×). The omission floor is thus [demonstrated] downstream on a trained
+model. The lesson: a sealed gate can fail for gate-design reasons while the claim is true, and
+the honest fix is a fresh sealed test, never a quiet relaxation.</p>
+<p><strong>NEG-14 — a single statistic predicts the flip regime (prospective).</strong> <code>[refuted]</code>. A sealed
+one-number shortcut (<code>median_unit_displacement</code>) broke on its <em>first</em> prospective test: a
+synthetic concentrated source with unit_disp 0.649 (rule ⇒ &ldquo;needs blind-probe&rdquo;) had generic
+polar win at 1 bit. The two-axis reconciliation <em>stands</em> (the regime needs concentration <em>and</em>
+correlation, Chapter 12); only the shortcut is refuted. The discipline caught an over-simple
+rule on its first domain — which is the point of prospective sealing.</p>
+<h2 id="the-four-kinds-of-boundary">The four kinds of boundary</h2>
+<p>The negatives are not a random pile; they sort into the four degeneracies of $P_C$ (Chapter
+12), and the sort is what makes them a <em>theory</em> of the boundary rather than a list of
+disappointments:</p>
+<ul>
+<li><strong>Identifiability</strong> (fixable): NEG-5, NEG-10, legal-035, NEG-12 — the read operator was
+  mis-estimated or the arms weren&rsquo;t recon-matched. Fixed by the blind probe and by protocol.</li>
+<li><strong>Coupling</strong> (a true boundary): D4 — read and signal energy intrinsically aligned; not
+  rehabilitatable by any read-operator recovery.</li>
+<li><strong>Precondition</strong> (needs a working consumer): moral-on-frozen-embeddings — no read direction
+  to protect until the consumer is competent.</li>
+<li><strong>Mechanism-absent</strong> (a genuine refutation): NEG-11 — the claimed effect does not exist.</li>
+</ul>
+<p>Three of four are diagnosable <em>before</em> the experiment; one is a hard wall. Knowing which kind
+a failure is tells you whether to fix the instrument, fix the consumer, or state a boundary
+and stop.</p>
+<h2 id="why-the-losses-are-the-credential">Why the losses are the credential</h2>
+<p>I want to end the chapter on the thing that is easy to miss. The negatives above are not the
+framework&rsquo;s weaknesses managed into the open; they are its <em>credential</em>. A theory that has
+placed a dozen sealed bets and reported the losses at full prominence has done the one thing a
+highlight reel cannot: it has shown you the shape of where it fails, which is the only way to
+trust where it succeeds. The stand-down clause (Chapter 15) says the program continues
+smaller when a bet is lost; this chapter is that clause, exercised, fourteen times. <em>The book
+may not assert what the ledger cannot show</em> — and the ledger shows the misses. Part VII looks
+forward from here, to the open problems and the single principle the whole framework reduces
+to.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch15_registration_first.html" class="nav-prev">&larr; Chapter 15 — Registration-First: How the Program Keeps Itsel…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch17_open_problems_and_the_keystone_theorem.html" class="nav-next">Chapter 17 — Open Problems and the Keystone Theorem &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

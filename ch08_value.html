@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8 — VALUE: What Preserving the Read Buys &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 8 — VALUE: What Preserving the Read Buys from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch08_value">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 8 — VALUE: What Preserving the Read Buys</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch07_cost.html" class="nav-prev">&larr; Chapter 7 — COST: What Observation Charges</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch09_legibility.html" class="nav-next">Chapter 9 — LEGIBILITY: What the Quotient Reveals (Keep the… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-8-value-what-preserving-the-read-buys">Chapter 8 — VALUE: What Preserving the Read Buys</h1>
+<p>The COST chapter priced the read. This one shows what you buy: at a matched bit
+budget, a code that preserves what the consumer reads beats a genuinely
+reconstruction-optimal code on the consumer&rsquo;s task — <em>while the reconstruction-optimal
+code reconstructs the signal better.</em> The two facts are simultaneous, and their
+simultaneity is the point. We call it the <strong>flip</strong>, and it is the empirical heart of
+the book.</p>
+<h2 id="the-claim-stated-to-be-falsifiable">The claim, stated to be falsifiable</h2>
+<p>Fix a budget. Build two codes for the same source: an <strong>O</strong>-arm that preserves the
+read metric (small $\operatorname{tr}(P_C\Sigma_\delta)$) and an <strong>R</strong>-arm that is
+reconstruction-optimal (small $\operatorname{tr}(\Sigma_\delta)$). The flip is the
+conjunction of two sealed inequalities:</p>
+<ol>
+<li><strong>Downstream (the flip proper):</strong> the O-arm beats the R-arm on the consumer&rsquo;s task.</li>
+<li><strong>Reconstruction (the trade):</strong> the R-arm reconstructs the source better than the
+   O-arm.</li>
+</ol>
+<p>Either alone is unremarkable. <em>Together</em> they are a dissociation: the code that is
+worse by the universal yardstick is better by the only one that ships. A third,
+control arm — the <strong>anti</strong>-arm, which deliberately destroys the read direction — must
+be worst downstream, or the read operator is not what governs the task. A row counts
+as a <strong>flip</strong> only when all of these hold on <em>held-out</em> data at <em>matched bits</em>; a
+one-metric family recommendation from the proxy probe is a weaker thing, an <em>(A2)
+verdict</em>, and the book keeps the two labels distinct (see Caveats, below).</p>
+<p>This is a strong claim and a fragile one — fragile by design, because a claim that
+cannot fail cannot inform. So the program did the one thing that makes such a claim
+worth anything: it sealed the prediction before each measurement, wrote the pass/fail
+bar in advance, and published the misses.</p>
+<h2 id="the-dissociation-cleanly-go-2">The dissociation, cleanly (GO-2)</h2>
+<p>The cleanest laboratory instance is on transformer KV-keys. At <em>audit-matched</em> bits, a
+reconstruction-<strong>identical</strong> pair of arms (recon 0.0934 vs 0.0938) differs
+<strong>2.53× downstream</strong> (12/12), with the anti-probe 21× worse [demonstrated —
+GO-P-2026-002]. Because the reconstruction is held essentially equal, the downstream
+difference cannot be a reconstruction effect; it is the read metric doing the work.
+The positive half — that the controlling quantity is $\operatorname{tr}(P_C\Sigma_\delta)$
+— then <strong>replicated</strong> on a second representation and consumer: softmax attention
+(GO-P-2026-006, symmetric flip, proj-var tracks 12/12, recon blind) and, prospectively,
+embedding retrieval at <em>identical</em> recon 0.0964 (GO-P-2026-009, read-A adv $-4.70$ /
+read-B $+4.65$, 12/12 both) [replicated]. Two representations, two consumers, one
+mechanism. The path to it ran through refuted proxies (NEG-5…10), which is the subject
+of Chapter 16; the point here is that the endpoint is a clean, twice-instantiated
+dissociation.</p>
+<h2 id="the-flip-is-a-property-of-observation-not-of-a-domain">The flip is a property of observation, not of a domain</h2>
+<p>If the flip were an artifact of the regimes it was first shown in, it would not travel.
+It travels. The domain-generality sweep (Chapter 13 gives the full table) put it at
+risk in twelve domains and three distinct branches of physics, each config-frozen on a
+calibration split and scored on held-out data, outcomes reported regardless of sign.
+The headline confirmations:</p>
+<ul>
+<li><strong>Acoustic (D2, AV16.3):</strong> a second, fully independent microphone corpus — different
+  array (8-mic circular), room, speakers, camera-tracked 3D-mouth ground truth. Clean
+  flip 148/201 (74%), recon-trade 201/201, anti 152/201, against <em>absolute</em> tracked GT
+  [demonstrated — GO-P-2026-034 D2].</li>
+<li><strong>Seismic (D3, PDAR):</strong> a <em>third distinct physics</em> — elastic waves from real M≥6.5
+  earthquakes, read by a 13-element IMS array, scored against the USGS catalogue
+  backazimuth. Flip 13/17 (76%), recon-trade 17/17, anti 13/17 [demonstrated —
+  GO-P-2026-034 D3]. A quantizer that reconstructs the seismogram better points at the
+  wrong epicenter.</li>
+<li><strong>Cetacean (whale, 038):</strong> sperm-whale coda dialect, a clan classifier consumer,
+  8718 codas of inter-click-interval rhythm. Held-out read-preserving AUROC 0.934 vs
+  reconstruction-optimal 0.883, recon-trade (O reconstructs 2× better yet downstream
+  worse), flip 300/300 [demonstrated — GO-P-2026-038, promoted from an earlier
+  (A2) verdict to a sealed flip].</li>
+<li><strong>Legal (036/039):</strong> citation-ranking on a real large corpus (CourtListener, LaBSE),
+  the read operator recovered <em>blind</em> from the consumer. On a fully virgin
+  opinion-disjoint split, R=0.796 &gt; O=0.780 downstream, recon O=0.223 ≤ R=0.561, flip
+  200/200 [demonstrated — GO-P-2026-039].</li>
+</ul>
+<p>Synthetic ULA (031), LLM attention rematch (021), and real acoustic LOCATA (033) are
+three further confirmed anchors. Across anchors and confirmations the flip spans
+<strong>≥5 independent domains and ≥3 distinct physics</strong> (electromagnetic, acoustic,
+elastic) plus non-physical consumers (attention, classifiers, retrieval). The
+battery&rsquo;s <em>own</em> sealed prediction — flip in ≥2 of the 3 core prospective domains — was
+met by D2 and D3 [predicted → met].</p>
+<h2 id="why-it-works-whitening-and-the-read-subspace">Why it works: whitening and the read subspace</h2>
+<p>Mechanistically, the O-arm wins because it spends its bits in the read subspace and
+the R-arm spreads them to be small on average, depositing error where the consumer
+looks. The best <em>single</em> code the program found is the ZCA-whitened code, which
+decorrelates the source before allocating bits and thereby aligns the code&rsquo;s error
+covariance with the read metric&rsquo;s geometry; on whale codas it wins at every bit level
+(0.83/0.85/0.97 vs per-channel 0.41/0.80/0.89) [demonstrated]. But no single code wins
+everywhere, and that is not a gap — it is the regime structure of Chapter 12. Whitening
+wins where the source is cross-channel <em>correlated</em>; generic polar wins where it is
+isotropic and <em>uncorrelated</em>; per-channel wins where the structure is
+channel-aligned. The flip&rsquo;s domain-dependence is exactly why an adaptive selector,
+not a universal code, is the right engineering answer.</p>
+<h2 id="caveats-kept-with-the-result">Caveats, kept with the result</h2>
+<p>Three, because the VALUE chapter is where over-claiming would be most tempting.</p>
+<p><strong>Flip versus verdict.</strong> A <em>flip</em> is the sealed two-metric dissociation on held-out
+data. An <em>(A2) verdict</em> is a one-metric family recommendation from the proxy probe —
+consistent with the flip, not a test of it. Whale is a sealed flip; <strong>music and
+KV-keys remain (A2) verdicts</strong> and are labeled so. The book does not launder a verdict
+into a flip.</p>
+<p><strong>The flip has boundaries, and one is a true null.</strong> The flip needs a read operator
+that is <em>misaligned with the signal&rsquo;s energy</em>. When they are intrinsically coupled it
+cannot appear — real-model gradient compression (D4) has anti-probe 300/300 (the read
+operator governs the task) but flip only 27%, because in a trained model
+high-curvature directions <em>are</em> the high-gradient-energy directions [refuted, as a
+flip; a genuine boundary, not a data gap]. Chapter 12 turns this boundary into the
+$\kappa$ dial.</p>
+<p><strong>Budget-relativity.</strong> Every verdict is budget-relative; the flip is stated at matched
+bits, and at a different budget the ranking can invert (GO-4, [replicated]). &ldquo;Better
+code&rdquo; without a named budget is unanswerable-as-posed, exactly as &ldquo;better code&rdquo;
+without a named consumer was in Chapter 2.</p>
+<p>The flip is what the read metric <em>buys</em>: the license to ship the worse-reconstructing
+code on purpose, because it is the better observation. What the read metric <em>reveals</em>
+— the third shadow — is next.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch07_cost.html" class="nav-prev">&larr; Chapter 7 — COST: What Observation Charges</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch09_legibility.html" class="nav-next">Chapter 9 — LEGIBILITY: What the Quotient Reveals (Keep the… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

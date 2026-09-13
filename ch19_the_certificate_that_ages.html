@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 19 — The Certificate That Ages &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 19 — The Certificate That Ages from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch19_the_certificate_that_ages">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 19 — The Certificate That Ages</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch18_the_principle.html" class="nav-prev">&larr; Chapter 18 — The Principle: Keep the Structure the Observer…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch20_the_false_clear_rate.html" class="nav-next">Chapter 20 — The False-Clear Rate &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-19-the-certificate-that-ages">Chapter 19 — The Certificate That Ages</h1>
+<p><em>Part [new] — RELIABILITY: The Witnessed Certificate.</em> This is the reading the
+title promised and the earlier chapters set aside. Parts III–IV asked what an
+observer reads and what it may discard. This Part asks a question that only appears
+once time is in the picture: is what the observer reads <em>still true</em>?</p>
+<p>Maya&rsquo;s cache returns in a second guise. In the Preface it discarded the structure
+its consumer needed — the allocation failure, $\operatorname{tr}(P_C\Sigma_\delta)$
+read as <em>distortion</em>. But a cache has a second, quieter way to be wrong: it can
+return an answer that <em>was</em> right and no longer is. The entry is well-chosen; it is
+simply <strong>stale</strong>. No amount of the earlier theory sees this failure, because the
+earlier theory has no clock.</p>
+<h2 id="the-certificate">The certificate</h2>
+<p>Almost every operational decision rests not on a measurement but on a <strong>certificate</strong>
+— a claim, issued at some time $t$, that a read is within tolerance:</p>
+<blockquote>
+<p>the medium is idle · the replica is fresh enough · this rate is supportable · the
+device is calibrated · the network has converged · the line is within its limit.</p>
+</blockquote>
+<p>Each licenses an action (transmit, serve the read, pick the modulation, dispatch)
+intended to satisfy a target. And each is a claim about the observer&rsquo;s read <em>at a
+time</em> — evaluated, like everything in this book, through the consumer&rsquo;s read operator
+$P_C$, not through an aggregate.</p>
+<p>A certificate ages. The state it certifies decorrelates over a characteristic
+<strong>coherence time</strong> $T_{\mathrm{coh}}$; a certificate issued at $t$ and acted on at
+$t+\Delta$ can be wrong for no reason other than $\Delta$. The static theory of
+Part II is the $\Delta = 0$ slice — and just as $P_C = I$ was reconstruction
+masquerading as a universal (Ch. 2), $\Delta = 0$ is <em>instantaneous certainty</em>
+masquerading as the normal case. It almost never is.</p>
+<h2 id="the-witnessed-triple">The witnessed triple</h2>
+<p>Freshness needs three objects, and the discipline — as always in this book — is in
+taking each literally.</p>
+<p><strong>The certificate</strong> $\mathcal{C}_t$: the asserted-safe read at time $t$, a claim of
+the form &ldquo;$P_C$-read is within tolerance.&rdquo;</p>
+<p><strong>The witness</strong> $W$: an <em>independent</em> measurement of the true outcome, native to the
+substrate. The book&rsquo;s insistence on a witness is the freshness form of its insistence
+on a consumer — a claim you cannot grade is not a claim. The witnesses are already
+deployed, and that is the point:</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Certificate</th>
+<th>Witness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>routing</td>
+<td>quiescence (silence)</td>
+<td>a dataplane probe / monitor feed</td>
+</tr>
+<tr>
+<td>replication</td>
+<td>replica-lag bound</td>
+<td>the WAL LSN / oplog ts / zxid</td>
+</tr>
+<tr>
+<td>cellular</td>
+<td>CQI / CSI report</td>
+<td>the HARQ ACK-NACK</td>
+</tr>
+<tr>
+<td>optical</td>
+<td>QoT (GSNR) estimate</td>
+<td>the pre-FEC BER</td>
+</tr>
+<tr>
+<td>power grid</td>
+<td>&ldquo;within limits&rdquo; state estimate</td>
+<td>the true AC power flow</td>
+</tr>
+<tr>
+<td>quantum</td>
+<td>device calibration</td>
+<td>randomized / mirror benchmarking</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The refresh floor</strong> $\phi$: the maximum renewal interval that keeps the certificate
+honest. It is not a convention; it is set by the coherence time, and Chapter 21
+measures the constant.</p>
+<h2 id="the-false-clear-rate">The false-clear rate</h2>
+<p>The one number this Part is built on:</p>
+<p>$$ \boxed{\,\mathrm{FC} \;=\; \Pr\big[\,W \text{ refutes it} \;\big|\;
+   \mathcal{C}_t \text{ clears}\,\big]\,}, \qquad
+   \text{coverage} \;=\; \Pr\big[\,\mathcal{C}_t \text{ clears}\,\big] $$</p>
+<p>— the rate at which a clearance is wrong, conditional on the certificate having
+cleared, reported beside the certificate&rsquo;s coverage. (An earlier draft wrote the joint
+probability $\Pr[\text{clears} \wedge \text{refutes}]$; the joint rate is the product of
+the two and is what a naive certificate that clears everything reports, since its
+coverage is one. Corrected 2026-09-03.) A
+certificate whose false-clear rate exceeds the target it purports to guarantee is
+<strong>vacuous</strong> for that consumer, however confident it looks. FC is measurable wherever
+a witness exists, which — per the table — is nearly everywhere it matters.</p>
+<p>Two properties make FC the right object, and both are inherited directly from the
+allocation theory.</p>
+<p><strong>It is consumer-relative.</strong> FC is a property of $P_C$, not of the certificate in the
+abstract. On a <em>single</em> ZooKeeper follower at a <em>single</em> instant, a client reading a
+hot footprint is 99% stale while a client reading a cold footprint on the same
+replica is 1% stale — a $99\times$ difference produced entirely by <em>what the consumer
+reads</em> [replicated]. There is no single &ldquo;the replica is fresh enough&rdquo; that serves
+both; the aggregate lag bound is the $P_C = I$ error again, wearing a clock.</p>
+<p><strong>It answers a $\operatorname{tr}(P_C\Sigma)$ question.</strong> Where allocation reads
+$\operatorname{tr}(P_C\Sigma_\delta)$ as the distortion a code inflicts, freshness
+reads it as the distortion <em>time</em> inflicts: $\Sigma_\delta$ is now the second moment
+of the drift between issue and use, and $\operatorname{tr}(P_C\Sigma_\delta)$ is the
+consumer-felt error of acting on a stale read. Same operator; the clock supplies
+$\Sigma$. This is why freshness is a <em>face</em> of the theory and not an appendix to it.</p>
+<h2 id="what-this-part-shows">What this Part shows</h2>
+<p>The remaining chapters make the triple operational and then earn it across domains.</p>
+<ul>
+<li><strong>Ch. 20</strong> develops FC as a first-class KPI and the stark consumer-relativity of
+  staleness — the vacuity of the aggregate certificate.</li>
+<li><strong>Ch. 21</strong> measures the refresh floor: on a real 5G physical layer the usable
+  report period scales linearly with coherence time (slope $\approx 0.177$, $R^2
+  \approx 0.92$) [demonstrated], and the optimal linear predictor cannot extend the
+  horizon past one coherence time — a wall, not a knob.</li>
+<li><strong>Ch. 22</strong> runs the freshness sweep: the same witnessed-certificate grammar,
+  measured across routing, replication and coordination, cellular PHY/RAN, and —
+  as breadth — optical, power-grid, market, quantum, and AI-evaluation substrates.
+  The umbrella rests on the sealed rows; the rest are carried at their honest class,
+  and the one clean negative (sensor calibration) is kept at full prominence in the
+  Ch. 16 tradition.</li>
+<li><strong>Ch. 23</strong> gives the instrument: the <strong>governor</strong>, which observes certificate and
+  witness streams, measures FC per consumer, refreshes at the floor, and escalates to
+  a mechanism change when refreshing cannot close the loop.</li>
+</ul>
+<p>The principle the Part converges on is the temporal completion of the book&rsquo;s
+sentence. <em>Keep the structure the observer can use</em> — and, because use happens in
+time, <strong>keep it current, and grade the claim that it is.</strong></p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch18_the_principle.html" class="nav-prev">&larr; Chapter 18 — The Principle: Keep the Structure the Observer…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch20_the_false_clear_rate.html" class="nav-next">Chapter 20 — The False-Clear Rate &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

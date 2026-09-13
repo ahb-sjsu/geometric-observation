@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix E — Skeptic's Appendix: Objections, Alternatives, and FAQ &mdash; Geometric Observation</title>
+  <meta name="description" content="Appendix E — Skeptic's Appendix: Objections, Alternatives, and FAQ from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="appendix_e_skeptics_appendix">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix E — Skeptic's Appendix: Objections, Alternatives, and FAQ</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="appendix_d_the_registry.html" class="nav-prev">&larr; Appendix D — The Registry: Every GO-P-2026 ID and Its Dispos…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_f_mathematical_ledger.html" class="nav-next">Appendix F — Mathematical Ledger: Status of Formal Claims &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="appendix-e-skeptics-appendix-objections-alternatives-and-faq">Appendix E — Skeptic&rsquo;s Appendix: Objections, Alternatives, and FAQ</h1>
+<p>The best test of a framework is the strongest objection it can survive. This appendix
+states the objections a hostile expert reader raises, in their sharpest form, and answers
+each — conceding where the concession is real. An objection with no concession is usually
+answered dishonestly; several below end in a &ldquo;yes, and.&rdquo;</p>
+<hr />
+<p><strong>&ldquo;Isn&rsquo;t $P_C$ just the Fisher information metric? You&rsquo;ve renamed a classical object.&rdquo;</strong></p>
+<p>Yes, when the consumer is a likelihood: for a probability-model consumer with the Fisher
+output metric, $P_C = J^\top G J$ <em>is</em> a Fisher-information pullback, and the algebra is
+Amari&rsquo;s and Čencov&rsquo;s (Chapter 3, Appendix A). The concession is total at the level of the
+operator. The claim is not the operator; it is the <em>load</em>: that this pullback is the
+operative object for <strong>lossy representation across domains</strong> — the thing that decides
+whether a quantizer, embedding, or array codec is good — and that it is recoverable
+<em>blind</em>. Information geometry studies the pullback for inference <em>on</em> a manifold; this
+program uses it to decide how to <em>compress inputs to</em> a consumer, proves a falsifiable
+consequence (the flip), and seals it across twelve domains. The contribution is the
+sentence and its ledger, not the symbol.</p>
+<hr />
+<p><strong>&ldquo;Isn&rsquo;t this just task-aware / downstream-aware compression, which people already do?&rdquo;</strong></p>
+<p>The intuition is shared; the method is not. Task-aware compression typically <em>trains</em> a
+code end-to-end against a task, yielding an opaque code with no stated boundary. This
+program <em>identifies the read operator</em> $P_C$ — blind, no labels, no oracle — and <em>derives</em>
+what to keep, giving a transparent recipe plus a theory of <em>when task-awareness matters</em>
+(the $\kappa$ law and the four degeneracies, Chapter 12) and <em>when it does not</em> (the D4
+coupling boundary, the moral precondition). And it makes a sealed <em>prediction</em> — the flip
+— rather than assuming the benefit. &ldquo;Yes, and&rdquo;: where an end-to-end trained code already
+protects the read subspace, it is implicitly doing what the framework prescribes; the
+framework explains <em>why it works and when it will not.</em></p>
+<hr />
+<p><strong>&ldquo;You fit the read operator on the data, then tested on the same data. This is circular.&rdquo;</strong></p>
+<p>This is the objection the program takes most seriously, because it is exactly the failure
+it <em>caught in itself</em> — twice. Legal-035 estimated the read operator from a document
+covariance, and it <strong>overfit</strong>: reconstruction-optimal won on held-out (NEG, Chapter 10).
+The fix was not to fit harder but to recover the operator <em>blind</em> from the consumer
+(GO-1 probe) and to <strong>seal the config before touching held-out data</strong>, then confirm on a
+<strong>fully virgin</strong> split (039, margin double). The commit-ordering audit (Appendix D) proves
+every seal is a git <em>ancestor</em> of its run. The circularity objection is correct as a
+danger and is answered by protocol, not by assertion: blind recovery, seal-before-measure,
+and out-of-sample promotion (R-IND-6). Where the program could not meet this bar — the
+20-Newsgroups magnitude (041) — it reports <strong>partial</strong>.</p>
+<hr />
+<p><strong>&ldquo;The AI assistant that built this also graded it. Why should I trust any of it?&rdquo;</strong></p>
+<p>You should not trust the assistant&rsquo;s self-grade, and the program does not ask you to. The
+charter&rsquo;s first rule is that the assistant <strong>may not be the sole grader of its own work</strong>
+(Chapter 15). Independence is supplied by fresh-context adversarial verification (R-IND-5),
+differential testing against a second implementation (R-IND-3), and, for the flagship
+theorem, a proof assistant. The standing evidence that this is necessary <em>and</em> works is
+VI-4: an in-context self-check passed a <strong>wrong</strong> <code>sigma_star</code> formula; the fresh-context
+pass caught it. &ldquo;Yes, and&rdquo;: there is no <em>mature</em> standard for verifying AI-assisted work
+independently of the assistant, and the program says so plainly (Chapter 15&rsquo;s frontier
+gap). Its composition is a reasonable approximation, disclosed, not a solved problem.</p>
+<hr />
+<p><strong>&ldquo;The flip only appears where you say it does. A theory that predicts its own exceptions
+is unfalsifiable.&rdquo;</strong></p>
+<p>The opposite: the theory predicts its exceptions <em>in advance and mechanistically</em>, which
+is what makes it falsifiable rather than elastic. The four degeneracies of $P_C$ (Chapter
+12) are a closed list, three of them diagnosable <em>before</em> the experiment via the $\kappa$
+dial and the two-axis regime map. D4 was predicted to be a coupling null <em>and was</em> (flip
+27%, anti 300/300). The one-number regime shortcut (NEG-14) was <strong>refuted on its first
+prospective test</strong> — a genuinely unfalsifiable theory cannot log a refutation of its own
+diagnostic. The exceptions are sealed predictions, not retrofitted excuses.</p>
+<hr />
+<p><strong>&ldquo;Twelve domains, but several are (A2) verdicts, one is data-limited, one is a null. Isn&rsquo;t
+the real count much smaller?&rdquo;</strong></p>
+<p>Read the labels — they are the point. A <strong>flip</strong> (sealed two-metric dissociation on
+held-out data) is distinguished throughout from an <strong>(A2) verdict</strong> (one-metric proxy
+recommendation); moral, music, and KV-keys are labeled <em>verdicts</em>, not flips, and are not
+counted as flips. D1 is labeled <strong>partial</strong> (data-limited, anti below bar); D4 is labeled
+an <strong>honest null</strong> (a true boundary). The sealed flips that clear their bars span
+<strong>≥5 independent domains and ≥3 distinct physics</strong> (synthetic, acoustic, seismic) plus
+non-physical consumers (attention, classifiers, retrieval) — that is the real count, and
+it is stated without the verdicts or the null padding it.</p>
+<hr />
+<p><strong>&ldquo;Reconstruction error works fine in practice. You&rsquo;re overturning something that isn&rsquo;t
+broken.&rdquo;</strong></p>
+<p>It works fine <em>for isotropic consumers</em> — the $P_C = I$ slice — which is common and
+important, and the framework agrees (Chapter 2, Chapter 18). It stops working the moment
+the consumer reads some directions more than others, which on modern learned
+representations is essentially always, and the program has the receipts: cosine 0.995 with
+perplexity $10^4$ (NEG-2), a recalibration that improves reconstruction and <em>worsens</em> the
+consumer metric (NEG-4). The claim is not that reconstruction is always wrong; it is that
+it is the <em>slice</em>, and using it off-slice is a category error with measurable cost.</p>
+<hr />
+<p><strong>&ldquo;The magnitude of the flip doesn&rsquo;t transfer across domains. So you can&rsquo;t actually predict
+anything quantitative.&rdquo;</strong></p>
+<p>Conceded, and flagged as the sharpest open problem (Chapter 17). The framework predicts the
+<em>direction</em> (which code wins) blind and prospectively (041: R 0.975 &gt; O 0.910 before any
+label), and <em>within a domain across rates</em> the magnitude tracks (Pearson 0.995). The
+<em>cross-domain scale constant</em> does not yet transfer, and the book says so rather than
+hiding it. A theory that predicts the winner everywhere and the margin within-domain, while
+naming the portable-magnitude constant as open, is more useful than one that claims the
+constant and cannot show it.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="appendix_d_the_registry.html" class="nav-prev">&larr; Appendix D — The Registry: Every GO-P-2026 ID and Its Dispos…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="appendix_f_mathematical_ledger.html" class="nav-next">Appendix F — Mathematical Ledger: Status of Formal Claims &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

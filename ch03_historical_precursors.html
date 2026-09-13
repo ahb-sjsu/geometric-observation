@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3 — Historical Precursors: Shannon, Rate–Distortion, and Information Geometry &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 3 — Historical Precursors: Shannon, Rate–Distortion, and Information Geometry from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch03_historical_precursors">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 3 — Historical Precursors: Shannon, Rate–Distortion, and Information Geometry</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch02_failure_of_observer_free_measurement.html" class="nav-prev">&larr; Chapter 2 — The Failure of Observer-Free Measurement</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch04_the_observer_triple.html" class="nav-next">Chapter 4 — The Observer Triple $O = (C, G, B)$ &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-3-historical-precursors-shannon-ratedistortion-and-information-geometry">Chapter 3 — Historical Precursors: Shannon, Rate–Distortion, and Information Geometry</h1>
+<p>I want to be scrupulous about what is new here and what is not, because the honest
+answer is that almost none of the <em>components</em> are new, and the claim of the book is
+entirely about the <em>composition</em>. This chapter is the positioning paragraph, written
+once, at length, so that later chapters can point back and no reader is left thinking
+the read metric was pulled from nowhere. It was pulled from four places, each of
+which owns part of it.</p>
+<h2 id="shannon-and-the-birth-of-the-slice">Shannon, and the birth of the slice</h2>
+<p>Rate–distortion theory begins with Shannon: to reproduce a source $x$ to within an
+average distortion $D$ under a fidelity measure $d(x,\hat x)$, you need at least
+$R(D)$ bits, and $R(D)$ is achievable. For a Gaussian source under squared-error
+distortion the theory is at its most beautiful — the optimal bit-allocation across
+the source&rsquo;s eigen-directions is <em>reverse water-filling</em>, pouring bits into the
+high-variance directions and abandoning the ones below a threshold. This is the
+mathematics behind transform coding, behind JPEG, behind essentially every codec of
+the twentieth century.</p>
+<p>Notice what fixed the fidelity measure. Squared error weights every coordinate of
+$x$ equally; it is the distortion of an observer that reads all directions the same.
+Shannon&rsquo;s theory is not wrong to make this choice — it is a theory <em>given</em> a fidelity
+measure, and squared error is a fine one to develop first. But the choice quietly
+installed the slice as the default. Everything downstream inherited it: reverse
+water-filling allocates bits by <em>source</em> variance, because under squared error the
+directions that matter are the directions where the source varies. The moment the
+distortion measure is not isotropic — the moment it is $\operatorname{tr}(P_C
+\Sigma_\delta)$ for some non-identity $P_C$ — the water-filling must be done in a
+<em>different</em> basis, the one that diagonalizes $P_C$ against the source, and the bits
+flow toward what the <em>observer</em> reads rather than what the <em>source</em> varies. That
+retilting is the whole content of the COST shadow (Chapter 7). It is Shannon&rsquo;s
+theory with the fidelity measure taken seriously as a variable, not a constant.</p>
+<h2 id="weighted-and-perceptual-distortion-the-slice-tilted-but-ad-hoc">Weighted and perceptual distortion: the slice, tilted, but ad hoc</h2>
+<p>Engineers did not wait for a theory to notice that squared error was the wrong
+yardstick. Perceptual coding — weighting quantization error by a model of human
+vision or hearing — is exactly the practice of replacing $I$ with a non-identity
+weighting because the <em>consumer</em> (an eye, an ear) does not read uniformly. So is
+weighted MSE in a hundred application papers. The read metric is not a stranger to
+this tradition; it is its formalization and its generalization. What those literatures
+lacked was (i) a principled account of <em>where the weighting comes from</em> — it was
+hand-tuned per application — and (ii) the recognition that the weighting is the
+pullback of the consumer&rsquo;s own output metric, computable from the consumer, and often
+recoverable <em>blind</em> (Chapter 10). Perceptual coding tilted the slice by hand for one
+consumer, the human sensory system. The read metric says: every consumer has such a
+tilt, it is $P_C = J^\top G J$, and you can get it from the consumer instead of
+guessing it.</p>
+<h2 id="amari-and-cencov-the-pullback-metric-already-exists">Amari and Čencov: the pullback metric already exists</h2>
+<p>Here is the component I least want to over-claim. The object $P_C = J^\top G J$ — a
+metric on an input space obtained by pulling a metric on an output space back through
+a map — is the <strong>pullback metric</strong>, and it is old. In information geometry, Čencov&rsquo;s
+theorem singles out the Fisher information metric as the unique (up to scale) metric
+invariant under sufficient statistics, and Amari&rsquo;s program develops the differential
+geometry of statistical manifolds on exactly this foundation: a model is a manifold,
+the Fisher information is its metric, and pulling it back through reparametrizations
+is the daily bread of the subject. When the consumer $C$ is a probability model and
+$G$ is the Fisher metric on its outputs, $P_C$ <em>is</em> a Fisher-information pullback.
+The machinery is Amari&rsquo;s and Čencov&rsquo;s, and I claim none of it.</p>
+<p>What I claim is the job. The information-geometry tradition studies the pullback
+metric to understand <em>estimation and inference</em> on statistical manifolds — natural
+gradient, the geometry of the EM algorithm, the second-order structure of learning.
+It does not, as far as this program found, treat the pullback as the governing object
+for <em>lossy representation across domains</em> — as the thing that decides whether your
+quantizer, your embedding, your array codec is good, and that unifies compression,
+spectral embedding, and physical estimation under one operator. The synthesis is the
+claim: this classical pullback is the operative object for serving representations to
+consumers, and naming it as such dissolves a family of unrelated engineering
+surprises into one mechanism with one dial. The components are Čencov&rsquo;s and Amari&rsquo;s;
+the <em>sentence</em> is the contribution. I state this here so that when the Skeptic&rsquo;s
+Appendix meets the objection &ldquo;isn&rsquo;t $P_C$ just Fisher information?&rdquo;, the answer is
+already on the table: yes, in the case where the consumer is a likelihood — and the
+point is not the operator but the load it is asked to bear.</p>
+<h2 id="von-luxburgradlhein-and-the-collapse-that-started-it">von Luxburg–Radl–Hein, and the collapse that started it</h2>
+<p>The empirical seed of the book is a discouraging theorem. Von Luxburg, Radl, and
+Hein showed that the commute-time (resistance) distance derived from a graph
+Laplacian <em>degenerates</em> as the graph grows: pairwise commute distances converge to a
+function of the two nodes&rsquo; local degrees, losing the global geometry the embedding
+was supposed to reveal. Read as a verdict on the tool, it says spectral embedding
+dies at scale.</p>
+<p>Read through the observer, it says something narrower and recoverable. The commute
+distance is the reading of the embedding by <em>one</em> consumer — the one that ranks by
+that distance — and the theorem is a statement about that consumer&rsquo;s read metric. Put
+the embedding in polar form and the collapse is confined to the <em>radial</em> coordinate;
+the <em>angular</em> coordinate keeps the geodesics [proved]. The geometry did not vanish;
+it moved into the coordinate the distance-reading discards. This is the LEGIBILITY
+shadow (Chapter 9), and it is the concrete case that taught the program the general
+lesson: a degeneracy theorem for a representation is often a theorem about <em>one
+observer&rsquo;s</em> read metric, and a different observer reads the surviving structure fine.</p>
+<h2 id="ngjordanweiss-the-folk-practice-awaiting-a-reason">Ng–Jordan–Weiss: the folk practice awaiting a reason</h2>
+<p>There is one more precursor, and it is a piece of folklore that turned out to be a
+theorem. In spectral clustering, the Ng–Jordan–Weiss algorithm <em>row-normalizes</em> the
+embedding — projects every node onto the unit sphere, keeping direction and throwing
+away magnitude — before clustering. Practitioners did this because it worked; the
+justifications were heuristic. The polar decomposition of the collapse theorem
+supplies the missing reason: row-normalization is <em>exactly</em> the projection onto the
+angular coordinate, which is exactly the read subspace of the geodesic-ranking
+consumer, which is exactly the coordinate the collapse spares. A move made for a
+decade on the grounds that it improved results turns out to be the optimal thing to
+do for a specific, identifiable observer. Folk practice is often a theory that has
+not been written down; here the read metric writes it down.</p>
+<h2 id="the-lineage-in-one-sentence">The lineage, in one sentence</h2>
+<p>The read metric inherits its algebra from the pullback metric of Čencov and Amari,
+its purpose-of-compression from Shannon and rate–distortion, its acknowledgment that
+the fidelity measure is a free variable from perceptual coding, and its founding
+empirical puzzle from von Luxburg&rsquo;s collapse and its NJW resolution. What it adds is
+the load: the claim that this one operator is the right object for lossy
+representation <em>in general</em>, across compression, embedding, and physical estimation,
+and that the claim is falsifiable, has been put at risk, and — where it survived and
+where it did not — is written in a ledger. With the lineage on the table, Part II can
+build the framework without owing anyone an unpaid debt.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch02_failure_of_observer_free_measurement.html" class="nav-prev">&larr; Chapter 2 — The Failure of Observer-Free Measurement</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch04_the_observer_triple.html" class="nav-next">Chapter 4 — The Observer Triple $O = (C, G, B)$ &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

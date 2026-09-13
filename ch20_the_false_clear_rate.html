@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 20 — The False-Clear Rate &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 20 — The False-Clear Rate from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch20_the_false_clear_rate">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 20 — The False-Clear Rate</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch19_the_certificate_that_ages.html" class="nav-prev">&larr; Chapter 19 — The Certificate That Ages</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch21_the_refresh_floor.html" class="nav-next">Chapter 21 — The Refresh Floor &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-20-the-false-clear-rate">Chapter 20 — The False-Clear Rate</h1>
+<blockquote>
+<p><strong>STUB [A] — draftable now.</strong> Source: <code>observation-theory-campaigns</code> freshness
+cells + <code>FRESHNESS-PROGRAM.md</code>; ZK cell (<code>analysis/zk</code>, <code>ZK-USE-CASES.ipynb</code>);
+routing D8 (<code>analysis/xproto</code>, <code>analysis/d8</code>). House voice per Ch. 19. Every
+number resolves to a <code>SEALS.md</code> row (Appendix D/F).</p>
+</blockquote>
+<h2 id="what-this-chapter-must-establish">What this chapter must establish</h2>
+<ul>
+<li><strong>FC as a first-class KPI</strong>, not a derived afterthought: define, measure, report
+  per <code>(certificate, consumer)</code>. Contrast with the conventions it replaces (a lag
+  bound, a convergence timer, a confidence interval) whose <em>error rate</em> is never
+  itself reported.</li>
+<li><strong>Vacuity</strong>: a certificate whose FC exceeds its own target is vacuous for that
+  consumer. The routing anchor — 60 s quiescence false at <strong>0.351</strong> (BGP) /
+  <strong>0.184</strong> (IS-IS) / <strong>0.083</strong> (OSPF) [replicated] — opacity orders the bands,
+  implementation places within band.</li>
+<li><strong>Consumer-relativity, made unavoidable</strong>: the ZK hot/cold <strong>99×</strong> on one replica
+  at one instant [replicated]; the database footprint certificate (~0.5 aggregate →
+  ~0.02–0.06 per footprint) [replicated]. The aggregate certificate <em>is</em> the
+  $P_C=I$ error with a clock (tie back to Ch. 2).</li>
+<li><strong>The two-sided cost</strong>: false-clear (danger) vs false-refresh (waste); the
+  certificate interpolates between free-and-wrong and correct-but-costly (the ZK
+  <code>read_fresh</code> curve).</li>
+</ul>
+<h2 id="key-figures-claims-ledger">Key figures / claims (→ ledger)</h2>
+<ul>
+<li>FC definition box (from Ch. 19). </li>
+<li>Routing vacuity bar (three protocols) [replicated].</li>
+<li>ZK hot-vs-cold same-replica plot [replicated].</li>
+<li>DB aggregate-vs-footprint table [replicated].</li>
+</ul>
+<h2 id="boundary">Boundary</h2>
+<p>FC needs a sound witness; where none exists the claim is inference, not
+certification (forward-ref Ch. 23 + the skeptic&rsquo;s appendix).</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch19_the_certificate_that_ages.html" class="nav-prev">&larr; Chapter 19 — The Certificate That Ages</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch21_the_refresh_floor.html" class="nav-next">Chapter 21 — The Refresh Floor &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

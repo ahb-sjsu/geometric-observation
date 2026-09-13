@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment Law &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment Law from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch12_failure_taxonomy_and_kappa">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment Law</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch11_the_recognizer.html" class="nav-prev">&larr; Chapter 11 — The Recognizer: Naming a Manifold, or Certifyin…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch13_the_domain_generality_sweep.html" class="nav-next">Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Th… &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-12-the-failure-taxonomy-and-the-math1-alignment-law">Chapter 12 — The Failure Taxonomy and the $\kappa$ Alignment Law</h1>
+<p>The flip is a property of observation — <em>wherever the read operator can be identified,
+is misaligned with the signal energy, and (on learned representations) generalizes.</em>
+That sentence has three conditions, and each names a way the flip can be absent. This
+chapter makes the list complete and then makes it quantitative: the four degeneracies
+of $P_C$ are the exhaustive taxonomy of failure, and the alignment law $\kappa$ turns
+the decisive condition from a bucket into a dial you can read before you compress. This
+is where &ldquo;know your consumer&rdquo; stops being folklore.</p>
+<h2 id="the-four-degeneracies-of-math4">The four degeneracies of $P_C$</h2>
+<p>Every honest negative in the program&rsquo;s flip experiments sorts into exactly one of four
+kinds, and the four are the four ways the read metric can fail to do its job. They are
+derived, not catalogued: they are the degeneracies of the object $P_C$ itself.</p>
+<p><strong>1. Identifiability — the read operator is mis-<em>estimated</em>.</strong> $P_C$ exists and is
+misaligned with the signal, but your <em>estimate</em> $\hat P_C$ is wrong, typically because
+you used what the <em>signal</em> varies in (a covariance) as a stand-in for what the
+<em>consumer</em> reads. This is the <strong>fixable</strong> failure. Legal-035 is the reference instance:
+a document-covariance read operator overfit and reconstruction-optimal won on held-out;
+replacing it with the GO-1 blind probe (036/039) flipped the verdict on the identical
+data [refuted → demonstrated]. <em>The 035 miss was an identifiability failure, not a
+failure of the flip</em> — and the blind probe is its fix.</p>
+<p><strong>2. Coupling — the read operator is <em>intrinsically</em> aligned with the signal energy.</strong>
+$P_C$ is estimated correctly and is <em>still</em> aligned with the source, because in this
+domain the directions the consumer reads <em>are</em> the directions the signal has energy in.
+Then reconstruction-optimal coding already protects the read directions, and the flip
+cannot appear no matter how well you recover $P_C$. This is a <strong>true boundary</strong>, not a
+bug. D4 (real-model gradient compression) is the reference: the Hessian&rsquo;s high-curvature
+directions and the high-gradient-energy directions both come from $X^\top X$, so they
+coincide; the anti-probe stays robust (300/300 — the read operator <em>does</em> govern the
+task) but the subtle flip is 27% [refuted, as a flip; not rehabilitatable by any
+read-operator recovery].</p>
+<p><strong>3. Precondition — there is no working consumer.</strong> $P_C \approx 0$ on the relevant
+directions because the consumer does not actually read the task. Moral judgment on
+<em>frozen</em> embeddings sits at chance (LaBSE 0.60 vs 0.63 majority): there is no moral read
+direction to protect until the consumer is fine-tuned, at which point (bert-base → 0.74)
+the flip appears [refuted-as-stated; needs a competent consumer, not a read-operator
+fix].</p>
+<p><strong>4. Mechanism-absent — the claimed effect does not exist.</strong> The direction you hoped to
+exploit is not in $\ker P_C$ at all. GO-5/NEG-11 is the reference: the $\alpha = 1$
+density restoration is $<2\%$ and not density-specific, so the density-nuisance-removal
+mechanism is simply absent outside diffusion [refuted]. This is a genuine refutation, not
+a rehabilitatable miss.</p>
+<p>The taxonomy is useful because it is <em>actionable</em>: identifiability failures are fixed by
+a better probe, precondition failures by a better consumer, and coupling and
+mechanism-absent failures are <em>stated as boundaries</em> — the flip does not apply there, and
+the honest thing is to say so. Three of the four are diagnosable <em>before</em> you run the
+flip experiment, which is the subject of the rest of the chapter.</p>
+<h2 id="from-bucket-to-dial-the-math15-alignment-law">From bucket to dial: the $\kappa$ alignment law</h2>
+<p>The decisive condition — misalignment between what the consumer reads and where the
+signal has energy — is naturally continuous, and the program made it so. Define the
+normalized read–energy alignment</p>
+<p>$$ \kappa = \operatorname{tr}\!\big(\bar P_C\, \bar\Sigma_x\big), $$</p>
+<p>the (normalized) overlap of the average read metric with the source covariance on the
+read subspace. $\kappa$ is small when the consumer reads directions the signal is quiet
+in (strong misalignment — the flip regime) and approaches 1 when the read subspace <em>is</em>
+the high-energy subspace (the coupling regime — no flip). The <strong>alignment law</strong> is the
+claim that <strong>flip magnitude decreases in $\kappa$</strong>, with $\kappa \to 1$ the coupling
+null.</p>
+<p>This converts boundary condition #2 from a discrete bucket (&ldquo;coupled or not&rdquo;) into a
+continuous, <em>ex-ante</em> dial: measure $\kappa$ before compressing and you have a
+prediction of whether — and how strongly — the flip will appear, without running the
+downstream task. The law is tested two ways. <strong>Retrospectively</strong>, across the twelve
+measured domains, flip magnitude is decreasing in $\kappa$, with D4 sitting at the
+$\kappa \to 1$ null exactly as predicted [exploratory → the retrospective fit is labeled
+retrospective and does not license the umbrella claim]. <strong>Prospectively</strong>, one sealed
+prediction at an intermediate $\kappa$ is the confirmatory test [predicted]. The
+retrospective/prospective distinction is enforced, not cosmetic: the retrospective fit is
+an [exploratory] row and PROTOCOL Rule 1.1 forbids the umbrella text from leaning on it;
+only the sealed prospective point can promote the law.</p>
+<h2 id="two-axes-not-one">Two axes, not one</h2>
+<p>The alignment law is necessary but not sufficient to pick the <em>code</em>, because the flip&rsquo;s
+regime is governed by <strong>two</strong> independent axes, not one — and this is why no single
+statistic and no single encoder suffices. The axes are <strong>concentration</strong> (how
+anisotropic the source is, roughly $\operatorname{unit\_disp}$) and <strong>correlation</strong> (how
+cross-channel-correlated it is). The regime map:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>isotropic (unit_disp ≈ √2)</th>
+<th>concentrated (unit_disp small)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>low correlation</strong></td>
+<td>moral, music → generic <strong>polar</strong></td>
+<td><em>(rare)</em></td>
+</tr>
+<tr>
+<td><strong>cross-channel correlated</strong></td>
+<td>whale → <strong>whitened</strong></td>
+<td>KV-keys → <strong>whitened</strong></td>
+</tr>
+<tr>
+<td><strong>channel-structured</strong></td>
+<td>—</td>
+<td>legal → <strong>per-channel / blind-probe</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Whale codas are the clean proof the map needs two axes: they are isotropic like moral,
+yet require whitening like KV-keys, <em>because their inter-click intervals are correlated.</em>
+Concentration alone cannot tell moral from whale; the correlation axis — which the
+probe&rsquo;s <code>probe_quotient</code> measures directly — is decisive. A tempting one-number shortcut
+(<code>median_unit_displacement</code> as a regime predictor) was sealed and <strong>refuted on its first
+prospective test</strong> (NEG-14): a synthetic per-dimension-offset source had unit_disp 0.649
+(rule says &ldquo;needs blind-probe&rdquo;) yet generic polar won at 1 bit. The reconciliation to the
+two-axis probe <em>stands</em>; only the single-number shortcut is refuted. The reliable
+diagnostic is <code>probe_quotient</code>, per domain, at low bits [refuted, for the shortcut;
+demonstrated, for the two-axis diagnostic].</p>
+<h2 id="why-this-is-the-last-instrument">Why this is the last instrument</h2>
+<p>The three instruments of Part IV compose into a workflow. The blind probe (Chapter 10)
+recovers $P_C$; the recognizer (Chapter 11) recovers the manifold the representation
+lives on; and the taxonomy-plus-$\kappa$ of this chapter says <em>whether the flip applies</em>
+and <em>which code to use</em> — all before a single downstream evaluation. This is what turns
+Observation Theory from a diagnosis into a procedure: measure $\kappa$ and the two axes,
+place the domain on the map, read off the code family, and — if $\kappa$ is near 1 or the
+consumer is at chance — know in advance that the flip will not save you and reconstruction
+is (locally) fine. The failure taxonomy is not a list of disappointments. It is the part
+of the theory that tells you where the theory does not apply, which is the part that makes
+the rest of it trustworthy. Part V puts the whole apparatus on trial: the twelve-domain
+sweep and the falsifiable core.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch11_the_recognizer.html" class="nav-prev">&larr; Chapter 11 — The Recognizer: Naming a Manifold, or Certifyin…</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch13_the_domain_generality_sweep.html" class="nav-next">Chapter 13 — The Domain-Generality Sweep: Twelve Domains, Th… &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>
