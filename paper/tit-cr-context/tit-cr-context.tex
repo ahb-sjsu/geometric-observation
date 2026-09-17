@@ -2693,15 +2693,20 @@ minimization (Appendix~\ref{app:numver}).
 This appendix proves the operational region theorem for the jointly
 Gaussian source of Section~\ref{sec:pair}, replacing the customary
 appeal to an unspecified abstract-alphabet extension. The source letter
-is $X=(Y,V)$, jointly Gaussian, the pair $T$ of Section~\ref{sec:pair}
-taken as the source letter, which Lemma~\ref{thm:pair} permits; the
+is the pair $T=(Y,V)$ of Section~\ref{sec:pair}, jointly Gaussian, as
+Definition~\ref{def:problem} fixes it; a code whose encoder observes the
+ambient source of Section~\ref{sec:pair} is covered as well, since any
+$T^n$-code is such a code, and for any ambient channel the resampled
+$T$-channel of Lemma~\ref{thm:pair} keeps the distortion and the
+conditional coordinate and has rate $I(T;\hY')\le I(X;\hY)$, so the union
+over ambient channels equals the union over $T$-channels. The
 side information is $S\in\R^r$ as in
 Section~\ref{sec:pair} ($r=1$) or Section~\ref{sec:vector}; the
 distortion is
 $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
 $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
 achievability is Definition~\ref{def:achievability}. The proof
-establishes, in order: the converse with differential entropies;
+establishes, in order: the converse by the chain rule;
 closedness and right-continuity of the union; restriction to Gaussian
 channels; and achievability in three steps, quantizing the side information
 (Step A), then the source and the reproduction (Step B, with a finite
@@ -2728,7 +2733,7 @@ $\sigma$-field. Write $S_k:=q_k(S)$.
 \begin{theorem}\label{thm:gaussop}
 For the Gaussian source under the standing assumptions of
 Section~\ref{sec:pair} ($\tau^2>0$, $\Sigma_T\succ0$), with the pair
-$T=(Y,V)$ taken as the source letter $X$ (Lemma~\ref{thm:pair}), and
+$T=(Y,V)$ as the source letter $X$ (Definition~\ref{def:problem}), and
 every $0<D<1$,
 \[
 \RW(D)=\bigcup_{p(\hat y\mid x):\,\E(Y-\hY)^2\le D}
@@ -2738,32 +2743,44 @@ and the union is unchanged when restricted to jointly Gaussian test
 channels.
 \end{theorem}
 
-The compactness step of the proof uses $D<1$. For $D\ge1$ the statement
-follows from the zero reproduction, which meets the distortion
-constraint with $R=L=0$, and $D=0$ is the extended-real limit with both
-coordinates diverging. Throughout, $L_n$ is the coding quantity
+The compactness step of the proof uses $D<1$. For $D\ge1$ both sides
+equal $[0,\infty)^2$: the zero reproduction meets the distortion
+constraint with $R=L=0$, and $R_n,L_n\ge0$ for every code. For $D=0$
+both sides are empty as subsets of $\R^2$: a code with finitely many
+messages has $D_n>0$ and $R_n\ge\tfrac12\log_2(1/D_n)$, so no finite
+pair is achievable at distortion $0$, and the only channels with zero
+distortion have $\hY=Y$ almost surely, with both coordinates infinite.
+Throughout, $L_n$ is the coding quantity
 \eqref{eq:work-def}; no step of the proof depends on
 Remark~\ref{rem:thermo}.
 
 \begin{proof}
 \emph{Converse.} The chain of Theorem~\ref{thm:main-region}'s converse
-(the discrete operational region theorem) holds verbatim with
-differential entropies for the continuous source.
+(the discrete operational region theorem) holds for the continuous
+source.
 $M$ is discrete, so $\log|\mathcal M_n|\ge H(M)\ge I(X^n;M)\ge
 I(X^n;\hY^n)$ and $H(M\mid S^n)\ge I(X^n;M\mid S^n)\ge
-I(X^n;\hY^n\mid S^n)$ are unchanged. The single-letterization holds with differential entropy $h$ in place of $H$: for the
-jointly Gaussian source all the differential entropies involved are
-finite (the unconditional ones are Gaussian values, and each
-conditional one differs from an unconditional one by a mutual
-information pinned between $0$ and
-$H(M)\le\log|\mathcal M_n|<\infty$, since $\hY^n$ is a function of the
-finite-valued $M$), the i.i.d.\ chain rules are unchanged, and
-conditioning reduces differential entropy. The per-letter induced channels satisfy the
+I(X^n;\hY^n\mid S^n)$ are unchanged. The single-letterization needs no
+differential entropy. Since $X_i$ is independent of $X^{i-1}$, the chain
+rule gives
+$I(X^n;\hY^n)=\sum_iI(X_i;\hY^n,X^{i-1})\ge\sum_iI(X_i;\hY_i)$; and since
+the pair $(X_i,S_i)$ is independent of the other pairs,
+$I(X_i;X^{i-1},S^n)=I(X_i;S_i)$, so
+$I(X^n;\hY^n\mid S^n)=\sum_i\bigl[I(X_i;\hY^n,X^{i-1},S^n)-I(X_i;S_i)\bigr]
+\ge\sum_i\bigl[I(X_i;\hY_i,S_i)-I(X_i;S_i)\bigr]=\sum_iI(X_i;\hY_i\mid S_i)$.
+Every term is finite, being bounded by $H(M)\le\log|\mathcal M_n|$,
+since $\hY^n$ is a function of the finite-valued $M$. The per-letter induced channels satisfy the
 Markov constraint by the i.i.d.\ structure, exactly as in the finite
 case; the mixture channel $\bar q$ is defined by averaging the induced
 conditional laws, its distortion is $D_n$, and the convexity step is
 Lemma~\ref{lem:convexity} in the general-alphabet form of
-Remark~\ref{rem:convgeneral}. Hence
+Remark~\ref{rem:convgeneral}, which holds for the conditional coordinate
+because, under $\hY-X-S$, $I(X;\hY\mid S)$ is the integral over $s$
+against $P_S$ of the relative entropy between the joint law
+$P_{X\mid S=s}\,q$ of $(X,\hY)$ given $S=s$ and the product
+$P_{X\mid S=s}\times(P_{X\mid S=s}q)$ of its marginals; both arguments
+are affine in $q$, so the integrand is convex in $q$ by the joint
+convexity of relative entropy, and so is the integral. Hence
 $(R_n,L_n)$ lies in the displayed union at distortion $D_n$.
 
 \emph{Closedness and the passage from $D_n$ to $D$.} By the restriction
@@ -2786,7 +2803,7 @@ $(R_j,L_j)$ lie in the union at levels $D_j'$ with
 $\limsup_jD_j'\le D$ and $(R_j,L_j)\to(R,L)$ finite. Pick feasible
 $\theta_j$ whose quadrant contains $(R_j,L_j)$; the $\theta_j$
 eventually lie in the compact set at level $D+\delta$ for each
-$\delta>0$, so a subsequence converges to some $\theta^*$, feasible at
+$\delta\in(0,1-D)$, so a subsequence converges to some $\theta^*$, feasible at
 $D$ by continuity of the distortion in $\theta$. Lower semicontinuity
 gives $\tfrac12\log_2\bigl[(Q_0+\nu)/\nu\bigr](\theta^*)\le
 \liminf_j\tfrac12\log_2\bigl[(Q_0+\nu)/\nu\bigr](\theta_j)\le R$, and
@@ -2796,7 +2813,18 @@ both closedness at fixed distortion and right-continuity in the
 distortion level, and with $\limsup D_n\le D$ places every limit point
 of $(R_n,L_n)$ in the union at $D$.
 
-\emph{Restriction to Gaussian channels.} For any admissible channel,
+\emph{Restriction to Gaussian channels.} For any admissible channel the
+hypotheses of Lemma~\ref{lem:gauss} are met after one normalization.
+Centering $\hY$ leaves both coordinates and the Markov chain unchanged
+and lowers the distortion by $(\E\hY)^2$; $\E\hY^2<\infty$ follows from
+$\E(Y-\hY)^2\le D$ and $\E Y^2=1$; the residual of the regression of
+$\hY$ on $T$ is uncorrelated with $S$ by the argument in the proof of
+Theorem~\ref{thm:function}(a), since $U$ is independent of $(X,\hY)$;
+and a positive residual variance may be assumed, because a zero
+residual with nonzero regression coefficients gives both coordinates
+infinite and an empty quadrant (Remark~\ref{rem:degenerate}), while a
+zero residual with zero coefficients is the zero reproduction, infeasible
+for $D<1$. With these in place,
 Lemma~\ref{lem:gauss} (Gaussian exhaustion: the two determinant lower
 bounds, met with equality by the jointly Gaussian channel matching the
 second moments) produces the jointly Gaussian channel with the
@@ -2810,8 +2838,9 @@ suffices to prove achievability for a jointly Gaussian test channel.
 \emph{Achievability, Step A: quantizing the side information.} Fix a jointly
 Gaussian admissible channel $p(\hat y\mid x)$ with distortion at most
 $D$ and residual variance $\nu>0$ (a channel with $\nu=0$ has both
-coordinates infinite, by the closedness step, and contributes nothing
-to the union), and fix $\epsilon>0$. Along the saturating dyadic quantizers,
+coordinates infinite by the coordinate formulas of the closedness step,
+the conditional one because $\Lambda\succ0$ when $\tau^2>0$, and
+contributes nothing to the union), and fix $\epsilon>0$. Along the saturating dyadic quantizers,
 \begin{equation}
 I(\hY;S_k)\;\uparrow\;I(\hY;S)\qquad(k\to\infty):
 \label{eq:quant-mono}
@@ -2848,7 +2877,9 @@ alphabets and a bounded distortion, so we discretize both and pass to
 the limit. For $m\ge1$ let $X_m:=q_m(X)$, the coordinatewise quantizer
 applied to $X=(Y,V)$, and $\hY_m:=q_m(\hY)$, so that
 $|\hY_m-\hY|\le2^{-m}+|\hY|\,\mathbf 1\{|\hY|>2^m\}$ and $\hY_m\to\hY$
-in $L^2$. The finite-alphabet surrogate consists of the source $X_m$
+in $L^2$, since $\E\hY^2<\infty$ by the distortion constraint and
+$\E[\hY^2\mathbf 1\{|\hY|>2^m\}]\to0$ by dominated convergence. The
+finite-alphabet surrogate consists of the source $X_m$
 and the side information $S_\Delta$ under their true joint law, which
 is that of a discrete memoryless pair because $(X_m^n,S_\Delta^n)$ is a
 coordinatewise function of the i.i.d.\ pairs $(X^n,S^n)$; the finite
@@ -2862,7 +2893,9 @@ source; and the surrogate distortion
 d_m(x_m,\hat y):=\E\bigl[(Y-\hat y)^2\bigm|X_m=x_m\bigr]
 =\operatorname{Var}(Y\mid X_m=x_m)+\bigl(\E[Y\mid X_m=x_m]-\hat y\bigr)^2,
 \]
-which is bounded, since both alphabets are finite.
+which is bounded, since both alphabets are finite. Both conditional
+expectations are well defined, because $\Sigma_T\succ0$ gives every
+rectangle of $q_m$ positive probability under the law of $X$.
 Under the surrogate joint law $p(x_m,s_\Delta)\,p_m(\hat y\mid x_m)$
 the Markov chain $\hY_m-X_m-S_\Delta$ holds by construction, so
 Lemma~\ref{lem:construction} applies to the surrogate and, for every
@@ -2932,8 +2965,14 @@ $\R\times q_k(\R^r)$, continuous in its first argument,
 \E\Bigl[\sum_j\E\bigl[f(\hY,j)\bigm|X\bigr]\Pr(S_\Delta=j\mid X)\Bigr]
 =\E f(\hY,S_\Delta):
 \end{align*}
-$f(\hY_m,j)\to f(\hY,j)$ boundedly, the conditional expectations given
-$X_m$ converge to those given $X$ by the martingale convergence theorem,
+for each $j$, $\E|f(\hY_m,j)-f(\hY,j)|\to0$ by bounded convergence,
+since $\hY_m\to\hY$ pointwise and $f$ is bounded and continuous in its
+first argument, and $\E[f(\hY,j)\mid X_m]\to\E[f(\hY,j)\mid X]$ in $L^1$
+by the martingale convergence theorem, so
+$\E[f(\hY_m,j)\mid X_m]\to\E[f(\hY,j)\mid X]$ in $L^1$ by the triangle
+inequality; the factors $\Pr(S_\Delta=j\mid X_m)$ are bounded by one and
+converge in $L^1$ to $\Pr(S_\Delta=j\mid X)$ by the same theorem, so each
+product converges in $L^1$ and the finite sum passes to the limit;
 and the last equality is the conditional independence of $\hY$ and
 $S_\Delta$ given $X$, the Markov chain $\hY-X-S$. So $Q_m$ converges
 weakly to the true law of $(\hY,S_\Delta)$, and mutual information is
@@ -2969,8 +3008,10 @@ by \eqref{eq:quant-fano2}.
 \emph{Collect.} For every $\epsilon>0$ the triple
 $\bigl(I(X;\hY)+2\epsilon,\ I(X;\hY\mid S)+5\epsilon,\
 D+2\epsilon\bigr)$ is achievable; a diagonal sequence
-$\epsilon_j\downarrow0$ of codes achieves, in the $\limsup$ sense of
-Definition~\ref{def:achievability}, the corner
+$\epsilon_j\downarrow0$ of codes (the $\epsilon_j$-code exists at every
+sufficiently large blocklength by Lemma~\ref{lem:construction}, and
+blocklengths $N_j\le n<N_{j+1}$ use it) achieves, in the $\limsup$ sense
+of Definition~\ref{def:achievability}, the corner
 $\bigl(I(X;\hY),I(X;\hY\mid S)\bigr)$ at distortion $D$, and the
 quadrant above the corner is immediate from the definition. Together
 with the converse and the restriction step, this proves the theorem.
