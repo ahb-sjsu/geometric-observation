@@ -15,6 +15,35 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Five-referee pass, 2026-09-17.** Five independent fresh-context
+referees (source coding with side information; measure-theoretic rigor;
+algebra verification by recomputation; thermodynamics of information;
+a T-IT associate editor) reviewed the manuscript alone. The algebra
+referee reproduced every closed form, corollary, table value and figure
+number to displayed precision and found one slip, the missing factor of
+tau^2 in P(g_R) of the Lu-Xu comparison (now tau^4, verified by
+`check_referee_pass.py`). Applied: the exhaustion lemma's Step 1 now
+proves the bound by a divergence decomposition (no differential entropy
+of arbitrary conditional laws) and states its equality case, which the
+clean-boundary proposition uses; conditional mutual information on
+general alphabets is cited to Wyner 1978 (reference marked for
+verification); the appendix converse's finiteness claim is corrected to
+use tau^2 > 0; the restriction step precedes the closedness step; the
+quantizer index is kappa; the erasure remark states that the third party
+holds no other record correlated with M, symmetric logical states, the
+quench-compress-quench protocol, T_b for the bath temperature, and the
+finite-resolution reading; the introduction leads with the re-encoding
+meaning and defers erasure to one sentence; Lu-Xu is credited in the
+novelty sentence and its computation moved to Appendix C; "water levels"
+are "noise fractions", the label-dependency paragraph and the derived
+half of Table I are gone, the proof of Theorem 15(b) follows Proposition
+19, Corollaries 17 and 20 name their shared value, Fig. 4's numbers moved
+to the text, the AI-use acknowledgment names the system, and a within-
+model non-determination pair is added beside Table II. 33 pages, no
+warnings. Rebutted or deferred to the owner: deleting Proposition 12
+(cited three times), separate counters for remarks and definitions, the
+title, merging Figs. 2 and 3, and the biography.
+
 **Appendix A repairs and a proofread, 2026-09-16/17.** A fresh-context
 referee pass over the Gaussian operational theorem (Appendix A in the
 built manuscript; `REVIEW-APPENDIX-B-2026-09-16.md` uses the older

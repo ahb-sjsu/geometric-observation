@@ -100,3 +100,9 @@ The matrix-general exhaustion lemma, the measure-theoretic steps
 matrix-convexity lemma, the uniqueness proposition, and the binary
 theorem's symmetrization and positivity arguments are verified by
 written proof and the numerical harnesses, not by the proof assistant.
+
+- `check_referee_pass.py` (added 2026-09-17) -- the numbers introduced by the
+  five-referee pass: the within-model non-determination pair (rho^2, tau^2) =
+  (3/5, 1/5) and (3/4, 1/2) at D = 0.1 and 0.3 (1.1880, 0.4712, 1.2105, 0.5228
+  bits), the reduced surd (7+sqrt(29))/6, and the corrected P(g_R) with tau^4
+  in the Lu-Xu comparison, all symbolic. All pass.
