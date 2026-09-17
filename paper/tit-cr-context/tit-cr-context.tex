@@ -217,7 +217,7 @@ Theorem~\ref{thm:function}(a) for $Y$ and $V$ scalar linear functionals
 of an arbitrary-dimensional source, the joint region with its
 two-water-level frontier (Theorem~\ref{thm:function}(b)) in place of
 the rate under a common-reconstruction constraint alone, the
-misalignment dichotomy (Corollary~\ref{cor:misalign}), and the
+misalignment condition (Corollary~\ref{cor:misalign}), and the
 non-determination corollary (Corollary~\ref{cor:notmarginal}). The
 binary conditional-content function coincides with the
 common-reconstruction rate of Lu \emph{et al.} \cite{lu2016lossy}, and
@@ -259,7 +259,7 @@ channel feasible for their constraint is feasible here, and dropping
 $\hat V$ lowers the conditional information by data processing, so
 their function is at least $L(D)$ wherever it is defined. What their
 closed form does not cover is that limit: its hypothesis
-$\mathbf D\preceq\Sigma_X$ forces $(1-D)(1-D_V)\ge\rho^2$, which leaves
+$\mathbf D_m\preceq\Sigma_X$ forces $(1-D)(1-D_V)\ge\rho^2$, which leaves
 no admissible $D_V$ unless $D<1-\rho^2$ and never leaves the context
 unpenalized. On the admissible range the inequality is strict: the specialized
 value decreases in $D_V$, and at the largest admissible $D_V$ it equals
@@ -336,10 +336,11 @@ Gaussian specialization is stated. The model has one source and three
 parties, and Fig.~\ref{fig:system} shows it. Let $(X,S)\sim p_{XS}$, and let
 $(X^n,S^n)$ be i.i.d. copies. In the Gaussian sections the encoder observes
 the pair $T=(Y,V)$, with $Y$ the described variable and $V$ the context, and
-the side information is $S=V+U$ with $U$ independent of $T$; there the
-source letter $X$ is the ambient Gaussian vector of which $T$ is the
-relevant pair (Lemma~\ref{thm:pair}). The operational
-theorem of this section needs no such structure. The encoder observes $X^n$
+the side information is $S=V+U$ with $U$ independent of $T$; the pair is
+drawn from an ambient Gaussian vector $X$ of which $T$ is the relevant
+part (Lemma~\ref{thm:pair}), and from Section~\ref{sec:pair} on $T$
+itself is the source letter (Definition~\ref{def:problem}). The
+operational theorem of this section needs no such structure. The encoder observes $X^n$
 alone and emits the description $M$. The decoder observes $M$ alone and
 outputs the reproduction; the general discrete theorem below reproduces the
 full letter, $\hXn$, while in the Gaussian sections the reproduction is a
@@ -862,13 +863,13 @@ $\hY-X-S$ persists.
 \paragraph*{Standing assumptions and degeneracies}
 The Gaussian sections run under $0<D<1$, $|\rho|<1$, and $\tau^2>0$;
 each boundary is treated where it arises.
-For $D\ge1$ the zero reproduction gives $R=L=0$, and $D=0$ is the
-extended-real limit; both are recorded with the Gaussian operational
+For $D\ge1$ the zero reproduction gives $R=L=0$, and at $D=0$ no finite
+pair is achievable; both are recorded with the Gaussian operational
 theorem (Appendix~\ref{app:gaussian}). The boundaries $\rho^2\in\{0,1\}$
-are the classical corners, the classical function at $\rho=0$ and
-Steinberg's scalar formula as $\rho^2\to1$
-(Corollary~\ref{cor:anchors}), and the frontier collapse at both is
-computed in Corollary~\ref{cor:misalign}. The clean-context boundary
+are two of the three corners of Corollary~\ref{cor:anchors}, the
+classical function at $\rho=0$ and Steinberg's scalar formula as
+$\rho^2\to1$, and the frontier collapse at both is computed in
+Corollary~\ref{cor:misalign}. The clean-context boundary
 $\tau^2=0$ has its own branch wherever it matters:
 Proposition~\ref{prop:marg} and the $\tau^2\to0$ limit for the
 function, and Proposition~\ref{rem:cleanboundary} for the frontier; positivity
@@ -2655,7 +2656,7 @@ whose encoder observes the pair $(Y,V)$ while the side information $S$
 stays with a third party: the closed form of Theorem~\ref{thm:function}(a) for $Y$ and
 $V$ scalar linear functionals of an arbitrary-dimensional jointly Gaussian
 source, the exact rate--content region of Theorem~\ref{thm:region}(b) with
-its two-water-level frontier and the misalignment dichotomy of
+its two-water-level frontier and the misalignment condition of
 Corollary~\ref{cor:misalign}, the attainment condition for the conditional-variance bound
 (Remark~\ref{rem:floor}), the vector-context extension of
 Theorem~\ref{thm:vector}, and the binary rate--content frontier of

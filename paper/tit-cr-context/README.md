@@ -15,6 +15,19 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Appendix A repairs and a proofread, 2026-09-16/17.** A fresh-context
+referee pass over the Gaussian operational theorem (Appendix A in the
+built manuscript; `REVIEW-APPENDIX-B-2026-09-16.md` uses the older
+letter) found eleven repairable gaps, all applied in commit 23af891:
+Lemma gauss's hypotheses verified in the restriction step, the converse
+single-letterized by the chain rule, general-alphabet convexity argued,
+bounded convergence in Step B (iii), the D >= 1 and D = 0 endpoints as set
+equalities, and the diagonal's blocklength interleaving. A full proofread
+then harmonized Section II's source-letter sentence and Section III's
+D = 0 line with the repaired appendix, fixed the Lu-Xu hypothesis
+subscript, and retired the last two uses of "dichotomy". 32 pages, no
+warnings.
+
 **Wording pass, 2026-09-16.** Appendix B (numerical checks) is now a short plain statement
 that the closed forms were checked numerically and the identities
 symbolically, with the notebook and scripts as supplementary material; the

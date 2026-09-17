@@ -1,5 +1,11 @@
 # Fresh-context referee pass, Appendix B (Gaussian operational theorem), 2026-09-16
 
+> Numbering note (2026-09-17): in the manuscript as built, the Gaussian
+> operational theorem is **Appendix A** (`app:gaussian`); Appendix B is the
+> numerical checks and Appendix C the Lu et al. comparison. "Appendix B" below
+> follows the README's older numbering. The eleven repairs were applied in
+> commit 23af891 and rebuilt; the line numbers below refer to commit c58fa19.
+
 Run at the owner's request after the 2026-09-09 pre-submission review named the
 Gaussian operational proof as the decision-making item. The pass was a separate
 agent with access to the manuscript source only (no README, no notes, no earlier
