@@ -15,6 +15,19 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Wording pass, 2026-09-16.** Appendix B (numerical checks) is now a short plain statement
+that the closed forms were checked numerically and the identities
+symbolically, with the notebook and scripts as supplementary material; the
+Lean and MATLAB checks are no longer mentioned in the manuscript or the
+cover letter (they still run and are inventoried in `VERIFICATION.md`).
+The introduction opens with the two coding quantities and defers the
+erasure reading to Remark 8. One name per object: the side information
+`S` and the third party that holds it ("conditioner" and "reset
+mechanism" are gone, except that the Remark names the third party's
+erasure role once). "Consistency anchors", "priced coordinate", "the
+dependency chain", and the "verified numerically" sentences after exact
+proofs are gone.
+
 **Third referee round, same day.** Marginalization is now proved strictly
 suboptimal for every rho != 0 (Corollary 17, via P(g_S) > 0); the Lu-Xu
 paragraph states the problem as the limit their closed form is not stated

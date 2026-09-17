@@ -32,8 +32,9 @@
 \author{Andrew~H.~Bond,~\IEEEmembership{Senior Member,~IEEE}%
 \thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e
 State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
-Numerical verification harnesses and archived records:
-\url{https://github.com/ahb-sjsu/geometric-observation}; the manuscript sources and the verification scripts are archived at doi:10.5281/zenodo.22678341.}}
+The reproduction notebook and check scripts of Appendix~\ref{app:numver}
+are at \url{https://github.com/ahb-sjsu/geometric-observation}; the manuscript
+sources and scripts are archived at doi:10.5281/zenodo.22678341.}}
 
 \markboth{IEEE Transactions on Information Theory}{Bond: Tradeoffs Between Rate and Conditional Content with Encoder-Observed Context}
 
@@ -52,9 +53,9 @@ jointly Gaussian sources, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$
 the larger root of an explicit quadratic in the distortion level, the
 source--context correlation, and the noise in the third party's copy.
 And the region of jointly achievable rate and conditional content is
-exact, with a Pareto frontier traced by two coupled water levels; the
-two prices strictly trade off exactly when the context is partially
-informative, and the tradeoff persists when the copy is clean. A structural consequence is that the
+exact, with a Pareto frontier traced by two coupled water levels; rate
+and conditional content strictly trade off exactly when the context is
+partially informative, and the tradeoff persists when the copy is clean. A structural consequence is that the
 conditional content is not determined by the joint law of the described
 variable and the retained copy, so the encoder's access to the clean
 context enters the function. The closed form recovers the classical
@@ -75,15 +76,17 @@ rate--distortion theory, side information.
 \section{Introduction}
 \label{sec:intro}
 
-A stored description of data has two prices. The first is its rate, the space
-the description occupies, and rate--distortion theory prices it against the
-fidelity the decoder requires. The second is paid at the end of the
-description's life: erasing a stored description irreversibly costs work, and
-when the mechanism performing the reset retains correlated information, the
-work is governed not by the description's entropy but by its conditional
-entropy given what the mechanism holds. The two prices are set by different
-parties. The decoder never sees the reset mechanism's information, and the
-reset mechanism never serves the decoder. This paper solves the source coding problem that this
+A stored description of data can be measured in two ways. The first is
+its rate, the space the description occupies, which rate--distortion
+theory trades against the fidelity the decoder requires. The second is
+its conditional entropy given side information that some other party
+retains. That quantity matters when the description is eventually erased
+by the party holding the side information: in the idealized erasure model
+of Remark~\ref{rem:thermo}, the least average work of the erasure is
+proportional to this conditional entropy, not to the entropy of the
+description. The two quantities are set by different parties. The decoder
+never sees the side information, and the party holding it never serves
+the decoder. This paper solves the source coding problem that this
 asymmetry creates: in closed form for Gaussian sources, and, for the
 doubly symmetric binary source, by tracing the rate--content frontier
 through a tilt equation.
@@ -129,28 +132,27 @@ information $X+U$ and an encoder that observes the source alone, and
 the augmentation remark of \cite{lapidoth2014} is stated for finite
 alphabets, so the augmented Gaussian functional is evaluated in
 neither. Second, the
-exact rate--content region with its strict misalignment dichotomy: the
-Pareto frontier is traced by a coupled two-water-level stationarity
-system, and within the strictly noisy model $\tau^2>0$ it is
-nondegenerate, so that rate and content strictly trade off, exactly when
-$0<\rho^2<1$, with the tradeoff persisting at the clean-context boundary
-(Theorem~\ref{thm:region}(b) and Corollary~\ref{cor:misalign}). A
-structural consequence of the closed form is non-determination by the
-reduced marginal (Corollary~\ref{cor:notmarginal}): replacing the encoder's observation of
-the pair $(Y,V)$ by its reduced relation to $S$ changes the operational
-problem even when the reduced $(Y,S)$ laws are equivalent up to invertible
-scaling. That is the one-line answer to why the function is not
-Steinberg's scalar formula: the encoder's access to the clean context
-$V$, which neither the decoder nor the third party shares, enters the
-function itself. The operational layer supports these results rather than
-leading them: coding theorems characterize $L(D)$ as the least
-asymptotically achievable normalized conditional entropy $H(M\mid S^n)/n$
-of the stored index (Section~\ref{sec:operational}, and
-Appendix~\ref{app:gaussian} for the Gaussian source), and the
-thermodynamic reading of $L(D)$ (Remark~\ref{rem:thermo}) is one
-consequence of that characterization.
+exact region of jointly achievable rate and conditional content. Its
+Pareto frontier is traced by a stationarity system in two coupled water
+levels, one for each coordinate, and the two coordinates are minimized by
+different test channels, so that rate and content strictly trade off,
+exactly when $0<\rho^2<1$ within the noisy model $\tau^2>0$; the
+tradeoff persists at the clean-context boundary
+(Theorem~\ref{thm:region}(b) and Corollary~\ref{cor:misalign}). We call
+this separation of the two optima misalignment. One consequence of the
+closed form is that $L(D)$ is not determined by the joint law of $(Y,S)$
+(Corollary~\ref{cor:notmarginal}): two sources whose $(Y,S)$ laws agree up
+to invertible scaling can have different minimal conditional content.
+This is why the function is not Steinberg's scalar formula: the encoder's
+access to the clean context $V$, which neither the decoder nor the third
+party shares, enters the function itself. The coding theorems support
+these results: they characterize $L(D)$ as the least asymptotically
+achievable normalized conditional entropy $H(M\mid S^n)/n$ of the stored
+index (Section~\ref{sec:operational}, and Appendix~\ref{app:gaussian} for
+the Gaussian source), and the thermodynamic reading of $L(D)$
+(Remark~\ref{rem:thermo}) is one consequence of that characterization.
 
-The remaining results are extensions, consistency anchors, and one
+The remaining results are extensions, classical limits, and one
 attainment remark. Remark~\ref{rem:floor} reads off the closed form when
 the conditional-variance lower bound is attained. Three extensions
 follow: the rate--content frontier of a doubly symmetric binary source
@@ -160,15 +162,15 @@ anchored at Gray's binary conditional function and the marginal
 rate--distortion function (Section~\ref{sec:binary}); the frontier
 extends to vector context (Section~\ref{sec:vector}); and the operational
 region theorem is proved directly for the Gaussian source
-(Appendix~\ref{app:gaussian}). The consistency anchors are the three
-classical corners of the closed form, Shannon's rate--distortion function
+(Appendix~\ref{app:gaussian}). The classical limits are the three
+corners of the closed form, Shannon's rate--distortion function
 at $\rho=0$ \cite{shannon1959}, Gray's conditional function as
 $\tau^2\to0$ \cite{gray1973}, and Steinberg's scalar Gaussian formula at
 the induced correlation as $\rho^2\to1$, together with the strict
 suboptimality of marginalization (Corollary~\ref{cor:margstrict}) and an
 exact information-bottleneck identity for the weighted objective.
 
-The dependency chain is short. Theorem~\ref{thm:main-region} and
+The results depend on one another as follows. Theorem~\ref{thm:main-region} and
 Lemma~\ref{lem:construction} give the discrete region and the
 finite-blocklength construction; Lemma~\ref{thm:pair} reduces the
 Gaussian problem to the pair; Lemma~\ref{lem:gauss} supplies the
@@ -220,8 +222,8 @@ it does not enter the distortion measure, it leaves the rate--distortion
 function unchanged \cite{berger1971}, and Kaspi \cite{kaspi1994}
 analyzed the configurations in which the encoder is informed of the
 side information. Here the encoder-held context $V$ matters because the
-priced coordinate is conditional on $S$, with which $V$ is correlated,
-and access to $V$ strictly lowers the price for every $\rho\ne0$
+second coordinate is conditional on $S$, with which $V$ is correlated,
+and access to $V$ strictly lowers it for every $\rho\ne0$
 (Corollary~\ref{cor:margstrict} for $\tau^2>0$;
 Proposition~\ref{prop:marg} at the clean-context boundary). Heegard and Berger
 \cite{heegardberger1985} serve decoders with and without side
@@ -264,7 +266,7 @@ $\rho\tau\ne0$, falling further beyond. Theorem~\ref{thm:function}(a)
 is therefore the value of a limit that their closed form is not stated
 for and does not continue to.
 
-The priced coordinate also has a security reading: $L$ is the
+The conditional coordinate also has a security reading: $L$ is the
 equivocation $H(M\mid S^n)/n$ of the stored description at a party
 holding the noisy context. Yamamoto priced distortion against source
 equivocation in the Shannon cipher system \cite{yamamoto1997} and, in an
@@ -329,20 +331,15 @@ $(X^n,S^n)$ be i.i.d. copies. In the Gaussian sections the encoder observes
 the pair $T=(Y,V)$, with $Y$ the described variable and $V$ the context, and
 the side information is $S=V+U$ with $U$ independent of $T$; there the
 source letter $X$ is the ambient Gaussian vector of which $T$ is the
-relevant pair (Lemma~\ref{thm:pair}). We call $S$
-the \emph{conditioner} when its role in the conditional content is in
-view (the terms side information and conditioner are synonyms for the
-variable, as third party and reset mechanism are for the party holding
-it). The operational
+relevant pair (Lemma~\ref{thm:pair}). The operational
 theorem of this section needs no such structure. The encoder observes $X^n$
 alone and emits the description $M$. The decoder observes $M$ alone and
 outputs the reproduction; the general discrete theorem below reproduces the
 full letter, $\hXn$, while in the Gaussian sections the reproduction is a
 scalar estimate $\hY$ of $Y$ alone. The third party of
-Section~\ref{sec:intro}, called the \emph{reset mechanism} when its
-erasure role is in view, retains
-$S^n$, which remains unchanged by the reset, and accesses the stored
-index $M$ in order to erase it; it never decodes.
+Section~\ref{sec:intro} retains $S^n$ and accesses the stored index $M$
+in order to erase it; it never decodes, and $S^n$ is unchanged by the
+erasure.
 
 \begin{figure}[!t]
 \centering
@@ -353,7 +350,7 @@ index $M$ in order to erase it; it never decodes.
 \node[blk] (enc) at (2.7,0) {Encoder $f_n$};
 \node[blk] (dec) at (6.7,0) {Decoder $g_n$};
 \node (xhat) at (9.5,0) {$\hY^n$};
-\node[blk] (rst) at (6.7,-2.1) {Reset mechanism};
+\node[blk] (rst) at (6.7,-2.1) {Third party};
 \node (s) at (1.6,-2.1) {$S^n=V^n+U^n$};
 \draw[->] (x) -- (enc);
 \draw[->] (enc) -- node[above] {$M$} (dec);
@@ -367,7 +364,7 @@ reconstruct $\hY^n$};
 \end{tikzpicture}
 \caption{The system. The encoder observes the source $X^n$ alone and stores
 the description $M$ at rate $R_n$; the decoder reconstructs from $M$ alone;
-the third party (the reset mechanism) retains the side information
+the third party retains the side information
 $S^n$ and accesses the stored index $M$ in order to erase it; it never
 reconstructs. The figure shows the Gaussian
 instantiation, where the encoder observes $T=(Y,V)$, $S=V+U$ with $U$
@@ -402,7 +399,7 @@ information. We call it the \emph{conditional content} of the memory relative
 to the retained side information, a name introduced here for the
 normalized conditional entropy of the index; the thermodynamic reading of
 Remark~\ref{rem:thermo}, after the coding theorem, is the reason for
-pricing it. Every statement and proof of the paper treats $L_n$ as
+studying it. Every statement and proof of the paper treats $L_n$ as
 the coding quantity \eqref{eq:work-def}, in bits per source symbol.
 
 \begin{definition}\label{def:achievability}
@@ -524,9 +521,9 @@ $(R_j,L_j)\equiv(R,L)\in\mathcal R(D_j')$ along any $D_j'\downarrow D$,
 so it lies in $\mathcal R(D)$ by the sequential form.
 \end{proof}
 
-\paragraph*{Architecture of the coding theorem}
+\paragraph*{Outline of the coding theorem}
 The proof of Theorem~\ref{thm:main-region} below has six steps, and one
-possible confusion is worth preempting at the outset: the reconstruction
+point is worth fixing at the outset: the reconstruction
 decoder never sees $S^n$; the binning of Wyner--Ziv type appears only
 inside an accounting argument. (i) The description rate comes from
 ordinary covering: a rate--distortion codebook whose index $M$ the
@@ -697,7 +694,8 @@ that residual uncertainty remains in the stored index.
 This remark states the paper's only physical claim; everywhere else
 $L_n$ and $L(D)$ are the coding quantities \eqref{eq:work-def} and
 \eqref{eq:work-endpoint}. The reset model is that of stochastic
-thermodynamics with side information: the third party holds the record
+thermodynamics with side information: the third party, acting as the
+reset mechanism, holds the record
 $M$ and the classical side information $S^n$, which is read without
 disturbance and remains unchanged; it knows the joint law of $(M,S^n)$
 induced by the code; it may drive $M$ by any protocol in contact with a
@@ -745,7 +743,7 @@ As an information quantity, $L(D)$ is Steinberg's common-reconstruction
 rate--distortion function for side information $S$ \cite{steinberg2009}: the
 reproduction must be determined without access to $S$. The operational roles
 differ. In the common-reconstruction problem, $S$ is decoder side information
-that must not corrupt reproducibility; here $S$ is held by a reset mechanism
+that must not corrupt reproducibility; here $S$ is held by a third party
 that never serves the decoder. The remainder of the paper characterizes
 $L(D)$, and the region around it, for the source of Section~\ref{sec:pair}.
 
@@ -763,7 +761,7 @@ bounded per-letter distortion. For the jointly Gaussian source of
 Section~\ref{sec:pair} with quadratic distortion on the described
 variable, the corresponding operational statement is
 Theorem~\ref{thm:gaussop} in Appendix~\ref{app:gaussian}: the converse
-is proved there in full, and the achievability by quantizing the conditioner, the source, and the
+is proved there in full, and the achievability by quantizing the side information, the source, and the
 reproduction, invoking the finite-alphabet theorem, and passing to the
 limit. The Gaussian closed forms of
 Sections~\ref{sec:pair}--\ref{sec:vector} are evaluations of the
@@ -788,9 +786,9 @@ source letter of the discrete theorem\\
 $S=V+U$ & the third party's copy; $U\sim\mathcal N(0,\tau^2)$
 independent of $X$\\
 $s=1+\tau^2$ & the context-noise parameter, the variance of $S$ after
-normalization (scalar conditioner;
-the vector-context section uses $\Sigma_U$, with conditioner covariance
-$\Sigma_S=\Sigma_V+\Sigma_U$)\\
+normalization (scalar side information;
+the vector-context section uses $\Sigma_U$, with side-information
+covariance $\Sigma_S=\Sigma_V+\Sigma_U$)\\
 $\rho=\E[YV]$ & correlation of the described variable and the context\\
 $D$ & distortion level, $\E(Y-\hY)^2\le D$\\
 $M$, $R_n$, $L_n$ & stored index; rate $\tfrac1n\log|\mathcal M_n|$;
@@ -855,17 +853,17 @@ only decrease $I(X;\cdot\mid S)$ (conditional data processing), and
 $\hY-X-S$ persists.
 
 \paragraph*{Standing assumptions and degeneracies}
-The Gaussian sections run under $0<D<1$, $|\rho|<1$, and $\tau^2>0$, and
-every boundary is handled where it arises rather than excluded silently.
+The Gaussian sections run under $0<D<1$, $|\rho|<1$, and $\tau^2>0$;
+each boundary is treated where it arises.
 For $D\ge1$ the zero reproduction gives $R=L=0$, and $D=0$ is the
 extended-real limit; both are recorded with the Gaussian operational
 theorem (Appendix~\ref{app:gaussian}). The boundaries $\rho^2\in\{0,1\}$
-are the anchor corners, the classical function at $\rho=0$ and
+are the classical corners, the classical function at $\rho=0$ and
 Steinberg's scalar formula as $\rho^2\to1$
 (Corollary~\ref{cor:anchors}), and the frontier collapse at both is
 computed in Corollary~\ref{cor:misalign}. The clean-context boundary
 $\tau^2=0$ has its own branch wherever it matters:
-Proposition~\ref{prop:marg} and the $\tau^2\to0$ anchor for the
+Proposition~\ref{prop:marg} and the $\tau^2\to0$ limit for the
 function, and Proposition~\ref{rem:cleanboundary} for the frontier; positivity
 $\tau^2>0$ is exactly what makes $\Cov(T,S)\succ0$, the hypothesis of
 the exhaustion lemma (Lemma~\ref{lem:gauss}). Degenerate covariances
@@ -984,7 +982,7 @@ that $\E(Y-\hY)^2=h+\nu$. Everything from here through
 Section~\ref{sec:vector} is expressed in $(a,b,\nu)$ and these moments;
 Table~\ref{tab:notation} collects them. The converse rests on one
 estimation-theoretic lemma. We state it for vector reproductions and
-vector conditioners, in the generality that
+vector side information, in the generality that
 Sections~\ref{sec:region} and~\ref{sec:vector} reuse.
 
 \begin{lemma}
@@ -1525,8 +1523,8 @@ the proof of Corollary~\ref{cor:misalign} later in this section).
 centered without loss, with regression coordinates $(a,b,\nu)$, $\nu>0$,
 as in the proof of part (a); the Markov moment
 identity $\Cov(N',S)=0$ holds as there. Lemma~\ref{lem:gauss} applies
-twice to the same three moments, once with the conditioner $S$ and once
-with $S$ deleted:
+twice to the same three moments, once with the side information $S$ and
+once with $S$ deleted:
 \begin{equation}
 I(T;\hY)\ \ge\
 \tfrac12\log_2\frac{\det\Sigma_T}{\det\Sigma_{e0}}
@@ -1850,7 +1848,7 @@ $\sigma=v$), strict decrease in $v$ at $c\ne0$, coercivity through
 $Q_0\ge q_0>0$, and strictness case use only $c$, $v$, and the domain
 $\mathcal D$, never $\Lambda$. The uniqueness of the rate minimizer,
 equivalently of the moment triple $(a,b,\nu)=(1-D,0,D(1-D))$, therefore
-holds for an arbitrary conditioner, including the boundary $\tau^2=0$,
+holds for arbitrary side information, including the boundary $\tau^2=0$,
 where $\Sigma_{T\mid S}$ is singular and the whitening
 \eqref{eq:whitening} of the conditional covariance is unavailable.
 \end{proof}
@@ -1941,7 +1939,7 @@ reaching, for instance, $\RLs(D)-R_{\min}=1.537$ bits at
 $(0.5,10^{-3},0.5)$; the content excess instead saturates there at
 $\tfrac12\log_2(1+\rho^2)$, the clean-boundary value of
 Proposition~\ref{rem:cleanboundary} evaluated at $D=1-\rho^2$. All quoted
-values are computed by the verification script. Fig.~\ref{fig:frontiermulti} repeats the construction at
+values are computed by the scripts of Appendix~\ref{app:numver}. Fig.~\ref{fig:frontiermulti} repeats the construction at
 $\rho^2\in\{0.2,0.5,0.8\}$ with $\tau^2=0.5$ and $D=0.3$; the frontier is a
 nondegenerate curve at each, as Corollary~\ref{cor:misalign} states.
 
@@ -1966,8 +1964,7 @@ widens from $\rho^2=0.2$ ($\Delta R=0.021$, $\Delta L=0.017$ bits) to
 $\rho^2=0.5$ ($\Delta R=0.044$, $\Delta L=0.036$) and eases at
 $\rho^2=0.8$ ($\Delta R=0.035$, $\Delta L=0.031$): the tradeoff vanishes at
 $\rho^2=0$, is widest at intermediate misalignment, and closes again toward
-the $\rho^2\to1$ boundary. Marker shape distinguishes the curves; the gaps
-are printed by the plotting script.}
+the $\rho^2\to1$ boundary. Marker shape distinguishes the curves.}
 \label{fig:frontiermulti}
 \end{figure}
 
@@ -2031,7 +2028,7 @@ and $(1-D)(1-\rho^2)+D=1-\rho^2+D\rho^2$.
 
 \emph{Every rate-optimal channel carries the content
 \eqref{eq:cleanrev}.} The rate moment program never references the
-conditioner, and at $\alpha=1$ the uniqueness proof of
+side information, and at $\alpha=1$ the uniqueness proof of
 Proposition~\ref{prop:uniq} is $\Lambda$-free (the closing note
 there), so also at $\tau^2=0$ its unique minimizer is
 $(a,b,\nu)=(1-D,0,D(1-D))$. Let a channel attain $R_{\min}$ at
@@ -2119,8 +2116,7 @@ clean. This instance sits at the boundary $\tau^2=0$ excluded by the
 standing assumption $\tau^2>0$ of Section~\ref{sec:pair}, so its value
 is supplied not by Theorem~\ref{thm:function} but directly by
 Proposition~\ref{prop:marg}(ii), which is proved at $\tau^2=0$ (and
-which the $\tau^2\to0$ anchor of Corollary~\ref{cor:anchors} matches
-in the limit). The instance gives
+which the $\tau^2\to0$ limit of Corollary~\ref{cor:anchors} matches). The instance gives
 \[
 L=\tfrac12\log_2\frac{1}{2D}\,,
 \]
@@ -2162,7 +2158,7 @@ law, in particular neither Steinberg's scalar formula evaluated on the
 pair nor Gray's under any reparameterization, can equal $L$.
 \end{proof}
 
-The mechanism is worth stating plainly. Both instances have the same
+The reason is worth stating plainly. Both instances have the same
 reduced correlation $\operatorname{Corr}(Y,S)=\rho/\sqrt{s}=1/\sqrt2$,
 realized by different splits: entirely through a clean context in the
 first instance ($\rho^2=\tfrac12$, $\tau^2=0$), through a stronger
@@ -2194,7 +2190,7 @@ $D\le1-\rho^2$, is Proposition~\ref{rem:cleanboundary}.
 \section{Vector Context}
 \label{sec:vector}
 
-The frontier survives a vector conditioner. Let
+The frontier survives vector side information. Let
 $S=\Gamma^{\mathsf T}X+U\in\R^r$, $U\sim\mathcal N(0,\Sigma_U)$,
 $\Sigma_U\succ0$, with $X$, $U$, and all channel randomness mutually
 independent. Write $V:=\Gamma^{\mathsf T}X\in\R^r$ and
@@ -2258,7 +2254,7 @@ channel randomness. Steps (a) through (d) of that proof are unchanged.
 
 (ii) \emph{Whitening.} First,
 $\Sigma_{T\mid S}=\Sigma_T-\Sigma_{TS}\Sigma_S^{-1}\Sigma_{ST}\succ0$,
-where $\Sigma_S=\Sigma_V+\Sigma_U$ is the conditioner's covariance
+where $\Sigma_S=\Sigma_V+\Sigma_U$ is the side-information covariance
 ($V$ is not renormalized in this section):
 positivity of $\Cov(T,S)$ holds because $\Sigma_T\succ0$ and
 $\Sigma_{S\mid T}=\Cov(\Gamma^{\mathsf T}X\mid T)+\Sigma_U\succeq
@@ -2494,7 +2490,7 @@ On the same channel the rate coordinate is $R=1-(1-p)h_2(d_0)-p\,h_2(d_1)$
 and the discount is exactly $R-L=1-h_2(u)=I(\hY;S)$ (the chain-rule
 identity $I(Y,V;\hY)-I(Y,V;\hY\mid S)=I(\hY;S)$, valid under the
 Markov chain, in closed form: $a=\Pr[\hY\ne V]$,
-$u=\Pr[\hY\ne S]$). Anchors: at $q=0$ the system gives
+$u=\Pr[\hY\ne S]$). Special cases: at $q=0$ the system gives
 $a=(p-D)/(1-2D)$ and $L=h_2(p)-h_2(D)$ (Gray's conditional
 rate--distortion function \cite{gray1973}, for $D\le p$); at $q=\tfrac12$
 it gives $d_0=d_1=D$ and $L=1-h_2(D)$ (the marginal rate--distortion
@@ -2535,7 +2531,7 @@ $(1-p)[2(1-2q)\ell(u)-\ell(d_0)+\ell(d_1)]=0$. Since $L$ restricted to
 the affine family slice is convex (restriction of a convex function),
 interior stationarity is sufficient, not merely necessary.
 
-\emph{Anchors and positivity.} $q=\tfrac12$: $u=\tfrac12$, the tilt
+\emph{Special cases and positivity.} $q=\tfrac12$: $u=\tfrac12$, the tilt
 equation forces $d_0=d_1=D$. $q=0$: substitution of Gray's backward
 channel; equality of values is elementary algebra. Positivity, in two
 branches over the family (which suffices by attainment): if
@@ -2549,9 +2545,7 @@ concavity at the distortion.
 
 Reproduction alphabets larger than binary are already covered by the
 data-processing reduction that opens this section; no separate argument
-is needed for them. The unconditional Lagrangian bounds, which assume no
-convexity, numerically re-confirm that reduction and the
-family-plus-tilt optimum.
+is needed for them.
 
 \begin{proposition}\label{rem:binfrontier}
 The symmetric family exhausts not only the conditional coordinate but
@@ -2575,7 +2569,7 @@ outside it; at $q=\tfrac12$ the frontier is a single corner.
 \begin{proof}
 The rate
 coordinate $R=I(Y,V;\hY)$ is convex in the shared channel by the
-argument of Lemma~\ref{lem:binconvex} with the trivial conditioner, so
+argument of Lemma~\ref{lem:binconvex} with $S$ deleted, so
 every weighted objective $\alpha R+(1-\alpha)L$, $\alpha\in[0,1]$, is
 convex in the channel. The global bit flip $\sigma$ of
 Theorem~\ref{thm:binary}'s proof preserves the joint law of $(Y,V,S)$,
@@ -2634,7 +2628,7 @@ common-reconstruction constraint disciplines how the decoder may use
 $S$. Theorem~\ref{thm:binary} differs structurally. Here $S$ is held
 by a third party that never decodes, the encoder observes the pair
 $(Y,V)$, and the constraint binds the unconditional Hamming error
-$\Pr[\hY\ne Y]$. The function is anchored at Gray's conditional
+$\Pr[\hY\ne Y]$. The function meets Gray's conditional
 function at $q=0$ and at the marginal rate--distortion function at
 $q=\tfrac12$, an interpolation with no counterpart in the
 decoder-side calculations. Its $q=0$ endpoint is also the
@@ -2643,14 +2637,15 @@ common-reconstruction value of \cite{lu2016lossy} at $p_2=0$
 exactly the constrained problem of the pair $(Y,S)$, a binary
 symmetric pair with crossover $p*q$, and pays Steinberg's value there
 (the marginalization identity of Section~\ref{sec:function} is
-alphabet-free); the tilt equation is the price of pair access.
+alphabet-free); the tilt equation is what the encoder's access to the
+pair adds.
 
 \section{Discussion and Conclusion}
 \label{sec:discussion}
 
 This paper characterized the minimal conditional content of a description
-whose encoder observes the pair $(Y,V)$ while the conditioner $S$ stays with
-a third party: the closed form of Theorem~\ref{thm:function}(a) for $Y$ and
+whose encoder observes the pair $(Y,V)$ while the side information $S$
+stays with a third party: the closed form of Theorem~\ref{thm:function}(a) for $Y$ and
 $V$ scalar linear functionals of an arbitrary-dimensional jointly Gaussian
 source, the exact rate--content region of Theorem~\ref{thm:region}(b) with
 its two-water-level frontier and the misalignment dichotomy of
@@ -2680,8 +2675,8 @@ does not control, so a joint $(R_n,L_n)$ dispersion region does
 not follow from the rate dispersion alone.
 
 Everything in this paper is single-letter and memoryless, Gaussian and
-binary. Every closed form is verified by the independent numerical checks of
-Appendix~\ref{app:numver}.
+binary. The closed forms were checked numerically against direct
+minimization (Appendix~\ref{app:numver}).
 
 \appendices
 \section{The Gaussian Operational Theorem}
@@ -2692,7 +2687,7 @@ Gaussian source of Section~\ref{sec:pair}, replacing the customary
 appeal to an unspecified abstract-alphabet extension. The source letter
 is $X=(Y,V)$, jointly Gaussian, the pair $T$ of Section~\ref{sec:pair}
 taken as the source letter, which Lemma~\ref{thm:pair} permits; the
-conditioner is $S\in\R^r$ as in
+side information is $S\in\R^r$ as in
 Section~\ref{sec:pair} ($r=1$) or Section~\ref{sec:vector}; the
 distortion is
 $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
@@ -2700,10 +2695,10 @@ $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
 achievability is Definition~\ref{def:achievability}. The proof
 establishes, in order: the converse with differential entropies;
 closedness and right-continuity of the union; restriction to Gaussian
-channels; and achievability in three steps, quantizing the conditioner
+channels; and achievability in three steps, quantizing the side information
 (Step A), then the source and the reproduction (Step B, with a finite
 reproduction alphabet at every stage and the Markov chain preserved by
-construction), then returning to the unquantized conditioner through
+construction), then returning to the unquantized side information through
 $H(M\mid S^n)\le H(M\mid S_\Delta^n)$ (Step C). The rate and content
 coordinates converge by data processing, martingale convergence, and
 lower semicontinuity of mutual information; the distortion is
@@ -2804,7 +2799,7 @@ contains the original channel's quadrant, so the union over all
 channels equals the union over jointly Gaussian channels. It thus
 suffices to prove achievability for a jointly Gaussian test channel.
 
-\emph{Achievability, Step A: quantizing the conditioner.} Fix a jointly
+\emph{Achievability, Step A: quantizing the side information.} Fix a jointly
 Gaussian admissible channel $p(\hat y\mid x)$ with distortion at most
 $D$ and residual variance $\nu>0$ (a channel with $\nu=0$ has both
 coordinates infinite, by the closedness step, and contributes nothing
@@ -2829,7 +2824,7 @@ I(\hY;S_\Delta)\;\ge\;I(\hY;S)-\epsilon,
 \end{equation}
 $S_\Delta$ is a function of $S$, so the Markov chain $\hY-X-S_\Delta$
 holds, and by the chain-rule identity used throughout
-($I(X;\hY)-I(X;\hY\mid S')=I(\hY;S')$ for any conditioner $S'$ with
+($I(X;\hY)-I(X;\hY\mid S')=I(\hY;S')$ for any side information $S'$ with
 $\hY-X-S'$),
 \begin{equation}
 I(X;\hY\mid S_\Delta)=I(X;\hY)-I(\hY;S_\Delta)
@@ -2952,7 +2947,7 @@ H(M\mid S_\Delta^n)\;\le\;n\bigl(I(X;\hY\mid S)+5\epsilon+o(1)\bigr).
 \label{eq:quant-fano2}
 \end{equation}
 
-\emph{Achievability, Step C: back to the unquantized conditioner.}
+\emph{Achievability, Step C: back to the unquantized side information.}
 $S_\Delta^n$ is a function of $S^n$, so
 $\sigma(S_\Delta^n)\subseteq\sigma(S^n)$ and conditioning on the finer
 $\sigma$-algebra cannot increase entropy:
@@ -2979,29 +2974,18 @@ lower semicontinuity under weak convergence \cite{posner1975}. Every
 other step is Theorem~\ref{thm:main-region} or is proved here; no
 abstract-alphabet covering or Markov lemma is invoked.
 
-\section{Numerical Verification}
+\section{Numerical Checks}
 \label{app:numver}
 
-Each closed form and each displayed matrix identity was checked
-independently of the derivations, symbolically by exact computer algebra
-and numerically against direct optimization over test-channel moments,
-twice over: by the author's harness, written alongside the proofs, and
-by a separately commissioned re-derivation, archived with the
-repository. All checks pass. The core scalar algebra is
-additionally machine-checked in two further engines, a Lean~4/Mathlib
-module built clean with zero \texttt{sorry} and the MATLAB Symbolic
-toolbox. The matrix-general exhaustion lemma, the measure-theoretic
-steps (single-letterization, covering and binning, disintegration), the
-matrix-convexity lemma, the uniqueness proposition, and the binary
-theorem's symmetrization and positivity arguments are verified by
-written proof and the numerical harnesses, not by the proof assistant.
-The scripts, their archived run outputs, and the full check inventory
-accompany the manuscript sources at the repository of the title
-footnote (\texttt{VERIFICATION.md} in the paper directory), together
-with an executed notebook, \texttt{reproduce.ipynb}, submitted as
-supplementary material, which evaluates every closed form against
-direct minimization, regenerates the figures and tables, and runs the
-three harnesses in one pass.
+The closed forms and the displayed matrix identities were checked
+independently of the derivations: each closed form numerically, against
+direct minimization over test-channel moments, and each identity
+symbolically, by computer algebra. The check scripts and an executed
+notebook, \texttt{reproduce.ipynb}, which evaluates every closed form
+against direct minimization and regenerates the figures and tables,
+accompany the manuscript sources at the repository of the title footnote
+and are submitted as supplementary material. The checks guard against
+algebraic slips; no proof in the paper depends on them.
 
 \section{Comparison with the Binary Common-Reconstruction Function of Lu \emph{et al.}}
 \label{app:lucompare}
@@ -3033,7 +3017,7 @@ sufficiency (Lemma~\ref{thm:pair}) is $L$. The binary conditional-content
 function $L(D)$ of this paper therefore \emph{coincides} with
 $\widetilde R^{\mathrm{CR}}(D)$, and we do not claim it as new. The endpoints
 agree accordingly: at $q=0$ ($p_2=0$) both reduce to Gray's conditional function
-$h_2(p)-h_2(D)$ (their Remark~3), the $q=0$ anchor of Theorem~\ref{thm:binary}; at
+$h_2(p)-h_2(D)$ (their Remark~3), the $q=0$ case of Theorem~\ref{thm:binary}; at
 $q=\tfrac12$ ($p_2=\tfrac12$) both reduce to the marginal rate--distortion
 function $1-h_2(D)$; and at $D=0$ both give $h_2(p*q)$ (their Remark~1).
 
@@ -3043,11 +3027,11 @@ so $I(X,S_1;W\mid S_2)$ is a transmitted \emph{rate} with a Wyner--Ziv saving;
 here $S$ is held by a third party that never decodes, so the same quantity is
 the conditional \emph{content} $L$, while the transmitted rate is instead the
 unconditional $R=I(Y,V;\hY)$, which their single-coordinate problem does not
-price. The joint $(R,L)$ region and the tilt parametrization of the whole
-frontier (Proposition~\ref{rem:binfrontier}) have no counterpart in
-\cite{lu2016lossy}: they price both coordinates of one description at once,
-rather than the single common-reconstruction rate, and are the binary
-contribution of this paper.
+constrain. The joint $(R,L)$ region and the tilt parametrization of the
+whole frontier (Proposition~\ref{rem:binfrontier}) have no counterpart in
+\cite{lu2016lossy}: they bound both coordinates of one description at
+once, rather than the single common-reconstruction rate, and are the
+binary contribution of this paper.
 
 \begin{thebibliography}{99}
 \bibitem{shannon1959} C. E. Shannon, ``Coding theorems for a discrete source
