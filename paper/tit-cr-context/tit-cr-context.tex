@@ -48,24 +48,23 @@ never decodes. We study the conditional content of the stored
 description given that copy: the mutual information between source and
 reproduction conditioned on the third party's side information,
 Steinberg's common-reconstruction functional on the augmented source.
-Two results are primary. The conditional content has a closed form for
+The conditional content has a closed form for
 jointly Gaussian sources, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$
 the larger root of an explicit quadratic in the distortion level, the
 source--context correlation, and the noise in the third party's copy.
-And the region of jointly achievable rate and conditional content is
+The region of jointly achievable rate and conditional content is
 exact, with a Pareto frontier traced by two coupled water levels; rate
 and conditional content strictly trade off exactly when the context is
-partially informative, and the tradeoff persists when the copy is clean. A structural consequence is that the
+partially informative, and the tradeoff persists when the copy is clean. The
 conditional content is not determined by the joint law of the described
 variable and the retained copy, so the encoder's access to the clean
-context enters the function. The closed form recovers the classical
-rate--distortion function, Gray's conditional function, and Steinberg's
-scalar Gaussian formula. The rate--content frontier of the doubly
-symmetric binary case is traced through a tilt equation, and coding
-theorems, including a
-direct proof for the Gaussian source, give the conditional content its
-operational meaning as the least normalized conditional entropy of the
-stored index.
+context enters the function. The closed form recovers the classical,
+Gray, and Steinberg formulas as limits. The rate--content frontier of the
+doubly symmetric binary case is traced through a tilt equation, and coding
+theorems, including a direct proof for the Gaussian source, give the
+conditional content its operational meaning as the least normalized
+conditional entropy of the stored index, the rate at which a party holding
+the copy can re-encode it.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -105,9 +104,17 @@ conditional content of an admissible description; by the operational
 theorems of Section~\ref{sec:operational} and, for the Gaussian source,
 Appendix~\ref{app:gaussian}, it is the least asymptotically achievable
 value of the normalized conditional entropy $H(M\mid S^n)/n$ of the stored
-index $M$ among codes meeting the distortion constraint. The
-thermodynamic reading of this quantity, as the infimum of the average erasure
-work per symbol under an ideal conditional reset, is stated once, in
+index $M$ among codes meeting the distortion constraint. That entropy
+has a plain coding meaning. A reader that holds $S^n$ can store or forward
+the index $M$ with a code whose expected length is within one bit of
+$H(M\mid S^n)$ and no shorter, so $L_n$ is, to within $1/n$, the least
+rate per source symbol at which the stored description can be re-encoded
+for a party holding the noisy context. The decoder pays the rate $R_n$;
+the party holding the context pays the conditional content $L_n$; and the
+encoder, which alone sees the clean context, chooses a description that
+serves one of them cheaply or balances the two. The thermodynamic reading
+of the same quantity, as the infimum of the average erasure work per
+symbol under an ideal conditional reset, is stated once, in
 Remark~\ref{rem:thermo}, together with the setting it needs.
 
 The single-letter functional itself is not new. With the augmented source
@@ -2658,8 +2665,9 @@ $\tau^2\to0$, and meets Steinberg's scalar Gaussian formula at the
 $\rho^2\to1$ boundary. The structural conclusion is
 Corollary~\ref{cor:notmarginal}: the function is not determined by the
 reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
-description content is a property of the encoding configuration, not of the
-source and side-information pair alone.
+description content, the rate at which a party holding the side
+information can re-encode the description, is a property of the encoding
+configuration, not of the source and side-information pair alone.
 
 Four problems are open. The exact rate--content region for a joint
 description serving two described variables is not settled; its stationarity
