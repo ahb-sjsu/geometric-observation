@@ -94,6 +94,15 @@ plt.rcParams.update({
     "font.size": 13,
 })
 fig, ax = plt.subplots(figsize=(6.4, 4.4))
+# the region: the upward closure of the frontier (every quadrant above a frontier point)
+xr = Rmin + 1.35 * (R[0] - Rmin)
+yt = Lmin + 1.35 * (L[-1] - Lmin)
+xl = Rmin - 0.35 * (R[0] - Rmin)
+yb = Lmin - 0.35 * (L[-1] - Lmin)
+verts = list(zip(R, L)) + [(Rmin, yt), (xr, yt), (xr, Lmin), (R[0], Lmin)]
+ax.fill([v[0] for v in verts], [v[1] for v in verts], color="0.88", lw=0, zorder=0)
+ax.set_xlim(xl, xr)
+ax.set_ylim(yb, yt)
 ax.plot(R, L, color="0.2", lw=1.6)
 ax.plot(Rmin, L[-1], marker="s", color="0.2", ms=7)
 ax.plot(R[0], Lmin, marker="o", color="0.2", ms=7)
@@ -101,7 +110,8 @@ ax.annotate(r"$(R_{\min},\,L_R^{\star})$", (Rmin, L[-1]),
             textcoords="offset points", xytext=(14, -6))
 ax.annotate(r"$(R_L^{\star},\,L_{\min})$", (R[0], Lmin),
             textcoords="offset points", xytext=(-10, 12), ha="right")
-ax.margins(x=0.08, y=0.10)
+ax.text(0.5 * (Rmin + xr), 0.5 * (L[-1] + yt), r"$\mathcal{R}\mathcal{W}(D)$",
+        ha="center", va="center", color="0.35")
 ax.set_xlabel(r"rate $R$ (bits)")
 ax.set_ylabel(r"conditional content $L$ (bits)")
 ax.grid(True, color="0.85", lw=0.5)

@@ -45,6 +45,10 @@ def main():
     stated = r2 * t2**2 * (1 - D) * (1 - r2) / (s * (1 - D - r2) ** 2)
     ok &= sp.simplify(P(gR) - stated) == 0
     print("  P(g_R) = rho^2 tau^4 (1-D)(1-rho^2) / (s (1-D-rho^2)^2):", sp.simplify(P(gR) - stated) == 0)
+    # strictly above Gray for tau^2 > 0 (Corollary cor:anchors (ii))
+    gG = (1 - r2) / D
+    ok &= sp.simplify(P(gG) + r2 * t2 * (1 - r2) / D) == 0
+    print("  P((1-rho^2)/D) = -rho^2 tau^2 (1-rho^2)/D:", sp.simplify(P(gG) + r2 * t2 * (1 - r2) / D) == 0)
     print("all checks passed" if ok else "CHECK FAILED")
     return 0 if ok else 1
 

@@ -15,6 +15,23 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Reviewer response, 2026-09-17.** An external reviewer scored the paper
+8.5/10 (strong accept with minor revisions; Novelty 9, Technical 8.5,
+Significance 8, Clarity 7) and asked for four clarity items. Applied: a
+concrete-example paragraph (two-tier data store) after the opening, with
+Fig. 1 moved up into the introduction; the L-versus-R operational
+distinction stated in Section II (the common-reconstruction problem's
+conditioned quantity is a discounted transmitted rate; here the transmitted
+rate is R and L is a separate cost at the third party, so the joint region
+is the object) and the Lu et al. relabeling with the "does not constrain R"
+sentence in Related Work; Fig. 2 now shades the region above the frontier
+(`plot_frontier.py`) so the picture of the (R, L) region the reviewer asked
+for is there, beside the binary frontier already in Fig. 4; the strict
+above-Gray inequality for tau^2 > 0 stated in Corollary 16(ii) with a
+one-line proof (checked in `check_referee_pass.py`); a comparison-roots row
+(g_m, g_f, g_R) in Table I. The acknowledgment is kept verbatim as the
+reviewer asked. Not done: pruning the introduction's bibliography.
+
 **Five-referee pass, 2026-09-17.** Five independent fresh-context
 referees (source coding with side information; measure-theoretic rigor;
 algebra verification by recomputation; thermodynamics of information;
