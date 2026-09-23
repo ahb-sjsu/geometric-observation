@@ -6,7 +6,7 @@ The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
 IEEE Transactions on Information Theory submission. Single author. 31 pp.
-Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.7 = zenodo.22923834, the submitted build).
+Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.7 = zenodo.22923834; 1.8 = zenodo.22927340, the submitted build).
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
@@ -28,10 +28,11 @@ as they were and snapshotted with the figures under
 Conditional-Entropy Tradeoffs" was applied, then reverted at the owner's
 direction, since the owner had already deferred a title change once); abstract trimmed
 from 247 to 242 words with no claim dropped; the title footnote points at
-the tagged path `tree/tit-cr-context-1.7/paper/tit-cr-context` and the
-concept DOI, both resolved anonymously (version 1.7 is deposited as
-doi:10.5281/zenodo.22923834, to which the concept DOI resolves; no 1.6
-version was deposited); the Gaussian scope is stated once, at the head of Section III,
+the tagged path `tree/tit-cr-context-1.8/paper/tit-cr-context` and the
+concept DOI, both resolved anonymously (version 1.8, the submitted build, is deposited as
+doi:10.5281/zenodo.22927340, to which the concept DOI resolves; 1.7 =
+zenodo.22923834 differs only in the AI acknowledgment; no 1.6 version was
+deposited); the Gaussian scope is stated once, at the head of Section III,
 instead of in Section II's opening, Remark 8 (specialization), and Table
 I, with the remark removed and nothing referencing it; the AI
 acknowledgment names the models (Claude Opus 4.8, Opus 5, Opus 5.5, Fable 5,
