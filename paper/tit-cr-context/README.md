@@ -34,8 +34,8 @@ doi:10.5281/zenodo.22923834, to which the concept DOI resolves; no 1.6
 version was deposited); the Gaussian scope is stated once, at the head of Section III,
 instead of in Section II's opening, Remark 8 (specialization), and Table
 I, with the remark removed and nothing referencing it; the AI
-acknowledgment names the models (Claude Opus 4.8, Opus 5, Fable 5, Fable
-5.1, read from the session records), the sections, and the level of
+acknowledgment names the models (Claude Opus 4.8, Opus 5, Opus 5.5, Fable 5,
+Fable 5.1, read from the session records; Opus 5.5, the sixth review pass, added after the 2026-09-23 pre-submission review), the sections, and the level of
 assistance, as IEEE's policy asks (the 2026-09-17 reviewer had asked for
 it verbatim; the two requests conflict and the IEEE policy wins); the
 biography is inside an `\iffalse` switch for the review version; the
