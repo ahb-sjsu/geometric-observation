@@ -23,10 +23,11 @@ import numpy as np
 from scipy.optimize import brentq
 import matplotlib
 import matplotlib as _mpl
-_mpl.rcParams['pdf.fonttype'] = 42
-_mpl.rcParams['ps.fonttype'] = 42
+_mpl.use('pgf')
+_mpl.rcParams.update({'pgf.texsystem': 'pdflatex', 'pgf.rcfonts': False, 'font.family': 'serif',
+                      'pgf.preamble': '\\usepackage{amsmath,amssymb}'})
 
-matplotlib.use("Agg")
+matplotlib.use("pgf")
 import matplotlib.pyplot as plt
 
 P, Q, D = 0.25, 0.15, 0.15

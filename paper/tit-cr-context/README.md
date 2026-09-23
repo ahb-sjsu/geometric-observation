@@ -39,9 +39,13 @@ acknowledgment names the models (Claude Opus 4.8, Opus 5, Fable 5, Fable
 assistance, as IEEE's policy asks (the 2026-09-17 reviewer had asked for
 it verbatim; the two requests conflict and the IEEE policy wins); the
 biography is inside an `\iffalse` switch for the review version; the
-three matplotlib figures are regenerated with `pdf.fonttype 42`, so the
-manuscript has zero Type 3 fonts (was 13), and the scripts print the same
-caption numbers as before; the cover letter distinguishes the submission
+three matplotlib figures are regenerated through the pgf backend, so their
+text is set by pdflatex in Type 1 Computer Modern and no matplotlib font is
+embedded at all (a first pass used `pdf.fonttype 42`, TrueType, which a
+reviewer's viewer rendered with glitches; Type 1 is what the rest of the
+manuscript uses), so the manuscript has zero Type 3 fonts (was 13), and the
+scripts print the same caption numbers as before; the cover letter's page
+break is placed between paragraphs; the cover letter distinguishes the submission
 from reference [36] by the inherited/new accounting of the introduction,
 with the theorem, corollary and appendix numbers taken from the built
 `.aux`. r2 build: 33 pages, 0 overfull, 0 undefined references, 0 errors.

@@ -19,10 +19,11 @@ from numpy import log2, sqrt
 from scipy.optimize import minimize
 import matplotlib
 import matplotlib as _mpl
-_mpl.rcParams['pdf.fonttype'] = 42
-_mpl.rcParams['ps.fonttype'] = 42
+_mpl.use('pgf')
+_mpl.rcParams.update({'pgf.texsystem': 'pdflatex', 'pgf.rcfonts': False, 'font.family': 'serif',
+                      'pgf.preamble': '\\usepackage{amsmath,amssymb}'})
 
-matplotlib.use("Agg")
+matplotlib.use("pgf")
 import matplotlib.pyplot as plt
 
 RHO2, TAU2, D = 0.75, 0.5, 0.3
