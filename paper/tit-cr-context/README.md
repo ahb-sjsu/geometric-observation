@@ -24,9 +24,9 @@ is required and none was made (the reviewer's cut table, Remark 8, the
 binary proofs, Appendix B, and Related Work are all untouched). Applied in
 `tit-cr-context-r2.tex` and `cover-letter-tit-r2.tex`, the originals kept
 as they were and snapshotted with the figures under
-`archive/pre-r2-2026-09-23/`: title changed to "Rate--Conditional-Entropy
-Tradeoffs with Encoder-Observed Context" (owner previously deferred this;
-revert by restoring the `\title` and `\markboth` lines); abstract trimmed
+`archive/pre-r2-2026-09-23/`: the title is kept (the reviewer's "Rate--
+Conditional-Entropy Tradeoffs" was applied, then reverted at the owner's
+direction, since the owner had already deferred a title change once); abstract trimmed
 from 247 to 242 words with no claim dropped; the title footnote points at
 the tagged path `tree/tit-cr-context-1.7/paper/tit-cr-context` and the
 concept DOI, both resolved anonymously (the concept DOI currently resolves
