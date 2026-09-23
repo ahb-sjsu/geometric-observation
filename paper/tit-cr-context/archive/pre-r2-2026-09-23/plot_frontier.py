@@ -18,9 +18,6 @@ import numpy as np
 from numpy import log2, sqrt
 from scipy.optimize import minimize
 import matplotlib
-import matplotlib as _mpl
-_mpl.rcParams['pdf.fonttype'] = 42
-_mpl.rcParams['ps.fonttype'] = 42
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt

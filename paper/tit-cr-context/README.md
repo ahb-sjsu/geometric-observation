@@ -15,6 +15,37 @@ the description twice, by its rate and by its content conditional on what the
 third party retains, and characterizes the exact region of pairs those two
 prices can take.
 
+**Packaging pass, 2026-09-23 (r2 files beside the originals).** A reviewer
+called the mathematics submission-worthy and the packaging not, on one
+premise that is wrong: the PDF is single-column (`11pt,onecolumn`), 33 pages
+against T-IT's 50-page single-column review cap, and a two-column 10pt
+trial build runs to 23 pages against the 25-page archival cap, so no cut
+is required and none was made (the reviewer's cut table, Remark 8, the
+binary proofs, Appendix B, and Related Work are all untouched). Applied in
+`tit-cr-context-r2.tex` and `cover-letter-tit-r2.tex`, the originals kept
+as they were and snapshotted with the figures under
+`archive/pre-r2-2026-09-23/`: title changed to "Rate--Conditional-Entropy
+Tradeoffs with Encoder-Observed Context" (owner previously deferred this;
+revert by restoring the `\title` and `\markboth` lines); abstract trimmed
+from 247 to 242 words with no claim dropped; the title footnote points at
+the tagged path `tree/tit-cr-context-1.7/paper/tit-cr-context` and the
+concept DOI, both resolved anonymously (the concept DOI currently resolves
+to version 1.5 of 2026-09-09, so a 1.7 version must be deposited before
+upload); the Gaussian scope is stated once, at the head of Section III,
+instead of in Section II's opening, Remark 8 (specialization), and Table
+I, with the remark removed and nothing referencing it; the AI
+acknowledgment names the models (Claude Opus 4.8, Opus 5, Fable 5, Fable
+5.1, read from the session records), the sections, and the level of
+assistance, as IEEE's policy asks (the 2026-09-17 reviewer had asked for
+it verbatim; the two requests conflict and the IEEE policy wins); the
+biography is inside an `\iffalse` switch for the review version; the
+three matplotlib figures are regenerated with `pdf.fonttype 42`, so the
+manuscript has zero Type 3 fonts (was 13), and the scripts print the same
+caption numbers as before; the cover letter distinguishes the submission
+from reference [36] by the inherited/new accounting of the introduction,
+with the theorem, corollary and appendix numbers taken from the built
+`.aux`. r2 build: 33 pages, 0 overfull, 0 undefined references, 0 errors.
+
 **Reviewer response, 2026-09-17.** An external reviewer scored the paper
 8.5/10 (strong accept with minor revisions; Novelty 9, Technical 8.5,
 Significance 8, Clarity 7) and asked for four clarity items. Applied: a

@@ -22,9 +22,6 @@ Output: binary.pdf and binary.png (300 dpi, grayscale, serif).
 import numpy as np
 from scipy.optimize import brentq
 import matplotlib
-import matplotlib as _mpl
-_mpl.rcParams['pdf.fonttype'] = 42
-_mpl.rcParams['ps.fonttype'] = 42
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
