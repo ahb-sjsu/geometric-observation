@@ -60,12 +60,23 @@ statement PLAUSIBLE-with-conditions on the R-IND-5 pass (VI-3), pinned by the ha
 does not — which is why the blind probe (Chapter 10) is load-bearing precisely in the
 bit-starved regime.
 
-## Thm B4 — Two-observer region & refinability = Loewner nesting
+## Thm B4 — Two-observer region & refinability = Loewner nesting of optimal error covariances
 
-**Statement.** The achievable rate region for two observers $(P_1, P_2)$ is
-characterized; a single scalable code serves the coarse observer with a prefix of the
-fine observer's bits **iff** $P_1 \preceq P_2$ (Loewner). Non-nested read metrics incur
-an exact rate loss.
+**Statement.** The achievable rate region for two observers $(P_1, P_2)$ at
+distortions $(D_1, D_2)$ is characterized. Let
+$\Sigma^\star(P_i,D_i) = \arg\max\{\log\det\Sigma : 0 \preceq \Sigma \preceq \Sigma_x,\
+\operatorname{tr}(P_i\Sigma) \le D_i\}$, the unique optimal error covariance of
+observer $i$ alone. A single scalable code serves the coarse observer with a prefix of
+the fine observer's bits at no rate loss **iff**
+$\Sigma^\star(P_2,D_2) \preceq \Sigma^\star(P_1,D_1)$ (Loewner). When the nesting
+fails, the minimal excess total rate is
+$L(D_1,D_2) = \tfrac12\log\bigl[\det\Sigma^\star(P_2,D_2)/\det\Sigma^\circ\bigr] \ge 0$,
+where $\Sigma^\circ$ solves the same program with the added constraint
+$\Sigma \preceq \Sigma^\star(P_1,D_1)$. $L = 0$ iff the nesting holds. Taking
+$P_1 = P_2$ recovers Equitz and Cover (1991) under any single weighted quadratic
+measure. The setting is successive refinement under individual distortion criteria
+(Nayak, Tuncel, Gündüz and Erkip 2010). Source: `paper/two-observer-theorem.tex`,
+Theorems 1 and 2.
 
 **Status.** `[proved]` — the two-observer max-determinant program; prereg 022.
 

@@ -52,14 +52,27 @@ load-bearing precisely in the bit-starved regime where compression matters.
 ## Two observers: the rate region and refinability
 
 Serving *two* consumers from one code is a network-information-theory problem, and it
-has an exact structure. For observers with read metrics $P_1, P_2$ the achievable
-rate region is characterized, and its **refinability** — whether a single scalable
-code can serve the coarse observer with a prefix of the bits it serves the fine one —
-holds exactly when the read metrics are **Loewner-nested**, $P_1 \preceq P_2$
+has an exact structure. The classical parent is Gaussian successive refinement
+(Equitz and Cover 1991). The version with a different weighted distortion at each
+stage is successive refinement under individual distortion criteria (Nayak, Tuncel,
+Gündüz and Erkip 2010; Op 't Veld and Gastpar 2017). For observers with read metrics
+$P_1, P_2$ the achievable rate region is characterized. Its **refinability** asks
+whether a single scalable code can serve the coarse observer with a prefix of the bits
+it serves the fine one. Each observer's single-stage problem has a unique optimal
+error covariance $\Sigma^\star(P_i,D_i)$. It is the maximizer of $\log\det\Sigma$ over
+$\{0 \preceq \Sigma \preceq \Sigma_x,\ \operatorname{tr}(P_i\Sigma) \le D_i\}$. The
+pair $(D_1, D_2)$ is refinable exactly when these optimal error covariances are
+**Loewner-nested**, $\Sigma^\star(P_2,D_2) \preceq \Sigma^\star(P_1,D_1)$
 [proved — Appendix B; the two-observer max-determinant program, prereg GO-P-2026-022].
-Nesting is the precise sense in which one observer is "a refinement of" another: it
-can be served by adding bits, not resending them. When the read metrics are *not*
-nested, there is an exact rate loss for serving both, and the theory quantifies it.
+The condition is on the observers' optimal uncertainty ellipsoids. It is not a
+condition on the read metrics alone. Equal read metrics $P_1 = P_2$ with
+$D_2 \le D_1$ are always refinable, which recovers Equitz and Cover under any single
+weighted quadratic measure. Nesting is the precise sense in which one observer is "a
+refinement of" another. It can be served by adding bits, not resending them. When the
+ellipsoids do *not* nest, the minimal excess total rate is
+$L = \tfrac12\log\bigl[\det\Sigma^\star(P_2,D_2)/\det\Sigma^\circ\bigr]$. Here
+$\Sigma^\circ$ solves the same max-det program with the added constraint
+$\Sigma \preceq \Sigma^\star(P_1,D_1)$. The theory is a pair of max-det programs.
 
 This region carries one of the program's standing verification incidents, and it is
 worth stating because it is exactly the kind of error the discipline exists to catch.
@@ -82,7 +95,7 @@ Fisher information by $O(0.1)$ per stage; the correct achievability uses indepen
 Fisher increments from physically-degraded channels, exact to $10^{-14}$
 [proved, corrected; prereg GO-P-2026-023]. The lesson survives the technicality: a
 chain of observers is not a stack of two-observer problems, and the geometry that
-makes it work is the nesting of read metrics.
+makes it work is the nesting of the observers' optimal error covariances.
 
 Dispersion — the second-order term governing finite-blocklength performance — counts
 the **read** dimensions, not the source dimensions. The effective dimension is $r_D

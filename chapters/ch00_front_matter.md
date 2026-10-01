@@ -134,7 +134,8 @@ opaque to you.
 
 **The information theorist** will find the formal spine in Part III's COST chapter
 (Ch. 7): the consumer rate–distortion function $R_C(D)$, its achievability and
-converse, the two-observer region and its Loewner-nesting refinability, the
+converse, the two-observer region and its refinability (Loewner nesting of the
+optimal error covariances), the
 mismatch tax and the omission floor. The interest is in the *domain*, not the
 tools — the operative object is a pullback metric that varies with the observer,
 and classical rate–distortion is the slice where $P_C = I$.

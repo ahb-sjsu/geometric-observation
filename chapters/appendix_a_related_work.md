@@ -28,8 +28,8 @@ consumer is a likelihood — and the point is the job, not the algebra.
 refinement, the multi-stage/$k$-observer rate regions.
 
 *This program adds.* The consumer-relative $R_C(D)$ with its tilt toward the read
-subspace; the two-observer region whose refinability is exactly Loewner-nesting of read
-metrics; the mismatch **tax** $(r/2)\log(M/m)$ and the omission **floor**
+subspace; the two-observer region whose refinability is exactly Loewner-nesting of the
+optimal error covariances, $\Sigma^\star(P_2,D_2) \preceq \Sigma^\star(P_1,D_1)$; the mismatch **tax** $(r/2)\log(M/m)$ and the omission **floor**
 $\operatorname{tr}(\tilde P\Pi)$ for using the wrong read metric.
 
 *Differentiation.* Classical rate–distortion fixes the fidelity measure (usually squared

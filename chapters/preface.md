@@ -106,7 +106,8 @@ a rate–distortion theory. If a consumer only reads $P_C$, then the number of b
 you must pay to serve it to distortion $D$ is not Shannon's $R(D)$ but a tilted one,
 $R_C(D)$, whose whole content is that the tilt bends the water-filling toward the
 read subspace. This gave achievability and converse theorems, a two-observer rate
-region whose refinability is exactly a Loewner nesting of read metrics, a mismatch
+region whose refinability is exactly a Loewner nesting of the observers' optimal error
+covariances, a mismatch
 tax you pay for using the wrong $P_C$, and an *omission floor* — a wall of
 irreducible downstream error you hit when your code is blind to a direction the
 consumer reads, no matter how many bits you spend. That floor, predicted from the
