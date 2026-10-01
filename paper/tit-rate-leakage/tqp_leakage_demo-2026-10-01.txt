@@ -1,0 +1,37 @@
+T0  codebook check (N(0,1) MSE)
+   2-bit: tqp table MSE = 0.11748   exact Lloyd-Max MSE = 0.11748   (tqp cells with exact centroids: 0.11748)   Lloyd-Max levels [0.4528 1.5104]
+   3-bit: tqp table MSE = 0.04556   exact Lloyd-Max MSE = 0.03455   (tqp cells with exact centroids: 0.04247)   Lloyd-Max levels [0.2451 0.756  1.3439 2.1519]
+   4-bit: tqp table MSE = 0.01080   exact Lloyd-Max MSE = 0.00950   (tqp cells with exact centroids: 0.01051)   Lloyd-Max levels [0.1284 0.388  0.6568 0.9423 1.2562 1.618  2.069  2.7326]
+   2-bit on rotated unit vectors (d=128): tqp table MSE = 0.11593   exact Lloyd-Max MSE = 0.11593
+   3-bit on rotated unit vectors (d=128): tqp table MSE = 0.04442   exact Lloyd-Max MSE = 0.03397
+   4-bit on rotated unit vectors (d=128): tqp table MSE = 0.01041   exact Lloyd-Max MSE = 0.00932
+
+T1a leakage H(M|S) strictly decreasing in |rho_ZS| for every codebook (200 points each): PASS
+
+T1  matched-rate comparison on the coupled instance (exact costs; best direction by dense sampling)
+  codebooks: tqp table
+   2-bit: rate H(M) = 1.9111 bits; principal-axis quantizer D = 0.5175, leakage = 1.8148 bits
+      D0=0.6499: best direction leakage 1.4204 vs principal axis 1.8148 (21.7% less) | error direction  16.67 deg (theory pencil   6.83) | floor L_1d(D0) = 0.8758
+      D0=0.8705: best direction leakage 0.8957 vs principal axis 1.8148 (50.6% less) | error direction  31.95 deg (theory pencil  20.04) | floor L_1d(D0) = 0.3913
+      D0=1.1352: best direction leakage 0.5066 vs principal axis 1.8148 (72.1% less) | error direction  50.03 deg (theory pencil  42.94) | floor L_1d(D0) = 0.0636
+   3-bit: rate H(M) = 2.9504 bits; principal-axis quantizer D = 0.4425, leakage = 2.8452 bits
+      D0=0.5861: best direction leakage 2.3981 vs principal axis 2.8452 (15.7% less) | error direction  16.62 deg (theory pencil   4.57) | floor L_1d(D0) = 1.0931
+      D0=0.8255: best direction leakage 1.7285 vs principal axis 2.8452 (39.2% less) | error direction  32.09 deg (theory pencil  16.44) | floor L_1d(D0) = 0.4714
+      D0=1.1127: best direction leakage 1.1027 vs principal axis 2.8452 (61.2% less) | error direction  50.01 deg (theory pencil  41.86) | floor L_1d(D0) = 0.0776
+   4-bit: rate H(M) = 3.8646 bits; principal-axis quantizer D = 0.4105, leakage = 3.7557 bits
+      D0=0.5589: best direction leakage 3.2855 vs principal axis 3.7557 (12.5% less) | error direction  16.58 deg (theory pencil   3.74) | floor L_1d(D0) = 1.2087
+      D0=0.8063: best direction leakage 2.5474 vs principal axis 3.7557 (32.2% less) | error direction  31.92 deg (theory pencil  15.06) | floor L_1d(D0) = 0.5076
+      D0=1.1032: best direction leakage 1.7849 vs principal axis 3.7557 (52.5% less) | error direction  50.04 deg (theory pencil  41.33) | floor L_1d(D0) = 0.0843
+  codebooks: exact Lloyd-Max
+   2-bit: rate H(M) = 1.9111 bits; principal-axis quantizer D = 0.5175, leakage = 1.8147 bits
+      D0=0.6499: best direction leakage 1.4205 vs principal axis 1.8147 (21.7% less) | error direction  16.40 deg (theory pencil   6.83) | floor L_1d(D0) = 0.8758
+      D0=0.8705: best direction leakage 0.8956 vs principal axis 1.8147 (50.6% less) | error direction  32.09 deg (theory pencil  20.04) | floor L_1d(D0) = 0.3913
+      D0=1.1352: best direction leakage 0.5066 vs principal axis 1.8147 (72.1% less) | error direction  49.93 deg (theory pencil  42.94) | floor L_1d(D0) = 0.0636
+   3-bit: rate H(M) = 2.8249 bits; principal-axis quantizer D = 0.4345, leakage = 2.7188 bits
+      D0=0.5794: best direction leakage 2.2667 vs principal axis 2.7188 (16.6% less) | error direction  16.50 deg (theory pencil   4.36) | floor L_1d(D0) = 1.1201
+      D0=0.8207: best direction leakage 1.5896 vs principal axis 2.7188 (41.5% less) | error direction  31.78 deg (theory pencil  16.09) | floor L_1d(D0) = 0.4803
+      D0=1.1104: best direction leakage 0.9714 vs principal axis 2.7188 (64.3% less) | error direction  50.04 deg (theory pencil  41.73) | floor L_1d(D0) = 0.0792
+   4-bit: rate H(M) = 3.7653 bits; principal-axis quantizer D = 0.4095, leakage = 3.6563 bits
+      D0=0.5581: best direction leakage 3.1855 vs principal axis 3.6563 (12.9% less) | error direction  16.58 deg (theory pencil   3.71) | floor L_1d(D0) = 1.2126
+      D0=0.8057: best direction leakage 2.4463 vs principal axis 3.6563 (33.1% less) | error direction  32.02 deg (theory pencil  15.02) | floor L_1d(D0) = 0.5088
+      D0=1.1029: best direction leakage 1.6851 vs principal axis 3.6563 (53.9% less) | error direction  50.01 deg (theory pencil  41.32) | floor L_1d(D0) = 0.0845
