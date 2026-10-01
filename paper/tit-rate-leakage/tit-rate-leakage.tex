@@ -2,6 +2,8 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -158,6 +160,11 @@ tradeoff; when the holder's dominates, an estimation inequality
 (Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one
 without decoder side information, for the source conditioned on the
 decoder's observation and the holder's excess information.
+The same effects appear in fixed-rate scalar quantizers
+(Section~\ref{sec:quant}). At equal rate and equal distortion, a
+Lloyd--Max quantizer applied to a leakage-aware projection leaks 13\% to
+72\% less than the same quantizer on the principal axis, and the
+projection it reads turns with the budget.
 
 \subsection*{Related work}
 
@@ -201,10 +208,13 @@ endpoint program is a determinant maximization \cite{vandenberghe1998}.
 
 The paper is organized as follows. Section~\ref{sec:model} sets up the
 model and the coding theorem, Section~\ref{sec:convex} proves the convex
-structure, Section~\ref{sec:onedim} the one-dimensional regime,
+structure, Section~\ref{sec:commuting} decoupling and commuting
+geometry, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
-and Section~\ref{sec:parallel} independent components.
-Section~\ref{sec:examples} gives instances and Section~\ref{sec:discussion}
+Section~\ref{sec:parallel} independent components, and
+Section~\ref{sec:decsi} decoder side information.
+Section~\ref{sec:examples} gives instances, Section~\ref{sec:quant}
+evaluates practical scalar quantizers, and Section~\ref{sec:discussion}
 open problems. The appendices prove the coding theorem and a Gaussian
 exhaustion lemma and describe the numerical checks.
 
@@ -1048,6 +1058,228 @@ rate-optimal description pays $R=L=0.1610$ bits on component $1$ and the
 leakage-optimal description pays $L=0.0197$ and $R=0.3272$ bits on
 component $2$.
 
+\section{Practical Quantizers}
+\label{sec:quant}
+
+The theorems concern long blocks and Gaussian test channels. A practical
+description is often a fixed-rate scalar quantizer applied to one
+projection of the data. We ask two questions of such a quantizer. Does
+the projection it reads change its leakage at equal rate and equal
+distortion? And does the leakage-aware projection turn with the budget,
+as Theorem~\ref{thm:turning} predicts for the optimum?
+
+\textbf{Setup.} Take the coupled instance of Section~\ref{sec:examples},
+so that $Q=F^{\mathsf T}F$ and $D_{\max}=\tr\Sigma_Y=1.4$. For a direction
+$b$ let $Z=b^{\mathsf T}T/(b^{\mathsf T}\Sigma_Tb)^{1/2}$, which is standard
+normal, and let $M=q(Z)$ for a scalar quantizer $q$ with $K$ levels and
+thresholds at the midpoints between levels. The decoder reproduces
+$\hY=\E[Y\mid M]$. Write $p_i$ for the probability of cell $i$, $m_i$ for
+$\E[Z\mid M=i]$, and $\gamma=\sum_ip_im_i^2$. Let
+$c=\E[YZ]=F\Sigma_Tb/(b^{\mathsf T}\Sigma_Tb)^{1/2}$ and let $\rho$ be the
+correlation of $Z$ with the scalar $S$. Because $Y-cZ$ is independent of
+$Z$, the distortion is
+\[
+D(b)=\tr\Sigma_Y-\gamma\,\|c\|^2 .
+\]
+The entropy $H(M)=-\sum_ip_i\log p_i$ does not depend on $b$, so every
+comparison below is at equal rate, whether the index is sent at
+$\log K$ bits or entropy coded. Given $S$, the variable $Z$ is normal
+with variance $1-\rho^2$ and a mean proportional to $\rho$, so the
+leakage $H(M\mid S)$ depends on $b$ only through $\rho$.
+
+\begin{proposition}\label{prop:quant}
+For every quantizer $q$, the leakage $H(q(Z)\mid S)$ is a nonincreasing
+function of $|\rho|$.
+\end{proposition}
+
+\begin{proof}
+Let $\bar S$ be $S$ scaled to unit variance. The law of $(Z,\bar S)$ is
+fixed by $\rho$, and replacing $\bar S$ by $-\bar S$ flips the sign of
+$\rho$ without changing $H(M\mid\bar S)$, so the leakage is a function of
+$|\rho|$. For $0\le\rho<\rho'\le1$, let $(Z,\bar S')$ have correlation
+$\rho'$ and let
+$\bar S''=(\rho/\rho')\bar S'+(1-\rho^2/\rho'^2)^{1/2}N$ with $N$ standard
+normal and independent. Then $(Z,\bar S'')$ has correlation $\rho$ and
+$Z-\bar S'-\bar S''$ is a Markov chain, so
+$H(M\mid\bar S'')\ge H(M\mid\bar S',\bar S'')=H(M\mid\bar S')$.
+\end{proof}
+
+For every quantizer used here the leakage is strictly decreasing in
+$|\rho|$, which we checked at 200 values of $|\rho|$ in $[0,0.995]$. The
+leakage-aware projection for a given quantizer therefore maximizes
+$|\rho|$ subject to $\gamma\|c\|^2\ge\tr\Sigma_Y-D_0$. We place each
+budget relative to the principal-axis quantizer, which reads $Y_1$, has
+$c=(1,0)$, and has distortion $D_R=\tr\Sigma_Y-\gamma$. Setting
+$D_0=D_R+f(\tr\Sigma_Y-D_R)$ with $0<f<1$, the constraint becomes
+$\|c\|^2\ge1-f$, and the quantizer has dropped out. At a given $f$ the
+leakage-aware projection is the same for every quantizer, and only its
+leakage depends on the quantizer. For $f\ge0.64$ it is the context
+itself. The choice $Z=V$ has $c=\Cov(Y,V)=0.6u$ with $\|c\|^2=0.36$, and
+$V$ maximizes $|\rho|$ over all projections because $S=V+U$.
+
+\textbf{Computation.} We use the Lloyd--Max quantizers for the standard
+normal law \cite{lloyd1982,max1960} at $k=2$, $3$, and $4$ bits, and
+$f=0.15$, $0.4$, and $0.7$. The rate, the distortion, and the leakage are
+exact Gaussian integrals, the last by Gauss--Hermite quadrature over
+$S$. The leakage-aware projection is the direction of largest $|\rho|$
+among $2\times10^6$ random feasible directions, and its costs are then
+evaluated exactly. Table~\ref{tab:quant} lists the results.
+
+\begin{table}[t]
+\centering
+\caption{Lloyd--Max quantizers on one projection of the coupled
+instance. At each budget the leakage-aware projection leaks less than
+the principal axis at the same rate, and it reads a direction that turns
+further than the Gaussian optimum. Leakage in bits, angles in degrees
+in the plane of $Y$.}
+\label{tab:quant}
+\begin{tabular}{ccccccccc}
+\hline
+$k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / pencil) & $L_{\mathrm{1d}}(D_0)$\\
+\hline
+2 & 1.9111 & 0.15 & 0.6499 & 1.8147 & 1.4205 & 21.7\% & 16.40 / \phantom{0}6.83 & 0.8758\\
+  &        & 0.40 & 0.8705 & 1.8147 & 0.8956 & 50.6\% & 32.09 / 20.04 & 0.3913\\
+  &        & 0.70 & 1.1352 & 1.8147 & 0.5066 & 72.1\% & 49.93 / 42.94 & 0.0636\\
+\hline
+3 & 2.8249 & 0.15 & 0.5794 & 2.7188 & 2.2667 & 16.6\% & 16.50 / \phantom{0}4.36 & 1.1201\\
+  &        & 0.40 & 0.8207 & 2.7188 & 1.5896 & 41.5\% & 31.78 / 16.09 & 0.4803\\
+  &        & 0.70 & 1.1104 & 2.7188 & 0.9714 & 64.3\% & 50.04 / 41.73 & 0.0792\\
+\hline
+4 & 3.7653 & 0.15 & 0.5581 & 3.6563 & 3.1855 & 12.9\% & 16.58 / \phantom{0}3.71 & 1.2126\\
+  &        & 0.40 & 0.8057 & 3.6563 & 2.4463 & 33.1\% & 32.02 / 15.02 & 0.5088\\
+  &        & 0.70 & 1.1029 & 3.6563 & 1.6851 & 53.9\% & 50.01 / 41.32 & 0.0845\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.47\linewidth, height=6.2cm,
+  xmin=0.38, xmax=1.2, ymin=0, ymax=4,
+  xlabel={distortion budget $D_0$},
+  ylabel={leakage $H(M\mid S)$ (bits)},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={font=\footnotesize, at={(0.5,1.03)}, anchor=south,
+    legend columns=3, draw=none},
+  every axis plot/.append style={line width=0.9pt},
+  clip=false]
+\fill[gray!15] (axis cs:1.0853,0) rectangle (axis cs:1.2,4);
+\node[font=\scriptsize, gray!60!black, rotate=90, anchor=south]
+  at (axis cs:1.2,2) {certified regime};
+\addlegendimage{black, solid, mark=*}
+\addlegendentry{leakage-aware}
+\addlegendimage{black, densely dotted}
+\addlegendentry{principal axis}
+\addlegendimage{black, dashed, mark=o}
+\addlegendentry{$L_{\mathrm{1d}}(D_0)$}
+\addplot[black, mark=*, forget plot] coordinates
+  {(0.6499,1.4205) (0.8705,0.8956) (1.1352,0.5066)};
+\addplot[black, densely dotted, forget plot] coordinates
+  {(0.5175,1.8147) (1.15,1.8147)};
+\addplot[black, dashed, mark=o, forget plot] coordinates
+  {(0.6499,0.8758) (0.8705,0.3913) (1.1352,0.0636)};
+\addplot[blue!70!black, mark=square*, forget plot] coordinates
+  {(0.5794,2.2667) (0.8207,1.5896) (1.1104,0.9714)};
+\addplot[blue!70!black, densely dotted, forget plot] coordinates
+  {(0.4345,2.7188) (1.15,2.7188)};
+\addplot[blue!70!black, dashed, mark=square, forget plot] coordinates
+  {(0.5794,1.1201) (0.8207,0.4803) (1.1104,0.0792)};
+\addplot[red!70!black, mark=triangle*, forget plot] coordinates
+  {(0.5581,3.1855) (0.8057,2.4463) (1.1029,1.6851)};
+\addplot[red!70!black, densely dotted, forget plot] coordinates
+  {(0.4095,3.6563) (1.15,3.6563)};
+\addplot[red!70!black, dashed, mark=triangle, forget plot] coordinates
+  {(0.5581,1.2126) (0.8057,0.5088) (1.1029,0.0845)};
+\node[font=\scriptsize, anchor=south west] at (axis cs:0.40,3.66) {4 bits};
+\node[font=\scriptsize, anchor=south west, blue!70!black] at (axis cs:0.43,2.72) {3 bits};
+\node[font=\scriptsize, anchor=south west] at (axis cs:0.52,1.81) {2 bits};
+\node[font=\small, anchor=south west] at (rel axis cs:0.01,0.01) {(a)};
+\end{axis}
+\end{tikzpicture}%
+\hfill
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.47\linewidth, height=6.2cm,
+  xmin=0, xmax=0.8, ymin=-3, ymax=56,
+  xlabel={budget position $f$},
+  ylabel={error direction (degrees)},
+  xtick={0,0.15,0.4,0.64,0.7}, xticklabels={0,0.15,0.4,,0.7},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={font=\footnotesize, at={(0.5,1.03)}, anchor=south,
+    legend columns=3, draw=none},
+  every axis plot/.append style={line width=0.9pt}]
+\draw[gray!60, thin] (axis cs:0,50) -- (axis cs:0.8,50);
+\node[font=\scriptsize, gray!50!black, anchor=south west] at (axis cs:0.01,50) {context direction $u$};
+\draw[gray!60, thin] (axis cs:0.64,-3) -- (axis cs:0.64,56);
+\node[font=\scriptsize, gray!50!black, anchor=north east, align=right] at (axis cs:0.635,13) {reads $V$\\for $f\ge0.64$};
+\addlegendimage{black, solid, mark=*}
+\addlegendentry{leakage-aware}
+\addlegendimage{black, densely dotted}
+\addlegendentry{principal axis}
+\addlegendimage{black, dashed, mark=o}
+\addlegendentry{Gaussian optimum}
+\addplot[black, mark=*, forget plot] coordinates {(0.15,16.40) (0.4,32.09) (0.7,49.93)};
+\addplot[blue!70!black, mark=square*, forget plot] coordinates {(0.15,16.50) (0.4,31.78) (0.7,50.04)};
+\addplot[red!70!black, mark=triangle*, forget plot] coordinates {(0.15,16.58) (0.4,32.02) (0.7,50.01)};
+\addplot[black, dashed, mark=o, forget plot] coordinates {(0.15,6.83) (0.4,20.04) (0.7,42.94)};
+\addplot[blue!70!black, dashed, mark=square, forget plot] coordinates {(0.15,4.36) (0.4,16.09) (0.7,41.73)};
+\addplot[red!70!black, dashed, mark=triangle, forget plot] coordinates {(0.15,3.71) (0.4,15.02) (0.7,41.32)};
+\addplot[black, densely dotted, forget plot] coordinates {(0,0) (0.8,0)};
+\node[font=\small, anchor=south east] at (rel axis cs:0.99,0.08) {(b)};
+\end{axis}
+\end{tikzpicture}
+\caption{Fixed-rate Lloyd--Max quantizers on one projection of the
+coupled instance, at 2 (circles), 3 (squares), and 4 bits (triangles).
+(a) Leakage at equal rate. The leakage-aware projection leaks less than
+the principal axis at every budget, and in the shaded certified regime
+$L_{\mathrm{1d}}(D_0)$ is the least leakage of any description.
+(b) The direction in the plane of $Y$ along which each description
+reduces the error. The leakage-aware quantizer turns toward the context
+direction and turns further than the Gaussian optimum, while the
+principal-axis quantizer stays at $0^\circ$.}
+\label{fig:quant}
+\end{figure}
+
+\textbf{Results.} At equal rate and equal budget, the leakage-aware
+quantizer leaks $12.9\%$ to $72.1\%$ less than the principal-axis
+quantizer (Table~\ref{tab:quant} and Fig.~\ref{fig:quant}(a)). The gain
+grows as the budget loosens and is largest at 2 bits, where at $f=0.7$
+the quantizer leaks $0.5066$ bits instead of $1.8147$. The principal-axis
+quantizer reduces the error along the first axis at every budget. The
+leakage-aware quantizer reduces it along $16.4^\circ$ to $16.6^\circ$,
+$31.8^\circ$ to $32.1^\circ$, and $49.9^\circ$ to $50.0^\circ$ at the three
+values of $f$ (Fig.~\ref{fig:quant}(b)). These agree across the three
+quantizers within the $0.31^\circ$ resolution of the search, as the
+reduction above requires, and they turn with the budget toward the
+context direction $u$ at $50^\circ$, which the quantizer reaches once it
+reads $V$.
+
+The Gaussian optimum of Theorem~\ref{thm:onedim} turns the same way but
+less, through $3.7^\circ$ to $6.8^\circ$, $15.0^\circ$ to $20.0^\circ$, and
+$41.3^\circ$ to $42.9^\circ$ at the same budgets. A Gaussian description
+at budget $D_0$ chooses its noise variance as well as its direction, so
+it can spend part of the slack on coarser resolution. A fixed-rate
+quantizer has a fixed $\gamma$. It can spend the slack only on direction,
+and it turns further. Its leakage also stays well above the floor. Every
+budget at $f=0.7$ lies in the certified regime $D\ge1.08530$ of
+Section~\ref{sec:examples}, where $L_{\mathrm{1d}}(D_0)=L(D_0)$. Because
+$\hY$ is an admissible channel and
+$H(M\mid S)=I(T;M\mid S)\ge I(T;\hY\mid S)$, Theorem~\ref{thm:op} makes
+$L(D_0)$ a lower bound on the leakage of the quantizer. The 2-bit
+quantizer leaks $0.5066$ bits there, against a floor of $0.0636$ bits.
+At $f=0.15$ and $0.4$ the budgets lie below the certified regime, and
+$L_{\mathrm{1d}}(D_0)$ is the best value among one-dimensional Gaussian
+descriptions rather than a bound.
+
+The 3-bit and 4-bit level tables shipped with one open-source
+vector-compression library differ from the Lloyd--Max levels. Their
+mean-square errors on the standard normal law are $0.0456$ and $0.0108$,
+against $0.0346$ and $0.0095$. With those tables the reductions range
+from $12.5\%$ to $72.1\%$, and the directions agree with
+Table~\ref{tab:quant} within $0.3^\circ$.
+
 \section{Discussion}
 \label{sec:discussion}
 
@@ -1231,7 +1463,13 @@ against the reduced program. \texttt{verify\_coupled.py},
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
 \ref{lem:slope}, the allocation, and the numbers of
-Section~\ref{sec:examples}. No proof depends on them; the instances
+Section~\ref{sec:examples}. \texttt{tqp\_leakage\_demo.py} computes
+Table~\ref{tab:quant} and Fig.~\ref{fig:quant}. It evaluates the rate,
+distortion, and leakage of each quantizer by exact Gaussian integrals,
+checks that the leakage is strictly decreasing in $|\rho|$ for every
+quantizer, and compares the Lloyd--Max levels with the library tables of
+Section~\ref{sec:quant}. Its output is recorded in
+\texttt{tqp\_leakage\_demo-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
@@ -1316,6 +1554,10 @@ pp. 51--59, 1978.
 \bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
 of probability distributions and indirect observations,'' \emph{Studia Sci.
 Math. Hungar.}, vol. 2, pp. 299--318, 1967.
+\bibitem{lloyd1982} S. P. Lloyd, ``Least squares quantization in PCM,''
+\emph{IEEE Trans. Inf. Theory}, vol. 28, no. 2, pp. 129--137, 1982.
+\bibitem{max1960} J. Max, ``Quantizing for minimum distortion,'' \emph{IRE
+Trans. Inf. Theory}, vol. 6, no. 1, pp. 7--12, 1960.
 \end{thebibliography}
 
 \end{document}
