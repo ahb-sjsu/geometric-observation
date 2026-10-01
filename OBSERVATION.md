@@ -8,12 +8,18 @@ quotient X/∼_C, the world it can act on. Operational geometry, distortion,
 and reliability are properties of the relation among object, observer,
 channel, and budget; they are ill-posed until all are specified.
 
+**Classical names.** P_C averaged over inputs is the active-subspace matrix
+(Constantine 2015), or expected gradient outer product (Xia et al. 2002), and
+JᵀGJ is the pullback metric of information geometry (Rao 1945; Amari). The
+triple (C, G, B) is a task map, an output metric, and a rank or rate
+constraint. Full credits are in `chapters/appendix_a_related_work.md`.
+
 **One object, three shadows.**
 
 | Shadow | Question | Results | Papers · instruments |
 |---|---|---|---|
-| **COST** | what observation charges | R_C(D) achievability+converse; true-divergence reduction (the tilt is C); two-observer region (Gaussian successive refinement, Equitz–Cover; Nayak et al.), refinable iff Σ★(P₂,D₂) ⪯ Σ★(P₁,D₁) (Loewner nesting of the optimal error covariances, not of the read operators), exact rate loss ½log[det Σ★(P₂,D₂)/det Σ°]; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π); **thermodynamic**: the rate–work–distortion region RW_C(D) — description rate I(X;X̂) vs conditional Landauer reset work I(X;X̂\|S) as separate resources; materialize-then-project barrier; multi-consumer coordinated reset saves TC(U₁;…;U_m\|S); thermal water-filling d*=min{λ,νT}; staleness–work complement | Paper III (T-IT) · Paper V (Landauer, GO-P-2026-042/043) |
-| **VALUE** | what preserving the read buys | the flip: reconstruction-tied codes rank oppositely per consumer; 12-domain sweep across 3 physics + trained models + classifiers; ZCA-whitened codes win end-to-end | Paper II · Paper IV · turboquant a2_probe / runtime_policy |
+| **COST** | what observation charges | R_C(D), the weighted rate–distortion function (Sakrison 1968; indirect source coding, Witsenhausen 1980), achievability+converse; true-divergence reduction (the tilt is C); two-observer region (Gaussian successive refinement, Equitz–Cover; Nayak et al.), refinable iff Σ★(P₂,D₂) ⪯ Σ★(P₁,D₁) (Loewner nesting of the optimal error covariances, not of the read operators), exact rate loss ½log[det Σ★(P₂,D₂)/det Σ°]; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π); **thermodynamic**: the rate–work–distortion region RW_C(D) — description rate I(X;X̂) vs conditional Landauer reset work I(X;X̂\|S) (erasure work with side information, del Rio et al. 2011; the conditional leakage of secure source coding, Villard–Piantanida 2013) as separate resources; materialize-then-project barrier; multi-consumer coordinated reset saves TC(U₁;…;U_m\|S); thermal water-filling d*=min{λ,νT}; staleness–work complement | Paper III (T-IT) · Paper V (Landauer, GO-P-2026-042/043) |
+| **VALUE** | what preserving the read buys | the flip (a ranking reversal between reconstruction error and task loss, the premise of task-based quantization, Shlezinger–Eldar–Rodrigues 2019): reconstruction-tied codes rank oppositely per consumer; 12-domain sweep across 3 physics + trained models + classifiers; ZCA-whitened codes win end-to-end | Paper II · Paper IV · turboquant a2_probe / runtime_policy |
 | **LEGIBILITY** | what the quotient reveals | angle carries geodesics where radius carries density; recognizer names the manifold or certifies none; dimension emerges before shape (Weyl ordering); α=1 response sign = ker-P_C membership test | Paper I · Paper I.5 · the recognizer |
 
 **The consumer table** (what each observer reads / discards):
@@ -82,7 +88,8 @@ this plan reduces surface area.
   (a) the failure taxonomy derived as the four degeneracies of P_C
   (coupling = range alignment with source energy; precondition = P_C ≈ 0;
   identifiability = wrong Ĝ; mechanism-absent = direction not in ker P_C);
-  (b) **the κ alignment law** — define κ = normalized tr(P̄_C Σ̄_x) on the
+  (b) **the κ alignment law** — define κ = normalized tr(P̄_C Σ̄_x) (a matrix
+  cosine, as in kernel alignment, Cristianini et al. 2002) on the
   read subspace; retrospective test across the 12 measured domains (labeled
   retrospective: flip magnitude decreasing in κ, D4 as the κ→1 null); ONE
   sealed prospective prediction at intermediate κ. Converts boundary

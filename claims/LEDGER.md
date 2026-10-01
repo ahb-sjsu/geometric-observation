@@ -8,6 +8,21 @@ the book may not assert what this ledger cannot show. Classes: `[proved]`,
 > **Post-publication, this ledger is the living erratum** (§10). Failures
 > downgrade a claim before print; the book's tables carry IDs that resolve here.
 
+> **Classical names (2026-10-01).** Row text below keeps the program's terms as
+> registered. Their classical names are these. The read operator P_C is the
+> active-subspace matrix, or expected gradient outer product. The read distortion
+> tr(P_C Σ_δ) is a weighted mean squared error. R_C(D) is the weighted
+> rate–distortion function (Sakrison 1968). The flip is a ranking reversal between
+> reconstruction error and task loss (task-based quantization). The blind probe is
+> finite-difference active-subspace estimation. Conditional content, conditional
+> work and conditional Landauer reset content are the conditional leakage
+> I(Xⁿ;M|Sⁿ)/n of secure source coding (Villard and Piantanida 2013; Ekrem and
+> Ulukus 2013), with erasure work given side information from del Rio et al. (2011).
+> The OT-3 budget cliff is the identifiability limit of confined probes. Two-observer
+> refinability is Gaussian successive refinement (Equitz and Cover 1991; Nayak et al.
+> 2010). κ is a matrix cosine, as in kernel alignment. References are in
+> `chapters/appendix_a_related_work.md`.
+
 > **A2 disambiguation** (U0 gate; one word each, so "A2" is never over-read).
 > "A2" names two different, unequal results — keep them distinct:
 > - **A2-anchor** = GO-P-2026-021 (real-Llama rematch). One word: **worse-arm.**
