@@ -428,3 +428,26 @@ in the 062 retro-derivation remark. Cross-net: Thm 10 retro-derives
 **Standing after v0.11**: both structural rungs beyond the closed m=1
 theory are settled — the m=2 frontier system (Thm 9) and the discrete
 CR function (Thm 10). Next rung: dynamic/process extension (GO-12-shaped).
+
+## Addendum 2026-10-01: Villard–Piantanida correction and terminology
+
+Source: `articles/2026-10-01-ot-novelty-assessment.md`.
+
+- Item 4 above says Villard–Piantanida 2013 is "exact only for
+  eavesdropper-without-SI". That is wrong for this problem. Their Theorem 3 is
+  tight with uncoded side information at the legitimate decoder, which includes
+  no decoder side information. It then gives the discrete
+  rate–distortion–leakage region with side information at the eavesdropper,
+  which is Paper V's one-constraint region (up to the leakage/equivocation
+  shift). The manuscript now says so in "What is known (i)" and in a dated
+  correction paragraph in the delineation.
+- Identity used: for a deterministic encoder,
+  H(Xⁿ|M,Sⁿ) = H(Xⁿ|Sⁿ) − H(M|Sⁿ), so the work coordinate H(M|Sⁿ)/n is the
+  conditional leakage I(Xⁿ;M|Sⁿ)/n.
+- Ekrem–Ulukus bibliographic data completed: IEEE T-IT 59(9):5466–5487, 2013
+  (verified by web search 2026-10-01). Their statement that the joint
+  rate–leakage region is unsolved is now cited.
+- Terminology in the manuscript: consumer -> downstream estimator; read
+  operators -> distortion weight matrices; conditional content -> conditional
+  leakage. Title now "The Exact Two-Estimator Rate–Leakage Region with Reset
+  Side Information". This record keeps its original wording.
