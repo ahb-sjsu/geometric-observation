@@ -145,3 +145,17 @@ journal-only work is the one that failed.
 3. Add Zheng–Lamperski as related work with the evaluate-vs-convexify
    sentence, and arXiv:2605.25085 as the truncation analogue with the
    exact-vs-approximate-feasibility distinguish.
+
+## Addendum 2026-10-01: classical name of the block term
+
+Source: `articles/2026-10-01-ot-novelty-assessment.md`.
+
+- The block term I(Tⁿ;Ŷⁿ|Sⁿ)/n in the exact chain rule is the conditional
+  leakage of secure source coding to a side-information holder (Villard and
+  Piantanida, IEEE T-IT 59(6):3668–3692, 2013; Ekrem and Ulukus, IEEE T-IT
+  59(9):5466–5487, 2013; both verified 2026-10-01). The manuscript now says so
+  in a "Classical names" paragraph under Setting.
+- Still owed (unchanged): the sweep against causal conditioning (Kramer) and
+  nonanticipative rate–distortion (Charalambous, Stavrou). The new paragraph
+  points to Remark F085owed rather than citing them, since that sweep has not
+  been done.
