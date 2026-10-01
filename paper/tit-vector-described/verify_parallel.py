@@ -1,4 +1,4 @@
-"""Checks for Section VII (parallel described variables) of tit-cr-context-r2.tex, 2026-10-01.
+"""Checks for Section III (parallel described variables) of tit-vector.tex, 2026-10-01.
 Run on Atlas: PYTHONPATH with sympy; numpy, scipy.
 
 Per coordinate j: Var Y_j = sig2_j, Var V_j = 1, corr rho_j, S_j = V_j + U_j, U_j ~ N(0, tau2_j).

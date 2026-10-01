@@ -1,4 +1,4 @@
-"""Checks for Section VIII (coupled described variables) of tit-cr-context-r2.tex, 2026-10-01.
+"""Checks for Section IV (coupled described variables) of tit-vector.tex, 2026-10-01.
 Run on Atlas with numpy, scipy, sympy, cvxpy (clarabel).
   C1 scalar: det(A(Delta) - mu K) = 0 at mu = Delta/(g-1) is proportional to P(g)  (symbolic)
   C2 max-det program == brute-force optimum over Gaussian descriptions (random coupled instances)
