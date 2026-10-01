@@ -1,5 +1,12 @@
 # Chapter 1 — Why Observation Needs a Theory
 
+*Status note (2026-10-01).* Chapters 1 through 18 were written before Observation Theory
+v1.0 was declared. The declaration was sealed on 2026-08-18
+(`crucible/DECLARATION-V1.md`). Some statements in those chapters predate later
+corrections and later registered results. Where a chapter and `claims/LEDGER.md`
+disagree, the ledger governs. Appendix A gives the classical name and source for each
+construct the book uses.
+
 Three engineers, in three different buildings, are about to make the same mistake.
 
 The first is Maya, whom you met in the Preface. She has quantized a language model's

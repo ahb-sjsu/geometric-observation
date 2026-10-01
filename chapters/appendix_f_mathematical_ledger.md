@@ -1,5 +1,12 @@
 # Appendix F — Mathematical Ledger: Status of Formal Claims
 
+*Status note (2026-10-01).* Chapters 1 through 18 were written before Observation Theory
+v1.0 was declared. The declaration was sealed on 2026-08-18
+(`crucible/DECLARATION-V1.md`). Some statements in those chapters predate later
+corrections and later registered results. Where a chapter and `claims/LEDGER.md`
+disagree, the ledger governs. Appendix A gives the classical name and source for each
+construct the book uses.
+
 *This appendix is the book's index into `claims/LEDGER.md`: every formal claim the text
 makes, with its class, its registry, and its custody. It exists so that a reader can audit
 any sentence tag-first — follow a `[proved]` to its harness, a `[demonstrated]` to its
