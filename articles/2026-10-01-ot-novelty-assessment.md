@@ -26,7 +26,19 @@ Novelty verdicts below mean "no prior found after a search". They are not proofs
 3. **The strongest result's coordinate already has a standard name.** Under a deterministic encoder, H(Xⁿ|M,Sⁿ) = H(Xⁿ|Sⁿ) − H(M|Sⁿ). So the programme's "conditional content" or "conditional work", H(M|Sⁿ)/n, is the *conditional leakage* I(Xⁿ;M|Sⁿ)/n of secure source coding. Minimizing it is the same optimization as maximizing the eavesdropper's equivocation. Two consequences follow:
    - The discrete rate–content region (Paper V and Theorem 6 of the scalar T-IT paper) is Villard–Piantanida 2013, Theorem 3, with no decoder side information and U = V.
    - The vector Gaussian content endpoint is close to Ekrem–Ulukus 2013, Theorem 5. Their theorem uses a matrix distortion on the whole source and Gaussian decoder side information, so it does not cover our case directly.
-4. **This is good news if it is stated plainly.** Ekrem and Ulukus write that they "have been unable to solve" the joint rate–leakage problem L(μ₁, μ₂) (their p. 8). The programme's Gaussian results solve that problem in the case without decoder side information, with an informed encoder and an arbitrary weighted distortion. The solution is explicit and has structure the parent literature lacks. That is the foundational paper.
+4. **This is good news if it is stated plainly.** Ekrem and Ulukus write that they "have been unable to solve" the joint rate–leakage problem L(μ₁, μ₂) (their p. 8).
+   - **Correction after the referee pass, same day:**
+     - Xu and Chen (arXiv:2109.00377, 2021, unrefereed) report a characterization of the vector Gaussian rate–distortion–equivocation function through new extremal inequalities.
+     - Günlü, Schaefer, Boche and Poor (arXiv:2205.05068, 2022) evaluate a scalar Gaussian region with a remote source.
+     - Without decoder side information the region itself is elementary, because one Gaussian exhaustion lemma bounds both costs at once.
+   - **What is new is its structure for an informed encoder:**
+     - convexity of both costs in the error covariance
+     - the pencil closed form
+     - the budget-dependent read direction
+     - the misalignment criterion
+     - the non-water-filling allocation
+
+   That structure is the foundational paper.
 
 ## What is new (theorem level), ranked
 
