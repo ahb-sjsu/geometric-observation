@@ -68,3 +68,20 @@ Gkagkos/Stylianou–Charalambous conditional line (single constraint);
 Simeone–Permuter stale SI (one decoder); HB/Kaspi 1985 + Lu–Xu 2021 +
 Timo–Chan–Grant 2011; Charalambous–Stylianou nonanticipative process
 tuples.**
+
+## Addendum 2026-10-01: the third-party eraser is the eavesdropper
+
+Source: `articles/2026-10-01-ot-novelty-assessment.md`.
+
+- Item 3 above says the "third-party eraser framing is unclaimed", with
+  side information "always by encoder/decoder, never a third party". Secure
+  source coding has exactly such a party, the eavesdropper, and the joint
+  conditional coordinate L_AB is the conditional leakage to it (Villard and
+  Piantanida, IEEE T-IT 59(6):3668–3692, 2013; Ekrem and Ulukus, IEEE T-IT
+  59(9):5466–5487, 2013; both verified 2026-10-01). The framing alone is
+  therefore not unclaimed. The spectral lift with two prices and the aged,
+  access-indexed holder remain unfound. The manuscript now carries both
+  credits and a dated note in the Theorem 1 R-IND-5 bracket.
+- Terminology in the manuscript: consumer -> downstream estimator; third-party
+  conditioner -> side-information holder. This record keeps its original
+  wording.
