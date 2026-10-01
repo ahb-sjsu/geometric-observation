@@ -53,20 +53,15 @@ the context, and never decodes. The minimal conditional content is
 Steinberg's common-reconstruction functional on the augmented source,
 and for jointly Gaussian sources it has a closed form,
 $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of an
-explicit quadratic.
+explicit quadratic, which is the largest generalized eigenvalue of a
+matrix pencil and so extends to vector context.
 The region of jointly achievable rate and conditional content is exact,
 with a Pareto frontier traced by two coupled noise fractions. Rate and
 conditional content strictly trade off exactly when the context is
 partially informative, and the tradeoff persists when the side
 information is noiseless. The conditional content is not determined by
 the joint law of the described variable and the side information, so the
-encoder's access to the clean context enters the function. For a
-described vector with independent coordinates, the content-optimal split
-of the distortion is not reverse water-filling, and the rate-optimal and
-content-optimal descriptions can describe disjoint sets of coordinates.
-For coupled coordinates the function is a determinant maximization, and
-the direction the content-optimal description reads turns with the
-distortion budget.
+encoder's access to the clean context enters the function.
 The rate--content frontier of the doubly symmetric binary case is computed
 explicitly, and coding theorems, including a direct proof for the
 Gaussian source, give the conditional content its operational meaning as
@@ -101,10 +96,7 @@ grows without bound as the side information becomes clean
 (Theorem~\ref{thm:region}(b), Corollary~\ref{cor:misalign}). And for jointly
 Gaussian sources the whole picture is explicit, the minimal conditional
 content in closed form and the rate--content region with its frontier.
-The picture extends to a described vector with independent coordinates,
-where the two costs disagree even about which coordinates to describe
-(Theorem~\ref{thm:parallel}), and the doubly symmetric binary source is
-solved through a tilt equation.
+The doubly symmetric binary source is solved through a tilt equation.
 
 A concrete instance is a two-tier data store (Fig.~\ref{fig:system}). A
 serving tier keeps the compressed records and answers queries from the
@@ -184,7 +176,7 @@ Wigger \cite{lapidoth2014} notes precisely this augmentation device: an
 encoder observing an additional sequence correlated with the side
 information is handled by enlarging the source alphabet and letting the
 distortion ignore the extra coordinate. What this paper adds is the
-solution of the augmented problem, and three contributions are primary.
+solution of the augmented problem, and two contributions are primary.
 First, the closed form: we evaluate the augmented Gaussian functional
 exactly, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of
 an explicit quadratic together with the achieving channel
@@ -220,27 +212,15 @@ to invertible scaling can have different minimal conditional content,
 because the encoder's access to the clean context $V$, which neither the
 decoder nor the third party shares, enters the function itself.
 
-Third, the extension to a described vector whose coordinates carry
-independent contexts and side information
-(Section~\ref{sec:parallel}). The content-optimal description splits the
-distortion budget by equalizing the slopes of the scalar functions, which
-Lemma~\ref{lem:slope} computes in closed form and proves strictly convex.
-The split is not reverse water-filling. The rate-optimal description
-describes coordinates in decreasing order of variance, the content-optimal
-one in decreasing order of $\sigma_j^2(1+\rho_j^2/\tau_j^2)$, so a
-coordinate of small variance with a well-read context can be described
-first. The two optimal descriptions can describe disjoint sets of
-coordinates (Corollary~\ref{cor:parallelmisalign}). When the coordinates
-are coupled (Section~\ref{sec:coupled}), the function is the value of a
-determinant maximization in the error covariance that remains for the
-party holding the side information (Theorem~\ref{thm:maxdet}). When the
-optimal description is one-dimensional it is explicit, the largest
-generalized eigenvalue of a pencil in which the distortion budget
-enters (Theorem~\ref{thm:onedim}), and the closed form of
-Theorem~\ref{thm:function}(a) is its scalar case. The direction that the
-content-optimal description reads then turns as the budget changes,
-unless it ignores the context (Theorem~\ref{thm:turning}), while the
-rate-optimal description reads a fixed principal axis.
+The closed form has a second description, which explains where the
+quadratic comes from. The minimal conditional content is the largest
+generalized eigenvalue of a matrix pencil formed from the covariance of
+the encoder's observation, its conditional covariance given the side
+information, and the distortion level (Proposition~\ref{prop:pencil}),
+and the same formula gives the vector-context function explicitly. A
+companion manuscript \cite{bond2026vector} treats a described variable
+of dimension greater than one, where the eigenvector of that pencil, the
+direction the description reads, turns with the distortion budget.
 
 The remaining results are extensions and classical limits. The closed
 form recovers Shannon's rate--distortion function at $\rho=0$
@@ -314,17 +294,10 @@ Heegard--Berger problem with common reconstructions \cite{luxu2021}.
 Its closed form keeps the context penalized by its own distortion
 constraint, and Appendix~\ref{app:lucompare} shows that it lies strictly
 above $L(D)$ on its admissible range and does not continue to the
-unpenalized limit evaluated here. For a described vector with
-independent Gaussian components the classical rate answer is reverse
-water-filling \cite{berger1971}; Section~\ref{sec:parallel} uses the same
-decomposition, and what differs is the allocation it produces. For
-coupled coordinates, Section~\ref{sec:coupled} parameterizes a Gaussian
-description by its error covariance, a standard device in vector
-Gaussian source coding \cite{rahman2012}, and the content endpoint
-becomes a determinant maximization \cite{vandenberghe1998}. The
-Gaussian information bottleneck \cite{chechik2005} projects onto fixed
-eigenvectors whatever its tradeoff parameter; the content-optimal
-description here does not.
+unpenalized limit evaluated here. The pencil characterization of
+Proposition~\ref{prop:pencil} parameterizes a Gaussian description by
+its error covariance, a standard device in vector Gaussian source coding
+\cite{rahman2012}.
 
 
 The conditional coordinate also has a security reading: $L$ is the
@@ -348,14 +321,6 @@ $I(\hX;S)$ of the description about the side information. Under the
 Markov chain $I(X;\hX\mid S)=I(X;\hX)-I(\hX;S)$, so the present problem
 rewards the leakage that the privacy line penalizes: the two share
 their coordinates with opposite signs.
-
-The thermodynamic reading of $L$ rests on Landauer's principle
-\cite{landauer1961} in its average-work form for arbitrary distributions
-\cite{esposito2011} and with side information
-\cite{sagawa2012,parrondo2015}; the single-shot sharpenings
-\cite{delrio2011,faist2015} price the same reset by smooth entropies,
-and Remark~\ref{rem:thermo} states the reading, its setting, and its
-scope.
 
 The relation to the information bottleneck \cite{tishby1999} is exact.
 For any channel with $\hY-(Y,V)-S$, writing $T=(Y,V)$, the weighted
@@ -741,63 +706,43 @@ is identified up to a residual set of asymptotic size $2^{nI(X;\hX\mid S)}$; onl
 that residual uncertainty remains in the stored index.
 
 \begin{remark}\label{rem:thermo}
-This remark states the paper's only physical claim; everywhere else
-$L_n$ and $L(D)$ are the coding quantities \eqref{eq:work-def} and
-\eqref{eq:work-endpoint}. The reset model is that of stochastic
-thermodynamics with side information \cite{sagawa2012,parrondo2015}: the
-third party, acting as the reset mechanism, holds the record $M$ and the
-classical side information $S^n$, which is read without disturbance and
-remains unchanged, and it holds no other record correlated with $M$;
-neither the source $X^n$ nor the reproduction $\hY^n$ is available to it
-or coupled to $M$ during the reset (with $X^n$ available, $M=f_n(X^n)$
-could be uncomputed at no work cost \cite{bennett1973}). It knows the
-joint law of $(M,S^n)$ induced by the code; it may drive $M$ by any
-protocol in contact with a heat bath at temperature $T_{\mathrm b}$,
-whose driving may depend on $S^n$ but not on $M$; the work supplied may
-fluctuate from run to run and only its mean is counted; and only $M$ is
-required to return to a standard state. The memory is the ideal logical
-memory of Landauer's setting: its logical states are symmetric, with no
-free-energy difference between them (equal energies and equal internal
-entropies, the condition of \cite{sagawa2009}), the protocol is cyclic in
-the memory's Hamiltonian, and the side-information subsystem is left
-unchanged; the identity below is the infimum in that model, not a claim
-about a particular device. Under these conditions the generalized second
-law with correlations \cite{sagawa2012,parrondo2015} bounds the average
-work of any such process from below by $\kb T_{\mathrm b}\ln2\,H(M\mid
-S^n)$: Landauer's bound \cite{landauer1961}, valid for arbitrary
-distributions \cite{esposito2011}, with the entropy of the record reduced
-by its mutual information with the retained side information. The bound
-is approached, though not reached in finite time, by running for each
-value $s$ of $S^n$ the optimal erasure of the law $p(m\mid s)$: a quench
-of the level energies to $-\kb T_{\mathrm b}\ln p(m\mid s)$, a
-quasi-static isothermal compression to the standard state, and a quench
-back to degeneracy \cite{esposito2011}; the three work contributions sum
-to $\kb T_{\mathrm b}\ln2\,H(M\mid S^n=s)$, and averaging over $s$ gives
-the infimum of the average work over protocols,
+This is the paper's only physical claim; everywhere else $L_n$ and $L(D)$
+are the coding quantities \eqref{eq:work-def} and \eqref{eq:work-endpoint}.
+Take the reset model of stochastic thermodynamics with side information
+\cite{sagawa2012,parrondo2015}. The third party holds the record $M$ and
+the classical side information $S^n$, which it reads without disturbance,
+and no other record correlated with $M$; neither $X^n$ nor $\hY^n$ is
+available to it (with $X^n$ available, $M$ could be uncomputed at no cost
+\cite{bennett1973}). It knows the joint law of $(M,S^n)$, may drive $M$ by
+any protocol in contact with a bath at temperature $T_{\mathrm b}$ whose
+driving may depend on $S^n$ but not on $M$, and only the mean work is
+counted. The memory is Landauer's ideal logical memory: symmetric logical
+states with no free-energy difference between them \cite{sagawa2009}, a
+protocol cyclic in its Hamiltonian, and the side information left
+unchanged. In that model the generalized second law with correlations
+\cite{sagawa2012,parrondo2015} bounds the average work from below by
+$\kb T_{\mathrm b}\ln2\,H(M\mid S^n)$, Landauer's bound for arbitrary
+distributions \cite{landauer1961,esposito2011}, and running for each value
+$s$ of $S^n$ the optimal erasure of $p(m\mid s)$ approaches it, though not
+in finite time \cite{esposito2011}. Hence the infimum of the average work
+over protocols is
 \begin{equation}
- W_n^{\star}\;=\;\kb T_{\mathrm b}\ln2\,H(M\mid S^n)\;=\;n\,\kb T_{\mathrm b}\ln2\,L_n ,
+ W_n^{\star}\;=\;\kb T_{\mathrm b}\ln2\,H(M\mid S^n)\;=\;n\,\kb T_{\mathrm b}\ln2\,L_n
  \label{eq:landauer-bound}
 \end{equation}
-for every code. A mechanism that reads $S^n$ at a finite resolution
-$S_\Delta^n$ pays $\kb T_{\mathrm b}\ln2\,H(M\mid S_\Delta^n)\ge\kb
-T_{\mathrm b}\ln2\,H(M\mid S^n)$, and the excess vanishes as the
-resolution is refined, by the monotone convergence of mutual information
-under refining partitions used in Appendix~\ref{app:gaussian}; the
-infimum is over resolution as well as over speed. Hence, by
-Theorem~\ref{thm:main-region}, and by Theorem~\ref{thm:gaussop} for the
-Gaussian source, $L(D)$ is the infimum of the asymptotic average erasure
-work, in units of $\kb T_{\mathrm b}\ln2$ per source symbol, over codes
-meeting the distortion constraint. This is the average-work setting. The
-single-shot, deterministic-work setting of \cite{delrio2011,faist2015}
-prices the same reset by smooth conditional entropies of the pair
-$(M,S^n)$, and we make no claim in that setting. The scope of the claim:
-\eqref{eq:landauer-bound} prices only the logically irreversible reset
-of the volatile index $M$; it does not count the work of acquiring $X^n$
-or driving a channel \cite{bennett1973}, of correcting errors
-\cite{landauer1961}, or of finishing in finite time, and the codebook,
-wiring, and any permanent lookup tables are part of the apparatus and are
-not erased in each cycle. Physical units are restored by multiplying any
-content value in bits per symbol by $\kb T_{\mathrm b}\ln2$.
+for every code. A reader of $S^n$ at finite resolution pays at least as
+much, with an excess that vanishes as the resolution is refined
+(Appendix~\ref{app:gaussian}). By Theorem~\ref{thm:main-region}, and by
+Theorem~\ref{thm:gaussop} for the Gaussian source, $L(D)$ is therefore the
+infimum of the asymptotic average erasure work per source symbol, in
+units of $\kb T_{\mathrm b}\ln2$, over codes meeting the distortion
+constraint. The claim is for average work; the single-shot setting
+prices the same reset by smooth conditional entropies
+\cite{delrio2011,faist2015}, and we claim nothing there. It counts only
+the logically irreversible reset of $M$, and not the work of acquiring
+$X^n$, driving a channel, correcting errors, or finishing in finite time,
+nor the codebook and wiring, which are not erased in each cycle
+\cite{bennett1973,landauer1961}.
 \end{remark}
 
 
@@ -812,17 +757,12 @@ object of the paper is therefore the joint region rather than either
 endpoint.
 
 \begin{remark}\label{rem:scope}
-Theorem~\ref{thm:main-region} is stated and proved for finite alphabets and
-bounded per-letter distortion. For the jointly Gaussian source of
-Section~\ref{sec:pair} with quadratic distortion on the described
-variable, the corresponding operational statement is
-Theorem~\ref{thm:gaussop} in Appendix~\ref{app:gaussian}: the converse
-is proved there in full, and the achievability by quantizing the side information, the source, and the
-reproduction, invoking the finite-alphabet theorem, and passing to the
-limit. The Gaussian closed forms of
-Sections~\ref{sec:pair}--\ref{sec:vector} are evaluations of the
-single-letter coordinates in \eqref{eq:main-region}, and their
-operational meaning is inherited through Theorem~\ref{thm:gaussop}.
+Theorem~\ref{thm:main-region} is for finite alphabets and bounded
+distortion. For the jointly Gaussian source with quadratic distortion the
+operational statement is Theorem~\ref{thm:gaussop}
+(Appendix~\ref{app:gaussian}), and the Gaussian closed forms below,
+which evaluate the single-letter coordinates of \eqref{eq:main-region},
+inherit their operational meaning through it.
 \end{remark}
 
 Table~\ref{tab:notation} collects the notation used from here on.
@@ -2162,16 +2102,11 @@ Steinberg's scalar formula on the reduced pair & $1/\sqrt2$ & $1.2297$ & $0.5577
 
 
 \begin{proof}
-The two instances share the $(Y,S)$ joint law: in both, $Y$ is standard
-and
-$\rho_{YS}^2=\Cov(Y,S)^2/\operatorname{Var}S=\rho^2/s$ equals
-$\tfrac12$, namely $(\tfrac12)/1$ and $(\tfrac34)/(\tfrac32)$, and
-rescaling $S$ changes none of the quantities considered: a bijective
-scaling $S\mapsto\kappa S$, $\kappa\ne0$, leaves the generated
-$\sigma$-algebra unchanged, $\sigma(\kappa S)=\sigma(S)$, so every
-conditional mutual information given $S$, and with it $L(D)$, is
-invariant, and the two instances may be normalized to a common
-$(Y,S)$ law.
+In both instances $Y$ is standard and
+$\rho_{YS}^2=\rho^2/s=\tfrac12$, and a bijective scaling of $S$ leaves
+$\sigma(S)$, hence every conditional mutual information given $S$,
+unchanged, so the two instances may be normalized to a common $(Y,S)$
+law.
 
 \emph{First instance,} $(\rho^2,\tau^2)=(\tfrac12,0)$: the context is
 clean. This instance sits at the boundary $\tau^2=0$ excluded by the
@@ -2390,527 +2325,65 @@ $\gamma_1\in(0,1)$, the vector-context generalization of the
 quadratic \eqref{eq:Pg}.
 \end{proof}
 
-\section{Parallel Described Variables}
-\label{sec:parallel}
+The endpoint has a closed form after all, as an eigenvalue. Write $e_Y$
+for the coordinate vector of $Y$ in $T$, so $Y=e_Y^{\mathsf T}T$, and
+\[
+A_D=\Sigma_Te_Ye_Y^{\mathsf T}\Sigma_T-(1-D)\,\Sigma_T .
+\]
 
-The closed form extends to a described vector whose coordinates carry
-their own contexts and side information. Let $(Y_j,V_j,S_j)$,
-$j=1,\dots,m$, be independent triples, each an instance of the model of
-Section~\ref{sec:pair} up to the scale of $Y_j$:
-$\operatorname{Var}Y_j=\sigma_j^2>0$, $\operatorname{Var}V_j=1$,
-$\E[Y_jV_j]=\rho_j\sigma_j$ with $|\rho_j|<1$, and $S_j=V_j+U_j$ with
-$U_j\sim\mathcal N(0,\tau_j^2)$, $\tau_j^2>0$, the $U_j$ independent of
-everything else. The encoder observes $T=(T_1,\dots,T_m)$,
-$T_j=(Y_j,V_j)$, the third party holds $S=(S_1,\dots,S_m)$, and the
-reproduction $\hat{\mathbf Y}=(\hY_1,\dots,\hY_m)$ is judged by the
-total squared error $\sum_j\E(Y_j-\hY_j)^2\le D$, with
-$0<D<\sum_j\sigma_j^2$. Write $\ell_j$ for the scalar function
-$\delta\mapsto\tfrac12\log_2g^\star(\delta)$ of
-Theorem~\ref{thm:function}(a) at $(\rho_j,\tau_j^2)$, extended by
-$\ell_j(\delta)=0$ for $\delta\ge1$, and $L_j(D_j):=\ell_j(D_j/\sigma_j^2)$
-for the minimal conditional content of coordinate $j$ at distortion
-$D_j$. Write $\RW_j(D_j)$ for the rate--content region of coordinate $j$
-at distortion $D_j$, which is the region of Theorem~\ref{thm:region}(b)
-at normalized distortion $D_j/\sigma_j^2$ when $0<D_j<\sigma_j^2$, the
-quadrant $[0,\infty)^2$ when $D_j\ge\sigma_j^2$, and empty when $D_j=0$.
-
-The classical answer for the rate is reverse water-filling
-\cite{berger1971}: the distortion budget is split as
-$D_j=\min\{\lambda,\sigma_j^2\}$, so coordinates are described in
-decreasing order of variance. The content-optimal split is governed by
-the slopes of the scalar functions, which the next lemma computes.
-
-\begin{lemma}\label{lem:slope}
-Fix $|\rho|<1$ and $\tau^2>0$, let $s=1+\tau^2$, and for $0<\delta<1$
-let $g=g^\star(\delta)$, $k=gs-1$, and
-$\Delta=\sqrt{(\delta+s-\rho^2)^2-4\delta s(1-\rho^2)}>0$. The scalar
-function $\ell(\delta)=\tfrac12\log_2g^\star(\delta)$ is twice
-differentiable on $(0,1)$, with
+\begin{proposition}\label{prop:pencil}
+Under the model of this section, for $0<D<1$,
 \begin{equation}
-\ell'(\delta)=-\frac{k}{2\ln2\,\Delta},
-\qquad
-\ell''(\delta)=\frac{(1-\rho^2)k^3
-+\rho^2\tau^2g^2\bigl(\tau^4g+\tau^2(2g+1)+g+1\bigr)}{2\ln2\;g\,\Delta^3}>0 .
-\label{eq:slope}
+L(D)=\tfrac12\log_2\Bigl(1+\frac{1-D}{\mu_{\max}}\Bigr),
+\label{eq:pencil}
 \end{equation}
-Hence $\ell$ is strictly convex and strictly decreasing on $(0,1)$,
-$\ell'(\delta)\to-\infty$ as $\delta\to0$, and
-$\ell'(\delta)\to-\tau^2/\bigl(2\ln2\,(\rho^2+\tau^2)\bigr)$ as
-$\delta\to1$.
-\end{lemma}
-
-\begin{proof}
-The root $g^\star$ is simple: $\partial_gP=2\delta sg-(\delta+s-\rho^2)$
-equals $+\Delta$ at the larger root of \eqref{eq:Pg}. By the implicit
-function theorem $g^\star$ is smooth in $\delta$, and differentiating
-$P(g^\star(\delta))=0$ with $\partial_\delta P=sg^2-g=gk$ gives
-$g'=-gk/\Delta$, so
-$\ell'=g'/(2\ln2\,g)=-k/(2\ln2\,\Delta)$. Differentiating once more,
-with $k'=sg'$ and $\Delta'=2sg-1+2\delta sg'$, and eliminating $\delta$
-through $P(g)=0$, which reads $\delta gk=(s-\rho^2)g-(1-\rho^2)$, gives
-the second formula of \eqref{eq:slope} after collecting terms; the
-identity is one of polynomials in $(g,s,\rho^2)$ and was also confirmed
-by computer algebra (Appendix~\ref{app:numver}). Both terms of the
-numerator are nonnegative and the first is positive, since $k>0$ and
-$|\rho|<1$, so $\ell''>0$. As $\delta\to0$, $g^\star\to\infty$ while
-$\Delta\to s-\rho^2>0$, so $\ell'\to-\infty$. As $\delta\to1$,
-$g^\star\to1$ because $P(1)=(\delta-1)\tau^2\to0$, so $k\to\tau^2$, and
-$\Delta\to|s-(1-\rho^2)|=\rho^2+\tau^2$.
-\end{proof}
-
-At $\rho=0$ the lemma returns $\ell'(\delta)=-1/(2\ln2\,\delta)$, the
-slope of the classical function. In general define the
-\emph{activation level} of coordinate $j$,
-\begin{equation}
-\kappa_j:=-L_j'(\sigma_j^2-)
-=\frac{\tau_j^2}{2\ln2\;\sigma_j^2\,(\rho_j^2+\tau_j^2)},
-\label{eq:kappa}
-\end{equation}
-which for the classical function would be $1/(2\ln2\,\sigma_j^2)$.
-
-\begin{theorem}\label{thm:parallel}
-Under the model of this section:
-
-\emph{(a) The region.} The region of jointly achievable rate and
-conditional content at total distortion $D$ is
-\[
-\RW(D)=\bigcup_{D_1+\cdots+D_m\le D,\ D_j\ge0}
-\bigl(\RW_1(D_1)+\cdots+\RW_m(D_m)\bigr),
-\]
-a union of Minkowski sums, and it is attained by product channels, each
-coordinate described by its own scalar channel.
-
-\emph{(b) The content endpoint.} $L(D)=\min\sum_jL_j(D_j)$ over
-$D_1+\cdots+D_m\le D$, and the minimizing allocation is unique. For
-$\theta>0$ let $D_j(\theta)=\sigma_j^2$ if $\theta\le\kappa_j$, and
-otherwise let $D_j(\theta)\in(0,\sigma_j^2)$ be the unique solution of
-$-L_j'(D_j)=\theta$. The optimal allocation is $D_j=D_j(\theta^\star)$,
-where $\theta^\star$ is the unique level with
-$\sum_jD_j(\theta^\star)=D$, and it is attained by the product of the
-channels \eqref{eq:channel} of the described coordinates, each
-rescaled by $\sigma_j$, with $\hY_j=0$ for the others.
-
-\emph{(c) The order of description.} As $D$ decreases from
-$\sum_j\sigma_j^2$, the content-optimal description begins to describe
-coordinate $j$ when $\theta^\star$ exceeds $\kappa_j$, that is, in
-decreasing order of $\sigma_j^2(1+\rho_j^2/\tau_j^2)$, while the
-rate-optimal description proceeds in decreasing order of $\sigma_j^2$.
-\end{theorem}
-
-\begin{proof}
-\emph{Converse.} Fix an admissible channel $p(\hat{\mathbf y}\mid t)$
-with $\hat{\mathbf Y}-T-S$, and write $D_j=\E(Y_j-\hY_j)^2$, so
-$\sum_jD_j\le D$. Each induced channel $p(\hat y_j\mid t_j)$ satisfies
-the Markov chain $\hY_j-T_j-S_j$: $\hY_j$ is a function of $T$ and the
-channel randomness, and given $T_j$ the remaining coordinates $T_{\ne j}$
-and the channel randomness are independent of $U_j$. Since the pairs
-$(T_j,S_j)$ are independent across $j$, the chain rule gives, exactly as
-in the converse of Theorem~\ref{thm:gaussop},
-\[
-I(T;\hat{\mathbf Y})=\sum_jI(T_j;\hat{\mathbf Y},T^{j-1})
-\ge\sum_jI(T_j;\hY_j),
-\]
-\[
-I(T;\hat{\mathbf Y}\mid S)
-=\sum_j\bigl[I(T_j;\hat{\mathbf Y},S,T^{j-1})-I(T_j;S_j)\bigr]
-\ge\sum_jI(T_j;\hY_j\mid S_j),
-\]
-where $I(T_j;S,T^{j-1})=I(T_j;S_j)$ is finite because $\tau_j^2>0$. The
-pair $\bigl(I(T_j;\hY_j),I(T_j;\hY_j\mid S_j)\bigr)$ is a single-letter
-pair of coordinate $j$ at distortion $D_j$, so the pair of the channel
-lies in $\RW_1(D_1)+\cdots+\RW_m(D_m)$, each summand being upward
-closed. For codes, the converse chain of Theorem~\ref{thm:gaussop} uses
-only the chain rule and the convexity of Remark~\ref{rem:convgeneral},
-neither of which depends on the dimension of the source letter, so
-$(R_n,L_n)$ lies above the pair of the mixture channel at distortion
-$D_n$, and the bound just proved applies to that channel. The union is
-closed and right-continuous in $D$: given points of the union at levels
-$D^{(i)}$ with $\limsup_iD^{(i)}\le D$ that converge, pass to a
-subsequence along which the allocations and the summands converge (the
-summands are nonnegative with a convergent sum); no limiting $D_j$ is
-$0$, because the rate of coordinate $j$ is at least
-$\tfrac12\log_2(\sigma_j^2/D_j)$, and each limiting summand lies in
-$\RW_j$ at its limiting level by the closedness step of
-Appendix~\ref{app:gaussian}.
-
-\emph{Achievability.} Fix an allocation and a point of
-$\RW_j(D_j)$ for each $j$. By Theorem~\ref{thm:gaussop} applied to
-coordinate $j$ (or the zero reproduction when $D_j\ge\sigma_j^2$),
-there are codes $M_j$ of blocklength $n$ approaching that point. Store
-$M=(M_1,\dots,M_m)$. Rates and distortions add, and
-$H(M\mid S^n)\le\sum_jH(M_j\mid S^n)\le\sum_jH(M_j\mid S_j^n)$, so the
-sum of the points is achievable. At the single-letter level the product
-of the coordinate channels attains the sum with equality, by
-independence.
-
-\emph{The content endpoint.} By (a) and Theorem~\ref{thm:function}(a),
-$L(D)=\min\sum_jL_j(D_j)$. Each $L_j$ is convex and nonincreasing on
-$[0,\infty)$, strictly convex on $(0,\sigma_j^2)$ by
-Lemma~\ref{lem:slope}, with left derivative $-\kappa_j$ at $\sigma_j^2$
-and zero beyond. For a separable convex program with one linear
-constraint, an allocation is optimal if and only if some $\theta\ge0$
-lies in $-\partial L_j(D_j)$ for every $j$. Since
-$D<\sum_j\sigma_j^2$, $\theta=0$ is impossible, so $\theta>0$, the
-constraint is active, and $D_j=D_j(\theta)$; no $D_j$ is $0$ because
-$-L_j'\to\infty$ there. Each $D_j(\theta)$ is continuous and
-nonincreasing, and strictly decreasing for $\theta>\kappa_j$, so
-$\sum_jD_j(\theta)$ falls continuously and strictly from
-$\sum_j\sigma_j^2$ at $\theta=\min_j\kappa_j$ to $0$ as
-$\theta\to\infty$, and $\theta^\star$ is unique. Rescaling
-\eqref{eq:channel} by $\sigma_j$ gives the channel of coordinate $j$.
-
-\emph{The order.} $D_j(\theta)<\sigma_j^2$ exactly when
-$\theta>\kappa_j$, and $\theta^\star$ increases as $D$ decreases, so
-coordinates enter in increasing order of $\kappa_j$, that is, in
-decreasing order of
-$1/\kappa_j\propto\sigma_j^2(\rho_j^2+\tau_j^2)/\tau_j^2$. For the rate
-the same argument with $\tfrac12\log_2^{+}(\sigma_j^2/D_j)$ in place of
-$L_j$ gives levels $1/(2\ln2\,\sigma_j^2)$ and reverse water-filling.
-\end{proof}
-
-The two orders disagree whenever a coordinate of smaller variance has a
-context that the side information reads well. The disagreement can be
-complete.
-
-\begin{corollary}\label{cor:parallelmisalign}
-Let $m=2$ with $\sigma_1^2>\sigma_2^2$ and
-$\sigma_1^2(1+\rho_1^2/\tau_1^2)<\sigma_2^2(1+\rho_2^2/\tau_2^2)$. For
-every $D$ in the nonempty interval
-$\bigl[\max\{2\sigma_2^2,\ \sigma_1^2+D_2(\kappa_1)\},\ \sigma_1^2+\sigma_2^2\bigr)$
-the rate-optimal description describes coordinate $1$ alone and the
-content-optimal description describes coordinate $2$ alone.
-\end{corollary}
-
-\begin{proof}
-Reverse water-filling leaves coordinate $2$ undescribed and describes
-coordinate $1$ exactly when $\sigma_2^2\le\lambda<\sigma_1^2$, that is,
-for $2\sigma_2^2\le D<\sigma_1^2+\sigma_2^2$. The hypothesis is
-$\kappa_2<\kappa_1$ by \eqref{eq:kappa}, and Theorem~\ref{thm:parallel}(b)
-describes coordinate $2$ alone exactly when
-$\kappa_2<\theta^\star\le\kappa_1$, that is, for
-$\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$. Both intervals
-end at $\sigma_1^2+\sigma_2^2$ and begin strictly below it.
-\end{proof}
-
-An instance makes the size concrete. Take
-$(\sigma_1^2,\rho_1^2,\tau_1^2)=(1,0,1)$, a coordinate whose context is
-useless, and $(\sigma_2^2,\rho_2^2,\tau_2^2)=(0.6,0.9,0.05)$, a smaller
-coordinate with an informative context read in little noise. Then
-$\kappa_1=0.7213$ and $\kappa_2=0.0633$, and the two descriptions
-describe disjoint coordinates for every $D\in[1.2002,1.6)$. At $D=1.4$
-the rate-optimal description pays $R=L=0.1610$ bits, all on
-coordinate $1$, while the content-optimal description pays
-$L=0.0197$ bits and $R=0.3272$ bits, all on coordinate $2$: the first
-pays about eight times the minimal content, the second about twice the
-minimal rate.
-
-The theorem applies whenever an orthogonal change of coordinates of $Y$
-and invertible linear changes of coordinates of $V$ and of $S$ reduce
-the source to independent triples of this form, since squared error is
-invariant under orthogonal maps applied to $Y$ and $\hat{\mathbf Y}$
-together and both information coordinates are invariant under invertible
-maps of each argument. When no such coordinates exist, the coordinates
-couple through $\Sigma_{T\mid S}$, which is the case of the next section.
-
-\section{Coupled Described Variables}
-\label{sec:coupled}
-
-Drop the independence of the coordinates. Let $T=(Y,V)$ be jointly
-Gaussian and centered with $Y\in\R^m$, $V\in\R^r$, $p=m+r$, and
-$\Sigma_T\succ0$, and let $S=V+U$ with $U\sim\mathcal N(0,\Sigma_U)$,
-$\Sigma_U\succ0$, independent of $T$ and of all channel randomness. The
-reproduction $\hat{\mathbf Y}\in\R^m$ is judged by
-$\E\|Y-\hat{\mathbf Y}\|^2\le D$ with $0<D<\tr\Sigma_Y$. Write
-$F=[\,I_m\ 0\,]$ and $H=[\,0\ I_r\,]$ for the coordinate selections, so
-$Y=FT$ and $V=HT$, and write $J_S:=H^{\mathsf T}\Sigma_U^{-1}H$ for the
-information that the side information carries about $T$, so that
-$\Sigma_{T\mid S}=(\Sigma_T^{-1}+J_S)^{-1}$. For a channel, let
-$\Sigma_{e0}$ and $\Sigma_e$ be the error covariances of the best linear
-estimates of $T$ from the description and from the description together
-with $S$, as in Lemma~\ref{lem:gauss}. This section characterizes the
-single-letter functions; the operational statement would need
-Theorem~\ref{thm:gaussop} for a vector described variable, which we do
-not carry out.
-
-\begin{proposition}\label{prop:posterior}
-The single-letter rate--content region at distortion $D$ is the union,
-over symmetric matrices $\Sigma_{e0}$ with
-$0\prec\Sigma_{e0}\preceq\Sigma_T$ and
-$\tr(F\Sigma_{e0}F^{\mathsf T})\le D$, of the quadrants above
-\[
-\Bigl(\tfrac12\log_2\frac{\det\Sigma_T}{\det\Sigma_{e0}},\
-\tfrac12\log_2\frac{\det\Sigma_{T\mid S}}{\det\Sigma_e}\Bigr),
-\qquad
-\Sigma_e^{-1}=\Sigma_{e0}^{-1}+J_S .
-\]
+where $\mu_{\max}>0$ is the largest root of
+$\det\bigl(A_D-\mu\,\Sigma_{T\mid S}\bigr)=0$. The minimum is attained by
+the reproduction $\E[Y\mid W]$ of $W=b^{\mathsf T}T+N$, with $b$ a
+generalized eigenvector for $\mu_{\max}$ and $N\sim\mathcal N(0,\sigma^2)$
+independent, $\sigma^2=(e_Y^{\mathsf T}\Sigma_Tb)^2/(1-D)-b^{\mathsf T}\Sigma_Tb$.
+For scalar context, $1+(1-D)/\mu_{\max}=g^\star$.
 \end{proposition}
 
 \begin{proof}
-\emph{Converse.} Fix an admissible channel. Lemma~\ref{lem:gauss}
-applies with an $m$-dimensional reproduction (its hypothesis
-$\Cov(N',S)=0$ holds as in the proof of Theorem~\ref{thm:vector}, and
-Remark~\ref{rem:degenerate} disposes of a singular residual), so the
-jointly Gaussian channel $\hat{\mathbf Y}=AT+N$ with the same second
-moments has the same distortion and coordinates no larger. For it,
-$\Sigma_{e0}=\Cov(T\mid\hat{\mathbf Y})$ satisfies
-$\Sigma_{e0}^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
-$0\prec\Sigma_{e0}\preceq\Sigma_T$ and
-$I(T;\hat{\mathbf Y})=\tfrac12\log_2(\det\Sigma_T/\det\Sigma_{e0})$.
-The pair $(\hat{\mathbf Y},S)$ is a linear observation of $T$ with
-independent noises $(N,U)$, so
-$\Sigma_e^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A+J_S
-=\Sigma_{e0}^{-1}+J_S$ and
-$I(T;\hat{\mathbf Y}\mid S)=\tfrac12\log_2(\det\Sigma_{T\mid S}/\det\Sigma_e)$.
-Finally
-$\E\|Y-\hat{\mathbf Y}\|^2\ge\E\|Y-\E[Y\mid\hat{\mathbf Y}]\|^2
-=\tr(F\Sigma_{e0}F^{\mathsf T})$.
-
-\emph{Achievability.} Given $\Sigma_{e0}$, factor
-$\Sigma_{e0}^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $W=GT+N$ with
-$N\sim\mathcal N(0,I)$ independent, and reproduce
-$\hat{\mathbf Y}=\E[Y\mid W]$. Then $\Cov(T\mid W)=\Sigma_{e0}$, the
-distortion is $\tr(F\Sigma_{e0}F^{\mathsf T})\le D$, the Markov chain
-$\hat{\mathbf Y}-T-S$ holds, and since $\hat{\mathbf Y}$ is a function of
-$W$, data processing bounds both coordinates of $\hat{\mathbf Y}$ by
-those of $W$, which are the displayed values.
+By Lemma~\ref{lem:gauss} with $m=1$ and Remark~\ref{rem:degenerate},
+restrict to jointly Gaussian channels $\hY=b^{\mathsf T}T+N$ with
+$b\ne0$ and $\operatorname{Var}N=\sigma^2>0$. If
+$\Cov(Y,\hY)=0$ the distortion is $1+\operatorname{Var}\hY>D$, so
+$\E[Y\mid\hY]$ is a nonzero multiple of $\hY$; replacing $\hY$ by it
+leaves the conditional coordinate unchanged and does not raise the
+distortion. With $W=b^{\mathsf T}T+N$ reproduced by $\E[Y\mid W]$, the
+distortion is $1-(e_Y^{\mathsf T}\Sigma_Tb)^2/(b^{\mathsf T}\Sigma_Tb+\sigma^2)$
+and the conditional coordinate is
+$\tfrac12\log_2\bigl(1+b^{\mathsf T}\Sigma_{T\mid S}b/\sigma^2\bigr)$,
+since $\operatorname{Var}(W\mid S)=b^{\mathsf T}\Sigma_{T\mid S}b+\sigma^2$
+and $\operatorname{Var}(W\mid T)=\sigma^2$. The constraint reads
+$\sigma^2\le(e_Y^{\mathsf T}\Sigma_Tb)^2/(1-D)-b^{\mathsf T}\Sigma_Tb$, and
+the coordinate decreases in $\sigma^2$, so at the largest admissible
+$\sigma^2$ it equals
+$\tfrac12\log_2\bigl(1+(1-D)\,b^{\mathsf T}\Sigma_{T\mid S}b/b^{\mathsf T}A_Db\bigr)$,
+finite exactly when $b^{\mathsf T}A_Db>0$. Minimizing over $b$ is
+maximizing the Rayleigh quotient $b^{\mathsf T}A_Db/b^{\mathsf T}\Sigma_{T\mid S}b$
+of a symmetric pencil with $\Sigma_{T\mid S}\succ0$, whose maximum is
+$\mu_{\max}$; it is positive because $b=e_Y$ gives
+$e_Y^{\mathsf T}A_De_Y=1-(1-D)=D$. For scalar context, substituting
+$\mu=(1-D)/(g-1)$ gives
+$\det(A_D-\mu\Sigma_{T\mid S})=-(1-D)(1-\rho^2)P(g)/\bigl(s(g-1)^2\bigr)$,
+a direct computation confirmed by computer algebra
+(Appendix~\ref{app:numver}), so the positive root $\mu_{\max}$
+corresponds to the unique root $g>1$ of $P$, which is $g^\star$.
 \end{proof}
 
-The content coordinate depends on the description only through
-$\Sigma_e$, the uncertainty about $T$ that remains for the party that
-holds $S$ after it reads the description. In that coordinate the
-content endpoint is a concave maximization.
-
-\begin{theorem}\label{thm:maxdet}
-For $0<D<\tr\Sigma_Y$,
-\begin{equation}
-L(D)=\tfrac12\log_2\det\Sigma_{T\mid S}
--\tfrac12\max\Bigl\{\log_2\det\Sigma_e:\
-0\prec\Sigma_e\preceq\Sigma_{T\mid S},\
-\tr\bigl(F(\Sigma_e^{-1}-J_S)^{-1}F^{\mathsf T}\bigr)\le D\Bigr\},
-\label{eq:maxdet}
-\end{equation}
-and the map $\Sigma_e\mapsto(\Sigma_e^{-1}-J_S)^{-1}$ is matrix-convex on
-the feasible set. The distortion constraint holds if and only if there
-is a symmetric $Z$ with $\tr Z\le D$ and
-\begin{equation}
-\begin{bmatrix}
-Z-F\Sigma_eF^{\mathsf T}&F\Sigma_eJ_S^{1/2}\\
-J_S^{1/2}\Sigma_eF^{\mathsf T}&I-J_S^{1/2}\Sigma_eJ_S^{1/2}
-\end{bmatrix}\succeq0,
-\label{eq:lmi}
-\end{equation}
-so \eqref{eq:maxdet} is a determinant maximization under linear matrix
-inequalities \cite{vandenberghe1998}. The maximizer $\Sigma_e^\star$ is
-unique, the distortion constraint is active there, and $\Sigma_e^\star$
-is optimal if and only if there are $\mu\ge0$ and $\Theta\succeq0$ with
-\begin{equation}
-\tfrac12\Sigma_e^\star-\mu\,\Sigma_{e0}^\star F^{\mathsf T}F\Sigma_{e0}^\star
-=\Sigma_e^\star\Theta\Sigma_e^\star,
-\qquad
-\Theta\bigl(\Sigma_{T\mid S}-\Sigma_e^\star\bigr)=0,
-\label{eq:kktcoupled}
-\end{equation}
-where $\Sigma_{e0}^\star=(\Sigma_e^{\star-1}-J_S)^{-1}$.
-\end{theorem}
-
-\begin{proof}
-\emph{Change of variables.} The map
-$\Sigma_{e0}\mapsto\Sigma_e=(\Sigma_{e0}^{-1}+J_S)^{-1}$ carries
-$\{0\prec\Sigma_{e0}\preceq\Sigma_T\}$ onto
-$\{0\prec\Sigma_e\preceq\Sigma_{T\mid S}\}$: $\Sigma_{e0}\preceq\Sigma_T$
-if and only if $\Sigma_{e0}^{-1}+J_S\succeq\Sigma_T^{-1}+J_S$, that is,
-$\Sigma_e\preceq\Sigma_{T\mid S}$, and conversely
-$\Sigma_e\preceq\Sigma_{T\mid S}$ gives
-$\Sigma_e^{-1}-J_S\succeq\Sigma_T^{-1}\succ0$. By
-Proposition~\ref{prop:posterior} the content endpoint is therefore
-\eqref{eq:maxdet}.
-
-\emph{Convexity and the matrix inequality.} On the feasible set,
-$J_S^{1/2}\Sigma_eJ_S^{1/2}\preceq J_S^{1/2}\Sigma_{T\mid S}J_S^{1/2}\prec I$,
-the last because $J_S\prec\Sigma_T^{-1}+J_S$. The Woodbury identity then
-gives
-\[
-(\Sigma_e^{-1}-J_S)^{-1}
-=\Sigma_e+\Sigma_eJ_S^{1/2}\bigl(I-J_S^{1/2}\Sigma_eJ_S^{1/2}\bigr)^{-1}
-J_S^{1/2}\Sigma_e,
-\]
-and by the Schur-complement criterion
-$F(\Sigma_e^{-1}-J_S)^{-1}F^{\mathsf T}\preceq Z$ if and only if
-\eqref{eq:lmi} holds. The block matrix in \eqref{eq:lmi} is affine in
-$(\Sigma_e,Z)$, so averaging two instances of \eqref{eq:lmi} shows that
-the map is matrix-convex, exactly as in the proof of
-Lemma~\ref{lem:mxconvex}.
-
-\emph{Existence, uniqueness, activity.} For $0<\epsilon<1$ small, the
-description with $\Sigma_{e0}=\epsilon\Sigma_T$ has distortion
-$\epsilon\tr\Sigma_Y<D$ and gives a strictly feasible $\Sigma_e$, so
-the feasible set has nonempty interior. The objective is bounded on the
-bounded set $\Sigma_e\preceq\Sigma_{T\mid S}$, its superlevel sets stay
-away from singular matrices, and the maximum is attained; $\log\det$ is
-strictly concave and the feasible set is convex, so the maximizer is
-unique. If the distortion were slack at $\Sigma_e^\star$, moving toward
-$\Sigma_{T\mid S}$ would stay feasible and strictly raise
-$\log\det\Sigma_e$, since
-$\tr\bigl(\Sigma_e^{\star-1}(\Sigma_{T\mid S}-\Sigma_e^\star)\bigr)>0$
-($\Sigma_e^\star=\Sigma_{T\mid S}$ is infeasible, its distortion being
-$\tr\Sigma_Y>D$).
-
-\emph{Optimality conditions.} Slater's condition holds, so the
-Karush--Kuhn--Tucker conditions are necessary and sufficient. With
-$h(\Sigma_e)=(\Sigma_e^{-1}-J_S)^{-1}$, the differential is
-$dh=h\,\Sigma_e^{-1}\,d\Sigma_e\,\Sigma_e^{-1}h$, so the gradient of
-$\tr(FhF^{\mathsf T})$ is
-$\Sigma_e^{-1}\Sigma_{e0}F^{\mathsf T}F\Sigma_{e0}\Sigma_e^{-1}$.
-Stationarity of
-$-\tfrac12\log\det\Sigma_e+\mu\,\tr(FhF^{\mathsf T})
-+\tr\bigl(\Theta(\Sigma_e-\Sigma_{T\mid S})\bigr)$, multiplied on both
-sides by $\Sigma_e$, is the first condition of \eqref{eq:kktcoupled},
-and the second is complementary slackness.
-\end{proof}
-
-When the optimal description has a single dimension, the program has
-a closed form. Write $\Delta=\tr\Sigma_Y-D$ for the reduction in error
-that the description must buy, and
-\[
-A(\Delta)=\Sigma_TF^{\mathsf T}F\Sigma_T-\Delta\,\Sigma_T .
-\]
-A one-dimensional description is $W=b^{\mathsf T}T+N$ with $b\ne0$ and
-$N\sim\mathcal N(0,\sigma^2)$ independent, reproduced by
-$\E[Y\mid W]$; its read direction is $b$, and the direction in which it
-reduces the error of the reproduction is $F\Sigma_Tb$.
-
-\begin{theorem}\label{thm:onedim}
-(a) A one-dimensional description meets the distortion constraint with
-finite content if and only if $\Delta<\lambda_{\max}(\Sigma_Y)$, and the
-least content among such descriptions is
-\begin{equation}
-L_1(D)=\tfrac12\log_2\Bigl(1+\frac{\Delta}{\mu_{\max}(\Delta)}\Bigr),
-\label{eq:onedim}
-\end{equation}
-where $\mu_{\max}(\Delta)>0$ is the largest root of
-$\det\bigl(A(\Delta)-\mu\,\Sigma_{T\mid S}\bigr)=0$. It is attained with
-$b$ a corresponding generalized eigenvector and
-$\sigma^2=|F\Sigma_Tb|^2/\Delta-b^{\mathsf T}\Sigma_Tb$.
-
-(b) Let $\Sigma_{e0}$ and $\Sigma_e$ be the error covariances of the
-description of (a), and let
-$\Gamma(\mu)=\tfrac12\Sigma_e-\mu\,\Sigma_{e0}F^{\mathsf T}F\Sigma_{e0}$.
-Then $L(D)=L_1(D)$ if and only if there is $\mu\ge0$ with
-$\Gamma(\mu)\succeq0$ and $\Gamma(\mu)b=0$, and then
-$\mu=\tfrac12b^{\mathsf T}\Sigma_eb/|F\Sigma_{e0}b|^2$.
-
-(c) For $m=1$, $L(D)=L_1(D)$ at every $0<D<\operatorname{Var}Y$. With scalar context,
-$1+\Delta/\mu_{\max}(\Delta)$ is the root $g^\star$ of
-Theorem~\ref{thm:function}(a): the closed form is the largest
-generalized eigenvalue of the pencil
-$\bigl(A(1-D),\Sigma_{T\mid S}\bigr)$.
-\end{theorem}
-
-\begin{proof}
-(a) For the description $W$, $\Cov(T\mid W)=\Sigma_T-\Sigma_Tbb^{\mathsf T}\Sigma_T/(b^{\mathsf T}\Sigma_Tb+\sigma^2)$,
-so the distortion of $\E[Y\mid W]$ is
-$\tr\Sigma_Y-|F\Sigma_Tb|^2/(b^{\mathsf T}\Sigma_Tb+\sigma^2)$, and the
-constraint reads $\sigma^2\le|F\Sigma_Tb|^2/\Delta-b^{\mathsf T}\Sigma_Tb$.
-The content is
-$I(T;W\mid S)=\tfrac12\log_2\bigl(1+b^{\mathsf T}\Sigma_{T\mid S}b/\sigma^2\bigr)$,
-decreasing in $\sigma^2$, so at the largest admissible $\sigma^2$ it is
-$\tfrac12\log_2\bigl(1+\Delta\,b^{\mathsf T}\Sigma_{T\mid S}b/b^{\mathsf T}A(\Delta)b\bigr)$,
-finite exactly when $b^{\mathsf T}A(\Delta)b>0$. Minimizing over $b$ is
-maximizing the Rayleigh quotient
-$b^{\mathsf T}A(\Delta)b/b^{\mathsf T}\Sigma_{T\mid S}b$ of a symmetric
-pencil with $\Sigma_{T\mid S}\succ0$, whose maximum is $\mu_{\max}$.
-Some $b$ has $b^{\mathsf T}A(\Delta)b>0$ if and only if
-$\Sigma_T^{1/2}F^{\mathsf T}F\Sigma_T^{1/2}\not\preceq\Delta I$, and the
-nonzero eigenvalues of that matrix are those of
-$F\Sigma_TF^{\mathsf T}=\Sigma_Y$.
-
-(b) The description of (a) has
-$\Sigma_e^{-1}=\Sigma_{T\mid S}^{-1}+bb^{\mathsf T}/\sigma^2$, so
-$\Sigma_{T\mid S}-\Sigma_e$ is a positive multiple of
-$\Sigma_{T\mid S}bb^{\mathsf T}\Sigma_{T\mid S}$ and
-$\Sigma_e^{-1}\Sigma_{T\mid S}b$ is a positive multiple of $b$. With
-$\Theta=\Sigma_e^{-1}\Gamma(\mu)\Sigma_e^{-1}$, the conditions
-\eqref{eq:kktcoupled} at this point therefore read $\Gamma(\mu)\succeq0$
-and $\Gamma(\mu)b=0$, and Theorem~\ref{thm:maxdet} makes them necessary
-and sufficient. Taking $b^{\mathsf T}\Gamma(\mu)b=0$ gives the value of
-$\mu$.
-
-(c) For $m=1$ the reproduction is scalar, so every Gaussian channel is a
-one-dimensional description, and Lemma~\ref{lem:gauss} reduces the
-general case to Gaussian channels. With scalar context, substituting
-$\mu=\Delta/(g-1)$ into $\det(A(1-D)-\mu\Sigma_{T\mid S})$ gives
-$-(1-D)(1-\rho^2)P(g)/\bigl(s(g-1)^2\bigr)$, a direct computation
-confirmed by computer algebra (Appendix~\ref{app:numver}). The positive
-root $\mu_{\max}$ therefore corresponds to the unique root $g>1$ of
-$P$, which is $g^\star$.
-\end{proof}
-
-Part (c) gives the vector-context endpoint of Theorem~\ref{thm:vector}
-in closed form as well. Part (a) also shows how the coupled problem
-differs from the classical one. The rate-optimal description of the
-same kind solves (a) with $J_S=0$, which makes
-$\Sigma_{T\mid S}=\Sigma_T$ and the read direction the principal axis
-of $\Sigma_Y$, whatever the budget. The content-optimal read direction is
-a generalized eigenvector of a pencil in which the budget enters, and it
-moves with the budget.
-
-\begin{theorem}\label{thm:turning}
-Let $\mu_{\max}(\Delta)$ be simple and positive on an open interval
-$\mathcal I$. The read direction $b(\Delta)$ of
-Theorem~\ref{thm:onedim}(a) spans a fixed line on $\mathcal I$ if and
-only if $b=F^{\mathsf T}\beta$ for an eigenvector $\beta$ of $\Sigma_Y$
-with $\Cov(V,\beta^{\mathsf T}Y)=0$. Whenever the read direction is
-correlated with the context, it turns with the budget.
-\end{theorem}
-
-\begin{proof}
-Write $A(\Delta)=A_0-\Delta\Sigma_T$. A simple eigenvalue of a symmetric
-pencil and its eigenvector are analytic in $\Delta$. If $b$ is fixed,
-differentiating $(A_0-\Delta\Sigma_T)b=\mu_{\max}(\Delta)\Sigma_{T\mid S}b$
-gives $\Sigma_Tb\propto\Sigma_{T\mid S}b$, and then
-$A_0b\propto\Sigma_{T\mid S}b\propto\Sigma_Tb$, that is,
-$F^{\mathsf T}F\Sigma_Tb=\lambda b$. Here $\lambda>0$, since
-$\lambda=0$ would give $b^{\mathsf T}A(\Delta)b=-\Delta b^{\mathsf T}\Sigma_Tb<0$
-against $\mu_{\max}>0$. So $b=F^{\mathsf T}\beta$ with
-$\beta=F\Sigma_Tb/\lambda$, and $\Sigma_Y\beta=\lambda\beta$. Next,
-$\Sigma_Tb=c\,\Sigma_{T\mid S}b$ reads
-$J_S\Sigma_Tb=(c-1)b$, after multiplying by
-$\Sigma_{T\mid S}^{-1}=\Sigma_T^{-1}+J_S$. The left side lies in the
-range of $H^{\mathsf T}$ and the right side in the range of
-$F^{\mathsf T}$, so both vanish:
-$\Sigma_U^{-1}\Cov(V,Y)\beta=0$, that is, $\Cov(V,\beta^{\mathsf T}Y)=0$.
-Conversely, for such $b$, $\Sigma_Tb=\lambda b$ and $J_S\Sigma_Tb=0$, so
-$\Sigma_{T\mid S}b=\Sigma_Tb=\lambda b$ and $A(\Delta)b=(\lambda-\Delta)
-\Sigma_{T\mid S}b$ for every $\Delta$; $b$ is a generalized eigenvector
-throughout, and by continuity and simplicity it stays the top one on
-$\mathcal I$.
-\end{proof}
-
-An instance shows both effects. Take $\Sigma_Y=\mathrm{diag}(1,0.4)$, a
-scalar context with $\operatorname{Var}V=1$ and
-$\Cov(Y,V)=0.6\,(\cos50^\circ,\sin50^\circ)^{\mathsf T}$, and
-$\Sigma_U=\tau^2=0.05$. The one-dimensional description is optimal by the
-certificate of Theorem~\ref{thm:onedim}(b) for every
-$D\ge D_1=1.0853$, out of $\tr\Sigma_Y=1.4$. The rate-optimal
-description reduces the error along the first axis at every budget. The
-content-optimal description reduces it along a direction at
-$47.48^\circ$ at $D=1.38$, $46.76^\circ$ at $D=1.3$, $45.07^\circ$ at
-$D=1.2$, and $41.15^\circ$ at $D=1.1$. The direction is not determined
-by the law of $(Y,S)$ either, which is the analogue of
-Corollary~\ref{cor:notmarginal} for directions. Four sources with this
-$\Sigma_Y$, the context along the same direction, and
-$\Cov(Y,V)^{\mathsf T}\Cov(Y,V)/(1+\tau^2)=0.3$ share the law of $(Y,S)$
-up to scaling of $S$. At
-$(|\Cov(Y,V)|^2,\tau^2)=(0.33,0.1)$, $(0.36,0.2)$, $(0.39,0.3)$, and
-$(0.42,0.4)$, at $D=1.3$ and inside the one-dimensional regime, their
-content-optimal descriptions reduce the error along $42.83^\circ$,
-$37.61^\circ$, $33.75^\circ$, and $30.84^\circ$, at contents $0.02366$,
-$0.03525$, $0.04206$, and $0.04649$ bits.
-
-Below $D_1$ the optimal description has two dimensions. Its value is
-the solution of \eqref{eq:maxdet}, which interior-point methods compute
-to any accuracy, but we have no closed form for it, nor for $D_1$ as a
-function of the source.
+The proposition puts the closed form of Theorem~\ref{thm:function}(a) in
+a different light. The quadratic $P(g)$ is the characteristic equation of
+a two-by-two pencil that holds the source covariance, the conditional
+covariance left after the side information, and the distortion level, and
+the achieving channel reads along its top eigenvector. That eigenvector
+depends on $D$. For a scalar described variable this is visible only as
+the loading $b/a=\rho/(g^\star s-1)$ on the context in \eqref{eq:channel}.
+For a described vector it becomes a direction in the space of the
+described variable that turns with the distortion budget, which the
+companion manuscript \cite{bond2026vector} develops.
 
 \section{The Binary Frontier}
 \label{sec:binary}
@@ -3206,10 +2679,9 @@ whose encoder observes the pair $(Y,V)$ while the side information $S$
 stays with a third party: the closed form of
 Theorem~\ref{thm:function}(a), the exact rate--content region of
 Theorem~\ref{thm:region}(b) with the misalignment condition of
-Corollary~\ref{cor:misalign}, the extensions to vector context
-(Theorem~\ref{thm:vector}), to parallel described variables
-(Theorem~\ref{thm:parallel}), and to coupled ones
-(Theorems~\ref{thm:maxdet}--\ref{thm:turning}), and the binary frontier of
+Corollary~\ref{cor:misalign}, the pencil characterization of
+Proposition~\ref{prop:pencil} with the vector-context extension of
+Theorem~\ref{thm:vector}, and the binary frontier of
 Theorem~\ref{thm:binary} and Proposition~\ref{rem:binfrontier}. The structural conclusion is
 Corollary~\ref{cor:notmarginal}: the function is not determined by the
 reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
@@ -3224,14 +2696,8 @@ observations, not the source alone, decide how those costs trade off.
 The closed form and the region make the principle quantitative, and the
 open problems below are its natural next instances.
 
-Four problems are open. The exact rate--content region for a joint
-description serving two described variables is not settled; its stationarity
-system is known in necessary-condition form only. For a described vector
-the function is explicit in the parallel case of
-Theorem~\ref{thm:parallel} and in the one-dimensional regime of
-Theorem~\ref{thm:onedim}; in general it is the value of the program
-\eqref{eq:maxdet}, and a closed form for the higher-dimensional regime is
-open, as is the operational theorem for a vector described variable. Stationary
+Two problems are open beyond the vector described variable, which the
+companion manuscript \cite{bond2026vector} treats. Stationary
 sources, and the process and spectral versions of the function, are not
 treated here. The finite-blocklength behavior of the pair $(R_n,L_n)$ is
 unexplored, and the content coordinate is not a routine second-order
@@ -3263,17 +2729,11 @@ Section~\ref{sec:pair} ($r=1$) or Section~\ref{sec:vector}; the
 distortion is
 $d(x,\hat y)=(y-\hat y)^2$, unbounded; codes, $R_n$, $D_n$, and
 $L_n=H(M\mid S^n)/n$ are as in Section~\ref{sec:operational}, and
-achievability is Definition~\ref{def:achievability}. The proof
-establishes, in order: the converse by the chain rule; restriction to
-Gaussian channels; closedness and right-continuity of the union; and
-achievability in three steps, quantizing the side information
-(Step A), then the source and the reproduction (Step B, with a finite
-reproduction alphabet at every stage and the Markov chain preserved by
-construction), then returning to the unquantized side information through
-$H(M\mid S^n)\le H(M\mid S_\Delta^n)$ (Step C). The rate and content
-coordinates converge by data processing, martingale convergence, and
-lower semicontinuity of mutual information; the distortion is
-transferred exactly by memorylessness rather than by weak convergence.
+achievability is Definition~\ref{def:achievability}. The proof gives
+the converse by the chain rule, restricts to Gaussian channels, proves
+closedness, and proves achievability by quantizing the side information
+(Step A), then the source and the reproduction (Step B), and then
+returning to the unquantized side information (Step C).
 
 One device is fixed first, the \emph{saturating dyadic quantizers}:
 for $\kappa\ge1$, $q_\kappa$ partitions $\R$ into the bounded cells
@@ -3586,17 +3046,10 @@ abstract-alphabet covering or Markov lemma is invoked.
 The closed forms and the displayed matrix identities were checked
 independently of the derivations: each closed form numerically, against
 direct minimization over test-channel moments, and each identity
-symbolically, by computer algebra. For Section~\ref{sec:parallel},
-\texttt{verify\_parallel.py} confirms the slope and curvature identities
-of Lemma~\ref{lem:slope} symbolically, matches the equal-slope
-allocation against a brute-force search, checks numerically that no
-jointly Gaussian channel correlated across coordinates improves on it,
-and computes the numbers of the instance. For Section~\ref{sec:coupled},
-\texttt{verify\_coupled.py} confirms the scalar identity of
-Theorem~\ref{thm:onedim}(c) symbolically, compares the program
-\eqref{eq:maxdet} with a direct search over Gaussian descriptions,
-tests the certificate of Theorem~\ref{thm:onedim}(b), and computes the
-numbers of the instance. The check scripts and an executed
+symbolically, by computer algebra. For Proposition~\ref{prop:pencil},
+\texttt{verify\_pencil.py} confirms the scalar identity symbolically and
+compares the pencil formula with direct minimization for random vector
+contexts. The check scripts and an executed
 notebook, \texttt{reproduce.ipynb}, which evaluates the closed forms
 against direct minimization and regenerates the figures and tables,
 accompany the manuscript sources at the repository of the title footnote
@@ -3606,48 +3059,29 @@ algebraic slips; no proof in the paper depends on them.
 \section{Comparison with the Common-Reconstruction Functions of Lu \emph{et al.} and of Lu and Xu}
 \label{app:lucompare}
 
-Lu, Xu, Zhang, Feng, and Wang \cite{lu2016lossy} solve the binary lossy coding
-problem with encoder side information and a common-reconstruction constraint;
-its Heegard--Berger companion is \cite{lu2016binary}. Their model has a source
-$X$, encoder side information $S_1$, and decoder side information $S_2$ forming
-$X-S_1-S_2$, with the encoder observing $(X,S_1)$, the decoder reconstructing
-from the message and $S_2$, and the common-reconstruction constraint that the
-encoder reproduce the decoder's estimate. For the doubly symmetric binary source
-with $\Pr[X\ne S_1]=p_1$ and $S_2=S_1\oplus\mathrm{Bern}(p_2)$ under Hamming
-distortion, their Theorem~1 gives the rate--distortion function
+Lu, Xu, Zhang, Feng, and Wang \cite{lu2016lossy}, with the Heegard--Berger
+companion \cite{lu2016binary}, solve the binary problem in which the encoder
+observes a source $X$ and side information $S_1$, the decoder holds $S_2$
+with $X-S_1-S_2$, and the encoder must reproduce the decoder's estimate.
+For the doubly symmetric source with $\Pr[X\ne S_1]=p_1$ and
+$S_2=S_1\oplus\mathrm{Bern}(p_2)$ under Hamming distortion, their
+Theorem~1 gives the rate--distortion function
 \[
   \widetilde R^{\mathrm{CR}}(D)
   =\min_{W:\ W-(X,S_1)-S_2,\ \E d(X,f(W))\le D} I(X,S_1;W\mid S_2),
 \]
-reduced to a one-parameter minimization in their Theorem~2.
-
-Under the relabeling
-\[
-  X\leftrightarrow Y,\quad S_1\leftrightarrow V,\quad S_2\leftrightarrow S,\quad
-  W\leftrightarrow\hY,\quad (p_1,p_2)\leftrightarrow(p,q),
-\]
-their functional is identically the conditional-content functional of
-Section~\ref{sec:binary}: $I(X,S_1;W\mid S_2)=I(Y,V;\hY\mid S)$ under the same
-Markov chain $\hY-(Y,V)-S$ and the same Hamming constraint, which by pair
-sufficiency (Lemma~\ref{thm:pair}) is $L$. The binary conditional-content
-function $L(D)$ of this paper therefore \emph{coincides} with
-$\widetilde R^{\mathrm{CR}}(D)$, and we do not claim it as new. The endpoints
-agree accordingly: at $q=0$ ($p_2=0$) both reduce to Gray's conditional function
-$h_2(p)-h_2(D)$ (their Remark~3), the $q=0$ case of Theorem~\ref{thm:binary}; at
-$q=\tfrac12$ ($p_2=\tfrac12$) both reduce to the marginal rate--distortion
-function $1-h_2(D)$; and at $D=0$ both give $h_2(p*q)$ (their Remark~1).
-
-The operational readings differ, and the second coordinate is new. In
-\cite{lu2016lossy} the conditioning variable $S_2$ is decoder side information,
-so $I(X,S_1;W\mid S_2)$ is a transmitted \emph{rate} with a Wyner--Ziv saving;
-here $S$ is held by a third party that never decodes, so the same quantity is
-the conditional \emph{content} $L$, while the transmitted rate is instead the
-unconditional $R=I(Y,V;\hY)$, which their single-coordinate problem does not
-constrain. The joint $(R,L)$ region and the tilt parametrization of the
-whole frontier (Proposition~\ref{rem:binfrontier}) have no counterpart in
-\cite{lu2016lossy}: they bound both coordinates of one description at
-once, rather than the single common-reconstruction rate, and are the
-binary contribution of this paper.
+reduced to a one-parameter minimization in their Theorem~2. Under the
+relabeling $X\leftrightarrow Y$, $S_1\leftrightarrow V$, $S_2\leftrightarrow S$,
+$W\leftrightarrow\hY$, $(p_1,p_2)\leftrightarrow(p,q)$, their functional is the
+conditional-content functional of Section~\ref{sec:binary} under the same
+Markov chain and constraint, so the binary $L(D)$ coincides with
+$\widetilde R^{\mathrm{CR}}(D)$ and we do not claim it as new; the
+endpoints agree, Gray's $h_2(p)-h_2(D)$ at $q=0$ (their Remark~3), $1-h_2(D)$
+at $q=\tfrac12$, and $h_2(p*q)$ at $D=0$ (their Remark~1). In their problem the
+quantity is a transmitted rate; here it is a second cost beside the
+unconditional rate $R=I(Y,V;\hY)$, which their problem does not constrain,
+so the joint region and the frontier of Proposition~\ref{rem:binfrontier}
+are the binary contribution of this paper.
 
 \subsection*{Lu and Xu's Gaussian function}
 
@@ -3815,9 +3249,8 @@ consumer-relative observation,'' preliminary manuscript, 2026, archived at
 doi:10.5281/zenodo.21776291.
 \bibitem{boyd2004} S. Boyd and L. Vandenberghe, \emph{Convex Optimization}.
 Cambridge, U.K.: Cambridge Univ. Press, 2004.
-\bibitem{vandenberghe1998} L. Vandenberghe, S. Boyd, and S.-P. Wu, ``Determinant maximization
-with linear matrix inequality constraints,'' \emph{SIAM J. Matrix Anal. Appl.},
-vol. 19, no. 2, pp. 499--533, 1998.
+\bibitem{bond2026vector} A. H. Bond, ``Rate and conditional content for Gaussian
+vector sources with encoder-observed context,'' companion manuscript, 2026.
 \bibitem{rahman2012} M. S. Rahman and A. B. Wagner, ``Rate region of the Gaussian
 scalar-help-vector source-coding problem,'' \emph{IEEE Trans. Inf. Theory},
 vol. 58, no. 1, pp. 172--188, 2012.

@@ -35,7 +35,7 @@ terms.
 The paper evaluates Steinberg's common-reconstruction functional on an
 augmented Gaussian source: the encoder observes a pair $(Y,V)$, the
 distortion binds $Y$ alone, and a third party holds a noisy copy of the
-context $V$ that no decoder uses. Three results are primary: a closed form
+context $V$ that no decoder uses. Two results are primary: a closed form
 for the minimal conditional content, the larger root of an explicit
 quadratic, for $Y$ and $V$ scalar linear functionals of an
 arbitrary-dimensional jointly Gaussian source; the exact region of
@@ -45,21 +45,19 @@ and the context are partially correlated, persisting at the clean-context
 boundary. A structural consequence is non-determination: the function is
 not a functional of the reduced source--side-information marginal, so the
 encoder's access to the context changes the operational problem. The
-third primary result extends the closed form to a described vector with
-independent coordinates (Theorem~25): the content-optimal split of the
-distortion is not reverse water-filling, and the rate-optimal and
-content-optimal descriptions can describe disjoint sets of coordinates.
-For coupled coordinates the function is a determinant maximization in the
-error covariance left to the side-information holder (Theorem~28), explicit
-in a one-dimensional regime as a generalized eigenvalue whose scalar case
-is the closed form (Theorem~29), and there the direction the
-content-optimal description reads turns with the distortion budget unless
-it ignores the context (Theorem~30).
+closed form is also the largest generalized eigenvalue of a matrix pencil
+(Proposition~24), which gives the vector-context function explicitly.
 Extensions give the frontier with vector context, the binary
 rate--content frontier through a tilt equation, and a direct Gaussian
 operational theorem whose achievability quantizes the conditioner, the
 source, and the reproduction and invokes the finite-alphabet theorem. Consistency anchors
 recover the classical, Gray, and Steinberg corners.
+
+A companion manuscript, ``Rate and Conditional Content for Gaussian
+Vector Sources with Encoder-Observed Context,'' treats a described
+variable of dimension greater than one. It builds on the present paper
+and is not needed to read it; it is cited as [38] and can be provided to
+the reviewers.
 
 Two earlier documents are relevant, and they are distinct from one
 another. First, this Transactions declined a different manuscript of
@@ -82,7 +80,7 @@ for $Y$ and $V$ scalar linear functionals of an arbitrary-dimensional
 Gaussian source (Theorem~14(a)), the exact rate--content region with its
 two-noise-fraction Pareto frontier (Theorem~14(b)), the misalignment and
 non-determination corollaries (Corollaries~19 and~21), the vector-context
-extension, the parallel and coupled described-variable results (Theorems~25 and~28--30), the binary rate--content frontier, the direct Gaussian
+extension, the pencil characterization (Proposition~24), the binary rate--content frontier, the direct Gaussian
 operational theorem (Appendix~A), and the Lu--Xu comparison (Appendix~C). Two components have
 close predecessors that are credited in place: the pair-sufficiency
 reduction is a distortion-preserving specialization of Armstrong's

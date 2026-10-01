@@ -6,7 +6,7 @@ The PDF is canonical. The HTML is a self-contained reading convenience with
 the mathematics as MathML and the figures inlined.
 
 IEEE Transactions on Information Theory submission. Single author. 31 pp.
-Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.7 = zenodo.22923834; 1.8 = zenodo.22927340, the submitted build).
+Archived at Zenodo: concept doi:10.5281/zenodo.22678341 (resolves to the latest version; 1.1 = zenodo.22678342, 1.7 = zenodo.22923834; 1.8 = zenodo.22927340, the build prepared for submission; the manuscript has been revised since and is not yet submitted).
 
 An encoder observes a jointly Gaussian pair `(Y, V)` and describes `Y` for a
 decoder that sees the description alone. A third party retains a noisy copy
@@ -29,7 +29,7 @@ Conditional-Entropy Tradeoffs" was applied, then reverted at the owner's
 direction, since the owner had already deferred a title change once); abstract trimmed
 from 247 to 242 words with no claim dropped; the title footnote points at
 the tagged path `tree/tit-cr-context-1.8/paper/tit-cr-context` and the
-concept DOI, both resolved anonymously (version 1.8, the submitted build, is deposited as
+concept DOI, both resolved anonymously (version 1.8, the build prepared for submission before the October 2026 revision, is deposited as
 doi:10.5281/zenodo.22927340, to which the concept DOI resolves; 1.7 =
 zenodo.22923834 differs only in the AI acknowledgment; no 1.6 version was
 deposited); the Gaussian scope is stated once, at the head of Section III,
@@ -394,6 +394,8 @@ at `../../lean/ObservationTheory/CRContext.lean` and carries zero `sorry`.
 | `verify_converses.py` | Author's harness, written alongside the proofs. 19 checks. |
 | `verifier_sym_checks.py`, `verifier_num_checks.py` | Re-derivation commissioned without access to the derivations or to the first harness. 46 + 42 checks. |
 | `matlab_checks.m` | MATLAB Symbolic cross-check, 11 checks. |
+| `tit-cr-context-r2.tex/.pdf`, `cover-letter-tit-r2.tex/.pdf` | The October 2026 revision (current manuscript and cover letter): reframed introduction, hardness subsection, pencil characterization (Proposition 24), length cuts. The vector material split off to `../tit-vector-described/`. |
+| `verify_pencil.py` | Checks for Proposition 24: scalar identity (symbolic), pencil value vs closed form, vector-context pencil vs direct minimization. Run on Atlas. |
 | `plot_frontier.py` → `frontier.pdf/.png` | Fig 2: Pareto frontier at `(ρ², τ², D) = (0.75, 0.5, 0.3)`. |
 | `plot_frontier_multi.py` → `frontier_multi.pdf/.png` | Fig 3: the frontier at ρ² = 0.2, 0.5, 0.8 (fixed τ² = 0.5, D = 0.3), with the endpoint gaps. Added in the September 2026 revision. |
 | `plot_notmarginal.py` → `notmarginal.pdf/.png` | Archived versions only; the figure was cut from the manuscript. |
