@@ -64,6 +64,9 @@ encoder's access to the clean context enters the function. For a
 described vector with independent coordinates, the content-optimal split
 of the distortion is not reverse water-filling, and the rate-optimal and
 content-optimal descriptions can describe disjoint sets of coordinates.
+For coupled coordinates the function is a determinant maximization, and
+the direction the content-optimal description reads turns with the
+distortion budget.
 The rate--content frontier of the doubly symmetric binary case is computed
 explicitly, and coding theorems, including a direct proof for the
 Gaussian source, give the conditional content its operational meaning as
@@ -227,7 +230,17 @@ describes coordinates in decreasing order of variance, the content-optimal
 one in decreasing order of $\sigma_j^2(1+\rho_j^2/\tau_j^2)$, so a
 coordinate of small variance with a well-read context can be described
 first. The two optimal descriptions can describe disjoint sets of
-coordinates (Corollary~\ref{cor:parallelmisalign}).
+coordinates (Corollary~\ref{cor:parallelmisalign}). When the coordinates
+are coupled (Section~\ref{sec:coupled}), the function is the value of a
+determinant maximization in the error covariance that remains for the
+party holding the side information (Theorem~\ref{thm:maxdet}). When the
+optimal description is one-dimensional it is explicit, the largest
+generalized eigenvalue of a pencil in which the distortion budget
+enters (Theorem~\ref{thm:onedim}), and the closed form of
+Theorem~\ref{thm:function}(a) is its scalar case. The direction that the
+content-optimal description reads then turns as the budget changes,
+unless it ignores the context (Theorem~\ref{thm:turning}), while the
+rate-optimal description reads a fixed principal axis.
 
 The remaining results are extensions and classical limits. The closed
 form recovers Shannon's rate--distortion function at $\rho=0$
@@ -304,7 +317,14 @@ above $L(D)$ on its admissible range and does not continue to the
 unpenalized limit evaluated here. For a described vector with
 independent Gaussian components the classical rate answer is reverse
 water-filling \cite{berger1971}; Section~\ref{sec:parallel} uses the same
-decomposition, and what differs is the allocation it produces.
+decomposition, and what differs is the allocation it produces. For
+coupled coordinates, Section~\ref{sec:coupled} parameterizes a Gaussian
+description by its error covariance, a standard device in vector
+Gaussian source coding \cite{rahman2012}, and the content endpoint
+becomes a determinant maximization \cite{vandenberghe1998}. The
+Gaussian information bottleneck \cite{chechik2005} projects onto fixed
+eigenvectors whatever its tradeoff parameter; the content-optimal
+description here does not.
 
 
 The conditional coordinate also has a security reading: $L$ is the
@@ -2590,7 +2610,307 @@ the source to independent triples of this form, since squared error is
 invariant under orthogonal maps applied to $Y$ and $\hat{\mathbf Y}$
 together and both information coordinates are invariant under invertible
 maps of each argument. When no such coordinates exist, the coordinates
-couple through $\Sigma_{T\mid S}$, and the function is open.
+couple through $\Sigma_{T\mid S}$, which is the case of the next section.
+
+\section{Coupled Described Variables}
+\label{sec:coupled}
+
+Drop the independence of the coordinates. Let $T=(Y,V)$ be jointly
+Gaussian and centered with $Y\in\R^m$, $V\in\R^r$, $p=m+r$, and
+$\Sigma_T\succ0$, and let $S=V+U$ with $U\sim\mathcal N(0,\Sigma_U)$,
+$\Sigma_U\succ0$, independent of $T$ and of all channel randomness. The
+reproduction $\hat{\mathbf Y}\in\R^m$ is judged by
+$\E\|Y-\hat{\mathbf Y}\|^2\le D$ with $0<D<\tr\Sigma_Y$. Write
+$F=[\,I_m\ 0\,]$ and $H=[\,0\ I_r\,]$ for the coordinate selections, so
+$Y=FT$ and $V=HT$, and write $J_S:=H^{\mathsf T}\Sigma_U^{-1}H$ for the
+information that the side information carries about $T$, so that
+$\Sigma_{T\mid S}=(\Sigma_T^{-1}+J_S)^{-1}$. For a channel, let
+$\Sigma_{e0}$ and $\Sigma_e$ be the error covariances of the best linear
+estimates of $T$ from the description and from the description together
+with $S$, as in Lemma~\ref{lem:gauss}. This section characterizes the
+single-letter functions; the operational statement would need
+Theorem~\ref{thm:gaussop} for a vector described variable, which we do
+not carry out.
+
+\begin{proposition}\label{prop:posterior}
+The single-letter rate--content region at distortion $D$ is the union,
+over symmetric matrices $\Sigma_{e0}$ with
+$0\prec\Sigma_{e0}\preceq\Sigma_T$ and
+$\tr(F\Sigma_{e0}F^{\mathsf T})\le D$, of the quadrants above
+\[
+\Bigl(\tfrac12\log_2\frac{\det\Sigma_T}{\det\Sigma_{e0}},\
+\tfrac12\log_2\frac{\det\Sigma_{T\mid S}}{\det\Sigma_e}\Bigr),
+\qquad
+\Sigma_e^{-1}=\Sigma_{e0}^{-1}+J_S .
+\]
+\end{proposition}
+
+\begin{proof}
+\emph{Converse.} Fix an admissible channel. Lemma~\ref{lem:gauss}
+applies with an $m$-dimensional reproduction (its hypothesis
+$\Cov(N',S)=0$ holds as in the proof of Theorem~\ref{thm:vector}, and
+Remark~\ref{rem:degenerate} disposes of a singular residual), so the
+jointly Gaussian channel $\hat{\mathbf Y}=AT+N$ with the same second
+moments has the same distortion and coordinates no larger. For it,
+$\Sigma_{e0}=\Cov(T\mid\hat{\mathbf Y})$ satisfies
+$\Sigma_{e0}^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
+$0\prec\Sigma_{e0}\preceq\Sigma_T$ and
+$I(T;\hat{\mathbf Y})=\tfrac12\log_2(\det\Sigma_T/\det\Sigma_{e0})$.
+The pair $(\hat{\mathbf Y},S)$ is a linear observation of $T$ with
+independent noises $(N,U)$, so
+$\Sigma_e^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A+J_S
+=\Sigma_{e0}^{-1}+J_S$ and
+$I(T;\hat{\mathbf Y}\mid S)=\tfrac12\log_2(\det\Sigma_{T\mid S}/\det\Sigma_e)$.
+Finally
+$\E\|Y-\hat{\mathbf Y}\|^2\ge\E\|Y-\E[Y\mid\hat{\mathbf Y}]\|^2
+=\tr(F\Sigma_{e0}F^{\mathsf T})$.
+
+\emph{Achievability.} Given $\Sigma_{e0}$, factor
+$\Sigma_{e0}^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $W=GT+N$ with
+$N\sim\mathcal N(0,I)$ independent, and reproduce
+$\hat{\mathbf Y}=\E[Y\mid W]$. Then $\Cov(T\mid W)=\Sigma_{e0}$, the
+distortion is $\tr(F\Sigma_{e0}F^{\mathsf T})\le D$, the Markov chain
+$\hat{\mathbf Y}-T-S$ holds, and since $\hat{\mathbf Y}$ is a function of
+$W$, data processing bounds both coordinates of $\hat{\mathbf Y}$ by
+those of $W$, which are the displayed values.
+\end{proof}
+
+The content coordinate depends on the description only through
+$\Sigma_e$, the uncertainty about $T$ that remains for the party that
+holds $S$ after it reads the description. In that coordinate the
+content endpoint is a concave maximization.
+
+\begin{theorem}\label{thm:maxdet}
+For $0<D<\tr\Sigma_Y$,
+\begin{equation}
+L(D)=\tfrac12\log_2\det\Sigma_{T\mid S}
+-\tfrac12\max\Bigl\{\log_2\det\Sigma_e:\
+0\prec\Sigma_e\preceq\Sigma_{T\mid S},\
+\tr\bigl(F(\Sigma_e^{-1}-J_S)^{-1}F^{\mathsf T}\bigr)\le D\Bigr\},
+\label{eq:maxdet}
+\end{equation}
+and the map $\Sigma_e\mapsto(\Sigma_e^{-1}-J_S)^{-1}$ is matrix-convex on
+the feasible set. The distortion constraint holds if and only if there
+is a symmetric $Z$ with $\tr Z\le D$ and
+\begin{equation}
+\begin{bmatrix}
+Z-F\Sigma_eF^{\mathsf T}&F\Sigma_eJ_S^{1/2}\\
+J_S^{1/2}\Sigma_eF^{\mathsf T}&I-J_S^{1/2}\Sigma_eJ_S^{1/2}
+\end{bmatrix}\succeq0,
+\label{eq:lmi}
+\end{equation}
+so \eqref{eq:maxdet} is a determinant maximization under linear matrix
+inequalities \cite{vandenberghe1998}. The maximizer $\Sigma_e^\star$ is
+unique, the distortion constraint is active there, and $\Sigma_e^\star$
+is optimal if and only if there are $\mu\ge0$ and $\Theta\succeq0$ with
+\begin{equation}
+\tfrac12\Sigma_e^\star-\mu\,\Sigma_{e0}^\star F^{\mathsf T}F\Sigma_{e0}^\star
+=\Sigma_e^\star\Theta\Sigma_e^\star,
+\qquad
+\Theta\bigl(\Sigma_{T\mid S}-\Sigma_e^\star\bigr)=0,
+\label{eq:kktcoupled}
+\end{equation}
+where $\Sigma_{e0}^\star=(\Sigma_e^{\star-1}-J_S)^{-1}$.
+\end{theorem}
+
+\begin{proof}
+\emph{Change of variables.} The map
+$\Sigma_{e0}\mapsto\Sigma_e=(\Sigma_{e0}^{-1}+J_S)^{-1}$ carries
+$\{0\prec\Sigma_{e0}\preceq\Sigma_T\}$ onto
+$\{0\prec\Sigma_e\preceq\Sigma_{T\mid S}\}$: $\Sigma_{e0}\preceq\Sigma_T$
+if and only if $\Sigma_{e0}^{-1}+J_S\succeq\Sigma_T^{-1}+J_S$, that is,
+$\Sigma_e\preceq\Sigma_{T\mid S}$, and conversely
+$\Sigma_e\preceq\Sigma_{T\mid S}$ gives
+$\Sigma_e^{-1}-J_S\succeq\Sigma_T^{-1}\succ0$. By
+Proposition~\ref{prop:posterior} the content endpoint is therefore
+\eqref{eq:maxdet}.
+
+\emph{Convexity and the matrix inequality.} On the feasible set,
+$J_S^{1/2}\Sigma_eJ_S^{1/2}\preceq J_S^{1/2}\Sigma_{T\mid S}J_S^{1/2}\prec I$,
+the last because $J_S\prec\Sigma_T^{-1}+J_S$. The Woodbury identity then
+gives
+\[
+(\Sigma_e^{-1}-J_S)^{-1}
+=\Sigma_e+\Sigma_eJ_S^{1/2}\bigl(I-J_S^{1/2}\Sigma_eJ_S^{1/2}\bigr)^{-1}
+J_S^{1/2}\Sigma_e,
+\]
+and by the Schur-complement criterion
+$F(\Sigma_e^{-1}-J_S)^{-1}F^{\mathsf T}\preceq Z$ if and only if
+\eqref{eq:lmi} holds. The block matrix in \eqref{eq:lmi} is affine in
+$(\Sigma_e,Z)$, so averaging two instances of \eqref{eq:lmi} shows that
+the map is matrix-convex, exactly as in the proof of
+Lemma~\ref{lem:mxconvex}.
+
+\emph{Existence, uniqueness, activity.} For $0<\epsilon<1$ small, the
+description with $\Sigma_{e0}=\epsilon\Sigma_T$ has distortion
+$\epsilon\tr\Sigma_Y<D$ and gives a strictly feasible $\Sigma_e$, so
+the feasible set has nonempty interior. The objective is bounded on the
+bounded set $\Sigma_e\preceq\Sigma_{T\mid S}$, its superlevel sets stay
+away from singular matrices, and the maximum is attained; $\log\det$ is
+strictly concave and the feasible set is convex, so the maximizer is
+unique. If the distortion were slack at $\Sigma_e^\star$, moving toward
+$\Sigma_{T\mid S}$ would stay feasible and strictly raise
+$\log\det\Sigma_e$, since
+$\tr\bigl(\Sigma_e^{\star-1}(\Sigma_{T\mid S}-\Sigma_e^\star)\bigr)>0$
+($\Sigma_e^\star=\Sigma_{T\mid S}$ is infeasible, its distortion being
+$\tr\Sigma_Y>D$).
+
+\emph{Optimality conditions.} Slater's condition holds, so the
+Karush--Kuhn--Tucker conditions are necessary and sufficient. With
+$h(\Sigma_e)=(\Sigma_e^{-1}-J_S)^{-1}$, the differential is
+$dh=h\,\Sigma_e^{-1}\,d\Sigma_e\,\Sigma_e^{-1}h$, so the gradient of
+$\tr(FhF^{\mathsf T})$ is
+$\Sigma_e^{-1}\Sigma_{e0}F^{\mathsf T}F\Sigma_{e0}\Sigma_e^{-1}$.
+Stationarity of
+$-\tfrac12\log\det\Sigma_e+\mu\,\tr(FhF^{\mathsf T})
++\tr\bigl(\Theta(\Sigma_e-\Sigma_{T\mid S})\bigr)$, multiplied on both
+sides by $\Sigma_e$, is the first condition of \eqref{eq:kktcoupled},
+and the second is complementary slackness.
+\end{proof}
+
+When the optimal description has a single dimension, the program has
+a closed form. Write $\Delta=\tr\Sigma_Y-D$ for the reduction in error
+that the description must buy, and
+\[
+A(\Delta)=\Sigma_TF^{\mathsf T}F\Sigma_T-\Delta\,\Sigma_T .
+\]
+A one-dimensional description is $W=b^{\mathsf T}T+N$ with $b\ne0$ and
+$N\sim\mathcal N(0,\sigma^2)$ independent, reproduced by
+$\E[Y\mid W]$; its read direction is $b$, and the direction in which it
+reduces the error of the reproduction is $F\Sigma_Tb$.
+
+\begin{theorem}\label{thm:onedim}
+(a) A one-dimensional description meets the distortion constraint with
+finite content if and only if $\Delta<\lambda_{\max}(\Sigma_Y)$, and the
+least content among such descriptions is
+\begin{equation}
+L_1(D)=\tfrac12\log_2\Bigl(1+\frac{\Delta}{\mu_{\max}(\Delta)}\Bigr),
+\label{eq:onedim}
+\end{equation}
+where $\mu_{\max}(\Delta)>0$ is the largest root of
+$\det\bigl(A(\Delta)-\mu\,\Sigma_{T\mid S}\bigr)=0$. It is attained with
+$b$ a corresponding generalized eigenvector and
+$\sigma^2=|F\Sigma_Tb|^2/\Delta-b^{\mathsf T}\Sigma_Tb$.
+
+(b) Let $\Sigma_{e0}$ and $\Sigma_e$ be the error covariances of the
+description of (a), and let
+$\Gamma(\mu)=\tfrac12\Sigma_e-\mu\,\Sigma_{e0}F^{\mathsf T}F\Sigma_{e0}$.
+Then $L(D)=L_1(D)$ if and only if there is $\mu\ge0$ with
+$\Gamma(\mu)\succeq0$ and $\Gamma(\mu)b=0$, and then
+$\mu=\tfrac12b^{\mathsf T}\Sigma_eb/|F\Sigma_{e0}b|^2$.
+
+(c) For $m=1$, $L(D)=L_1(D)$ at every $0<D<\operatorname{Var}Y$. With scalar context,
+$1+\Delta/\mu_{\max}(\Delta)$ is the root $g^\star$ of
+Theorem~\ref{thm:function}(a): the closed form is the largest
+generalized eigenvalue of the pencil
+$\bigl(A(1-D),\Sigma_{T\mid S}\bigr)$.
+\end{theorem}
+
+\begin{proof}
+(a) For the description $W$, $\Cov(T\mid W)=\Sigma_T-\Sigma_Tbb^{\mathsf T}\Sigma_T/(b^{\mathsf T}\Sigma_Tb+\sigma^2)$,
+so the distortion of $\E[Y\mid W]$ is
+$\tr\Sigma_Y-|F\Sigma_Tb|^2/(b^{\mathsf T}\Sigma_Tb+\sigma^2)$, and the
+constraint reads $\sigma^2\le|F\Sigma_Tb|^2/\Delta-b^{\mathsf T}\Sigma_Tb$.
+The content is
+$I(T;W\mid S)=\tfrac12\log_2\bigl(1+b^{\mathsf T}\Sigma_{T\mid S}b/\sigma^2\bigr)$,
+decreasing in $\sigma^2$, so at the largest admissible $\sigma^2$ it is
+$\tfrac12\log_2\bigl(1+\Delta\,b^{\mathsf T}\Sigma_{T\mid S}b/b^{\mathsf T}A(\Delta)b\bigr)$,
+finite exactly when $b^{\mathsf T}A(\Delta)b>0$. Minimizing over $b$ is
+maximizing the Rayleigh quotient
+$b^{\mathsf T}A(\Delta)b/b^{\mathsf T}\Sigma_{T\mid S}b$ of a symmetric
+pencil with $\Sigma_{T\mid S}\succ0$, whose maximum is $\mu_{\max}$.
+Some $b$ has $b^{\mathsf T}A(\Delta)b>0$ if and only if
+$\Sigma_T^{1/2}F^{\mathsf T}F\Sigma_T^{1/2}\not\preceq\Delta I$, and the
+nonzero eigenvalues of that matrix are those of
+$F\Sigma_TF^{\mathsf T}=\Sigma_Y$.
+
+(b) The description of (a) has
+$\Sigma_e^{-1}=\Sigma_{T\mid S}^{-1}+bb^{\mathsf T}/\sigma^2$, so
+$\Sigma_{T\mid S}-\Sigma_e$ is a positive multiple of
+$\Sigma_{T\mid S}bb^{\mathsf T}\Sigma_{T\mid S}$ and
+$\Sigma_e^{-1}\Sigma_{T\mid S}b$ is a positive multiple of $b$. With
+$\Theta=\Sigma_e^{-1}\Gamma(\mu)\Sigma_e^{-1}$, the conditions
+\eqref{eq:kktcoupled} at this point therefore read $\Gamma(\mu)\succeq0$
+and $\Gamma(\mu)b=0$, and Theorem~\ref{thm:maxdet} makes them necessary
+and sufficient. Taking $b^{\mathsf T}\Gamma(\mu)b=0$ gives the value of
+$\mu$.
+
+(c) For $m=1$ the reproduction is scalar, so every Gaussian channel is a
+one-dimensional description, and Lemma~\ref{lem:gauss} reduces the
+general case to Gaussian channels. With scalar context, substituting
+$\mu=\Delta/(g-1)$ into $\det(A(1-D)-\mu\Sigma_{T\mid S})$ gives
+$-(1-D)(1-\rho^2)P(g)/\bigl(s(g-1)^2\bigr)$, a direct computation
+confirmed by computer algebra (Appendix~\ref{app:numver}). The positive
+root $\mu_{\max}$ therefore corresponds to the unique root $g>1$ of
+$P$, which is $g^\star$.
+\end{proof}
+
+Part (c) gives the vector-context endpoint of Theorem~\ref{thm:vector}
+in closed form as well. Part (a) also shows how the coupled problem
+differs from the classical one. The rate-optimal description of the
+same kind solves (a) with $J_S=0$, which makes
+$\Sigma_{T\mid S}=\Sigma_T$ and the read direction the principal axis
+of $\Sigma_Y$, whatever the budget. The content-optimal read direction is
+a generalized eigenvector of a pencil in which the budget enters, and it
+moves with the budget.
+
+\begin{theorem}\label{thm:turning}
+Let $\mu_{\max}(\Delta)$ be simple and positive on an open interval
+$\mathcal I$. The read direction $b(\Delta)$ of
+Theorem~\ref{thm:onedim}(a) spans a fixed line on $\mathcal I$ if and
+only if $b=F^{\mathsf T}\beta$ for an eigenvector $\beta$ of $\Sigma_Y$
+with $\Cov(V,\beta^{\mathsf T}Y)=0$. Whenever the read direction is
+correlated with the context, it turns with the budget.
+\end{theorem}
+
+\begin{proof}
+Write $A(\Delta)=A_0-\Delta\Sigma_T$. A simple eigenvalue of a symmetric
+pencil and its eigenvector are analytic in $\Delta$. If $b$ is fixed,
+differentiating $(A_0-\Delta\Sigma_T)b=\mu_{\max}(\Delta)\Sigma_{T\mid S}b$
+gives $\Sigma_Tb\propto\Sigma_{T\mid S}b$, and then
+$A_0b\propto\Sigma_{T\mid S}b\propto\Sigma_Tb$, that is,
+$F^{\mathsf T}F\Sigma_Tb=\lambda b$. Here $\lambda>0$, since
+$\lambda=0$ would give $b^{\mathsf T}A(\Delta)b=-\Delta b^{\mathsf T}\Sigma_Tb<0$
+against $\mu_{\max}>0$. So $b=F^{\mathsf T}\beta$ with
+$\beta=F\Sigma_Tb/\lambda$, and $\Sigma_Y\beta=\lambda\beta$. Next,
+$\Sigma_Tb=c\,\Sigma_{T\mid S}b$ reads
+$J_S\Sigma_Tb=(c-1)b$, after multiplying by
+$\Sigma_{T\mid S}^{-1}=\Sigma_T^{-1}+J_S$. The left side lies in the
+range of $H^{\mathsf T}$ and the right side in the range of
+$F^{\mathsf T}$, so both vanish:
+$\Sigma_U^{-1}\Cov(V,Y)\beta=0$, that is, $\Cov(V,\beta^{\mathsf T}Y)=0$.
+Conversely, for such $b$, $\Sigma_Tb=\lambda b$ and $J_S\Sigma_Tb=0$, so
+$\Sigma_{T\mid S}b=\Sigma_Tb=\lambda b$ and $A(\Delta)b=(\lambda-\Delta)
+\Sigma_{T\mid S}b$ for every $\Delta$; $b$ is a generalized eigenvector
+throughout, and by continuity and simplicity it stays the top one on
+$\mathcal I$.
+\end{proof}
+
+An instance shows both effects. Take $\Sigma_Y=\mathrm{diag}(1,0.4)$, a
+scalar context with $\operatorname{Var}V=1$ and
+$\Cov(Y,V)=0.6\,(\cos50^\circ,\sin50^\circ)^{\mathsf T}$, and
+$\Sigma_U=\tau^2=0.05$. The one-dimensional description is optimal by the
+certificate of Theorem~\ref{thm:onedim}(b) for every
+$D\ge D_1=1.0853$, out of $\tr\Sigma_Y=1.4$. The rate-optimal
+description reduces the error along the first axis at every budget. The
+content-optimal description reduces it along a direction at
+$47.48^\circ$ at $D=1.38$, $46.76^\circ$ at $D=1.3$, $45.07^\circ$ at
+$D=1.2$, and $41.15^\circ$ at $D=1.1$. The direction is not determined
+by the law of $(Y,S)$ either, which is the analogue of
+Corollary~\ref{cor:notmarginal} for directions. Four sources with this
+$\Sigma_Y$, the context along the same direction, and
+$\Cov(Y,V)^{\mathsf T}\Cov(Y,V)/(1+\tau^2)=0.3$ share the law of $(Y,S)$
+up to scaling of $S$. At
+$(|\Cov(Y,V)|^2,\tau^2)=(0.33,0.1)$, $(0.36,0.2)$, $(0.39,0.3)$, and
+$(0.42,0.4)$, at $D=1.3$ and inside the one-dimensional regime, their
+content-optimal descriptions reduce the error along $42.83^\circ$,
+$37.61^\circ$, $33.75^\circ$, and $30.84^\circ$, at contents $0.02366$,
+$0.03525$, $0.04206$, and $0.04649$ bits.
+
+Below $D_1$ the optimal description has two dimensions. Its value is
+the solution of \eqref{eq:maxdet}, which interior-point methods compute
+to any accuracy, but we have no closed form for it, nor for $D_1$ as a
+function of the source.
 
 \section{The Binary Frontier}
 \label{sec:binary}
@@ -2887,8 +3207,9 @@ stays with a third party: the closed form of
 Theorem~\ref{thm:function}(a), the exact rate--content region of
 Theorem~\ref{thm:region}(b) with the misalignment condition of
 Corollary~\ref{cor:misalign}, the extensions to vector context
-(Theorem~\ref{thm:vector}) and to parallel described variables
-(Theorem~\ref{thm:parallel}), and the binary frontier of
+(Theorem~\ref{thm:vector}), to parallel described variables
+(Theorem~\ref{thm:parallel}), and to coupled ones
+(Theorems~\ref{thm:maxdet}--\ref{thm:turning}), and the binary frontier of
 Theorem~\ref{thm:binary} and Proposition~\ref{rem:binfrontier}. The structural conclusion is
 Corollary~\ref{cor:notmarginal}: the function is not determined by the
 reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
@@ -2906,9 +3227,11 @@ open problems below are its natural next instances.
 Four problems are open. The exact rate--content region for a joint
 description serving two described variables is not settled; its stationarity
 system is known in necessary-condition form only. For a described vector
-the function is known in the parallel case of
-Theorem~\ref{thm:parallel}; when no change of coordinates decouples the
-source it is open. Stationary
+the function is explicit in the parallel case of
+Theorem~\ref{thm:parallel} and in the one-dimensional regime of
+Theorem~\ref{thm:onedim}; in general it is the value of the program
+\eqref{eq:maxdet}, and a closed form for the higher-dimensional regime is
+open, as is the operational theorem for a vector described variable. Stationary
 sources, and the process and spectral versions of the function, are not
 treated here. The finite-blocklength behavior of the pair $(R_n,L_n)$ is
 unexplored, and the content coordinate is not a routine second-order
@@ -3268,7 +3591,12 @@ symbolically, by computer algebra. For Section~\ref{sec:parallel},
 of Lemma~\ref{lem:slope} symbolically, matches the equal-slope
 allocation against a brute-force search, checks numerically that no
 jointly Gaussian channel correlated across coordinates improves on it,
-and computes the numbers of the instance. The check scripts and an executed
+and computes the numbers of the instance. For Section~\ref{sec:coupled},
+\texttt{verify\_coupled.py} confirms the scalar identity of
+Theorem~\ref{thm:onedim}(c) symbolically, compares the program
+\eqref{eq:maxdet} with a direct search over Gaussian descriptions,
+tests the certificate of Theorem~\ref{thm:onedim}(b), and computes the
+numbers of the instance. The check scripts and an executed
 notebook, \texttt{reproduce.ipynb}, which evaluates the closed forms
 against direct minimization and regenerates the figures and tables,
 accompany the manuscript sources at the repository of the title footnote
@@ -3487,6 +3815,12 @@ consumer-relative observation,'' preliminary manuscript, 2026, archived at
 doi:10.5281/zenodo.21776291.
 \bibitem{boyd2004} S. Boyd and L. Vandenberghe, \emph{Convex Optimization}.
 Cambridge, U.K.: Cambridge Univ. Press, 2004.
+\bibitem{vandenberghe1998} L. Vandenberghe, S. Boyd, and S.-P. Wu, ``Determinant maximization
+with linear matrix inequality constraints,'' \emph{SIAM J. Matrix Anal. Appl.},
+vol. 19, no. 2, pp. 499--533, 1998.
+\bibitem{rahman2012} M. S. Rahman and A. B. Wagner, ``Rate region of the Gaussian
+scalar-help-vector source-coding problem,'' \emph{IEEE Trans. Inf. Theory},
+vol. 58, no. 1, pp. 172--188, 2012.
 \bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
 of probability distributions and indirect observations,'' \emph{Studia Sci.
 Math. Hungar.}, vol. 2, pp. 299--318, 1967.
