@@ -22,9 +22,32 @@ sentence and its ledger, not the symbol.
 
 ---
 
+**"Isn't $P_C$ the active-subspace matrix, and $R_C(D)$ Sakrison's weighted rate–distortion function?"**
+
+Yes. Averaged over inputs, $P_C$ is the active-subspace matrix (Constantine, Dow and
+Wang 2014; Constantine 2015). Statistics calls it the expected gradient outer product
+(Hristache et al. 2001; Xia et al. 2002). The blind probe is finite-difference
+active-subspace estimation. $R_C(D)$ is the weighted rate–distortion function
+(Sakrison 1968). For a nonlinear consumer it is the first-order version of an indirect
+rate–distortion problem (Dobrushin and Tsybakov 1962; Wolf and Ziv 1970; Witsenhausen
+1980). The read distortion is a sensitivity-weighted mean squared error, as in
+Hessian-aware quantization (Choi et al. 2017; Dong et al. 2019). The two-observer
+results are Gaussian successive refinement (Equitz and Cover 1991; Nayak, Tuncel,
+Gündüz and Erkip 2010). The conditional content of the companion papers is the
+conditional leakage of secure source coding (Villard and Piantanida 2013; Ekrem and
+Ulukus 2013). Conditional Landauer work is del Rio et al. (2011). The alignment $\kappa$
+is a matrix cosine, as in kernel alignment (Cristianini et al. 2002). The earlier
+drafts of this book left most of these parents uncited. Appendix A now states each one.
+What the program adds is the sealed cross-domain test, the measurement of the weight on
+trained consumers, and the theorems its questions produced.
+
+---
+
 **"Isn't this just task-aware / downstream-aware compression, which people already do?"**
 
-The intuition is shared; the method is not. Task-aware compression typically *trains* a
+The intuition is shared; the method is not. Task-based quantization already designs the
+quantizer for the downstream estimate (Shlezinger, Eldar and Rodrigues 2019), and the
+flip is its premise. Task-aware compression typically *trains* a
 code end-to-end against a task, yielding an opaque code with no stated boundary. This
 program *identifies the read operator* $P_C$ — blind, no labels, no oracle — and *derives*
 what to keep, giving a transparent recipe plus a theory of *when task-awareness matters*

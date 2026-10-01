@@ -180,7 +180,7 @@ rounds those away first; so the corrected ranking is *harder* to reproduce from
 compressed codes than the uncorrected one. The information the correction needs and the
 information the coarse-graining discards are the same information. The operational
 summary the companion project settled on — *the codes find, the originals decide* — is
-$\operatorname{tr}(P_C\Sigma_\delta)$ read from the retrieval side: the codes are good
+$\operatorname{tr}(P_C\Sigma_\delta)$ (the weighted mean squared error) read from the retrieval side: the codes are good
 enough to locate the read subspace's neighbourhood, and not good enough to be the final
 authority inside it.
 

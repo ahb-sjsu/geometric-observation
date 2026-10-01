@@ -40,7 +40,7 @@ lost bet, carried at full prominence.
 
 | Claim | Class | Registry | Incident |
 |---|---|---|---|
-| B1 — consumer $R_C(D)$ achievability + converse | `[proved]` | 022 blk | — |
+| B1 — consumer $R_C(D)$ (weighted rate–distortion function, Sakrison 1968) achievability + converse | `[proved]` | 022 blk | — |
 | B2 — output ≤ surrogate ≤ reconstruction | `[proved]`/`[demonstrated]` | 028 | — |
 | B3 — surrogate–output gap vanishes with rate | `[demonstrated]` | 028 | VI-3 |
 | B4 — two-observer region; refinable iff $\Sigma^\star(P_2,D_2) \preceq \Sigma^\star(P_1,D_1)$ (Loewner nesting of optimal error covariances), exact excess rate $\tfrac12\log[\det\Sigma^\star(P_2,D_2)/\det\Sigma^\circ]$ otherwise | `[proved]` | 022 | **VI-4** |
