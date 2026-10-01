@@ -39,32 +39,32 @@ geometric-observation repository.}}
 
 \begin{abstract}
 An encoder observes a jointly Gaussian vector and describes part of it
-to a decoder that sees the description alone, under a weighted quadratic
-distortion. A second party holds a noisy linear observation of the
-source and never decodes. One description then carries two costs: its
-rate, and its conditional leakage to the second party, which is also
-the least rate at which that party can re-encode it. The rate--leakage
-region is known in single-letter form from secure source coding. We
-determine its structure for an informed encoder, which observes more
-than it must describe, when the decoder has no side information, for
-every distortion weight and every observation map of the second party.
-Both costs are convex in the error covariance of the description, so the
-whole frontier is a convex program with unique minimizers, and when
-the decoder's and the second party's geometries commute it is explicit
-at every budget. When the
-optimal description is one-dimensional, which an explicit test
-certifies, the minimum leakage is a closed-form function of the largest
-generalized eigenvalue of a matrix pencil in which the distortion budget
-enters, and the eigenvector is the direction the description reads. That
-direction turns with the budget unless the decoder's and the second
-party's geometries share it, whereas a description built for a single
-party reads a fixed direction. The rate-optimal and leakage-optimal
-descriptions differ whenever the second party's information does not map
-the decoder's principal direction onto itself. For independent
-components the leakage-optimal split of the distortion is not reverse
-water-filling and can describe different components from the
-rate-optimal split, and for a scalar described variable with a scalar
-context the pencil gives an explicit closed form.
+to a decoder under a weighted quadratic distortion. A second party
+holds a noisy linear observation of the source and never decodes. One
+description then carries two costs: its rate, and its conditional
+leakage to the second party, which is also the least rate at which that
+party can re-encode it. The rate--leakage region is known in
+single-letter form from secure source coding. We determine its
+structure for an informed encoder, which observes more than it must
+describe, for every distortion weight and every observation map of the
+second party. Both costs are convex in the error covariance of the
+description, so the frontier is a convex program with unique
+minimizers, explicit at every budget when the decoder's and the second
+party's geometries commute. When the optimal description is
+one-dimensional, which an explicit test certifies, the minimum leakage
+is a closed-form function of the largest generalized eigenvalue of a
+matrix pencil in which the distortion budget enters, and the
+eigenvector is the direction the description reads. That direction
+turns with the budget unless both geometries share it, whereas a
+description built for a single party reads a fixed direction. The
+rate-optimal and leakage-optimal descriptions differ whenever the
+second party's information does not map the decoder's principal
+direction onto itself, and for independent components the
+leakage-optimal split is not reverse water-filling. With side
+information at the decoder, the two degraded cases are explicit: a
+better-informed decoder removes the tradeoff, and a better-informed
+second party reduces the problem exactly to the case without decoder
+side information.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -151,6 +151,13 @@ components the leakage-optimal split of the distortion equalizes slopes
 that we compute in closed form, activates components in an order that
 is not the order of their variances, and can describe a disjoint set of
 components from the rate-optimal split (Section~\ref{sec:parallel}).
+With side information at the decoder (Section~\ref{sec:decsi}) the two
+degraded cases are explicit: when the decoder's information dominates
+the holder's, the leakage equals the rate at the optimum and there is no
+tradeoff; when the holder's dominates, an estimation inequality
+(Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one
+without decoder side information, for the source conditioned on the
+decoder's observation and the holder's excess information.
 
 \subsection*{Related work}
 
@@ -891,6 +898,118 @@ describes component $2$ alone exactly when $\kappa_2<\theta^\star\le\kappa_1$,
 that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \end{proof}
 
+\section{Decoder Side Information}
+\label{sec:decsi}
+
+Suppose the decoder also observes $C=H_CT+N_C$, with $N_C\sim\mathcal N(0,\Sigma_{N_C})$,
+$\Sigma_{N_C}\succ0$, independent of everything else, and reconstructs from
+$(M,C^n)$. Write $J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$ and
+$\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$. The single-letter region is
+Villard and Piantanida's \cite[Theorem~3]{villard2013} with uncoded side
+information at the decoder: $R\ge I(V;T\mid C)$, distortion at most
+$\E\,d(Y,\hY(V,C))$, and equivocation at most
+$h(T\mid V,C)+I(T;C\mid U)-I(T;S\mid U)$, over $U-V-T-(C,S)$. We use it for
+the Gaussian source as Ekrem and Ulukus do \cite[Sec.~2]{ekrem2013},
+without reproving its extension to continuous alphabets. The two
+auxiliaries are what makes the general case hard; Ekrem and Ulukus
+evaluate the two endpoints separately, and a joint characterization is
+reported by Xu and Chen \cite{xuchen2021}. The two degraded cases are
+explicit and inherit the structure of the preceding sections.
+
+For Gaussian linear observations the information matrices order the
+side informations: if $J_S\preceq J_C$, the holder's observation is a
+stochastically degraded version of the decoder's. Indeed, the
+sufficient statistic $J_CT+n_C$, $n_C\sim\mathcal N(0,J_C)$, of $C$ is
+mapped by $A=J_SJ_C^{+}$ to $J_ST+An_C$, and
+$AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$,
+so adding independent noise of covariance $J_S-AJ_CA^{\mathsf T}$ reproduces
+the law of the sufficient statistic $J_ST+n_S$ of $S$. Degradedness implies
+that the decoder's side information is less noisy than the holder's in
+the sense of \cite{villard2013}, and symmetrically when $J_C\preceq J_S$.
+
+\begin{lemma}\label{lem:mmsecomp}
+Let $V-T-(C,S)$ with $J_C\preceq J_S$, and let
+$M_C=\E[\Cov(T\mid V,C)]$ and $M_S=\E[\Cov(T\mid V,S)]$ be the minimum
+mean-square error covariances. Then
+$M_S\preceq\bigl(M_C^{-1}+J_S-J_C\bigr)^{-1}$, with equality when $(V,T)$ is
+jointly Gaussian.
+\end{lemma}
+
+\begin{proof}
+The conditional law of $T$ given $(V,S)$ depends on $S$ only through its
+sufficient statistic, whose conditional law given $T$ is that of the sum
+of the sufficient statistics of two independent observations of $T$
+with information matrices $J_C$ and $\Delta J=J_S-J_C$. So $M_S$ is the
+error covariance of estimating $T$ from $V$, an observation $C'$
+equivalent to $C$, and an independent observation $Z$ with information
+$\Delta J$, and $(T,V,C')$ has the law of $(T,V,C)$. For each realization
+$w$ of $(V,C')$, the conditional covariance of $T$ is $C_w$, and the best
+linear estimate of $T$ from $Z$ under that conditional law has error
+covariance $(C_w^{-1}+\Delta J)^{-1}$, which bounds the conditional minimum
+mean-square error. Averaging over $w$ and using the matrix concavity of
+$X\mapsto(X^{-1}+\Delta J)^{-1}$ (proof of Theorem~\ref{thm:convex}), the
+operator Jensen inequality gives
+$M_S\preceq\E[(C_w^{-1}+\Delta J)^{-1}]\preceq(M_C^{-1}+\Delta J)^{-1}$. When
+$(V,T)$ is jointly Gaussian every inequality is an equality, because
+$C_w$ is constant and the estimate is linear.
+\end{proof}
+
+\begin{theorem}\label{thm:decsi}
+Under the single-letter region above, for $0<D<\tr(Q\Sigma_{T\mid C})$:
+\begin{enumerate}
+\item[(a)] if $J_S\preceq J_C$, the region is the quadrant above
+$(R_C(D),R_C(D))$, where
+$R_C(D)=\min\{\tfrac12\log(\det\Sigma_{T\mid C}/\det M):0\prec M\preceq\Sigma_{T\mid C},\ \tr(QM)\le D\}$
+is reverse water-filling on the eigenvalues of
+$\Sigma_{T\mid C}^{1/2}Q\Sigma_{T\mid C}^{1/2}$; the leakage-optimal and
+rate-optimal descriptions coincide, and the holder learns as much as the
+rate;
+\item[(b)] if $J_C\preceq J_S$, the region is the region of
+Proposition~\ref{prop:posterior} for the source $\mathcal N(0,\Sigma_{T\mid C})$
+with holder information $J_S-J_C$ and the same weight $Q$; the coordinate
+is the decoder's error covariance $M=\Cov(T\mid V,C)$, and
+Theorems~\ref{thm:convex}, \ref{thm:decouple}, \ref{thm:commuting},
+\ref{thm:onedim}, \ref{thm:turning}, and~\ref{thm:misalign} hold with
+$\Sigma_T$ replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For any $V$, the divergence bound in the proof of Lemma~\ref{lem:gauss},
+stopped before linear estimation enters, gives
+$I(T;V\mid C)\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$ and
+$I(T;V\mid S)\ge\tfrac12\log(\det\Sigma_{T\mid S}/\det M_S)$; and the
+distortion of any reproduction from $(V,C)$ is at least $\tr(QM_C)$.
+
+(a) The decoder's side information is less noisy, so $U$ constant is
+optimal \cite[Cor.~2]{villard2013}, and with $L=h(T\mid S)-\Delta$ the
+leakage bound becomes
+$L\ge h(T\mid S)-h(T\mid V,C)-I(T;C)+I(T;S)=I(T;V\mid C)$, the same as the
+rate bound. The union over $V$ of the quadrants above
+$(I(T;V\mid C),I(T;V\mid C))$ is the quadrant above $(R_C(D),R_C(D))$, where
+$R_C(D)$ is the least $I(T;V\mid C)$ at distortion $D$, the Gaussian
+weighted Wyner--Ziv function; the bounds above with $M=M_C$ and a jointly
+Gaussian $V$ with $\Cov(T\mid V,C)=M$ give its value.
+
+(b) The holder's side information is less noisy, so $U=V$ is optimal
+\cite[Cor.~3]{villard2013}, the equivocation bound is $h(T\mid V,S)$, and
+$L\ge I(T;V\mid S)$. By the bounds above and Lemma~\ref{lem:mmsecomp},
+$R\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$,
+$L\ge\tfrac12\log\det\Sigma_{T\mid S}+\tfrac12\log\det(M_C^{-1}+J_S-J_C)$, and
+the distortion is at least $\tr(QM_C)$. A jointly Gaussian $V$ with
+precision $M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$ has $M_C=M$ and attains all
+three. Since $(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Kc$, these are the
+coordinates \eqref{eq:posterior} of the source $\mathcal N(0,\Sigma_{T\mid C})$
+with holder information $J_S-J_C$ at $\Sez=M$, over the same feasible set.
+\end{proof}
+
+So a decoder that knows more than the holder removes the tradeoff,
+and a holder that knows more than the decoder leaves exactly the
+problem of the preceding sections for the source as the decoder already
+knows it, with the holder's excess information in place of its total.
+When neither dominates, the auxiliary $U$ can matter, and the region is
+beyond the methods of this paper.
+
 \section{Instances}
 \label{sec:examples}
 
@@ -938,11 +1057,10 @@ sources without decoder side information the region is now explicit in
 structure: a convex program in the error covariance, a closed form in a
 one-dimensional regime, and directions that turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
-open. With side information at the decoder the weighted problem of
-Ekrem and Ulukus was left open there, and a solution is reported by Xu
-and Chen \cite{xuchen2021}; it is harder than the present case because the Gaussian exhaustion lemma
-no longer handles both costs at once once the decoder bins against its
-own observation. Explicit solutions are now available in two complementary regimes,
+open. With side information at the decoder, the degraded cases are settled
+here, and the case in which neither side information dominates, where
+the second auxiliary can matter, is the one Ekrem and Ulukus left open
+and Xu and Chen report solving \cite{xuchen2021}. Explicit solutions are now available in two complementary regimes,
 commuting geometry at every budget and arbitrary geometry in the
 one-dimensional regime; a closed form for non-commuting geometry below
 the one-dimensional regime, and for the regime boundary, is not known. Stationary
@@ -1104,7 +1222,11 @@ Theorem~\ref{thm:misalign}. \texttt{verify\_commuting.py} checks the closed form
 Theorem~\ref{thm:commuting} for the minimum leakage and for weighted
 frontier points against brute force, the diagonality of the optimum in
 the common eigenbasis, the activation rule, and the block-diagonal
-optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_coupled.py},
+optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_decoder\_si.py} checks Lemma~\ref{lem:mmsecomp} for a
+non-Gaussian description (a sign quantizer, by numerical integration),
+the reduction of Theorem~\ref{thm:decsi}(b) on random Gaussian
+descriptions, and the minimum leakage with decoder side information
+against the reduced program. \texttt{verify\_coupled.py},
 \texttt{verify\_parallel.py}, and \texttt{verify\_pencil.py} check the
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
