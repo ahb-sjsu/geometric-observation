@@ -49,7 +49,9 @@ determine its structure for an informed encoder, which observes more
 than it must describe, when the decoder has no side information, for
 every distortion weight and every observation map of the second party.
 Both costs are convex in the error covariance of the description, so the
-whole frontier is a convex program with unique minimizers. When the
+whole frontier is a convex program with unique minimizers, and when
+the decoder's and the second party's geometries commute it is explicit
+at every budget. When the
 optimal description is one-dimensional, which an explicit test
 certifies, the minimum leakage is a closed-form function of the largest
 generalized eigenvalue of a matrix pencil in which the distortion budget
@@ -125,7 +127,11 @@ $\mu_{\max}$ the largest generalized eigenvalue of a pencil formed from
 the source covariance, the decoder's weight, the conditional covariance
 left after the second party's observation, and the budget
 (Theorem~\ref{thm:onedim}). For a scalar described variable and a scalar
-context this is an explicit closed form (Corollary~\ref{cor:scalar}).
+context this is an explicit closed form (Corollary~\ref{cor:scalar}). When the decoder's and the
+holder's geometries commute, the whole frontier is explicit at every
+budget (Theorem~\ref{thm:commuting}), and more generally the problem
+splits along every subspace decomposition that both geometries respect
+(Theorem~\ref{thm:decouple}).
 
 The eigenvector of the pencil is the direction the description reads,
 and it carries the paper's main structural finding. The rate-optimal
@@ -403,6 +409,123 @@ active its complementary slackness holds for every $\varpi\ge0$, and the
 maximizer has an active constraint by (a). If $\varpi=0$, then
 $\Theta=\tfrac12\Se^{-1}\succ0$ and the second condition forces
 $\Se=\Kc$, which is infeasible; so $\varpi>0$.
+\end{proof}
+
+\section{Decoupling and Commuting Geometry}
+\label{sec:commuting}
+
+Whiten by the source covariance: write
+$\tilde Q=\Sigma_T^{1/2}Q\Sigma_T^{1/2}$, $\tilde J=\Sigma_T^{1/2}J\Sigma_T^{1/2}$,
+and $X=\Sigma_T^{-1/2}\Sez\Sigma_T^{-1/2}$. Since
+$\Kc=\Sigma_T^{1/2}(I+\tilde J)^{-1}\Sigma_T^{1/2}$ and
+$\Sez^{-1}+J=\Sigma_T^{-1/2}(X^{-1}+\tilde J)\Sigma_T^{-1/2}$, the costs and
+the constraint of Proposition~\ref{prop:posterior} become
+\begin{equation}
+r=-\tfrac12\log\det X,\qquad
+\ell=\tfrac12\log\det(X^{-1}+\tilde J)-\tfrac12\log\det(I+\tilde J),\qquad
+\tr(\tilde QX)\le D,\qquad 0\prec X\preceq I .
+\label{eq:whitened}
+\end{equation}
+
+\begin{theorem}\label{thm:decouple}
+Suppose $\R^p=\bigoplus_k\mathcal V_k$ is an orthogonal decomposition into
+subspaces invariant under both $\tilde Q$ and $\tilde J$. Then for every
+$\alpha\in[0,1]$ the minimizer of Theorem~\ref{thm:convex}(a), written in
+the coordinate $X$, is block-diagonal with respect to the decomposition,
+and the weighted program splits into one program per block, coupled only
+through an allocation $D=\sum_kD_k$ that equalizes the slopes of the
+blocks' optimal values.
+\end{theorem}
+
+\begin{proof}
+Let $P_k$ be the orthogonal projector onto $\mathcal V_k$, and for signs
+$\epsilon_k\in\{\pm1\}$ let $S_\epsilon=\sum_k\epsilon_kP_k$, an orthogonal
+symmetric matrix that commutes with $\tilde Q$ and $\tilde J$. The map
+$X\mapsto S_\epsilon XS_\epsilon$ preserves $\log\det X$,
+$\log\det(X^{-1}+\tilde J)$ because
+$(S_\epsilon XS_\epsilon)^{-1}+\tilde J=S_\epsilon(X^{-1}+\tilde J)S_\epsilon$,
+the distortion $\tr(\tilde QS_\epsilon XS_\epsilon)=\tr(\tilde QX)$, and the
+constraint $X\preceq I$. The minimizer is unique, so it is fixed by every
+$S_\epsilon$, and then $P_kXP_l=\epsilon_k\epsilon_lP_kXP_l$ for all signs,
+which forces $P_kXP_l=0$ for $k\ne l$. For block-diagonal $X$ both costs
+and the distortion are sums over blocks, and the remaining problem is a
+separable convex program with one linear constraint, whose optimality
+condition is a common subgradient level.
+\end{proof}
+
+The independent components of Section~\ref{sec:parallel} are the case of
+two-dimensional blocks, each holding one described coordinate and its
+context. When the blocks are one-dimensional, which happens exactly when
+$\tilde Q$ and $\tilde J$ commute, the whole region is explicit.
+
+\begin{theorem}\label{thm:commuting}
+Suppose $Q\Sigma_TJ=J\Sigma_TQ$, equivalently $\tilde Q\tilde J=\tilde J\tilde Q$,
+and let $u_1,\dots,u_p$ be a common orthonormal eigenbasis with
+$\tilde Qu_i=q_iu_i$ and $\tilde Ju_i=j_iu_i$. For $\alpha\in[0,1]$ the
+frontier point of weight $\alpha$ is
+$X^\star=\sum_ix_iu_iu_i^{\mathsf T}$, where $x_i=1$ if $q_i=0$ and
+otherwise $x_i=\min\{1,\xi_i(\theta)\}$, with $\xi_i(\theta)$ the positive
+root of
+\begin{equation}
+\theta q_ij_i\,x^2+(\theta q_i-\alpha j_i)\,x-1=0
+\label{eq:commroot}
+\end{equation}
+($\xi_i=1/(\theta q_i)$ when $j_i=0$), and $\theta>0$ the unique level with
+$\sum_iq_ix_i=D$. Its rate and leakage are
+\[
+R=\sum_i\tfrac12\log\frac1{x_i},
+\qquad
+L=\sum_i\tfrac12\log\frac{1+j_ix_i}{x_i(1+j_i)} .
+\]
+In particular the minimum leakage takes
+$x_i=\min\bigl\{1,(\sqrt{1+4j_i/(\theta q_i)}-1)/(2j_i)\bigr\}$, and direction
+$i$ is described exactly when $\theta>(1+\alpha j_i)/(q_i(1+j_i))$, so the
+leakage-optimal description begins with the directions of largest
+$q_i(1+j_i)$, the rate-optimal one with those of largest $q_i$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:decouple} with the one-dimensional blocks spanned by
+the $u_i$, the minimizer is $\sum_ix_iu_iu_i^{\mathsf T}$ and the program is
+$\min\sum_i\phi_i(x_i)$ subject to $\sum_iq_ix_i\le D$ and $0<x_i\le1$, with
+$\phi_i(x)=\tfrac\alpha2\ln\frac1x+\tfrac{1-\alpha}2\ln\frac{1+j_ix}{x(1+j_i)}$
+in natural units. Each $\phi_i$ is convex and decreasing, with
+$-\phi_i'(x)=(1+\alpha j_ix)/(2x(1+j_ix))$. A direction with $q_i=0$ does
+not enter the constraint, so $x_i=1$. For the others the optimality
+condition is $-\phi_i'(x_i)=\tfrac12\theta q_i$ when $x_i<1$ and
+$-\phi_i'(1)\le\tfrac12\theta q_i$ when $x_i=1$, for a common $\theta>0$;
+the first is \eqref{eq:commroot}, whose roots have product
+$-1/(\theta q_ij_i)<0$, so exactly one is positive, and the second
+reads $\theta\le(1+\alpha j_i)/(q_i(1+j_i))$. Each $x_i(\theta)$ is
+continuous and nonincreasing, strictly decreasing where it is below one,
+so $\sum_iq_ix_i(\theta)$ decreases continuously and strictly from
+$\sum_iq_i>D$ and $\theta$ is unique. The formulas for $R$ and $L$ are
+\eqref{eq:whitened} at a diagonal $X$.
+\end{proof}
+
+In each direction the leakage
+$\tfrac12\log[(1+j_ix_i)/(x_i(1+j_i))]$ is Steinberg's scalar Gaussian
+common-reconstruction function \cite{steinberg2009} at unit variance,
+distortion $x_i$, and squared correlation $j_i/(1+j_i)$ between the
+direction and the holder's observation; the theorem is the allocation
+of the distortion budget among such problems, and the joint frontier
+that goes with it.
+
+\begin{corollary}\label{cor:commmis}
+In commuting geometry every optimal description, at every budget and
+weight, reads the fixed directions $u_i$, consistent with
+Theorem~\ref{thm:turning}. The rate-optimal and leakage-optimal
+descriptions nonetheless differ whenever two directions described by the
+rate-optimal one have different ratios $j_i/q_i$.
+\end{corollary}
+
+\begin{proof}
+The first statement is Theorem~\ref{thm:commuting}. If the two optimal
+descriptions coincided, they would describe the same directions with
+the same $x_i$; for those directions $x_i=1/(\theta_Rq_i)$ and
+$x_i(1+j_ix_i)=1/(\theta_Lq_i)$, so $1+j_ix_i=\theta_R/\theta_L$ is the same
+for all of them, and $j_ix_i=j_i/(\theta_Rq_i)$ forces $j_i/q_i$ to be the
+same.
 \end{proof}
 
 \section{The One-Dimensional Regime}
@@ -717,6 +840,9 @@ Define the activation level
 $\kappa_j=-L_j'(\sigma_j^2-)=\tau_j^2/(2\ln2\,\sigma_j^2(\rho_j^2+\tau_j^2))$;
 for the rate it would be $1/(2\ln2\,\sigma_j^2)$.
 
+These components are two-dimensional blocks of Theorem~\ref{thm:decouple},
+each solved by Corollary~\ref{cor:scalar}.
+
 \begin{theorem}\label{thm:parallel}
 (a) $\RW(D)$ is the union, over $D_j\ge0$ with $\sum_jD_j\le D$, of the
 Minkowski sums of the scalar regions of the components, attained by
@@ -816,8 +942,10 @@ open. With side information at the decoder the weighted problem of
 Ekrem and Ulukus was left open there, and a solution is reported by Xu
 and Chen \cite{xuchen2021}; it is harder than the present case because the Gaussian exhaustion lemma
 no longer handles both costs at once once the decoder bins against its
-own observation. A closed form below the one-dimensional regime, and for
-its boundary as a function of the source, is not known. Stationary
+own observation. Explicit solutions are now available in two complementary regimes,
+commuting geometry at every budget and arbitrary geometry in the
+one-dimensional regime; a closed form for non-commuting geometry below
+the one-dimensional regime, and for the regime boundary, is not known. Stationary
 sources and finite blocklengths are not treated.
 
 \appendices
@@ -972,7 +1100,11 @@ descriptions whenever that optimum is one-dimensional, that both costs
 are convex in the error covariance (16000 midpoint tests), that the
 weighted minimizers are unique, the two directions of
 Theorem~\ref{thm:turning}, and the criterion of
-Theorem~\ref{thm:misalign}. \texttt{verify\_coupled.py},
+Theorem~\ref{thm:misalign}. \texttt{verify\_commuting.py} checks the closed form of
+Theorem~\ref{thm:commuting} for the minimum leakage and for weighted
+frontier points against brute force, the diagonality of the optimum in
+the common eigenbasis, the activation rule, and the block-diagonal
+optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_coupled.py},
 \texttt{verify\_parallel.py}, and \texttt{verify\_pencil.py} check the
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
