@@ -45,28 +45,22 @@ to a decoder under a weighted quadratic distortion. A second party
 holds a noisy linear observation of the source and never decodes. One
 description then carries two costs: its rate, and its conditional
 leakage to the second party, which is also the least rate at which that
-party can re-encode it. The rate--leakage region is known in
-single-letter form from secure source coding. We determine its
-structure for an informed encoder, which observes more than it must
-describe, for every distortion weight and every observation map of the
-second party. Both costs are convex in the error covariance of the
-description, so the frontier is a convex program with unique
-minimizers, explicit at every budget when the decoder's and the second
-party's geometries commute. When the optimal description is
+party can re-encode it. The single-letter region is known from secure
+source coding, and we determine its structure. The direction an optimal
+description reads turns with the distortion budget unless the decoder's
+and the second party's geometries share it, while every description
+built for a single party reads fixed directions, and a fixed read pays
+an explicit excess leakage. When the optimal description is
 one-dimensional, which an explicit test certifies, the minimum leakage
 is a closed-form function of the largest generalized eigenvalue of a
-matrix pencil in which the distortion budget enters, and the
-eigenvector is the direction the description reads. That direction
-turns with the budget unless both geometries share it, whereas a
-description built for a single party reads a fixed direction. The
-rate-optimal and leakage-optimal descriptions differ whenever the
-second party's information does not map the decoder's principal
-direction onto itself, and for independent components the
-leakage-optimal split is not reverse water-filling. With side
-information at the decoder, the two degraded cases are explicit: a
-better-informed decoder removes the tradeoff, and a better-informed
-second party reduces the problem exactly to the case without decoder
-side information.
+matrix pencil in which the budget enters. Both costs are convex in the
+error covariance, so each frontier point solves a convex program. The
+frontier is explicit at every budget in commuting geometry and at small
+budgets in any geometry when the whole source is described, and an
+optimal description never needs more dimensions than the described
+variable. The tradeoff exists only because the distortion is weighted
+or partial. With decoder side information, both degraded cases are
+explicit.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -137,7 +131,12 @@ context this is an explicit closed form (Corollary~\ref{cor:scalar}). When the d
 holder's geometries commute, the whole frontier is explicit at every
 budget (Theorem~\ref{thm:commuting}), and more generally the problem
 splits along every subspace decomposition that both geometries respect
-(Theorem~\ref{thm:decouple}).
+(Theorem~\ref{thm:decouple}). When the decoder reproduces the whole
+source, the frontier is explicit at every small budget in any geometry,
+in the eigenbasis of the second party's information relative to the
+decoder's weight (Theorem~\ref{thm:lowdist}). In general an optimal
+description has no more components than the described variable, even
+though it uses the context (Proposition~\ref{prop:rank}).
 
 The eigenvector of the pencil is the direction the description reads,
 and it carries the paper's main structural finding. The rate-optimal
@@ -148,7 +147,9 @@ water-filling \cite{berger1971}, and the Gaussian information bottleneck
 that turns with the budget, unless that direction is a common
 generalized eigenvector of the decoder's geometry and the second party's
 (Theorem~\ref{thm:turning}). No description optimized for a single party
-does this (Proposition~\ref{prop:single}). The same condition governs
+does this (Proposition~\ref{prop:single}), and a description that reads
+a fixed direction pays an explicit excess leakage, at one of any two
+budgets whose optimal reads differ (Theorem~\ref{thm:forced}). The same condition governs
 whether the two optimal descriptions coincide at all
 (Theorem~\ref{thm:misalign}): in the one-dimensional regime they differ
 whenever the second party's information does not map the decoder's
@@ -477,6 +478,34 @@ $\Theta=\tfrac12\Se^{-1}\succ0$ and the second condition forces
 $\Se=\Kc$, which is infeasible; so $\varpi>0$.
 \end{proof}
 
+The optimal description uses the context, but it never needs more
+dimensions than the described variable.
+
+\begin{proposition}\label{prop:rank}
+For every $\alpha\in[0,1]$ the minimizer $\Sez$ of
+Theorem~\ref{thm:convex}(a) has
+$\operatorname{rank}(\Sigma_T-\Sez)\le\operatorname{rank}Q$, so it is
+attained by a jointly Gaussian description $GT+N$ with at most
+$\operatorname{rank}Q$ components.
+\end{proposition}
+
+\begin{proof}
+The weighted program in $\Sez$ is convex with the strictly feasible point
+$\epsilon\Sigma_T$, so there are $\nu\ge0$ and $\Theta\succeq0$ with
+$\Theta(\Sigma_T-\Sez)=0$ and, from the gradients
+$\nabla r=-\tfrac12\Sez^{-1}$ and
+$\nabla\ell=-\tfrac12\Sez^{-1}\Se\Sez^{-1}$ (in natural units),
+\[
+\tfrac12\Sez^{-1}\bigl(\alpha\Sez+(1-\alpha)\Se\bigr)\Sez^{-1}=\nu Q+\Theta .
+\]
+The left side is positive definite, so
+$\operatorname{rank}\Theta\ge p-\operatorname{rank}Q$, and the range of
+$\Sigma_T-\Sez$ lies in the null space of $\Theta$. The precision
+$\Sez^{-1}-\Sigma_T^{-1}=\Sez^{-1}(\Sigma_T-\Sez)\Sigma_T^{-1}$ has the
+same rank, and factoring it as $G^{\mathsf T}G$ gives the description of
+Proposition~\ref{prop:posterior}.
+\end{proof}
+
 \section{Decoupling and Commuting Geometry}
 \label{sec:commuting}
 
@@ -593,6 +622,65 @@ $x_i(1+j_ix_i)=1/(\theta_Lq_i)$, so $1+j_ix_i=\theta_R/\theta_L$ is the same
 for all of them, and $j_ix_i=j_i/(\theta_Rq_i)$ forces $j_i/q_i$ to be the
 same.
 \end{proof}
+
+When the decoder reproduces the whole source, the same per-direction
+formula holds without commuting geometry at every small budget, in the
+basis of the pencil $(J,Q)$ instead of the common eigenbasis.
+
+\begin{theorem}\label{thm:lowdist}
+Suppose $Q\succ0$, and let
+$P=Q^{-1/2}JQ^{-1/2}=\sum_ip_iw_iw_i^{\mathsf T}$ with orthonormal $w_i$.
+For $\alpha\in[0,1]$ and $\theta>0$ let $z_i(\theta)$ be the positive root
+of
+\begin{equation}
+\theta p_i\,z^2+(\theta-\alpha p_i)\,z-1=0
+\label{eq:lowroot}
+\end{equation}
+($z_i=1/\theta$ when $p_i=0$), let $\theta(D)$ be the unique level with
+$\sum_iz_i=D$, and let
+$\Sez(D)=Q^{-1/2}\bigl(\sum_iz_iw_iw_i^{\mathsf T}\bigr)Q^{-1/2}$. Then
+$\Sez(D)$ is increasing in $D$ in the L\"owner order, the set of $D$ with
+$\Sez(D)\preceq\Sigma_T$ is an interval $(0,D_{\mathrm{int}}(\alpha)]$
+with $D_{\mathrm{int}}(\alpha)>0$, and on it $\Sez(D)$ is the frontier
+point of weight $\alpha$, with
+\[
+R=\tfrac12\log\det(Q\Sigma_T)-\sum_i\tfrac12\log z_i,
+\qquad
+L=\tfrac12\log\det(Q\Kc)+\sum_i\tfrac12\log\frac{1+p_iz_i}{z_i} .
+\]
+No commuting assumption is made.
+\end{theorem}
+
+\begin{proof}
+In the coordinate $Z=Q^{1/2}\Sez Q^{1/2}$ the distortion is $\tr Z$, and
+$\Se^{-1}=Q^{1/2}(Z^{-1}+P)Q^{1/2}$, which gives the formulas for $R$ and
+$L$ at $Z=\sum_iz_iw_iw_i^{\mathsf T}$. When the constraint
+$\Sez\preceq\Sigma_T$ is slack, its multiplier vanishes, and the
+stationarity condition in the proof of Proposition~\ref{prop:rank},
+multiplied on the right by $\Sez$, reads
+$\alpha I+(1-\alpha)(I+J\Sez)^{-1}=2\nu Q\Sez$, which in the coordinate $Z$
+is
+\[
+\alpha I+(1-\alpha)(I+PZ)^{-1}=\theta Z,\qquad \theta=2\nu .
+\]
+For $\alpha<1$ the right side is symmetric, so $I+PZ$ is symmetric and
+$PZ=ZP$; for $\alpha=1$ the condition is $Z=I/\theta$. Either way $Z$ is
+diagonal in the basis $w_i$, and on the eigenvalues the condition is
+$\alpha+(1-\alpha)/(1+p_iz_i)=\theta z_i$, which is \eqref{eq:lowroot}. Its
+left side decreases and its right side increases in $z_i>0$, so the
+positive root is unique and decreases in $\theta$; hence $\theta(D)$ is
+unique and each $z_i$ increases in $D$, and so does $\Sez(D)$, by
+congruence. As $D\to0$, $\Sez(D)\to0\prec\Sigma_T$. When
+$\Sez(D)\preceq\Sigma_T$, the point satisfies the Karush--Kuhn--Tucker
+conditions with zero multiplier for the cap, which suffice by convexity,
+and Theorem~\ref{thm:convex}(a) makes it the unique minimizer.
+\end{proof}
+
+When $Q\Sigma_TJ=J\Sigma_TQ$ and no cap of Theorem~\ref{thm:commuting} is
+active, the two results agree, with $z_i=q_ix_i$ and $p_i=j_i/q_i$. When
+$Q$ is singular, Proposition~\ref{prop:rank} shows that the cap is
+always active, and the error covariance equals $\Sigma_T$ on a subspace
+of dimension at least $p-\operatorname{rank}Q$.
 
 \section{The One-Dimensional Regime}
 \label{sec:onedim}
@@ -1418,10 +1506,14 @@ full-rank eavesdropper, Xu and Chen \cite{xuchen2021} show that Gaussian
 auxiliaries are optimal. Whether their two-precision program, under a
 weighted distortion and a rank-deficient holder, has the convexity,
 pencil, and turning structure of the case without decoder side
-information is open. Explicit solutions are now available in two complementary regimes,
-commuting geometry at every budget and arbitrary geometry in the
-one-dimensional regime; a closed form for non-commuting geometry below
-the one-dimensional regime, and for the regime boundary, is not known. Stationary
+information is open. Explicit solutions are now available in three
+regimes: commuting geometry at every budget, arbitrary geometry in the
+one-dimensional regime at large budgets, and arbitrary geometry at small
+budgets when the decoder reproduces the whole source. For a partial
+description in non-commuting geometry between the two ends, the
+solution is a convex program over descriptions with at most
+$\operatorname{rank}Q$ components, and a closed form there, or for the
+regime boundaries, is not known. Stationary
 sources and finite blocklengths are not treated.
 
 \appendices
@@ -1600,7 +1692,11 @@ checks the leakage of a fixed read against a direct conditional-covariance
 computation, the bounds of Proposition~\ref{prop:fixedread} and
 Theorem~\ref{thm:forced} on random instances against brute force over
 directions, and the numbers after Theorem~\ref{thm:forced}; its output is
-recorded in \texttt{verify\_fixed\_read-2026-10-01.txt}. No proof depends on them; the instances
+recorded in \texttt{verify\_fixed\_read-2026-10-01.txt}.
+\texttt{verify\_lowdist.py} checks Theorem~\ref{thm:lowdist} against the
+determinant program and a multi-start search on non-commuting instances,
+and the rank bound of Proposition~\ref{prop:rank}; its output is recorded in
+\texttt{verify\_lowdist-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
