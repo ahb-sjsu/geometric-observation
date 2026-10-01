@@ -29,6 +29,9 @@ $$ O = (C, G, B). $$
   that wins at one budget can lose at another, and Chapter 8's flip and Chapter 7's
   rate–distortion curves are statements about how the verdict moves with $B$.
 
+In classical terms the triple is a task map, an output metric, and a rank or rate
+constraint. The name "observer triple" is this book's.
+
 The triple is the whole of the observer. Nothing else about "who is looking" enters
 the theory. In particular there is no privileged, observer-free description of $x$
 that the observer then "sees imperfectly." There is $x$, and there are observers, and
@@ -44,7 +47,9 @@ the book computes with. The first is the **read metric**
 $$ P_C = J^{\top} G\, J, \qquad J = \partial C \big|_{x_0}, $$
 
 the pullback of the output metric through the consumer's Jacobian at the operating
-point $x_0$ (Chapter 5 develops it in full). The second is the **quotient** $X /
+point $x_0$ (Chapter 5 develops it in full). Averaged over inputs it is the
+active-subspace matrix (Constantine 2015), also called the expected gradient outer
+product (Xia et al. 2002). The second is the **quotient** $X /
 \!\sim_C$, in which two inputs are identified when the consumer cannot tell them
 apart — when their difference lies in $\ker P_C$. The read metric says *how finely*
 the observer resolves each direction; the quotient says *which world* the observer

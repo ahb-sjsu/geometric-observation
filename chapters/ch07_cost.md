@@ -6,7 +6,8 @@ committed falsification harnesses live in Appendix B, and every numbered result
 resolves to a ledger row.*
 
 If a consumer reads only $P_C$, what does it cost — in bits — to serve it? The answer
-is a rate–distortion theory in which the fidelity measure is the read distortion, and
+is a rate–distortion theory in which the fidelity measure is the read distortion (a
+weighted mean squared error), and
 its entire content is that the optimal bit-allocation *tilts* toward the read
 subspace. This is the COST shadow, and it is where Observation Theory reconnects with
 Shannon: classical rate–distortion is the slice $P_C = I$, and everything below is
@@ -21,8 +22,13 @@ $$ R_C(D) = \min_{\,p(\hat x \mid x)\,:\; \operatorname{tr}(P_C\Sigma_\delta) \l
    I(x; \hat x), $$
 
 the fewest bits per symbol needed so that the *consumer's* distortion — not the
-reconstruction distortion — stays within $D$. For a Gaussian source this has a closed
+reconstruction distortion — stays within $D$. This is the weighted rate–distortion
+function. Sakrison (1968) treated the Gaussian source under weighted squared error.
+When the consumer is nonlinear, the exact downstream problem is an indirect, or
+remote, rate–distortion problem (Dobrushin and Tsybakov 1962; Wolf and Ziv 1970;
+Witsenhausen 1980), and $R_C(D)$ is its first-order version. The subscript marks the weight $P_C$. For a Gaussian source this has a closed
 form, and the form is the point: the optimal test channel does reverse water-filling
+(Kolmogorov 1956; Berger 1971)
 in the **joint basis** that diagonalizes $P_C$ against $\Sigma_x$ (the whitened
 operator $\Sigma_x^{1/2} P_C \Sigma_x^{1/2}$), pouring bits into directions that are
 both high-source-variance *and* high-consumer-sensitivity, and abandoning any
@@ -46,7 +52,8 @@ it must — when the consumer reads everything, there is nothing to save.
 relative gap between an output-optimal code and a good surrogate shrinks (measured
 $0.41 \to 0.005$) as the budget grows [demonstrated]. At high resolution you do not
 need to know the consumer exactly; a surrogate for $P_C$ suffices. At low resolution
-you do. This is the rate-dependence that makes the blind probe (Chapter 10)
+you do. This is the rate-dependence that makes the blind probe (Chapter 10;
+finite-difference active-subspace estimation)
 load-bearing precisely in the bit-starved regime where compression matters.
 
 ## Two observers: the rate region and refinability
@@ -149,4 +156,4 @@ Observation charges a rate, the rate is $R_C(D)$, and its whole difference from
 Shannon is a tilt of the bit-allocation toward the read subspace — with a commission
 tax for protecting too much and an omission floor for protecting too little. The next
 chapter shows what you *buy* by paying the tilted price instead of the reconstruction
-price: the flip.
+price: the flip, a ranking reversal between reconstruction error and task loss.

@@ -5,12 +5,16 @@ budget, a code that preserves what the consumer reads beats a genuinely
 reconstruction-optimal code on the consumer's task — *while the reconstruction-optimal
 code reconstructs the signal better.* The two facts are simultaneous, and their
 simultaneity is the point. We call it the **flip**, and it is the empirical heart of
-the book.
+the book. In classical terms it is a ranking reversal between reconstruction error and
+task loss. That reversal is the premise of task-based quantization (Shlezinger, Eldar
+and Rodrigues 2019) and of Hessian-aware quantization (Choi et al. 2017; Dong et al.
+2019). What this chapter adds is the sealed test of it across domains.
 
 ## The claim, stated to be falsifiable
 
 Fix a budget. Build two codes for the same source: an **O**-arm that preserves the
-read metric (small $\operatorname{tr}(P_C\Sigma_\delta)$) and an **R**-arm that is
+read metric (small $\operatorname{tr}(P_C\Sigma_\delta)$, the weighted mean squared
+error with the active-subspace matrix $P_C$ as weight) and an **R**-arm that is
 reconstruction-optimal (small $\operatorname{tr}(\Sigma_\delta)$). The flip is the
 conjunction of two sealed inequalities:
 
@@ -111,7 +115,7 @@ cannot appear — real-model gradient compression (D4) has anti-probe 300/300 (t
 operator governs the task) but flip only 27%, because in a trained model
 high-curvature directions *are* the high-gradient-energy directions [refuted, as a
 flip; a genuine boundary, not a data gap]. Chapter 12 turns this boundary into the
-$\kappa$ dial.
+$\kappa$ dial (a matrix cosine, as in kernel alignment).
 
 **Budget-relativity.** Every verdict is budget-relative; the flip is stated at matched
 bits, and at a different budget the ranking can invert (GO-4, [replicated]). "Better

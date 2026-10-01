@@ -24,6 +24,14 @@ pullback of a PSD metric), and it is the quadratic form that turns an input
 perturbation into a downstream cost. Everything the consumer "cares about," to first
 order, is in this operator; everything it is blind to is in the operator's kernel.
 
+The read metric is a classical object under other names. Information geometry calls
+$J^\top G J$ a pullback metric, and with $G$ the Fisher metric it is a Fisher
+information pullback (Rao 1945; Amari and Nagaoka 2000). Its average over a data
+distribution is the active-subspace matrix of sensitivity analysis (Constantine, Dow
+and Wang 2014; Constantine 2015). In statistical dimension reduction the same average,
+with $G = I$, is the expected gradient outer product (Hristache et al. 2001; Xia et al.
+2002). This book uses "read metric" for the matrix with a general output metric $G$.
+
 Three properties matter.
 
 **Range and kernel.** $\operatorname{range}(P_C)$ is the *read subspace* — the
@@ -44,7 +52,8 @@ through $J$. For a linear consumer it is global; for a nonlinear one it varies o
 $X$, and the honest version of every result carries $P_C$ as a field, not a constant.
 The blind probe of Chapter 10 recovers $P_C$ *at* an operating point precisely because
 it is local; averaging it over a data distribution gives the $\bar P_C$ that enters
-the alignment law $\kappa$ (Chapter 12).
+the alignment law $\kappa$ (Chapter 12), a matrix cosine of the kind used in kernel
+alignment (Cristianini et al. 2002).
 
 ## The read distortion
 
@@ -56,7 +65,9 @@ $$ \mathbb{E}\,\|C(\hat x) - C(x)\|_G^2 \;\approx\; \mathbb{E}[\delta^\top P_C \
    \;=\; \operatorname{tr}(P_C\, \Sigma_\delta). $$
 
 The **read distortion** $\operatorname{tr}(P_C \Sigma_\delta)$ is the quantity that
-governs downstream loss at a fixed budget. Compare it to the total reconstruction
+governs downstream loss at a fixed budget. In classical terms it is a weighted, or
+sensitivity-weighted, mean squared error (Sakrison 1968), the distortion behind
+Hessian-aware quantization (Choi et al. 2017; Dong et al. 2019). Compare it to the total reconstruction
 distortion $\operatorname{tr}(\Sigma_\delta)$: the two agree iff $P_C = I$ (Chapter 2)
 and can otherwise disagree in both magnitude and *ordering*. The read distortion is
 what the three engineers of Chapter 1 should have minimized; it is the objective the
@@ -85,7 +96,8 @@ and form the quotient space $X/\!\sim_C$. Two inputs that differ only by a nuisa
 direction are the *same point* of the quotient — the observer cannot separate them,
 so for the observer they are one object. The consumer's verdicts live on $X/\!\sim_C$:
 $C$ factors through the quotient (to first order), because it is constant along
-$\ker P_C$.
+$\ker P_C$. In classical terms this is the quotient by the kernel of the gradient
+outer-product matrix.
 
 The quotient is where LEGIBILITY happens. When you quotient an object by what an
 observer cannot see, the structure that survives is the structure the observer acts
@@ -118,7 +130,8 @@ quantitative.
 There is an obvious objection: all of this assumes you *know* $P_C$, and for a trained
 consumer you do not have $J$ in closed form. The framework's answer, developed in
 Chapter 10, is that $P_C$ is **identifiable from the consumer's behavior alone** — you
-recover the read subspace by finite-differencing the consumer's output, with no
+recover the read subspace by finite-differencing the consumer's output (finite-difference
+active-subspace estimation, Constantine 2015), with no
 labels and no oracle direction, and this recovery has been demonstrated on planted
 subspaces (GO-1, [predicted]) and on a real citation-ranking consumer (the legal
 035→036→039 sequence, [demonstrated]). The read metric is not a quantity you must be
