@@ -24,6 +24,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\dG}{d_{G}}
 \newcommand{\dd}{\,\mathrm{d}}
@@ -33,7 +34,7 @@
 \author{Andrew H. Bond\\
 \small Department of Computer Engineering, San Jos\'e State University\\
 \small \texttt{andrew.bond@sjsu.edu} ~\textbar~ ORCID: 0009-0003-2599-6158}
-\date{September 2026. \emph{Draft 0.1.} Every statement below is labeled proved, defined, or protocol. Nothing labeled protocol is a claim.}
+\date{October 2026. \emph{Draft 0.2.} Every statement below is labeled proved, defined, or protocol. Nothing labeled protocol is a claim.}
 
 \begin{document}
 \maketitle
@@ -48,6 +49,7 @@ An observer is a consumer map, an output metric, and a budget.
 The consumer and the output metric pull the output geometry back to the source and induce, at every regular point, a positive semidefinite read operator whose kernel is the set of directions the observer cannot distinguish.
 We prove that the read operator, the quotient of the source by observational indistinguishability, a global consumer-relative distortion, a nonnegative transfer regret when a representation built for one consumer is reused by another, and a consumer-relative rate--content region all follow from the triple under stated regularity.
 The rate--content region of the coding paper is the region obtained when the consumer is the projection of an augmented Gaussian source onto its first component.
+When the described variable is a vector, that paper has two observers, the decoder that sets the distortion budget and the holder of the context that pays the content, and the direction its optimal description reads turns with the budget unless the two observers' geometries share an eigenvector, which no single observer with a fixed geometry reproduces.
 The decision cost of the economics paper is the pullback distance obtained when the consumer is the scenario encoding and the output metric is the inverse covariance.
 We state exactly what the high-stakes ultimatum data establish about that specialization, which is a rejection of stake-scaling invariance and not a threshold.
 We then give a non-reducibility theorem for the budgeted observer, whose menu-selected read subspace violates regularity and so lies outside every random-utility model, a protocol for recovering the decision geometry from individual-level multi-task data with the sample bound the recovery cliff imposes, and a behavioral game equilibrium defined without circularity, with existence, a correspondence with Nash equilibrium on a stated utility class, hardness inherited from Nash, and one closed-form case in which giving weight to a previously unread direction moves the best response.
@@ -72,6 +74,7 @@ The two earlier papers are then specializations.
 The coding paper's region is the rate--content region when the source is a Gaussian pair, the consumer is the projection onto the first component, and the retained context is a noisy copy of the second.
 The economics paper's cost is the pullback distance when the consumer is the scenario encoding and the output metric is the inverse covariance, and its inactive monetary dimension is a direction in the kernel of the pullback.
 The reader who wanted the two to be corollaries of one theorem gets exactly that, with the conditions written down.
+The coding paper also supplies a case that needs two observers at once: a description whose budget is set by one observer and whose cost is paid by another reads a direction that turns with the budget (Section~\ref{sec:twoobs}).
 
 We are careful about what is not proved.
 Conditional mutual information is not the average of a read operator.
@@ -291,6 +294,90 @@ The theorems of the coding paper, the closed form for $L(D)$, the coupled two-wa
 What the corollary adds is the reading.
 The kernel of the read operator is everything orthogonal to the read direction $w$, the context direction $\gamma$ lies in that kernel except when it is parallel to $w$, the content $L$ is an information quantity about a variable the consumer never reads, and the non-determination corollary of that paper says that $L$ is not a functional of the law of $(C(X),S)$ alone.
 That last point is the strongest evidence in the program that the quotient of Theorem~\ref{thm:rep}(a) is not the whole story once a third party retains context, because the encoder's access to the unread direction $V$ enters the answer.
+\end{remark}
+
+\section{Two Observers on One Description. The Budget-Dependent Read}
+\label{sec:twoobs}
+
+The coding paper has two observers, and the single-observer constructions of Section~\ref{sec:triple} see only one of them at a time.
+The decoder is a consumer: it reads the described variable and is scored by a distortion.
+The holder of the context is a second observer: it reads the description together with its own copy of the context and pays the conditional content.
+This section shows what happens when the cost is paid by one observer and the budget is set by the other.
+The read direction of the optimal description then depends on the budget, and no single observer with a fixed geometry produces that.
+The theorems are proved in the coding paper~\cite{bond2026tit}, Section~VIII, at the single-letter level, and we restate them in the vocabulary of this paper.
+
+\subsection{Single observers read fixed directions}
+
+\begin{proposition}[Single-observer reads are budget-free]
+\label{prop:fixedread}
+Let $X\sim\mathcal{N}(0,\Sigma_{X})$ and let $O=(C,G,B)$ have a constant read operator $P$ with the expansion~\eqref{eq:local} exact.
+For every distortion level, the optimal representations of Proposition~\ref{prop:RD} read along eigenvectors of $P^{1/2}\Sigma_{X}P^{1/2}$, and the budget changes only how many of them are read and with what noise.
+In particular the optimal one-dimensional read direction is the same at every distortion level at which a single direction is read.
+The Gaussian information bottleneck, a single observer that scores a representation by its information about a relevance variable, has the same property: its optimal projections are fixed eigenvectors and its tradeoff parameter sets only their number and scale~\cite{chechik2005}.
+\end{proposition}
+
+\begin{proof}
+After the change of variables $\tilde{x}=P^{1/2}x$ of Proposition~\ref{prop:RD}, reverse water-filling on the covariance of $\tilde{x}$ describes its principal components, which do not depend on the distortion level.
+The statement for the Gaussian bottleneck is the characterization in~\cite{chechik2005}.
+\end{proof}
+
+\subsection{Two observers}
+
+Take the source of Corollary~\ref{cor:coding} with the described variable a vector.
+The encoder observes $T=(Y,V)$, jointly Gaussian with $\Sigma_{T}\succ0$, $Y\in\R^{m}$, $V\in\R^{r}$.
+The first observer is the decoder, with consumer $C_{1}(t)=Ft$, $F=[\,I_{m}\ 0\,]$, output metric $I$, and distortion budget $D$, so its read operator is $P_{1}=F^{\top}F$.
+The second observer is the holder of $S=V+U$, $U\sim\mathcal{N}(0,\Sigma_{U})$, whose observation adds the information $J_{S}=H^{\top}\Sigma_{U}^{-1}H$, $H=[\,0\ I_{r}\,]$, to the prior precision, so that its posterior covariance before reading the description is $\Sigma_{T\mid S}=(\Sigma_{T}^{-1}+J_{S})^{-1}$.
+
+\begin{theorem}[Two-observer read; proved in~\cite{bond2026tit}]
+\label{thm:twoobs}
+Let $\Delta=\tr\Sigma_{Y}-D$ be the reduction in the decoder's distortion that the description must buy.
+\begin{enumerate}
+\item[(a)] \emph{The holder's coordinate.} The holder's cost $I(T;W\mid S)$ of a Gaussian description $W$ is $\tfrac12\log_{2}\bigl(\det\Sigma_{T\mid S}/\det\Sigma_{e}\bigr)$, where $\Sigma_{e}$ is the holder's posterior covariance after it reads $W$, and the least cost at budget $D$ is the value of a determinant maximization in $\Sigma_{e}$ under linear matrix inequalities, with a unique optimum.
+The cost is convex in the coordinates of the observer that pays it.
+\item[(b)] \emph{The read.} When the optimal description has one dimension, its read direction $b$ is the top generalized eigenvector of the pencil
+\[
+\bigl(\Sigma_{T}P_{1}\Sigma_{T}-\Delta\,\Sigma_{T},\ \Sigma_{T\mid S}\bigr),
+\]
+and its cost is $\tfrac12\log_{2}\bigl(1+\Delta/\mu_{\max}\bigr)$ with $\mu_{\max}$ the top eigenvalue.
+The pencil holds the decoder's pulled-back geometry, the holder's posterior, and the budget.
+With scalar $Y$ and scalar context its top eigenvalue gives the closed form of the coding paper.
+\item[(c)] \emph{Alignment.} The read direction is constant over an interval of budgets if and only if $b=F^{\top}\beta$ for an eigenvector $\beta$ of $\Sigma_{Y}$ with $\Cov(V,\beta^{\top}Y)=0$, that is, if and only if the decoder's read direction is one that the holder's observation does not touch.
+Otherwise it turns with the budget.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Parts (a), (b), and (c) are Theorems~28, 29, and~30 of~\cite{bond2026tit}, with $P_{1}=F^{\top}F$ substituted in the pencil.
+The phrase about convexity in (a) is the content of the change of variables there: the problem is a concave maximization in $\Sigma_{e}$, while in the encoder's coordinate, the precision $\Sigma_{e0}^{-1}-\Sigma_{T}^{-1}$ that the description adds, the cost is a concave function to be minimized.
+\end{proof}
+
+\begin{corollary}[Non-reducibility to a single fixed-geometry observer]
+\label{cor:twoobs}
+There are sources for which the holder-optimal one-dimensional read direction takes different values at two budgets.
+For such a source no single observer with a constant read operator, scored by consumer-relative rate--distortion as in Proposition~\ref{prop:RD}, has the holder-optimal descriptions as its optimal descriptions at both budgets.
+\end{corollary}
+
+\begin{proof}
+The instance below has read directions $47.48^{\circ}$ and $41.15^{\circ}$ at $D=1.38$ and $D=1.1$, both inside the one-dimensional regime.
+By Proposition~\ref{prop:fixedread} the optimal one-dimensional read of a single observer with constant read operator is the same at both budgets, so it cannot match both.
+\end{proof}
+
+\begin{example}
+Take $\Sigma_{Y}=\operatorname{diag}(1,0.4)$, a scalar context with $\operatorname{Var}V=1$ and $\Cov(Y,V)=0.6\,u$, where $u$ is the unit vector at $50^{\circ}$, and $\Sigma_{U}=0.05$.
+A certificate in~\cite{bond2026tit} shows the one-dimensional description optimal for every $D\ge1.0853$, out of $\tr\Sigma_{Y}=1.4$.
+The decoder's own optimal read, which is also the rate-optimal one, is the first axis at every budget.
+The holder-optimal description reduces the decoder's error along $47.48^{\circ}$ at $D=1.38$, $46.76^{\circ}$ at $D=1.3$, $45.07^{\circ}$ at $D=1.2$, and $41.15^{\circ}$ at $D=1.1$.
+Four sources with this $\Sigma_{Y}$ and the same law of $(Y,S)$ up to scaling of $S$, differing only in how the correlation splits between the context and its noise, read along $42.83^{\circ}$, $37.61^{\circ}$, $33.75^{\circ}$, and $30.84^{\circ}$ at $D=1.3$.
+\end{example}
+
+\begin{remark}
+The example strengthens the remark after Corollary~\ref{cor:coding}.
+There the content was not a functional of the law of $(C(X),S)$.
+Here the direction the optimal description reads is not one either, and it moves with the decoder's budget.
+In the observer vocabulary, the read is set by the alignment between two observers and by the budget, which is the condition stated in the water-filling entry of the encyclopedia, that pairing the eigenvalues of two matrices is valid only when they share an eigenbasis~\cite{bond2026encyclopedia}.
+What is proved is the theorem and the corollary.
+That observation theory is the natural language for the phenomenon is a reading of them, not a further theorem, and the coding paper states the same results in classical terms.
+The coding paper's results are single-letter for a vector described variable; the operational theorem in that case is not carried out there.
 \end{remark}
 
 \section{Second Pushforward. Geometric Decision Cost}
@@ -550,8 +637,8 @@ A tool-selection consumer inside a language-model agent, with the embedding of t
 \section{What Is Proved Here and What Is Not}
 
 \begin{center}
-\small
-\begin{tabular}{p{0.42\textwidth} p{0.14\textwidth} p{0.38\textwidth}}
+\footnotesize
+\begin{tabular}{p{0.46\textwidth} p{0.14\textwidth} p{0.34\textwidth}}
 \toprule
 Statement & Status & Where \\
 \midrule
@@ -564,6 +651,10 @@ Rate--content region & defined & Definition~\ref{def:region} \\
 Local divergence geometry of a channel that reads through $C$ is the read operator with the Fisher metric as $G$ & proved, local & Theorem~\ref{thm:fisher} \\
 Conditional mutual information equals an averaged read operator & not claimed & Remark after Theorem~\ref{thm:fisher} \\
 The coding paper's region is the consumer-relative region for the linear-functional consumer & identification of definitions, operational constraints verified item by item & Corollary~\ref{cor:coding} and Lemma~\ref{lem:outputrep} \\
+A single observer with a constant read operator reads budget-free directions & proved & Proposition~\ref{prop:fixedread} \\
+Two observers: holder cost is a max-det program in the holder's posterior; one-dimensional read is a pencil eigenvector; it turns with the budget unless aligned & proved in the coding paper, single-letter & Theorem~\ref{thm:twoobs} \\
+No single fixed-geometry observer reproduces the two-observer reads & proved & Corollary~\ref{cor:twoobs} \\
+Observation theory is the only language for the phenomenon & not claimed & Remark in Section~\ref{sec:twoobs} \\
 The economics paper's cost is a pullback distance with the encoding as consumer & proved & Corollary~\ref{cor:decision} \\
 Unread money implies stake invariance, and the converse under a stake-carrying encoding & proved & Proposition~\ref{prop:stake} \\
 A budget cliff at which money enters & not claimed & Section~\ref{sec:decision} \\
@@ -627,10 +718,13 @@ J.~Huber, J.~W.~Payne, and C.~Puto, ``Adding asymmetrically dominated alternativ
 A.~H.~Bond, ``readscope: A specified instrument for recovering a consumer's read operator,'' ver.~0.1.0, 2026. [Online]. Available: \url{https://pypi.org/project/readscope/} and \url{https://github.com/ahb-sjsu/readscope}
 
 \bibitem{bond2026encyclopedia}
-A.~H.~Bond, \emph{The Observation Theory Encyclopedia}, entries \emph{observer}, \emph{read operator}, \emph{quotient}, \emph{blind probe}, and \emph{budget cliff}, generated 2026-09-06 from the book \emph{Data Mining as Observation}, draft 0.2. [Online]. Available: \url{https://erisml.org/encyclopedia}
+A.~H.~Bond, \emph{The Observation Theory Encyclopedia}, entries \emph{observer}, \emph{read operator}, \emph{quotient}, \emph{blind probe}, \emph{budget cliff}, and \emph{water-filling}, generated 2026-09-06 from the book \emph{Data Mining as Observation}, draft 0.2. [Online]. Available: \url{https://erisml.org/encyclopedia}
 
 \bibitem{constantine2015}
 P.~G.~Constantine, \emph{Active Subspaces: Emerging Ideas for Dimension Reduction in Parameter Studies}. Philadelphia, PA, USA: SIAM, 2015, doi: 10.1137/1.9781611973860.
+
+\bibitem{chechik2005}
+G.~Chechik, A.~Globerson, N.~Tishby, and Y.~Weiss, ``Information bottleneck for Gaussian variables,'' \emph{J. Mach. Learn. Res.}, vol.~6, pp.~165--188, 2005.
 
 \bibitem{kakutani1941}
 S.~Kakutani, ``A generalization of Brouwer's fixed point theorem,'' \emph{Duke Math. J.}, vol.~8, no.~3, pp.~457--459, 1941, doi: 10.1215/S0012-7094-41-00838-4.
