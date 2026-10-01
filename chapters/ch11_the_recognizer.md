@@ -1,6 +1,7 @@
 # Chapter 11 — The Recognizer: Naming a Manifold, or Certifying None
 
-The blind probe recovers an observer's read metric. The recognizer asks a dual
+The blind probe (finite-difference active-subspace estimation, Chapter 10) recovers an
+observer's read metric (its active-subspace matrix). The recognizer asks a dual
 question: given a representation, can we name the manifold it lies on — or certify that
 it lies on none? This is the instrument of the LEGIBILITY shadow turned into a
 procedure, and it carries one of the book's most quotable findings: **dimension emerges

@@ -15,14 +15,23 @@ a single slice.
 
 The whole book has been about one operator. Fix an observer $O = (C, G, B)$ and it
 induces the read metric $P_C = J^\top G J$: the geometry of what that observer can
-distinguish. Everything else is a shadow of this operator.
+distinguish. Everything else is a shadow of this operator. The operator is classical.
+It is a pullback metric (Rao 1945; Amari and Nagaoka 2000), and averaged over inputs it
+is the active-subspace matrix (Constantine 2015) or expected gradient outer product
+(Xia et al. 2002). The triple is a task map, an output metric, and a rank or rate
+constraint.
 
 - Its **rate–distortion function** $R_C(D)$ is what the observer *charges* — the COST.
-- Preserving it beats reconstructing the object — the **flip**, the VALUE.
+  It is the weighted rate–distortion function (Sakrison 1968), the first-order version
+  of an indirect rate–distortion problem (Witsenhausen 1980).
+- Preserving it beats reconstructing the object — the **flip**, the VALUE. The flip is a
+  ranking reversal between reconstruction error and task loss, the premise of task-based
+  quantization (Shlezinger, Eldar and Rodrigues 2019).
 - Its **quotient** $X/\!\sim_C$ reveals the structure the observer acts on, sometimes
   more legibly than the original — the LEGIBILITY.
 - And it is **identifiable** from the observer's behavior alone — the blind probe,
-  which is what makes the other three usable rather than theoretical.
+  which is what makes the other three usable rather than theoretical. The probe is
+  finite-difference active-subspace estimation (Constantine 2015).
 
 Cost, value, legibility, identifiability: four faces, one operator. The intellectual
 claim of the book is that these were four literatures — rate–distortion theory,
@@ -53,10 +62,12 @@ relative rate–distortion thesis is the spine, and Shannon is the $P_C = I$ ver
 "Keep the structure the observer can use" licenses a definite change in practice.
 
 It says: **do not measure a code by its reconstruction error unless your observer is
-isotropic.** Measure it by the read distortion $\operatorname{tr}(P_C\Sigma_\delta)$,
+isotropic.** Measure it by the read distortion $\operatorname{tr}(P_C\Sigma_\delta)$, a
+weighted mean squared error,
 and when you cannot write $P_C$ down, *recover it* with the blind probe. It says: **the
 worse-reconstructing code can be the right code**, on purpose, and you can tell in
-advance whether it will be, by measuring the alignment $\kappa$ and placing your domain
+advance whether it will be, by measuring the alignment $\kappa$ (a matrix cosine, as in
+kernel alignment, Cristianini et al. 2002) and placing your domain
 on the two-axis regime map. It says: **adapt, do not universalize** — no single code
 wins across regimes, and the domain-dependence of the flip is the reason an adaptive
 selector, not a universal codec, is the correct engineering object. And it says, in the

@@ -66,7 +66,8 @@ human author owns every claim (C-AI-3).
 
 The standing reminder that this is necessary, not ceremonial, is **VI-4**. An in-context
 self-check of the assistant's own `sigma_star` formula was partly tautological and *passed
-a wrong formula*; the two-observer max-determinant error covariance is reverse
+a wrong formula*; the two-observer max-determinant error covariance (Gaussian successive
+refinement, Equitz and Cover 1991) is reverse
 water-filling in the whitened basis, and the cap the formula claimed "never binds" does
 bind on $\ker P$. A fresh-context adversarial pass caught it, the formula was corrected, the
 prereg amended and re-sealed, and the false pass was logged with the prominence of a

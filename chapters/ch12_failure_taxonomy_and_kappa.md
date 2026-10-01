@@ -2,6 +2,9 @@
 
 The flip is a property of observation — *wherever the read operator can be identified,
 is misaligned with the signal energy, and (on learned representations) generalizes.*
+In classical terms the flip is a ranking reversal between reconstruction error and task
+loss (the premise of task-based quantization, Shlezinger, Eldar and Rodrigues 2019),
+and the read operator is the active-subspace matrix (Constantine 2015).
 That sentence has three conditions, and each names a way the flip can be absent. This
 chapter makes the list complete and then makes it quantitative: the four degeneracies
 of $P_C$ are the exhaustive taxonomy of failure, and the alignment law $\kappa$ turns
@@ -62,7 +65,8 @@ normalized read–energy alignment
 $$ \kappa = \operatorname{tr}\!\big(\bar P_C\, \bar\Sigma_x\big), $$
 
 the (normalized) overlap of the average read metric with the source covariance on the
-read subspace. $\kappa$ is small when the consumer reads directions the signal is quiet
+read subspace. In classical terms $\kappa$ is a matrix cosine, the normalized inner
+product that kernel alignment uses (Cristianini et al. 2002). $\kappa$ is small when the consumer reads directions the signal is quiet
 in (strong misalignment — the flip regime) and approaches 1 when the read subspace *is*
 the high-energy subspace (the coupling regime — no flip). The **alignment law** is the
 claim that **flip magnitude decreases in $\kappa$**, with $\kappa \to 1$ the coupling
