@@ -43,6 +43,9 @@ doi:10.5281/zenodo.22678341.}}
 \maketitle
 
 \begin{abstract}
+A stored description has a rate, paid by the decoder, and a conditional
+content, paid by any party that keeps it while holding side information,
+and the two are set by different parts of the encoding configuration.
 An encoder observes a jointly Gaussian pair, a described variable and a
 correlated context, and describes the first for a decoder that sees the
 description alone. A third party holds side information, a noisy copy of
@@ -76,20 +79,26 @@ rate--distortion theory, side information.
 \section{Introduction}
 \label{sec:intro}
 
-A stored description of data can be measured in two ways. The first is
-its rate, the space the description occupies, which rate--distortion
-theory trades against the fidelity the decoder requires. The second is
-its conditional entropy given side information that some other party
-retains: a reader holding that side information can store or forward the
-description with a prefix-free code whose expected length is within one
-bit of the conditional entropy and no shorter, so the conditional entropy
-is the least rate at which the description can be re-encoded for that
-reader. The two quantities are set by different parties. The decoder
-never sees the side information, and the party holding it never serves
-the decoder. This paper solves the source coding problem that this
-asymmetry creates: in closed form for Gaussian sources, and, for the
-doubly symmetric binary source, by tracing the rate--content frontier
-through a tilt equation.
+A stored description of data has no single cost. The decoder that
+reconstructs from it pays its rate. A party that keeps the description
+and holds side information pays something else, the conditional entropy
+of the description given what it holds. That party can store or forward
+the description with a prefix-free code whose expected length is within
+one bit of this conditional entropy and no shorter, so it is the least
+rate at which the description can be re-encoded for that party. This
+paper proves, in the simplest setting where the question can be answered
+exactly, that these two costs are set by different parts of the encoding
+configuration and cannot in general be minimized together. Three facts
+carry the result. The second cost is not determined by the joint law of
+the reproduced variable and the side information, because it depends on
+what the encoder observes (Corollary~\ref{cor:notmarginal}). The two costs
+are minimized by different descriptions exactly when the encoder's extra
+observation is partially informative, and the gap between the two optima
+grows without bound as the side information becomes clean
+(Theorem~\ref{thm:region}(b), Corollary~\ref{cor:misalign}). And for jointly
+Gaussian sources the whole picture is explicit, the minimal conditional
+content in closed form and the rate--content region with its frontier.
+The doubly symmetric binary source is solved through a tilt equation.
 
 A concrete instance is a two-tier data store (Fig.~\ref{fig:system}). A
 serving tier keeps the compressed records and answers queries from the
@@ -100,7 +109,15 @@ and it stores each description compressed against that metadata; it
 pays the conditional content. One encoder, which sees the record and
 its exact context, produces one description for both tiers, and the
 question is how cheap it can make the description for one tier without
-making it expensive for the other.
+making it expensive for the other. The per-record costs in this paper are
+small numbers of bits, but such stores are large. At the scale of a
+trillion records, a size vector indexes now reach, every bit per record
+and coordinate is $125$~GB, so the misalignment excesses of
+Section~\ref{sec:region} correspond to at most about $14$~GB of rate and
+$10$~GB of content in a moderate regime, and to about $190$~GB of rate
+near the clean-context boundary. This
+is arithmetic on the scale of the store, not a claim that any particular
+store follows the Gaussian model.
 
 \begin{figure}[!t]
 \centering
@@ -189,11 +206,13 @@ by different test channels, so that rate and content strictly trade off,
 exactly when $0<\rho^2<1$ within the noisy model $\tau^2>0$; the
 tradeoff persists at the clean-context boundary
 (Theorem~\ref{thm:region}(b) and Corollary~\ref{cor:misalign}). We call
-this separation of the two optima misalignment. Within the noisy model
-the endpoint excesses are small, at most $0.11$ bits of rate and $0.08$
-bits of content over a broad parameter box, and the rate excess is
-unbounded only toward the clean-context boundary
-(Section~\ref{sec:region}). One consequence of the
+this separation of the two optima misalignment. The size of the
+misalignment is a property of the regime. It grows without bound toward
+the clean-context boundary, where the content-optimal description pins
+the reproduction to the context and its rate diverges, for instance by
+$1.54$ bits at $(\rho^2,\tau^2,D)=(0.5,10^{-3},0.5)$. Over a moderate
+parameter box it stays below $0.12$ bits of rate and $0.08$ bits of
+content (Section~\ref{sec:region}). One consequence of the
 closed form is that $L(D)$ is not determined by the joint law of $(Y,S)$
 (Corollary~\ref{cor:notmarginal}): two sources whose $(Y,S)$ laws agree up
 to invertible scaling can have different minimal conditional content.
@@ -348,6 +367,37 @@ Gaussian corner first appeared; everything from Section~\ref{sec:pair}
 onward is developed here, with the pair-sufficiency reduction credited
 to Armstrong's source-side sufficiency \cite{armstrong2026} as a
 distortion-preserving specialization.
+
+\subsection*{Why the evaluation is not routine}
+
+The functional is known, so it is fair to ask whether its Gaussian
+evaluation is routine. Four features keep it from being so. First, the
+distortion constrains $Y$ alone, yet the optimal channel loads on the
+context, with coefficient $b=(g^\star-1)\rho/(g^\star k)$ nonzero for every
+$\rho\ne0$ (Theorem~\ref{thm:function}(a)). Under the Markov chain the
+content is $I(T;\hY)-I(\hY;S)$, so loading the description on the context,
+which the side information observes, lowers its content even though it
+does nothing for the distortion. The reverse water-filling on $Y$ that
+solves the classical and Gray problems therefore does not apply, and the
+optimization runs over the joint regression of the reproduction on
+$(Y,V)$ against the conditional covariance of $(Y,V)$ given $S$. Second,
+the region is not traced by one water level. Its frontier is the solution
+of a coupled stationarity system in two noise fractions, and the existence
+and uniqueness of that solution at every weight is a separate result
+(Proposition~\ref{prop:uniq}), proved through a convexity lemma in
+transformed coordinates (Lemma~\ref{lem:mxconvex}). Third, at the
+clean-context boundary $\tau^2=0$ the conditional covariance of $(Y,V)$ given
+$S$ is singular, the exhaustion lemma behind the converse
+(Lemma~\ref{lem:gauss}) no longer applies, and the persistence of the
+tradeoff there needs its own argument (Propositions~\ref{prop:marg}
+and~\ref{rem:cleanboundary}). Fourth, the operational meaning of the second
+coordinate is the conditional entropy of a discrete index given a
+continuous side information, which does not follow from the
+finite-alphabet theorem by a standard limit. Appendix~\ref{app:gaussian}
+proves the Gaussian operational theorem directly through a quantized
+conditioner, and the same obstruction is why the finite-blocklength
+dispersion of the content coordinate remains open
+(Section~\ref{sec:discussion}).
 
 \section{Problem Formulation and the Operational Theorem}
 \label{sec:operational}
@@ -2693,6 +2743,13 @@ reduced marginal $(Y,S)$ but by what the encoder can see, so conditional
 description content, the rate at which a party holding the side
 information can re-encode the description, is a property of the encoding
 configuration, not of the source and side-information pair alone.
+Stated generally, the paper establishes in an exactly solvable case that
+the cost of a description is relative to the party that pays it. One
+description carries one rate but as many conditional contents as there
+are parties holding different side information, and the encoder's
+observations, not the source alone, decide how those costs trade off.
+The closed form and the region make the principle quantitative, and the
+open problems below are its natural next instances.
 
 Four problems are open. The exact rate--content region for a joint
 description serving two described variables is not settled; its stationarity
@@ -3053,7 +3110,7 @@ The closed forms and the displayed matrix identities were checked
 independently of the derivations: each closed form numerically, against
 direct minimization over test-channel moments, and each identity
 symbolically, by computer algebra. The check scripts and an executed
-notebook, \texttt{reproduce.ipynb}, which evaluates every closed form
+notebook, \texttt{reproduce.ipynb}, which evaluates the closed forms
 against direct minimization and regenerates the figures and tables,
 accompany the manuscript sources at the repository of the title footnote
 and are submitted as supplementary material. The checks guard against
@@ -3070,12 +3127,12 @@ $X-S_1-S_2$, with the encoder observing $(X,S_1)$, the decoder reconstructing
 from the message and $S_2$, and the common-reconstruction constraint that the
 encoder reproduce the decoder's estimate. For the doubly symmetric binary source
 with $\Pr[X\ne S_1]=p_1$ and $S_2=S_1\oplus\mathrm{Bern}(p_2)$ under Hamming
-distortion, their Theorem~1 gives the achievable rate
+distortion, their Theorem~1 gives the rate--distortion function
 \[
   \widetilde R^{\mathrm{CR}}(D)
   =\min_{W:\ W-(X,S_1)-S_2,\ \E d(X,f(W))\le D} I(X,S_1;W\mid S_2),
 \]
-evaluated in closed form in their Theorem~2.
+reduced to a one-parameter minimization in their Theorem~2.
 
 Under the relabeling
 \[
@@ -3162,7 +3219,8 @@ responsible for the content.
 
 \begin{thebibliography}{99}
 \bibitem{shannon1959} C. E. Shannon, ``Coding theorems for a discrete source
-with a fidelity criterion,'' in \emph{IRE Nat. Conv. Rec.}, 1959, pp. 142--163.
+with a fidelity criterion,'' in \emph{IRE Nat. Conv. Rec.}, vol. 7, pt. 4, 1959,
+pp. 142--163.
 \bibitem{berger1971} T. Berger, \emph{Rate Distortion Theory: A Mathematical
 Basis for Data Compression}. Englewood Cliffs, NJ: Prentice-Hall, 1971.
 \bibitem{gray1972tr} R. M. Gray, ``Conditional rate-distortion theory,''
@@ -3178,7 +3236,7 @@ Stability of Random Variables and Processes}. San Francisco, CA:
 Holden-Day, 1964.
 \bibitem{wyner1978} A. D. Wyner, ``A definition of conditional mutual
 information for arbitrary ensembles,'' \emph{Inf. Control}, vol. 38,
-no. 1, pp. 51--59, 1978. % verify vol/pages on final
+no. 1, pp. 51--59, 1978.
 \bibitem{posner1975} E. C. Posner, ``Random coding strategies for minimum
 entropy,'' \emph{IEEE Trans. Inf. Theory}, vol. 21, no. 4, pp. 388--391,
 1975.
@@ -3204,7 +3262,7 @@ pp. 1458--1474, 2013.
 cipher system,'' \emph{IEEE Trans. Inf. Theory}, vol. 43, no. 3, pp. 827--835,
 1997.
 \bibitem{yamamoto1983} H. Yamamoto, ``A source coding problem for sources
-with additional outputs to keep secret from the receiver or wiretappers,''
+with additional outputs to keep secret from the receiver or wiretappers (Corresp.),''
 \emph{IEEE Trans. Inf. Theory}, vol. 29, no. 6, pp. 918--923, 1983.
 \bibitem{villard2013} J. Villard and P. Piantanida, ``Secure multiterminal
 source coding with side information at the eavesdropper,'' \emph{IEEE Trans.

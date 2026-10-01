@@ -19,7 +19,9 @@ clean object on Atlas with Lean 4.32.2, 298 s, zero errors, zero sorry).
 
 ## Script inventory
 
-- `reproduce.ipynb` (executed 2026-09-09, 12 code cells, 0 errors) -- the
+- `reproduce.ipynb` (13 code cells; executed 2026-09-09 on the laptop, and
+  re-executed on Atlas 2026-10-01 with 0 errors and identical outputs, copy in
+  `reproduce-executed-2026-10-01.ipynb`; theorem numbers updated to r2) -- the
   supplementary notebook: reproduces the closed form, anchors, frontier,
   non-determination table, attainment remark, and binary tilt root from first
   principles, regenerates Figs. 2-4 into a scratch directory, and runs the three
