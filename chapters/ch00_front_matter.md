@@ -36,33 +36,39 @@ If you read one paragraph, read this. Fix an object $x$, a channel that compress
 it, and a *consumer* $C$ that acts on the result — a classifier, an attention head,
 a direction-finder, a retrieval index. The consumer does not read $x$; it reads a
 few directions of $x$, weighted by how much its own output moves when those
-directions move. Write that as a symmetric operator $P_C$, the **read metric**.
+directions move. Write that as a symmetric operator $P_C$, the **read metric**. It is
+the active-subspace matrix of sensitivity analysis, also called the expected gradient
+outer product (Appendix A).
 Then the quality of a compression is not how faithfully it reconstructs $x$ — it is
 how little error it leaves *inside* $P_C$. These come apart. A code that
 reconstructs worse can serve the consumer better, and a code that reconstructs
 best can be the worst thing you ship. That reversal — the **consumer-relative
 flip** — is the empirical heart of this book, and $P_C$ is its single moving part.
+In classical terms it is a ranking reversal between reconstruction error and task
+loss. Task-based quantization starts from the same premise (Shlezinger, Eldar and
+Rodrigues 2019).
 
 ---
 
 ## Core Objects at a Glance
 
 The framework introduces a small set of objects, each with one job. Return here as
-they appear in the text.
+they appear in the text. Most of them have a classical name. The table gives it, and
+Appendix A gives the sources.
 
 | Object / Symbol | Informal meaning | Formal character & chapter |
 |---|---|---|
-| $O = (C, G, B)$ (the observer) | *who is looking*: a consumer, its output metric, and a resolution budget | The triple that makes geometry, distortion, and reliability well-posed; nothing is a property of $x$ alone (Ch. 4) |
+| $O = (C, G, B)$ (the observer) | *who is looking*: a consumer, its output metric, and a resolution budget | The triple that makes geometry, distortion, and reliability well-posed; nothing is a property of $x$ alone. Classically a task map, an output metric, and a rank or rate constraint (Ch. 4) |
 | $C : X \to Y$ (the consumer) | the downstream use — the thing that acts on the representation | A (possibly nonlinear) functional with Jacobian $J$; the classifier, the attention head, the estimator (Ch. 4–5) |
-| $P_C = J^{\top} G\, J$ (the read metric) | *what the observer can distinguish* — the pullback of the output metric | Symmetric PSD operator; its range is the read subspace, its kernel the nuisance the observer discards (Ch. 5) |
-| $X/\!\sim_C$ (the quotient) | *the world the observer can act on* — objects it cannot tell apart are one point | Equivalence under $\ker P_C$; the space on which the consumer's verdicts live (Ch. 5) |
-| $\operatorname{tr}(P_C \Sigma_\delta)$ (read distortion) | how much of the coding error lands where the consumer looks | The quantity that controls downstream loss at matched rate — **not** $\|\delta\|^2$ (Ch. 6) |
-| $R_C(D)$ (the consumer rate–distortion function) | the price of observation | Achievability + converse for the read metric; the true-divergence reduction is the *tilt* toward $P_C$ (Ch. 7, the COST shadow) |
-| The **flip** | preserving the read can beat reconstructing the object | Reconstruction-tied codes rank oppositely per consumer; sealed across 12 domains + 3 physics (Ch. 8, the VALUE shadow) |
+| $P_C = J^{\top} G\, J$ (the read metric) | *what the observer can distinguish* — the pullback of the output metric | Symmetric PSD operator; its range is the read subspace, its kernel the nuisance the observer discards. Classically the active-subspace matrix (Constantine, Dow and Wang 2014; Constantine 2015), the expected gradient outer product (Hristache et al. 2001; Xia et al. 2002), and the pullback metric of information geometry (Rao 1945; Amari and Nagaoka 2000) (Ch. 5) |
+| $X/\!\sim_C$ (the quotient) | *the world the observer can act on* — objects it cannot tell apart are one point | Equivalence under $\ker P_C$; the space on which the consumer's verdicts live. The quotient by the kernel of the gradient outer-product matrix (Ch. 5) |
+| $\operatorname{tr}(P_C \Sigma_\delta)$ (read distortion) | how much of the coding error lands where the consumer looks | The quantity that controls downstream loss at matched rate — **not** $\|\delta\|^2$. Classically a weighted (sensitivity-weighted) mean squared error (Sakrison 1968; Choi et al. 2017; Dong et al. 2019) (Ch. 6) |
+| $R_C(D)$ (the consumer rate–distortion function) | the price of observation | Achievability + converse for the read metric; the true-divergence reduction is the *tilt* toward $P_C$. Classically the weighted rate–distortion function (Sakrison 1968) and, for a nonlinear consumer, an indirect rate–distortion function (Dobrushin and Tsybakov 1962; Wolf and Ziv 1970; Witsenhausen 1980) (Ch. 7, the COST shadow) |
+| The **flip** | preserving the read can beat reconstructing the object | Reconstruction-tied codes rank oppositely per consumer; sealed across 12 domains + 3 physics. Classically a ranking reversal between reconstruction error and task loss, the premise of task-based quantization (Shlezinger, Eldar and Rodrigues 2019) (Ch. 8, the VALUE shadow) |
 | Keep-the-Angle | in spectral embeddings the *angle* carries geodesics, the radius carries density | Angular coordinate is the read subspace of the geodesic-rank consumer; radius $\in \ker P_C$ (Ch. 9, the LEGIBILITY shadow) |
-| The blind probe (GO-1) | recover $P_C$ from the consumer's outputs alone, no labels, no oracle | Finite-difference the consumer margin; recovers the read subspace ex ante (Ch. 10) |
+| The blind probe (GO-1) | recover $P_C$ from the consumer's outputs alone, no labels, no oracle | Finite-difference the consumer margin; recovers the read subspace ex ante. Classically finite-difference active-subspace estimation (Constantine 2015) (Ch. 10) |
 | The recognizer | name the manifold a representation lies on, or certify that none exists | Low multiplets + angular distances; "dimension emerges before shape" (Weyl ordering) (Ch. 11) |
-| $\kappa = \operatorname{tr}(\bar P_C \bar\Sigma_x)$ (the alignment law) | *when* the flip appears — read/energy misalignment on a dial | Normalized read–energy overlap; flip magnitude decreasing in $\kappa$; $\kappa\to 1$ is the coupling null (Ch. 12) |
+| $\kappa = \operatorname{tr}(\bar P_C \bar\Sigma_x)$ (the alignment law) | *when* the flip appears — read/energy misalignment on a dial | Normalized read–energy overlap; flip magnitude decreasing in $\kappa$; $\kappa\to 1$ is the coupling null. A matrix cosine, the normalized inner product of kernel alignment (Cristianini et al. 2002) (Ch. 12) |
 | The four degeneracies of $P_C$ | the four ways the flip is *absent* | coupling ($\operatorname{range} P_C$ aligned with source energy), precondition ($P_C \approx 0$), identifiability (wrong $\hat G$), mechanism-absent (direction $\notin \ker P_C$) (Ch. 12) |
 | The ledger | the living record of record | Six classes `[proved] [demonstrated] [replicated] [predicted] [exploratory] [refuted]`; every table ID resolves to a row (Ch. 15–16) |
 
@@ -133,9 +139,11 @@ than magical; do not skip it and then wonder why your compressor's guarantees ar
 opaque to you.
 
 **The information theorist** will find the formal spine in Part III's COST chapter
-(Ch. 7): the consumer rate–distortion function $R_C(D)$, its achievability and
-converse, the two-observer region and its refinability (Loewner nesting of the
-optimal error covariances), the
+(Ch. 7): the consumer rate–distortion function $R_C(D)$, which is Sakrison's weighted
+rate–distortion function and an indirect rate–distortion problem in the sense of
+Witsenhausen (1980), its achievability and converse, the two-observer region and its
+refinability (successive refinement under individual distortion criteria, with
+Loewner nesting of the optimal error covariances), the
 mismatch tax and the omission floor. The interest is in the *domain*, not the
 tools — the operative object is a pullback metric that varies with the observer,
 and classical rate–distortion is the slice where $P_C = I$.

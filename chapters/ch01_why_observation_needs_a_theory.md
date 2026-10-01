@@ -51,7 +51,8 @@ $$ O = (C, G, B): $$
 a **consumer** $C$ — the thing that acts on the representation, a classifier, an
 attention head, an estimator, a ranking function; an **output metric** $G$ — how the
 consumer's downstream errors are scored; and a **budget** $B$ — the bits, or the
-resolution, you are allowed to spend. Give me those three and I can tell you what
+resolution, you are allowed to spend. In classical terms these are a task map, an
+output metric, and a rank or rate constraint. Give me those three and I can tell you what
 the observer can distinguish, what it must discard, and what it will cost to serve
 it. Withhold any one of them and the questions "how much geometry survived this
 compression?" and "how good is this code?" have no answers — not hard answers,
@@ -81,20 +82,32 @@ its query directions; the across-token mean is in the kernel. Sun-ho's estimator
 a read metric that sees the angle and not the magnitude. Devi's ranker reads a
 projection and discards the off-subspace energy. Three unrelated systems, one object.
 
+The object is classical, and it has three established names. Averaged over inputs, it
+is the active-subspace matrix of sensitivity analysis (Constantine, Dow and Wang 2014;
+Constantine 2015). Statistics calls the same average the expected gradient outer
+product, or outer product of gradients (Hristache et al. 2001; Xia et al. 2002).
+Information geometry calls $J^\top G J$ a pullback metric (Rao 1945; Amari and Nagaoka
+2000). This book keeps the name "read metric" because it names the job. Chapter 3 and
+Appendix A give the lineage.
+
 And the quantity the engineers should have been minimizing is not the size of the
 coding error $\delta = \hat x - x$, but the size of the error *where the consumer
 looks*:
 
 $$ \operatorname{tr}(P_C\, \Sigma_\delta), $$
 
-the error covariance projected onto the read metric. This trace and the total
+the error covariance projected onto the read metric. It is a weighted, or
+sensitivity-weighted, mean squared error (Sakrison 1968). Hessian-aware quantization
+uses the same distortion (Choi et al. 2017; Dong et al. 2019). This trace and the total
 reconstruction error $\operatorname{tr}(\Sigma_\delta)$ are different numbers, and —
 this is the entire drama of the book — they can move in *opposite directions*. A
 code that makes the first small can make the second large, and vice versa. When they
 disagree about which of two codes is better, we call the disagreement the
 **consumer-relative flip**, and Chapter 8 shows it is not a curiosity but a
 reproducible property of observation, sealed across twelve domains and three
-branches of physics.
+branches of physics. In classical terms the flip is a ranking reversal between
+reconstruction error and task loss. It is the premise of task-based quantization
+(Shlezinger, Eldar and Rodrigues 2019).
 
 ## One object, three shadows
 
@@ -104,9 +117,12 @@ they were one. This volume is organized around that unification.
 
 - **COST** — what observation charges. If a consumer reads only $P_C$, the bits you
   must pay to serve it to a given distortion are governed by a *tilted*
-  rate–distortion function $R_C(D)$, not Shannon's. The tilt bends the optimal
+  rate–distortion function $R_C(D)$, not Shannon's. It is the weighted rate–distortion
+  function of Sakrison (1968), and for a nonlinear consumer an indirect rate–distortion
+  function (Dobrushin and Tsybakov 1962; Wolf and Ziv 1970; Witsenhausen 1980). The tilt bends the optimal
   bit-allocation toward the read subspace, and it comes with achievability and
-  converse theorems, a rate region for two observers, a tax for using the wrong read
+  converse theorems, a rate region for two observers (successive refinement, Equitz and
+  Cover 1991), a tax for using the wrong read
   metric, and a floor of irreducible error you hit when your code is blind to a
   direction the consumer needs. This is Part III's Chapter 7. *(Paper III.)*
 
@@ -132,9 +148,11 @@ consumer.* That warning is true and it is not enough, because it gives no way to
 *act*. A theory has to do three things the warning cannot.
 
 It has to say **which** directions the consumer reads — and it does, via the read
-metric, which Chapter 10 shows can be recovered *blind*, from the consumer's outputs
+metric, which Chapter 10 shows can be recovered *blind* by finite-difference
+active-subspace estimation, from the consumer's outputs
 alone, with no labels and no oracle. It has to say **when** the flip appears and when
-it does not — and it does, via the alignment law $\kappa$ of Chapter 12, which turns
+it does not — and it does, via the alignment law $\kappa$ of Chapter 12 (a matrix
+cosine, as in kernel alignment, Cristianini et al. 2002), which turns
 "know your consumer" from folklore into a dial you can measure before you compress.
 And it has to say **what it costs** to do the right thing — and it does, via the
 rate–distortion theory of Chapter 7. A warning tells you to be careful. A theory

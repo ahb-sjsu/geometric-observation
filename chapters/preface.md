@@ -74,7 +74,10 @@ range is the handful of directions the consumer can actually distinguish; its
 kernel is everything the consumer is constitutionally blind to. This is not a new
 object — it is the pullback metric of classical information geometry, the thing
 Amari and Čencov studied — and I want to be scrupulous that the *components* are
-old. What was not old, and what this book is about, is the claim that this pullback
+old. The same matrix, averaged over inputs, is the active-subspace matrix of
+sensitivity analysis (Constantine, Dow and Wang 2014; Constantine 2015) and the expected
+gradient outer product of dimension reduction (Hristache et al. 2001; Xia et al. 2002).
+What was not old, and what this book is about, is the claim that this pullback
 is the operative object for *lossy representation*: that the right way to compress,
 embed, or quantize anything is to keep the structure inside $P_C$ and spend nothing
 on $\ker P_C$, and that "reconstruct the object faithfully" is the special, and
@@ -87,6 +90,8 @@ metric is the object, then at a matched bit budget two codes can be ranked
 *oppositely* by two different consumers, and — the sharp version — a code that
 reconstructs the source *worse* can serve a consumer *better*. This is not a
 tendency; it is a reversal, and it should either be everywhere or be an artifact.
+Task-based quantization rests on the same premise (Shlezinger, Eldar and Rodrigues
+2019).
 So we went looking for it, under a discipline I will describe in a moment, and it
 was everywhere. It appears on transformer KV-keys [demonstrated]. It appears on
 embedding retrieval [replicated]. It appears in gradient compression against a
@@ -105,7 +110,9 @@ The second correspondence was that the read metric has a *price*, and the price 
 a rate–distortion theory. If a consumer only reads $P_C$, then the number of bits
 you must pay to serve it to distortion $D$ is not Shannon's $R(D)$ but a tilted one,
 $R_C(D)$, whose whole content is that the tilt bends the water-filling toward the
-read subspace. This gave achievability and converse theorems, a two-observer rate
+read subspace. That function is Sakrison's weighted rate–distortion function (1968),
+an instance of indirect source coding (Dobrushin and Tsybakov 1962; Wolf and Ziv 1970;
+Witsenhausen 1980). This gave achievability and converse theorems, a two-observer rate
 region whose refinability is exactly a Loewner nesting of the observers' optimal error
 covariances, a mismatch
 tax you pay for using the wrong $P_C$, and an *omission floor* — a wall of
