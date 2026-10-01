@@ -97,9 +97,10 @@ equivocation is due to Villard and Piantanida
 Ulukus \cite{ekrem2013} obtained the minimum leakage when the rate is
 unconstrained, as an optimization over covariance matrices. The joint
 rate--leakage region was left open: they report that they could not
-solve the weighted problem that traces it \cite[p.~8]{ekrem2013}, and a
-characterization through new extremal inequalities has since been
-reported by Xu and Chen \cite{xuchen2021}. Without decoder side
+solve the weighted problem that traces it \cite[p.~8]{ekrem2013}, and Xu
+and Chen \cite{xuchen2021} have since proved by a new extremal
+inequality that Gaussian auxiliaries solve it, leaving the region as a
+matrix program. Without decoder side
 information the region itself is elementary, because a single Gaussian
 exhaustion lemma bounds both costs at once (Proposition~\ref{prop:posterior}).
 What this paper contributes is the structure of that region for an
@@ -109,7 +110,10 @@ reproduce a linear part $Y=FT$ under a weighted quadratic distortion,
 and the second party observes $S=HT+U$ for an arbitrary matrix $H$.
 When $H$ reaches the parts of $T$ outside $Y$, the encoder holds
 information about the second party's observation that the decoder does
-not need, and this is what makes the two costs disagree.
+not need, and this is what makes the two costs disagree. The
+disagreement also needs a weighted or partial distortion. Under a matrix
+distortion on the whole source, the formulation of the earlier work, one
+description minimizes both costs (Proposition~\ref{prop:matrix}).
 
 The results are structural as well as explicit. The coding theorem
 (Theorem~\ref{thm:op}) identifies the operational region with the
@@ -182,9 +186,21 @@ matrix distortion on the whole source, give an outer bound that is tight
 without a rate constraint, and leave the joint region open. Our
 distortion constrains a weighted part of the source and leaves the rest
 unpenalized, the decoder has no side information, and the eavesdropper's
-observation map is arbitrary. Xu and Chen \cite{xuchen2021} report a
-characterization of the rate--distortion--equivocation function of
-vector Gaussian secure source coding, and G\"unl\"u, Schaefer, Boche, and
+observation map is arbitrary. Xu and Chen \cite{xuchen2021} prove, by
+a new extremal inequality, that Gaussian auxiliaries are optimal in the
+Ekrem--Ulukus problem for every weight, which characterizes the
+rate--distortion--equivocation function as a matrix program over two
+precision matrices \cite[eq.~(189), Thm.~4]{xuchen2021}. Their model
+has an eavesdropper observation $X+N_Z$ with $\Cov N_Z\succ0$, which
+excludes a rank-deficient observation such as a scalar context, and a
+matrix distortion on the whole source. In the limit of no decoder side
+information their program reduces to the one of
+Proposition~\ref{prop:posterior} in the precision coordinate
+$\Sez^{-1}-\Sigma_T^{-1}$, with the matrix constraint in place of the
+weighted one, and then it has no tradeoff
+(Proposition~\ref{prop:matrix}). Their result is a converse that fixes
+the form of the optimizers; the structure of the solution, which is the
+subject here, is not addressed there. G\"unl\"u, Schaefer, Boche, and
 Poor \cite{gunlu2022} evaluate the lossy rate region for scalar Gaussian
 sources with a remote source and separate secrecy and privacy leakage.
 Neither treats an encoder that observes components it need not
@@ -323,6 +339,39 @@ The proof is in Appendix~\ref{app:coding}. Its discrete core is the
 region of Villard and Piantanida without decoder side information
 (Theorem~\ref{thm:dmc}); the Gaussian extension quantizes the side
 information, the source, and the reproduction and passes to the limit.
+
+The tradeoff studied below needs the distortion to leave the encoder a
+choice of error covariance. The vector Gaussian secrecy literature
+\cite{ekrem2013,xuchen2021} instead asks the decoder to reproduce the
+whole source under a matrix constraint, and without decoder side
+information that choice disappears.
+
+\begin{proposition}\label{prop:matrix}
+Suppose the decoder reproduces all of $T$, an admissible channel is one
+whose reproduction $\hat T$ has
+$\E[(T-\hat T)(T-\hat T)^{\mathsf T}]\preceq\Delta$, and
+$0\prec\Delta\preceq\Sigma_T$. Then the union of the quadrants above
+$\bigl(I(T;\hat T),I(T;\hat T\mid S)\bigr)$ over admissible channels is
+the single quadrant above $\bigl(r(\Delta),\ell(\Delta)\bigr)$ of
+\eqref{eq:posterior}, so one description is both rate-optimal and
+leakage-optimal.
+\end{proposition}
+
+\begin{proof}
+The proof of Proposition~\ref{prop:posterior} applies with the matrix
+constraint in place of the trace, because the error matrix of $\hat T$
+depends only on second moments and dominates $\Cov(T\mid\hat T)=\Sez$
+for the Gaussian channel. The feasible set becomes
+$\{0\prec\Sez\preceq\Delta\}$. Both $r$ and $\ell$ are nonincreasing in
+the Loewner order, since $\Se=(\Sez^{-1}+J)^{-1}$ is monotone in $\Sez$,
+and $\Delta$ is the largest feasible element.
+\end{proof}
+
+Under the weighted constraint $\tr(Q\Sez)\le D$ the feasible set has no
+largest element, and which maximal element the encoder picks is the
+whole problem. The same is true of a matrix constraint on the described
+part $Y$ alone, $F\Sez F^{\mathsf T}\preceq\Delta_Y$, which leaves the
+error covariance free outside $Y$.
 
 \section{Convex Structure}
 \label{sec:convex}
@@ -1291,9 +1340,13 @@ structure: a convex program in the error covariance, a closed form in a
 one-dimensional regime, and directions that turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
 open. With side information at the decoder, the degraded cases are settled
-here, and the case in which neither side information dominates, where
-the second auxiliary can matter, is the one Ekrem and Ulukus left open
-and Xu and Chen report solving \cite{xuchen2021}. Explicit solutions are now available in two complementary regimes,
+here. When neither side information dominates, the second auxiliary
+can matter. For a matrix distortion on the whole source and a
+full-rank eavesdropper, Xu and Chen \cite{xuchen2021} show that Gaussian
+auxiliaries are optimal. Whether their two-precision program, under a
+weighted distortion and a rank-deficient holder, has the convexity,
+pencil, and turning structure of the case without decoder side
+information is open. Explicit solutions are now available in two complementary regimes,
 commuting geometry at every budget and arbitrary geometry in the
 one-dimensional regime; a closed form for non-commuting geometry below
 the one-dimensional regime, and for the regime boundary, is not known. Stationary
