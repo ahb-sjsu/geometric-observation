@@ -1250,9 +1250,10 @@ the quantizer leaks $0.5066$ bits instead of $1.8147$. The principal-axis
 quantizer reduces the error along the first axis at every budget. The
 leakage-aware quantizer reduces it along $16.4^\circ$ to $16.6^\circ$,
 $31.8^\circ$ to $32.1^\circ$, and $49.9^\circ$ to $50.0^\circ$ at the three
-values of $f$ (Fig.~\ref{fig:quant}(b)). These agree across the three
-quantizers within the $0.31^\circ$ resolution of the search, as the
-reduction above requires, and they turn with the budget toward the
+values of $f$ (Fig.~\ref{fig:quant}(b)). The reduction above makes the
+direction the same for every quantizer, and the three agree within
+$0.31^\circ$, a spread left by the random search. They turn with the
+budget toward the
 context direction $u$ at $50^\circ$, which the quantizer reaches once it
 reads $V$.
 
@@ -1278,7 +1279,7 @@ vector-compression library differ from the Lloyd--Max levels. Their
 mean-square errors on the standard normal law are $0.0456$ and $0.0108$,
 against $0.0346$ and $0.0095$. With those tables the reductions range
 from $12.5\%$ to $72.1\%$, and the directions agree with
-Table~\ref{tab:quant} within $0.3^\circ$.
+Table~\ref{tab:quant} within $0.31^\circ$.
 
 \section{Discussion}
 \label{sec:discussion}
