@@ -865,6 +865,78 @@ two budgets, illustrates the same effect in the space of the described
 variable.
 \end{proof}
 
+A description that reads a fixed direction, such as one designed for a
+single party, therefore loses something at all but isolated budgets. The
+loss has an explicit lower bound. Let $\mu_1\ge\mu_2\ge\dots$ be the roots
+of $\det(A(\Delta)-\mu\Kc)=0$, and measure angles between directions in
+the inner product of $\Kc$, which does not depend on the budget.
+
+\begin{proposition}\label{prop:fixedread}
+Let $0<\Delta<\lambda_{\max}(W^{1/2}\Sigma_YW^{1/2})$ and let $b(\Delta)$ be
+a generalized eigenvector for $\mu_1>0$. For $b$ with
+$\mu_b=b^{\mathsf T}A(\Delta)b/b^{\mathsf T}\Kc b>0$, the one-dimensional
+description reading $b$ at the active noise level has leakage
+$\ell_b(\Delta)=\tfrac12\log(1+\Delta/\mu_b)$, and
+\begin{equation}
+\ell_b(\Delta)-L_{\mathrm{1d}}(D)\ \ge\ \tfrac12\log\Bigl(1+\frac{\Delta(\mu_1-\mu_2)\sin^2\theta}{\mu_1(\mu_1+\Delta)}\Bigr),
+\label{eq:fixedread}
+\end{equation}
+where $\theta$ is the angle between $b$ and $b(\Delta)$.
+\end{proposition}
+
+\begin{proof}
+The leakage is the one computed in the proof of
+Theorem~\ref{thm:onedim}(a). In a $\Kc$-orthonormal basis of generalized
+eigenvectors $v_i$, with $v_1=b(\Delta)/\|b(\Delta)\|_{\Kc}$, write
+$b=\sum_ic_iv_i$. Then $\mu_b=\sum_i\mu_ic_i^2/\sum_ic_i^2$, so
+$\mu_1-\mu_b\ge(\mu_1-\mu_2)\sum_{i\ge2}c_i^2/\sum_ic_i^2=(\mu_1-\mu_2)\sin^2\theta$.
+Finally
+$(1+\Delta/\mu_b)/(1+\Delta/\mu_1)=1+\Delta(\mu_1-\mu_b)/(\mu_b(\mu_1+\Delta))$,
+and $\mu_b\le\mu_1$.
+\end{proof}
+
+\begin{theorem}\label{thm:forced}
+Let $\Delta_1$ and $\Delta_2$ satisfy the hypotheses of
+Proposition~\ref{prop:fixedread}, and let $\theta_{12}$ be the angle
+between $b(\Delta_1)$ and $b(\Delta_2)$. Every one-dimensional
+description that reads the same direction $b$ at both budgets has, at
+one of them, excess leakage over $L_{\mathrm{1d}}$ at least
+\[
+\min_{i=1,2}\ \tfrac12\log\Bigl(1+\frac{\Delta_i(\mu_1-\mu_2)\sin^2(\theta_{12}/2)}{\mu_1(\mu_1+\Delta_i)}\Bigr),
+\]
+with $\mu_1$ and $\mu_2$ evaluated at $\Delta_i$. By
+Theorem~\ref{thm:turning} and analyticity, unless the read is constant,
+for each $\Delta_1$ the angle $\theta_{12}$ is positive for all but
+isolated $\Delta_2$.
+\end{theorem}
+
+\begin{proof}
+The angle between lines is a metric on the projective space of the
+$\Kc$ inner product, so the angles from $b$ to $b(\Delta_1)$ and to
+$b(\Delta_2)$ sum to at least $\theta_{12}$, and one of them is at least
+$\theta_{12}/2$. The bound \eqref{eq:fixedread} increases with
+$\sin^2\theta$ on $[0,\pi/2]$.
+\end{proof}
+
+Where $L(D)=L_{\mathrm{1d}}(D)$, which holds at every budget for a
+scalar described variable and inside the certificate of
+Theorem~\ref{thm:onedim}(b) in general, these are excesses over the
+least leakage of any description. The bounds need no search and are
+conservative; the minimax values below were found by search over
+directions. In the coupled instance the rate read pays $0.139$ bits of
+excess leakage at $D=1.1$ (bound $0.045$) and $0.011$ bits at $D=1.38$
+(bound $0.0016$). Yet the best fixed read for the two budgets
+$D=1.38$ and $1.1$, whose optimal reads are $24.8^\circ$ apart, pays only
+$0.0003$ bits at the worse of them: there the price is reading the wrong
+direction, not failing to turn. A cleaner context makes turning costly.
+For the scalar source with $(\rho^2,\tau^2)=(0.75,0.05)$ and budgets
+$D=0.1$ and $0.7$, the optimal reads are $49.8^\circ$ apart and every
+fixed read pays at least $0.0245$ bits at one budget (bound $0.0039$),
+more than the least leakage $0.0216$ bits at $D=0.7$. With
+$(\rho^2,\tau^2)=(0.5,10^{-3})$ and $D=0.2$ and $0.8$, the reads are
+$84.0^\circ$ apart and every fixed read pays at least $0.0386$ bits,
+against a least leakage of $0.0005$ bits at $D=0.8$.
+
 \section{Independent Components}
 \label{sec:parallel}
 
@@ -1523,7 +1595,12 @@ distortion, and leakage of each quantizer by exact Gaussian integrals,
 checks that the leakage is strictly decreasing in $|\rho|$ for every
 quantizer, and compares the Lloyd--Max levels with the library tables of
 Section~\ref{sec:quant}. Its output is recorded in
-\texttt{tqp\_leakage\_demo-2026-10-01.txt}. No proof depends on them; the instances
+\texttt{tqp\_leakage\_demo-2026-10-01.txt}. \texttt{verify\_fixed\_read.py}
+checks the leakage of a fixed read against a direct conditional-covariance
+computation, the bounds of Proposition~\ref{prop:fixedread} and
+Theorem~\ref{thm:forced} on random instances against brute force over
+directions, and the numbers after Theorem~\ref{thm:forced}; its output is
+recorded in \texttt{verify\_fixed\_read-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
