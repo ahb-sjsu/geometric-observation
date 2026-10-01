@@ -39,6 +39,9 @@ closes the README checklist item "Chen et al. re-check for an Xplore record"
 
 ## 3. THE GAP: the rate-distortion-equivocation / secure-source-coding line
 
+> **Correction (2026-10-01).** The conclusion below that this is a "delineation gap, not a scoop" is wrong. For a deterministic encoder H(X^n|M,S^n) = H(X^n|S^n) - H(M|S^n), so minimizing the conditional content is the same optimization as maximizing the eavesdropper's equivocation, and the source alphabet can be augmented to (Y,V). The discrete region of Theorem 6 is Villard-Piantanida 2013 Thm 3 with no decoder side information (read from arXiv:1105.1658, p. 6). Ekrem-Ulukus 2013 (arXiv:1108.3544, pp. 6-8) give the minimum leakage for vector Gaussian sources with unconstrained rate under a matrix distortion on the whole source and could not solve the joint region. The manuscript's related work and Theorem 6 attribution were corrected the same day. See ../../articles/2026-10-01-ot-novelty-assessment.md.
+
+
 The paper's priced quantity is `L = H(M | S^n)/n`, the conditional entropy of the
 stored description given a third party's noisy copy `S = V + U`. The manuscript
 motivates this thermodynamically (Landauer erasure work) and positions it only

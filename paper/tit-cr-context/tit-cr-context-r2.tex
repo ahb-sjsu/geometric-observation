@@ -175,8 +175,14 @@ functional \cite{steinberg2009}, and Remark~8 of Lapidoth, Mal\"ar, and
 Wigger \cite{lapidoth2014} notes precisely this augmentation device: an
 encoder observing an additional sequence correlated with the side
 information is handled by enlarging the source alphabet and letting the
-distortion ignore the extra coordinate. What this paper adds is the
-solution of the augmented problem, and two contributions are primary.
+distortion ignore the extra coordinate. The region of jointly
+achievable rate and conditional content is likewise known in
+single-letter form, as the rate--distortion--equivocation region of
+secure source coding with side information at the eavesdropper
+\cite[Theorem~3]{villard2013}, since the conditional content is the
+leakage of the description to the party holding $S$ (Related work).
+What this paper adds is the solution of the augmented Gaussian problem,
+and two contributions are primary.
 First, the closed form: we evaluate the augmented Gaussian functional
 exactly, $L(D)=\tfrac12\log_2 g^\star$ with $g^\star$ the larger root of
 an explicit quadratic together with the achieving channel
@@ -300,20 +306,34 @@ its error covariance, a standard device in vector Gaussian source coding
 \cite{rahman2012}.
 
 
-The conditional coordinate also has a security reading: $L$ is the
-equivocation $H(M\mid S^n)/n$ of the stored description at a party
-holding the side information. Yamamoto priced distortion against source
-equivocation in the Shannon cipher system \cite{yamamoto1997} and, in an
-earlier problem \cite{yamamoto1983}, let the encoder observe a source
-together with an additional output whose equivocation at the receiver
-or wiretapper is to stay high; Villard and Piantanida \cite{villard2013}
-and Schieler and Cuff \cite{schieler2014} developed secure source coding
-with side information at the eavesdropper and a rate--distortion theory
-for secrecy systems. That line prices the equivocation of the source and
-seeks to make it large, and its encoder does not observe the clean
-context; here the equivocation of the description is made small, as the
-re-encoding cost at the party holding the side information. Closer in
-form are the
+The conditional coordinate is the information leakage of secure source
+coding. For a deterministic encoder,
+$H(X^n\mid M,S^n)=H(X^n\mid S^n)-H(M\mid S^n)$, so $L_n=H(M\mid S^n)/n
+=I(X^n;M\mid S^n)/n$ is the leakage of the description to a party holding
+$S^n$ beyond what $S^n$ reveals, and minimizing it is the same as
+maximizing that party's equivocation about the source. Villard and
+Piantanida \cite[Theorem~3]{villard2013} characterized the
+rate--distortion--equivocation region of secure lossy source coding with
+side information at the eavesdropper; without decoder side information,
+and with the source alphabet augmented to $(Y,V)$, their region is the
+region of Theorem~\ref{thm:main-region}, which we prove again only to
+record the finite-blocklength constants that Appendix~\ref{app:gaussian}
+uses. Ekrem and Ulukus \cite{ekrem2013} obtained the minimum leakage of a
+vector Gaussian source with side information at both receivers when the
+rate is unconstrained, under a matrix distortion on the whole source, and
+reported that they could not solve the weighted problem that traces the
+joint rate--leakage region. The present paper evaluates that joint region
+in closed form for the informed-encoder source without decoder side
+information, where the context is unpenalized; their matrix constraint
+on the whole source does not cover this case, and it is the encoder's
+access to the context that makes the two costs disagree. Yamamoto priced
+distortion against source equivocation in the Shannon cipher system
+\cite{yamamoto1997} and, earlier \cite{yamamoto1983}, let the encoder
+observe a source together with an additional output to be kept secret;
+Schieler and Cuff \cite{schieler2014} developed a rate--distortion theory
+for secrecy systems. The storage reading of the same quantity, the least
+rate at which the party holding the side information can re-encode the
+description, is the one this paper emphasizes. Closer in form are the
 side-information-privacy problem of Tandon, Sankar, and Poor
 \cite{tandon2013} and the privacy funnel of Makhdoumi, Salamatian,
 Fawaz, and M\'edard \cite{makhdoumi2014}, which price the leakage
@@ -572,6 +592,12 @@ right-continuous in the distortion level (Lemma~\ref{lem:rightcont});
 consequently no time sharing is required, and every Pareto-optimal
 point of the region is attained by a single test channel.
 \end{theorem}
+
+The region is \cite[Theorem~3]{villard2013} without decoder side
+information, read through the identity $H(X^n\mid M,S^n)=H(X^n\mid S^n)-H(M\mid S^n)$;
+the proof below is included for the finite-blocklength constants of
+Lemma~\ref{lem:construction}.
+
 
 \begin{proof}
 We first prove the converse. Let a code produce $M$ and $\hXn$. Since $\hXn$
@@ -3188,6 +3214,9 @@ with additional outputs to keep secret from the receiver or wiretappers (Corresp
 \bibitem{villard2013} J. Villard and P. Piantanida, ``Secure multiterminal
 source coding with side information at the eavesdropper,'' \emph{IEEE Trans.
 Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.
+\bibitem{ekrem2013} E. Ekrem and S. Ulukus, ``Secure lossy transmission of
+vector Gaussian sources,'' \emph{IEEE Trans. Inf. Theory}, vol. 59, no. 9,
+pp. 5466--5487, 2013.
 \bibitem{schieler2014} C. Schieler and P. Cuff, ``Rate-distortion theory for
 secrecy systems,'' \emph{IEEE Trans. Inf. Theory}, vol. 60, no. 12,
 pp. 7584--7605, 2014.
