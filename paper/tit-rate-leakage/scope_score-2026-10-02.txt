@@ -1,0 +1,29 @@
+   GasTurbine    forecast TRACK outcome TRACK (Spearman +0.974, median Gamma 0.6752)
+   Grid          forecast TRACK outcome TRACK (Spearman +0.993, median Gamma 0.0722)
+   QSARFish      forecast TRACK outcome TRACK (Spearman +0.964, median Gamma 0.0260)
+   QSARAquatic   forecast TRACK outcome TRACK (Spearman +0.901, median Gamma 0.0409)
+   TempForecast  forecast TRACK outcome TRACK (Spearman +0.995, median Gamma 0.0156)
+   Appliances    forecast MISS  outcome MISS  (Spearman -0.341, median Gamma 1.6368)
+S0: PASS  6 of 6 forecasts correct
+S1: PASS  positive 100.0% of 180 predicted >= 0.10; Spearman 0.970 over 217
+S2: FAIL  |measured| <= 2 SE in 34.8% of 23
+S3: PASS  mix-family Spearman 0.923 over 59
+S4a: PASS  within 2 SE of predicted in 80.4% of 46 onset cases
+S4b: PASS  orth at 0.02 within 2 SE of zero 100.0% (n=4); mix15 at 0.02 above 2 SE 80.0% (n=5)
+K1: PASS  Gamma = 0 in 89.8% of 59 control cases
+S1 (out of scope, reported): positive 30.3% of 66 predicted >= 0.10; Spearman -0.232 over 95  [would be False]
+S2 (out of scope, reported): |measured| <= 2 SE in 73.7% of 19  [would be False]
+S3 (out of scope, reported): mix-family Spearman 0.588 over 13  [would be VACUOUS]
+   GasTurbine    in scope 34/46
+   Grid          in scope 52/52
+   QSARFish      in scope 37/37
+   QSARAquatic   in scope 43/43
+   TempForecast  in scope 82/82
+   Appliances    in scope 0/94
+M1: FAIL  Spearman 0.957 over 354; mean|miss| 0.096 vs Gaussian 0.092
+E1: FAIL  out of scope n=106: agree 9.4% (equal-occupancy) vs 22.6% (standard); Spearman 0.798
+E2: FAIL  Spearman 0.800 over 354; mean|miss| 0.101 vs standard-Gaussian 0.092
+   Appliances    equal-occupancy Spearman +0.821
+E3: PASS  1 of 1 MISS-forecast datasets track with equal-occupancy codes
+T0: reported  accuracy 0.785 (base rate of misses 0.373), F1 0.721
+T1: reported  accuracy 0.862 (base rate of misses 0.370), F1 0.818
