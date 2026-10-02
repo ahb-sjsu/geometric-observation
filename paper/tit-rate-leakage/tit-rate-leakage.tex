@@ -148,7 +148,15 @@ point of reverse water-filling on the spectrum of the decoder's weight
 tilted by the information the second party's observation adds to the
 description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
 has rank one, and the whole frontier reduces to two scalar equations
-(Corollary~\ref{cor:scalarholder}).
+(Corollary~\ref{cor:scalarholder}). Every frontier description is also
+the rate--distortion optimal description for a decoder that must
+describe the holder's view as well as $Y$
+(Corollary~\ref{cor:augmented}), so standard weighted rate--distortion
+codes attain the frontier. For a scalar described variable, with any
+context and any holder, the frontier is explicit: every optimal
+description reads a direction on the curve
+$((1-\lambda)\Sigma_T+\lambda\Kc)^{-1}\Sigma_Tq$, $\lambda\in[0,1]$, and one
+scalar equation locates it (Theorem~\ref{thm:scalarpath}).
 
 The eigenvector of the pencil is the direction the description reads,
 and it carries the paper's main structural finding. The rate-optimal
@@ -610,6 +618,35 @@ below one. In the last case $\Phi(\tilde A)=\tilde A^{-1}$, so
 $X^{-1}=\tilde A(X)$, which by the Woodbury identity is the stationarity
 condition in the proof of Theorem~\ref{thm:lowdist}.
 
+\begin{corollary}\label{cor:augmented}
+Let $\Sez$ be the frontier point of weight $\alpha<1$ and $\nu$ its
+multiplier in \eqref{eq:tilted}. Then $\Sez$ is the rate--distortion
+optimal error covariance, at its own distortion, for the weighted
+quadratic distortion with weight
+\[
+Q'=Q+\kappa H^{\mathsf T}\bigl(H\Sez H^{\mathsf T}+\Sigma_U\bigr)^{-1}H,
+\qquad \kappa=\frac{1-\alpha}{2\nu},
+\]
+that is, for a decoder that reproduces $Y$ under the weight $W$ and the
+holder's noiseless view $HT$ under the weight
+$\kappa\,\Cov(S\mid\hY)^{-1}$.
+\end{corollary}
+
+\begin{proof}
+In whitened coordinates the weighted rate--distortion solution for $Q'$
+at a given distortion is $\Phi(2\nu'\tilde Q')$ for the level $\nu'$ that
+meets it, which is unique. With $\tilde Q'=\tilde A(X)/(2\nu)$ and the
+distortion $\tr(\tilde Q'X)$, the level $\nu'=\nu$ gives
+$\Phi(\tilde A(X))=X$ by Theorem~\ref{thm:tilted}.
+\end{proof}
+
+So the least-leaking description at a given rate is the one a
+rate--distortion encoder would produce if it also had to describe what
+the holder sees: making the description informative about $S$ is what
+lowers $\ell=r-I(\hY;S)$. Any code that attains the weighted
+rate--distortion function, such as transform coding with reverse
+water-filling, attains the frontier once the weight is chosen.
+
 \begin{corollary}\label{cor:scalarholder}
 Suppose the holder's observation is scalar, $S=\zeta^{\mathsf T}T+U$ with
 $\Var U=\sigma_U^2$, and let $\tilde\zeta=\Sigma_T^{1/2}\zeta$. Then the
@@ -946,9 +983,70 @@ corresponding generalized eigenvector; normalizing the reproduction
 gives the stated coefficients.
 \end{proof}
 
-For a scalar described variable with vector context, Theorem
-\ref{thm:onedim}(c) likewise gives $L(D)$ as an explicit function of the
-largest generalized eigenvalue of a $p\times p$ pencil, $p=1+\dim V$.
+For a scalar described variable the whole frontier is explicit, with any
+context and any holder.
+
+\begin{theorem}\label{thm:scalarpath}
+Let $m=1$, write $Q=qq^{\mathsf T}$, and for $\lambda\in[0,1]$ let
+\[
+b(\lambda)=\frac{M(\lambda)^{-1}\Sigma_Tq}{q^{\mathsf T}\Sigma_TM(\lambda)^{-1}\Sigma_Tq},
+\qquad M(\lambda)=(1-\lambda)\Sigma_T+\lambda\Kc ,
+\]
+$u(\lambda)=b^{\mathsf T}\Sigma_Tb$, and $v(\lambda)=b^{\mathsf T}(\Sigma_T-\Kc)b$.
+For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the frontier point of weight
+$\alpha$ is the one-dimensional description with projection direction
+$b(\lambda)$, where $\lambda\in[0,1-\alpha]$ is the root of
+\begin{equation}
+\lambda\bigl(1-\Delta v(\lambda)\bigr)=(1-\alpha)\bigl(1-\Delta u(\lambda)\bigr)
+\label{eq:scalarpath}
+\end{equation}
+of least weighted cost, and its rate and leakage are
+\[
+R=-\tfrac12\log\bigl(1-\Delta u\bigr),\qquad
+L=R+\tfrac12\log\bigl(1-\Delta v\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:rank} the minimizer is a one-dimensional
+description $b^{\mathsf T}T+N$, at the active noise level by
+Theorem~\ref{thm:convex}(a). Normalize $q^{\mathsf T}\Sigma_Tb=1$. From the
+proof of Theorem~\ref{thm:onedim}(a), its rate is
+$\tfrac12\log\bigl((q^{\mathsf T}\Sigma_Tb)^2/b^{\mathsf T}A(\Delta)b\bigr)=-\tfrac12\log(1-\Delta u)$
+and its leakage is
+$\tfrac12\log\bigl(1+\Delta b^{\mathsf T}\Kc b/b^{\mathsf T}A(\Delta)b\bigr)=R+\tfrac12\log(1-\Delta v)$,
+with $u=b^{\mathsf T}\Sigma_Tb$ and $v=b^{\mathsf T}(\Sigma_T-\Kc)b$. The weighted
+cost $-\tfrac12\ln(1-\Delta u)+\tfrac{1-\alpha}2\ln(1-\Delta v)$ is smooth on
+the open set where $1-\Delta u>0$, and at its minimizer over the
+hyperplane $q^{\mathsf T}\Sigma_Tb=1$ stationarity gives
+$\Sigma_Tb-\lambda(\Sigma_T-\Kc)b\propto\Sigma_Tq$ with
+$\lambda=(1-\alpha)(1-\Delta u)/(1-\Delta v)$, which is
+\eqref{eq:scalarpath} and $b=b(\lambda)$. Since $\Kc\preceq\Sigma_T$,
+$v\le u$, so $0\le\lambda\le1-\alpha$, and $M(\lambda)\succ0$ there.
+\end{proof}
+
+So every optimal description of a scalar variable, at every budget and
+weight, reads a direction on one explicit curve, from $b(0)\propto q$,
+which describes $Y$ itself, toward
+$b(1)\propto\Kc^{-1}\Sigma_Tq=q+J\Sigma_Tq$. The rate-optimal description
+has $\lambda=0$ at every budget. The leakage-optimal one moves along the
+curve with the budget: $\lambda\to1$ as $D\to D_{\max}$, where it reads
+$q+J\Sigma_Tq$, and $\lambda\to0$ as $D\to0$, where it must reveal $Y$.
+At $\alpha=0$ the stationarity condition coincides with the pencil of
+Theorem~\ref{thm:onedim}: with $Q=qq^{\mathsf T}$ the eigenvector equation
+$A(\Delta)b=\mu\Kc b$ reads $(\Delta\Sigma_T+\mu\Kc)b\propto\Sigma_Tq$, so
+$\lambda=\mu_{\max}/(\Delta+\mu_{\max})$, and multiplying by
+$q^{\mathsf T}\Sigma_T$ gives the secular equation
+\begin{equation}
+q^{\mathsf T}\Sigma_T\bigl(\Delta\Sigma_T+\mu\Kc\bigr)^{-1}\Sigma_Tq=1 ,
+\label{eq:secular}
+\end{equation}
+whose left side decreases in $\mu$, so $\mu_{\max}$ is its unique
+positive root and $L(D)=\tfrac12\log(1+\Delta/\mu_{\max})$. In the basis of
+the pencil $(\Sigma_T,\Kc)$, \eqref{eq:secular} is a rational equation
+with $p$ poles, and for $p=2$ it is the quadratic of
+Corollary~\ref{cor:scalar}.
+
 
 \section{Directions and Misalignment}
 \label{sec:directions}
@@ -1872,7 +1970,14 @@ descriptions and holders of every rank, the two-scalar solver of
 Corollary~\ref{cor:scalarholder} against that program, the reductions to
 reverse water-filling and to Theorem~\ref{thm:commuting}, and the coupled
 instance; its output is recorded in
-\texttt{verify\_tilted-2026-10-01.txt}. No proof depends on them; the instances
+\texttt{verify\_tilted-2026-10-01.txt}. \texttt{verify\_scalar\_path.py}
+checks Theorem~\ref{thm:scalarpath} and the secular equation
+\eqref{eq:secular} against the weighted determinant program for scalar
+described variables with contexts of dimension up to five and holders of
+every rank (equation \eqref{eq:scalarpath} had a single root in $[0,1-\alpha]$
+in every instance), the two limits of the curve, the reduction to
+Corollary~\ref{cor:scalar}, and Corollary~\ref{cor:augmented}; its output is
+recorded in \texttt{verify\_scalar\_path-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
