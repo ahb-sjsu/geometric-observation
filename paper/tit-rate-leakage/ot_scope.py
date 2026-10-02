@@ -92,6 +92,33 @@ def fracs_for(vname):
     if vname == "mix15": return tuple(sorted(set(ONSET_FRACS) | set(ob.FRACS)))
     return ob.FRACS
 
+# ---------------------------------------------------------------------------------------------------------------
+# Equal-occupancy codes (added 2026-10-02 after ot_mining.py located the theory's error in the marginal defect).
+# Same frozen directions; the 3-bit cells sit at the k/8 quantiles of the training projection, so every cell holds
+# one eighth of the training half and the marginal defect is zero on it by construction, up to ties (a discrete
+# projection can merge quantile cuts, leaving cells empty; that residual defect is part of what E1-E3 measure). The Gaussian prediction for
+# such a code uses equal-probability Gaussian cells (boundaries at the N(0,1) quantiles k/8) and the same R2.
+# ---------------------------------------------------------------------------------------------------------------
+from scipy.stats import norm as _norm
+EQ_BND = _norm.ppf(np.arange(1, 8) / 8)
+PG_LM = og.PG; HG_LM = float(-np.sum(PG_LM * np.log2(PG_LM)))
+
+def h_gauss_eq(R2):
+    a = np.concatenate([[-np.inf], EQ_BND, [np.inf]]); sz = math.sqrt(max(1 - R2, 1e-12)); r = math.sqrt(max(R2, 0.0))
+    Hs = 0.0
+    for x, w in zip(ob.GH_X, ob.GH_W):
+        q = _norm.cdf((a[1:] - r * x) / sz) - _norm.cdf((a[:-1] - r * x) / sz); q = q[q > 1e-300]
+        Hs += w * float(-np.sum(q * np.log2(q)))
+    return Hs / math.sqrt(2 * math.pi)
+
+def encode_eq(P, b, idx):
+    z_tr = P["Ts"][P["tr"]] @ b; cuts = np.quantile(z_tr, np.arange(1, 8) / 8)
+    return np.searchsorted(cuts, P["Ts"][idx] @ b, side="right")
+
+def d_marg(P, b):   # marginal defect of the standard (Lloyd-Max) code on the training half, in bits
+    p = np.bincount(ob.encode(P, b, P["tr"]), minlength=8) / len(P["tr"]); p = p[p > 0]
+    return float(-np.sum(p * np.log2(p))) - HG_LM
+
 def predict_rows(d):
     rows = []
     for vname, _ in views(d):
@@ -101,12 +128,14 @@ def predict_rows(d):
         cls = "top" if (R2max - R2R) < 1e-9 else ("eigenvector" if mis < 1e-6 or np.linalg.norm(AS @ b_R) < 1e-12
                                                      else "not-eigenvector")
         trY = float(np.trace(F @ Sig @ F.T)); DR = trY - ob.GAIN * ob.rayleigh(B, Sig, b_R)
-        S = og.view_S(P, Hm); dR = og.departure(P, S, b_R)
+        S = og.view_S(P, Hm); dR = og.departure(P, S, b_R); mR = d_marg(P, b_R)
         for f in fracs_for(vname):
             D0 = DR + f * (trY - DR); need = (trY - D0) / ob.GAIN
             b_aw = ob.exact_aware(AS, B, Sig, need); R2aw = ob.rayleigh(AS, Sig, b_aw)
-            dA = og.departure(P, S, b_aw)
-            rows.append(dict(dataset=d["name"], view=vname, f=f, cls=cls, R2_principal=R2R, R2_max=R2max,
+            dA = og.departure(P, S, b_aw); mA = d_marg(P, b_aw)
+            pred = ob.h_gauss(R2R) - ob.h_gauss(R2aw)
+            rows.append(dict(pred_removed_eq=h_gauss_eq(R2R) - h_gauss_eq(R2aw), d_marg_R=mR, d_marg_A=mA,
+                             pred_removed_marg=pred + mR - mA,dataset=d["name"], view=vname, f=f, cls=cls, R2_principal=R2R, R2_max=R2max,
                              misalignment=mis, R2_aware=R2aw, pred_removed=ob.h_gauss(R2R) - ob.h_gauss(R2aw),
                              b_aware=[float(x) for x in b_aw], Gamma=dR["excess"] + dA["excess"],
                              in_scope=bool(dR["excess"] + dA["excess"] <= CUT)))
@@ -130,6 +159,17 @@ CRITERIA = {
     "K1": "Calibration on the new Gaussian controls: Gamma = 0 in at least 70 percent of their cases (four tests at the "
           "95th percentile give about 81 percent when every null holds).",
     "K2": "Reported: out-of-scope cases under S1-S3, side by side with in-scope.",
+    "M1": "Marginal-correction law, standard codes, all fresh cases (controls excluded): the corrected prediction "
+          "pred + d_marg_R - d_marg_A (training-half cell occupancy) has Spearman with measured removal at least 0.8, "
+          "and its mean |miss| is below that of the Gaussian prediction. This law was CHOSEN after inspecting the 20 "
+          "measured sources (ot_mining.py, one of three variants fixed in advance); this is its first blind test.",
+    "E1": "Equal-occupancy codes, out-of-scope cases (Gamma > CUT): agreement (|measured - predicted| <= 2 SE) at least "
+          "15 points above the standard codes' agreement on the same cases, and Spearman of predicted and measured at "
+          "least 0.6. Vacuous below 15 cases.",
+    "E2": "Equal-occupancy codes, all fresh cases: Spearman of predicted and measured at least 0.8, and mean |miss| below "
+          "that of the standard codes under the Gaussian prediction.",
+    "E3": "Datasets forecast MISS under S0: at least half of them track (main-view Spearman >= 0.8) with equal-occupancy "
+          "codes. Vacuous if no dataset is forecast MISS.",
 }
 
 def predict(out_path):
@@ -156,9 +196,13 @@ def measure(pred_path, out_path):
         P, Sig, m, F, B, b_R, Hm, AS = setup_view(d, row["view"]); S = og.view_S(P, Hm)
         if key not in cache:
             cache[key] = ob.leak_with_se(ob.encode(P, b_R, P["tr"]), ob.encode(P, b_R, P["te"]), S, P)
-        lR, seR = cache[key]; b = np.array(row["b_aware"])
+        if key + ("eq",) not in cache:
+            cache[key + ("eq",)] = ob.leak_with_se(encode_eq(P, b_R, P["tr"]), encode_eq(P, b_R, P["te"]), S, P)
+        lR, seR = cache[key]; lRe, seRe = cache[key + ("eq",)]; b = np.array(row["b_aware"])
         lA, seA = ob.leak_with_se(ob.encode(P, b, P["tr"]), ob.encode(P, b, P["te"]), S, P)
-        out.append(dict(row, measured_removed=lR - lA, se=math.sqrt(seR ** 2 + seA ** 2)))
+        lAe, seAe = ob.leak_with_se(encode_eq(P, b, P["tr"]), encode_eq(P, b, P["te"]), S, P)
+        out.append(dict(row, measured_removed=lR - lA, se=math.sqrt(seR ** 2 + seA ** 2),
+                        measured_removed_eq=lRe - lAe, se_eq=math.sqrt(seRe ** 2 + seAe ** 2)))
         print(f"{row['dataset']:13s} {row['view']:>14s} f={row['f']:.2f} {row['cls']:>15s} pred {row['pred_removed']:+.3f} "
               f"meas {lR - lA:+.3f} +- {math.sqrt(seR**2 + seA**2):.3f}", flush=True)
     json.dump(out, open(out_path, "w"), indent=1); print("wrote", out_path)

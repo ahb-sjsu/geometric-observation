@@ -65,6 +65,42 @@ from the context column least correlated with the principal read:
   earlier 90% bar: four 95% tests give about 81% when every null holds.
 - **K2** (reported) S1–S3 on out-of-scope cases.
 
+## The marginal-defect law and equal-occupancy codes (added 2026-10-02)
+
+The deduction (`DEDUCTION-gaussian-defect-2026-10-02.md`, pushed in c9fcc18
+before it was computed) splits a code's leakage error exactly into a marginal
+defect and a dependence defect. Scored on the 20 measured sources
+(`ot_mining.py`, `ot_mining2.py`):
+- the marginal defect carries nearly all of the theory's error;
+- the marginal-only correction raises the Spearman correlation from 0.554 to
+  0.919 over 675 real cases;
+- its dependence term was the wrong size.
+
+The marginal-only variant was chosen after seeing that output, from three
+variants fixed in advance.
+
+- **M1** The marginal-defect law on the standard codes, applied to all fresh
+  cases: the corrected prediction `pred + d_marg_R - d_marg_A` (training-half
+  cell occupancy) has Spearman ≥ 0.8 with the measured removal, and a lower
+  mean |miss| than the Gaussian prediction. First blind test of the law.
+- **Equal-occupancy codes.** Same frozen directions, with the cells at the k/8
+  quantiles of the training projection. The marginal defect is then zero on
+  training data, up to ties in discrete projections. The Gaussian prediction
+  uses equal-probability cells and the same R². If the defect is what breaks
+  the theory, these codes should restore it outside the Gaussian scope.
+  - **E1** Out of scope: agreement within 2 SE at least 15 points above the
+    standard codes on the same cases, and Spearman ≥ 0.6. Vacuous below 15
+    cases.
+  - **E2** All fresh cases: Spearman ≥ 0.8, and mean |miss| below the standard
+    codes' miss under the Gaussian prediction.
+  - **E3** At least half of the datasets forecast MISS under S0 track
+    (Spearman ≥ 0.8) with equal-occupancy codes.
+
+The Theory Radar induction (`ot_radar_induction.py`) is running. If it yields
+a formula that holds leave-one-dataset-out, it is added here as a criterion
+before this file is pushed. Otherwise that return is recorded and nothing is
+added.
+
 ## Status
 
 Draft, committed locally, not pushed. Not frozen until pushed.

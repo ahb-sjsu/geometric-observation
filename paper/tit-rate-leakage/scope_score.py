@@ -48,3 +48,30 @@ for n, ok, det in s123(outs, " (out of scope, reported)"): print(f"{n}: {det}  [
 for ds in pred["forecast"]:
     rs = [r for r in data if r["dataset"] == ds]
     print(f"   {ds:13s} in scope {sum(r['in_scope'] for r in rs)}/{len(rs)}")
+
+# ---- marginal-correction law and equal-occupancy codes ----
+def miss(r, k): return abs(r["measured_removed"] - r[k])
+m1r = spearmanr([r["pred_removed_marg"] for r in data], [r["measured_removed"] for r in data]).correlation
+mm, mg = np.mean([miss(r, "pred_removed_marg") for r in data]), np.mean([miss(r, "pred_removed") for r in data])
+show("M1", bool(m1r >= 0.8 and mm < mg), f"Spearman {m1r:.3f} over {len(data)}; mean|miss| {mm:.3f} vs Gaussian {mg:.3f}")
+def eqmiss(r): return abs(r["measured_removed_eq"] - r["pred_removed_eq"])
+outs_all = [r for r in data if not r["in_scope"]]
+if len(outs_all) >= 15:
+    ae = np.mean([eqmiss(r) <= 2 * r["se_eq"] for r in outs_all]); al = np.mean([miss(r, "pred_removed") <= 2 * r["se"] for r in outs_all])
+    re = spearmanr([r["pred_removed_eq"] for r in outs_all], [r["measured_removed_eq"] for r in outs_all]).correlation
+    show("E1", bool(ae - al >= 0.15 and re >= 0.6), f"out of scope n={len(outs_all)}: agree {ae:.1%} (equal-occupancy) vs {al:.1%} (standard); Spearman {re:.3f}")
+else:
+    show("E1", "VACUOUS", f"{len(outs_all)} out-of-scope cases")
+r2 = spearmanr([r["pred_removed_eq"] for r in data], [r["measured_removed_eq"] for r in data]).correlation
+me = np.mean([eqmiss(r) for r in data])
+show("E2", bool(r2 >= 0.8 and me < mg), f"Spearman {r2:.3f} over {len(data)}; mean|miss| {me:.3f} vs standard-Gaussian {mg:.3f}")
+missf = [ds for ds, fc in pred["forecast"].items() if fc == "MISS"]
+if missf:
+    tr = 0
+    for ds in missf:
+        rs = [r for r in data if r["dataset"] == ds and main(r)]
+        s_ = spearmanr([r["pred_removed_eq"] for r in rs], [r["measured_removed_eq"] for r in rs]).correlation
+        tr += s_ >= 0.8; print(f"   {ds:13s} equal-occupancy Spearman {s_:+.3f}")
+    show("E3", bool(tr >= len(missf) / 2), f"{tr} of {len(missf)} MISS-forecast datasets track with equal-occupancy codes")
+else:
+    show("E3", "VACUOUS", "no dataset forecast MISS")
