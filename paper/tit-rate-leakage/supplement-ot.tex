@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
 \usepackage{xr}
 \externaldocument[P-]{tit-rate-leakage}
 \usepackage[hidelinks]{hyperref}
@@ -227,6 +228,48 @@ decoder's own target toward the target corrected by the holder's
 information. The rate-optimal description sits at one end, and the
 description that conveys least sits at a point that moves with the
 budget.
+
+\section{On eleven datasets, the single-party flip holds and the two-observer flip mostly holds}
+\label{sec:data}
+
+The companion notebook \texttt{ot\_figures/ot\_figures.ipynb} tests two
+flips on eleven public datasets, including the Topology Zoo table of a
+routing study. For each dataset the roles were fixed before any outcome
+was computed and pushed to the public repository on 2 October 2026, and
+the run started a minute after the push, as the notebook records. Predictions use the
+second-order statistics of a training half. Outcomes use real 3-bit
+quantizers on a held-out half, and leakage is the cross-entropy of the
+best of three classifiers that predict the code from the second party's
+view.
+
+The single-party flip holds in all eleven datasets. At matched bits, the
+code that reconstructs the whole source worse serves the decoder better.
+Its boundary holds as predicted. Both halves of the flip vanish as the
+angle between the decoder's task and the source's energy direction goes
+to zero, and grow with it (Fig.~\ref{fig:flipA}), although the
+whole-source half is noisy below 30 degrees.
+
+The two-observer flip holds at all three budgets in eight datasets and
+at two of three in a ninth. At matched bits, the code that reconstructs
+the decoder's target worse conveys less to the second party. It fails in
+two datasets, a wine-quality table with a discrete target and the
+175-row Topology Zoo table, where the leakage-aware code conveyed more.
+Across 115 choices of what the second party sees, the predicted
+correlation ranks the leakage removed with a Spearman correlation of
+0.62, with a residual at zero correlation. Two further predictions were
+refuted and are recorded in the notebook. A view uncorrelated with the
+decoder's principal read still yields a flip once the budget has slack,
+and a local onset test held in only four of eleven datasets.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{ot_figures/fig5_flipA_boundary.png}
+\caption{The single-party flip on eleven datasets. Each point is one
+decoder task. The decoder's gain (left) and the whole-source loss
+(right) of the consumer code are both near zero where the training half
+predicts alignment, and grow with the predicted angle.}
+\label{fig:flipA}
+\end{figure}
 
 \section{What does not need Observation Theory}
 \label{sec:standard}
