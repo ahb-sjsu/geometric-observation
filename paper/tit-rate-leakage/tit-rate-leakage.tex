@@ -56,10 +56,11 @@ one-dimensional, which an explicit test certifies, the minimum leakage
 is a closed-form function of the largest generalized eigenvalue of a
 matrix pencil in which the budget enters. Both costs are convex in the
 error covariance, so each frontier point solves a convex program. The
-frontier is explicit at every budget in commuting geometry and at small
-budgets in any geometry when the whole source is described, and an
-optimal description never needs more dimensions than the described
-variable. The tradeoff exists because the distortion is a trace-type
+frontier is reverse water-filling on a tilt of the decoder's weight by
+the second party's information, in every geometry and at every budget;
+for a scalar second-party observation it reduces to two scalar
+equations, and an optimal description never needs more dimensions than
+the described variable. The tradeoff exists because the distortion is a trace-type
 constraint: under a matrix distortion on the whole source, one
 description minimizes both costs. With decoder side information, both degraded cases are
 explicit.
@@ -143,7 +144,14 @@ source, the frontier is explicit at every small budget in any geometry,
 in the eigenbasis of the second party's information relative to the
 decoder's weight (Theorem~\ref{thm:lowdist}). In general an optimal
 description has no more components than the described variable, even
-though it uses the context (Proposition~\ref{prop:rank}).
+though it uses the context (Proposition~\ref{prop:rank}). All of these
+are cases of one characterization that holds at every budget, in every
+geometry, for partial and full descriptions alike: the error covariance
+is reverse water-filling on the spectrum of the decoder's weight tilted
+by the information the second party's observation adds to the
+description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
+has rank one, and the whole frontier reduces to two scalar equations
+(Corollary~\ref{cor:scalarholder}).
 
 The eigenvector of the pencil is the direction the description reads,
 and it carries the paper's main structural finding. The rate-optimal
@@ -524,6 +532,103 @@ $\Sez^{-1}-\Sigma_T^{-1}=\Sez^{-1}(\Sigma_T-\Sez)\Sigma_T^{-1}$ has the
 same rank, and factoring it as $G^{\mathsf T}G$ gives the description of
 Proposition~\ref{prop:posterior}.
 \end{proof}
+
+\section{Water-Filling on a Tilted Weight}
+\label{sec:tilted}
+
+The frontier has one characterization that holds in every geometry and
+at every budget, for partial and full descriptions alike. It rests on
+the identity $\ell=r-I(\hY;S)$, which holds because $\hY-T-S$. Whiten by
+the source covariance,
+\[
+X=\Sigma_T^{-1/2}\Sez\Sigma_T^{-1/2},\qquad
+\tilde Q=\Sigma_T^{1/2}Q\Sigma_T^{1/2},\qquad
+\tilde H=H\Sigma_T^{1/2},
+\]
+so that $r=-\tfrac12\log\det X$,
+$I(\hY;S)=\tfrac12\log\det\Sigma_S-\tfrac12\log\det(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)$,
+the distortion is $\tr(\tilde QX)$, and the cap is $X\preceq I$. For a
+symmetric $A\succeq0$ with eigenpairs $(\lambda_i,e_i)$, let
+\[
+\Phi(A)=\sum_i\min\{1,1/\lambda_i\}\,e_ie_i^{\mathsf T},
+\]
+reverse water-filling at level one on the spectrum of $A$.
+
+\begin{theorem}\label{thm:tilted}
+For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the frontier point of weight
+$\alpha$ is the unique $X$ with $\tr(\tilde QX)=D$ and
+\begin{equation}
+X=\Phi\bigl(\tilde A(X)\bigr),\qquad
+\tilde A(X)=2\nu\tilde Q+(1-\alpha)\,\tilde H^{\mathsf T}\bigl(\tilde HX\tilde H^{\mathsf T}+\Sigma_U\bigr)^{-1}\tilde H
+\label{eq:tilted}
+\end{equation}
+for some $\nu>0$.
+\end{theorem}
+
+\begin{proof}
+In natural units the weighted objective is
+$-\tfrac12\ln\det X+\tfrac{1-\alpha}2\ln\det(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)$
+plus a constant, convex in $X$ by Theorem~\ref{thm:convex}, with
+gradient $-\tfrac12X^{-1}+\tfrac{1-\alpha}2\tilde H^{\mathsf T}(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)^{-1}\tilde H$.
+The program has the strictly feasible point $\epsilon I$, so a point is
+the minimizer if and only if there are $\nu\ge0$ and $\Theta\succeq0$
+with $\Theta(I-X)=0$ and $X^{-1}=\tilde A(X)+2\Theta$. Suppose these hold.
+Let $\mathcal N$ be the null space of $I-X$. The range of $\Theta$ lies in
+$\mathcal N$, and for $v\in\mathcal N$, $\tilde Av=v-2\Theta v\in\mathcal N$,
+so $\mathcal N$ and $\mathcal N^\perp$ are invariant under $\tilde A$. On
+$\mathcal N$, $\tilde A=I-2\Theta\preceq I$ and $X=I$; on $\mathcal N^\perp$,
+$\Theta=0$, $X^{-1}=\tilde A$, and $X\preceq I$ gives $\tilde A\succeq I$.
+So $X=\Phi(\tilde A)$. Conversely, if $X=\Phi(\tilde A)$, the matrix
+$\Theta=\tfrac12\sum_{\lambda_i<1}(1-\lambda_i)e_ie_i^{\mathsf T}$ is
+positive semidefinite, vanishes off the eigenvectors on which $X=I$, and
+satisfies $X^{-1}=\tilde A+2\Theta$. If $\nu=0$, these are the optimality
+conditions of the program without the distortion constraint, whose
+unique minimizer is $X=I$ because both costs decrease in the L\"owner
+order; its distortion is $D_{\max}>D$, so $\nu>0$. The minimizer is
+unique by strict convexity.
+\end{proof}
+
+The second term of $\tilde A$ is the information about $T$ that the
+holder's observation adds to the description, weighted by $1-\alpha$, and
+it equals $X^{-1}(X-X_{\mathrm e})X^{-1}$ with
+$X_{\mathrm e}=\Sigma_T^{-1/2}\Se\Sigma_T^{-1/2}$. At $\alpha=1$ it vanishes,
+and the theorem is reverse water-filling on the spectrum of $\tilde Q$,
+the weighted rate--distortion solution. For $\alpha<1$ the holder tilts
+the weight, and the error covariance is reverse water-filling on the
+tilted spectrum. The decoupling, commuting, and low-distortion results
+of Section~\ref{sec:commuting} are the cases in which $\tilde Q$ and the
+tilt leave common subspaces invariant, in which they are diagonal in a
+common basis, and in which no eigenvalue of $\tilde A$ falls below one.
+
+\begin{corollary}\label{cor:scalarholder}
+Suppose the holder's observation is scalar, $S=h^{\mathsf T}T+U$ with
+$\Var U=\sigma_U^2$, and let $g=\Sigma_T^{1/2}h$. Then the frontier point
+of weight $\alpha$ is $X=\Phi(2\nu\tilde Q+\beta gg^{\mathsf T})$, where the
+two scalars $\nu>0$ and $\beta\in[0,(1-\alpha)/\sigma_U^2]$ solve
+\[
+\tr(\tilde QX)=D,\qquad \beta\,\bigl(g^{\mathsf T}Xg+\sigma_U^2\bigr)=1-\alpha .
+\]
+\end{corollary}
+
+\begin{proof}
+With $\tilde H=g^{\mathsf T}$ the tilt in \eqref{eq:tilted} is
+$(1-\alpha)gg^{\mathsf T}/(g^{\mathsf T}Xg+\sigma_U^2)$, and $0\preceq X\preceq I$
+bounds $\beta$.
+\end{proof}
+
+So for a scalar holder, the case of every instance in this paper, the
+whole frontier, partial description included, is reverse water-filling
+on the spectrum of a rank-one tilt of the decoder's weight, computed by
+two nested scalar root searches with no convex solver. The tilt also
+shows why the projection direction turns. A single party has $\beta=0$
+and water-fills on the fixed eigenvectors of $\tilde Q$. The holder adds
+$\beta gg^{\mathsf T}$, and as the budget moves, the ratio $\beta/\nu$ moves
+and the eigenvectors of $2\nu\tilde Q+\beta gg^{\mathsf T}$ rotate between
+those of $\tilde Q$ and the direction $g$. In the coupled instance of
+Section~\ref{sec:examples}, the two-scalar solution agrees with the
+determinant program at $D=0.3$, $0.6$, $0.9$, and $1.2$, with a
+two-dimensional description at the first three budgets and a
+one-dimensional one at the last.
 
 \section{Decoupling and Commuting Geometry}
 \label{sec:commuting}
@@ -1539,11 +1644,12 @@ information is open. Explicit solutions are now available in three
 regimes: the whole frontier in commuting geometry at every budget, the
 minimum leakage in arbitrary geometry in the one-dimensional regime at
 large budgets, and the whole frontier in arbitrary geometry at small
-budgets when the decoder reproduces the whole source. For a partial
-description in non-commuting geometry between the two ends, the
-solution is a convex program over descriptions with at most
-$\operatorname{rank}Q$ components, and a closed form there, or for the
-regime boundaries, is not known. Stationary
+budgets when the decoder reproduces the whole source. In every
+geometry and at every budget the frontier is reverse water-filling on a
+tilted weight, a fixed point in the multiplier and the tilt; for a
+scalar holder this is two scalar equations. For a holder of higher rank
+the tilt is an $r\times r$ matrix fixed point, and a closed form for it,
+or for the regime boundaries, is not known. Stationary
 sources and finite blocklengths are not treated.
 
 \appendices
@@ -1727,7 +1833,14 @@ recorded in \texttt{verify\_fixed\_read-2026-10-01.txt}.
 \texttt{verify\_lowdist.py} checks Theorem~\ref{thm:lowdist} against the
 determinant program and a multi-start search on non-commuting instances,
 and the rank bound of Proposition~\ref{prop:rank}; its output is recorded in
-\texttt{verify\_lowdist-2026-10-01.txt}. No proof depends on them; the instances
+\texttt{verify\_lowdist-2026-10-01.txt}. \texttt{verify\_tilted.py}
+checks Theorem~\ref{thm:tilted} at the optimum of an independent
+determinant program on non-commuting instances with partial and full
+descriptions and holders of every rank, the two-scalar solver of
+Corollary~\ref{cor:scalarholder} against that program, the reductions to
+reverse water-filling and to Theorem~\ref{thm:commuting}, and the coupled
+instance; its output is recorded in
+\texttt{verify\_tilted-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
