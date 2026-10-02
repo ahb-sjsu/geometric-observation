@@ -97,9 +97,10 @@ Ulukus \cite{ekrem2013} obtained the minimum leakage when the rate is
 unconstrained, as an optimization over covariance matrices. The joint
 rate--leakage region was left open. They report that they could not
 solve the weighted problem that traces it \cite[eqs.~(30)--(31)]{ekrem2013}, and Xu,
-Chen, Chen, and Jin \cite{xu2024} have since proved by a new extremal
-inequality that Gaussian auxiliaries solve it, leaving the region as a
-matrix program. Without decoder side
+Chen, Chen, and Jin \cite{xu2024} have since characterized the
+rate--distortion--equivocation function by a refined
+enhancement-and-perturbation argument, leaving the region as a matrix
+program. Without decoder side
 information the region itself is elementary, because a single Gaussian
 exhaustion lemma bounds both costs at once (Proposition~\ref{prop:posterior}).
 What this paper contributes is the structure of that region for an
@@ -120,14 +121,29 @@ party's observation that the decoder does not need, and then the
 leakage is not determined by the joint law of the described variable
 and the second party's observation.
 
-The results are structural as well as explicit. The coding theorem
+The results fall into three groups.
+
+\emph{General characterization and computation.} The coding theorem
 (Theorem~\ref{thm:op}) identifies the operational region with the
 single-letter one, and Gaussian descriptions, indexed by their error
 covariance, exhaust it (Proposition~\ref{prop:posterior}). In that
 coordinate both costs are convex (Theorem~\ref{thm:convex}), so every
-point of the rate--leakage frontier is the unique minimizer of a convex
-program and the minimum leakage is a determinant maximization under
-linear matrix inequalities. When the optimal description is
+frontier point is the unique minimizer of a convex program and the
+minimum leakage is a determinant maximization under linear matrix
+inequalities. An optimal description has no more components than the
+described variable, even though it uses the context
+(Proposition~\ref{prop:rank}). At every budget and in every geometry the
+frontier error covariance is the fixed point of reverse water-filling on
+the decoder's weight tilted by the information the second party's
+observation adds to the description (Theorem~\ref{thm:tilted}).
+Equivalently, it is the rate--distortion optimum for a decoder that must
+also describe the holder's view (Corollary~\ref{cor:augmented}). An
+iteration of classical water-filling steps computes it for holders and
+described variables of any rank (Proposition~\ref{prop:mm}). With side
+information at the decoder we prove the region for the continuous source
+and settle both degraded cases (Section~\ref{sec:decsi}).
+
+\emph{Explicit solutions.} When the optimal description is
 one-dimensional, which an explicit certificate decides, the minimum
 leakage is
 \[
@@ -138,74 +154,40 @@ $\mu_{\max}$ the largest generalized eigenvalue of a pencil formed from
 the source covariance, the decoder's weight, the conditional covariance
 left after the second party's observation, and the budget
 (Theorem~\ref{thm:onedim}). For a scalar described variable and a scalar
-context this is an explicit closed form (Corollary~\ref{cor:scalar}). When the decoder's and the
-holder's geometries commute, the whole frontier is explicit at every
-budget (Theorem~\ref{thm:commuting}), and more generally the problem
-splits along every subspace decomposition that both geometries respect
-(Theorem~\ref{thm:decouple}). When the decoder reproduces the whole
-source, the frontier is explicit at every small budget in any geometry,
-in the eigenbasis of the second party's information relative to the
-decoder's weight (Theorem~\ref{thm:lowdist}). In general an optimal
-description has no more components than the described variable, even
-though it uses the context (Proposition~\ref{prop:rank}). The
-decoupling, commuting, and low-distortion results are cases of one
-characterization that holds at every budget, in every geometry, for
-partial and full descriptions alike. In it the error covariance is the fixed
-point of reverse water-filling on the spectrum of the decoder's weight
-tilted by the information the second party's observation adds to the
-description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
-has rank one, and the whole frontier reduces to two scalar equations
-(Corollary~\ref{cor:scalarholder}). Every frontier test channel is also
-the rate--distortion optimal test channel for a decoder that must
-describe the holder's view as well as $Y$, under a weight fixed by the
-solution (Corollary~\ref{cor:augmented}). For a scalar described
-variable, with any context and any holder, the frontier is explicit up
-to one scalar root. Every optimal description reads a direction on the
-curve $((1-\varrho)\Sigma_T+\varrho\Kc)^{-1}\Sigma_Tq$, $\varrho\in[0,1]$, and
-one scalar equation, whose root is unique for the minimum leakage,
-selects it (Theorem~\ref{thm:scalarpath}). For holders and described
-variables of any rank, the frontier is the limit of an iteration of
-classical reverse water-filling steps that decreases the cost
-monotonically (Proposition~\ref{prop:mm}).
+context this is an explicit closed form (Corollary~\ref{cor:scalar}). For
+a scalar holder the whole frontier reduces to two scalar equations
+(Corollary~\ref{cor:scalarholder}). For a scalar described variable, with
+any context and any holder, every optimal description reads a direction
+on the curve $((1-\varrho)\Sigma_T+\varrho\Kc)^{-1}\Sigma_Tq$,
+$\varrho\in[0,1]$, selected by one scalar root
+(Theorem~\ref{thm:scalarpath}). The frontier is also explicit at every
+budget when the two geometries commute, and it splits along every
+subspace decomposition they share (Theorems~\ref{thm:commuting}
+and~\ref{thm:decouple}). It is explicit at small budgets when the decoder
+reproduces the whole source (Theorem~\ref{thm:lowdist}), and for
+independent components, whose leakage-optimal split activates components
+in an order that is not the order of their variances
+(Section~\ref{sec:parallel}).
 
-The eigenvector of the pencil is the direction the description reads,
-and it carries the paper's main structural finding. The rate-optimal
-description reads fixed directions at every budget, the principal
-direction of the decoder's weighted covariance while it is
-one-dimensional, as do principal components, reverse
-water-filling \cite{berger1971}, and the Gaussian information bottleneck
-\cite{chechik2005}. The best one-dimensional description, which is the
-leakage-optimal one wherever the certificate of
-Theorem~\ref{thm:onedim}(b) holds, reads a direction that turns with the
-budget, unless that direction is a common generalized eigenvector of the
-decoder's geometry and the second party's (Theorem~\ref{thm:turning}). No description optimized for a single party
-under a weighted quadratic distortion does this
-(Proposition~\ref{prop:single}), and a one-dimensional description with
-a fixed projection direction pays an explicit excess leakage over the
-best one-dimensional description, at one of any two budgets whose
-optimal directions differ (Theorem~\ref{thm:forced}). The same condition governs
-whether the two optimal descriptions coincide at all
-(Theorem~\ref{thm:misalign}). While the rate-optimal description is
-one-dimensional, they differ whenever the second party's information
-does not map the decoder's principal direction onto itself. For independent
-components the leakage-optimal split of the distortion equalizes slopes
-that we compute in closed form, activates components in an order that
-is not the order of their variances, and can describe a disjoint set of
-components from the rate-optimal split (Section~\ref{sec:parallel}).
-With side information at the decoder (Section~\ref{sec:decsi}) we prove
-the single-letter region for the continuous source and solve the two
-degraded cases. When the decoder's information dominates the holder's,
-the leakage equals the rate at the optimum and there is no tradeoff.
-When the holder's dominates, an estimation inequality
-(Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one without
-decoder side information, for the source conditioned on the decoder's
-observation and the holder's excess information.
-The same effects appear in fixed-rate scalar quantizers
-(Appendix~\ref{sec:quant}). At equal rate and under the same
-distortion budget, which the principal-axis quantizer meets with slack,
-a Lloyd--Max quantizer applied to a leakage-aware projection leaks 13\%
-to 72\% less than the same quantizer on the principal axis, and its
-projection direction turns with the budget.
+\emph{Budget-dependent directions and the price of fixed ones.} The
+rate-optimal description reads fixed directions at every budget, as do
+principal components, reverse water-filling \cite{berger1971}, and the
+Gaussian information bottleneck \cite{chechik2005}. The best
+one-dimensional description, which is the leakage-optimal one wherever
+the certificate of Theorem~\ref{thm:onedim}(b) holds, reads a direction
+that turns with the budget, unless that direction is a common generalized
+eigenvector of the two parties' geometries (Theorem~\ref{thm:turning}).
+No description optimized for a single party under a weighted quadratic
+distortion does this (Proposition~\ref{prop:single}). A one-dimensional
+description with a fixed projection direction pays an explicit excess
+leakage at one of any two budgets whose optimal directions differ
+(Theorem~\ref{thm:forced}), and the same condition decides whether the
+rate-optimal and leakage-optimal descriptions coincide
+(Theorem~\ref{thm:misalign}). The effect survives quantization. At equal
+rate and equal budget, a Lloyd--Max quantizer on a leakage-aware
+projection leaks 13\% to 72\% less than the same quantizer on the
+principal axis, and its direction turns with the budget
+(Appendix~\ref{sec:quant}).
 
 \subsection*{Related work}
 
@@ -231,11 +213,14 @@ over $\Lambda\preceq\Sigma_T$ with $\tr(Q\Lambda)\le D$, because a code
 meeting the trace constraint may output $\E[T\mid M]$, whose error
 matrix is at most $\Sigma_T$. Appendix~\ref{app:coding} proves the
 continuous-alphabet coding theorem directly. Xu, Chen, Chen, and Jin
-\cite{xu2024} prove, by a new extremal inequality, that Gaussian
-auxiliaries are optimal in the Ekrem--Ulukus problem for every weight,
-which characterizes the rate--distortion--equivocation function of
-vector Gaussian secure source coding. In the preprint version
-\cite{xuchen2021}, which we checked, the characterization is a matrix
+\cite{xu2024} characterize the rate--distortion--equivocation function of
+vector Gaussian secure source coding, which the conventional
+enhancement-and-perturbation approach had not reached, by refining that
+approach with a monotone path argument. The published version describes
+its proofs as simplified and corrected relative to earlier ones. The
+detailed form below is from the preprint \cite{xuchen2021}, which is the
+version we checked against, and its assumptions and equation numbers
+should be read as the preprint's. There the characterization is a matrix
 program over two precision matrices \cite[eq.~(189), Thm.~4]{xuchen2021}
 for full-rank side informations at both receivers. Absent decoder side information, a formal limit
 outside their theorem, the program reduces to the one of
@@ -1563,10 +1548,12 @@ Appendix~\ref{app:coding}. Since $V_0-V-T-(C,S)$, the leakage bound can also
 be written $I(T;V)-I(V;C\mid V_0)-I(V_0;S)$. With $C$ constant the best
 choice is $V_0=V$, because $I(V_0;S)\le I(V;S)$, and the bound becomes
 $I(T;V\mid S)$, the region of Theorem~\ref{thm:op}. In general the two
-auxiliaries are what makes the region hard to evaluate. For a matrix
-distortion on the whole source and a full-rank holder, Xu, Chen, Chen,
-and Jin \cite{xu2024} show that Gaussian auxiliaries are optimal. Under a
-weighted distortion we do not settle this. The two
+auxiliaries are what makes the region hard to evaluate. Xu, Chen, Chen,
+and Jin \cite{xu2024} characterize the region under a matrix distortion on
+the whole source, and in the preprint version \cite{xuchen2021}, which is
+the version we checked, the characterization is stated for full-rank side
+informations. Under a weighted distortion we do not settle whether
+Gaussian auxiliaries are optimal. The two
 degraded cases are explicit.
 
 For Gaussian linear observations the information matrices order the
@@ -1765,9 +1752,10 @@ one-dimensional case, and its directions turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
 open. With side information at the decoder, the region is proved for
 the continuous source and the degraded cases are settled here. When
-neither side information dominates, the second auxiliary can matter. For a matrix distortion on the whole source and a
-full-rank eavesdropper, Xu, Chen, Chen, and Jin \cite{xu2024} show that Gaussian
-auxiliaries are optimal. Whether their two-precision program, under a
+neither side information dominates, the second auxiliary can matter.
+Under a matrix distortion on the whole source, Xu, Chen, Chen, and Jin
+\cite{xu2024} characterize the region. Whether their two-precision
+program, in the form of the preprint \cite{xuchen2021}, under a
 weighted distortion and a rank-deficient holder, has the convexity,
 pencil, and turning structure of the case without decoder side
 information is open. Explicit solutions are now available in four
