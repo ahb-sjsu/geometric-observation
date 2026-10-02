@@ -46,13 +46,14 @@ holds a noisy linear observation of the source and never decodes. The
 description then has two costs: its rate, and its conditional leakage to
 the second party, which is also the least rate at which that party can
 re-encode it. The single-letter region is known from secure source
-coding, and we determine its structure. Every frontier point is reverse
-water-filling on the decoder's weight tilted by the second party's
-information, in every geometry and at every budget, and for a scalar
-second-party observation it reduces to two scalar equations. The
-direction an optimal description reads turns with the budget unless the
-two parties' geometries share it, while a description built for a single
-party reads fixed directions and pays an explicit excess leakage. When
+coding, and we determine its structure. In every geometry and at every
+budget, each frontier point is the fixed point of reverse water-filling
+on the decoder's weight tilted by the second party's information, and
+for a scalar second-party observation it reduces to two scalar
+equations. The direction of the best one-dimensional description turns
+with the budget unless the two parties' geometries share it, while a
+description built for a single party keeps fixed directions, with an
+explicit lower bound on its excess leakage. When
 the optimal description is one-dimensional, which an explicit test
 certifies, the minimum leakage is a closed-form function of the largest
 eigenvalue of a matrix pencil in which the budget enters. The tradeoff
@@ -103,13 +104,14 @@ The two costs disagree because the distortion is a single trace-type
 constraint, which leaves the encoder a choice among error covariances.
 Under a matrix distortion on the whole source, the formulation of the
 earlier work, one description minimizes both costs, as the bounds of
-Ekrem and Ulukus already imply (Proposition~\ref{prop:matrix}). When
-$H$ also reaches parts of $T$ outside $Y$, the encoder holds information
-about the second party's observation that the decoder does not need.
-This produces the effects that depend on the context: the direction of
-an optimal scalar description turns with the budget, and the leakage is
-not determined by the joint law of the described variable and the
-second party's observation.
+Ekrem and Ulukus already imply (Proposition~\ref{prop:matrix}). Which
+directions the optimal description favors is set by how the decoder's
+weight and the second party's information are aligned, whether or not
+the encoder observes more than it describes. When $H$ also reaches
+parts of $T$ outside $Y$, the encoder holds information about the second
+party's observation that the decoder does not need, and then the
+leakage is not determined by the joint law of the described variable
+and the second party's observation.
 
 The results are structural as well as explicit. The coding theorem
 (Theorem~\ref{thm:op}) identifies the operational region with the
@@ -138,11 +140,12 @@ source, the frontier is explicit at every small budget in any geometry,
 in the eigenbasis of the second party's information relative to the
 decoder's weight (Theorem~\ref{thm:lowdist}). In general an optimal
 description has no more components than the described variable, even
-though it uses the context (Proposition~\ref{prop:rank}). All of these
-are cases of one characterization that holds at every budget, in every
-geometry, for partial and full descriptions alike: the error covariance
-is reverse water-filling on the spectrum of the decoder's weight tilted
-by the information the second party's observation adds to the
+though it uses the context (Proposition~\ref{prop:rank}). The
+decoupling, commuting, and low-distortion results are cases of one
+characterization that holds at every budget, in every geometry, for
+partial and full descriptions alike: the error covariance is the fixed
+point of reverse water-filling on the spectrum of the decoder's weight
+tilted by the information the second party's observation adds to the
 description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
 has rank one, and the whole frontier reduces to two scalar equations
 (Corollary~\ref{cor:scalarholder}).
@@ -153,19 +156,20 @@ description reads fixed directions at every budget, the principal
 direction of the decoder's weighted covariance while it is
 one-dimensional, as do principal components, reverse
 water-filling \cite{berger1971}, and the Gaussian information bottleneck
-\cite{chechik2005}. The leakage-optimal description reads a direction
-that turns with the budget, unless that direction is a common
-generalized eigenvector of the decoder's geometry and the second party's
-(Theorem~\ref{thm:turning}). No description optimized for a single party
+\cite{chechik2005}. The best one-dimensional description, which is the
+leakage-optimal one wherever the certificate of
+Theorem~\ref{thm:onedim}(b) holds, reads a direction that turns with the
+budget, unless that direction is a common generalized eigenvector of the
+decoder's geometry and the second party's (Theorem~\ref{thm:turning}). No description optimized for a single party
 under a weighted quadratic distortion does this
 (Proposition~\ref{prop:single}), and a one-dimensional description with
 a fixed projection direction pays an explicit excess leakage over the
 best one-dimensional description, at one of any two budgets whose
 optimal directions differ (Theorem~\ref{thm:forced}). The same condition governs
 whether the two optimal descriptions coincide at all
-(Theorem~\ref{thm:misalign}): in the one-dimensional regime they differ
-whenever the second party's information does not map the decoder's
-principal direction onto itself. For independent
+(Theorem~\ref{thm:misalign}): while the rate-optimal description is
+one-dimensional, they differ whenever the second party's information
+does not map the decoder's principal direction onto itself. For independent
 components the leakage-optimal split of the distortion equalizes slopes
 that we compute in closed form, activates components in an order that
 is not the order of their variances, and can describe a disjoint set of
@@ -601,33 +605,57 @@ the weight, and the error covariance is reverse water-filling on the
 tilted spectrum. The decoupling, commuting, and low-distortion results
 of Section~\ref{sec:commuting} are the cases in which $\tilde Q$ and the
 tilt leave common subspaces invariant, in which they are diagonal in a
-common basis, and in which no eigenvalue of $\tilde A$ falls below one.
+common basis, and in which $Q\succ0$ and no eigenvalue of $\tilde A$ is
+below one. In the last case $\Phi(\tilde A)=\tilde A^{-1}$, so
+$X^{-1}=\tilde A(X)$, which by the Woodbury identity is the stationarity
+condition in the proof of Theorem~\ref{thm:lowdist}.
 
 \begin{corollary}\label{cor:scalarholder}
-Suppose the holder's observation is scalar, $S=h^{\mathsf T}T+U$ with
-$\Var U=\sigma_U^2$, and let $g=\Sigma_T^{1/2}h$. Then the frontier point
-of weight $\alpha$ is $X=\Phi(2\nu\tilde Q+\beta gg^{\mathsf T})$, where the
-two scalars $\nu>0$ and $\beta\in[0,(1-\alpha)/\sigma_U^2]$ solve
+Suppose the holder's observation is scalar, $S=\zeta^{\mathsf T}T+U$ with
+$\Var U=\sigma_U^2$, and let $\tilde\zeta=\Sigma_T^{1/2}\zeta$. Then the
+frontier point of weight $\alpha$ is
+$X=\Phi(2\nu\tilde Q+\omega\tilde\zeta\tilde\zeta^{\mathsf T})$, where the two
+scalars $\nu>0$ and
+$\omega\in[(1-\alpha)/(\|\tilde\zeta\|^2+\sigma_U^2),(1-\alpha)/\sigma_U^2]$
+solve
 \[
-\tr(\tilde QX)=D,\qquad \beta\,\bigl(g^{\mathsf T}Xg+\sigma_U^2\bigr)=1-\alpha .
+\tr(\tilde QX)=D,\qquad \omega\,\bigl(\tilde\zeta^{\mathsf T}X\tilde\zeta+\sigma_U^2\bigr)=1-\alpha .
 \]
 \end{corollary}
 
 \begin{proof}
-With $\tilde H=g^{\mathsf T}$ the tilt in \eqref{eq:tilted} is
-$(1-\alpha)gg^{\mathsf T}/(g^{\mathsf T}Xg+\sigma_U^2)$, and $0\preceq X\preceq I$
-bounds $\beta$.
+With $\tilde H=\tilde\zeta^{\mathsf T}$ the tilt in \eqref{eq:tilted} is
+$(1-\alpha)\tilde\zeta\tilde\zeta^{\mathsf T}/(\tilde\zeta^{\mathsf T}X\tilde\zeta+\sigma_U^2)$,
+and $0\preceq X\preceq I$ bounds $\omega$.
 \end{proof}
 
-So for a scalar holder, the case of every instance in this paper, the
-whole frontier, partial description included, is reverse water-filling
-on the spectrum of a rank-one tilt of the decoder's weight, computed by
-two nested scalar root searches with no convex solver. The tilt also
-shows why the projection direction turns. A single party has $\beta=0$
-and water-fills on the fixed eigenvectors of $\tilde Q$. The holder adds
-$\beta gg^{\mathsf T}$, and as the budget moves, the ratio $\beta/\nu$ moves
-and the eigenvectors of $2\nu\tilde Q+\beta gg^{\mathsf T}$ rotate between
-those of $\tilde Q$ and the direction $g$. In the coupled instance of
+\begin{remark}\label{rem:solver}
+The two scalars can be found by nested one-dimensional searches. For
+fixed $\nu$, the conditions $X=\Phi(2\nu\tilde Q+\omega\tilde\zeta\tilde\zeta^{\mathsf T})$
+and $\omega(\tilde\zeta^{\mathsf T}X\tilde\zeta+\sigma_U^2)=1-\alpha$ are
+the optimality conditions of the strictly convex program of minimizing
+the weighted objective plus $\nu\tr(\tilde QX)$ over $0\prec X\preceq I$,
+so they have exactly one solution. The function
+$\omega\mapsto\omega(\tilde\zeta^{\mathsf T}X\tilde\zeta+\sigma_U^2)-(1-\alpha)$,
+with $X=\Phi(2\nu\tilde Q+\omega\tilde\zeta\tilde\zeta^{\mathsf T})$, is
+continuous because $\Phi$ is, negative at $\omega=0$ when $\alpha<1$, and
+nonnegative at $\omega=(1-\alpha)/\sigma_U^2$; any root gives that unique
+solution, so bisection finds it. The distortion of the penalized
+minimizer is nonincreasing in $\nu$ by the standard comparison of the
+penalized optima at two values of $\nu$, so a second bisection matches
+$D$. No convex solver is needed.
+\end{remark}
+
+So for a scalar holder, the case of the scalar and coupled instances
+and of Section~\ref{sec:quant}, the whole frontier, partial description
+included, is the fixed point of reverse water-filling on a rank-one tilt
+of the decoder's weight, computed as in Remark~\ref{rem:solver}. As
+intuition for why the projection direction turns: a single party has
+$\omega=0$ and water-fills on the fixed eigenvectors of $\tilde Q$, while
+the holder adds $\omega\tilde\zeta\tilde\zeta^{\mathsf T}$, and as the
+budget moves, the ratio $\omega/\nu$ moves and the eigenvectors of
+$2\nu\tilde Q+\omega\tilde\zeta\tilde\zeta^{\mathsf T}$ rotate between those
+of $\tilde Q$ and the direction $\tilde\zeta$. In the coupled instance of
 Section~\ref{sec:model}, the two-scalar solution agrees with the
 determinant program at $D=0.3$, $0.6$, $0.9$, and $1.2$, with a
 two-dimensional description at the first three budgets and a
@@ -636,9 +664,8 @@ one-dimensional one at the last.
 \section{Explicit Cases}
 \label{sec:commuting}
 
-Whiten by the source covariance: write
-$\tilde Q=\Sigma_T^{1/2}Q\Sigma_T^{1/2}$, $\tilde J=\Sigma_T^{1/2}J\Sigma_T^{1/2}$,
-and $X=\Sigma_T^{-1/2}\Sez\Sigma_T^{-1/2}$. Since
+Use the whitened coordinates $X$ and $\tilde Q$ of Section~\ref{sec:tilted}, and write
+$\tilde J=\Sigma_T^{1/2}J\Sigma_T^{1/2}$. Since
 $\Kc=\Sigma_T^{1/2}(I+\tilde J)^{-1}\Sigma_T^{1/2}$ and
 $\Sez^{-1}+J=\Sigma_T^{-1/2}(X^{-1}+\tilde J)\Sigma_T^{-1/2}$, the costs and
 the constraint of Proposition~\ref{prop:posterior} become
@@ -1265,7 +1292,8 @@ that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 
 Suppose the decoder also observes $C=H_CT+N_C$, with $N_C\sim\mathcal N(0,\Sigma_{N_C})$,
 $\Sigma_{N_C}\succ0$, independent of everything else, and reconstructs from
-$(M,C^n)$. Write $J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$ and
+$(M,C^n)$. Write $J_S:=J$ for the holder's information,
+$J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$, and
 $\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$. The single-letter region is
 Villard and Piantanida's \cite[Theorem~3]{villard2013} with uncoded side
 information at the decoder: $R\ge I(V;T\mid C)$, distortion at most
@@ -1292,7 +1320,7 @@ the sense of \cite{villard2013}, and symmetrically when $J_C\preceq J_S$.
 \begin{lemma}\label{lem:mmsecomp}
 Let $V-T-(C,S)$ with $J_C\preceq J_S$, and let
 $M_C=\E[\Cov(T\mid V,C)]$ and $M_S=\E[\Cov(T\mid V,S)]$ be the minimum
-mean-square error covariances. Then
+mean-square error covariances, with $M_C\succ0$. Then
 $M_S\preceq\bigl(M_C^{-1}+J_S-J_C\bigr)^{-1}$, with equality when $(V,T)$ is
 jointly Gaussian.
 \end{lemma}
@@ -1333,9 +1361,10 @@ rate;
 Proposition~\ref{prop:posterior} for the source $\mathcal N(0,\Sigma_{T\mid C})$
 with holder information $J_S-J_C$ and the same weight $Q$; the coordinate
 is the decoder's error covariance $M=\Cov(T\mid V,C)$, and
-Theorems~\ref{thm:convex}, \ref{thm:decouple}, \ref{thm:commuting},
-\ref{thm:onedim}, \ref{thm:turning}, and~\ref{thm:misalign} hold with
-$\Sigma_T$ replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$.
+every result of Sections~\ref{sec:convex}--\ref{sec:directions} holds
+with $\Sigma_T$ replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$, the
+latter written as $H'^{\mathsf T}H'$ with unit noise where an observation
+map is needed.
 \end{enumerate}
 \end{theorem}
 
@@ -1417,8 +1446,8 @@ component $2$.
 The theorems concern long blocks and Gaussian test channels. A practical
 description is often a fixed-rate scalar quantizer applied to one
 projection of the data. We ask two questions of such a quantizer. Does
-the projection it reads change its leakage at equal rate and equal
-distortion? And does the leakage-aware projection turn with the budget,
+the projection it reads change its leakage at equal rate and under the
+same distortion budget? And does the leakage-aware projection turn with the budget,
 as Theorem~\ref{thm:turning} predicts for the optimum?
 
 \textbf{Setup.} Take the coupled instance of Section~\ref{sec:model},
@@ -1800,7 +1829,8 @@ moments match the given channel's.
 
 The identities and instances were checked independently of the
 derivations by scripts run on a remote workstation.
-\texttt{verify\_general.py} checks, for random sources with general
+\texttt{verify\_general.py} (in the companion directory
+\texttt{tit-vector-described}) checks, for random sources with general
 weights and observation maps, that the pencil value of
 Theorem~\ref{thm:onedim} equals the brute-force optimum over Gaussian
 descriptions whenever that optimum is one-dimensional, that both costs
@@ -1816,8 +1846,7 @@ non-Gaussian description (a sign quantizer, by numerical integration),
 the reduction of Theorem~\ref{thm:decsi}(b) on random Gaussian
 descriptions, and the minimum leakage with decoder side information
 against the reduced program. \texttt{verify\_coupled.py},
-\texttt{verify\_parallel.py}, and \texttt{verify\_general.py} (in the
-companion directory \texttt{tit-vector-described}) and
+\texttt{verify\_parallel.py} (in \texttt{tit-vector-described}) and
 \texttt{verify\_pencil.py} (in \texttt{tit-cr-context}) check the
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
@@ -1870,9 +1899,10 @@ Res.}, vol. 6, pp. 165--188, 2005.
 \bibitem{xuchen2021} Y. Xu and G. Chen, ``New proofs of extremal
 inequalities with applications,'' arXiv:2109.00377, 2021.
 \bibitem{gunlu2022} O. G\"unl\"u, R. F. Schaefer, H. Boche, and H. V. Poor,
-``Secure and private source coding with private key and decoder side
-information,'' arXiv:2205.05068, 2022; shorter version in \emph{Proc. IEEE
-Inf. Theory Workshop (ITW)}, 2022. % verify journal version (Entropy) on final
+``Private key and decoder side information for secure and private source
+coding,'' \emph{Entropy}, vol. 24, no. 12, art. 1716, 2022;
+conference version in \emph{Proc. IEEE Inf. Theory Workshop (ITW)}, 2022,
+pp. 226--231.
 \bibitem{yamamoto1983} H. Yamamoto, ``A source coding problem for sources
 with additional outputs to keep secret from the receiver or wiretappers
 (Corresp.),'' \emph{IEEE Trans. Inf. Theory}, vol. 29, no. 6, pp. 918--923,
