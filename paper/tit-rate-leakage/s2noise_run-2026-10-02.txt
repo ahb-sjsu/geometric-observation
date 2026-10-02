@@ -1,0 +1,107 @@
+numpy 2.5.3 | matplotlib 3.11.2
+Energy     (768, 9)  Y=['heating', 'cooling']  S=['height', 'glazing']
+Housing    (20640, 9)  Y=['value', 'income']  S=['Latitude', 'Longitude']
+Parkinsons (5875, 21)  Y=['motor UPDRS', 'total UPDRS']  S=['age', 'sex']
+Bike       (17379, 14)  Y=['casual', 'registered']  S=['season', 'weathersit']
+Student    (649, 18)  Y=['G2', 'G3']  S=['age', 'sex_F', 'urban']
+Wine       (4898, 12)  Y=['quality']  S=['alcohol']
+Concrete   (1030, 9)  Y=['strength']  S=['age']
+Diabetes   (442, 11)  Y=['progression']  S=['age', 'sex', 'bmi']
+Abalone    (4177, 10)  Y=['rings']  S=['male', 'female', 'length']
+AutoMPG    (392, 8)  Y=['mpg']  S=['cylinders', 'year']
+Zoo        (175, 11)  Y=['V1', 'V2']  S=['N', 'E']
+85 near-zero in-scope cases: 71 real, 14 synthetic control
+boundary Energy               orientation f=0.05 pred +0.033 orig -0.026+-0.060 | reps mean -0.034 sd 0.066 boot se 0.075
+boundary Energy                      mix5 f=0.05 pred +0.040 orig +0.115+-0.096 | reps mean +0.000 sd 0.071 boot se 0.090
+boundary Energy                      mix5 f=0.15 pred +0.040 orig +0.115+-0.096 | reps mean +0.000 sd 0.071 boot se 0.090
+boundary Energy                      mix5 f=0.40 pred +0.040 orig +0.115+-0.096 | reps mean +0.000 sd 0.071 boot se 0.090
+boundary Housing                 HouseAge f=0.05 pred +0.034 orig +0.029+-0.009 | reps mean +0.031 sd 0.003 boot se 0.010
+boundary Housing               Population f=0.05 pred +0.037 orig +0.027+-0.010 | reps mean +0.030 sd 0.003 boot se 0.010
+boundary Housing                 AveOccup f=0.05 pred +0.039 orig +0.027+-0.011 | reps mean +0.022 sd 0.015 boot se 0.010
+boundary Housing                Longitude f=0.05 pred +0.043 orig +0.048+-0.010 | reps mean +0.050 sd 0.003 boot se 0.010
+boundary Housing                     mix5 f=0.05 pred +0.040 orig +0.028+-0.014 | reps mean -0.021 sd 0.037 boot se 0.014
+boundary Housing                     mix5 f=0.15 pred +0.040 orig +0.028+-0.014 | reps mean -0.021 sd 0.037 boot se 0.014
+boundary Housing                     mix5 f=0.40 pred +0.040 orig +0.028+-0.014 | reps mean -0.021 sd 0.037 boot se 0.014
+boundary Parkinsons                   sex f=0.05 pred +0.049 orig +0.071+-0.016 | reps mean +0.073 sd 0.014 boot se 0.016
+boundary Parkinsons             test_time f=0.05 pred +0.048 orig +0.034+-0.018 | reps mean +0.047 sd 0.008 boot se 0.017
+boundary Parkinsons           Jitter(Abs) f=0.05 pred +0.049 orig +0.034+-0.015 | reps mean +0.029 sd 0.006 boot se 0.016
+boundary Parkinsons            Jitter:RAP f=0.05 pred +0.049 orig +0.026+-0.015 | reps mean +0.027 sd 0.007 boot se 0.016
+boundary Parkinsons            Jitter:DDP f=0.05 pred +0.049 orig +0.026+-0.015 | reps mean +0.027 sd 0.007 boot se 0.016
+boundary Parkinsons                  mix5 f=0.05 pred +0.040 orig +0.047+-0.018 | reps mean -0.007 sd 0.024 boot se 0.020
+boundary Parkinsons                  mix5 f=0.15 pred +0.040 orig +0.047+-0.018 | reps mean -0.007 sd 0.024 boot se 0.020
+boundary Parkinsons                  mix5 f=0.40 pred +0.040 orig +0.047+-0.018 | reps mean -0.007 sd 0.024 boot se 0.020
+boundary Bike                     holiday f=0.05 pred +0.038 orig -0.040+-0.014 | reps mean -0.036 sd 0.003 boot se 0.014
+boundary Bike                     weekday f=0.05 pred +0.040 orig -0.213+-0.013 | reps mean -0.211 sd 0.008 boot se 0.013
+boundary Bike                        mix5 f=0.05 pred +0.040 orig -0.040+-0.014 | reps mean -0.050 sd 0.015 boot se 0.015
+boundary Bike                        mix5 f=0.15 pred +0.040 orig -0.040+-0.014 | reps mean -0.050 sd 0.015 boot se 0.015
+boundary Bike                        mix5 f=0.40 pred +0.040 orig -0.040+-0.014 | reps mean -0.050 sd 0.015 boot se 0.015
+boundary Student                     mix5 f=0.05 pred +0.040 orig -0.033+-0.137 | reps mean -0.052 sd 0.062 boot se 0.077
+boundary Student                     mix5 f=0.15 pred +0.040 orig -0.033+-0.137 | reps mean -0.052 sd 0.062 boot se 0.077
+boundary Student                     mix5 f=0.40 pred +0.040 orig -0.033+-0.137 | reps mean -0.052 sd 0.062 boot se 0.077
+boundary Concrete                    mix5 f=0.05 pred +0.040 orig +0.075+-0.125 | reps mean -0.009 sd 0.055 boot se 0.081
+boundary Concrete                    mix5 f=0.15 pred +0.040 orig +0.075+-0.125 | reps mean -0.009 sd 0.055 boot se 0.081
+boundary Concrete                    mix5 f=0.40 pred +0.040 orig +0.075+-0.125 | reps mean -0.009 sd 0.055 boot se 0.081
+boundary Diabetes                    mix5 f=0.05 pred +0.040 orig +0.038+-0.130 | reps mean -0.032 sd 0.086 boot se 0.114
+boundary Diabetes                    mix5 f=0.15 pred +0.040 orig +0.038+-0.130 | reps mean -0.032 sd 0.086 boot se 0.114
+boundary Diabetes                    mix5 f=0.40 pred +0.040 orig +0.038+-0.130 | reps mean -0.032 sd 0.086 boot se 0.114
+boundary Abalone                     mix5 f=0.05 pred +0.038 orig +0.020+-0.023 | reps mean +0.021 sd 0.016 boot se 0.023
+boundary Abalone                     mix5 f=0.15 pred +0.038 orig +0.020+-0.023 | reps mean +0.021 sd 0.016 boot se 0.023
+boundary Abalone                     mix5 f=0.40 pred +0.038 orig +0.020+-0.023 | reps mean +0.021 sd 0.016 boot se 0.023
+boundary AutoMPG                     mix5 f=0.05 pred +0.032 orig +0.120+-0.160 | reps mean +0.076 sd 0.122 boot se 0.109
+boundary AutoMPG                     mix5 f=0.15 pred +0.032 orig +0.120+-0.160 | reps mean +0.076 sd 0.122 boot se 0.109
+boundary AutoMPG                     mix5 f=0.40 pred +0.032 orig +0.120+-0.160 | reps mean +0.076 sd 0.122 boot se 0.109
+boundary GaussCoupled                mix5 f=0.05 pred +0.016 orig +0.020+-0.012 | reps mean -0.514 sd 0.744 boot se 0.012
+boundary GaussCoupled                mix5 f=0.15 pred +0.016 orig +0.020+-0.012 | reps mean -0.514 sd 0.744 boot se 0.012
+boundary GaussCoupled                mix5 f=0.40 pred +0.016 orig +0.020+-0.012 | reps mean -0.514 sd 0.744 boot se 0.012
+boundary Gauss8                        v1 f=0.05 pred +0.036 orig +0.040+-0.009 | reps mean +0.033 sd 0.002 boot se 0.009
+boundary Gauss8                      mix5 f=0.05 pred +0.040 orig +0.041+-0.012 | reps mean +0.034 sd 0.005 boot se 0.013
+boundary Gauss8                      mix5 f=0.15 pred +0.040 orig +0.041+-0.012 | reps mean +0.034 sd 0.005 boot se 0.013
+boundary Gauss8                      mix5 f=0.40 pred +0.040 orig +0.041+-0.012 | reps mean +0.034 sd 0.005 boot se 0.013
+fresh    PowerPlant                  mix5 f=0.05 pred +0.034 orig +0.014+-0.018 | reps mean +0.004 sd 0.007 boot se 0.019
+fresh    PowerPlant                  mix5 f=0.15 pred +0.034 orig +0.014+-0.018 | reps mean +0.004 sd 0.007 boot se 0.019
+fresh    PowerPlant                  mix5 f=0.40 pred +0.034 orig +0.014+-0.018 | reps mean +0.004 sd 0.007 boot se 0.019
+fresh    Airfoil                     mix5 f=0.05 pred +0.039 orig +0.018+-0.027 | reps mean -0.050 sd 0.044 boot se 0.056
+fresh    Airfoil                     mix5 f=0.15 pred +0.039 orig +0.018+-0.027 | reps mean -0.050 sd 0.044 boot se 0.056
+fresh    Airfoil                     mix5 f=0.40 pred +0.039 orig +0.018+-0.027 | reps mean -0.050 sd 0.044 boot se 0.056
+fresh    RealEstate                  mix5 f=0.05 pred +0.039 orig -0.001+-0.072 | reps mean +0.009 sd 0.057 boot se 0.079
+fresh    RealEstate                  mix5 f=0.15 pred +0.039 orig -0.001+-0.072 | reps mean +0.009 sd 0.057 boot se 0.079
+fresh    RealEstate                  mix5 f=0.40 pred +0.039 orig -0.001+-0.072 | reps mean +0.009 sd 0.057 boot se 0.079
+scope    GasTurbine                  mix5 f=0.05 pred +0.040 orig +0.053+-0.024 | reps mean +0.054 sd 0.008 boot se 0.021
+scope    GasTurbine                  mix5 f=0.15 pred +0.040 orig +0.053+-0.024 | reps mean +0.054 sd 0.008 boot se 0.021
+scope    GasTurbine                  mix5 f=0.40 pred +0.040 orig +0.053+-0.024 | reps mean +0.054 sd 0.008 boot se 0.021
+scope    Grid                          p1 f=0.05 pred +0.040 orig +0.038+-0.012 | reps mean +0.030 sd 0.004 boot se 0.012
+scope    Grid                          p2 f=0.05 pred +0.033 orig +0.029+-0.011 | reps mean +0.026 sd 0.005 boot se 0.012
+scope    Grid                          p3 f=0.05 pred +0.035 orig +0.030+-0.011 | reps mean +0.031 sd 0.004 boot se 0.012
+scope    Grid                        mix5 f=0.05 pred +0.040 orig +0.034+-0.018 | reps mean -0.010 sd 0.042 boot se 0.017
+scope    Grid                        mix5 f=0.15 pred +0.040 orig +0.034+-0.018 | reps mean -0.010 sd 0.042 boot se 0.017
+scope    Grid                        mix5 f=0.40 pred +0.040 orig +0.034+-0.018 | reps mean -0.010 sd 0.042 boot se 0.017
+scope    QSARFish                    mix5 f=0.05 pred +0.039 orig +0.052+-0.097 | reps mean -0.006 sd 0.053 boot se 0.069
+scope    QSARFish                    mix5 f=0.15 pred +0.039 orig +0.052+-0.097 | reps mean -0.006 sd 0.053 boot se 0.069
+scope    QSARFish                    mix5 f=0.40 pred +0.039 orig +0.052+-0.097 | reps mean -0.006 sd 0.053 boot se 0.069
+scope    QSARAquatic                SAacc f=0.05 pred +0.039 orig +0.005+-0.072 | reps mean +0.014 sd 0.060 boot se 0.077
+scope    QSARAquatic                   nN f=0.05 pred +0.038 orig +0.085+-0.067 | reps mean +0.019 sd 0.020 boot se 0.066
+scope    QSARAquatic                 mix5 f=0.05 pred +0.040 orig +0.213+-0.056 | reps mean +0.014 sd 0.064 boot se 0.080
+scope    QSARAquatic                 mix5 f=0.15 pred +0.040 orig +0.213+-0.056 | reps mean +0.014 sd 0.064 boot se 0.080
+scope    QSARAquatic                 mix5 f=0.40 pred +0.040 orig +0.213+-0.056 | reps mean +0.014 sd 0.064 boot se 0.080
+scope    TempForecast            LDAPS_LH f=0.05 pred +0.046 orig +0.049+-0.015 | reps mean +0.051 sd 0.004 boot se 0.015
+scope    TempForecast          LDAPS_PPT1 f=0.05 pred +0.049 orig +0.051+-0.016 | reps mean +0.052 sd 0.004 boot se 0.015
+scope    TempForecast                 lon f=0.05 pred +0.048 orig +0.041+-0.016 | reps mean +0.037 sd 0.003 boot se 0.014
+scope    TempForecast                mix5 f=0.05 pred +0.040 orig +0.038+-0.018 | reps mean -0.027 sd 0.017 boot se 0.019
+scope    TempForecast                mix5 f=0.15 pred +0.040 orig +0.038+-0.018 | reps mean -0.027 sd 0.017 boot se 0.019
+scope    TempForecast                mix5 f=0.40 pred +0.040 orig +0.038+-0.018 | reps mean -0.027 sd 0.017 boot se 0.019
+scope    GaussCoupled-s11               mix5 f=0.05 pred +0.037 orig +0.042+-0.013 | reps mean -1.151 sd 0.612 boot se 0.011
+scope    GaussCoupled-s11               mix5 f=0.15 pred +0.037 orig +0.042+-0.013 | reps mean -1.151 sd 0.612 boot se 0.011
+scope    GaussCoupled-s11               mix5 f=0.40 pred +0.037 orig +0.042+-0.013 | reps mean -1.151 sd 0.612 boot se 0.011
+scope    Gauss8-s12                    v1 f=0.05 pred +0.036 orig +0.038+-0.008 | reps mean +0.035 sd 0.003 boot se 0.009
+scope    Gauss8-s12                  mix5 f=0.05 pred +0.040 orig +0.034+-0.013 | reps mean +0.037 sd 0.004 boot se 0.013
+scope    Gauss8-s12                  mix5 f=0.15 pred +0.040 orig +0.034+-0.013 | reps mean +0.037 sd 0.004 boot se 0.013
+scope    Gauss8-s12                  mix5 f=0.40 pred +0.040 orig +0.034+-0.013 | reps mean +0.037 sd 0.004 boot se 0.013
+== REAL (scored): n=71; original criterion 59.2%
+N1 FAIL: median SD_rep / bootstrap SE 0.76
+N2 FAIL: |original| <= 2 SD_rep in 59.2%
+B1 PASS: |replicate mean| > 3 SD_rep/sqrt(20) in 50.7%; replicate mean positive in 53.5%
+== CONTROL (reported): n=14; original criterion 21.4%
+N1 reported: median SD_rep / bootstrap SE 0.43
+N2 reported: |original| <= 2 SD_rep in 42.9%
+B1 reported: |replicate mean| > 3 SD_rep/sqrt(20) in 100.0%; replicate mean positive in 57.1%
+EXIT 0
