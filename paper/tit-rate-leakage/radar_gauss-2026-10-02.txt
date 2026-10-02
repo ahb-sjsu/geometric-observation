@@ -1,0 +1,21 @@
+675 real cases, 48.7% misses, 17 datasets, depth 2, target gauss
+  held out Abalone       acc 0.692 (miss rate 0.69)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Airfoil       acc 0.778 (miss rate 0.22)  (d_marg_tr_R / kappa_A)  [14s]
+  held out AutoMPG       acc 0.030 (miss rate 0.03)  d_marg_tr_R  [14s]
+  held out Bike          acc 0.833 (miss rate 1.00)  (d_marg_tr_R * pred)  [14s]
+  held out Concrete      acc 0.889 (miss rate 0.11)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Diabetes      acc 0.810 (miss rate 0.19)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Energy        acc 0.576 (miss rate 0.58)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Fires         acc 0.952 (miss rate 0.95)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Housing       acc 0.515 (miss rate 0.61)  (d_marg_tr_R - d_marg_tr_A)  [14s]
+  held out Parkinsons    acc 0.812 (miss rate 0.09)  (d_marg_tr_R diff_sq d_marg_tr_A)  [14s]
+  held out PowerPlant    acc 0.167 (miss rate 0.83)  (d_marg_tr_R / kappa_A)  [14s]
+  held out RealEstate    acc 0.967 (miss rate 0.03)  (d_marg_tr_R / kappa_A)  [14s]
+  held out RedWine       acc 0.978 (miss rate 0.98)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Student       acc 0.067 (miss rate 0.07)  (d_marg_tr_R hypot exkurt_R)  [14s]
+  held out Wine          acc 1.000 (miss rate 1.00)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Yacht         acc 0.367 (miss rate 0.37)  (d_marg_tr_R / kappa_A)  [14s]
+  held out Zoo           acc 0.641 (miss rate 0.64)  (d_marg_tr_R / kappa_A)  [14s]
+leave-one-dataset-out: accuracy 0.665, F1 0.699, base rate 0.487
+formula stability across folds: [('(d_marg_tr_R / kappa_A)', 12), ('d_marg_tr_R', 1), ('(d_marg_tr_R * pred)', 1), ('(d_marg_tr_R - d_marg_tr_A)', 1), ('(d_marg_tr_R diff_sq d_marg_tr_A)', 1)]
+FINAL (hypothesis for registration 3): miss if -[(d_marg_tr_R / kappa_A)] >= 0.1757

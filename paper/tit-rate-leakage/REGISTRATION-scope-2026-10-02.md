@@ -1,4 +1,4 @@
-# Registration 3 (DRAFT, not frozen): the boundary theory inside its Gaussian scope
+# Registration 3: the boundary theory inside its Gaussian scope
 
 Drafted 2026-10-02. Code `ot_scope.py`, scoring `scope_score.py`. Builds on the
 boundary test (scored daca788) and the Gaussian-departure registration
@@ -96,11 +96,28 @@ variants fixed in advance.
   - **E3** At least half of the datasets forecast MISS under S0 track
     (Spearman ≥ 0.8) with equal-occupancy codes.
 
-The Theory Radar induction (`ot_radar_induction.py`) is running. If it yields
-a formula that holds leave-one-dataset-out, it is added here as a criterion
-before this file is pushed. Otherwise that return is recorded and nothing is
-added.
+## Theory Radar returns (induction, recorded before freezing)
+
+`ot_radar_induction.py`, depth 2, leave-one-dataset-out over 17 real
+datasets (`radar_gauss-2026-10-02.txt`, `radar_marg-2026-10-02.txt`):
+
+- **Misses of the Gaussian prediction.** The search, given all 20
+  characteristics, chose the principal code's marginal defect divided by the
+  aware code's kappa in 12 of 17 folds. That rediscovers the deduced
+  quantity. Held-out accuracy is 0.665 (F1 0.699), against a base rate of
+  0.513.
+- **Misses left after the marginal correction.** It chose
+  (dep_c_R − dep_c_A)², the squared difference of the two codes' dependence
+  defects, in 15 of 17 folds. That is the deduction's second term. Its
+  held-out accuracy of 0.590 is below the 0.664 of always predicting no miss,
+  so it does not hold leave-one-dataset-out and is not admitted as a
+  criterion.
+
+Both are frozen as **T0** and **T1**: reported on the fresh cases with their
+thresholds fixed, not scored.
 
 ## Status
 
-Draft, committed locally, not pushed. Not frozen until pushed.
+FROZEN on push (2026-10-02). Next: `python ot_scope.py predict`, push
+`scope_predictions.json` with its sha256, then `measure`, then
+`scope_score.py`.

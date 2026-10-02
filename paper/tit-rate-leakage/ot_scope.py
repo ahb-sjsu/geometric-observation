@@ -119,6 +119,12 @@ def d_marg(P, b):   # marginal defect of the standard (Lloyd-Max) code on the tr
     p = np.bincount(ob.encode(P, b, P["tr"]), minlength=8) / len(P["tr"]); p = p[p > 0]
     return float(-np.sum(p * np.log2(p))) - HG_LM
 
+import ot_mining as om   # null mean of the dependence estimator and kappa, for the reported Theory Radar formulas
+
+def dep_c(P, S, b):
+    idx = P["tr"][:og.NCAP]; z = P["Ts"][idx] @ b; z = (z - z.mean()) / z.std()
+    dep, _, r = og.stats(z, S[idx, 0]); return dep - om.null_dep(len(idx), r)
+
 def predict_rows(d):
     rows = []
     for vname, _ in views(d):
@@ -128,14 +134,14 @@ def predict_rows(d):
         cls = "top" if (R2max - R2R) < 1e-9 else ("eigenvector" if mis < 1e-6 or np.linalg.norm(AS @ b_R) < 1e-12
                                                      else "not-eigenvector")
         trY = float(np.trace(F @ Sig @ F.T)); DR = trY - ob.GAIN * ob.rayleigh(B, Sig, b_R)
-        S = og.view_S(P, Hm); dR = og.departure(P, S, b_R); mR = d_marg(P, b_R)
+        S = og.view_S(P, Hm); dR = og.departure(P, S, b_R); mR = d_marg(P, b_R); cR = dep_c(P, S, b_R)
         for f in fracs_for(vname):
             D0 = DR + f * (trY - DR); need = (trY - D0) / ob.GAIN
             b_aw = ob.exact_aware(AS, B, Sig, need); R2aw = ob.rayleigh(AS, Sig, b_aw)
-            dA = og.departure(P, S, b_aw); mA = d_marg(P, b_aw)
+            dA = og.departure(P, S, b_aw); mA = d_marg(P, b_aw); cA = dep_c(P, S, b_aw)
             pred = ob.h_gauss(R2R) - ob.h_gauss(R2aw)
             rows.append(dict(pred_removed_eq=h_gauss_eq(R2R) - h_gauss_eq(R2aw), d_marg_R=mR, d_marg_A=mA,
-                             pred_removed_marg=pred + mR - mA,dataset=d["name"], view=vname, f=f, cls=cls, R2_principal=R2R, R2_max=R2max,
+                             pred_removed_marg=pred + mR - mA, dep_c_R=cR, dep_c_A=cA, kappa_A=om.kappa(R2aw),dataset=d["name"], view=vname, f=f, cls=cls, R2_principal=R2R, R2_max=R2max,
                              misalignment=mis, R2_aware=R2aw, pred_removed=ob.h_gauss(R2R) - ob.h_gauss(R2aw),
                              b_aware=[float(x) for x in b_aw], Gamma=dR["excess"] + dA["excess"],
                              in_scope=bool(dR["excess"] + dA["excess"] <= CUT)))
@@ -170,6 +176,12 @@ CRITERIA = {
           "that of the standard codes under the Gaussian prediction.",
     "E3": "Datasets forecast MISS under S0: at least half of them track (main-view Spearman >= 0.8) with equal-occupancy "
           "codes. Vacuous if no dataset is forecast MISS.",
+    "T0": "Reported, not scored. Theory Radar formula for misses of the Gaussian prediction (ot_radar_induction.py, "
+          "target gauss, depth 2; leave-one-dataset-out accuracy 0.665 vs base rate 0.513): predict miss when "
+          "-(d_marg_R / kappa_A) >= 0.1757. Held-out accuracy and F1 on the fresh cases are reported.",
+    "T1": "Reported, not scored. Theory Radar formula for misses left after the marginal correction (target marg; chosen "
+          "in 15 of 17 folds, but leave-one-dataset-out accuracy 0.590 below the 0.664 of always predicting no miss, so "
+          "not admitted as a criterion): predict miss when (dep_c_R - dep_c_A)^2 >= 0.005175.",
 }
 
 def predict(out_path):

@@ -75,3 +75,11 @@ if missf:
     show("E3", bool(tr >= len(missf) / 2), f"{tr} of {len(missf)} MISS-forecast datasets track with equal-occupancy codes")
 else:
     show("E3", "VACUOUS", "no dataset forecast MISS")
+
+# ---- Theory Radar formulas, reported only ----
+def rep_formula(name, flag, ref):
+    yv = np.array([miss(r, ref) > 2 * r["se"] for r in data]); pv = np.array([flag(r) for r in data])
+    tp = np.sum(pv & yv); fp = np.sum(pv & ~yv); fn = np.sum(~pv & yv)
+    print(f"{name}: reported  accuracy {np.mean(pv == yv):.3f} (base rate of misses {yv.mean():.3f}), F1 {2*tp/max(2*tp+fp+fn,1):.3f}")
+rep_formula("T0", lambda r: -(r["d_marg_R"] / r["kappa_A"]) >= 0.1757, "pred_removed")
+rep_formula("T1", lambda r: (r["dep_c_R"] - r["dep_c_A"]) ** 2 >= 0.005175, "pred_removed_marg")
