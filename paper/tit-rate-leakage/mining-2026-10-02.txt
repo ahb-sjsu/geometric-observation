@@ -1,0 +1,101 @@
+numpy 2.5.3 | matplotlib 3.11.2
+Energy     (768, 9)  Y=['heating', 'cooling']  S=['height', 'glazing']
+Housing    (20640, 9)  Y=['value', 'income']  S=['Latitude', 'Longitude']
+Parkinsons (5875, 21)  Y=['motor UPDRS', 'total UPDRS']  S=['age', 'sex']
+Bike       (17379, 14)  Y=['casual', 'registered']  S=['season', 'weathersit']
+Student    (649, 18)  Y=['G2', 'G3']  S=['age', 'sex_F', 'urban']
+Wine       (4898, 12)  Y=['quality']  S=['alcohol']
+Concrete   (1030, 9)  Y=['strength']  S=['age']
+Diabetes   (442, 11)  Y=['progression']  S=['age', 'sex', 'bmi']
+Abalone    (4177, 10)  Y=['rings']  S=['male', 'female', 'length']
+AutoMPG    (392, 8)  Y=['mpg']  S=['cylinders', 'year']
+Zoo        (175, 11)  Y=['V1', 'V2']  S=['N', 'E']
+cases 750 (real 675)
+
+== Part 1a: mechanism on the held-out half (mean over both codes) ==
+dataset         e_meas   d_marg  dep-gap   (e_meas = d_marg - (dep - gap))
+Abalone         -0.146   -0.097   +0.049
+Airfoil         -0.034   -0.131   -0.096
+AutoMPG         +0.104   -0.084   -0.188
+Bike            -0.420   -0.378   +0.042
+Concrete        -0.011   -0.071   -0.060
+Diabetes        -0.007   -0.104   -0.097
+Energy          -0.290   -0.398   -0.108
+Fires           -1.347   -1.435   -0.088
+Gauss8          +0.007   -0.002   -0.009
+Gauss8-exp      -0.228   -0.288   -0.060
+GaussCoupled    +0.011   -0.003   -0.014
+Housing         -0.136   -0.172   -0.036
+Parkinsons      +0.004   +0.006   +0.002
+PowerPlant      -0.085   -0.106   -0.021
+RealEstate      +0.020   -0.101   -0.122
+RedWine         -0.781   -0.774   +0.006
+Student         -0.090   -0.175   -0.086
+Wine            -0.604   -0.564   +0.040
+Yacht           -0.436   -0.540   -0.104
+Zoo             -0.311   -0.453   -0.142
+
+== Part 1b: formula and ablation (real datasets) ==
+Gaussian theory  Spearman 0.554  mean|miss| 0.272
+marginal only    Spearman 0.919  mean|miss| 0.120
+dependence only  Spearman -0.081  mean|miss| 0.449
+both (formula)   Spearman 0.684  mean|miss| 0.211
+predicted miss (marginal only  ) vs actual miss: Spearman 0.769
+predicted miss (dependence only) vs actual miss: Spearman 0.593
+predicted miss (both           ) vs actual miss: Spearman 0.726
+
+per dataset: Spearman(pred, meas) -> Spearman(formula, meas); mean|miss| -> after
+   Abalone       +0.963 -> +0.789   0.134 -> 0.125
+   Airfoil       +0.961 -> +0.983   0.043 -> 0.023
+   AutoMPG       +0.886 -> +0.861   0.139 -> 0.187
+   Bike          +0.871 -> +0.562   0.283 -> 0.092
+   Concrete      +0.973 -> +0.914   0.049 -> 0.062
+   Diabetes      +0.895 -> +0.900   0.130 -> 0.113
+   Energy        +0.805 -> +0.857   0.230 -> 0.118
+   Fires         -0.672 -> +0.446   0.730 -> 0.587
+   Gauss8        +0.998 -> +0.996   0.004 -> 0.016
+   Gauss8-exp    +0.943 -> +0.956   0.067 -> 0.043
+   GaussCoupled  +1.000 -> +1.000   0.008 -> 0.007
+   Housing       +0.975 -> +0.903   0.043 -> 0.048
+   Parkinsons    +0.980 -> +0.955   0.019 -> 0.035
+   PowerPlant    +0.981 -> +0.983   0.081 -> 0.022
+   RealEstate    +0.902 -> +0.901   0.075 -> 0.100
+   RedWine       -0.049 -> +0.130   0.752 -> 0.606
+   Student       +0.930 -> +0.937   0.064 -> 0.061
+   Wine          +0.051 -> +0.125   0.804 -> 0.718
+   Yacht         +0.037 -> +0.711   0.308 -> 0.236
+   Zoo           +0.392 -> +0.267   0.602 -> 0.335
+
+== Part 2: induction on the residual of the formula (folds grouped by dataset) ==
+residual of formula: variance 0.0986; leave-one-dataset-out R2 of boosting 0.577
+   dep_c_A      importance 1.0136
+   d_marg_tr_R  importance 0.2183
+   dep_c_R      importance 0.0684
+   disc_A       importance 0.0530
+   d_marg_tr_A  importance 0.0469
+   pred         importance 0.0134
+   nonlin_A     importance 0.0122
+   r2lin_A      importance 0.0116
+
+dataset characteristics (median over codes):
+dataset         miss   skew  exkurt   disc  nonlin    het  d_marg   dep_c
+Abalone        0.134  +1.03   +2.12  0.983  -0.001  0.060  -0.175  +0.146
+Airfoil        0.043  -0.33   -0.41  0.010  -0.011  0.044  -0.025  +0.008
+AutoMPG        0.139  +0.41   -0.77  0.571  -0.047  0.124  -0.151  +0.012
+Bike           0.283  -1.39   +1.89  0.161  -0.003  0.103  -0.502  +0.055
+Concrete       0.049  +0.37   -0.45  0.048  -0.013  0.054  -0.060  +0.047
+Diabetes       0.130  +0.43   -0.91  0.283  -0.038  0.112  -0.124  +0.015
+Energy         0.230  -0.26   -1.38  0.003  +0.010  0.099  -0.330  +0.059
+Fires          0.730  +5.95  +41.14  0.486  -0.053  0.171  -1.669  -0.110
+Gauss8         0.004  -0.01   +0.15  0.000  -0.013  0.020  -0.003  +0.004
+Gauss8-exp     0.067  -1.16  +14.93  0.000  -0.028  0.077  -0.295  +0.012
+GaussCoupled   0.008  +0.04   +0.00  0.000  -0.011  0.023  -0.000  +0.012
+Housing        0.043  -1.15   +1.65  0.001  -0.006  0.018  -0.169  +0.015
+Parkinsons     0.019  -0.14   -0.72  0.478  -0.012  0.055  +0.018  +0.074
+PowerPlant     0.081  +0.25   -1.08  0.154  +0.005  0.116  -0.127  -0.009
+RealEstate     0.075  +0.24   -0.25  0.118  -0.043  0.102  -0.007  +0.025
+RedWine        0.752  +0.11   +0.29  0.907  -0.009  0.074  -1.058  -0.040
+Student        0.064  +0.81   +2.04  0.827  -0.025  0.055  -0.125  +0.028
+Wine           0.804  +0.29   +0.09  0.949  -0.002  0.035  -0.830  -0.086
+Yacht          0.308  +1.85   +2.44  0.078  -0.117  0.161  -0.739  +0.035
+Zoo            0.602  +0.08   -1.29  0.816  -0.231  0.229  -0.641  +0.078

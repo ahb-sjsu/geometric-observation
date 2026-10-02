@@ -1,0 +1,37 @@
+Gaussian theory     agree (|miss| <= 2 SE) 51.3% of 675 real cases
+marginal-corrected  agree (|miss| <= 2 SE) 66.4% of 675 real cases
+
+per dataset, marginal-corrected: Spearman(pred, meas) -> Spearman(corr, meas); mean|miss| -> after; agree -> after
+   Abalone       +0.963 -> +0.978   0.134 -> 0.062   31% -> 56%
+   Airfoil       +0.961 -> +0.977   0.043 -> 0.044   78% -> 67%
+   AutoMPG       +0.886 -> +0.846   0.139 -> 0.155   97% -> 100%
+   Bike          +0.871 -> +0.855   0.283 -> 0.125   0% -> 10%
+   Concrete      +0.973 -> +0.966   0.049 -> 0.049   89% -> 92%
+   Diabetes      +0.895 -> +0.868   0.130 -> 0.109   81% -> 86%
+   Energy        +0.805 -> +0.924   0.230 -> 0.163   42% -> 61%
+   Fires         -0.672 -> +0.588   0.730 -> 0.225   5% -> 48%
+   Gauss8        +0.998 -> +0.999   0.004 -> 0.005   100% -> 100%
+   Gauss8-exp    +0.943 -> +0.974   0.067 -> 0.045   43% -> 40%
+   GaussCoupled  +1.000 -> +1.000   0.008 -> 0.010   100% -> 100%
+   Housing       +0.975 -> +0.924   0.043 -> 0.048   39% -> 48%
+   Parkinsons    +0.980 -> +0.965   0.019 -> 0.049   91% -> 61%
+   PowerPlant    +0.981 -> +0.986   0.081 -> 0.045   17% -> 67%
+   RealEstate    +0.902 -> +0.901   0.075 -> 0.132   97% -> 87%
+   RedWine       -0.049 -> +0.872   0.752 -> 0.131   2% -> 64%
+   Student       +0.930 -> +0.910   0.064 -> 0.080   93% -> 90%
+   Wine          +0.051 -> +0.722   0.804 -> 0.092   0% -> 56%
+   Yacht         +0.037 -> -0.118   0.308 -> 0.204   63% -> 67%
+   Zoo           +0.392 -> +0.369   0.602 -> 0.365   36% -> 85%
+
+residual of marginal-corrected: variance 0.0337; leave-one-dataset-out R2 of boosting 0.210
+   dep_c_A      importance 0.2209
+   d_marg_tr_A  importance 0.2200
+   nonlin_A     importance 0.1864
+   pred         importance 0.1476
+   d_marg_tr_R  importance 0.0788
+   dep_c_R      importance 0.0753
+   nonlin_R     importance 0.0450
+   het_A        importance 0.0400
+
+per-code check of the mechanism: Spearman over all codes of e_meas against d_marg (train) and dep_c
+   e_meas vs d_marg_tr 0.741;  e_meas - d_marg_te vs dep_c -0.624

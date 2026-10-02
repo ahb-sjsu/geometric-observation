@@ -16,11 +16,12 @@ from symbolic_search._ops import BINARY_OPS, UNARY_OPS
 FEATS = ["d_marg_tr", "dep_c", "kappa", "skew", "exkurt", "disc", "nonlin", "het", "r2lin"]
 SYN = {"Gauss8", "GaussCoupled", "Gauss8-exp"}
 
-def table(cases):
+def table(cases, target="gauss"):
     X, y, g, names = [], [], [], [f + "_R" for f in FEATS] + [f + "_A" for f in FEATS] + ["slack", "pred"]
     for o in cases:
         X.append([o["R"][f] for f in FEATS] + [o["A"][f] for f in FEATS] + [o["f"], o["pred"]])
-        y.append(abs(o["meas"] - o["pred"]) > 2 * o["se"]); g.append(o["dataset"])
+        ref = o["pred"] if target == "gauss" else o["corr_e_hat_marg"]
+        y.append(abs(o["meas"] - ref) > 2 * o["se"]); g.append(o["dataset"])
     return np.array(X, float), np.array(y, bool), np.array(g), names
 
 def evaluate(formula, X, names):
@@ -53,9 +54,10 @@ def radar(X, y, names, depth):
 
 if __name__ == "__main__":
     depth = int(sys.argv[1]) if len(sys.argv) > 1 else 2
+    target = sys.argv[2] if len(sys.argv) > 2 else "gauss"   # "gauss": miss of the Gaussian theory; "marg": after the marginal correction
     cases = [o for o in json.load(open("mining_cases.json")) if o["dataset"] not in SYN]
-    X, y, g, names = table(cases)
-    print(f"{len(y)} real cases, {y.mean():.1%} misses, {len(set(g))} datasets, depth {depth}")
+    X, y, g, names = table(cases, target)
+    print(f"{len(y)} real cases, {y.mean():.1%} misses, {len(set(g))} datasets, depth {depth}, target {target}")
     held, forms = [], Counter()
     for ds in sorted(set(g)):
         tr, te = g != ds, g == ds; t0 = time.time()
@@ -69,5 +71,5 @@ if __name__ == "__main__":
     print("formula stability across folds:", forms.most_common(5))
     form = radar(X, y, names, depth); _, t, d = best_threshold(evaluate(form, X, names), y)
     print(f"FINAL (hypothesis for registration 3): miss if {'+' if d > 0 else '-'}[{form}] >= {d * t:.4g}")
-    json.dump(dict(depth=depth, final=form, threshold=float(t), direction=int(d), folds=[h[:4] for h in held]),
-              open(f"radar_induction_d{depth}.json", "w"), indent=1)
+    json.dump(dict(target=target, depth=depth, final=form, threshold=float(t), direction=int(d), folds=[h[:4] for h in held]),
+              open(f"radar_induction_{target}_d{depth}.json", "w"), indent=1)
