@@ -187,13 +187,6 @@ components the leakage-optimal split of the distortion equalizes slopes
 that we compute in closed form, activates components in an order that
 is not the order of their variances, and can describe a disjoint set of
 components from the rate-optimal split (Section~\ref{sec:parallel}).
-With side information at the decoder (Section~\ref{sec:decsi}) the two
-degraded cases are explicit: when the decoder's information dominates
-the holder's, the leakage equals the rate at the optimum and there is no
-tradeoff; when the holder's dominates, an estimation inequality
-(Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one
-without decoder side information, for the source conditioned on the
-decoder's observation and the holder's excess information.
 The same effects appear in fixed-rate scalar quantizers
 (Appendix~\ref{sec:quant}). At equal rate and under the same
 distortion budget, which the principal-axis quantizer meets with slack,
@@ -266,8 +259,7 @@ structure, Section~\ref{sec:tilted} gives the water-filling
 characterization of the whole frontier, Section~\ref{sec:commuting} its
 explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
-Section~\ref{sec:parallel} independent components, and
-Section~\ref{sec:decsi} decoder side information.
+and Section~\ref{sec:parallel} independent components.
 Section~\ref{sec:examples} gives instances and
 Section~\ref{sec:discussion} open problems. The appendices prove the
 coding theorem and a Gaussian exhaustion lemma, evaluate practical
@@ -1524,123 +1516,6 @@ describes component $2$ alone exactly when $\kappa_2<\vartheta^\star\le\kappa_1$
 that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \end{proof}
 
-\section{Decoder Side Information}
-\label{sec:decsi}
-
-Suppose the decoder also observes $C=H_CT+N_C$, with $N_C\sim\mathcal N(0,\Sigma_{N_C})$,
-$\Sigma_{N_C}\succ0$, independent of everything else, and reconstructs from
-$(M,C^n)$. Write $J_S:=J$ for the holder's information,
-$J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$, and
-$\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$. The single-letter region is
-Villard and Piantanida's \cite[Theorem~3]{villard2013} with uncoded side
-information at the decoder: $R\ge I(V;T\mid C)$, distortion at most
-$\E\,d(Y,\hY(V,C))$, and equivocation at most
-$h(T\mid V,C)+I(T;C\mid U)-I(T;S\mid U)$, over $U-V-T-(C,S)$. We use it for
-the Gaussian source as Ekrem and Ulukus do \cite[Sec.~2]{ekrem2013},
-without reproving its extension to continuous alphabets. The two
-auxiliaries are what makes the general case hard; Ekrem and Ulukus
-evaluate the two endpoints separately, and a joint characterization is
-given by Xu, Chen, Chen, and Jin \cite{xu2024}. The two degraded cases are
-explicit and inherit the structure of the preceding sections.
-
-For Gaussian linear observations the information matrices order the
-side informations: if $J_S\preceq J_C$, the holder's observation is a
-stochastically degraded version of the decoder's. Indeed, the
-sufficient statistic $J_CT+n_C$, $n_C\sim\mathcal N(0,J_C)$, of $C$ is
-mapped by $A=J_SJ_C^{+}$ to $J_ST+An_C$, and
-$AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$,
-so adding independent noise of covariance $J_S-AJ_CA^{\mathsf T}$ reproduces
-the law of the sufficient statistic $J_ST+n_S$ of $S$. Degradedness implies
-that the decoder's side information is less noisy than the holder's in
-the sense of \cite{villard2013}, and symmetrically when $J_C\preceq J_S$.
-
-\begin{lemma}\label{lem:mmsecomp}
-Let $V-T-(C,S)$ with $J_C\preceq J_S$, and let
-$M_C=\E[\Cov(T\mid V,C)]$ and $M_S=\E[\Cov(T\mid V,S)]$ be the minimum
-mean-square error covariances, with $M_C\succ0$. Then
-$M_S\preceq\bigl(M_C^{-1}+J_S-J_C\bigr)^{-1}$, with equality when $(V,T)$ is
-jointly Gaussian.
-\end{lemma}
-
-\begin{proof}
-Write $J_+=J_S-J_C\succeq0$. The conditional law of $T$ given $(V,S)$
-depends on $S$ only through its sufficient statistic $J_ST+n_S$,
-$n_S\sim\mathcal N(0,J_S)$, which has the law, given $T$, of the sum
-$c+o$ of the sufficient statistics $c=J_CT+n_C$ and $o=J_+T+n_+$ of two
-independent observations $C'$ and $O$ of $T$ with information matrices
-$J_C$ and $J_+$. Since $c+o$ is sufficient for $T$ in $(C',O)$ and
-$V-T-(C',O)$, the error covariance $M_S$ equals that of estimating $T$
-from $(V,C',O)$, and $(T,V,C')$ has the law of $(T,V,C)$. For each
-realization $w$ of $(V,C')$, let $C_w$ be the conditional covariance of
-$T$. The best linear estimate of $T$ from $O$ under that conditional law
-has error covariance
-$C_w-C_wJ_+(I+C_wJ_+)^{-1}C_w$, which is $(C_w^{-1}+J_+)^{-1}$ when $C_w$
-is invertible, and it bounds the conditional minimum mean-square error.
-Averaging over $w$ and using the matrix concavity of
-$X\mapsto(X^{-1}+J_+)^{-1}$ (proof of Theorem~\ref{thm:convex}), the
-operator Jensen inequality gives
-$M_S\preceq\E[(C_w^{-1}+J_+)^{-1}]\preceq(M_C^{-1}+J_+)^{-1}$. When
-$(V,T)$ is jointly Gaussian every inequality is an equality, because
-$C_w$ is constant and the estimate is linear.
-\end{proof}
-
-\begin{theorem}\label{thm:decsi}
-Under the single-letter region above, for $0<D<\tr(Q\Sigma_{T\mid C})$:
-\begin{enumerate}
-\item[(a)] if $J_S\preceq J_C$, the region is the quadrant above
-$(R_C(D),R_C(D))$, where
-$R_C(D)=\min\{\tfrac12\log(\det\Sigma_{T\mid C}/\det M):0\prec M\preceq\Sigma_{T\mid C},\ \tr(QM)\le D\}$
-is reverse water-filling on the eigenvalues of
-$\Sigma_{T\mid C}^{1/2}Q\Sigma_{T\mid C}^{1/2}$; the leakage-optimal and
-rate-optimal descriptions coincide, and the holder learns as much as the
-rate;
-\item[(b)] if $J_C\preceq J_S$, the region is the region of
-Proposition~\ref{prop:posterior} for the source $\mathcal N(0,\Sigma_{T\mid C})$
-with holder information $J_S-J_C$ and the same weight $Q$; the coordinate
-is the decoder's error covariance $M=\Cov(T\mid V,C)$, and
-every result of Sections~\ref{sec:convex}--\ref{sec:directions} holds
-with $\Sigma_T$ replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$, the
-latter written as $H'^{\mathsf T}H'$ with unit noise where an observation
-map is needed.
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-For any $V$, the divergence bound in the proof of Lemma~\ref{lem:gauss},
-stopped before linear estimation enters, gives
-$I(T;V\mid C)\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$ and
-$I(T;V\mid S)\ge\tfrac12\log(\det\Sigma_{T\mid S}/\det M_S)$; and the
-distortion of any reproduction from $(V,C)$ is at least $\tr(QM_C)$.
-
-(a) The decoder's side information is less noisy, so $U$ constant is
-optimal \cite[Cor.~2]{villard2013}, and with the equivocation $\Upsilon$ and $L=h(T\mid S)-\Upsilon$ the
-leakage bound becomes
-$L\ge h(T\mid S)-h(T\mid V,C)-I(T;C)+I(T;S)=I(T;V\mid C)$, the same as the
-rate bound. The union over $V$ of the quadrants above
-$(I(T;V\mid C),I(T;V\mid C))$ is the quadrant above $(R_C(D),R_C(D))$, where
-$R_C(D)$ is the least $I(T;V\mid C)$ at distortion $D$, the Gaussian
-weighted Wyner--Ziv function; the bounds above with $M=M_C$ and a jointly
-Gaussian $V$ with $\Cov(T\mid V,C)=M$ give its value.
-
-(b) The holder's side information is less noisy, so $U=V$ is optimal
-\cite[Cor.~3]{villard2013}, the equivocation bound is $h(T\mid V,S)$, and
-$L\ge I(T;V\mid S)$. By the bounds above and Lemma~\ref{lem:mmsecomp},
-$R\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$,
-$L\ge\tfrac12\log\det\Sigma_{T\mid S}+\tfrac12\log\det(M_C^{-1}+J_S-J_C)$, and
-the distortion is at least $\tr(QM_C)$. A jointly Gaussian $V$ with
-precision $M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$ has $M_C=M$ and attains all
-three. Since $(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Kc$, these are the
-coordinates \eqref{eq:posterior} of the source $\mathcal N(0,\Sigma_{T\mid C})$
-with holder information $J_S-J_C$ at $\Sez=M$, over the same feasible set.
-\end{proof}
-
-So a decoder that knows more than the holder removes the tradeoff,
-and a holder that knows more than the decoder leaves exactly the
-problem of the preceding sections for the source as the decoder already
-knows it, with the holder's excess information in place of its total.
-When neither dominates, the auxiliary $U$ can matter, and the region is
-beyond the methods of this paper.
-
 \section{Instances}
 \label{sec:examples}
 
@@ -1686,9 +1561,8 @@ sources without decoder side information the region is now explicit in
 structure: a convex program in the error covariance, a closed form in a
 one-dimensional regime, and directions that turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
-open. With side information at the decoder, the degraded cases are settled
-here. When neither side information dominates, the second auxiliary
-can matter. For a matrix distortion on the whole source and a
+open. Side information at the decoder is not treated here, and with it
+the second auxiliary of the single-letter region can matter. For a matrix distortion on the whole source and a
 full-rank eavesdropper, Xu, Chen, Chen, and Jin \cite{xu2024} show that Gaussian
 auxiliaries are optimal. Whether their two-precision program, under a
 weighted distortion and a rank-deficient holder, has the convexity,
@@ -2097,11 +1971,7 @@ Theorem~\ref{thm:misalign}. \texttt{verify\_commuting.py} checks the closed form
 Theorem~\ref{thm:commuting} for the minimum leakage and for weighted
 frontier points against brute force, the diagonality of the optimum in
 the common eigenbasis, the activation rule, and the block-diagonal
-optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_decoder\_si.py} checks Lemma~\ref{lem:mmsecomp} for a
-non-Gaussian description (a sign quantizer, by numerical integration),
-the reduction of Theorem~\ref{thm:decsi}(b) on random Gaussian
-descriptions, and the minimum leakage with decoder side information
-against the reduced program. \texttt{verify\_coupled.py},
+optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_coupled.py},
 \texttt{verify\_parallel.py} (in \texttt{tit-vector-described}) and
 \texttt{verify\_pencil.py} (in \texttt{tit-cr-context}) check the
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
