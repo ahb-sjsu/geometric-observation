@@ -91,8 +91,8 @@ equivocation is due to Villard and Piantanida
 Ulukus \cite{ekrem2013} obtained the minimum leakage when the rate is
 unconstrained, as an optimization over covariance matrices. The joint
 rate--leakage region was left open: they report that they could not
-solve the weighted problem that traces it \cite[eqs.~(30)--(31)]{ekrem2013}, and Xu
-and Chen \cite{xuchen2021} have since proved by a new extremal
+solve the weighted problem that traces it \cite[eqs.~(30)--(31)]{ekrem2013}, and Xu,
+Chen, Chen, and Jin \cite{xu2024} have since proved by a new extremal
 inequality that Gaussian auxiliaries solve it, leaving the region as a
 matrix program. Without decoder side
 information the region itself is elementary, because a single Gaussian
@@ -224,13 +224,14 @@ Theorem~\ref{thm:op} is the union of their matrix-distortion regions
 over $\Lambda\preceq\Sigma_T$ with $\tr(Q\Lambda)\le D$, because a code
 meeting the trace constraint may output $\E[T\mid M]$, whose error
 matrix is at most $\Sigma_T$; Appendix~\ref{app:coding} proves the
-continuous-alphabet coding theorem directly. Xu and Chen
-\cite{xuchen2021} prove, by a new extremal inequality, that Gaussian
+continuous-alphabet coding theorem directly. Xu, Chen, Chen, and Jin
+\cite{xu2024} prove, by a new extremal inequality, that Gaussian
 auxiliaries are optimal in the Ekrem--Ulukus problem for every weight,
-which characterizes the rate--distortion--equivocation function as a
-matrix program over two precision matrices
-\cite[eq.~(189), Thm.~4]{xuchen2021}, for full-rank side informations
-at both receivers. Absent decoder side information, a formal limit
+which characterizes the rate--distortion--equivocation function of
+vector Gaussian secure source coding. In the preprint version
+\cite{xuchen2021}, which we checked, the characterization is a matrix
+program over two precision matrices \cite[eq.~(189), Thm.~4]{xuchen2021}
+for full-rank side informations at both receivers. Absent decoder side information, a formal limit
 outside their theorem, the program reduces to the one of
 Proposition~\ref{prop:posterior} in the precision coordinate
 $\Sez^{-1}-\Sigma_T^{-1}$ with the matrix constraint, which has no
@@ -381,7 +382,7 @@ information, the source, and the reproduction and passes to the limit.
 
 The tradeoff studied below needs the distortion to leave the encoder a
 choice of error covariance. The vector Gaussian secrecy literature
-\cite{ekrem2013,xuchen2021} instead asks the decoder to reproduce the
+\cite{ekrem2013,xu2024} instead asks the decoder to reproduce the
 whole source under a matrix constraint, and without decoder side
 information that choice disappears. The bounds of Ekrem and Ulukus
 imply the following; we state it in the present notation because the
@@ -573,7 +574,8 @@ symmetric $A\succeq0$ with eigenpairs $(\lambda_i,e_i)$, let
 \[
 \Phi(A)=\sum_i\min\{1,1/\lambda_i\}\,e_ie_i^{\mathsf T},
 \]
-reverse water-filling at level one on the spectrum of $A$.
+with $\min\{1,1/\lambda_i\}=1$ when $\lambda_i=0$, reverse water-filling at
+level one on the spectrum of $A$.
 
 \begin{theorem}\label{thm:tilted}
 For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the frontier point of weight
@@ -610,8 +612,8 @@ unique by strict convexity.
 \end{proof}
 
 The second term of $\tilde A$ is the information about $T$ that the
-holder's observation adds to the description, weighted by $1-\alpha$, and
-it equals $X^{-1}(X-X_{\mathrm e})X^{-1}$ with
+holder's observation adds to the description, weighted by $1-\alpha$: it
+equals $(1-\alpha)X^{-1}(X-X_{\mathrm e})X^{-1}$ with
 $X_{\mathrm e}=\Sigma_T^{-1/2}\Se\Sigma_T^{-1/2}$. At $\alpha=1$ it vanishes,
 and the theorem is reverse water-filling on the spectrum of $\tilde Q$,
 the weighted rate--distortion solution. For $\alpha<1$ the holder tilts
@@ -817,7 +819,8 @@ R=\sum_i\tfrac12\log\frac1{x_i},
 L=\sum_i\tfrac12\log\frac{1+j_ix_i}{x_i(1+j_i)} .
 \]
 In particular the minimum leakage takes
-$x_i=\min\bigl\{1,(\sqrt{1+4j_i/(\theta q_i)}-1)/(2j_i)\bigr\}$, and direction
+$x_i=\min\bigl\{1,(\sqrt{1+4j_i/(\theta q_i)}-1)/(2j_i)\bigr\}$, read as
+$x_i=\min\{1,1/(\theta q_i)\}$ when $j_i=0$ (the limit as $j_i\to0$), and direction
 $i$ is described exactly when $\theta>(1+\alpha j_i)/(q_i(1+j_i))$, so the
 leakage-optimal description begins with the directions of largest
 $q_i(1+j_i)$, the rate-optimal one with those of largest $q_i$.
@@ -1223,7 +1226,7 @@ one-dimensional rate description.
 
 \begin{theorem}\label{thm:misalign}
 Let $\lambda_1\ge\lambda_2$ be the two largest eigenvalues of
-$W^{1/2}\Sigma_YW^{1/2}$ and suppose $\Delta\le\lambda_1-\lambda_2$, the
+$W^{1/2}\Sigma_YW^{1/2}$, with $\lambda_2=0$ when $m=1$, and suppose $\Delta\le\lambda_1-\lambda_2$, the
 regime in which the rate-optimal description is one-dimensional,
 $b_R^{\mathsf T}T+N$. If $J\Sigma_Tb_R$ is not parallel to $b_R$, the
 rate-optimal description is not leakage-optimal and the leakage-optimal
@@ -1480,7 +1483,7 @@ the Gaussian source as Ekrem and Ulukus do \cite[Sec.~2]{ekrem2013},
 without reproving its extension to continuous alphabets. The two
 auxiliaries are what makes the general case hard; Ekrem and Ulukus
 evaluate the two endpoints separately, and a joint characterization is
-reported by Xu and Chen \cite{xuchen2021}. The two degraded cases are
+given by Xu, Chen, Chen, and Jin \cite{xu2024}. The two degraded cases are
 explicit and inherit the structure of the preceding sections.
 
 For Gaussian linear observations the information matrices order the
@@ -1629,7 +1632,7 @@ when the two parties' geometries are not aligned. Several problems remain
 open. With side information at the decoder, the degraded cases are settled
 here. When neither side information dominates, the second auxiliary
 can matter. For a matrix distortion on the whole source and a
-full-rank eavesdropper, Xu and Chen \cite{xuchen2021} show that Gaussian
+full-rank eavesdropper, Xu, Chen, Chen, and Jin \cite{xu2024} show that Gaussian
 auxiliaries are optimal. Whether their two-precision program, under a
 weighted distortion and a rank-deficient holder, has the convexity,
 pencil, and turning structure of the case without decoder side
@@ -1704,7 +1707,9 @@ $I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
 The mixture of the per-letter channels satisfies the Markov chain, has
 distortion $D_n$, and by convexity of both coordinates in the channel
 (for general alphabets the conditional coordinate is an integral over
-$s$ of relative entropies affine in the channel \cite{csiszar1967,wyner1978})
+$s$ of relative entropies between measures that depend affinely on the
+channel, and relative entropy is jointly convex in its two arguments
+\cite{csiszar1967,wyner1978})
 lies below $(R_n,L_n)$, so $(R_n,L_n)$ is in the union at $D_n$.
 
 \emph{Closedness.} Let $(R_j,L_j)\to(R,L)$ lie in the union at levels
@@ -1852,11 +1857,14 @@ $V$ maximizes $|\rho|$ over all projections because $S=V+U$.
 
 \textbf{Computation.} We use the Lloyd--Max quantizers for the standard
 normal law \cite{lloyd1982,max1960} at $k=2$, $3$, and $4$ bits, and
-$f=0.15$, $0.4$, and $0.7$. The rate, the distortion, and the leakage are
-exact Gaussian integrals, the last by Gauss--Hermite quadrature over
-$S$. The leakage-aware projection is the direction of largest $|\rho|$
+$f=0.15$, $0.4$, and $0.7$. The rate and the distortion are closed-form
+expressions in the cell probabilities and conditional means, which are
+evaluated through the normal distribution function. The leakage is an
+exact one-dimensional integral over $S$ of the conditional entropy of the
+cell index, evaluated numerically by Gauss--Hermite quadrature with 80
+nodes. The leakage-aware projection is the direction of largest $|\rho|$
 among $2\times10^6$ random feasible directions, and its costs are then
-evaluated exactly. Table~\ref{tab:quant} lists the results.
+evaluated by the same formulas. Table~\ref{tab:quant} lists the results.
 
 \begin{table}[t]
 \centering
@@ -2009,9 +2017,17 @@ descriptions rather than a bound.
 
 \section{Numerical Checks}
 \label{app:numver}
+\sloppy
 
 The identities and instances were checked independently of the
-derivations by scripts run on a remote workstation.
+derivations by scripts run on a remote workstation. The scripts and
+their recorded outputs are in the public repository
+\begin{center}
+\texttt{https://github.com/ahb-sjsu/geometric-observation}\\
+commit \texttt{93d48f2ee53dff637bcb0590ba3fd6a065b9475c}
+\end{center}
+in the directory \texttt{paper/tit-rate-leakage} unless another directory
+is named.
 \texttt{verify\_general.py} (in the companion directory
 \texttt{tit-vector-described}) checks, for random sources with general
 weights and observation maps, that the pencil value of
@@ -2035,8 +2051,9 @@ scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
 \ref{lem:slope}, the allocation, and the numbers of
 Section~\ref{sec:examples}. \texttt{tqp\_leakage\_demo.py} computes
-Table~\ref{tab:quant} and Fig.~\ref{fig:quant}. It evaluates the rate,
-distortion, and leakage of each quantizer by exact Gaussian integrals,
+Table~\ref{tab:quant} and Fig.~\ref{fig:quant}. It evaluates the rate
+and distortion of each quantizer in closed form and its leakage by
+80-node Gauss--Hermite quadrature of an exact one-dimensional integral,
 and checks that the leakage is strictly decreasing in $|\rho|$ for every
 quantizer. Its output is recorded in
 \texttt{tqp\_leakage\_demo-2026-10-01.txt}. \texttt{verify\_fixed\_read.py}
@@ -2091,8 +2108,12 @@ Basis for Data Compression}. Englewood Cliffs, NJ: Prentice-Hall, 1971.
 \bibitem{chechik2005} G. Chechik, A. Globerson, N. Tishby, and Y. Weiss,
 ``Information bottleneck for Gaussian variables,'' \emph{J. Mach. Learn.
 Res.}, vol. 6, pp. 165--188, 2005.
+\bibitem{xu2024} Y. Xu, G. Chen, J. Chen, and S. Jin, ``New proofs of
+Gaussian extremal inequalities with applications,'' \emph{IEEE Trans.
+Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
 \bibitem{xuchen2021} Y. Xu and G. Chen, ``New proofs of extremal
-inequalities with applications,'' arXiv:2109.00377, 2021.
+inequalities with applications,'' arXiv:2109.00377, 2021 (preprint
+version of \cite{xu2024}).
 \bibitem{gunlu2022} O. G\"unl\"u, R. F. Schaefer, H. Boche, and H. V. Poor,
 ``Private key and decoder side information for secure and private source
 coding,'' \emph{Entropy}, vol. 24, no. 12, art. 1716, 2022;
