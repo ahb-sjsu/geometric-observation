@@ -121,3 +121,35 @@ thresholds fixed, not scored.
 FROZEN on push (2026-10-02). Next: `python ot_scope.py predict`, push
 `scope_predictions.json` with its sha256, then `measure`, then
 `scope_score.py`.
+
+## Correction note (2026-10-02, after predictions were frozen, before any measured value was seen)
+
+This note corrects the wording of the onset section. It changes no
+criterion, threshold, or code. The frozen files (`ot_scope.py`,
+`scope_score.py`, `scope_predictions.json`, sha256 858a73b8...) are unchanged.
+
+1. **Order of onset.** Both this file and the docstring of `ot_scope.py`
+   describe the onset as "first order in f" for `mix15` and "second order"
+   for `orth`. The order belongs to the angle θ through which the code turns
+   away from the principal read, not to the slack f. Near the principal read
+   the decoder's distortion grows as θ², so θ ∝ √f. The theory therefore
+   predicts removal growing as √f for a view in the not-eigenvector class
+   (`mix15`), and as f for the non-top-eigenvector class (`orth`).
+
+2. **The frozen predictions saturate at these slacks.** The predicted
+   log-log slope of removal from f = 0.02 to f = 0.10 is
+   - about 0.18 for `mix15` on all six datasets;
+   - 0 for `orth` on GasTurbine and TempForecast, where the aware code
+     already reaches the view's most predictable direction at f = 0.02;
+   - not defined for `orth` on the other four, which predict no removal at
+     f = 0.02.
+
+   At these slacks the predictions are mostly past the onset, so they do not
+   show a clean √f or f growth.
+
+3. **Consequence.** S4a scores calibration against the frozen predictions,
+   and S4b is defined by predicted size at f = 0.02, so both are scored as
+   frozen. Neither tests the growth exponent. A test of the exponent needs
+   slacks well below where the aware code saturates, chosen per dataset from
+   the predicted saturation point. That is a measurement for a later
+   registration, not this one.
