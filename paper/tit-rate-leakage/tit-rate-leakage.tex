@@ -43,7 +43,7 @@ geometric-observation repository.}}
 An encoder observes a jointly Gaussian vector and describes part of it
 to a decoder under a weighted quadratic distortion. A second party
 holds a noisy linear observation of the source and never decodes. The
-description then has two costs: its rate, and its conditional leakage to
+description then has two costs, its rate and its conditional leakage to
 the second party, which is also the least rate at which that party can
 re-encode it. The single-letter region is known from secure source
 coding, and we determine its structure. In every geometry and at every
@@ -59,8 +59,13 @@ explicit lower bound on its excess leakage. When
 the optimal description is one-dimensional, which an explicit test
 certifies, the minimum leakage is a closed-form function of the largest
 eigenvalue of a matrix pencil in which the budget enters. The tradeoff
-exists because the distortion is a trace-type constraint: under a matrix
+exists because the distortion is a trace-type constraint. Under a matrix
 distortion on the whole source, one description minimizes both costs.
+When the decoder also has side information, we prove the region for the
+continuous source and settle the two degraded cases. If the decoder
+knows more than the second party there is no tradeoff, and if it knows
+less the problem reduces exactly to the one without decoder side
+information.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -77,7 +82,7 @@ holds the description together with its own observation of the source
 learns from it the conditional mutual information between the source and
 the description given that observation. In a secrecy reading the second
 party is an eavesdropper and this quantity is the information leakage
-beyond its side information; minimizing it maximizes the eavesdropper's
+beyond its side information. Minimizing it maximizes the eavesdropper's
 equivocation about the source. In a storage reading the second party
 keeps the description compressed against what it already knows, and the
 same quantity is the least rate at which it can re-encode the
@@ -90,7 +95,7 @@ equivocation is due to Villard and Piantanida
 \cite[Theorem~3]{villard2013}, and for vector Gaussian sources Ekrem and
 Ulukus \cite{ekrem2013} obtained the minimum leakage when the rate is
 unconstrained, as an optimization over covariance matrices. The joint
-rate--leakage region was left open: they report that they could not
+rate--leakage region was left open. They report that they could not
 solve the weighted problem that traces it \cite[eqs.~(30)--(31)]{ekrem2013}, and Xu,
 Chen, Chen, and Jin \cite{xu2024} have since proved by a new extremal
 inequality that Gaussian auxiliaries solve it, leaving the region as a
@@ -145,7 +150,7 @@ description has no more components than the described variable, even
 though it uses the context (Proposition~\ref{prop:rank}). The
 decoupling, commuting, and low-distortion results are cases of one
 characterization that holds at every budget, in every geometry, for
-partial and full descriptions alike: the error covariance is the fixed
+partial and full descriptions alike. In it the error covariance is the fixed
 point of reverse water-filling on the spectrum of the decoder's weight
 tilted by the information the second party's observation adds to the
 description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
@@ -155,7 +160,7 @@ the rate--distortion optimal test channel for a decoder that must
 describe the holder's view as well as $Y$, under a weight fixed by the
 solution (Corollary~\ref{cor:augmented}). For a scalar described
 variable, with any context and any holder, the frontier is explicit up
-to one scalar root: every optimal description reads a direction on the
+to one scalar root. Every optimal description reads a direction on the
 curve $((1-\varrho)\Sigma_T+\varrho\Kc)^{-1}\Sigma_Tq$, $\varrho\in[0,1]$, and
 one scalar equation, whose root is unique for the minimum leakage,
 selects it (Theorem~\ref{thm:scalarpath}). For holders and described
@@ -180,7 +185,7 @@ a fixed projection direction pays an explicit excess leakage over the
 best one-dimensional description, at one of any two budgets whose
 optimal directions differ (Theorem~\ref{thm:forced}). The same condition governs
 whether the two optimal descriptions coincide at all
-(Theorem~\ref{thm:misalign}): while the rate-optimal description is
+(Theorem~\ref{thm:misalign}). While the rate-optimal description is
 one-dimensional, they differ whenever the second party's information
 does not map the decoder's principal direction onto itself. For independent
 components the leakage-optimal split of the distortion equalizes slopes
@@ -189,9 +194,9 @@ is not the order of their variances, and can describe a disjoint set of
 components from the rate-optimal split (Section~\ref{sec:parallel}).
 With side information at the decoder (Section~\ref{sec:decsi}) we prove
 the single-letter region for the continuous source and solve the two
-degraded cases: when the decoder's information dominates the holder's,
-the leakage equals the rate at the optimum and there is no tradeoff;
-when the holder's dominates, an estimation inequality
+degraded cases. When the decoder's information dominates the holder's,
+the leakage equals the rate at the optimum and there is no tradeoff.
+When the holder's dominates, an estimation inequality
 (Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one without
 decoder side information, for the source conditioned on the decoder's
 observation and the holder's excess information.
@@ -210,12 +215,12 @@ $h(T^n\mid M,S^n)=h(T^n\mid S^n)-H(M\mid S^n)$, so minimizing
 $H(M\mid S^n)/n$, which equals $I(T^n;M\mid S^n)/n$, is the same as
 maximizing the equivocation $h(T^n\mid M,S^n)/n$. Secure lossy source
 coding with side information at the eavesdropper was characterized by
-Villard and Piantanida \cite{villard2013}; with no decoder side
+Villard and Piantanida \cite{villard2013}. With no decoder side
 information their Theorem~3 gives the discrete region of
 Theorem~\ref{thm:dmc} below. Ekrem and Ulukus \cite{ekrem2013} treat
 vector Gaussian sources with side information at both receivers, with
 arbitrary observation maps \cite[Sec.~5]{ekrem2013}, under a matrix
-distortion on the whole source; they give an outer bound that is tight
+distortion on the whole source. They give an outer bound that is tight
 without a rate constraint and leave the joint region open
 \cite[eqs.~(30)--(31)]{ekrem2013}. Their leakage is the total
 information at the eavesdropper, which differs from the conditional
@@ -224,7 +229,7 @@ information, the region of Proposition~\ref{prop:posterior} and
 Theorem~\ref{thm:op} is the union of their matrix-distortion regions
 over $\Lambda\preceq\Sigma_T$ with $\tr(Q\Lambda)\le D$, because a code
 meeting the trace constraint may output $\E[T\mid M]$, whose error
-matrix is at most $\Sigma_T$; Appendix~\ref{app:coding} proves the
+matrix is at most $\Sigma_T$. Appendix~\ref{app:coding} proves the
 continuous-alphabet coding theorem directly. Xu, Chen, Chen, and Jin
 \cite{xu2024} prove, by a new extremal inequality, that Gaussian
 auxiliaries are optimal in the Ekrem--Ulukus problem for every weight,
@@ -237,7 +242,7 @@ outside their theorem, the program reduces to the one of
 Proposition~\ref{prop:posterior} in the precision coordinate
 $\Sez^{-1}-\Sigma_T^{-1}$ with the matrix constraint, which has no
 tradeoff (Proposition~\ref{prop:matrix}). These results fix the form of
-the optimizers; the structure of the solution under a trace-type
+the optimizers. The structure of the solution under a trace-type
 distortion, which is the subject here, is not addressed there.
 G\"unl\"u, Schaefer, Boche, and
 Poor \cite{gunlu2022} evaluate the lossy rate region for scalar Gaussian
@@ -251,7 +256,7 @@ source in a cipher system \cite{yamamoto1997,schieler2014}. The leakage
 endpoint is Steinberg's common-reconstruction functional
 \cite{steinberg2009} on the source as the encoder observes it, an
 augmentation noted for finite alphabets by Lapidoth, Mal\"ar, and Wigger
-\cite{lapidoth2014}; a vector Gaussian common-reconstruction function
+\cite{lapidoth2014}. A vector Gaussian common-reconstruction function
 with every component penalized was given by Lu and Xu \cite{luxu2021}.
 Weighted quadratic distortion models a decoder that cares about some
 directions more than others, as in weighted rate--distortion
@@ -265,7 +270,7 @@ The paper is organized as follows. Section~\ref{sec:model} sets up the
 model and the coding theorem, Section~\ref{sec:convex} proves the convex
 structure, Section~\ref{sec:tilted} gives the water-filling
 characterization of the whole frontier, Section~\ref{sec:commuting} its
-explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
+explicit cases, Section~\ref{sec:onedim} the one-dimensional case,
 Section~\ref{sec:directions} the results on directions and misalignment,
 Section~\ref{sec:parallel} independent components, and
 Section~\ref{sec:decsi} decoder side information.
@@ -308,15 +313,15 @@ D_n=\tfrac1n\sum_{i=1}^n\E\bigl[(Y_i-\hY_i)^{\mathsf T}W(Y_i-\hY_i)\bigr],\quad
 L_n=\tfrac1nH(M\mid S^n)=\tfrac1nI(T^n;M\mid S^n).
 \]
 A pair $(R,L)$ is achievable at distortion $D$ when a sequence of codes
-has $\limsup R_n\le R$, $\limsup L_n\le L$, and $\limsup D_n\le D$; the
-closure of the achievable set is $\RW(D)$. Throughout $0<D<D_{\max}$; at
+has $\limsup R_n\le R$, $\limsup L_n\le L$, and $\limsup D_n\le D$. The
+closure of the achievable set is $\RW(D)$. Throughout $0<D<D_{\max}$. At
 $D\ge D_{\max}$ the zero reproduction gives $R=L=0$. Write $R_{\min}(D)$
 and $L(D)$ for the least rate and the least leakage over $\RW(D)$, and
 call a description rate-optimal or leakage-optimal when it attains one
 of them.
 
 A test channel $p(\hy\mid t)$ is admissible when its distortion is at
-most $D$; the Markov chain $\hY-T-S$ holds because the description is
+most $D$. The Markov chain $\hY-T-S$ holds because the description is
 formed without $S$. For a channel, let $\Sez$ and $\Se$ be the error
 covariances of the best linear estimates of $T$ from $\hY$ and from
 $(\hY,S)$. Appendix~\ref{app:exhaust} proves the following Gaussian
@@ -353,14 +358,14 @@ Given an admissible channel, centering $\hY$ changes neither coordinate
 and does not raise the distortion. If $\Cov N'$ is singular, either a
 noiseless linear functional of $T$ is revealed and both coordinates are
 infinite, or a nonzero combination of the components of $\hY$ vanishes
-and may be dropped after an invertible linear map; so assume
+and may be dropped after an invertible linear map. So assume
 $\Cov N'\succ0$. The residual is uncorrelated with $T$ by construction
 and with $U$ by independence, hence with $S$, and Lemma~\ref{lem:gauss}
 replaces the channel by $\hY=AT+N$ with the same distortion and no
 larger coordinates. For it,
 $\Sez^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
-$0\prec\Sez\preceq\Sigma_T$; the pair $(\hY,S)$ is a linear observation
-of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$; and the
+$0\prec\Sez\preceq\Sigma_T$. The pair $(\hY,S)$ is a linear observation
+of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
 distortion is at least that of $\E[Y\mid\hY]$, which is $\tr(Q\Sez)$.
 Conversely, given $\Sez\in\mathcal P(D)$, factor
 $\Sez^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $Z=GT+N$ with
@@ -378,7 +383,7 @@ Proposition~\ref{prop:posterior}.
 
 The proof is in Appendix~\ref{app:coding}. Its discrete core is the
 region of Villard and Piantanida without decoder side information
-(Theorem~\ref{thm:dmc}); the Gaussian extension quantizes the side
+(Theorem~\ref{thm:dmc}). The Gaussian extension quantizes the side
 information, the source, and the reproduction and passes to the limit.
 
 The tradeoff studied below needs the distortion to leave the encoder a
@@ -386,7 +391,7 @@ choice of error covariance. The vector Gaussian secrecy literature
 \cite{ekrem2013,xu2024} instead asks the decoder to reproduce the
 whole source under a matrix constraint, and without decoder side
 information that choice disappears. The bounds of Ekrem and Ulukus
-imply the following; we state it in the present notation because the
+imply the following. We state it in the present notation because the
 contrast organizes the rest of the paper.
 
 \begin{proposition}[cf.~{\cite[Thms.~6--7]{ekrem2013}}]\label{prop:matrix}
@@ -430,13 +435,13 @@ $D_{\max}=1.4$. In both the holder observes only the context.
 \begin{theorem}\label{thm:convex}
 On $\{0\prec\Sez\preceq\Sigma_T\}$, the rate $r$ and the leakage $\ell$
 of \eqref{eq:posterior} are strictly convex functions of $\Sez$, and the
-distortion $\tr(Q\Sez)$ is linear. Consequently:
+distortion $\tr(Q\Sez)$ is linear. Consequently the following hold.
 \begin{enumerate}
-\item[(a)] for every $\alpha\in[0,1]$ the program
+\item[(a)] For every $\alpha\in[0,1]$ the program
 $\min\{\alpha r(\Sez)+(1-\alpha)\ell(\Sez):\Sez\in\mathcal P(D)\}$ has a
 unique minimizer, the distortion constraint is active there, and the
-minima over $\alpha$ trace the Pareto frontier of $\RW(D)$;
-\item[(b)] in the coordinate $\Se$ the minimum leakage is a determinant
+minima over $\alpha$ trace the Pareto frontier of $\RW(D)$.
+\item[(b)] In the coordinate $\Se$ the minimum leakage is a determinant
 maximization,
 \begin{equation}
 L(D)=\tfrac12\log\det\Kc-\tfrac12\max\bigl\{\log\det\Se:\
@@ -445,7 +450,7 @@ L(D)=\tfrac12\log\det\Kc-\tfrac12\max\bigl\{\log\det\Se:\
 \label{eq:maxdet}
 \end{equation}
 in which $h$ is matrix-convex and the constraint is equivalent to a
-linear matrix inequality: with $J=B^{\mathsf T}B$,
+linear matrix inequality. With $J=B^{\mathsf T}B$,
 $\tr(Qh(\Se))\le D$ if and only if some symmetric $Z$ has
 $\tr(QZ)\le D$ and
 \begin{equation}
@@ -455,7 +460,7 @@ B\Se&I-B\Se B^{\mathsf T}
 \end{bmatrix}\succeq0 ;
 \label{eq:lmi}
 \end{equation}
-\item[(c)] a feasible $\Se$ is the maximizer in \eqref{eq:maxdet} if and
+\item[(c)] A feasible $\Se$ is the maximizer in \eqref{eq:maxdet} if and
 only if $\tr(Qh(\Se))=D$ and there are $\varpi\ge0$ and $\Theta\succeq0$
 with
 \begin{equation}
@@ -479,7 +484,7 @@ $L$ has error covariance
 $E_L(\Sez)=(I-LB)\Sez(I-LB)^{\mathsf T}+LL^{\mathsf T}\succeq\Se$, with
 equality at the optimal gain, and $E_L$ is affine in $\Sez$. A pointwise
 minimum of affine maps in the L\"owner order, attained at each point, is
-matrix-concave: at $\Sigma_t=(1-t)\Sigma_0+t\Sigma_1$ with optimal gain
+matrix-concave. At $\Sigma_t=(1-t)\Sigma_0+t\Sigma_1$ with optimal gain
 $L_t$,
 $\Se(\Sigma_t)=E_{L_t}(\Sigma_t)=(1-t)E_{L_t}(\Sigma_0)+tE_{L_t}(\Sigma_1)
 \succeq(1-t)\Se(\Sigma_0)+t\Se(\Sigma_1)$. The map
@@ -501,7 +506,7 @@ the weighted programs.
 
 (b) The map $\Sez\mapsto\Se$ is a bijection of
 $\{0\prec\Sez\preceq\Sigma_T\}$ onto $\{0\prec\Se\preceq\Kc\}$, with
-inverse $h$: $\Sez\preceq\Sigma_T$ if and only if $\Se^{-1}=\Sez^{-1}+J
+inverse $h$, since $\Sez\preceq\Sigma_T$ if and only if $\Se^{-1}=\Sez^{-1}+J
 \succeq\Sigma_T^{-1}+J=\Kc^{-1}$. The matrix $B\Kc B^{\mathsf T}$ has the
 same nonzero eigenvalues as $\Kc^{1/2}J\Kc^{1/2}\prec
 \Kc^{1/2}(\Sigma_T^{-1}+J)\Kc^{1/2}=I$, so on the feasible set
@@ -509,7 +514,7 @@ $B\Se B^{\mathsf T}\prec I$, and the Woodbury identity gives
 $h(\Se)=\Se+\Se B^{\mathsf T}(I-B\Se B^{\mathsf T})^{-1}B\Se$. By the
 Schur complement criterion \cite[Sec.~A.5.5]{boyd2004}, $h(\Se)\preceq Z$
 if and only if \eqref{eq:lmi} holds, and the block matrix there is
-affine in $(\Se,Z)$; averaging two instances with $Z_i=h(\Se^{(i)})$
+affine in $(\Se,Z)$. Averaging two instances with $Z_i=h(\Se^{(i)})$
 gives matrix convexity of $h$. Since $\tr(QZ)$ is monotone in $Z$, the
 constraint $\tr(Qh(\Se))\le D$ is equivalent to the existence of $Z$ with
 $\tr(QZ)\le D$ and \eqref{eq:lmi}.
@@ -525,7 +530,7 @@ $\ln2$ being absorbed in $\varpi$. When the distortion constraint is
 active its complementary slackness holds for every $\varpi\ge0$, and the
 maximizer has an active constraint by (a). If $\varpi=0$, then
 $\Theta=\tfrac12\Se^{-1}\succ0$ and the second condition forces
-$\Se=\Kc$, which is infeasible; so $\varpi>0$.
+$\Se=\Kc$, which is infeasible. So $\varpi>0$.
 \end{proof}
 
 The optimal description uses the context, but it never needs more
@@ -601,7 +606,7 @@ $X^{-1}=\tilde A(X)+2\Theta$. Suppose these hold.
 Let $\mathcal N$ be the null space of $I-X$. The range of $\Theta$ lies in
 $\mathcal N$, and for $v\in\mathcal N$, $\tilde Av=v-2\Theta v\in\mathcal N$,
 so $\mathcal N$ and $\mathcal N^\perp$ are invariant under $\tilde A$. On
-$\mathcal N$, $\tilde A=I-2\Theta\preceq I$ and $X=I$; on $\mathcal N^\perp$,
+$\mathcal N$, $\tilde A=I-2\Theta\preceq I$ and $X=I$. On $\mathcal N^\perp$,
 $\Theta=0$, $X^{-1}=\tilde A$, and $X\preceq I$ gives $\tilde A\succeq I$.
 So $X=\Phi(\tilde A)$. Conversely, if $X=\Phi(\tilde A)$, the matrix
 $\Theta=\tfrac12\sum_{\lambda_i<1}(1-\lambda_i)e_ie_i^{\mathsf T}$ is
@@ -609,12 +614,12 @@ positive semidefinite, vanishes off the eigenvectors on which $X=I$, and
 satisfies $X^{-1}=\tilde A+2\Theta$. If $\nu=0$, these are the optimality
 conditions of the program without the distortion constraint, whose
 unique minimizer is $X=I$ because both costs decrease in the L\"owner
-order; its distortion is $D_{\max}>D$, so $\nu>0$. The minimizer is
+order. Its distortion is $D_{\max}>D$, so $\nu>0$. The minimizer is
 unique by strict convexity.
 \end{proof}
 
 The second term of $\tilde A$ is the information about $T$ that the
-holder's observation adds to the description, weighted by $1-\alpha$: it
+holder's observation adds to the description, weighted by $1-\alpha$. It
 equals $(1-\alpha)X^{-1}(X-X_{\mathrm e})X^{-1}$ with
 $X_{\mathrm e}=\Sigma_T^{-1/2}\Se\Sigma_T^{-1/2}$. At $\alpha=1$ it vanishes,
 and the theorem is reverse water-filling on the spectrum of $\tilde Q$,
@@ -653,10 +658,10 @@ $\Phi(\tilde A(X))=X$ by Theorem~\ref{thm:tilted}.
 
 So the least-leaking description at a given rate is the one a
 rate--distortion encoder would produce if it also had to describe what
-the holder sees: making the description informative about $S$ is what
+the holder sees. Making the description informative about $S$ is what
 lowers $\ell=r-I(\hY;S)$. The weight $Q'$ depends on the frontier
 point, so the corollary is an equivalence of single-letter solutions,
-not a construction; it says that the optimal test channel is a weighted
+not a construction. It says that the optimal test channel is a weighted
 rate--distortion test channel, and the operational consequences for
 codes designed for $Q'$ are not developed here. The target $(Y,HT)$ need
 not have full row rank, and nothing in the corollary uses it.
@@ -690,7 +695,7 @@ so they have exactly one solution. The function
 $\omega\mapsto\omega(\tilde\zeta^{\mathsf T}X\tilde\zeta+\sigma_U^2)-(1-\alpha)$,
 with $X=\Phi(2\nu\tilde Q+\omega\tilde\zeta\tilde\zeta^{\mathsf T})$, is
 continuous because $\Phi$ is, negative at $\omega=0$ when $\alpha<1$, and
-nonnegative at $\omega=(1-\alpha)/\sigma_U^2$; any root gives that unique
+nonnegative at $\omega=(1-\alpha)/\sigma_U^2$. Any root gives that unique
 solution, so bisection finds it. The distortion of the penalized
 minimizer is nonincreasing in $\nu$ by the standard comparison of the
 penalized optima at two values of $\nu$, so a second bisection matches
@@ -710,7 +715,7 @@ surrogate $g_t$ defined in the proof. Then
 X_{t+1}=\Phi\bigl(2\nu_t\tilde Q+T_t\bigr),\qquad
 T_t=(1-\alpha)\tilde H^{\mathsf T}\bigl(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U\bigr)^{-1}\tilde H,
 \]
-where $\nu_t\ge0$ is the multiplier of the distortion constraint:
+where $\nu_t\ge0$ is the multiplier of the distortion constraint, with
 $\nu_t=0$ if $\tr(\tilde Q\Phi(T_t))\le D$, and otherwise $\nu_t$ is a level
 with $\tr(\tilde QX_{t+1})=D$. The weighted cost is nonincreasing along
 $(X_t)_{t\ge1}$, $X_{t+1}-X_t\to0$, and $X_t$ converges to the frontier
@@ -800,7 +805,7 @@ So for a scalar holder, the case of the scalar and coupled instances
 and of Appendix~\ref{sec:quant}, the whole frontier, partial description
 included, is the fixed point of reverse water-filling on a rank-one tilt
 of the decoder's weight, computed as in Remark~\ref{rem:solver}. As
-intuition for why the projection direction turns: a single party has
+intuition for why the projection direction turns, note that a single party has
 $\omega=0$ and water-fills on the fixed eigenvectors of $\tilde Q$, while
 the holder adds $\omega\tilde\zeta\tilde\zeta^{\mathsf T}$, and as the
 budget moves, the ratio $\omega/\nu$ moves and the eigenvectors of
@@ -893,8 +898,8 @@ in natural units. Each $\phi_i$ is convex and decreasing, with
 $-\phi_i'(x)=(1+\alpha j_ix)/(2x(1+j_ix))$. A direction with $q_i=0$ does
 not enter the constraint, so $x_i=1$. For the others the optimality
 condition is $-\phi_i'(x_i)=\tfrac12\theta q_i$ when $x_i<1$ and
-$-\phi_i'(1)\ge\tfrac12\theta q_i$ when $x_i=1$, for a common $\theta>0$;
-the first is \eqref{eq:commroot}, whose roots have product
+$-\phi_i'(1)\ge\tfrac12\theta q_i$ when $x_i=1$, for a common $\theta>0$.
+The first is \eqref{eq:commroot}, whose roots have product
 $-1/(\theta q_ij_i)<0$, so exactly one is positive, and the second
 reads $\theta\le(1+\alpha j_i)/(q_i(1+j_i))$. Each $x_i(\theta)$ is
 continuous and nonincreasing, strictly decreasing where it is below one,
@@ -907,7 +912,7 @@ In each direction the leakage
 $\tfrac12\log[(1+j_ix_i)/(x_i(1+j_i))]$ is Steinberg's scalar Gaussian
 common-reconstruction function \cite{steinberg2009} at unit variance,
 distortion $x_i$, and squared correlation $j_i/(1+j_i)$ between the
-direction and the holder's observation; the theorem is the allocation
+direction and the holder's observation. The theorem is the allocation
 of the distortion budget among such problems, and the joint frontier
 that goes with it.
 
@@ -922,7 +927,7 @@ rate-optimal one have different ratios $j_i/q_i$.
 \begin{proof}
 The first statement is Theorem~\ref{thm:commuting}. If the two optimal
 descriptions coincided, they would describe the same directions with
-the same $x_i$; for those directions $x_i=1/(\theta_Rq_i)$ and
+the same $x_i$. For those directions $x_i=1/(\theta_Rq_i)$ and
 $x_i(1+j_ix_i)=1/(\theta_Lq_i)$, so $1+j_ix_i=\theta_R/\theta_L$ is the same
 for all of them, and $j_ix_i=j_i/(\theta_Rq_i)$ forces $j_i/q_i$ to be the
 same.
@@ -970,7 +975,7 @@ $\Xi$ is
 \alpha I+(1-\alpha)(I+\Pi\Xi)^{-1}=\theta\Xi,\qquad \theta=2\nu .
 \]
 For $\alpha<1$ the right side is symmetric, so $I+\Pi\Xi$ is symmetric
-and $\Pi\Xi=\Xi\Pi$; for $\alpha=1$ the condition is $\Xi=I/\theta$.
+and $\Pi\Xi=\Xi\Pi$. For $\alpha=1$ the condition is $\Xi=I/\theta$.
 Either way $\Xi$ leaves each eigenspace of $\Pi$ invariant, and on the
 eigenspace of $\pi_i$ every eigenvalue $\xi$ of $\Xi$ satisfies
 $\alpha+(1-\alpha)/(1+\pi_i\xi)=\theta\xi$, which is
@@ -991,7 +996,7 @@ When $Q$ is singular, Proposition~\ref{prop:rank} shows that the cap is
 always active, and the error covariance equals $\Sigma_T$ on a subspace
 of dimension at least $p-\operatorname{rank}Q$.
 
-\section{The One-Dimensional Regime}
+\section{The One-Dimensional Case}
 \label{sec:onedim}
 
 Write $\Delta=D_{\max}-D$ for the reduction in distortion the description
@@ -1063,7 +1068,7 @@ and sufficient. Taking $b^{\mathsf T}\Gamma(\varpi)b=0$ gives $\varpi$.
 
 (c) By Lemma~\ref{lem:gauss} the optimum is attained by a jointly
 Gaussian channel $\hY=a^{\mathsf T}T+N$. If $\Cov(Y,\hY)=0$ its
-distortion is at least $D_{\max}>D$; otherwise $\E[Y\mid\hY]$ is a
+distortion is at least $D_{\max}>D$. Otherwise $\E[Y\mid\hY]$ is a
 nonzero multiple of $\hY$, which leaves the leakage unchanged and does
 not raise the distortion, so the optimum is a one-dimensional
 description.
@@ -1071,7 +1076,7 @@ description.
 
 \begin{corollary}\label{cor:scalar}
 Let $T=(Y,V)$ be scalar with unit variances and correlation $\rho$,
-$|\rho|<1$, let $W=1$, and let $S=V+U$ with $\Var U=\tau^2>0$; write
+$|\rho|<1$, let $W=1$, and let $S=V+U$ with $\Var U=\tau^2>0$, and write
 $s=1+\tau^2$. For $0<D<1$,
 \[
 L(D)=\tfrac12\log g^\star,\qquad
@@ -1093,7 +1098,7 @@ computer algebra (Appendix~\ref{app:numver}). Since $P(1)=(D-1)\tau^2<0$
 and $P(0)=1-\rho^2>0$, $P$ has one root in $(0,1)$, which corresponds to
 a negative $\mu$, and one root $g^\star>1$, which corresponds to the
 unique positive root $\mu_{\max}$. The projection direction is the
-corresponding generalized eigenvector; normalizing the reproduction
+corresponding generalized eigenvector. Normalizing the reproduction
 gives the stated coefficients.
 \end{proof}
 
@@ -1142,12 +1147,12 @@ stationarity on the hyperplane $q^{\mathsf T}\Sigma_Tb=1$ gives
 $\Sigma_Tb-\varrho(\Sigma_T-\Kc)b\propto\Sigma_Tq$ with
 $\varrho=(1-\alpha)(1-\Delta\mathsf u)/(1-\Delta\mathsf v)$, which is
 \eqref{eq:scalarpath} and $b=b(\varrho)$, with $\Sigma_\varrho\succ0$. Since
-$\Kc\succ0$, $\mathsf u-\mathsf v=b^{\mathsf T}\Kc b>0$; so for $\alpha<1$ a
+$\Kc\succ0$, $\mathsf u-\mathsf v=b^{\mathsf T}\Kc b>0$. So for $\alpha<1$ a
 root has $1-\Delta\mathsf v>1-\Delta\mathsf u$ and both factors positive,
 hence $0<\varrho<1-\alpha$, and every root is a feasible description,
 while $\alpha=1$ forces $\varrho=0$. The equation is rational in $\varrho$
 and not identically zero, since at $\varrho=0$ its right side is
-$(1-\alpha)D/D_{\max}>0$; so the roots are finitely many, and distinct
+$(1-\alpha)D/D_{\max}>0$. So the roots are finitely many, and distinct
 roots give distinct descriptions, so the root of least cost is the
 unique minimizer. At a root, $(1-\Delta\mathsf v)/(1-\Delta\mathsf u)=(1-\alpha)/\varrho$,
 which gives the last form of $L$.
@@ -1168,10 +1173,10 @@ weight, reads a direction on one explicit curve, from $b(0)\propto q$,
 which describes $Y$ itself, toward
 $b(1)\propto\Kc^{-1}\Sigma_Tq=q+J\Sigma_Tq$. The rate-optimal description
 has $\varrho=0$ at every budget. The leakage-optimal one moves along the
-curve with the budget: $\varrho\to1$ as $D\to D_{\max}$, where it reads
+curve with the budget, with $\varrho\to1$ as $D\to D_{\max}$, where it reads
 $q+J\Sigma_Tq$, and $\varrho\to0$ as $D\to0$, where it must reveal $Y$.
 At $\alpha=0$ the stationarity condition is the pencil of
-Theorem~\ref{thm:onedim}: with $Q=qq^{\mathsf T}$ the eigenvector equation
+Theorem~\ref{thm:onedim}. With $Q=qq^{\mathsf T}$ the eigenvector equation
 $A(\Delta)b=\mu\Kc b$ reads $(\Delta\Sigma_T+\mu\Kc)b\propto\Sigma_Tq$, and
 with $q^{\mathsf T}\Sigma_Tb=1$ it gives $1-\Delta\mathsf u=\mu(\mathsf u-\mathsf v)$
 and $1-\Delta\mathsf v=(\mu+\Delta)(\mathsf u-\mathsf v)$, so
@@ -1201,12 +1206,12 @@ the eigenvalues of $W^{1/2}\Sigma_YW^{1/2}$ along fixed directions.
 With $J=0$, $\Kc=\Sigma_T$ and $A(\Delta)b=\mu\Sigma_Tb$ reads
 $\Sigma_TQ\Sigma_Tb=(\mu+\Delta)\Sigma_Tb$, whose eigenvectors do not
 depend on $\Delta$. The rate-optimal description is the weighted
-quadratic rate--distortion solution \cite{sakrison1968}: in the
+quadratic rate--distortion solution \cite{sakrison1968}. In the
 coordinates $W^{1/2}Y$ the distortion is squared error, and reverse
 water-filling describes fixed principal components \cite{berger1971}.
 \end{proof}
 
-The Gaussian information bottleneck has the same property: its optimal
+The Gaussian information bottleneck has the same property. Its optimal
 projections are fixed eigenvectors, and its tradeoff parameter sets only
 their number and scale \cite{chechik2005}. The leakage-optimal
 description behaves differently.
@@ -1239,15 +1244,15 @@ $(A_0-\Delta\Sigma_T)b=\mu_{\max}(\Delta)\Kc b$ gives
 $\Sigma_Tb=c\Kc b$ for a scalar $c$, and
 $c=b^{\mathsf T}\Sigma_Tb/b^{\mathsf T}\Kc b\ge1$ because
 $\Kc\preceq\Sigma_T$. Then $A_0b=(\Delta+\mu_{\max}/c)\Sigma_Tb$, that is,
-$Q\Sigma_Tb=\lambda b$ with $\lambda=\Delta+\mu_{\max}/c>0$; and
-multiplying $\Sigma_Tb=c\Kc b$ by $\Kc^{-1}=\Sigma_T^{-1}+J$ gives
+$Q\Sigma_Tb=\lambda b$ with $\lambda=\Delta+\mu_{\max}/c>0$.
+Multiplying $\Sigma_Tb=c\Kc b$ by $\Kc^{-1}=\Sigma_T^{-1}+J$ gives
 $J\Sigma_Tb=(c-1)b$, so $\varsigma=c-1\ge0$. This proves the last sentence
 and the forward direction.
 
 Conversely, if $b_0$ satisfies \eqref{eq:common}, then
 $\Kc^{-1}\Sigma_Tb_0=(1+\varsigma)b_0$, so $\Sigma_Tb_0=(1+\varsigma)\Kc b_0$ and
 $A(\Delta)b_0=(\lambda-\Delta)\Sigma_Tb_0=(\lambda-\Delta)(1+\varsigma)\Kc b_0$
-for every $\Delta$: $b_0$ is a generalized eigenvector with eigenvalue
+for every $\Delta$, so $b_0$ is a generalized eigenvector with eigenvalue
 $(\lambda-\Delta)(1+\varsigma)$ throughout. Let
 $\mathcal E=\{\Delta\in\mathcal I:(\lambda-\Delta)(1+\varsigma)=\mu_{\max}(\Delta)\}$.
 It contains $\Delta_0$ and is closed in $\mathcal I$ by continuity. It is
@@ -1259,7 +1264,7 @@ $b(\Delta)$ spans the line of $b_0$ throughout.
 \end{proof}
 
 \begin{corollary}\label{cor:context}
-Suppose the holder observes only the context: in coordinates $T=(Y,V)$,
+Suppose the holder observes only the context, that is, in coordinates $T=(Y,V)$,
 $F=[\,I\ 0\,]$ and $H=[\,0\ H_V\,]$. Then \eqref{eq:common} holds if
 and only if $b_0=F^{\mathsf T}\beta$ with $W\Sigma_Y\beta=\lambda\beta$ and
 $\Cov(S,\beta^{\mathsf T}Y)=0$.
@@ -1271,7 +1276,7 @@ $Q$, which is the range of $F^{\mathsf T}$, so $b_0=F^{\mathsf T}\beta$
 and $F^{\mathsf T}W\Sigma_Y\beta=\lambda F^{\mathsf T}\beta$. The vector
 $J\Sigma_Tb_0$ lies in the range of $H^{\mathsf T}$, which meets the
 range of $F^{\mathsf T}$ only at zero, so $J\Sigma_Tb_0=\varsigma b_0$
-forces $J\Sigma_Tb_0=0$; with $w=\Sigma_Tb_0$, $w^{\mathsf T}Jw=0$ gives
+forces $J\Sigma_Tb_0=0$. With $w=\Sigma_Tb_0$, $w^{\mathsf T}Jw=0$ gives
 $\Sigma_U^{-1/2}Hw=0$, that is,
 $\Sigma_U^{-1}H\Sigma_TF^{\mathsf T}\beta=0$, which is
 $\Cov(S,\beta^{\mathsf T}Y)=0$. The converse is direct.
@@ -1285,31 +1290,31 @@ one-dimensional rate description.
 \begin{theorem}\label{thm:misalign}
 Let $\lambda_1\ge\lambda_2$ be the two largest eigenvalues of
 $W^{1/2}\Sigma_YW^{1/2}$, with $\lambda_2=0$ when $m=1$, and suppose $\Delta\le\lambda_1-\lambda_2$, the
-regime in which the rate-optimal description is one-dimensional,
+range in which the rate-optimal description is one-dimensional,
 $b_R^{\mathsf T}T+N$. If $J\Sigma_Tb_R$ is not parallel to $b_R$, the
 rate-optimal description is not leakage-optimal and the leakage-optimal
 description is not rate-optimal, so each pays a strictly positive excess
 in the other cost. If $J\Sigma_Tb_R$ is parallel to $b_R$, then $b_R$ is a
 generalized eigenvector of the leakage pencil at every $\Delta$, and
-inside the one-dimensional regime of Theorem~\ref{thm:onedim} the two
+inside the one-dimensional range of Theorem~\ref{thm:onedim} the two
 descriptions coincide exactly when it is the top one.
 \end{theorem}
 
 \begin{proof}
-In the stated regime reverse water-filling describes only the principal
+In the stated range reverse water-filling describes only the principal
 component, so the rate-optimal description is the one-dimensional
 description reading $b_R$, where $Q\Sigma_Tb_R=\lambda_1b_R$. If it were
 leakage-optimal, then $L(D)=L_{\mathrm{1d}}(D)$ and $b_R$ would maximize
 the Rayleigh quotient of Theorem~\ref{thm:onedim}(a), hence be a
 generalized eigenvector of $(A(\Delta),\Kc)$, that is,
-$(\lambda_1-\Delta)\Sigma_Tb_R\propto\Kc b_R$; multiplying by
+$(\lambda_1-\Delta)\Sigma_Tb_R\propto\Kc b_R$. Multiplying by
 $\Kc^{-1}=\Sigma_T^{-1}+J$ gives $J\Sigma_Tb_R\propto b_R$. So when
 $J\Sigma_Tb_R$ is not parallel to $b_R$ the rate-optimal description is not
 leakage-optimal, and since both minimizers of Theorem~\ref{thm:convex}(a)
 are unique, the leakage-optimal description is not rate-optimal either.
 The same computation read backward shows that $J\Sigma_Tb_R\propto b_R$
 makes $b_R$ a generalized eigenvector at every $\Delta$, and inside the
-one-dimensional regime the leakage-optimal description reads the top
+one-dimensional range the leakage-optimal description reads the top
 one.
 \end{proof}
 
@@ -1414,7 +1419,7 @@ Since $L(D)\le L_{\mathrm{1d}}(D)$, the bounds are also lower bounds on
 the excess over the least leakage of any description, and they bound
 that excess exactly where $L(D)=L_{\mathrm{1d}}(D)$, at every budget for a
 scalar described variable and inside the certificate of
-Theorem~\ref{thm:onedim}(b) in general. The bounds need no search; the
+Theorem~\ref{thm:onedim}(b) in general. The bounds need no search. The
 two-budget values below were found by search over directions. In the
 coupled instance the rate-optimal description, whose projection
 direction is fixed, pays $0.139$ bits of excess leakage at $D=1.1$
@@ -1460,19 +1465,19 @@ $\delta\to0$, and $\ell'\to-\tau^2/(2\ln2(\rho^2+\tau^2))$ as $\delta\to1$.
 
 \begin{proof}
 The larger root is simple, with $\partial_gP=\Delta_\delta$ there, so
-$g^\star$ is smooth; differentiating $P(g^\star(\delta))=0$ with
+$g^\star$ is smooth. Differentiating $P(g^\star(\delta))=0$ with
 $\partial_\delta P=gk$ gives $g'=-gk/\Delta_\delta$ and the first formula.
 Differentiating once more and eliminating $\delta$ through
 $\delta gk=(s-\rho^2)g-(1-\rho^2)$ gives the second, an identity of
-polynomials confirmed by computer algebra (Appendix~\ref{app:numver});
-its numerator is positive. The limits follow from $g^\star\to\infty$,
+polynomials confirmed by computer algebra (Appendix~\ref{app:numver}).
+Its numerator is positive. The limits follow from $g^\star\to\infty$,
 $\Delta_\delta\to s-\rho^2$ as $\delta\to0$ and $g^\star\to1$, $k\to\tau^2$,
 $\Delta_\delta\to\rho^2+\tau^2$ as $\delta\to1$.
 \end{proof}
 
 Define the activation level
-$\kappa_j=-L_j'(\sigma_j^2-)=\tau_j^2/(2\ln2\,\sigma_j^2(\rho_j^2+\tau_j^2))$;
-for the rate it would be $1/(2\ln2\,\sigma_j^2)$.
+$\kappa_j=-L_j'(\sigma_j^2-)=\tau_j^2/(2\ln2\,\sigma_j^2(\rho_j^2+\tau_j^2))$.
+For the rate it would be $1/(2\ln2\,\sigma_j^2)$.
 
 These components are two-dimensional blocks of Theorem~\ref{thm:decouple},
 each solved by Corollary~\ref{cor:scalar}.
@@ -1503,8 +1508,8 @@ A product of component channels attains the sum with equality.
 $(0,\sigma_j^2)$ by Lemma~\ref{lem:slope}, with left derivative
 $-\kappa_j$ at $\sigma_j^2$. An allocation is optimal if and only if some
 $\vartheta\ge0$ lies in $-\partial L_j(D_j)$ for every $j$ with
-$\vartheta(\sum_jD_j-D)=0$. Since $D<\sum_j\sigma_j^2$, $\vartheta>0$; no $D_j$
-is $0$ because $-L_j'\to\infty$ there; and $\sum_jD_j(\vartheta)$ decreases
+$\vartheta(\sum_jD_j-D)=0$. Since $D<\sum_j\sigma_j^2$, $\vartheta>0$. No $D_j$
+is $0$ because $-L_j'\to\infty$ there. The sum $\sum_jD_j(\vartheta)$ decreases
 continuously and strictly from $\sum_j\sigma_j^2$ at $\min_j\kappa_j$ to
 $0$, so $\vartheta^\star$ is unique. (c) $D_j(\vartheta)<\sigma_j^2$ exactly when
 $\vartheta>\kappa_j$, and $\vartheta^\star$ increases as $D$ decreases.
@@ -1520,7 +1525,7 @@ leakage-optimal description describes component $2$ alone.
 
 \begin{proof}
 Reverse water-filling describes component $1$ alone exactly for
-$2\sigma_2^2\le D<\sigma_1^2+\sigma_2^2$; Theorem~\ref{thm:parallel}(b)
+$2\sigma_2^2\le D<\sigma_1^2+\sigma_2^2$. Theorem~\ref{thm:parallel}(b)
 describes component $2$ alone exactly when $\kappa_2<\vartheta^\star\le\kappa_1$,
 that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \end{proof}
@@ -1554,7 +1559,7 @@ The proof is in Appendix~\ref{app:decsi}. The converse single-letterizes
 directly for the continuous source, and the achievability reduces to the
 finite-alphabet theorem of Villard and Piantanida
 \cite[Theorem~3]{villard2013} by quantization, along the lines of
-Appendix~\ref{app:coding}. Since $V_0-V-(C,S)$, the leakage bound can also
+Appendix~\ref{app:coding}. Since $V_0-V-T-(C,S)$, the leakage bound can also
 be written $I(T;V)-I(V;C\mid V_0)-I(V_0;S)$. With $C$ constant the best
 choice is $V_0=V$, because $I(V_0;S)\le I(V;S)$, and the bound becomes
 $I(T;V\mid S)$, the region of Theorem~\ref{thm:op}. In general the two
@@ -1566,14 +1571,15 @@ degraded cases are explicit.
 
 For Gaussian linear observations the information matrices order the
 side informations. If $J_S\preceq J_C$, the sufficient statistic
-$J_CT+n_C$, $n_C\sim\mathcal N(0,J_C)$, of $C$ is mapped by $A=J_SJ_C^{+}$ to
-$J_ST+An_C$. Here $AJ_C=J_S$, because $J_S\preceq J_C$ puts the null space
+$J_CT+\nu_C$, $\nu_C\sim\mathcal N(0,J_C)$, of $C$ is mapped by $A=J_SJ_C^{+}$ to
+$J_ST+A\nu_C$. Here $AJ_C=J_S$, because $J_S\preceq J_C$ puts the null space
 of $J_C$ inside that of $J_S$. Also
 $AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$,
 because $J_C^{+1/2}J_SJ_C^{+1/2}\preceq J_C^{+1/2}J_CJ_C^{+1/2}\preceq I$
-gives $\|J_S^{1/2}J_C^{+1/2}\|\le1$. So adding independent noise of
+gives $\|X\|\le1$ for $X=J_S^{1/2}J_C^{+1/2}$, so that
+$XX^{\mathsf T}=J_S^{1/2}J_C^{+}J_S^{1/2}\preceq I$. So adding independent noise of
 covariance $J_S-AJ_CA^{\mathsf T}$ reproduces the law, given $T$, of the
-sufficient statistic $J_ST+n_S$ of $S$, and drawing $S'$ from the
+sufficient statistic $J_ST+\nu_S$ of $S$, and drawing $S'$ from the
 conditional law of $S$ given that statistic, which does not depend on
 $T$, gives a channel from $C$ to $S'$ with $(T,S')\sim(T,S)$ and
 $T-C-S'$. For any $V_0$ with $V_0-T-(C,S)$, the mutual information
@@ -1593,11 +1599,12 @@ jointly Gaussian.
 
 \begin{proof}
 Write $J_+=J_S-J_C\succeq0$. The conditional law of $T$ given $(V,S)$
-depends on $S$ only through its sufficient statistic $J_ST+n_S$,
-$n_S\sim\mathcal N(0,J_S)$, which has the law, given $T$, of the sum
-$c+o$ of the sufficient statistics $c=J_CT+n_C$ and $o=J_+T+n_+$ of two
+depends on $S$ only through its sufficient statistic $J_ST+\nu_S$,
+$\nu_S\sim\mathcal N(0,J_S)$, which has the law, given $T$, of the sum
+$c+o$ of the sufficient statistics $c=J_CT+\nu_C$ and $o=J_+T+\nu_+$ of two
 independent observations $C'$ and $O$ of $T$ with information matrices
-$J_C$ and $J_+$. Since $c+o$ is sufficient for $T$ in $(C',O)$ and
+$J_C$ and $J_+$. Take $C'=H_CT+N_C'$ with $N_C'\sim\mathcal N(0,\Sigma_{N_C})$
+independent of $(V,T,U)$ and of the noise of $O$ below. Since $c+o$ is sufficient for $T$ in $(C',O)$ and
 $V-T-(C',O)$, the error covariance $M_S$ equals that of estimating $T$
 from $(V,C',O)$, and $(T,V,C')$ has the law of $(T,V,C)$. Write
 $J_+=B^{\mathsf T}B$ and take $O=BT+n$ with $n\sim\mathcal N(0,I)$
@@ -1660,9 +1667,11 @@ $(0,\tr(Q\Sigma_{T\mid C}))$, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
 and a jointly Gaussian $V$ with $\Cov(T\mid V,C)$ equal to the minimizer
 $M$ of $R_C(D)$, with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
 the region is increasing in $D$. The minimizer exists because the
-objective grows without bound as $\det M\to0$, so the minimum may be taken
-over the compact feasible set with $\det M\ge\delta$ for a small
-$\delta>0$, on which the objective is continuous. Such a $V$ exists because
+objective grows without bound as $\det M\to0$. Let $\theta\in(0,1]$ make
+$\theta\Sigma_{T\mid C}$ feasible, and take $\delta>0$ so small that the objective
+exceeds its value at $\theta\Sigma_{T\mid C}$ wherever $\det M<\delta$. The
+minimum may then be taken over the compact feasible set with
+$\det M\ge\delta$, which is nonempty and on which the objective is continuous. Such a $V$ exists because
 $M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$.
 
 (b) For feasible $(V_0,V)$, $J_C\preceq J_S$ gives
@@ -1681,6 +1690,25 @@ $\epsilon$. Conversely, $V_0=V$ jointly Gaussian with $\Cov(T\mid V,C)=M$
 for any $0\prec M\preceq\Sigma_{T\mid C}$ attains all three coordinates with
 equality, by the equality case of Lemma~\ref{lem:mmsecomp}, and
 Theorem~\ref{thm:decregion} makes them achievable.
+
+The substitution in (b) is exact for three reasons. First, the program
+of Proposition~\ref{prop:posterior} depends on the holder only through
+$J$, and so does every expression in
+Sections~\ref{sec:convex}--\ref{sec:directions} that uses $H$ and
+$\Sigma_U$, because
+$\det(HXH^{\mathsf T}+\Sigma_U)=\det\Sigma_U\det(I+JX)$ for every $X$.
+Any factorization $J_S-J_C=H'^{\mathsf T}H'$ with unit noise therefore
+gives the same program. Second, a jointly Gaussian description
+$V=a^{\mathsf T}T+N$ with $N\sim\mathcal N(0,\sigma^2)$ independent of
+$(T,C,S)$ has $\Cov(T\mid V,C)=(\Sigma_{T\mid C}^{-1}+aa^{\mathsf T}/\sigma^2)^{-1}$,
+the error covariance it would have for the source
+$\mathcal N(0,\Sigma_{T\mid C})$. So statements about linear Gaussian
+descriptions carry over with $\E[Y\mid\hY]$ replaced by $\E[Y\mid V,C]$.
+Third, every constant and hypothesis of those sections is read on the
+substituted parameters. In particular $\Sigma_Y$ becomes
+$F\Sigma_{T\mid C}F^{\mathsf T}$, the decoder's remaining uncertainty about
+$Y$, and a hypothesis such as a holder that observes only the context
+becomes a condition on $J_S-J_C$.
 \end{proof}
 
 So a decoder that knows more than the holder removes the tradeoff, and
@@ -1695,14 +1723,14 @@ beyond the methods of this paper.
 
 \emph{Scalar.} At $(\rho^2,\tau^2,D)=(0.75,0.5,0.3)$ the rate-optimal
 channel pays $0.0349$ bits of excess leakage and the leakage-optimal
-channel $0.0400$ bits of excess rate; over the box
+channel $0.0400$ bits of excess rate. Over the box
 $\rho^2\in[0.05,0.95]$, $\tau^2\in[\tfrac14,4]$, $D\in[0.05,0.95]$ the
 rate excess of the leakage-optimal channel stays below $0.114$ bits and
 the leakage excess of the rate-optimal channel below $0.077$ bits, and at
 $(\rho^2,\tau^2,D)=(0.5,10^{-3},0.5)$ the rate excess reaches $1.537$ bits.
 Two sources with the same law of $(Y,S)$ up to scaling of $S$,
 $(\rho^2,\tau^2)=(\tfrac35,\tfrac15)$ and $(\tfrac34,\tfrac12)$, have
-$L=1.1880$ and $1.2105$ bits at $D=0.1$: the leakage is not determined by
+$L=1.1880$ and $1.2105$ bits at $D=0.1$. The leakage is not determined by
 the law of $(Y,S)$, because the encoder observes the context.
 
 \emph{Coupled.} For the coupled instance of Section~\ref{sec:model},
@@ -1713,8 +1741,8 @@ it along $47.48^\circ$, $46.76^\circ$, $45.07^\circ$, and $41.15^\circ$ at
 $D=1.38$, $1.3$, $1.2$, and $1.1$. Four sources with the same $u$ and the same law of
 $(Y,S)$ up to scaling, $(|\Cov(Y,V)|^2,\tau^2)=(0.33,0.1)$, $(0.36,0.2)$,
 $(0.39,0.3)$, $(0.42,0.4)$, read along $42.83^\circ$, $37.61^\circ$,
-$33.75^\circ$, and $30.84^\circ$ at $D=1.3$, each inside its certificate
-regime: the direction, too, is not
+$33.75^\circ$, and $30.84^\circ$ at $D=1.3$, each inside the range of its certificate.
+The direction, too, is not
 determined by the law of $(Y,S)$.
 
 \emph{Independent components.} With
@@ -1732,28 +1760,28 @@ component $2$.
 A description held by two parties has a cost for each, and the
 encoder's observations decide how the costs trade off. For Gaussian
 sources without decoder side information the region is now explicit in
-structure: a convex program in the error covariance, a closed form in a
-one-dimensional regime, and directions that turn with the budget exactly
+structure. It is a convex program in the error covariance, it has a closed form in a
+one-dimensional case, and its directions turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
 open. With side information at the decoder, the region is proved for
-the continuous source and the degraded cases are settled here; when
+the continuous source and the degraded cases are settled here. When
 neither side information dominates, the second auxiliary can matter. For a matrix distortion on the whole source and a
 full-rank eavesdropper, Xu, Chen, Chen, and Jin \cite{xu2024} show that Gaussian
 auxiliaries are optimal. Whether their two-precision program, under a
 weighted distortion and a rank-deficient holder, has the convexity,
 pencil, and turning structure of the case without decoder side
-information is open. Explicit solutions are now available in three
-regimes: the whole frontier in commuting geometry at every budget, the
-minimum leakage in arbitrary geometry in the one-dimensional regime at
-large budgets, and the whole frontier in arbitrary geometry at small
+information is open. Explicit solutions are now available in four
+settings. They give the whole frontier in commuting geometry at every budget, the
+minimum leakage in arbitrary geometry in the one-dimensional case at
+large budgets, the whole frontier in arbitrary geometry at small
 budgets when the decoder reproduces the whole source, and the whole
 frontier for a scalar described variable with any context and any
 holder, up to one scalar root. In every geometry and at every budget
 the frontier is the fixed point of reverse water-filling on a tilted
-weight; for a scalar holder this is two scalar equations, and for a
+weight. For a scalar holder this is two scalar equations, and for a
 holder of any rank the fixed point is the limit of a monotone iteration
 of water-filling steps. A closed form for a holder of higher rank and a
-described variable of higher dimension, or for the regime boundaries,
+described variable of higher dimension, or for the boundaries between these cases,
 is not known. The general case with side information at both receivers,
 where the second auxiliary of Villard and Piantanida can matter, under
 a trace-type distortion and a rank-deficient holder, is where the main
@@ -1768,7 +1796,7 @@ sources and finite blocklengths are not treated.
 \subsection{Finite alphabets}
 
 Let $(X,S)$ be a discrete memoryless pair with finite alphabets and let
-$d$ be a distortion with values in $[0,d_{\max}]$; codes, rate,
+$d$ be a distortion with values in $[0,d_{\max}]$. Codes, rate,
 distortion, and leakage $H(M\mid S^n)/n$ are as in Section~\ref{sec:model}.
 
 \begin{theorem}[{\cite[Theorem~3]{villard2013}, without decoder side information}]
@@ -1781,7 +1809,7 @@ and the union is convex and closed.
 \begin{proof}[Proof outline]
 Villard and Piantanida prove the region in the equivocation form
 $\Upsilon\le H(X\mid V)+0-I(X;S\mid U)$ for the equivocation $\Upsilon$, $U-V-X-S$, with no decoder side
-information; taking $U=V$ is optimal, because
+information. Taking $U=V$ is optimal, because
 $I(X;S\mid U)=I(V;S\mid U)+I(X;S\mid V)\ge I(X;S\mid V)$, and
 $\Upsilon=H(X\mid S)-L$ for a deterministic encoder, which gives the
 displayed form with $V$ in place of $\hX$, and a reproduction that is a
@@ -1790,7 +1818,7 @@ we use the following finite-blocklength form of the achievability,
 obtained by covering at rate $I(X;\hX)+2\epsilon$, a random binning of the
 codeword index into $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins used only as a
 proof device, Fano's inequality for a hypothetical decoder holding the
-bin index and $S^n$, and selection of one deterministic code: for every
+bin index and $S^n$, and selection of one deterministic code. For every
 channel with finite reproduction alphabet and every $\epsilon>0$ there
 are $\epsilon_n\to0$ and, for all large $n$, a deterministic code with
 $|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion at most
@@ -1807,7 +1835,7 @@ union convex without time sharing.
 \emph{Converse.} For any code, $\log|\mathcal M_n|\ge I(T^n;\hY^n)\ge
 \sum_iI(T_i;\hY_i)$ and $H(M\mid S^n)\ge I(T^n;\hY^n\mid S^n)
 =\sum_i[I(T_i;\hY^n,T^{i-1},S^n)-I(T_i;S_i)]\ge\sum_iI(T_i;\hY_i\mid S_i)$,
-by the chain rule and the independence of the pairs $(T_i,S_i)$; every
+by the chain rule and the independence of the pairs $(T_i,S_i)$. Every
 term is finite, being at most $I(T_i;S_i)+\log|\mathcal M_n|$ with
 $I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
 The mixture of the per-letter channels satisfies the Markov chain, has
@@ -1823,20 +1851,20 @@ $D_j$ with $\limsup D_j\le D$, with $\Sigma_j\in\mathcal P(D_j)$ below them
 by Proposition~\ref{prop:posterior}. The $\Sigma_j$ lie in the compact
 set $0\preceq\Sigma\preceq\Sigma_T$ and $\det\Sigma_j\ge\det\Sigma_T\,2^{-2R_j}$
 is bounded away from zero, so a subsequence converges to some
-$\Sigma^\star\succ0$ in $\mathcal P(D)$; $r$ and $\ell$ are continuous on
-positive definite matrices, so $(R,L)$ lies above
+$\Sigma^\star\succ0$ in $\mathcal P(D)$. Since $r$ and $\ell$ are continuous on
+positive definite matrices, $(R,L)$ lies above
 $(r(\Sigma^\star),\ell(\Sigma^\star))$.
 
-\emph{Achievability.} Fix an admissible channel with $I(T;\hY)<\infty$;
-$\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
-level $k$ applied coordinatewise: the bounded cells
+\emph{Achievability.} Fix an admissible channel with $I(T;\hY)<\infty$.
+Then $\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
+level $k$ applied coordinatewise. Its bounded cells
 $[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, map to their left endpoints and
-the two tail cells to $\pm2^k$; the partitions are nested and generate
+the two tail cells to $\pm2^k$. The partitions are nested and generate
 the Borel $\sigma$-field.
 
 \emph{Step A.} The $\sigma$-fields of $S_\eta:=q_\eta(S)$ increase to
-$\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964};
-fix $\eta$ with $I(\hY;S_\eta)\ge I(\hY;S)-\epsilon$. Since $\hY-T-S_\eta$,
+$\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964}.
+Fix $\eta$ with $I(\hY;S_\eta)\ge I(\hY;S)-\epsilon$. Since $\hY-T-S_\eta$,
 $I(T;\hY\mid S_\eta)=I(T;\hY)-I(\hY;S_\eta)\le I(T;\hY\mid S)+\epsilon$.
 
 \emph{Step B.} With $T_k=q_k(T)$ and $\hY_k=q_k(\hY)$, the surrogate
@@ -1883,8 +1911,9 @@ $\tfrac1nH(X^n\mid M,E^n)$. Their reproduction alphabet is the source
 alphabet. A finite reproduction alphabet $\mathcal Y$ is covered by
 enlarging the source alphabet to the disjoint union
 $\mathcal X\sqcup\mathcal Y$, with the
-added letters of probability zero and with $d(x,b)$ for $b\in\mathcal X$
-set to $\max_{x,y}d(x,y)$, so that replacing any such output by a fixed
+added letters of probability zero. For $x\in\mathcal X$ and $b\in\mathcal X$ set
+$d(x,b)=\max_{x',y}d(x',y)$, and let $d$ be bounded but otherwise arbitrary on
+the added source letters, so that replacing any such output by a fixed
 $y_0\in\mathcal Y$ does not increase the distortion. For a deterministic
 encoder the leakage is $\tfrac1nH(M\mid E^n)=H(X\mid E)-\tfrac1nH(X^n\mid M,E^n)$,
 and since $V_0-X-(C,E)$,
@@ -1948,7 +1977,9 @@ $(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for all $\epsilon$. Replace
 $\hat y$ by $\E[Y\mid V,C]$, which does not increase the distortion.
 The auxiliaries $V_0$ and $V$ take values in Euclidean spaces, as in the
 definition of $\mathcal R_C(D)$, and the auxiliaries built in the converse
-do too, because $M$ and $\tau$ take finitely many values. Let $q_j$
+do too, because $M$ and $\tau$ take finitely many values and, after
+zero-padding $V_i$ and $V_{0,i}$ to a common dimension, which stays injective
+once $\tau$ is included, each lies in a fixed Euclidean space. Let $q_j$
 denote the saturating dyadic quantizers of Appendix~\ref{app:coding}.
 
 \emph{Step A (auxiliaries and side informations).} Let $U_j=q_j(V_0)$,
@@ -1978,7 +2009,7 @@ $d_k(t,y)=\E[(Y-y)^{\mathsf T}W(Y-y)\mid T_k=t]$ and the auxiliaries the
 channel $p_k(u,v'\mid t)=\Pr(U_j=u,V'_j=v'\mid T_k=t)$, which keeps
 $U_j$ a function of $V'_j$ and so the chain $U-V'-X-(C,E)$. The true
 distortion of a code differs from its surrogate distortion only because
-the decoder's output depends on $C_\kappa^n$: with
+the decoder's output depends on $C_\kappa^n$. With
 $m(t)=\E[Y\mid T_k=t]$ and $m(t,c)=\E[Y\mid T_k=t,C_\kappa=c]$, the conditional
 expected distortion of an output $y$ given $(T_{k,i},C_{\kappa,i})=(t,c)$ is
 $\|y-m(t,c)\|_W^2+v(t,c)$ against $\|y-m(t)\|_W^2+v(t)$ for $d_k$, and
@@ -2018,8 +2049,8 @@ last $r$ letters by zero. The message is the tuple of block messages, so
 the rate does not increase. The pairs of block message and block of
 $S^n$ are independent across blocks, so the leakage is the sum of the
 block leakages divided by $n$ and does not exceed that of one block. The
-distortion is at most $(kn_0(D+5\epsilon)+r\tr(W\Sigma_Y))/n$, which tends
-to at most $D+5\epsilon$.
+distortion is at most $(kn_0(D+5\epsilon)+rD_{\max})/n$, whose limsup is
+at most $D+5\epsilon$.
 \end{proof}
 
 \section{The Gaussian Exhaustion Lemma}
@@ -2045,7 +2076,7 @@ without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
 \emph{The determinant identity.} With $\hY=AT+N'$, $\Cov(N',T)=0$, and
 $\Cov(N',S)=0$, the change of variables $(T,S,\hY)\mapsto(T,S,N')$ is
 block triangular with unit diagonal, so
-$\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$; the Schur factorization
+$\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$. The Schur factorization
 in the other order gives $\det\Cov(\hY,S)\det\Se$, and
 $\Cov(\hY)-\Cov(\hY,S)\Sigma_S^{-1}\Cov(S,\hY)=A\Kc A^{\mathsf T}+\Sigma_N\succ0$.
 So $\det\Se=\det\Kc\det\Sigma_N/\det(A\Kc A^{\mathsf T}+\Sigma_N)$, finite and
@@ -2053,7 +2084,7 @@ positive.
 
 \emph{Equality.} For the jointly Gaussian channel $AT+N$ the conditional
 law of $T$ given $(\hY,S)$ is Gaussian with the linear estimate as mean
-and $\Se$ as covariance, so every inequality is an equality; its second
+and $\Se$ as covariance, so every inequality is an equality. Its second
 moments match the given channel's.
 \end{proof}
 
@@ -2169,7 +2200,7 @@ $k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / penc
   clip=false]
 \fill[gray!15] (axis cs:1.0853,0) rectangle (axis cs:1.2,4);
 \node[font=\scriptsize, gray!60!black, rotate=90, anchor=south]
-  at (axis cs:1.2,2) {certified regime};
+  at (axis cs:1.2,2) {certified range};
 \addlegendimage{black, solid, mark=*}
 \addlegendentry{leakage-aware}
 \addlegendimage{black, densely dotted}
@@ -2235,7 +2266,7 @@ $k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / penc
 \caption{Fixed-rate Lloyd--Max quantizers on one projection of the
 coupled instance, at 2 (circles), 3 (squares), and 4 bits (triangles).
 (a) Leakage at equal rate. The leakage-aware projection leaks less than
-the principal axis at every budget, and in the shaded certified regime
+the principal axis at every budget, and in the shaded certified range
 $L_{\mathrm{1d}}(D_0)$ is the least leakage of any description.
 (b) The direction in the plane of $Y$ along which each description
 reduces the error. The leakage-aware quantizer turns toward the context
@@ -2266,13 +2297,13 @@ at budget $D_0$ chooses its noise variance as well as its direction, so
 it can spend part of the slack on coarser resolution. A fixed-rate
 quantizer has a fixed $\gamma$. It can spend the slack only on direction,
 and it turns further. Its leakage also stays well above the floor. Every
-budget at $f=0.7$ lies in the certified regime $D\ge1.08530$ of
+budget at $f=0.7$ lies in the certified range $D\ge1.08530$ of
 Section~\ref{sec:examples}, where $L_{\mathrm{1d}}(D_0)=L(D_0)$. Because
 $\hY$ is an admissible channel and
 $H(M\mid S)=I(T;M\mid S)\ge I(T;\hY\mid S)$, Theorem~\ref{thm:op} makes
 $L(D_0)$ a lower bound on the leakage of the quantizer. The 2-bit
 quantizer leaks $0.5066$ bits there, against a floor of $0.0636$ bits.
-At $f=0.15$ and $0.4$ the budgets lie below the certified regime, and
+At $f=0.15$ and $0.4$ the budgets lie below the certified range, and
 $L_{\mathrm{1d}}(D_0)$ is the best value among one-dimensional Gaussian
 descriptions rather than a bound.
 
@@ -2323,30 +2354,30 @@ against the reduced program. Its output is recorded in
 checks the leakage of a fixed projection direction against a direct conditional-covariance
 computation, the bounds of Proposition~\ref{prop:fixedread} and
 Theorem~\ref{thm:forced} on random instances against brute force over
-directions, and the numbers after Theorem~\ref{thm:forced}; its output is
+directions, and the numbers after Theorem~\ref{thm:forced}. Its output is
 recorded in \texttt{verify\_fixed\_read-2026-10-01.txt}.
 \texttt{verify\_lowdist.py} checks Theorem~\ref{thm:lowdist} against the
 determinant program and a multi-start search on non-commuting instances,
-and the rank bound of Proposition~\ref{prop:rank}; its output is recorded in
+and the rank bound of Proposition~\ref{prop:rank}. Its output is recorded in
 \texttt{verify\_lowdist-2026-10-01.txt}. \texttt{verify\_tilted.py}
 checks Theorem~\ref{thm:tilted} at the optimum of an independent
 determinant program on non-commuting instances with partial and full
 descriptions and holders of every rank, the two-scalar solver of
 Corollary~\ref{cor:scalarholder} against that program, the reductions to
 reverse water-filling and to Theorem~\ref{thm:commuting}, and the coupled
-instance; its output is recorded in
+instance. Its output is recorded in
 \texttt{verify\_tilted-2026-10-01.txt}. \texttt{verify\_scalar\_path.py}
 checks Theorem~\ref{thm:scalarpath} and the secular equation
 \eqref{eq:secular} against the weighted determinant program for scalar
 described variables with contexts of dimension up to five and holders of
 every rank (equation \eqref{eq:scalarpath} had a single root in $[0,1-\alpha]$
 in every instance), the two limits of the curve, the reduction to
-Corollary~\ref{cor:scalar}, and Corollary~\ref{cor:augmented}; its output is
+Corollary~\ref{cor:scalar}, and Corollary~\ref{cor:augmented}. Its output is
 recorded in \texttt{verify\_scalar\_path-2026-10-01.txt}.
 \texttt{verify\_mm.py} runs the iteration of Proposition~\ref{prop:mm} on
 non-commuting instances with described variables and holders of rank at
 least two, checks that the cost never increases, and compares the limit
-with the weighted determinant program; its output is recorded in
+with the weighted determinant program. Its output is recorded in
 \texttt{verify\_mm-2026-10-01.txt}. The closed-form and scalar algebra is
 also checked symbolically and formally. \texttt{matlab\_checks.m} (MATLAB
 Symbolic Math Toolbox, 11 checks) verifies the root relation and the
@@ -2363,7 +2394,7 @@ steps and the generic majorization--minimization inequality. The
 matrix-analytic results, Theorems~\ref{thm:convex} and~\ref{thm:tilted},
 Proposition~\ref{prop:rank}, and the convergence part of
 Proposition~\ref{prop:mm}, are not formalized. Both outputs are recorded in
-\texttt{symbolic\_and\_lean-2026-10-02.txt}. No proof depends on them; the instances
+\texttt{symbolic\_and\_lean-2026-10-02.txt}. No proof depends on them. The instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
