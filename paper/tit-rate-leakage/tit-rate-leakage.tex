@@ -594,8 +594,9 @@ $-\tfrac12\ln\det X+\tfrac{1-\alpha}2\ln\det(\tilde HX\tilde H^{\mathsf T}+\Sigm
 plus a constant, convex in $X$ by Theorem~\ref{thm:convex}, with
 gradient $-\tfrac12X^{-1}+\tfrac{1-\alpha}2\tilde H^{\mathsf T}(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)^{-1}\tilde H$.
 The program has the strictly feasible point $\epsilon I$, so a point is
-the minimizer if and only if there are $\nu\ge0$ and $\Theta\succeq0$
-with $\Theta(I-X)=0$ and $X^{-1}=\tilde A(X)+2\Theta$. Suppose these hold.
+the minimizer if and only if $\tr(\tilde QX)\le D$ and there are $\nu\ge0$
+and $\Theta\succeq0$ with $\Theta(I-X)=0$, $\nu(\tr(\tilde QX)-D)=0$, and
+$X^{-1}=\tilde A(X)+2\Theta$. Suppose these hold.
 Let $\mathcal N$ be the null space of $I-X$. The range of $\Theta$ lies in
 $\mathcal N$, and for $v\in\mathcal N$, $\tilde Av=v-2\Theta v\in\mathcal N$,
 so $\mathcal N$ and $\mathcal N^\perp$ are invariant under $\tilde A$. On
@@ -697,7 +698,8 @@ $D$. No convex solver is needed.
 
 For a holder of rank $r>1$ the tilt is an $r\times r$ matrix that
 depends on the solution, and we do not have a closed form. The fixed
-point is nevertheless reached by iterating closed-form steps.
+point is nevertheless reached by iterating steps that are closed form
+up to a monotone one-dimensional search for the level.
 
 \begin{proposition}\label{prop:mm}
 Let $\mathcal P=\{0\prec X\preceq I,\ \tr(\tilde QX)\le D\}$, let $X_0=I$, and
@@ -730,9 +732,14 @@ strictly feasible and $-\ln\det$ diverges at the boundary). Its optimality
 conditions are $X^{-1}=2\nu\tilde Q+T_t+2\Theta$ with $\nu\ge0$,
 $\Theta\succeq0$, $\Theta(I-X)=0$, and $\nu(\tr(\tilde QX)-D)=0$. The
 invariant-subspace argument of Theorem~\ref{thm:tilted} uses only these
-relations, so $X_{t+1}=\Phi(2\nu_t\tilde Q+T_t)$, and since the distortion
-of $\Phi(2\nu\tilde Q+T_t)$ is continuous and nonincreasing in $\nu$
-(Remark~\ref{rem:solver}), $\nu_t$ is as stated.
+relations, so $X_{t+1}=\Phi(2\nu_t\tilde Q+T_t)$. The same argument shows
+that $\Phi(2\nu\tilde Q+T_t)$ minimizes $g_t+\nu\tr(\tilde QX)$ over
+$0\prec X\preceq I$, so comparing the minimizers at two levels shows that
+its distortion is nonincreasing in $\nu$, and it is continuous because
+$\Phi$ is a spectral function of the continuous map
+$\lambda\mapsto\min\{1,1/\lambda\}$. Hence $\nu_t$ is as stated. The level
+need not be unique, but every admissible level gives the same
+$X_{t+1}$, the unique minimizer of $g_t$.
 
 \emph{Monotonicity.} For $t\ge1$, $X_t\in\mathcal P$ by construction, so
 $f(X_{t+1})\le g_t(X_{t+1})\le g_t(X_t)=f(X_t)$. The start $X_0=I$ is not
@@ -768,20 +775,25 @@ $\bar X^{-1}=2\nu^\ast\tilde Q+T(\bar X)+2\bar\Theta$, $\bar\Theta(I-\bar X)=0$,
 and $\nu^\ast(\tr(\tilde Q\bar X)-D)=0$. These are the optimality
 conditions of $f$ over $\mathcal P$ from the proof of
 Theorem~\ref{thm:tilted}, so $\bar X$ is the frontier point, which is
-unique. Every limit point of the bounded sequence is that point, so the
-sequence converges.
+unique, and $\nu^\ast>0$ because $\nu^\ast=0$ would make $\bar X=I$, whose
+distortion $D_{\max}$ exceeds $D$. Every limit point of the bounded
+sequence is that point, so the sequence converges.
 \end{proof}
 
 Each step is a weighted reverse water-filling and a
 majorization--minimization step, the convex--concave procedure applied
 to the concave log-determinant term
 \cite{yuille2003,lipp2016,hunter2004,sun2017}. Like a Blahut--Arimoto
-update it is closed form and decreases the cost monotonically. In 40
-random instances with described variables and holders of rank between
-two and six in non-commuting geometry, the cost never increased beyond
-round-off (largest increase $2.7\times10^{-15}$), the distortion
-constraint was tight at every step, and the relative change in the cost
-fell below $10^{-9}$ in a median of 6 and at most 21 steps.
+update it is explicit apart from a scalar search and decreases the cost
+monotonically. In 40 random instances with described variables and
+holders of rank between two and six in non-commuting geometry, the cost
+never increased beyond round-off (largest increase
+$2.7\times10^{-15}$), the distortion constraint was active at all 1023
+steps (no step had $\nu_t=0$), the relative change in the cost fell
+below $10^{-9}$ in a median of 6 and at most 21 steps, and the limit
+agreed with an independent determinant program to $3.3\times10^{-8}$ in
+cost (one reference solve was reported as possibly inaccurate by the
+solver).
 
 So for a scalar holder, the case of the scalar and coupled instances
 and of Appendix~\ref{sec:quant}, the whole frontier, partial description

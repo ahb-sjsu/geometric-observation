@@ -7,6 +7,7 @@ Claim: f(X_{t+1}) <= f(X_t) for t >= 1 (majorization of the concave term by its 
 M1 monotone decrease on every instance (m > 1 and holder rank r > 1, non-commuting, partial and full Q).
 M2 limit equals the independent weighted determinant program (cost and X).
 M3 iterations to reach 1e-9 relative change in cost; the worst case is reported.
+M4 counts the steps with an active distortion constraint and the steps with multiplier nu_t = 0 (Prop. mm allows both).
 """
 import numpy as np, math
 from scipy.optimize import brentq
@@ -40,24 +41,27 @@ def instance(p, m, r):
 def mm(S, Q, H, SU, D, alpha, tol=1e-12, itmax=5000):
     Sh = msqrt(S); Qt = Sh @ Q @ Sh; Ht = H @ Sh
     f = lambda X: -0.5 * np.linalg.slogdet(X)[1] + 0.5 * (1 - alpha) * np.linalg.slogdet(Ht @ X @ Ht.T + SU)[1]
-    X = np.eye(S.shape[0]); hist = []
+    X = np.eye(S.shape[0]); hist = []; steps = {"active": 0, "nu_zero": 0}
     for t in range(itmax):
         T = (1 - alpha) * Ht.T @ np.linalg.inv(Ht @ X @ Ht.T + SU) @ Ht
-        g = lambda lnu: np.trace(Qt @ Phi(2 * math.exp(lnu) * Qt + T)) - D
-        nu = math.exp(brentq(g, -40, 40, xtol=1e-15))
+        if np.trace(Qt @ Phi(T)) <= D:          # the frozen tilt alone meets the budget: multiplier nu_t = 0
+            nu = 0.0; steps["nu_zero"] += 1
+        else:                                   # otherwise the constraint is active at a level nu_t > 0
+            g = lambda lnu: np.trace(Qt @ Phi(2 * math.exp(lnu) * Qt + T)) - D
+            nu = math.exp(brentq(g, -40, 40, xtol=1e-15)); steps["active"] += 1
         Xn = Phi(2 * nu * Qt + T); hist.append(f(Xn))
         if np.linalg.norm(Xn - X) < tol: X = Xn; break
         X = Xn
-    return Sh @ X @ Sh, hist
+    return Sh @ X @ Sh, hist, steps
 
-ok1 = ok2 = True; worst_inc = 0; worst_gap = 0; its = []
+ok1 = ok2 = True; worst_inc = 0; worst_gap = 0; its = []; STEPS = {"active": 0, "nu_zero": 0}
 n = 0
 while n < 40:
     p = int(rng.integers(3, 7)); m = int(rng.integers(2, p + 1)); r = int(rng.integers(2, p + 1))
     S, Q, H, SU, J = instance(p, m, r)
     if np.linalg.norm(Q @ S @ J - J @ S @ Q) < 1e-3: continue
     D = rng.uniform(0.1, 0.85) * np.trace(Q @ S); alpha = float(rng.uniform(0, 0.95))
-    Se_mm, hist = mm(S, Q, H, SU, D, alpha)
+    Se_mm, hist, steps = mm(S, Q, H, SU, D, alpha); STEPS["active"] += steps["active"]; STEPS["nu_zero"] += steps["nu_zero"]
     inc = max([hist[i + 1] - hist[i] for i in range(len(hist) - 1)] + [0.0]); worst_inc = max(worst_inc, inc)
     ok1 = ok1 and inc < 1e-12
     Se_ref = weighted(S, Q, J, D, alpha)
@@ -71,4 +75,5 @@ while n < 40:
 check("M1 cost nonincreasing along the iteration (40 instances, m>1, holder rank r>1, non-commuting)", ok1, f"max increase {worst_inc:.1e}")
 check("M2 limit == weighted determinant program", ok2, f"max |d cost| {worst_gap:.1e}")
 check("M3 iterations to 1e-9 relative change", True, f"median {int(np.median(its))}, max {max(its)}")
+print(f"M4 steps with the distortion constraint active: {STEPS['active']}; steps with multiplier nu_t = 0: {STEPS['nu_zero']}")
 print("FAILS:", fails)
