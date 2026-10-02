@@ -42,28 +42,22 @@ geometric-observation repository.}}
 \begin{abstract}
 An encoder observes a jointly Gaussian vector and describes part of it
 to a decoder under a weighted quadratic distortion. A second party
-holds a noisy linear observation of the source and never decodes. One
-description then carries two costs: its rate, and its conditional
-leakage to the second party, which is also the least rate at which that
-party can re-encode it. The single-letter region is known from secure
-source coding, and we determine its structure. The direction an optimal
-description reads turns with the distortion budget unless the decoder's
-and the second party's geometries share it, while a description built
-for a single party under a weighted quadratic distortion reads fixed
-directions and pays an explicit excess leakage over the best
-one-dimensional description. When the optimal description is
-one-dimensional, which an explicit test certifies, the minimum leakage
-is a closed-form function of the largest generalized eigenvalue of a
-matrix pencil in which the budget enters. Both costs are convex in the
-error covariance, so each frontier point solves a convex program. The
-frontier is reverse water-filling on a tilt of the decoder's weight by
-the second party's information, in every geometry and at every budget;
-for a scalar second-party observation it reduces to two scalar
-equations, and an optimal description never needs more dimensions than
-the described variable. The tradeoff exists because the distortion is a trace-type
-constraint: under a matrix distortion on the whole source, one
-description minimizes both costs. With decoder side information, both degraded cases are
-explicit.
+holds a noisy linear observation of the source and never decodes. The
+description then has two costs: its rate, and its conditional leakage to
+the second party, which is also the least rate at which that party can
+re-encode it. The single-letter region is known from secure source
+coding, and we determine its structure. Every frontier point is reverse
+water-filling on the decoder's weight tilted by the second party's
+information, in every geometry and at every budget, and for a scalar
+second-party observation it reduces to two scalar equations. The
+direction an optimal description reads turns with the budget unless the
+two parties' geometries share it, while a description built for a single
+party reads fixed directions and pays an explicit excess leakage. When
+the optimal description is one-dimensional, which an explicit test
+certifies, the minimum leakage is a closed-form function of the largest
+eigenvalue of a matrix pencil in which the budget enters. The tradeoff
+exists because the distortion is a trace-type constraint: under a matrix
+distortion on the whole source, one description minimizes both costs.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -250,8 +244,9 @@ endpoint program is a determinant maximization \cite{vandenberghe1998}.
 
 The paper is organized as follows. Section~\ref{sec:model} sets up the
 model and the coding theorem, Section~\ref{sec:convex} proves the convex
-structure, Section~\ref{sec:commuting} decoupling and commuting
-geometry, Section~\ref{sec:onedim} the one-dimensional regime,
+structure, Section~\ref{sec:tilted} gives the water-filling
+characterization of the whole frontier, Section~\ref{sec:commuting} its
+explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
 Section~\ref{sec:parallel} independent components, and
 Section~\ref{sec:decsi} decoder side information.
@@ -400,6 +395,14 @@ largest element, and which maximal element the encoder picks is the
 whole problem. The same is true of a matrix constraint on the described
 part $Y$ alone, $F\Sez F^{\mathsf T}\preceq\Lambda_Y$, which leaves the
 error covariance free outside $Y$.
+
+\textbf{Running example.} Two instances recur. The scalar instance has
+$T=(Y,V)$ with unit variances and correlation $\rho$, $W=1$, and
+$S=V+U$ with $\Var U=\tau^2$. The coupled instance has a
+two-dimensional described variable with $\Sigma_Y=\mathrm{diag}(1,0.4)$,
+$W=I$, a scalar context with $\Var V=1$ and $\Cov(Y,V)=0.6\,u$ for the
+unit vector $u$ at $50^\circ$, and $S=V+U$ with $\Var U=0.05$, so
+$D_{\max}=1.4$. In both the holder observes only the context.
 
 \section{Convex Structure}
 \label{sec:convex}
@@ -625,12 +628,12 @@ and water-fills on the fixed eigenvectors of $\tilde Q$. The holder adds
 $\beta gg^{\mathsf T}$, and as the budget moves, the ratio $\beta/\nu$ moves
 and the eigenvectors of $2\nu\tilde Q+\beta gg^{\mathsf T}$ rotate between
 those of $\tilde Q$ and the direction $g$. In the coupled instance of
-Section~\ref{sec:examples}, the two-scalar solution agrees with the
+Section~\ref{sec:model}, the two-scalar solution agrees with the
 determinant program at $D=0.3$, $0.6$, $0.9$, and $1.2$, with a
 two-dimensional description at the first three budgets and a
 one-dimensional one at the last.
 
-\section{Decoupling and Commuting Geometry}
+\section{Explicit Cases}
 \label{sec:commuting}
 
 Whiten by the source covariance: write
@@ -1070,12 +1073,14 @@ Take the scalar source of Corollary~\ref{cor:scalar} with $\rho\ne0$. By
 Theorem~\ref{thm:onedim}(c) the leakage-optimal description is the
 one-dimensional description at every $D$, and its projection direction is
 proportional to $(g^\star s-1,\rho)$, the ratio of the coefficients in
-Corollary~\ref{cor:scalar}. Since $\ell$ is strictly decreasing
-(Lemma~\ref{lem:slope}), $g^\star$ is strictly decreasing in $D$, so the
+Corollary~\ref{cor:scalar}. Since $L(D)$ is strictly decreasing in $D$
+(if $L(D_1)=L(D_2)$ with $D_1<D_2$, the unique minimizer at $D_2$ would be
+the one at $D_1$, whose constraint is slack at $D_2$, contradicting
+Theorem~\ref{thm:convex}(a)), $g^\star$ is strictly decreasing in $D$, so the
 projection line differs at any two budgets. By Proposition~\ref{prop:single},
 applied to any fixed weight on $T$, the best one-dimensional description
 for a single party reads the same line at both budgets. The coupled
-instance of Section~\ref{sec:examples}, whose leakage-optimal
+instance of Section~\ref{sec:model}, whose leakage-optimal
 descriptions reduce the error along $47.48^\circ$ and $41.15^\circ$ at
 two budgets, illustrates the same effect in the space of the described
 variable.
@@ -1385,11 +1390,9 @@ $(\rho^2,\tau^2)=(\tfrac35,\tfrac15)$ and $(\tfrac34,\tfrac12)$, have
 $L=1.1880$ and $1.2105$ bits at $D=0.1$: the leakage is not determined by
 the law of $(Y,S)$, because the encoder observes the context.
 
-\emph{Coupled.} Take $\Sigma_Y=\mathrm{diag}(1,0.4)$, $W=I$, a scalar
-context with $\Var V=1$ and $\Cov(Y,V)=0.6\,u$ for the unit vector $u$ at
-$50^\circ$, and $S=V+U$ with $\Var U=0.05$. The certificate of
-Theorem~\ref{thm:onedim}(b) holds for $D\ge1.08530$, out of
-$D_{\max}=1.4$. The rate-optimal description reduces the error along the
+\emph{Coupled.} For the coupled instance of Section~\ref{sec:model},
+the certificate of Theorem~\ref{thm:onedim}(b) holds for $D\ge1.08530$,
+out of $D_{\max}=1.4$. The rate-optimal description reduces the error along the
 first axis for every $D\ge0.8$. The leakage-optimal description reduces
 it along $47.48^\circ$, $46.76^\circ$, $45.07^\circ$, and $41.15^\circ$ at
 $D=1.38$, $1.3$, $1.2$, and $1.1$. Four sources with the same $u$ and the same law of
@@ -1418,7 +1421,7 @@ the projection it reads change its leakage at equal rate and equal
 distortion? And does the leakage-aware projection turn with the budget,
 as Theorem~\ref{thm:turning} predicts for the optimum?
 
-\textbf{Setup.} Take the coupled instance of Section~\ref{sec:examples},
+\textbf{Setup.} Take the coupled instance of Section~\ref{sec:model},
 so that $Q=F^{\mathsf T}F$ and $D_{\max}=\tr\Sigma_Y=1.4$. For a direction
 $b$ let $Z=b^{\mathsf T}T/(b^{\mathsf T}\Sigma_Tb)^{1/2}$, which is standard
 normal, and let $M=q(Z)$ for a scalar quantizer $q$ with $K$ levels and
