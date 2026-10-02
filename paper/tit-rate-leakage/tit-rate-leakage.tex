@@ -700,43 +700,88 @@ depends on the solution, and we do not have a closed form. The fixed
 point is nevertheless reached by iterating closed-form steps.
 
 \begin{proposition}\label{prop:mm}
-Let $X_0=I$ and, for $t\ge0$,
+Let $\mathcal P=\{0\prec X\preceq I,\ \tr(\tilde QX)\le D\}$, let $X_0=I$, and
+for $t\ge0$ let $X_{t+1}$ be the minimizer over $\mathcal P$ of the
+surrogate $g_t$ defined in the proof. Then
 \[
-X_{t+1}=\Phi\Bigl(2\nu_t\tilde Q+(1-\alpha)\tilde H^{\mathsf T}\bigl(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U\bigr)^{-1}\tilde H\Bigr),
+X_{t+1}=\Phi\bigl(2\nu_t\tilde Q+T_t\bigr),\qquad
+T_t=(1-\alpha)\tilde H^{\mathsf T}\bigl(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U\bigr)^{-1}\tilde H,
 \]
-with $\nu_t>0$ chosen so that $\tr(\tilde QX_{t+1})=D$. The weighted cost
-is nonincreasing along $(X_t)_{t\ge1}$, and $X_t$ converges to the
-frontier point of weight $\alpha$.
+where $\nu_t\ge0$ is the multiplier of the distortion constraint:
+$\nu_t=0$ if $\tr(\tilde Q\Phi(T_t))\le D$, and otherwise $\nu_t$ is a level
+with $\tr(\tilde QX_{t+1})=D$. The weighted cost is nonincreasing along
+$(X_t)_{t\ge1}$, $X_{t+1}-X_t\to0$, and $X_t$ converges to the frontier
+point of weight $\alpha$.
 \end{proposition}
 
 \begin{proof}
 Write the cost as
-$f(X)=-\tfrac12\ln\det X+\tfrac{1-\alpha}2\ln\det(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)$.
-The second term is concave, so it lies below its tangent at $X_t$, and
-$g_t(X)=-\tfrac12\ln\det X+\tfrac12\tr(\tilde H^{\mathsf T}B_t\tilde HX)+c_t$,
-with $B_t=(1-\alpha)(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U)^{-1}$ and $c_t$
-chosen so that $g_t(X_t)=f(X_t)$, satisfies $g_t\ge f$. The function $g_t$
-is strictly convex, and the argument of Theorem~\ref{thm:tilted} with the
-tilt frozen at $\tilde H^{\mathsf T}B_t\tilde H$ shows that its minimizer
-over the feasible set is $X_{t+1}$, with the level $\nu_t$ unique as in
-Remark~\ref{rem:solver}. Hence
-$f(X_{t+1})\le g_t(X_{t+1})\le g_t(X_t)=f(X_t)$ for $t\ge1$, when $X_t$ is
-feasible. The tilts are bounded,
-$0\preceq\tilde H^{\mathsf T}B_t\tilde H\preceq(1-\alpha)\tilde H^{\mathsf T}\Sigma_U^{-1}\tilde H$,
-so the levels $\nu_t$ are bounded and the iterates stay in a compact set
-on which $\det X$ is bounded away from zero. At a limit point $\bar X$
-along a subsequence, the minimizing property of each step and the
-equality of $f$ and $g_t$ with their gradients at the touching point give
-the optimality conditions of Theorem~\ref{thm:tilted} at $\bar X$. The
-frontier point is the unique such point, so every limit point equals it
-and the sequence converges.
+$f(X)=-\tfrac12\ln\det X+\tfrac{1-\alpha}2\ln\det M(X)$ with
+$M(X)=\tilde HX\tilde H^{\mathsf T}+\Sigma_U\succ0$. The second term is concave
+in $X\succeq0$, so it lies below its tangent at $X_t$, and
+\[
+g_t(X)=-\tfrac12\ln\det X+\tfrac12\tr(T_tX)+c_t,\qquad
+c_t=\tfrac{1-\alpha}2\bigl[\ln\det M(X_t)-\tr\bigl(\tilde H^{\mathsf T}M(X_t)^{-1}\tilde HX_t\bigr)\bigr],
+\]
+satisfies $g_t\ge f$ on $X\succeq0$, $g_t(X_t)=f(X_t)$, and
+$\nabla g_t(X_t)=\nabla f(X_t)$. The function $g_t$ is strictly convex, so
+its minimizer over $\mathcal P$ exists and is unique ($\epsilon I$ is
+strictly feasible and $-\ln\det$ diverges at the boundary). Its optimality
+conditions are $X^{-1}=2\nu\tilde Q+T_t+2\Theta$ with $\nu\ge0$,
+$\Theta\succeq0$, $\Theta(I-X)=0$, and $\nu(\tr(\tilde QX)-D)=0$. The
+invariant-subspace argument of Theorem~\ref{thm:tilted} uses only these
+relations, so $X_{t+1}=\Phi(2\nu_t\tilde Q+T_t)$, and since the distortion
+of $\Phi(2\nu\tilde Q+T_t)$ is continuous and nonincreasing in $\nu$
+(Remark~\ref{rem:solver}), $\nu_t$ is as stated.
+
+\emph{Monotonicity.} For $t\ge1$, $X_t\in\mathcal P$ by construction, so
+$f(X_{t+1})\le g_t(X_{t+1})\le g_t(X_t)=f(X_t)$. The start $X_0=I$ is not
+feasible and serves only to define $T_0$.
+
+\emph{Compactness.} Since $\min\{1,1/\lambda\}\le2/(1+\lambda)$ for
+$\lambda\ge0$, $\Phi(A)\preceq2(A+I)^{-1}$, and for $A=2\nu\tilde Q+T$ with
+$T\succeq0$ this is at most $2(2\nu\tilde Q+I)^{-1}$. So
+$\tr(\tilde Q\Phi(2\nu\tilde Q+T))\le\sum_i2q_i/(2\nu q_i+1)$, with $q_i$ the
+eigenvalues of $\tilde Q$, uniformly in $T$, and $\nu_t\le\bar\nu$, the
+level at which this bound equals $D$. With
+$T_t\preceq\bar T=(1-\alpha)\tilde H^{\mathsf T}\Sigma_U^{-1}\tilde H$, every
+eigenvalue of $2\nu_t\tilde Q+T_t$ is at most
+$\Lambda=\lambda_{\max}(2\bar\nu\tilde Q+\bar T)$, so $X_{t+1}\succeq\delta I$
+with $\delta=\min\{1,1/\Lambda\}$. The iterates lie in the compact set
+$\mathcal P\cap\{X\succeq\delta I\}$.
+
+\emph{Sufficient decrease.} On $\{0\prec X\preceq I\}$ the second
+derivative of $-\tfrac12\ln\det X$ in a direction $V$ is
+$\tfrac12\tr(X^{-1}VX^{-1}V)\ge\tfrac12\|V\|_F^2$, so $g_t$ is strongly
+convex there with modulus $\tfrac12$, and the first-order optimality of
+$X_{t+1}$ over the convex set $\mathcal P$ gives
+$g_t(X_t)-g_t(X_{t+1})\ge\tfrac14\|X_t-X_{t+1}\|_F^2$. Hence
+$f(X_t)-f(X_{t+1})\ge\tfrac14\|X_t-X_{t+1}\|_F^2$, the series of these
+terms is bounded by $4(f(X_1)-\min_{\mathcal P}f)$, and $X_{t+1}-X_t\to0$.
+
+\emph{Limit.} Let $X_{t_k}\to\bar X$. Then $X_{t_k+1}\to\bar X$, and along
+a further subsequence $\nu_{t_k}\to\nu^\ast\in[0,\bar\nu]$. The matrices
+$\Theta_k=\tfrac12(X_{t_k+1}^{-1}-2\nu_{t_k}\tilde Q-T_{t_k})\succeq0$ satisfy
+$\Theta_k(I-X_{t_k+1})=0$, and $T_t$ depends continuously on $X_t$, so
+$\Theta_k$ converges to some $\bar\Theta\succeq0$ with
+$\bar X^{-1}=2\nu^\ast\tilde Q+T(\bar X)+2\bar\Theta$, $\bar\Theta(I-\bar X)=0$,
+and $\nu^\ast(\tr(\tilde Q\bar X)-D)=0$. These are the optimality
+conditions of $f$ over $\mathcal P$ from the proof of
+Theorem~\ref{thm:tilted}, so $\bar X$ is the frontier point, which is
+unique. Every limit point of the bounded sequence is that point, so the
+sequence converges.
 \end{proof}
 
-Each step is a classical weighted reverse water-filling, the analogue
-of a Blahut--Arimoto update. In 40 random instances with described
-variables and holders of rank between two and six in non-commuting
-geometry, the cost never increased and the iteration reached a relative
-change of $10^{-9}$ in a median of 6 and at most 21 steps.
+Each step is a weighted reverse water-filling and a
+majorization--minimization step, the convex--concave procedure applied
+to the concave log-determinant term
+\cite{yuille2003,lipp2016,hunter2004,sun2017}. Like a Blahut--Arimoto
+update it is closed form and decreases the cost monotonically. In 40
+random instances with described variables and holders of rank between
+two and six in non-commuting geometry, the cost never increased beyond
+round-off (largest increase $2.7\times10^{-15}$), the distortion
+constraint was tight at every step, and the relative change in the cost
+fell below $10^{-9}$ in a median of 6 and at most 21 steps.
 
 So for a scalar holder, the case of the scalar and coupled instances
 and of Appendix~\ref{sec:quant}, the whole frontier, partial description
@@ -2084,7 +2129,23 @@ recorded in \texttt{verify\_scalar\_path-2026-10-01.txt}.
 non-commuting instances with described variables and holders of rank at
 least two, checks that the cost never increases, and compares the limit
 with the weighted determinant program; its output is recorded in
-\texttt{verify\_mm-2026-10-01.txt}. No proof depends on them; the instances
+\texttt{verify\_mm-2026-10-01.txt}. The closed-form and scalar algebra is
+also checked symbolically and formally. \texttt{matlab\_checks.m} (MATLAB
+Symbolic Math Toolbox, 11 checks) verifies the root relation and the
+secular reduction of Theorem~\ref{thm:scalarpath}, the per-direction
+quadratic of Theorems~\ref{thm:commuting} and~\ref{thm:lowdist} and its
+unique positive root, the identity and monotonicity behind
+Proposition~\ref{prop:fixedread}, that the secular equation for $p=2$ is
+$-P(g)$ of Corollary~\ref{cor:scalar} over a common denominator, the
+identity for the tilt after Theorem~\ref{thm:tilted} for a rank-one holder,
+and the scalar majorizer of Proposition~\ref{prop:mm}. The Lean~4 module
+\texttt{lean/ObservationTheory/RateLeakage.lean} (Mathlib, ten lemmas, no
+\texttt{sorry}, only the standard axioms) machine-checks the same scalar
+steps and the generic majorization--minimization inequality. The
+matrix-analytic results, Theorems~\ref{thm:convex} and~\ref{thm:tilted},
+Proposition~\ref{prop:rank}, and the convergence part of
+Proposition~\ref{prop:mm}, are not formalized. Both outputs are recorded in
+\texttt{symbolic\_and\_lean-2026-10-02.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
@@ -2114,6 +2175,17 @@ Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
 \bibitem{xuchen2021} Y. Xu and G. Chen, ``New proofs of extremal
 inequalities with applications,'' arXiv:2109.00377, 2021 (preprint
 version of \cite{xu2024}).
+\bibitem{yuille2003} A. L. Yuille and A. Rangarajan, ``The concave-convex
+procedure,'' \emph{Neural Comput.}, vol. 15, no. 4, pp. 915--936, 2003.
+\bibitem{lipp2016} T. Lipp and S. Boyd, ``Variations and extension of the
+convex-concave procedure,'' \emph{Optim. Eng.}, vol. 17, no. 2,
+pp. 263--287, 2016.
+\bibitem{hunter2004} D. R. Hunter and K. Lange, ``A tutorial on MM
+algorithms,'' \emph{Amer. Statist.}, vol. 58, no. 1, pp. 30--37, 2004.
+\bibitem{sun2017} Y. Sun, P. Babu, and D. P. Palomar,
+``Majorization-minimization algorithms in signal processing,
+communications, and machine learning,'' \emph{IEEE Trans. Signal
+Process.}, vol. 65, no. 3, pp. 794--816, 2017.
 \bibitem{gunlu2022} O. G\"unl\"u, R. F. Schaefer, H. Boche, and H. V. Poor,
 ``Private key and decoder side information for secure and private source
 coding,'' \emph{Entropy}, vol. 24, no. 12, art. 1716, 2022;
