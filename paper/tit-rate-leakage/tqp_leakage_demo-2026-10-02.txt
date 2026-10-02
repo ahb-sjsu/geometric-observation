@@ -1,0 +1,58 @@
+T0  codebook check (N(0,1) MSE)
+   2-bit: tqp table MSE = 0.11748   exact Lloyd-Max MSE = 0.11748   (tqp cells with exact centroids: 0.11748)   Lloyd-Max levels [0.4528 1.5104]
+   3-bit: tqp table MSE = 0.04556   exact Lloyd-Max MSE = 0.03455   (tqp cells with exact centroids: 0.04247)   Lloyd-Max levels [0.2451 0.756  1.3439 2.1519]
+   4-bit: tqp table MSE = 0.01080   exact Lloyd-Max MSE = 0.00950   (tqp cells with exact centroids: 0.01051)   Lloyd-Max levels [0.1284 0.388  0.6568 0.9423 1.2562 1.618  2.069  2.7326]
+   2-bit on rotated unit vectors (d=128): tqp table MSE = 0.11593   exact Lloyd-Max MSE = 0.11593
+   3-bit on rotated unit vectors (d=128): tqp table MSE = 0.04442   exact Lloyd-Max MSE = 0.03397
+   4-bit on rotated unit vectors (d=128): tqp table MSE = 0.01041   exact Lloyd-Max MSE = 0.00932
+
+T1a leakage H(M|S) strictly decreasing in |rho_ZS| for every codebook (200 points each): PASS
+
+T1  matched-rate comparison on the coupled instance (exact costs; exact aware direction, sampling as cross-check)
+  codebooks: tqp table
+   2-bit: rate H(M) = 1.9111 bits; principal-axis quantizer D = 0.5175, leakage = 1.8148 bits
+      f=0.15 D0=0.6499: aware leakage 1.4203 vs principal 1.8148 (21.7% less) | angle  16.53 deg (pencil   6.83) | floor L_1d(D0) = 0.8758 | |rho| exact 0.746804, sampled 0.746767, D(b) 0.6499
+      f=0.40 D0=0.8705: aware leakage 0.8955 vs principal 1.8148 (50.7% less) | angle  31.95 deg (pencil  20.04) | floor L_1d(D0) = 0.3913 | |rho| exact 0.920417, sampled 0.920390, D(b) 0.8705
+      f=0.70 D0=1.1352: aware leakage 0.5067 vs principal 1.8148 (72.1% less) | angle  50.00 deg (pencil  42.94) | floor L_1d(D0) = 0.0636 | |rho| exact 0.975900, sampled 0.975900, D(b) 1.0823
+   3-bit: rate H(M) = 2.9504 bits; principal-axis quantizer D = 0.4425, leakage = 2.8452 bits
+      f=0.15 D0=0.5861: aware leakage 2.3980 vs principal 2.8452 (15.7% less) | angle  16.53 deg (pencil   4.57) | floor L_1d(D0) = 1.0931 | |rho| exact 0.746804, sampled 0.746788, D(b) 0.5861
+      f=0.40 D0=0.8255: aware leakage 1.7284 vs principal 2.8452 (39.3% less) | angle  31.95 deg (pencil  16.44) | floor L_1d(D0) = 0.4714 | |rho| exact 0.920417, sampled 0.920402, D(b) 0.8255
+      f=0.70 D0=1.1127: aware leakage 1.1030 vs principal 2.8452 (61.2% less) | angle  50.00 deg (pencil  41.86) | floor L_1d(D0) = 0.0776 | |rho| exact 0.975900, sampled 0.975900, D(b) 1.0553
+   4-bit: rate H(M) = 3.8646 bits; principal-axis quantizer D = 0.4105, leakage = 3.7557 bits
+      f=0.15 D0=0.5589: aware leakage 3.2855 vs principal 3.7557 (12.5% less) | angle  16.53 deg (pencil   3.74) | floor L_1d(D0) = 1.2087 | |rho| exact 0.746804, sampled 0.746790, D(b) 0.5589
+      f=0.40 D0=0.8063: aware leakage 2.5474 vs principal 3.7557 (32.2% less) | angle  31.95 deg (pencil  15.06) | floor L_1d(D0) = 0.5076 | |rho| exact 0.920417, sampled 0.920415, D(b) 0.8063
+      f=0.70 D0=1.1032: aware leakage 1.7849 vs principal 3.7557 (52.5% less) | angle  50.00 deg (pencil  41.33) | floor L_1d(D0) = 0.0843 | |rho| exact 0.975900, sampled 0.975900, D(b) 1.0438
+  codebooks: exact Lloyd-Max
+   2-bit: rate H(M) = 1.9111 bits; principal-axis quantizer D = 0.5175, leakage = 1.8147 bits
+      f=0.15 D0=0.6499: aware leakage 1.4203 vs principal 1.8147 (21.7% less) | angle  16.53 deg (pencil   6.83) | floor L_1d(D0) = 0.8758 | |rho| exact 0.746804, sampled 0.746697, D(b) 0.6499
+      f=0.40 D0=0.8705: aware leakage 0.8955 vs principal 1.8147 (50.7% less) | angle  31.95 deg (pencil  20.04) | floor L_1d(D0) = 0.3913 | |rho| exact 0.920417, sampled 0.920392, D(b) 0.8705
+      f=0.70 D0=1.1352: aware leakage 0.5067 vs principal 1.8147 (72.1% less) | angle  50.00 deg (pencil  42.94) | floor L_1d(D0) = 0.0636 | |rho| exact 0.975900, sampled 0.975899, D(b) 1.0823
+   3-bit: rate H(M) = 2.8249 bits; principal-axis quantizer D = 0.4345, leakage = 2.7188 bits
+      f=0.15 D0=0.5794: aware leakage 2.2667 vs principal 2.7188 (16.6% less) | angle  16.53 deg (pencil   4.36) | floor L_1d(D0) = 1.1201 | |rho| exact 0.746804, sampled 0.746782, D(b) 0.5794
+      f=0.40 D0=0.8207: aware leakage 1.5894 vs principal 2.7188 (41.5% less) | angle  31.95 deg (pencil  16.09) | floor L_1d(D0) = 0.4803 | |rho| exact 0.920417, sampled 0.920383, D(b) 0.8207
+      f=0.70 D0=1.1104: aware leakage 0.9715 vs principal 2.7188 (64.3% less) | angle  50.00 deg (pencil  41.73) | floor L_1d(D0) = 0.0792 | |rho| exact 0.975900, sampled 0.975900, D(b) 1.0524
+   4-bit: rate H(M) = 3.7653 bits; principal-axis quantizer D = 0.4095, leakage = 3.6563 bits
+      f=0.15 D0=0.5581: aware leakage 3.1854 vs principal 3.6563 (12.9% less) | angle  16.53 deg (pencil   3.71) | floor L_1d(D0) = 1.2126 | |rho| exact 0.746804, sampled 0.746736, D(b) 0.5581
+      f=0.40 D0=0.8057: aware leakage 2.4461 vs principal 3.6563 (33.1% less) | angle  31.95 deg (pencil  15.02) | floor L_1d(D0) = 0.5088 | |rho| exact 0.920417, sampled 0.920394, D(b) 0.8057
+      f=0.70 D0=1.1029: aware leakage 1.6852 vs principal 3.6563 (53.9% less) | angle  50.00 deg (pencil  41.32) | floor L_1d(D0) = 0.0845 | |rho| exact 0.975900, sampled 0.975900, D(b) 1.0434
+
+T2  quadrature convergence of the leakage values (Lloyd-Max codebooks; principal and aware)
+    k    f   code       GH80      GH160     GH320     GH640     GH1280    adaptive
+    2  0.15 princ  1.814727  1.814727  1.814727  1.814727  1.814727  1.814727
+    2  0.15 aware  1.420263  1.420263  1.420263  1.420263  1.420263  1.420263
+    2  0.40 princ  1.814727  1.814727  1.814727  1.814727  1.814727  1.814727
+    2  0.40 aware  0.895479  0.895479  0.895479  0.895479  0.895479  0.895479
+    2  0.70 princ  1.814727  1.814727  1.814727  1.814727  1.814727  1.814727
+    2  0.70 aware  0.506607  0.506670  0.506670  0.506670  0.506670  0.506670
+    3  0.15 princ  2.718768  2.718768  2.718768  2.718768  2.718768  2.718768
+    3  0.15 aware  2.266662  2.266662  2.266662  2.266662  2.266662  2.266662
+    3  0.40 princ  2.718768  2.718768  2.718768  2.718768  2.718768  2.718768
+    3  0.40 aware  1.589378  1.589378  1.589378  1.589378  1.589378  1.589378
+    3  0.70 princ  2.718768  2.718768  2.718768  2.718768  2.718768  2.718768
+    3  0.70 aware  0.971391  0.971462  0.971461  0.971461  0.971461  0.971461
+    4  0.15 princ  3.656268  3.656268  3.656268  3.656268  3.656268  3.656268
+    4  0.15 aware  3.185363  3.185363  3.185363  3.185363  3.185363  3.185363
+    4  0.40 princ  3.656268  3.656268  3.656268  3.656268  3.656268  3.656268
+    4  0.40 aware  2.446076  2.446076  2.446076  2.446076  2.446076  2.446076
+    4  0.70 princ  3.656268  3.656268  3.656268  3.656268  3.656268  3.656268
+    4  0.70 aware  1.685095  1.685238  1.685238  1.685238  1.685238  1.685238

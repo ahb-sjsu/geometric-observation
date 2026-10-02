@@ -2153,10 +2153,13 @@ $f=0.15$, $0.4$, and $0.7$. The rate and the distortion are closed-form
 expressions in the cell probabilities and conditional means, which are
 evaluated through the normal distribution function. The leakage is an
 exact one-dimensional integral over $S$ of the conditional entropy of the
-cell index, evaluated numerically by Gauss--Hermite quadrature with 80
-nodes. The leakage-aware projection is the direction of largest $|\rho|$
-among $2\times10^6$ random feasible directions, and its costs are then
-evaluated by the same formulas. Table~\ref{tab:quant} lists the results.
+cell index. We evaluate it by adaptive quadrature, split at the points
+where $S$ crosses a cell edge. Gauss--Hermite rules with $160$ to $1280$
+nodes agree with it to six decimals. The leakage-aware projection is the
+exact maximizer of $|\rho|$ over the feasible directions, found from a
+one-parameter generalized eigenproblem, and a search over $2\times10^6$
+random directions confirms it. Its costs are then evaluated by the same
+formulas. Table~\ref{tab:quant} lists the results.
 
 \begin{table}[t]
 \centering
@@ -2170,17 +2173,17 @@ in the plane of $Y$.}
 \hline
 $k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / pencil) & $L_{\mathrm{1d}}(D_0)$\\
 \hline
-2 & 1.9111 & 0.15 & 0.6499 & 1.8147 & 1.4205 & 21.7\% & 16.40 / \phantom{0}6.83 & 0.8758\\
-  &        & 0.40 & 0.8705 & 1.8147 & 0.8956 & 50.6\% & 32.09 / 20.04 & 0.3913\\
-  &        & 0.70 & 1.1352 & 1.8147 & 0.5066 & 72.1\% & 49.93 / 42.94 & 0.0636\\
+2 & 1.9111 & 0.15 & 0.6499 & 1.8147 & 1.4203 & 21.7\% & 16.53 / \phantom{0}6.83 & 0.8758\\
+  &        & 0.40 & 0.8705 & 1.8147 & 0.8955 & 50.7\% & 31.95 / 20.04 & 0.3913\\
+  &        & 0.70 & 1.1352 & 1.8147 & 0.5067 & 72.1\% & 50.00 / 42.94 & 0.0636\\
 \hline
-3 & 2.8249 & 0.15 & 0.5794 & 2.7188 & 2.2667 & 16.6\% & 16.50 / \phantom{0}4.36 & 1.1201\\
-  &        & 0.40 & 0.8207 & 2.7188 & 1.5896 & 41.5\% & 31.78 / 16.09 & 0.4803\\
-  &        & 0.70 & 1.1104 & 2.7188 & 0.9714 & 64.3\% & 50.04 / 41.73 & 0.0792\\
+3 & 2.8249 & 0.15 & 0.5794 & 2.7188 & 2.2667 & 16.6\% & 16.53 / \phantom{0}4.36 & 1.1201\\
+  &        & 0.40 & 0.8207 & 2.7188 & 1.5894 & 41.5\% & 31.95 / 16.09 & 0.4803\\
+  &        & 0.70 & 1.1104 & 2.7188 & 0.9715 & 64.3\% & 50.00 / 41.73 & 0.0792\\
 \hline
-4 & 3.7653 & 0.15 & 0.5581 & 3.6563 & 3.1855 & 12.9\% & 16.58 / \phantom{0}3.71 & 1.2126\\
-  &        & 0.40 & 0.8057 & 3.6563 & 2.4463 & 33.1\% & 32.02 / 15.02 & 0.5088\\
-  &        & 0.70 & 1.1029 & 3.6563 & 1.6851 & 53.9\% & 50.01 / 41.32 & 0.0845\\
+4 & 3.7653 & 0.15 & 0.5581 & 3.6563 & 3.1854 & 12.9\% & 16.53 / \phantom{0}3.71 & 1.2126\\
+  &        & 0.40 & 0.8057 & 3.6563 & 2.4461 & 33.1\% & 31.95 / 15.02 & 0.5088\\
+  &        & 0.70 & 1.1029 & 3.6563 & 1.6852 & 53.9\% & 50.00 / 41.32 & 0.0845\\
 \hline
 \end{tabular}
 \end{table}
@@ -2208,19 +2211,19 @@ $k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / penc
 \addlegendimage{black, dashed, mark=o}
 \addlegendentry{$L_{\mathrm{1d}}(D_0)$}
 \addplot[black, mark=*, forget plot] coordinates
-  {(0.6499,1.4205) (0.8705,0.8956) (1.1352,0.5066)};
+  {(0.6499,1.4203) (0.8705,0.8955) (1.1352,0.5067)};
 \addplot[black, densely dotted, forget plot] coordinates
   {(0.5175,1.8147) (1.15,1.8147)};
 \addplot[black, dashed, mark=o, forget plot] coordinates
   {(0.6499,0.8758) (0.8705,0.3913) (1.1352,0.0636)};
 \addplot[blue!70!black, mark=square*, forget plot] coordinates
-  {(0.5794,2.2667) (0.8207,1.5896) (1.1104,0.9714)};
+  {(0.5794,2.2667) (0.8207,1.5894) (1.1104,0.9715)};
 \addplot[blue!70!black, densely dotted, forget plot] coordinates
   {(0.4345,2.7188) (1.15,2.7188)};
 \addplot[blue!70!black, dashed, mark=square, forget plot] coordinates
   {(0.5794,1.1201) (0.8207,0.4803) (1.1104,0.0792)};
 \addplot[red!70!black, mark=triangle*, forget plot] coordinates
-  {(0.5581,3.1855) (0.8057,2.4463) (1.1029,1.6851)};
+  {(0.5581,3.1854) (0.8057,2.4461) (1.1029,1.6852)};
 \addplot[red!70!black, densely dotted, forget plot] coordinates
   {(0.4095,3.6563) (1.15,3.6563)};
 \addplot[red!70!black, dashed, mark=triangle, forget plot] coordinates
@@ -2253,9 +2256,9 @@ $k$ & $H(M)$ & $f$ & $D_0$ & principal & aware & reduction & angle (aware / penc
 \addlegendentry{principal axis}
 \addlegendimage{black, dashed, mark=o}
 \addlegendentry{Gaussian optimum}
-\addplot[black, mark=*, forget plot] coordinates {(0.15,16.40) (0.4,32.09) (0.7,49.93)};
-\addplot[blue!70!black, mark=square*, forget plot] coordinates {(0.15,16.50) (0.4,31.78) (0.7,50.04)};
-\addplot[red!70!black, mark=triangle*, forget plot] coordinates {(0.15,16.58) (0.4,32.02) (0.7,50.01)};
+\addplot[black, mark=*, forget plot] coordinates {(0.15,16.53) (0.4,31.95) (0.7,50.00)};
+\addplot[blue!70!black, mark=square*, forget plot] coordinates {(0.15,16.53) (0.4,31.95) (0.7,50.00)};
+\addplot[red!70!black, mark=triangle*, forget plot] coordinates {(0.15,16.53) (0.4,31.95) (0.7,50.00)};
 \addplot[black, dashed, mark=o, forget plot] coordinates {(0.15,6.83) (0.4,20.04) (0.7,42.94)};
 \addplot[blue!70!black, dashed, mark=square, forget plot] coordinates {(0.15,4.36) (0.4,16.09) (0.7,41.73)};
 \addplot[red!70!black, dashed, mark=triangle, forget plot] coordinates {(0.15,3.71) (0.4,15.02) (0.7,41.32)};
@@ -2271,7 +2274,8 @@ $L_{\mathrm{1d}}(D_0)$ is the least leakage of any description.
 (b) The direction in the plane of $Y$ along which each description
 reduces the error. The leakage-aware quantizer turns toward the context
 direction and turns further than the Gaussian optimum, while the
-principal-axis quantizer stays at $0^\circ$.}
+principal-axis quantizer stays at $0^\circ$. Its direction is the same
+at every bit depth, so its three markers coincide.}
 \label{fig:quant}
 \end{figure}
 
@@ -2279,16 +2283,15 @@ principal-axis quantizer stays at $0^\circ$.}
 quantizer leaks $12.9\%$ to $72.1\%$ less than the principal-axis
 quantizer (Table~\ref{tab:quant} and Fig.~\ref{fig:quant}(a)). The gain
 grows as the budget loosens and is largest at 2 bits, where at $f=0.7$
-the quantizer leaks $0.5066$ bits instead of $1.8147$. The principal-axis
+the quantizer leaks $0.5067$ bits instead of $1.8147$. The principal-axis
 quantizer reduces the error along the first axis at every budget. The
-leakage-aware quantizer reduces it along $16.4^\circ$ to $16.6^\circ$,
-$31.8^\circ$ to $32.1^\circ$, and $49.9^\circ$ to $50.0^\circ$ at the three
-values of $f$ (Fig.~\ref{fig:quant}(b)). The reduction above makes the
-direction the same for every quantizer, and the three agree within
-$0.31^\circ$, a spread left by the random search. They turn with the
-budget toward the
-context direction $u$ at $50^\circ$, which the quantizer reaches once it
-reads $V$.
+leakage-aware quantizer reduces it along $16.53^\circ$, $31.95^\circ$, and
+$50.00^\circ$ at the three values of $f$ (Fig.~\ref{fig:quant}(b)). The
+reduction above makes the direction the same for every quantizer, because
+the budget fixes $|c_{YZ}|^2$ at the same fraction of its maximum for
+every codebook. The direction turns with the budget toward the context
+direction $u$ at $50^\circ$. At $f=0.7$ the budget does not bind, and the
+quantizer reads the context $V$ itself.
 
 The Gaussian optimum of Theorem~\ref{thm:onedim} turns the same way but
 less, through $3.7^\circ$ to $6.8^\circ$, $15.0^\circ$ to $20.0^\circ$, and
@@ -2302,7 +2305,7 @@ Section~\ref{sec:examples}, where $L_{\mathrm{1d}}(D_0)=L(D_0)$. Because
 $\hY$ is an admissible channel and
 $H(M\mid S)=I(T;M\mid S)\ge I(T;\hY\mid S)$, Theorem~\ref{thm:op} makes
 $L(D_0)$ a lower bound on the leakage of the quantizer. The 2-bit
-quantizer leaks $0.5066$ bits there, against a floor of $0.0636$ bits.
+quantizer leaks $0.5067$ bits there, against a floor of $0.0636$ bits.
 At $f=0.15$ and $0.4$ the budgets lie below the certified range, and
 $L_{\mathrm{1d}}(D_0)$ is the best value among one-dimensional Gaussian
 descriptions rather than a bound.
@@ -2341,10 +2344,14 @@ determinant program against brute force, the certificate, Lemma
 Section~\ref{sec:examples}. \texttt{tqp\_leakage\_demo.py} computes
 Table~\ref{tab:quant} and Fig.~\ref{fig:quant}. It evaluates the rate
 and distortion of each quantizer in closed form and its leakage by
-80-node Gauss--Hermite quadrature of an exact one-dimensional integral,
-and checks that the leakage is strictly decreasing in $|\rho|$ for every
-quantizer. Its output is recorded in
-\texttt{tqp\_leakage\_demo-2026-10-01.txt}.
+adaptive quadrature of an exact one-dimensional integral, finds the
+leakage-aware direction exactly, checks it against $2\times10^6$ random
+directions, and checks that the leakage is strictly decreasing in $|\rho|$
+for every quantizer. It tabulates every leakage value against
+Gauss--Hermite rules of $80$ to $1280$ nodes. From $160$ nodes on they
+agree with the adaptive value to six decimals, and the $80$-node rule is
+off by up to $1.4\times10^{-4}$ bits at $f=0.7$. Its output is recorded in
+\texttt{tqp\_leakage\_demo-2026-10-02.txt}.
 \texttt{verify\_decoder\_si.py} checks Lemma~\ref{lem:mmsecomp} for a
 non-Gaussian description (a sign quantizer, by numerical integration),
 the reduction of Theorem~\ref{thm:decsi}(b) on random Gaussian
