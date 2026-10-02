@@ -1538,7 +1538,8 @@ and $\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$.
 
 \begin{theorem}\label{thm:decregion}
 Let $\mathcal R_C(D)$ be the set of pairs $(R,L)$ for which there are
-random variables $V_0,V$ with $V_0-V-T-(C,S)$ and $I(T;V)<\infty$, and a
+random variables $V_0,V$ with values in Euclidean spaces,
+$V_0-V-T-(C,S)$, and $I(T;V)<\infty$, and a
 measurable $\hat y$ with
 $\E[(Y-\hat y(V,C))^{\mathsf T}W(Y-\hat y(V,C))]\le D$, such that
 \[
@@ -1566,11 +1567,15 @@ degraded cases are explicit.
 For Gaussian linear observations the information matrices order the
 side informations. If $J_S\preceq J_C$, the sufficient statistic
 $J_CT+n_C$, $n_C\sim\mathcal N(0,J_C)$, of $C$ is mapped by $A=J_SJ_C^{+}$ to
-$J_ST+An_C$, and
-$AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$, so
-adding independent noise of covariance $J_S-AJ_CA^{\mathsf T}$ reproduces
-the law of the sufficient statistic $J_ST+n_S$ of $S$ given $T$. So there
-is a channel from $C$ to a variable $S'$ with $(T,S')\sim(T,S)$ and
+$J_ST+An_C$. Here $AJ_C=J_S$, because $J_S\preceq J_C$ puts the null space
+of $J_C$ inside that of $J_S$. Also
+$AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$,
+because $J_C^{+1/2}J_SJ_C^{+1/2}\preceq J_C^{+1/2}J_CJ_C^{+1/2}\preceq I$
+gives $\|J_S^{1/2}J_C^{+1/2}\|\le1$. So adding independent noise of
+covariance $J_S-AJ_CA^{\mathsf T}$ reproduces the law, given $T$, of the
+sufficient statistic $J_ST+n_S$ of $S$, and drawing $S'$ from the
+conditional law of $S$ given that statistic, which does not depend on
+$T$, gives a channel from $C$ to $S'$ with $(T,S')\sim(T,S)$ and
 $T-C-S'$. For any $V_0$ with $V_0-T-(C,S)$, the mutual information
 $I(V_0;S)$ depends only on the law of $(V_0,T)$ and the channel from $T$
 to $S$, so $I(V_0;S)=I(V_0;S')\le I(V_0;C)$ by data processing. Applied to
@@ -1594,18 +1599,21 @@ $c+o$ of the sufficient statistics $c=J_CT+n_C$ and $o=J_+T+n_+$ of two
 independent observations $C'$ and $O$ of $T$ with information matrices
 $J_C$ and $J_+$. Since $c+o$ is sufficient for $T$ in $(C',O)$ and
 $V-T-(C',O)$, the error covariance $M_S$ equals that of estimating $T$
-from $(V,C',O)$, and $(T,V,C')$ has the law of $(T,V,C)$. For each
-realization $w$ of $(V,C')$, let $C_w$ be the conditional covariance of
-$T$. The best linear estimate of $T$ from $O$ under that conditional law
-has error covariance
-$C_w-C_wJ_+(I+C_wJ_+)^{-1}C_w$, which is $(C_w^{-1}+J_+)^{-1}$ when $C_w$
-is invertible, and it bounds the conditional minimum mean-square error.
-Averaging over $w$ and using the matrix concavity of
-$X\mapsto(X^{-1}+J_+)^{-1}$ (proof of Theorem~\ref{thm:convex}), the
-operator Jensen inequality gives
-$M_S\preceq\E[(C_w^{-1}+J_+)^{-1}]\preceq(M_C^{-1}+J_+)^{-1}$. When
-$(V,T)$ is jointly Gaussian every inequality is an equality, because
-$C_w$ is constant and the estimate is linear.
+from $(V,C',O)$, and $(T,V,C')$ has the law of $(T,V,C)$. Write
+$J_+=B^{\mathsf T}B$ and take $O=BT+n$ with $n\sim\mathcal N(0,I)$
+independent of everything else, which has sufficient statistic
+$B^{\mathsf T}O$ of the required law. Let $w=(V,C')$, let $C_w$ be the
+conditional covariance of $T$ given $w$, so that $\E[C_w]=M_C$, and fix
+the gain $L=M_CB^{\mathsf T}(BM_CB^{\mathsf T}+I)^{-1}$. The affine estimate
+$\E[T\mid w]+L(O-B\,\E[T\mid w])$ has conditional error covariance
+$(I-LB)C_w(I-LB)^{\mathsf T}+LL^{\mathsf T}$ given $w$, which is affine in
+$C_w$. Its mean is therefore
+$(I-LB)M_C(I-LB)^{\mathsf T}+LL^{\mathsf T}
+=M_C-M_CB^{\mathsf T}(BM_CB^{\mathsf T}+I)^{-1}BM_C=(M_C^{-1}+J_+)^{-1}$,
+and since $M_S$ is the minimum mean-square error from $(w,O)$,
+$M_S\preceq(M_C^{-1}+J_+)^{-1}$. When $(V,T)$ is jointly Gaussian, $C_w=M_C$
+for every $w$ and the conditional mean of $T$ given $(w,O)$ is this affine
+estimate, so equality holds.
 \end{proof}
 
 \begin{theorem}\label{thm:decsi}
@@ -1622,10 +1630,11 @@ rate.
 the region of Proposition~\ref{prop:posterior} for the source
 $\mathcal N(0,\Sigma_{T\mid C})$ with holder information $J_S-J_C$ and the
 same weight $Q$. Its coordinate is the decoder's error covariance
-$M=\Cov(T\mid V,C)$, and every result of
-Sections~\ref{sec:convex}--\ref{sec:directions} holds with $\Sigma_T$
-replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$, the latter written as
-$H'^{\mathsf T}H'$ with unit noise where an observation map is needed.
+$M=\E[\Cov(T\mid V,C)]$. The results of
+Sections~\ref{sec:convex}--\ref{sec:directions} are statements about that
+program, so they hold with $\Sigma_T$ replaced by $\Sigma_{T\mid C}$, $J$
+by $J_S-J_C$ (written as $H'^{\mathsf T}H'$ with unit noise where an
+observation map is needed), and $D_{\max}$ by $\tr(Q\Sigma_{T\mid C})$.
 \end{enumerate}
 \end{theorem}
 
@@ -1633,7 +1642,9 @@ $H'^{\mathsf T}H'$ with unit noise where an observation map is needed.
 Let $V$ be any description with $I(T;V)<\infty$ and write
 $M_C=\E[\Cov(T\mid V,C)]$, which is positive definite because a singular
 $M_C$ reveals a linear functional of $T$ without noise and makes
-$I(T;V\mid C)$ infinite. Since $h(T\mid C)=\tfrac12\log\det(2\pi e\Sigma_{T\mid C})$
+$I(T;V\mid C)$ infinite. Since $T$ has a conditional density given $C$
+and $I(T;V\mid C)<\infty$, it has a conditional density given $(V,C)$
+almost surely. Since $h(T\mid C)=\tfrac12\log\det(2\pi e\Sigma_{T\mid C})$
 and, by the Gaussian maximum-entropy bound and the concavity of
 $\log\det$, $h(T\mid V,C)\le\tfrac12\log\det(2\pi eM_C)$, we have
 $I(T;V\mid C)\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$, and likewise
@@ -1647,9 +1658,12 @@ so both $R+\epsilon$ and $L+\epsilon$ are at least
 $I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is continuous on
 $(0,\tr(Q\Sigma_{T\mid C}))$, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
 and a jointly Gaussian $V$ with $\Cov(T\mid V,C)$ equal to the minimizer
-$M$ of $R_C(D)$, which exists because $M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$,
-with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
-the region is increasing in $D$.
+$M$ of $R_C(D)$, with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
+the region is increasing in $D$. The minimizer exists because the
+objective grows without bound as $\det M\to0$, so the minimum may be taken
+over the compact feasible set with $\det M\ge\delta$ for a small
+$\delta>0$, on which the objective is continuous. Such a $V$ exists because
+$M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$.
 
 (b) For feasible $(V_0,V)$, $J_C\preceq J_S$ gives
 $I(V;S\mid V_0)\ge I(V;C\mid V_0)$, so
@@ -1867,7 +1881,8 @@ $\Upsilon\le H(X\mid V,C)+I(X;C\mid V_0)-I(X;E\mid V_0)$ for finite
 auxiliaries with $V_0-V-X-(C,E)$, where the equivocation is
 $\tfrac1nH(X^n\mid M,E^n)$. Their reproduction alphabet is the source
 alphabet. A finite reproduction alphabet $\mathcal Y$ is covered by
-enlarging the source alphabet to $\mathcal X\cup\mathcal Y$, with the
+enlarging the source alphabet to the disjoint union
+$\mathcal X\sqcup\mathcal Y$, with the
 added letters of probability zero and with $d(x,b)$ for $b\in\mathcal X$
 set to $\max_{x,y}d(x,y)$, so that replacing any such output by a fixed
 $y_0\in\mathcal Y$ does not increase the distortion. For a deterministic
@@ -1877,10 +1892,11 @@ and since $V_0-X-(C,E)$,
 H(X\mid E)-H(X\mid V,C)-I(X;C\mid V_0)+I(X;E\mid V_0)
 =I(X;V\mid C)+I(V_0;C)-I(V_0;E).
 \]
-So $(R,L)$ is achievable at distortion $D$ exactly when for every
-$\epsilon>0$ there are codes with rate at most $R+\epsilon$, distortion at
-most $D+\epsilon$, and leakage at most $L+\epsilon$, whenever
-$(R,D,L)$ lies above a point $(I(X;V\mid C),\E d,I(X;V\mid C)+I(V_0;C)-I(V_0;E))$.
+So for every point
+$(I(X;V\mid C),\E d(X,\hat x(V,C)),I(X;V\mid C)+I(V_0;C)-I(V_0;E))$ of
+finite auxiliaries and every $\epsilon>0$, some deterministic code has
+rate, distortion, and leakage each within $\epsilon$ of that point or
+below it.
 
 \begin{proof}[Proof of Theorem~\ref{thm:decregion}]
 \emph{Converse.} Fix a code, so $M=f_n(T^n)$ and $\hY^n=g_n(M,C^n)$. For
@@ -1911,12 +1927,12 @@ and the Csiszár sum identity gives
 $I(M;C^n)-I(M;S^n)=\sum_i[I(M;C_i\mid C^{i-1},S_{i+1}^n)-I(M;S_i\mid C^{i-1},S_{i+1}^n)]$.
 Since $(C^{i-1},S_{i+1}^n)$ is independent of $(C_i,S_i)$, each term equals
 $I(V_{0,i};C_i)-I(V_{0,i};S_i)$, so
-$nL_n\ge\sum_i[I(T_i;V_i\mid C_i)+I(V_{0,i};C_i)-I(V_{0,i};S_i)]$. With $Q$
+$nL_n\ge\sum_i[I(T_i;V_i\mid C_i)+I(V_{0,i};C_i)-I(V_{0,i};S_i)]$. With $\tau$
 uniform on $\{1,\dots,n\}$ and independent of everything, set
-$V_0=(V_{0,Q},Q)$, $V=(V_Q,Q)$, and $(T,C,S)=(T_Q,C_Q,S_Q)$, which has the
+$V_0=(V_{0,\tau},\tau)$, $V=(V_\tau,\tau)$, and $(T,C,S)=(T_\tau,C_\tau,S_\tau)$, which has the
 source law. Then $V_0-V-T-(C,S)$, $I(T;V)\le H(M)<\infty$,
 $I(T;V\mid C)$, $I(V_0;C)$, and $I(V_0;S)$ are the averages of their
-per-letter versions, and the reconstruction $\hat y(V,C)=\hY_Q$ has
+per-letter versions, and the reconstruction $\hat y(V,C)=\hY_\tau$ has
 distortion $D_n$. So $(R_n,L_n)\in\mathcal R_C(D_n)$ for every code. If
 $(R,L)$ is achievable at $D$, then for every $\epsilon>0$ and all large $n$
 some code has $R_n\le R+\epsilon$, $L_n\le L+\epsilon$, $D_n\le D+\epsilon$,
@@ -1930,8 +1946,9 @@ leakage at most $I(T;V\mid C)+I(V_0;C)-I(V_0;S)+\epsilon$. A diagonal
 sequence over $\epsilon$ then achieves any $(R,L)$ with
 $(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for all $\epsilon$. Replace
 $\hat y$ by $\E[Y\mid V,C]$, which does not increase the distortion.
-Take $V_0$ and $V$ with values in Euclidean spaces, which loses nothing
-because the auxiliaries enter only through their laws, and let $q_j$
+The auxiliaries $V_0$ and $V$ take values in Euclidean spaces, as in the
+definition of $\mathcal R_C(D)$, and the auxiliaries built in the converse
+do too, because $M$ and $\tau$ take finitely many values. Let $q_j$
 denote the saturating dyadic quantizers of Appendix~\ref{app:coding}.
 
 \emph{Step A (auxiliaries and side informations).} Let $U_j=q_j(V_0)$,
@@ -1988,14 +2005,21 @@ $k$ with the surrogate rate, leakage, and distortion within $\epsilon$ of
 their values in Step~A and the distortion mismatch of Step~B at most
 $\epsilon$.
 
-\emph{Step D (codes).} By the finite-alphabet theorem the surrogate
-point is achievable. For all large $n$ there is a deterministic code with
-rate at most $I(T;V\mid C)+4\epsilon$, surrogate distortion at most
-$D+4\epsilon$, outputs in $\mathcal Y$, and $\tfrac1nH(M\mid S_\eta^n)$ at
-most the leakage expression plus $4\epsilon$. As a code for the Gaussian
-problem its distortion is at most $D+5\epsilon$ by Step~B, and its leakage
-satisfies $H(M\mid S^n)\le H(M\mid S_\eta^n)$ because $S_\eta^n$ is a
-function of $S^n$.
+\emph{Step D (codes).} By the finite-alphabet theorem there is a
+blocklength $n_0$ and a deterministic code of that length with rate at
+most $I(T;V\mid C)+4\epsilon$, surrogate distortion at most $D+4\epsilon$,
+outputs in $\mathcal Y$, and $\tfrac1{n_0}H(M\mid S_\eta^{n_0})$ at most the
+leakage expression plus $4\epsilon$. As a code for the Gaussian problem
+its distortion is at most $D+5\epsilon$ by Step~B, and its leakage
+satisfies $H(M\mid S^{n_0})\le H(M\mid S_\eta^{n_0})$ because $S_\eta^{n_0}$
+is a function of $S^{n_0}$. For a general blocklength $n=kn_0+r$ with
+$0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce the
+last $r$ letters by zero. The message is the tuple of block messages, so
+the rate does not increase. The pairs of block message and block of
+$S^n$ are independent across blocks, so the leakage is the sum of the
+block leakages divided by $n$ and does not exceed that of one block. The
+distortion is at most $(kn_0(D+5\epsilon)+r\tr(W\Sigma_Y))/n$, which tends
+to at most $D+5\epsilon$.
 \end{proof}
 
 \section{The Gaussian Exhaustion Lemma}
