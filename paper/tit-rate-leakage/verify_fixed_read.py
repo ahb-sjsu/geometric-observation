@@ -1,4 +1,4 @@
-"""Checks for the price of a fixed read (Proposition fixedread, Theorem forced), 2026-10-01.
+"""Checks for the price of a fixed projection direction (sharpened bound) (Proposition fixedread, Theorem forced), 2026-10-01.
 
 Notation as in the paper: A(Delta) = S Q S - Delta S (S = Sigma_T), K = (S^-1 + J)^-1, a one-dimensional
 description Z = b^T T + N reproduced by E[Y | Z] at the active noise level.
@@ -36,6 +36,12 @@ def direct(b, S, Q, J, Delta, F, W):
     Kz = np.linalg.inv(np.linalg.inv(Cz) + J)                    # Cov(T | Z, S)
     return 0.5 * (np.linalg.slogdet(K)[1] - np.linalg.slogdet(Kz)[1]) / LN2, D
 
+def sharp(Delta, mu1, a):
+    # excess >= 1/2 log(1 + Delta a / ((mu1 - a)(mu1 + Delta))), a = (mu1 - mu2) sin^2 psi < mu1
+    if a >= mu1:
+        return math.inf          # every direction at this angle has mu_b <= 0: infinite leakage
+    return 0.5 * math.log2(1 + Delta * a / ((mu1 - a) * (mu1 + Delta)))
+
 def sin2K(b, v, K):
     c = (b @ K @ v) ** 2 / ((b @ K @ b) * (v @ K @ v)); return max(0.0, 1 - c)
 
@@ -60,11 +66,11 @@ for _ in range(200):
         worst1 = max(worst1, abs(ld - lb), abs(D - (np.trace(Q @ S) - Delta)))
         gap = mu[0] - mub; bound = (mu[0] - mu[1]) * sin2K(b, V[:, 0], K)
         Lmin = 0.5 * math.log2(1 + Delta / mu[0])
-        exc_bound = 0.5 * math.log2(1 + Delta * bound / (mu[0] * (mu[0] + Delta)))
+        exc_bound = sharp(Delta, mu[0], bound)
         ok2 = ok2 and gap >= bound - 1e-10 and (lb - Lmin) >= exc_bound - 1e-10
 ok1 = worst1 < 1e-9
 check("F1 leakage of the read b: closed form == conditional-covariance computation, distortion == D", ok1, f"max err {worst1:.1e}")
-check("F2 mu_max - mu_b >= (mu_1-mu_2) sin^2_K and the excess-leakage bound (random reads)", ok2)
+check("F2 mu_max - mu_b >= (mu_1-mu_2) sin^2_K and the sharpened excess-leakage bound (random reads)", ok2)
 
 # F3 two-budget minimax, p = 3, brute force over the sphere
 def minimax(S, Q, J, D1, D2, n=200000):
@@ -84,7 +90,7 @@ def minimax_bound(S, Q, J, D1, D2):
         Delta = Dm - Dd; K, A, mu, V = pencil(S, Q, J, Delta); vs.append(V[:, 0]); vals.append((Delta, mu))
     th = math.acos(min(1.0, math.sqrt(1 - sin2K(vs[0], vs[1], K))))
     s2 = math.sin(th / 2) ** 2
-    return min(0.5 * math.log2(1 + De * (mu[0] - mu[1]) * s2 / (mu[0] * (mu[0] + De))) for De, mu in vals), math.degrees(th)
+    return min(sharp(De, mu[0], (mu[0] - mu[1]) * s2) for De, mu in vals), math.degrees(th)
 
 ok3 = True; n3 = 0
 while n3 < 25:
@@ -107,7 +113,7 @@ for Dd in (1.1, 1.2, 1.3, 1.38):
     Delta = Dm - Dd; K, A, mu, V = pencil(S, Q, J, Delta)
     lb, mub = ell_b(bR, S, Q, J, Delta); Lmin = 0.5 * math.log2(1 + Delta / mu[0])
     s2 = sin2K(bR, V[:, 0], K)
-    bd = 0.5 * math.log2(1 + Delta * (mu[0] - mu[1]) * s2 / (mu[0] * (mu[0] + Delta)))
+    bd = sharp(Delta, mu[0], (mu[0] - mu[1]) * s2)
     print(f"   D={Dd}: L={Lmin:.4f}  excess={lb - Lmin:.4f}  bound={bd:.4f}  angle={math.degrees(math.asin(math.sqrt(s2))):.2f} deg")
 mm = minimax(S, Q, J, 1.38, 1.1, n=400000); bd, th = minimax_bound(S, Q, J, 1.38, 1.1)
 print(f"   pair (1.38, 1.1): K-angle between optimal reads {th:.2f} deg; best fixed read pays {mm:.4f} bits at one budget; bound {bd:.4f}")
