@@ -27,7 +27,7 @@
 
 \begin{document}
 
-\title{Rate, Leakage, and Distortion for\\ Gaussian Sources with an Informed Encoder}
+\title{Rate, Leakage, and Distortion for Gaussian Sources:\\ Water-Filling on a Tilted Weight}
 
 \author{Andrew~H.~Bond,~\IEEEmembership{Senior Member,~IEEE}%
 \thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e
@@ -35,7 +35,7 @@ State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
 The check scripts of Appendix~\ref{app:numver} are in the author's
 geometric-observation repository.}}
 
-\markboth{Manuscript draft}{Bond: Rate, Leakage, and Distortion for Gaussian Sources with an Informed Encoder}
+\markboth{Manuscript draft}{Bond: Rate, Leakage, and Distortion for Gaussian Sources}
 
 \maketitle
 
@@ -182,7 +182,7 @@ tradeoff; when the holder's dominates, an estimation inequality
 without decoder side information, for the source conditioned on the
 decoder's observation and the holder's excess information.
 The same effects appear in fixed-rate scalar quantizers
-(Section~\ref{sec:quant}). At equal rate and under the same
+(Appendix~\ref{sec:quant}). At equal rate and under the same
 distortion budget, which the principal-axis quantizer meets with slack,
 a Lloyd--Max quantizer applied to a leakage-aware projection leaks 13\%
 to 72\% less than the same quantizer on the principal axis, and its
@@ -254,7 +254,7 @@ explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
 Section~\ref{sec:parallel} independent components, and
 Section~\ref{sec:decsi} decoder side information.
-Section~\ref{sec:examples} gives instances, Section~\ref{sec:quant}
+Section~\ref{sec:examples} gives instances, Appendix~\ref{sec:quant}
 evaluates practical scalar quantizers, and Section~\ref{sec:discussion}
 open problems. The appendices prove the coding theorem and a Gaussian
 exhaustion lemma and describe the numerical checks.
@@ -647,7 +647,7 @@ $D$. No convex solver is needed.
 \end{remark}
 
 So for a scalar holder, the case of the scalar and coupled instances
-and of Section~\ref{sec:quant}, the whole frontier, partial description
+and of Appendix~\ref{sec:quant}, the whole frontier, partial description
 included, is the fixed point of reverse water-filling on a rank-one tilt
 of the decoder's weight, computed as in Remark~\ref{rem:solver}. As
 intuition for why the projection direction turns: a single party has
@@ -983,10 +983,10 @@ $\Delta_0\in\mathcal I$, $b_0=b(\Delta_0)$ satisfies
 \begin{equation}
 Q\Sigma_Tb_0=\lambda b_0
 \quad\text{and}\quad
-J\Sigma_Tb_0=\kappa b_0
+J\Sigma_Tb_0=\varsigma b_0
 \label{eq:common}
 \end{equation}
-for scalars $\lambda>0$ and $\kappa\ge0$, that is, if and only if $b_0$
+for scalars $\lambda>0$ and $\varsigma\ge0$, that is, if and only if $b_0$
 is a common generalized eigenvector of the pencils
 $(\Sigma_TQ\Sigma_T,\Sigma_T)$ and $(\Sigma_TJ\Sigma_T,\Sigma_T)$.
 Otherwise $b(\Delta)$ is constant on no open subinterval of $\mathcal I$.
@@ -1004,19 +1004,19 @@ $c=b^{\mathsf T}\Sigma_Tb/b^{\mathsf T}\Kc b\ge1$ because
 $\Kc\preceq\Sigma_T$. Then $A_0b=(\Delta+\mu_{\max}/c)\Sigma_Tb$, that is,
 $Q\Sigma_Tb=\lambda b$ with $\lambda=\Delta+\mu_{\max}/c>0$; and
 multiplying $\Sigma_Tb=c\Kc b$ by $\Kc^{-1}=\Sigma_T^{-1}+J$ gives
-$J\Sigma_Tb=(c-1)b$, so $\kappa=c-1\ge0$. This proves the last sentence
+$J\Sigma_Tb=(c-1)b$, so $\varsigma=c-1\ge0$. This proves the last sentence
 and the forward direction.
 
 Conversely, if $b_0$ satisfies \eqref{eq:common}, then
-$\Kc^{-1}\Sigma_Tb_0=(1+\kappa)b_0$, so $\Sigma_Tb_0=(1+\kappa)\Kc b_0$ and
-$A(\Delta)b_0=(\lambda-\Delta)\Sigma_Tb_0=(\lambda-\Delta)(1+\kappa)\Kc b_0$
+$\Kc^{-1}\Sigma_Tb_0=(1+\varsigma)b_0$, so $\Sigma_Tb_0=(1+\varsigma)\Kc b_0$ and
+$A(\Delta)b_0=(\lambda-\Delta)\Sigma_Tb_0=(\lambda-\Delta)(1+\varsigma)\Kc b_0$
 for every $\Delta$: $b_0$ is a generalized eigenvector with eigenvalue
-$(\lambda-\Delta)(1+\kappa)$ throughout. Let
-$\mathcal E=\{\Delta\in\mathcal I:(\lambda-\Delta)(1+\kappa)=\mu_{\max}(\Delta)\}$.
+$(\lambda-\Delta)(1+\varsigma)$ throughout. Let
+$\mathcal E=\{\Delta\in\mathcal I:(\lambda-\Delta)(1+\varsigma)=\mu_{\max}(\Delta)\}$.
 It contains $\Delta_0$ and is closed in $\mathcal I$ by continuity. It is
 open, because near a point of $\mathcal E$ the simple eigenvalue
 $\mu_{\max}$ is the only eigenvalue of the pencil close to it, and
-$(\lambda-\Delta)(1+\kappa)$ is an eigenvalue close to it. Since
+$(\lambda-\Delta)(1+\varsigma)$ is an eigenvalue close to it. Since
 $\mathcal I$ is connected, $\mathcal E=\mathcal I$, and by simplicity
 $b(\Delta)$ spans the line of $b_0$ throughout.
 \end{proof}
@@ -1033,7 +1033,7 @@ $Q\Sigma_Tb_0=\lambda b_0$ with $\lambda>0$ puts $b_0$ in the range of
 $Q$, which is the range of $F^{\mathsf T}$, so $b_0=F^{\mathsf T}\beta$
 and $F^{\mathsf T}W\Sigma_Y\beta=\lambda F^{\mathsf T}\beta$. The vector
 $J\Sigma_Tb_0$ lies in the range of $H^{\mathsf T}$, which meets the
-range of $F^{\mathsf T}$ only at zero, so $J\Sigma_Tb_0=\kappa b_0$
+range of $F^{\mathsf T}$ only at zero, so $J\Sigma_Tb_0=\varsigma b_0$
 forces $J\Sigma_Tb_0=0$; with $w=\Sigma_Tb_0$, $w^{\mathsf T}Jw=0$ gives
 $\Sigma_U^{-1/2}Hw=0$, that is,
 $\Sigma_U^{-1}H\Sigma_TF^{\mathsf T}\beta=0$, which is
@@ -1244,9 +1244,9 @@ each solved by Corollary~\ref{cor:scalar}.
 Minkowski sums of the scalar regions of the components, attained by
 product channels.
 (b) $L(D)=\min\sum_jL_j(D_j)$ over such allocations, with a unique
-minimizer $D_j=D_j(\theta^\star)$, where $D_j(\theta)=\sigma_j^2$ for
-$\theta\le\kappa_j$ and otherwise solves $-L_j'(D_j)=\theta$, and
-$\theta^\star$ is the unique level with $\sum_jD_j(\theta^\star)=D$.
+minimizer $D_j=D_j(\vartheta^\star)$, where $D_j(\vartheta)=\sigma_j^2$ for
+$\vartheta\le\kappa_j$ and otherwise solves $-L_j'(D_j)=\vartheta$, and
+$\vartheta^\star$ is the unique level with $\sum_jD_j(\vartheta^\star)=D$.
 (c) As $D$ decreases, the leakage-optimal description begins to describe
 component $j$ in decreasing order of $\sigma_j^2(1+\rho_j^2/\tau_j^2)$,
 while the rate-optimal description proceeds in decreasing order of
@@ -1264,12 +1264,12 @@ A product of component channels attains the sum with equality.
 (b) Each $L_j$ is convex and nonincreasing, strictly convex on
 $(0,\sigma_j^2)$ by Lemma~\ref{lem:slope}, with left derivative
 $-\kappa_j$ at $\sigma_j^2$. An allocation is optimal if and only if some
-$\theta\ge0$ lies in $-\partial L_j(D_j)$ for every $j$ with
-$\theta(\sum_jD_j-D)=0$. Since $D<\sum_j\sigma_j^2$, $\theta>0$; no $D_j$
-is $0$ because $-L_j'\to\infty$ there; and $\sum_jD_j(\theta)$ decreases
+$\vartheta\ge0$ lies in $-\partial L_j(D_j)$ for every $j$ with
+$\vartheta(\sum_jD_j-D)=0$. Since $D<\sum_j\sigma_j^2$, $\vartheta>0$; no $D_j$
+is $0$ because $-L_j'\to\infty$ there; and $\sum_jD_j(\vartheta)$ decreases
 continuously and strictly from $\sum_j\sigma_j^2$ at $\min_j\kappa_j$ to
-$0$, so $\theta^\star$ is unique. (c) $D_j(\theta)<\sigma_j^2$ exactly when
-$\theta>\kappa_j$, and $\theta^\star$ increases as $D$ decreases.
+$0$, so $\vartheta^\star$ is unique. (c) $D_j(\vartheta)<\sigma_j^2$ exactly when
+$\vartheta>\kappa_j$, and $\vartheta^\star$ increases as $D$ decreases.
 \end{proof}
 
 \begin{corollary}\label{cor:disjoint}
@@ -1283,7 +1283,7 @@ leakage-optimal description describes component $2$ alone.
 \begin{proof}
 Reverse water-filling describes component $1$ alone exactly for
 $2\sigma_2^2\le D<\sigma_1^2+\sigma_2^2$; Theorem~\ref{thm:parallel}(b)
-describes component $2$ alone exactly when $\kappa_2<\theta^\star\le\kappa_1$,
+describes component $2$ alone exactly when $\kappa_2<\vartheta^\star\le\kappa_1$,
 that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \end{proof}
 
@@ -1439,6 +1439,174 @@ disjoint components for every $D\in[1.2002,1.6)$. At $D=1.4$ the
 rate-optimal description pays $R=L=0.1610$ bits on component $1$ and the
 leakage-optimal description pays $L=0.0197$ and $R=0.3272$ bits on
 component $2$.
+
+\section{Discussion}
+\label{sec:discussion}
+
+A description held by two parties has a cost for each, and the
+encoder's observations decide how the costs trade off. For Gaussian
+sources without decoder side information the region is now explicit in
+structure: a convex program in the error covariance, a closed form in a
+one-dimensional regime, and directions that turn with the budget exactly
+when the two parties' geometries are not aligned. Several problems remain
+open. With side information at the decoder, the degraded cases are settled
+here. When neither side information dominates, the second auxiliary
+can matter. For a matrix distortion on the whole source and a
+full-rank eavesdropper, Xu and Chen \cite{xuchen2021} show that Gaussian
+auxiliaries are optimal. Whether their two-precision program, under a
+weighted distortion and a rank-deficient holder, has the convexity,
+pencil, and turning structure of the case without decoder side
+information is open. Explicit solutions are now available in three
+regimes: the whole frontier in commuting geometry at every budget, the
+minimum leakage in arbitrary geometry in the one-dimensional regime at
+large budgets, and the whole frontier in arbitrary geometry at small
+budgets when the decoder reproduces the whole source. In every
+geometry and at every budget the frontier is reverse water-filling on a
+tilted weight, a fixed point in the multiplier and the tilt; for a
+scalar holder this is two scalar equations. For a holder of higher rank
+the tilt is an $r\times r$ matrix fixed point, and a closed form for it,
+or for the regime boundaries, is not known. Stationary
+sources and finite blocklengths are not treated.
+
+\appendices
+
+\section{The Coding Theorem}
+\label{app:coding}
+
+\subsection{Finite alphabets}
+
+Let $(X,S)$ be a discrete memoryless pair with finite alphabets and let
+$d$ be a distortion with values in $[0,d_{\max}]$; codes, rate,
+distortion, and leakage $H(M\mid S^n)/n$ are as in Section~\ref{sec:model}.
+
+\begin{theorem}[{\cite[Theorem~3]{villard2013}, without decoder side information}]
+\label{thm:dmc}
+The closure of the achievable set at distortion $D$ is
+$\bigcup_{p(\hat x\mid x):\,\E d(X,\hX)\le D}\{(R,L):R\ge I(X;\hX),\ L\ge I(X;\hX\mid S)\}$,
+and the union is convex and closed.
+\end{theorem}
+
+\begin{proof}[Proof outline]
+Villard and Piantanida prove the region in the equivocation form
+$\Upsilon\le H(X\mid V)+0-I(X;S\mid U)$ for the equivocation $\Upsilon$, $U-V-X-S$, with no decoder side
+information; taking $U=V$ is optimal, because
+$I(X;S\mid U)=I(V;S\mid U)+I(X;S\mid V)\ge I(X;S\mid V)$, and
+$\Upsilon=H(X\mid S)-L$ for a deterministic encoder, which gives the
+displayed form with $V$ in place of $\hX$, and a reproduction that is a
+function of $V$ only lowers both coordinates. For the Gaussian extension
+we use the following finite-blocklength form of the achievability,
+obtained by covering at rate $I(X;\hX)+2\epsilon$, a random binning of the
+codeword index into $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins used only as a
+proof device, Fano's inequality for a hypothetical decoder holding the
+bin index and $S^n$, and selection of one deterministic code: for every
+channel with finite reproduction alphabet and every $\epsilon>0$ there
+are $\epsilon_n\to0$ and, for all large $n$, a deterministic code with
+$|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion at most
+$\E d(X,\hX)+\epsilon+2\epsilon_nd_{\max}$, and
+$H(M\mid S^n)\le n(I(X;\hX\mid S)+3\epsilon)+1+2\epsilon_nn(I(X;\hX)+2\epsilon)$.
+Convexity of both coordinates in the channel, for the conditional one by
+the decomposition $I(X;\hX\mid S)=\sum_sp(s)I_{p(x\mid s)}(q)$, makes the
+union convex without time sharing.
+\end{proof}
+
+\subsection{The Gaussian source}
+
+\begin{proof}[Proof of Theorem~\ref{thm:op}]
+\emph{Converse.} For any code, $\log|\mathcal M_n|\ge I(T^n;\hY^n)\ge
+\sum_iI(T_i;\hY_i)$ and $H(M\mid S^n)\ge I(T^n;\hY^n\mid S^n)
+=\sum_i[I(T_i;\hY^n,T^{i-1},S^n)-I(T_i;S_i)]\ge\sum_iI(T_i;\hY_i\mid S_i)$,
+by the chain rule and the independence of the pairs $(T_i,S_i)$; every
+term is finite, being at most $I(T_i;S_i)+\log|\mathcal M_n|$ with
+$I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
+The mixture of the per-letter channels satisfies the Markov chain, has
+distortion $D_n$, and by convexity of both coordinates in the channel
+(for general alphabets the conditional coordinate is an integral over
+$s$ of relative entropies affine in the channel \cite{csiszar1967,wyner1978})
+lies below $(R_n,L_n)$, so $(R_n,L_n)$ is in the union at $D_n$.
+
+\emph{Closedness.} Let $(R_j,L_j)\to(R,L)$ lie in the union at levels
+$D_j$ with $\limsup D_j\le D$, with $\Sigma_j\in\mathcal P(D_j)$ below them
+by Proposition~\ref{prop:posterior}. The $\Sigma_j$ lie in the compact
+set $0\preceq\Sigma\preceq\Sigma_T$ and $\det\Sigma_j\ge\det\Sigma_T\,2^{-2R_j}$
+is bounded away from zero, so a subsequence converges to some
+$\Sigma^\star\succ0$ in $\mathcal P(D)$; $r$ and $\ell$ are continuous on
+positive definite matrices, so $(R,L)$ lies above
+$(r(\Sigma^\star),\ell(\Sigma^\star))$.
+
+\emph{Achievability.} Fix an admissible channel with $I(T;\hY)<\infty$;
+$\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
+level $k$ applied coordinatewise: the bounded cells
+$[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, map to their left endpoints and
+the two tail cells to $\pm2^k$; the partitions are nested and generate
+the Borel $\sigma$-field.
+
+\emph{Step A.} The $\sigma$-fields of $S_\eta:=q_\eta(S)$ increase to
+$\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964};
+fix $\eta$ with $I(\hY;S_\eta)\ge I(\hY;S)-\epsilon$. Since $\hY-T-S_\eta$,
+$I(T;\hY\mid S_\eta)=I(T;\hY)-I(\hY;S_\eta)\le I(T;\hY\mid S)+\epsilon$.
+
+\emph{Step B.} With $T_k=q_k(T)$ and $\hY_k=q_k(\hY)$, the surrogate
+source $(T_k,S_\eta)$ is discrete memoryless, the surrogate channel is
+$p(\hy\mid t_k)=\Pr(\hY_k=\hy\mid T_k=t_k)$, and the surrogate distortion
+$d_k(t_k,\hy)=\E[(Y-\hy)^{\mathsf T}W(Y-\hy)\mid T_k=t_k]$ is bounded for
+each $k$, every cell having positive probability since
+$\Sigma_T\succ0$. The finite-blocklength achievability of
+Theorem~\ref{thm:dmc} gives a code of rate at most
+$I(T_k;\hY_k)+2\epsilon\le I(T;\hY)+2\epsilon$. Its true distortion equals
+its surrogate distortion, because given $T_k^n$ the law of $Y_i$ depends
+on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
+$\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
+$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. The surrogate
+law of $(\hY_k,S_\eta)$ converges weakly to the true law of
+$(\hY,S_\eta)$, by the bounded-convergence and martingale argument
+applied to test functions bounded on $\R^m\times q_\eta(\R^r)$ and
+continuous in the first argument, and the Markov chain $\hY-T-S$. Mutual
+information is lower semicontinuous under weak convergence
+\cite{posner1975}, so
+$I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
+for large $k$, and the code has $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+5\epsilon+o(1))$.
+
+\emph{Step C.} $S_\eta^n$ is a function of $S^n$, so
+$H(M\mid S^n)\le H(M\mid S_\eta^n)$. A diagonal sequence
+$\epsilon\downarrow0$ achieves the corner
+$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, and with the converse,
+closedness, and Proposition~\ref{prop:posterior} the region is as stated.
+\end{proof}
+
+\section{The Gaussian Exhaustion Lemma}
+\label{app:exhaust}
+
+\begin{proof}[Proof of Lemma~\ref{lem:gauss}]
+\emph{The divergence bound.} Conditional mutual information is the
+expected divergence of the conditional law of $T$ given $(\hY,S)$ from
+the conditional law given $S$ \cite{wyner1978,pinsker1964}. Fix a
+realization, let $P$ be the conditional law with mean $\mu$ and
+covariance $C$, $P_G=\mathcal N(\mu,C)$, and
+$Q_S=\mathcal N(\mu_S,\Kc)$. If $P$ has no density the divergence is
+infinite. Otherwise $\log(dP_G/dQ_S)$ is quadratic in $t$ and $P$, $P_G$
+share two moments, so $D(P\|Q_S)=D(P\|P_G)+D(P_G\|Q_S)\ge D(P_G\|Q_S)$.
+Averaging $D(P_G\|Q_S)$, the trace term plus the mean term,
+$\E[\tr(\Kc^{-1}C)+(\mu-\mu_S)^{\mathsf T}\Kc^{-1}(\mu-\mu_S)]$, averages to
+$p$ by the law of total covariance, and by concavity of $\ln\det$ and Jensen,
+$\E[-\ln\det C]\ge-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
+has error covariance no larger than any linear estimator. Hence
+$I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the same argument
+without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
+
+\emph{The determinant identity.} With $\hY=AT+N'$, $\Cov(N',T)=0$, and
+$\Cov(N',S)=0$, the change of variables $(T,S,\hY)\mapsto(T,S,N')$ is
+block triangular with unit diagonal, so
+$\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$; the Schur factorization
+in the other order gives $\det\Cov(\hY,S)\det\Se$, and
+$\Cov(\hY)-\Cov(\hY,S)\Sigma_S^{-1}\Cov(S,\hY)=A\Kc A^{\mathsf T}+\Sigma_N\succ0$.
+So $\det\Se=\det\Kc\det\Sigma_N/\det(A\Kc A^{\mathsf T}+\Sigma_N)$, finite and
+positive.
+
+\emph{Equality.} For the jointly Gaussian channel $AT+N$ the conditional
+law of $T$ given $(\hY,S)$ is Gaussian with the linear estimate as mean
+and $\Se$ as covariance, so every inequality is an equality; its second
+moments match the given channel's.
+\end{proof}
 
 \section{Practical Quantizers}
 \label{sec:quant}
@@ -1655,174 +1823,6 @@ quantizer leaks $0.5066$ bits there, against a floor of $0.0636$ bits.
 At $f=0.15$ and $0.4$ the budgets lie below the certified regime, and
 $L_{\mathrm{1d}}(D_0)$ is the best value among one-dimensional Gaussian
 descriptions rather than a bound.
-
-\section{Discussion}
-\label{sec:discussion}
-
-A description held by two parties has a cost for each, and the
-encoder's observations decide how the costs trade off. For Gaussian
-sources without decoder side information the region is now explicit in
-structure: a convex program in the error covariance, a closed form in a
-one-dimensional regime, and directions that turn with the budget exactly
-when the two parties' geometries are not aligned. Several problems remain
-open. With side information at the decoder, the degraded cases are settled
-here. When neither side information dominates, the second auxiliary
-can matter. For a matrix distortion on the whole source and a
-full-rank eavesdropper, Xu and Chen \cite{xuchen2021} show that Gaussian
-auxiliaries are optimal. Whether their two-precision program, under a
-weighted distortion and a rank-deficient holder, has the convexity,
-pencil, and turning structure of the case without decoder side
-information is open. Explicit solutions are now available in three
-regimes: the whole frontier in commuting geometry at every budget, the
-minimum leakage in arbitrary geometry in the one-dimensional regime at
-large budgets, and the whole frontier in arbitrary geometry at small
-budgets when the decoder reproduces the whole source. In every
-geometry and at every budget the frontier is reverse water-filling on a
-tilted weight, a fixed point in the multiplier and the tilt; for a
-scalar holder this is two scalar equations. For a holder of higher rank
-the tilt is an $r\times r$ matrix fixed point, and a closed form for it,
-or for the regime boundaries, is not known. Stationary
-sources and finite blocklengths are not treated.
-
-\appendices
-
-\section{The Coding Theorem}
-\label{app:coding}
-
-\subsection{Finite alphabets}
-
-Let $(X,S)$ be a discrete memoryless pair with finite alphabets and let
-$d$ be a distortion with values in $[0,d_{\max}]$; codes, rate,
-distortion, and leakage $H(M\mid S^n)/n$ are as in Section~\ref{sec:model}.
-
-\begin{theorem}[{\cite[Theorem~3]{villard2013}, without decoder side information}]
-\label{thm:dmc}
-The closure of the achievable set at distortion $D$ is
-$\bigcup_{p(\hat x\mid x):\,\E d(X,\hX)\le D}\{(R,L):R\ge I(X;\hX),\ L\ge I(X;\hX\mid S)\}$,
-and the union is convex and closed.
-\end{theorem}
-
-\begin{proof}[Proof outline]
-Villard and Piantanida prove the region in the equivocation form
-$\Upsilon\le H(X\mid V)+0-I(X;S\mid U)$ for the equivocation $\Upsilon$, $U-V-X-S$, with no decoder side
-information; taking $U=V$ is optimal, because
-$I(X;S\mid U)=I(V;S\mid U)+I(X;S\mid V)\ge I(X;S\mid V)$, and
-$\Upsilon=H(X\mid S)-L$ for a deterministic encoder, which gives the
-displayed form with $V$ in place of $\hX$, and a reproduction that is a
-function of $V$ only lowers both coordinates. For the Gaussian extension
-we use the following finite-blocklength form of the achievability,
-obtained by covering at rate $I(X;\hX)+2\epsilon$, a random binning of the
-codeword index into $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins used only as a
-proof device, Fano's inequality for a hypothetical decoder holding the
-bin index and $S^n$, and selection of one deterministic code: for every
-channel with finite reproduction alphabet and every $\epsilon>0$ there
-are $\epsilon_n\to0$ and, for all large $n$, a deterministic code with
-$|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion at most
-$\E d(X,\hX)+\epsilon+2\epsilon_nd_{\max}$, and
-$H(M\mid S^n)\le n(I(X;\hX\mid S)+3\epsilon)+1+2\epsilon_nn(I(X;\hX)+2\epsilon)$.
-Convexity of both coordinates in the channel, for the conditional one by
-the decomposition $I(X;\hX\mid S)=\sum_sp(s)I_{p(x\mid s)}(q)$, makes the
-union convex without time sharing.
-\end{proof}
-
-\subsection{The Gaussian source}
-
-\begin{proof}[Proof of Theorem~\ref{thm:op}]
-\emph{Converse.} For any code, $\log|\mathcal M_n|\ge I(T^n;\hY^n)\ge
-\sum_iI(T_i;\hY_i)$ and $H(M\mid S^n)\ge I(T^n;\hY^n\mid S^n)
-=\sum_i[I(T_i;\hY^n,T^{i-1},S^n)-I(T_i;S_i)]\ge\sum_iI(T_i;\hY_i\mid S_i)$,
-by the chain rule and the independence of the pairs $(T_i,S_i)$; every
-term is finite, being at most $I(T_i;S_i)+\log|\mathcal M_n|$ with
-$I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
-The mixture of the per-letter channels satisfies the Markov chain, has
-distortion $D_n$, and by convexity of both coordinates in the channel
-(for general alphabets the conditional coordinate is an integral over
-$s$ of relative entropies affine in the channel \cite{csiszar1967,wyner1978})
-lies below $(R_n,L_n)$, so $(R_n,L_n)$ is in the union at $D_n$.
-
-\emph{Closedness.} Let $(R_j,L_j)\to(R,L)$ lie in the union at levels
-$D_j$ with $\limsup D_j\le D$, with $\Sigma_j\in\mathcal P(D_j)$ below them
-by Proposition~\ref{prop:posterior}. The $\Sigma_j$ lie in the compact
-set $0\preceq\Sigma\preceq\Sigma_T$ and $\det\Sigma_j\ge\det\Sigma_T\,2^{-2R_j}$
-is bounded away from zero, so a subsequence converges to some
-$\Sigma^\star\succ0$ in $\mathcal P(D)$; $r$ and $\ell$ are continuous on
-positive definite matrices, so $(R,L)$ lies above
-$(r(\Sigma^\star),\ell(\Sigma^\star))$.
-
-\emph{Achievability.} Fix an admissible channel with $I(T;\hY)<\infty$;
-$\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
-level $k$ applied coordinatewise: the bounded cells
-$[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, map to their left endpoints and
-the two tail cells to $\pm2^k$; the partitions are nested and generate
-the Borel $\sigma$-field.
-
-\emph{Step A.} The $\sigma$-fields of $S_\eta:=q_\eta(S)$ increase to
-$\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964};
-fix $\eta$ with $I(\hY;S_\eta)\ge I(\hY;S)-\epsilon$. Since $\hY-T-S_\eta$,
-$I(T;\hY\mid S_\eta)=I(T;\hY)-I(\hY;S_\eta)\le I(T;\hY\mid S)+\epsilon$.
-
-\emph{Step B.} With $T_k=q_k(T)$ and $\hY_k=q_k(\hY)$, the surrogate
-source $(T_k,S_\eta)$ is discrete memoryless, the surrogate channel is
-$p(\hy\mid t_k)=\Pr(\hY_k=\hy\mid T_k=t_k)$, and the surrogate distortion
-$d_k(t_k,\hy)=\E[(Y-\hy)^{\mathsf T}W(Y-\hy)\mid T_k=t_k]$ is bounded for
-each $k$, every cell having positive probability since
-$\Sigma_T\succ0$. The finite-blocklength achievability of
-Theorem~\ref{thm:dmc} gives a code of rate at most
-$I(T_k;\hY_k)+2\epsilon\le I(T;\hY)+2\epsilon$. Its true distortion equals
-its surrogate distortion, because given $T_k^n$ the law of $Y_i$ depends
-on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
-$\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
-$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. The surrogate
-law of $(\hY_k,S_\eta)$ converges weakly to the true law of
-$(\hY,S_\eta)$, by the bounded-convergence and martingale argument
-applied to test functions bounded on $\R^m\times q_\eta(\R^r)$ and
-continuous in the first argument, and the Markov chain $\hY-T-S$. Mutual
-information is lower semicontinuous under weak convergence
-\cite{posner1975}, so
-$I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
-for large $k$, and the code has $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+5\epsilon+o(1))$.
-
-\emph{Step C.} $S_\eta^n$ is a function of $S^n$, so
-$H(M\mid S^n)\le H(M\mid S_\eta^n)$. A diagonal sequence
-$\epsilon\downarrow0$ achieves the corner
-$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, and with the converse,
-closedness, and Proposition~\ref{prop:posterior} the region is as stated.
-\end{proof}
-
-\section{The Gaussian Exhaustion Lemma}
-\label{app:exhaust}
-
-\begin{proof}[Proof of Lemma~\ref{lem:gauss}]
-\emph{The divergence bound.} Conditional mutual information is the
-expected divergence of the conditional law of $T$ given $(\hY,S)$ from
-the conditional law given $S$ \cite{wyner1978,pinsker1964}. Fix a
-realization, let $P$ be the conditional law with mean $\mu$ and
-covariance $C$, $P_G=\mathcal N(\mu,C)$, and
-$Q_S=\mathcal N(\mu_S,\Kc)$. If $P$ has no density the divergence is
-infinite. Otherwise $\log(dP_G/dQ_S)$ is quadratic in $t$ and $P$, $P_G$
-share two moments, so $D(P\|Q_S)=D(P\|P_G)+D(P_G\|Q_S)\ge D(P_G\|Q_S)$.
-Averaging $D(P_G\|Q_S)$, the trace term plus the mean term,
-$\E[\tr(\Kc^{-1}C)+(\mu-\mu_S)^{\mathsf T}\Kc^{-1}(\mu-\mu_S)]$, averages to
-$p$ by the law of total covariance, and by concavity of $\ln\det$ and Jensen,
-$\E[-\ln\det C]\ge-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
-has error covariance no larger than any linear estimator. Hence
-$I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the same argument
-without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
-
-\emph{The determinant identity.} With $\hY=AT+N'$, $\Cov(N',T)=0$, and
-$\Cov(N',S)=0$, the change of variables $(T,S,\hY)\mapsto(T,S,N')$ is
-block triangular with unit diagonal, so
-$\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$; the Schur factorization
-in the other order gives $\det\Cov(\hY,S)\det\Se$, and
-$\Cov(\hY)-\Cov(\hY,S)\Sigma_S^{-1}\Cov(S,\hY)=A\Kc A^{\mathsf T}+\Sigma_N\succ0$.
-So $\det\Se=\det\Kc\det\Sigma_N/\det(A\Kc A^{\mathsf T}+\Sigma_N)$, finite and
-positive.
-
-\emph{Equality.} For the jointly Gaussian channel $AT+N$ the conditional
-law of $T$ given $(\hY,S)$ is Gaussian with the linear estimate as mean
-and $\Se$ as covariance, so every inequality is an equality; its second
-moments match the given channel's.
-\end{proof}
 
 \section{Numerical Checks}
 \label{app:numver}
