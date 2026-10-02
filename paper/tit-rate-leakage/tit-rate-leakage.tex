@@ -187,6 +187,14 @@ components the leakage-optimal split of the distortion equalizes slopes
 that we compute in closed form, activates components in an order that
 is not the order of their variances, and can describe a disjoint set of
 components from the rate-optimal split (Section~\ref{sec:parallel}).
+With side information at the decoder (Section~\ref{sec:decsi}) we prove
+the single-letter region for the continuous source and solve the two
+degraded cases: when the decoder's information dominates the holder's,
+the leakage equals the rate at the optimum and there is no tradeoff;
+when the holder's dominates, an estimation inequality
+(Lemma~\ref{lem:mmsecomp}) reduces the problem exactly to the one without
+decoder side information, for the source conditioned on the decoder's
+observation and the holder's excess information.
 The same effects appear in fixed-rate scalar quantizers
 (Appendix~\ref{sec:quant}). At equal rate and under the same
 distortion budget, which the principal-axis quantizer meets with slack,
@@ -259,7 +267,8 @@ structure, Section~\ref{sec:tilted} gives the water-filling
 characterization of the whole frontier, Section~\ref{sec:commuting} its
 explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
-and Section~\ref{sec:parallel} independent components.
+Section~\ref{sec:parallel} independent components, and
+Section~\ref{sec:decsi} decoder side information.
 Section~\ref{sec:examples} gives instances and
 Section~\ref{sec:discussion} open problems. The appendices prove the
 coding theorem and a Gaussian exhaustion lemma, evaluate practical
@@ -1516,6 +1525,157 @@ describes component $2$ alone exactly when $\kappa_2<\vartheta^\star\le\kappa_1$
 that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \end{proof}
 
+\section{Decoder Side Information}
+\label{sec:decsi}
+
+Suppose the decoder also observes $C=H_CT+N_C$, with
+$N_C\sim\mathcal N(0,\Sigma_{N_C})$, $\Sigma_{N_C}\succ0$, independent of $T$,
+$U$, and all coding randomness, and reconstructs $\hY^n=g_n(M,C^n)$. The
+encoder does not see $C$. Rate, distortion, and leakage
+$L_n=\tfrac1nH(M\mid S^n)$ are as in Section~\ref{sec:model}. Write
+$J_S:=J$ for the holder's information, $J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$,
+and $\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$.
+
+\begin{theorem}\label{thm:decregion}
+Let $\mathcal R_C(D)$ be the set of pairs $(R,L)$ for which there are
+random variables $V_0,V$ with $V_0-V-T-(C,S)$ and $I(T;V)<\infty$, and a
+measurable $\hat y$ with
+$\E[(Y-\hat y(V,C))^{\mathsf T}W(Y-\hat y(V,C))]\le D$, such that
+\[
+R\ge I(T;V\mid C),\qquad
+L\ge I(T;V\mid C)+I(V_0;C)-I(V_0;S).
+\]
+A pair $(R,L)$ is achievable at distortion $D$ if and only if
+$(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for every $\epsilon>0$.
+\end{theorem}
+
+The proof is in Appendix~\ref{app:decsi}. The converse single-letterizes
+directly for the continuous source, and the achievability reduces to the
+finite-alphabet theorem of Villard and Piantanida
+\cite[Theorem~3]{villard2013} by quantization, along the lines of
+Appendix~\ref{app:coding}. Since $V_0-V-(C,S)$, the leakage bound can also
+be written $I(T;V)-I(V;C\mid V_0)-I(V_0;S)$. With $C$ constant the best
+choice is $V_0=V$, because $I(V_0;S)\le I(V;S)$, and the bound becomes
+$I(T;V\mid S)$, the region of Theorem~\ref{thm:op}. In general the two
+auxiliaries are what makes the region hard to evaluate. For a matrix
+distortion on the whole source and a full-rank holder, Xu, Chen, Chen,
+and Jin \cite{xu2024} show that Gaussian auxiliaries are optimal. Under a
+weighted distortion we do not settle this. The two
+degraded cases are explicit.
+
+For Gaussian linear observations the information matrices order the
+side informations. If $J_S\preceq J_C$, the sufficient statistic
+$J_CT+n_C$, $n_C\sim\mathcal N(0,J_C)$, of $C$ is mapped by $A=J_SJ_C^{+}$ to
+$J_ST+An_C$, and
+$AJ_CA^{\mathsf T}=J_S^{1/2}(J_S^{1/2}J_C^{+}J_S^{1/2})J_S^{1/2}\preceq J_S$, so
+adding independent noise of covariance $J_S-AJ_CA^{\mathsf T}$ reproduces
+the law of the sufficient statistic $J_ST+n_S$ of $S$ given $T$. So there
+is a channel from $C$ to a variable $S'$ with $(T,S')\sim(T,S)$ and
+$T-C-S'$. For any $V_0$ with $V_0-T-(C,S)$, the mutual information
+$I(V_0;S)$ depends only on the law of $(V_0,T)$ and the channel from $T$
+to $S$, so $I(V_0;S)=I(V_0;S')\le I(V_0;C)$ by data processing. Applied to
+the conditional laws given $V_0$, the same argument gives
+$I(V;S\mid V_0)\le I(V;C\mid V_0)$ when $V_0-V-T-(C,S)$. The symmetric
+statements hold when $J_C\preceq J_S$.
+
+\begin{lemma}\label{lem:mmsecomp}
+Let $V-T-(C,S)$ with $J_C\preceq J_S$, and let
+$M_C=\E[\Cov(T\mid V,C)]$ and $M_S=\E[\Cov(T\mid V,S)]$ be the minimum
+mean-square error covariances, with $M_C\succ0$. Then
+$M_S\preceq\bigl(M_C^{-1}+J_S-J_C\bigr)^{-1}$, with equality when $(V,T)$ is
+jointly Gaussian.
+\end{lemma}
+
+\begin{proof}
+Write $J_+=J_S-J_C\succeq0$. The conditional law of $T$ given $(V,S)$
+depends on $S$ only through its sufficient statistic $J_ST+n_S$,
+$n_S\sim\mathcal N(0,J_S)$, which has the law, given $T$, of the sum
+$c+o$ of the sufficient statistics $c=J_CT+n_C$ and $o=J_+T+n_+$ of two
+independent observations $C'$ and $O$ of $T$ with information matrices
+$J_C$ and $J_+$. Since $c+o$ is sufficient for $T$ in $(C',O)$ and
+$V-T-(C',O)$, the error covariance $M_S$ equals that of estimating $T$
+from $(V,C',O)$, and $(T,V,C')$ has the law of $(T,V,C)$. For each
+realization $w$ of $(V,C')$, let $C_w$ be the conditional covariance of
+$T$. The best linear estimate of $T$ from $O$ under that conditional law
+has error covariance
+$C_w-C_wJ_+(I+C_wJ_+)^{-1}C_w$, which is $(C_w^{-1}+J_+)^{-1}$ when $C_w$
+is invertible, and it bounds the conditional minimum mean-square error.
+Averaging over $w$ and using the matrix concavity of
+$X\mapsto(X^{-1}+J_+)^{-1}$ (proof of Theorem~\ref{thm:convex}), the
+operator Jensen inequality gives
+$M_S\preceq\E[(C_w^{-1}+J_+)^{-1}]\preceq(M_C^{-1}+J_+)^{-1}$. When
+$(V,T)$ is jointly Gaussian every inequality is an equality, because
+$C_w$ is constant and the estimate is linear.
+\end{proof}
+
+\begin{theorem}\label{thm:decsi}
+Let $0<D<\tr(Q\Sigma_{T\mid C})$.
+\begin{enumerate}
+\item[(a)] If $J_S\preceq J_C$, the achievable pairs at distortion $D$ are
+the quadrant above $(R_C(D),R_C(D))$, where
+$R_C(D)=\min\{\tfrac12\log(\det\Sigma_{T\mid C}/\det M):0\prec M\preceq\Sigma_{T\mid C},\ \tr(QM)\le D\}$
+is reverse water-filling on the eigenvalues of
+$\Sigma_{T\mid C}^{1/2}Q\Sigma_{T\mid C}^{1/2}$. The leakage-optimal and
+rate-optimal descriptions coincide, and the holder learns as much as the
+rate.
+\item[(b)] If $J_C\preceq J_S$, the achievable pairs at distortion $D$ are
+the region of Proposition~\ref{prop:posterior} for the source
+$\mathcal N(0,\Sigma_{T\mid C})$ with holder information $J_S-J_C$ and the
+same weight $Q$. Its coordinate is the decoder's error covariance
+$M=\Cov(T\mid V,C)$, and every result of
+Sections~\ref{sec:convex}--\ref{sec:directions} holds with $\Sigma_T$
+replaced by $\Sigma_{T\mid C}$ and $J$ by $J_S-J_C$, the latter written as
+$H'^{\mathsf T}H'$ with unit noise where an observation map is needed.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $V$ be any description with $I(T;V)<\infty$ and write
+$M_C=\E[\Cov(T\mid V,C)]$, which is positive definite because a singular
+$M_C$ reveals a linear functional of $T$ without noise and makes
+$I(T;V\mid C)$ infinite. Since $h(T\mid C)=\tfrac12\log\det(2\pi e\Sigma_{T\mid C})$
+and, by the Gaussian maximum-entropy bound and the concavity of
+$\log\det$, $h(T\mid V,C)\le\tfrac12\log\det(2\pi eM_C)$, we have
+$I(T;V\mid C)\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$, and likewise
+$I(T;V\mid S)\ge\tfrac12\log(\det\Sigma_{T\mid S}/\det M_S)$. The distortion
+of any reconstruction from $(V,C)$ is at least $\tr(QM_C)$.
+
+(a) By Theorem~\ref{thm:decregion}, an achievable $(R,L)$ has
+$(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for every $\epsilon>0$.
+For any feasible $(V_0,V)$, $I(V_0;C)\ge I(V_0;S)$ because $J_S\preceq J_C$,
+so both $R+\epsilon$ and $L+\epsilon$ are at least
+$I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is continuous on
+$(0,\tr(Q\Sigma_{T\mid C}))$, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
+and a jointly Gaussian $V$ with $\Cov(T\mid V,C)$ equal to the minimizer
+$M$ of $R_C(D)$, which exists because $M^{-1}-\Sigma_{T\mid C}^{-1}\succeq0$,
+with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
+the region is increasing in $D$.
+
+(b) For feasible $(V_0,V)$, $J_C\preceq J_S$ gives
+$I(V;S\mid V_0)\ge I(V;C\mid V_0)$, so
+$I(V_0;C)-I(V_0;S)\ge I(V;C)-I(V;S)$ and the leakage bound is at least
+$I(T;V\mid C)+I(V;C)-I(V;S)=I(T;V\mid S)$, with equality for $V_0=V$. By the
+bounds above and Lemma~\ref{lem:mmsecomp},
+$R+\epsilon\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$,
+$L+\epsilon\ge\tfrac12\log\det\Sigma_{T\mid S}+\tfrac12\log\det(M_C^{-1}+J_S-J_C)$,
+and $\tr(QM_C)\le D+\epsilon$, with $0\prec M_C\preceq\Sigma_{T\mid C}$. Since
+$(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Kc$, these are the coordinates
+\eqref{eq:posterior} of the source $\mathcal N(0,\Sigma_{T\mid C})$ with
+holder information $J_S-J_C$ at $\Sez=M_C$, at distortion $D+\epsilon$. The
+compactness argument in the proof of Theorem~\ref{thm:op} removes
+$\epsilon$. Conversely, $V_0=V$ jointly Gaussian with $\Cov(T\mid V,C)=M$
+for any $0\prec M\preceq\Sigma_{T\mid C}$ attains all three coordinates with
+equality, by the equality case of Lemma~\ref{lem:mmsecomp}, and
+Theorem~\ref{thm:decregion} makes them achievable.
+\end{proof}
+
+So a decoder that knows more than the holder removes the tradeoff, and
+a holder that knows more than the decoder leaves exactly the problem of
+the preceding sections for the source as the decoder already knows it,
+with the holder's excess information in place of its total. When
+neither dominates, the auxiliary $V_0$ can matter, and the region is
+beyond the methods of this paper.
+
 \section{Instances}
 \label{sec:examples}
 
@@ -1561,8 +1721,9 @@ sources without decoder side information the region is now explicit in
 structure: a convex program in the error covariance, a closed form in a
 one-dimensional regime, and directions that turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
-open. Side information at the decoder is not treated here, and with it
-the second auxiliary of the single-letter region can matter. For a matrix distortion on the whole source and a
+open. With side information at the decoder, the region is proved for
+the continuous source and the degraded cases are settled here; when
+neither side information dominates, the second auxiliary can matter. For a matrix distortion on the whole source and a
 full-rank eavesdropper, Xu, Chen, Chen, and Jin \cite{xu2024} show that Gaussian
 auxiliaries are optimal. Whether their two-precision program, under a
 weighted distortion and a rank-deficient holder, has the convexity,
@@ -1690,6 +1851,151 @@ $H(M\mid S^n)\le H(M\mid S_\eta^n)$. A diagonal sequence
 $\epsilon\downarrow0$ achieves the corner
 $(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, and with the converse,
 closedness, and Proposition~\ref{prop:posterior} the region is as stated.
+\end{proof}
+
+\subsection{Side information at the decoder}
+\label{app:decsi}
+
+\emph{Finite alphabets.} Let $(X,C,E)$ be a discrete memoryless source
+with finite alphabets, the encoder seeing $X^n$, the decoder $(M,C^n)$,
+and the holder $(M,E^n)$, and let the distortion take values in
+$[0,d_{\max}]$. Villard and Piantanida \cite[Theorem~3]{villard2013} prove,
+for deterministic encoders, that the closure of the achievable
+rate--distortion--equivocation triples is the closure of the set of
+$(R,D,\Upsilon)$ with $R\ge I(X;V\mid C)$, $D\ge\E d(X,\hat x(V,C))$, and
+$\Upsilon\le H(X\mid V,C)+I(X;C\mid V_0)-I(X;E\mid V_0)$ for finite
+auxiliaries with $V_0-V-X-(C,E)$, where the equivocation is
+$\tfrac1nH(X^n\mid M,E^n)$. Their reproduction alphabet is the source
+alphabet. A finite reproduction alphabet $\mathcal Y$ is covered by
+enlarging the source alphabet to $\mathcal X\cup\mathcal Y$, with the
+added letters of probability zero and with $d(x,b)$ for $b\in\mathcal X$
+set to $\max_{x,y}d(x,y)$, so that replacing any such output by a fixed
+$y_0\in\mathcal Y$ does not increase the distortion. For a deterministic
+encoder the leakage is $\tfrac1nH(M\mid E^n)=H(X\mid E)-\tfrac1nH(X^n\mid M,E^n)$,
+and since $V_0-X-(C,E)$,
+\[
+H(X\mid E)-H(X\mid V,C)-I(X;C\mid V_0)+I(X;E\mid V_0)
+=I(X;V\mid C)+I(V_0;C)-I(V_0;E).
+\]
+So $(R,L)$ is achievable at distortion $D$ exactly when for every
+$\epsilon>0$ there are codes with rate at most $R+\epsilon$, distortion at
+most $D+\epsilon$, and leakage at most $L+\epsilon$, whenever
+$(R,D,L)$ lies above a point $(I(X;V\mid C),\E d,I(X;V\mid C)+I(V_0;C)-I(V_0;E))$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:decregion}]
+\emph{Converse.} Fix a code, so $M=f_n(T^n)$ and $\hY^n=g_n(M,C^n)$. For
+$i=1,\dots,n$ let
+\[
+V_{0,i}=(M,C^{i-1},S_{i+1}^n),\qquad V_i=(M,C^{i-1},C_{i+1}^n,S_{i+1}^n).
+\]
+Then $V_{0,i}$ is a function of $V_i$, and $V_i-T_i-(C_i,S_i)$ because,
+given $T_i$, the variable $V_i$ is a function of $T_i$ and of
+$(T^n,C^n,S^n)$ with the $i$-th letter removed, which is independent of
+$(T_i,C_i,S_i)$. The reconstruction $\hY_i$ is a function of $(V_i,C_i)$.
+Every mutual information below is finite, being at most $H(M)$ or
+$I(T_i;C_i)$ or $I(T_i;S_i)$, so the chain rule and the Csiszár sum
+identity apply to these continuous variables. For the rate,
+\[
+nR_n\ge H(M)\ge I(T^n;M\mid C^n)=\sum_iI(T_i;M,C^{n}_{\setminus i},T_{i+1}^n\mid C_i)
+\ge\sum_iI(T_i;V_i\mid C_i),
+\]
+where the equality uses the chain rule in reverse order and the
+independence of $T_i$ from $(C^n_{\setminus i},T_{i+1}^n)$ given $C_i$,
+and the inequality uses data processing, since $S_{i+1}^n$ is obtained
+from $T_{i+1}^n$ through noise independent of everything else. For the
+leakage, $H(M\mid T^n,S^n)=0$ and $M-T^n-(C^n,S^n)$ give
+\[
+nL_n=I(M;T^n\mid S^n)=I(M;T^n\mid C^n)+I(M;C^n)-I(M;S^n),
+\]
+and the Csiszár sum identity gives
+$I(M;C^n)-I(M;S^n)=\sum_i[I(M;C_i\mid C^{i-1},S_{i+1}^n)-I(M;S_i\mid C^{i-1},S_{i+1}^n)]$.
+Since $(C^{i-1},S_{i+1}^n)$ is independent of $(C_i,S_i)$, each term equals
+$I(V_{0,i};C_i)-I(V_{0,i};S_i)$, so
+$nL_n\ge\sum_i[I(T_i;V_i\mid C_i)+I(V_{0,i};C_i)-I(V_{0,i};S_i)]$. With $Q$
+uniform on $\{1,\dots,n\}$ and independent of everything, set
+$V_0=(V_{0,Q},Q)$, $V=(V_Q,Q)$, and $(T,C,S)=(T_Q,C_Q,S_Q)$, which has the
+source law. Then $V_0-V-T-(C,S)$, $I(T;V)\le H(M)<\infty$,
+$I(T;V\mid C)$, $I(V_0;C)$, and $I(V_0;S)$ are the averages of their
+per-letter versions, and the reconstruction $\hat y(V,C)=\hY_Q$ has
+distortion $D_n$. So $(R_n,L_n)\in\mathcal R_C(D_n)$ for every code. If
+$(R,L)$ is achievable at $D$, then for every $\epsilon>0$ and all large $n$
+some code has $R_n\le R+\epsilon$, $L_n\le L+\epsilon$, $D_n\le D+\epsilon$,
+and since $\mathcal R_C$ is increasing in $(R,L)$ and in $D$,
+$(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$.
+
+\emph{Achievability.} It suffices to show that for every feasible
+$(V_0,V,\hat y)$ and $\epsilon>0$ there are codes, for all large $n$, with
+rate at most $I(T;V\mid C)+\epsilon$, distortion at most $D+\epsilon$, and
+leakage at most $I(T;V\mid C)+I(V_0;C)-I(V_0;S)+\epsilon$. A diagonal
+sequence over $\epsilon$ then achieves any $(R,L)$ with
+$(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for all $\epsilon$. Replace
+$\hat y$ by $\E[Y\mid V,C]$, which does not increase the distortion.
+Take $V_0$ and $V$ with values in Euclidean spaces, which loses nothing
+because the auxiliaries enter only through their laws, and let $q_j$
+denote the saturating dyadic quantizers of Appendix~\ref{app:coding}.
+
+\emph{Step A (auxiliaries and side informations).} Let $U_j=q_j(V_0)$,
+$V'_j=(U_j,q_j(V))$, $C_\kappa=q_\kappa(C)$, and $S_\eta=q_\eta(S)$. Then
+$U_j$ is a function of $V'_j$ and $U_j-V'_j-T-(C_\kappa,S_\eta)$. Along the
+nested partitions, $I(T;V'_j)\uparrow I(T;V_0,V)=I(T;V)$,
+$I(V'_j;C_\kappa)\uparrow I(V;C)$, $I(U_j;C_\kappa)\uparrow I(V_0;C)$, and
+$I(U_j;S_\eta)\uparrow I(V_0;S)$ \cite[Ch.~2]{pinsker1964}, all limits
+finite. Since $V-T-C$, $I(T;V\mid C)=I(T;V)-I(V;C)$, so
+$I(T;V'_j\mid C_\kappa)\to I(T;V\mid C)$ and the leakage expression with
+$(U_j,V'_j,C_\kappa,S_\eta)$ converges to the one with $(V_0,V,C,S)$. With
+$\hat y_{j,\kappa}=\E[Y\mid V'_j,C_\kappa]$, martingale convergence gives
+$\hat y_{j,\kappa}\to\E[Y\mid V_0,V,C]=\E[Y\mid V,C]$ in $L^2$, because
+$V_0-(V,C)-T$, so the distortion converges as well. Fix $j,\kappa,\eta$
+with all three quantities within $\epsilon$ of their limits. The values
+of $\hat y_{j,\kappa}$ form a finite set $\mathcal Y$ with
+$\max_{y\in\mathcal Y}\|y\|_W=:b<\infty$.
+
+\emph{Step B (the surrogate source).} Let $T_k=q_k(T)$ and let the
+surrogate discrete memoryless source be $(X,C,E)=(T_k,C_\kappa,S_\eta)$ with
+its true joint law. A code that uses only $T_k^n$ at the encoder and
+$(M,C_\kappa^n)$ at the decoder is a code for the Gaussian problem whose
+rate and leakage $H(M\mid S_\eta^n)$ equal its surrogate rate and leakage,
+because the pair $(T_k^n,S_\eta^n)$ has the same law in both. Give the
+surrogate the distortion
+$d_k(t,y)=\E[(Y-y)^{\mathsf T}W(Y-y)\mid T_k=t]$ and the auxiliaries the
+channel $p_k(u,v'\mid t)=\Pr(U_j=u,V'_j=v'\mid T_k=t)$, which keeps
+$U_j$ a function of $V'_j$ and so the chain $U-V'-X-(C,E)$. The true
+distortion of a code differs from its surrogate distortion only because
+the decoder's output depends on $C_\kappa^n$: with
+$m(t)=\E[Y\mid T_k=t]$ and $m(t,c)=\E[Y\mid T_k=t,C_\kappa=c]$, the conditional
+expected distortion of an output $y$ given $(T_{k,i},C_{\kappa,i})=(t,c)$ is
+$\|y-m(t,c)\|_W^2+v(t,c)$ against $\|y-m(t)\|_W^2+v(t)$ for $d_k$, and
+averaging over $c$ given $t$ cancels every term except
+$-2\E[y_i^{\mathsf T}W(m(T_k,C_\kappa)-m(T_k))]$. By Cauchy--Schwarz the
+difference per letter is at most
+$2b\,\E[\|m(T_k,C_\kappa)-m(T_k)\|_W^2]^{1/2}$, which tends to $0$ as
+$k\to\infty$ because both conditional means converge to $Y$ in $L^2$, and
+the bound holds for every code whose outputs lie in $\mathcal Y$.
+
+\emph{Step C (convergence of the surrogate quantities).} The surrogate
+joint law of $(U_j,V'_j,C_\kappa,S_\eta)$ is
+$\E[\mathbf 1\{C_\kappa=c,S_\eta=s\}\Pr(U_j=u,V'_j=v'\mid T_k)]$, which converges
+as $k\to\infty$ to $\E[\mathbf 1\{C_\kappa=c,S_\eta=s\}\Pr(U_j=u,V'_j=v'\mid T)]$,
+the true joint law, by martingale convergence and $(V_0,V)-T-(C,S)$. All
+four alphabets are finite, so the surrogate values of $I(V';C)$,
+$I(U;C)$, and $I(U;E)$ converge to the true ones, while the surrogate
+$I(X;V')=I(T_k;V'_j)\le I(T;V'_j)$. The surrogate distortion of
+$\hat x(v',c)=\hat y_{j,\kappa}(v',c)$ is
+$\E[\sum_{v'}\Pr(V'_j=v'\mid T_k)\,(\|\hat y_{j,\kappa}(v',C_\kappa)-m(T_k)\|_W^2+v(T_k))]$,
+which converges to $\E\|Y-\hat y_{j,\kappa}(V'_j,C_\kappa)\|_W^2$ because
+$m(T_k)\to Y$ in $L^2$, $\E v(T_k)\to0$, and the outputs are bounded. Fix
+$k$ with the surrogate rate, leakage, and distortion within $\epsilon$ of
+their values in Step~A and the distortion mismatch of Step~B at most
+$\epsilon$.
+
+\emph{Step D (codes).} By the finite-alphabet theorem the surrogate
+point is achievable. For all large $n$ there is a deterministic code with
+rate at most $I(T;V\mid C)+4\epsilon$, surrogate distortion at most
+$D+4\epsilon$, outputs in $\mathcal Y$, and $\tfrac1nH(M\mid S_\eta^n)$ at
+most the leakage expression plus $4\epsilon$. As a code for the Gaussian
+problem its distortion is at most $D+5\epsilon$ by Step~B, and its leakage
+satisfies $H(M\mid S^n)\le H(M\mid S_\eta^n)$ because $S_\eta^n$ is a
+function of $S^n$.
 \end{proof}
 
 \section{The Gaussian Exhaustion Lemma}
@@ -1983,7 +2289,13 @@ and distortion of each quantizer in closed form and its leakage by
 80-node Gauss--Hermite quadrature of an exact one-dimensional integral,
 and checks that the leakage is strictly decreasing in $|\rho|$ for every
 quantizer. Its output is recorded in
-\texttt{tqp\_leakage\_demo-2026-10-01.txt}. \texttt{verify\_fixed\_read.py}
+\texttt{tqp\_leakage\_demo-2026-10-01.txt}.
+\texttt{verify\_decoder\_si.py} checks Lemma~\ref{lem:mmsecomp} for a
+non-Gaussian description (a sign quantizer, by numerical integration),
+the reduction of Theorem~\ref{thm:decsi}(b) on random Gaussian
+descriptions, and the minimum leakage with decoder side information
+against the reduced program. Its output is recorded in
+\texttt{verify\_decoder\_si-2026-10-01.log}. \texttt{verify\_fixed\_read.py}
 checks the leakage of a fixed projection direction against a direct conditional-covariance
 computation, the bounds of Proposition~\ref{prop:fixedread} and
 Theorem~\ref{thm:forced} on random instances against brute force over
