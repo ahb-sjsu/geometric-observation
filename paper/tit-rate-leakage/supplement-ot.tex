@@ -350,6 +350,30 @@ correctly, against 63 percent for always predicting no miss. Outside the Gaussia
 defect is therefore the larger unexplained term, and the marginal
 account of the misses holds only in part.
 
+A fourth registration asked why the near-boundary criterion keeps
+failing. One account held that its standard error, a bootstrap over the
+held-out points of a single split, understates the variability of the
+measurement. The other held that the measured removal is systematically
+nonzero near the boundary. The 71 in-scope near-boundary cases on real
+data were measured again on 20 fresh splits. The spread across splits
+was smaller than the bootstrap error, at a median ratio of 0.76, so the
+first account fails. In half the cases the mean over the splits sat more
+than three standard errors from zero, so by the reading fixed in advance
+the misses are systematic. A comparison made after the scoring shows
+what the criterion had been testing. Its cases are not predicted at
+zero. Their predicted removals lie between 0.03 and 0.05 bit, and the
+criterion compared the measurement with zero rather than with the
+prediction. On synthetic Gaussian sources the mean over splits lies
+within 0.006 bit of the prediction, and every single measurement is
+within two standard errors of it. On real data inside the scope the
+predicted removals of about 0.04 bit do not appear. The mean over splits
+sits near zero, and in 80 percent of cases it lies more than three
+standard errors from the prediction. The theory is exact near the
+boundary on Gaussian data and overpredicts small removals on real data,
+even inside its scope. A fifth registration tests the corrected
+criterion against the prediction, and whether the shortfall on real data
+is a fixed offset or a proportional attenuation.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{ot_figures/fig5_flipA_boundary.png}
