@@ -79,6 +79,57 @@ sig2 = (1 - Delta*u)/Delta;
 ok = isAlways(simplify((1 + u/sig2) - 1/(1 - Delta*u)) == 0);
 [pass, fail] = report('C11 scalarpath: 1 + u/sigma^2 = 1/(1 - Delta u) at the active noise level', ok, pass, fail);
 
+% ---- Decoder side information (Section decsi, added 2026-10-02) ----
+syms m1 m3 b1 b2 b3 b4 real
+syms m2 real
+M = [m1 m2; m2 m3]; Bm = [b1 b2; b3 b4]; I2 = eye(2);
+
+% C12 (Lemma mmsecomp) fixed-gain identity: L = M B'(B M B' + I)^{-1} gives (I-LB)M(I-LB)' + LL' = (M^{-1} + B'B)^{-1}
+L = M*Bm.'/(Bm*M*Bm.' + I2);
+E12 = simplify((I2 - L*Bm)*M*(I2 - L*Bm).' + L*L.' - inv(inv(M) + Bm.'*Bm));
+ok = all(isAlways(E12(:) == 0, 'Unknown', 'false'));
+[pass, fail] = report('C12 mmsecomp: fixed-gain error covariance equals (M^{-1}+B''B)^{-1} (2x2 symbolic)', ok, pass, fail);
+
+% C13 (Thm decsi(b)) reduction: ((Sigma^{-1}+J_C)^{-1})^{-1} + J_S - J_C = Sigma^{-1} + J_S, so the inverse is Sigma_{T|S}
+syms s1 s2 s3 c1 c2 c3 j1 j2 j3 real
+Sig = [s1 s2; s2 s3]; Jc = [c1 c2; c2 c3]; Js = [j1 j2; j2 j3];
+StC = inv(inv(Sig) + Jc);
+E13 = simplify(inv(StC) + Js - Jc - (inv(Sig) + Js));
+ok = all(isAlways(E13(:) == 0, 'Unknown', 'false'));
+[pass, fail] = report('C13 decsi(b): (Sigma_{T|C}^{-1} + J_S - J_C)^{-1} = Sigma_{T|S}', ok, pass, fail);
+
+% C14 (carry-over) det(H X H' + Sigma_U) = det(Sigma_U) det(I + J X), J = H' Sigma_U^{-1} H
+syms h11 h12 h21 h22 x1 x2 x3 real
+syms u1 u2 positive
+H2 = [h11 h12; h21 h22]; X2 = [x1 x2; x2 x3]; SU = diag([u1 u2]); J2 = H2.'/SU*H2;
+ok = isAlways(simplify(det(H2*X2*H2.' + SU) - det(SU)*det(I2 + J2*X2)) == 0, 'Unknown', 'false');
+[pass, fail] = report('C14 carry-over: det(HXH''+Sigma_U) = det(Sigma_U) det(I+JX)', ok, pass, fail);
+
+% C15 (carry-over) V = a'T + N given C = h'T + N_C: Cov(T | V, C) = (Sigma_{T|C}^{-1} + a a'/sigma^2)^{-1}
+syms a1 a2 hc1 hc2 real
+syms sv sc positive
+Sp = [s1 s2; s2 s3]; av = [a1; a2]; hv = [hc1; hc2];
+G = [av.'; hv.'];                                   % observation rows of (V, C)
+Cobs = G*Sp*G.' + diag([sv sc]);
+post = Sp - Sp*G.'/Cobs*G*Sp;                       % Gaussian conditioning on (V, C)
+StC1 = inv(inv(Sp) + hv*hv.'/sc);
+E15 = simplify(post - inv(inv(StC1) + av*av.'/sv));
+ok = all(isAlways(E15(:) == 0, 'Unknown', 'false'));
+[pass, fail] = report('C15 carry-over: Cov(T|V,C) = (Sigma_{T|C}^{-1} + aa''/sigma^2)^{-1}', ok, pass, fail);
+
+% C16 (degradedness) singular J_C = c uu', J_S = s uu': A = J_S J_C^+ has A J_C = J_S, and
+% J_S - A J_C A' = (s - s^2/c) uu', which is PSD exactly when s <= c
+syms w1 w2 real
+syms cc ss positive
+uu = [w1; w2]; JcS = cc*(uu*uu.'); JsS = ss*(uu*uu.');
+pinvJc = (uu*uu.')/(cc*(uu.'*uu)^2);                % Moore-Penrose inverse of c uu'
+A = JsS*pinvJc;
+okA = all(isAlways(simplify(A*JcS - JsS) == 0, 'Unknown', 'false'), 'all');
+okP = all(isAlways(simplify(JcS*pinvJc*JcS - JcS) == 0, 'Unknown', 'false'), 'all');
+R16 = simplify(JsS - A*JcS*A.' - (ss - ss^2/cc)*(uu*uu.'));
+okR = all(isAlways(R16(:) == 0, 'Unknown', 'false'));
+[pass, fail] = report('C16 degradedness: A J_C = J_S and J_S - A J_C A'' = (s - s^2/c) uu'' for singular J_C', okA && okP && okR, pass, fail);
+
 fprintf('TOTAL: %d passed, %d failed\n', pass, fail);
 
 function [pass, fail] = report(name, ok, pass, fail)

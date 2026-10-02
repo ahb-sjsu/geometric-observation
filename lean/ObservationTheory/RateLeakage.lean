@@ -16,6 +16,15 @@ over ℝ with explicit hypotheses, the closed-form and scalar steps their proofs
 * `fixedread_mono`          x ↦ x/(μ₁-x) is strictly increasing on [0, μ₁).
 * `mm_step_monotone`        Proposition mm: a majorize-minimize step does not increase the cost.
 * `log_tangent_le`          Proposition mm: the tangent of log at x₀ majorizes log (scalar majorizer).
+* `fixed_gain_scalar`       Lemma mmsecomp: the fixed-gain error variance is (1/m + b²)⁻¹.
+* `reduction_scalar`        Theorem decsi(b): the reduced holder recovers the full posterior precision.
+* `degraded_scalar`         degradedness: a = s/c maps c to s, and a² c ≤ s when s ≤ c.
+* `det_identity_scalar`     carry-over: h² x + σ = σ (1 + (h²/σ) x).
+* `rank_one_posterior`      carry-over: m - (a m)²/(a² m + v) = (1/m + a²/v)⁻¹.
+
+The coding theorem with decoder side information (Theorem decregion) is a limit argument and is not
+formalized; its matrix identities are checked symbolically (matlab_checks.m C12-C16) and numerically
+(verify_decsi_identities.py).
 -/
 import Mathlib
 
@@ -98,5 +107,50 @@ theorem log_tangent_le (x x₀ : ℝ) (hx : 0 < x) (hx₀ : 0 < x₀) :
   rw [Real.log_div hx.ne' hx₀.ne'] at h
   have : x / x₀ - 1 = (x - x₀) / x₀ := by field_simp
   linarith
+
+/-! ### Decoder side information (Section decsi), scalar forms -/
+
+/-- Lemma mmsecomp, scalar: with gain l = m b/(b² m + 1) the fixed-gain error variance is
+(1/m + b²)⁻¹. -/
+theorem fixed_gain_scalar (m b : ℝ) (hm : 0 < m) :
+    (1 - m * b / (b ^ 2 * m + 1) * b) ^ 2 * m + (m * b / (b ^ 2 * m + 1)) ^ 2
+      = 1 / (1 / m + b ^ 2) := by
+  have h1 : 0 < b ^ 2 * m + 1 := by positivity
+  have h2 : 0 < 1 / m + b ^ 2 := by positivity
+  field_simp
+  ring
+
+/-- Theorem decsi(b), scalar: ((1/s + c)⁻¹)⁻¹ + j - c = 1/s + j, so the reduced holder recovers
+the posterior of the full one. -/
+theorem reduction_scalar (s c j : ℝ) (hs : 0 < s) (hc : 0 ≤ c) :
+    1 / (1 / (1 / s + c)) + j - c = 1 / s + j := by
+  have : 0 < 1 / s + c := by positivity
+  field_simp
+  ring
+
+/-- Degradedness, scalar: for 0 ≤ s ≤ c with c > 0, the map a = s/c sends c to s and
+a² c ≤ s, so independent noise of variance s - a² c completes the channel. -/
+theorem degraded_scalar (s c : ℝ) (hs : 0 ≤ s) (hsc : s ≤ c) (hc : 0 < c) :
+    s / c * c = s ∧ (s / c) ^ 2 * c ≤ s := by
+  refine ⟨by field_simp, ?_⟩
+  have : (s / c) ^ 2 * c = s * (s / c) := by field_simp
+  rw [this]
+  have hle : s / c ≤ 1 := (div_le_one hc).mpr hsc
+  nlinarith [div_nonneg hs hc.le]
+
+/-- Carry-over, scalar: h² x + σ = σ (1 + (h²/σ) x), the determinant identity with J = h²/σ. -/
+theorem det_identity_scalar (h x σ : ℝ) (hσ : σ ≠ 0) :
+    h ^ 2 * x + σ = σ * (1 + h ^ 2 / σ * x) := by
+  field_simp
+  ring
+
+/-- Carry-over, scalar Gaussian conditioning: prior variance m, observation a T + N with noise
+variance v > 0 gives posterior variance m - (a m)²/(a² m + v) = (1/m + a²/v)⁻¹. -/
+theorem rank_one_posterior (m a v : ℝ) (hm : 0 < m) (hv : 0 < v) :
+    m - (a * m) ^ 2 / (a ^ 2 * m + v) = 1 / (1 / m + a ^ 2 / v) := by
+  have h1 : 0 < a ^ 2 * m + v := by positivity
+  have h2 : 0 < 1 / m + a ^ 2 / v := by positivity
+  field_simp
+  ring
 
 end ObservationTheory.RateLeakage

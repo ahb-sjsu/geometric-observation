@@ -1,0 +1,44 @@
+== MATLAB R2026a Symbolic Math Toolbox (matlab_checks.m, C1-C16)
+[Warning: Solutions are only valid under certain conditions. To include
+parameters and conditions in the solution, specify the 'ReturnConditions' value
+as 'true'.] 
+[> In sym/solve>warnIfParams (line 271)
+In sym/solve (line 150)
+In matlab_checks (line 14)
+In run (line 100)] 
+PASS C1 scalarpath: at a root, (1-Delta v)/(1-Delta u) = (1-alpha)/rho
+PASS C2 scalarpath alpha=0: root equation equals Delta u + mu(u-v) = 1 (secular form)
+PASS C3 rho = mu_max/(Delta+mu_max) from the two pencil identities
+PASS C4 lowdist/commuting: quadratic is the stationarity condition times (1+pi xi)
+PASS C5 lowdist: product of roots -1/(theta pi) < 0, so a unique positive root
+PASS C6 fixedread: exact ratio identity
+PASS C7 fixedread: d/dx [x/(mu1-x)] = mu1/(mu1-x)^2 > 0
+     secular numerator / P(g) = -1
+PASS C8 p=2: secular equation numerator is P(g) times a g-free factor
+PASS C9 tilt: Woodbury identity for a rank-one holder, 2x2 X (symbolic)
+PASS C10 mm: log(hx+s) is concave and its tangent at x0 touches with matching slope
+PASS C11 scalarpath: 1 + u/sigma^2 = 1/(1 - Delta u) at the active noise level
+PASS C12 mmsecomp: fixed-gain error covariance equals (M^{-1}+B'B)^{-1} (2x2 symbolic)
+PASS C13 decsi(b): (Sigma_{T|C}^{-1} + J_S - J_C)^{-1} = Sigma_{T|S}
+PASS C14 carry-over: det(HXH'+Sigma_U) = det(Sigma_U) det(I+JX)
+PASS C15 carry-over: Cov(T|V,C) = (Sigma_{T|C}^{-1} + aa'/sigma^2)^{-1}
+PASS C16 degradedness: A J_C = J_S and J_S - A J_C A' = (s - s^2/c) uu' for singular J_C
+TOTAL: 16 passed, 0 failed
+== Lean 4 v4.32.2 + Mathlib (lean/ObservationTheory/RateLeakage.lean)
+Build completed successfully (8656 jobs).
+'ObservationTheory.RateLeakage.scalarpath_root_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.scalarpath_alpha_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.pencil_rho' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.rate_active_noise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.quad_iff_stationary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.quad_pos_root_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.fixedread_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.fixedread_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.mm_step_monotone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.log_tangent_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.fixed_gain_scalar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.reduction_scalar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.degraded_scalar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.det_identity_scalar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.RateLeakage.rank_one_posterior' depends on axioms: [propext, Classical.choice, Quot.sound]
+sorry count: 0

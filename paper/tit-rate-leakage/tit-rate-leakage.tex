@@ -2380,21 +2380,36 @@ least two, checks that the cost never increases, and compares the limit
 with the weighted determinant program. Its output is recorded in
 \texttt{verify\_mm-2026-10-01.txt}. The closed-form and scalar algebra is
 also checked symbolically and formally. \texttt{matlab\_checks.m} (MATLAB
-Symbolic Math Toolbox, 11 checks) verifies the root relation and the
+Symbolic Math Toolbox, 16 checks) verifies the root relation and the
 secular reduction of Theorem~\ref{thm:scalarpath}, the per-direction
 quadratic of Theorems~\ref{thm:commuting} and~\ref{thm:lowdist} and its
 unique positive root, the identity and monotonicity behind
 Proposition~\ref{prop:fixedread}, that the secular equation for $p=2$ is
 $-P(g)$ of Corollary~\ref{cor:scalar} over a common denominator, the
 identity for the tilt after Theorem~\ref{thm:tilted} for a rank-one holder,
-and the scalar majorizer of Proposition~\ref{prop:mm}. The Lean~4 module
-\texttt{lean/ObservationTheory/RateLeakage.lean} (Mathlib, ten lemmas, no
-\texttt{sorry}, only the standard axioms) machine-checks the same scalar
-steps and the generic majorization--minimization inequality. The
-matrix-analytic results, Theorems~\ref{thm:convex} and~\ref{thm:tilted},
-Proposition~\ref{prop:rank}, and the convergence part of
-Proposition~\ref{prop:mm}, are not formalized. Both outputs are recorded in
-\texttt{symbolic\_and\_lean-2026-10-02.txt}. No proof depends on them. The instances
+and the scalar majorizer of Proposition~\ref{prop:mm}. For
+Section~\ref{sec:decsi} it verifies, on symbolic $2\times2$ matrices, the
+fixed-gain identity in the proof of Lemma~\ref{lem:mmsecomp}, the
+reduction identity of Theorem~\ref{thm:decsi}(b), the determinant identity
+and the rank-one error covariance behind the substitution in its proof,
+and the degradedness map for a singular $J_C$. The Lean~4 module
+\texttt{lean/ObservationTheory/RateLeakage.lean} (Mathlib, fifteen lemmas,
+no \texttt{sorry}, only the standard axioms) machine-checks the same scalar
+steps, their scalar forms for Section~\ref{sec:decsi}, and the generic
+majorization--minimization inequality. The matrix-analytic results,
+Theorems~\ref{thm:convex} and~\ref{thm:tilted},
+Proposition~\ref{prop:rank}, the convergence part of
+Proposition~\ref{prop:mm}, and the coding theorem
+Theorem~\ref{thm:decregion}, are not formalized. Both outputs are recorded
+in \texttt{symbolic\_and\_lean-2026-10-02.txt} and, with the checks for
+Section~\ref{sec:decsi}, in \texttt{symbolic\_and\_lean-decsi-2026-10-02.txt}.
+\texttt{verify\_decsi\_identities.py} checks the same identities on random
+matrices of dimension up to five, including singular $J_C$ and
+rank-deficient $H$. It checks the fixed-gain estimate of
+Lemma~\ref{lem:mmsecomp} by Monte Carlo on a sign-quantized description
+and the finite-alphabet leakage identity of Appendix~\ref{app:decsi} on
+random distributions. Its output is recorded in
+\texttt{verify\_decsi\_identities-2026-10-02.txt}. No proof depends on them. The instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
