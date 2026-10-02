@@ -50,7 +50,9 @@ coding, and we determine its structure. In every geometry and at every
 budget, each frontier point is the fixed point of reverse water-filling
 on the decoder's weight tilted by the second party's information, and
 for a scalar second-party observation it reduces to two scalar
-equations. The direction of the best one-dimensional description turns
+equations. For a scalar described variable the frontier is a
+one-parameter curve of projection directions, located by one scalar
+root. The direction of the best one-dimensional description turns
 with the budget unless the two parties' geometries share it, while a
 description built for a single party keeps fixed directions, with an
 explicit lower bound on its excess leakage. When
@@ -148,15 +150,18 @@ point of reverse water-filling on the spectrum of the decoder's weight
 tilted by the information the second party's observation adds to the
 description (Theorem~\ref{thm:tilted}). For a scalar observation the tilt
 has rank one, and the whole frontier reduces to two scalar equations
-(Corollary~\ref{cor:scalarholder}). Every frontier description is also
-the rate--distortion optimal description for a decoder that must
-describe the holder's view as well as $Y$
-(Corollary~\ref{cor:augmented}), so standard weighted rate--distortion
-codes attain the frontier. For a scalar described variable, with any
-context and any holder, the frontier is explicit: every optimal
-description reads a direction on the curve
-$((1-\lambda)\Sigma_T+\lambda\Kc)^{-1}\Sigma_Tq$, $\lambda\in[0,1]$, and one
-scalar equation locates it (Theorem~\ref{thm:scalarpath}).
+(Corollary~\ref{cor:scalarholder}). Every frontier test channel is also
+the rate--distortion optimal test channel for a decoder that must
+describe the holder's view as well as $Y$, under a weight fixed by the
+solution (Corollary~\ref{cor:augmented}). For a scalar described
+variable, with any context and any holder, the frontier is explicit up
+to one scalar root: every optimal description reads a direction on the
+curve $((1-\varrho)\Sigma_T+\varrho\Kc)^{-1}\Sigma_Tq$, $\varrho\in[0,1]$, and
+one scalar equation, whose root is unique for the minimum leakage,
+selects it (Theorem~\ref{thm:scalarpath}). For holders and described
+variables of any rank, the frontier is the limit of an iteration of
+classical reverse water-filling steps that decreases the cost
+monotonically (Proposition~\ref{prop:mm}).
 
 The eigenvector of the pencil is the direction the description reads,
 and it carries the paper's main structural finding. The rate-optimal
@@ -262,10 +267,11 @@ explicit cases, Section~\ref{sec:onedim} the one-dimensional regime,
 Section~\ref{sec:directions} the results on directions and misalignment,
 Section~\ref{sec:parallel} independent components, and
 Section~\ref{sec:decsi} decoder side information.
-Section~\ref{sec:examples} gives instances, Appendix~\ref{sec:quant}
-evaluates practical scalar quantizers, and Section~\ref{sec:discussion}
-open problems. The appendices prove the coding theorem and a Gaussian
-exhaustion lemma and describe the numerical checks.
+Section~\ref{sec:examples} gives instances and
+Section~\ref{sec:discussion} open problems. The appendices prove the
+coding theorem and a Gaussian exhaustion lemma, evaluate practical
+scalar quantizers (Appendix~\ref{sec:quant}), and describe the numerical
+checks.
 
 \section{Model and the Coding Theorem}
 \label{sec:model}
@@ -624,12 +630,13 @@ multiplier in \eqref{eq:tilted}. Then $\Sez$ is the rate--distortion
 optimal error covariance, at its own distortion, for the weighted
 quadratic distortion with weight
 \[
-Q'=Q+\kappa H^{\mathsf T}\bigl(H\Sez H^{\mathsf T}+\Sigma_U\bigr)^{-1}H,
-\qquad \kappa=\frac{1-\alpha}{2\nu},
+Q'=Q+\varkappa H^{\mathsf T}\bigl(H\Sez H^{\mathsf T}+\Sigma_U\bigr)^{-1}H,
+\qquad \varkappa=\frac{1-\alpha}{2\nu},
 \]
 that is, for a decoder that reproduces $Y$ under the weight $W$ and the
 holder's noiseless view $HT$ under the weight
-$\kappa\,\Cov(S\mid\hY)^{-1}$.
+$\varkappa\,\Cov(S\mid\hY)^{-1}$, with $\Cov(S\mid\hY)=H\Sez H^{\mathsf T}+\Sigma_U$
+evaluated at the frontier description itself.
 \end{corollary}
 
 \begin{proof}
@@ -643,9 +650,12 @@ $\Phi(\tilde A(X))=X$ by Theorem~\ref{thm:tilted}.
 So the least-leaking description at a given rate is the one a
 rate--distortion encoder would produce if it also had to describe what
 the holder sees: making the description informative about $S$ is what
-lowers $\ell=r-I(\hY;S)$. Any code that attains the weighted
-rate--distortion function, such as transform coding with reverse
-water-filling, attains the frontier once the weight is chosen.
+lowers $\ell=r-I(\hY;S)$. The weight $Q'$ depends on the frontier
+point, so the corollary is an equivalence of single-letter solutions,
+not a construction; it says that the optimal test channel is a weighted
+rate--distortion test channel, and the operational consequences for
+codes designed for $Q'$ are not developed here. The target $(Y,HT)$ need
+not have full row rank, and nothing in the corollary uses it.
 
 \begin{corollary}\label{cor:scalarholder}
 Suppose the holder's observation is scalar, $S=\zeta^{\mathsf T}T+U$ with
@@ -682,6 +692,49 @@ minimizer is nonincreasing in $\nu$ by the standard comparison of the
 penalized optima at two values of $\nu$, so a second bisection matches
 $D$. No convex solver is needed.
 \end{remark}
+
+For a holder of rank $r>1$ the tilt is an $r\times r$ matrix that
+depends on the solution, and we do not have a closed form. The fixed
+point is nevertheless reached by iterating closed-form steps.
+
+\begin{proposition}\label{prop:mm}
+Let $X_0=I$ and, for $t\ge0$,
+\[
+X_{t+1}=\Phi\Bigl(2\nu_t\tilde Q+(1-\alpha)\tilde H^{\mathsf T}\bigl(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U\bigr)^{-1}\tilde H\Bigr),
+\]
+with $\nu_t>0$ chosen so that $\tr(\tilde QX_{t+1})=D$. The weighted cost
+is nonincreasing along $(X_t)_{t\ge1}$, and $X_t$ converges to the
+frontier point of weight $\alpha$.
+\end{proposition}
+
+\begin{proof}
+Write the cost as
+$f(X)=-\tfrac12\ln\det X+\tfrac{1-\alpha}2\ln\det(\tilde HX\tilde H^{\mathsf T}+\Sigma_U)$.
+The second term is concave, so it lies below its tangent at $X_t$, and
+$g_t(X)=-\tfrac12\ln\det X+\tfrac12\tr(\tilde H^{\mathsf T}B_t\tilde HX)+c_t$,
+with $B_t=(1-\alpha)(\tilde HX_t\tilde H^{\mathsf T}+\Sigma_U)^{-1}$ and $c_t$
+chosen so that $g_t(X_t)=f(X_t)$, satisfies $g_t\ge f$. The function $g_t$
+is strictly convex, and the argument of Theorem~\ref{thm:tilted} with the
+tilt frozen at $\tilde H^{\mathsf T}B_t\tilde H$ shows that its minimizer
+over the feasible set is $X_{t+1}$, with the level $\nu_t$ unique as in
+Remark~\ref{rem:solver}. Hence
+$f(X_{t+1})\le g_t(X_{t+1})\le g_t(X_t)=f(X_t)$ for $t\ge1$, when $X_t$ is
+feasible. The tilts are bounded,
+$0\preceq\tilde H^{\mathsf T}B_t\tilde H\preceq(1-\alpha)\tilde H^{\mathsf T}\Sigma_U^{-1}\tilde H$,
+so the levels $\nu_t$ are bounded and the iterates stay in a compact set
+on which $\det X$ is bounded away from zero. At a limit point $\bar X$
+along a subsequence, the minimizing property of each step and the
+equality of $f$ and $g_t$ with their gradients at the touching point give
+the optimality conditions of Theorem~\ref{thm:tilted} at $\bar X$. The
+frontier point is the unique such point, so every limit point equals it
+and the sequence converges.
+\end{proof}
+
+Each step is a classical weighted reverse water-filling, the analogue
+of a Blahut--Arimoto update. In 40 random instances with described
+variables and holders of rank between two and six in non-commuting
+geometry, the cost never increased and the iteration reached a relative
+change of $10^{-9}$ in a median of 6 and at most 21 steps.
 
 So for a scalar holder, the case of the scalar and coupled instances
 and of Appendix~\ref{sec:quant}, the whole frontier, partial description
@@ -983,68 +1036,93 @@ corresponding generalized eigenvector; normalizing the reproduction
 gives the stated coefficients.
 \end{proof}
 
-For a scalar described variable the whole frontier is explicit, with any
-context and any holder.
+For a scalar described variable the whole frontier is explicit up to
+one scalar root, with any context and any holder.
 
 \begin{theorem}\label{thm:scalarpath}
-Let $m=1$, write $Q=qq^{\mathsf T}$, and for $\lambda\in[0,1]$ let
+Let $m=1$, write $Q=qq^{\mathsf T}$, and for $\varrho\in[0,1]$ let
 \[
-b(\lambda)=\frac{M(\lambda)^{-1}\Sigma_Tq}{q^{\mathsf T}\Sigma_TM(\lambda)^{-1}\Sigma_Tq},
-\qquad M(\lambda)=(1-\lambda)\Sigma_T+\lambda\Kc ,
+\Sigma_\varrho=(1-\varrho)\Sigma_T+\varrho\Kc,\qquad
+b(\varrho)=\frac{\Sigma_\varrho^{-1}\Sigma_Tq}{q^{\mathsf T}\Sigma_T\Sigma_\varrho^{-1}\Sigma_Tq},
 \]
-$u(\lambda)=b^{\mathsf T}\Sigma_Tb$, and $v(\lambda)=b^{\mathsf T}(\Sigma_T-\Kc)b$.
+$\mathsf u(\varrho)=b^{\mathsf T}\Sigma_Tb$, and $\mathsf v(\varrho)=b^{\mathsf T}(\Sigma_T-\Kc)b$.
 For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the frontier point of weight
-$\alpha$ is the one-dimensional description with projection direction
-$b(\lambda)$, where $\lambda\in[0,1-\alpha]$ is the root of
+$\alpha$, the minimizer of $\alpha R+(1-\alpha)L$, is the one-dimensional
+description $b(\varrho)^{\mathsf T}T+N$ with $\Var N=(1-\Delta\mathsf u)/\Delta$,
+where $\varrho$ is a root of
 \begin{equation}
-\lambda\bigl(1-\Delta v(\lambda)\bigr)=(1-\alpha)\bigl(1-\Delta u(\lambda)\bigr)
+\varrho\bigl(1-\Delta\mathsf v(\varrho)\bigr)=(1-\alpha)\bigl(1-\Delta\mathsf u(\varrho)\bigr)
 \label{eq:scalarpath}
 \end{equation}
-of least weighted cost, and its rate and leakage are
+in $[0,1-\alpha]$, the one of least weighted cost. Its rate and leakage
+are
 \[
-R=-\tfrac12\log\bigl(1-\Delta u\bigr),\qquad
-L=R+\tfrac12\log\bigl(1-\Delta v\bigr).
+R=-\tfrac12\log\bigl(1-\Delta\mathsf u\bigr),\qquad
+L=R+\tfrac12\log\bigl(1-\Delta\mathsf v\bigr)=\tfrac12\log\frac{1-\alpha}{\varrho}\quad(\alpha<1).
 \]
+The roots are finitely many, every root is a feasible description, and
+at $\alpha=0$ the root is unique. At $\alpha=1$ the root is $\varrho=0$.
 \end{theorem}
 
 \begin{proof}
 By Proposition~\ref{prop:rank} the minimizer is a one-dimensional
-description $b^{\mathsf T}T+N$, at the active noise level by
-Theorem~\ref{thm:convex}(a). Normalize $q^{\mathsf T}\Sigma_Tb=1$. From the
-proof of Theorem~\ref{thm:onedim}(a), its rate is
-$\tfrac12\log\bigl((q^{\mathsf T}\Sigma_Tb)^2/b^{\mathsf T}A(\Delta)b\bigr)=-\tfrac12\log(1-\Delta u)$
-and its leakage is
-$\tfrac12\log\bigl(1+\Delta b^{\mathsf T}\Kc b/b^{\mathsf T}A(\Delta)b\bigr)=R+\tfrac12\log(1-\Delta v)$,
-with $u=b^{\mathsf T}\Sigma_Tb$ and $v=b^{\mathsf T}(\Sigma_T-\Kc)b$. The weighted
-cost $-\tfrac12\ln(1-\Delta u)+\tfrac{1-\alpha}2\ln(1-\Delta v)$ is smooth on
-the open set where $1-\Delta u>0$, and at its minimizer over the
-hyperplane $q^{\mathsf T}\Sigma_Tb=1$ stationarity gives
-$\Sigma_Tb-\lambda(\Sigma_T-\Kc)b\propto\Sigma_Tq$ with
-$\lambda=(1-\alpha)(1-\Delta u)/(1-\Delta v)$, which is
-\eqref{eq:scalarpath} and $b=b(\lambda)$. Since $\Kc\preceq\Sigma_T$,
-$v\le u$, so $0\le\lambda\le1-\alpha$, and $M(\lambda)\succ0$ there.
+description $b^{\mathsf T}T+N$ (rank zero cannot reduce the distortion),
+at the active noise level by Theorem~\ref{thm:convex}(a). A direction with
+$q^{\mathsf T}\Sigma_Tb=0$ reduces no distortion, so normalize
+$q^{\mathsf T}\Sigma_Tb=1$. From the proof of Theorem~\ref{thm:onedim}(a)
+the active noise variance is $\sigma^2=b^{\mathsf T}A(\Delta)b/\Delta=(1-\Delta\mathsf u)/\Delta$,
+so the rate is $\tfrac12\log(1+\mathsf u/\sigma^2)=-\tfrac12\log(1-\Delta\mathsf u)$,
+and the leakage is
+$\tfrac12\log\bigl(1+b^{\mathsf T}\Kc b/\sigma^2\bigr)=R+\tfrac12\log(1-\Delta\mathsf v)$,
+since $b^{\mathsf T}\Kc b=\mathsf u-\mathsf v$. The weighted cost
+$-\tfrac12\ln(1-\Delta\mathsf u)+\tfrac{1-\alpha}2\ln(1-\Delta\mathsf v)$ is smooth
+on the open set where $1-\Delta\mathsf u>0$, the minimizer lies in it, and
+stationarity on the hyperplane $q^{\mathsf T}\Sigma_Tb=1$ gives
+$\Sigma_Tb-\varrho(\Sigma_T-\Kc)b\propto\Sigma_Tq$ with
+$\varrho=(1-\alpha)(1-\Delta\mathsf u)/(1-\Delta\mathsf v)$, which is
+\eqref{eq:scalarpath} and $b=b(\varrho)$, with $\Sigma_\varrho\succ0$. Since
+$\Kc\succ0$, $\mathsf u-\mathsf v=b^{\mathsf T}\Kc b>0$; so for $\alpha<1$ a
+root has $1-\Delta\mathsf v>1-\Delta\mathsf u$ and both factors positive,
+hence $0<\varrho<1-\alpha$, and every root is a feasible description,
+while $\alpha=1$ forces $\varrho=0$. The equation is rational in $\varrho$
+and not identically zero, since at $\varrho=0$ its right side is
+$(1-\alpha)D/D_{\max}>0$; so the roots are finitely many, and distinct
+roots give distinct descriptions, so the root of least cost is the
+unique minimizer. At a root, $(1-\Delta\mathsf v)/(1-\Delta\mathsf u)=(1-\alpha)/\varrho$,
+which gives the last form of $L$.
+
+For $\alpha=0$, put $\mu=\Delta\varrho/(1-\varrho)$, so
+$\Sigma_\varrho\propto\Delta\Sigma_T+\mu\Kc$ and
+$(\Delta\Sigma_T+\mu\Kc)b=c\,\Sigma_Tq$ for a scalar $c$. Multiplying by
+$b^{\mathsf T}$ gives $c=\Delta\mathsf u+\mu(\mathsf u-\mathsf v)$, and
+\eqref{eq:scalarpath} with $\alpha=0$ reduces to
+$\Delta\mathsf u+\mu(\mathsf u-\mathsf v)=1$, that is, $c=1$. Multiplying
+$b=c(\Delta\Sigma_T+\mu\Kc)^{-1}\Sigma_Tq$ by $q^{\mathsf T}\Sigma_T$ shows
+that $c=1$ is the secular equation \eqref{eq:secular} below, whose
+positive root is unique.
 \end{proof}
 
 So every optimal description of a scalar variable, at every budget and
 weight, reads a direction on one explicit curve, from $b(0)\propto q$,
 which describes $Y$ itself, toward
 $b(1)\propto\Kc^{-1}\Sigma_Tq=q+J\Sigma_Tq$. The rate-optimal description
-has $\lambda=0$ at every budget. The leakage-optimal one moves along the
-curve with the budget: $\lambda\to1$ as $D\to D_{\max}$, where it reads
-$q+J\Sigma_Tq$, and $\lambda\to0$ as $D\to0$, where it must reveal $Y$.
-At $\alpha=0$ the stationarity condition coincides with the pencil of
+has $\varrho=0$ at every budget. The leakage-optimal one moves along the
+curve with the budget: $\varrho\to1$ as $D\to D_{\max}$, where it reads
+$q+J\Sigma_Tq$, and $\varrho\to0$ as $D\to0$, where it must reveal $Y$.
+At $\alpha=0$ the stationarity condition is the pencil of
 Theorem~\ref{thm:onedim}: with $Q=qq^{\mathsf T}$ the eigenvector equation
-$A(\Delta)b=\mu\Kc b$ reads $(\Delta\Sigma_T+\mu\Kc)b\propto\Sigma_Tq$, so
-$\lambda=\mu_{\max}/(\Delta+\mu_{\max})$, and multiplying by
-$q^{\mathsf T}\Sigma_T$ gives the secular equation
+$A(\Delta)b=\mu\Kc b$ reads $(\Delta\Sigma_T+\mu\Kc)b\propto\Sigma_Tq$, and
+with $q^{\mathsf T}\Sigma_Tb=1$ it gives $1-\Delta\mathsf u=\mu(\mathsf u-\mathsf v)$
+and $1-\Delta\mathsf v=(\mu+\Delta)(\mathsf u-\mathsf v)$, so
+$\varrho=\mu_{\max}/(\Delta+\mu_{\max})$ and $L=\tfrac12\log(1+\Delta/\mu_{\max})$.
+The root is the unique positive solution of the secular equation
 \begin{equation}
 q^{\mathsf T}\Sigma_T\bigl(\Delta\Sigma_T+\mu\Kc\bigr)^{-1}\Sigma_Tq=1 ,
 \label{eq:secular}
 \end{equation}
-whose left side decreases in $\mu$, so $\mu_{\max}$ is its unique
-positive root and $L(D)=\tfrac12\log(1+\Delta/\mu_{\max})$. In the basis of
-the pencil $(\Sigma_T,\Kc)$, \eqref{eq:secular} is a rational equation
-with $p$ poles, and for $p=2$ it is the quadratic of
+whose left side decreases from $D_{\max}/\Delta>1$ to $0$ on $\mu>0$. In
+the basis of the pencil $(\Sigma_T,\Kc)$ it is a rational equation with
+$p$ poles, and for $p=2$ it is the quadratic of
 Corollary~\ref{cor:scalar}.
 
 
@@ -1271,10 +1349,11 @@ has $\mu_b\le0$ and infinite leakage, and otherwise the bound
 \eqref{eq:fixedread} increases with $\sin^2\psi$ on $[0,\pi/2]$.
 \end{proof}
 
-Where $L(D)=L_{\mathrm{1d}}(D)$, which holds at every budget for a
+Since $L(D)\le L_{\mathrm{1d}}(D)$, the bounds are also lower bounds on
+the excess over the least leakage of any description, and they bound
+that excess exactly where $L(D)=L_{\mathrm{1d}}(D)$, at every budget for a
 scalar described variable and inside the certificate of
-Theorem~\ref{thm:onedim}(b) in general, these are excesses over the
-least leakage of any description. The bounds need no search; the
+Theorem~\ref{thm:onedim}(b) in general. The bounds need no search; the
 two-budget values below were found by search over directions. In the
 coupled instance the rate-optimal description, whose projection
 direction is fixed, pays $0.139$ bits of excess leakage at $D=1.1$
@@ -1558,12 +1637,18 @@ information is open. Explicit solutions are now available in three
 regimes: the whole frontier in commuting geometry at every budget, the
 minimum leakage in arbitrary geometry in the one-dimensional regime at
 large budgets, and the whole frontier in arbitrary geometry at small
-budgets when the decoder reproduces the whole source. In every
-geometry and at every budget the frontier is reverse water-filling on a
-tilted weight, a fixed point in the multiplier and the tilt; for a
-scalar holder this is two scalar equations. For a holder of higher rank
-the tilt is an $r\times r$ matrix fixed point, and a closed form for it,
-or for the regime boundaries, is not known. Stationary
+budgets when the decoder reproduces the whole source, and the whole
+frontier for a scalar described variable with any context and any
+holder, up to one scalar root. In every geometry and at every budget
+the frontier is the fixed point of reverse water-filling on a tilted
+weight; for a scalar holder this is two scalar equations, and for a
+holder of any rank the fixed point is the limit of a monotone iteration
+of water-filling steps. A closed form for a holder of higher rank and a
+described variable of higher dimension, or for the regime boundaries,
+is not known. The general case with side information at both receivers,
+where the second auxiliary of Villard and Piantanida can matter, under
+a trace-type distortion and a rank-deficient holder, is where the main
+open question lies. Stationary
 sources and finite blocklengths are not treated.
 
 \appendices
@@ -1977,7 +2062,12 @@ described variables with contexts of dimension up to five and holders of
 every rank (equation \eqref{eq:scalarpath} had a single root in $[0,1-\alpha]$
 in every instance), the two limits of the curve, the reduction to
 Corollary~\ref{cor:scalar}, and Corollary~\ref{cor:augmented}; its output is
-recorded in \texttt{verify\_scalar\_path-2026-10-01.txt}. No proof depends on them; the instances
+recorded in \texttt{verify\_scalar\_path-2026-10-01.txt}.
+\texttt{verify\_mm.py} runs the iteration of Proposition~\ref{prop:mm} on
+non-commuting instances with described variables and holders of rank at
+least two, checks that the cost never increases, and compares the limit
+with the weighted determinant program; its output is recorded in
+\texttt{verify\_mm-2026-10-01.txt}. No proof depends on them; the instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}
