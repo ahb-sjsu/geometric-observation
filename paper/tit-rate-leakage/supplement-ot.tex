@@ -30,17 +30,20 @@ geometry for weighing errors, and its own budget, and it asks what the
 same description conveys to each of them. This supplement reads the
 results of a companion paper on Gaussian sources in that language. The
 paper's theorems are stated and proved there in standard information
-theory, and nothing here adds to them. What this supplement adds is the
-account of which of those results need the observer to be explicit and
-what each one says about observers. Four do. What a description conveys
-to an observer is not fixed by what that observer sees. A cost that is
-relative to an observer exists only when the decoder's budget is a
-single number. The observer's geometry changes which aspect of the
-source an optimal description reads, in a way that no theory with a
-single reader reproduces. And the description that conveys least to an
-observer at a given rate is the one that also describes what that
-observer sees. The rest of the paper, including its region and its
-convexity, is standard and needs no observer.
+theory, and nothing here adds to them. All of the results can be
+stated with standard source-coding objects. What this supplement adds is
+an interpretation. Observation Theory motivated four of the questions,
+and it reads their answers as statements about observers. What a
+description conveys to an observer is not fixed by what that observer
+sees. A tradeoff between the two costs requires the constraints to leave
+the encoder a choice among relevant error covariances. In the Gaussian
+model, the best one-dimensional description reads a direction that turns
+with the budget, which no single-party Gaussian problem with a fixed
+weighted quadratic distortion reproduces. And the description that
+conveys least to an observer at a given rate is the one that also
+describes what that observer sees. The rest of the paper, including its
+region and its convexity, is standard and owes nothing to the
+interpretation.
 \end{abstract}
 
 \section{One description, two observers}
@@ -66,9 +69,9 @@ Observation Theory asks a different question of the same objects. It
 asks how the conveyed content depends on who the observer is. The answer
 in this setting is that it depends on the observer's geometry as well as
 on its data, and the companion paper's theorems make that dependence
-exact. This supplement collects the four results where the observer is
-essential, states what each one says about observers, and marks plainly
-which parts of the paper owe nothing to the observer at all.
+exact. This supplement collects four results that Observation Theory
+motivated, states what each one says about observers, and marks plainly
+which parts of the paper owe nothing to this reading.
 
 \section{The decoder and the second party are both observers}
 \label{sec:dictionary}
@@ -109,10 +112,12 @@ Every entry on the right is standard. Secure source coding introduced
 the leakage \cite{villard2013}, and the vector Gaussian versions of the
 problem were treated by Ekrem and Ulukus \cite{ekrem2013} and by Xu,
 Chen, Chen, and Jin \cite{xu2024}. Renaming them does not create a
-result. A result belongs to Observation Theory only if it cannot be
-stated, or would not have been looked for, without making the second
-observer explicit. The next four sections are the results of the
-companion paper that pass that test.
+result, and none of the four findings below depends on this vocabulary.
+Each can be stated, and is proved in the companion paper, with standard
+source-coding objects. The contribution of Observation Theory here is
+that it asked the questions, by treating the second party as an observer
+whose geometry matters, and that it gives the answers one coherent
+interpretation.
 
 \section{What a description conveys to an observer is not fixed by what the observer sees}
 \label{sec:notdetermined}
@@ -130,33 +135,39 @@ The difference is the encoder's view. The encoder sees a context that
 neither observer reconstructs, and the context is correlated with what
 the holder sees. So the content conveyed to the second observer is a
 function of three things, the first observer's task, the second
-observer's view, and what the writer of the description sees. A theory
-that models only the two observers cannot predict it. This is the reason
+observer's view, and what the writer of the description sees. The joint
+law of the two observers' views alone does not determine it. This is the
+reason
 the companion paper's setting has an encoder that observes more than it
 describes.
 
-\section{A cost relative to an observer exists only when the budget is a single number}
+\section{A tradeoff requires the constraints to leave a choice among error covariances}
 \label{sec:scalarbudget}
 
-Suppose the decoder's requirement is a full error covariance, so that
-every direction of the source must be reconstructed to a prescribed
-accuracy. Then \Pp{prop:matrix} shows that one description is at once
-the cheapest for the decoder and the one that conveys least to the
-holder, and there is nothing to trade. The result is implied by the
-bounds of Ekrem and Ulukus \cite{ekrem2013}.
+Suppose the decoder's requirement is a full error covariance on the whole
+source, so that every direction must be reconstructed to a prescribed
+accuracy. The content conveyed to the holder is still a cost, and it
+still depends on the holder. But \Pp{prop:matrix} shows that one
+description minimizes the rate and that cost together, so the two costs
+do not conflict. The result is implied by the bounds of Ekrem and Ulukus
+\cite{ekrem2013}.
 
-The tradeoff appears only when the decoder's requirement is a single
-number, a weighted total distortion, because only then does the encoder
-choose how to spread the error over directions. In the language of
-Observation Theory, the first observer's budget must leave freedom in its
-own geometry before the second observer's geometry can matter. Every
-other result below lives in that freedom.
+The two costs conflict when the constraints leave the encoder a choice
+among error covariances that matter to the holder. A weighted total
+distortion leaves such a choice, because the encoder decides how to
+spread the error over directions. So does a matrix constraint on the
+described part alone, which leaves the error free outside that part, as
+the companion paper notes after \Pp{prop:matrix}. In the language of
+Observation Theory, the first observer's constraints must leave freedom
+that the second observer's geometry can act on. Every other result below
+lives in that freedom.
 
 \section{The observer's geometry changes what an optimal description reads}
 \label{sec:geometry}
 
-This is the central finding, and it is the one a theory with a single
-reader cannot produce.
+This is the central finding. Its scope is the Gaussian model and the
+best one-dimensional description, which is the leakage-optimal
+description wherever the certificate of the companion paper holds.
 
 A description written for a single observer under a weighted quadratic
 distortion reads fixed directions of the source at every budget. The
@@ -168,14 +179,15 @@ way.
 When a second observer is present, the best one-dimensional description
 reads a direction that turns as the budget changes, unless that
 direction is shared by the decoder's geometry and the holder's
-(\Th{thm:turning}). In the coupled instance the leakage-optimal
-description reduces the error along $47.48^\circ$ at one budget and
-$41.15^\circ$ at another. \Co{cor:nonred} turns this into a statement
-about theories. No problem with a single reader and a fixed weighted
-quadratic distortion has the leakage-optimal descriptions as its optimal
-descriptions at two such budgets. The turning is therefore not a feature
-of a richer single-observer model. It is the trace of the second
-observer.
+(\Th{thm:turning}, which assumes the largest eigenvalue of its pencil is
+simple). In the coupled instance the leakage-optimal description reduces
+the error along $47.48^\circ$ at one budget and $41.15^\circ$ at another.
+\Co{cor:nonred} states what this excludes. No single-party Gaussian
+rate--distortion problem with a fixed weighted quadratic distortion has
+the leakage-optimal descriptions as its optimal descriptions at two such
+budgets. It does not exclude every richer single-observer model, such as
+one whose distortion measure changes with the budget. Within the stated
+class, the turning is the trace of the second observer.
 
 The cost of ignoring it is explicit. A description that keeps a fixed
 direction pays an excess in content conveyed to the holder that
@@ -250,9 +262,9 @@ information and neither side dominates, the second auxiliary of the
 secure source coding region can matter. Xu, Chen, Chen, and Jin
 \cite{xu2024} establish that Gaussian auxiliaries are optimal under a
 matrix distortion and full-rank views. Whether the observer effects of
-Sections~\ref{sec:geometry} and~\ref{sec:augmented} survive with a
-single-number budget and a rank-deficient holder is the main open
-question.
+Sections~\ref{sec:geometry} and~\ref{sec:augmented} survive under
+constraints that leave a choice of error covariance, such as a weighted
+total distortion, and a rank-deficient holder is the main open question.
 
 \emph{Observers with rich views.} For a holder whose view has rank above
 one and a described variable of dimension above one, the frontier is the
