@@ -229,7 +229,7 @@ information. The rate-optimal description sits at one end, and the
 description that conveys least sits at a point that moves with the
 budget.
 
-\section{On eleven datasets, the single-party flip holds and the two-observer flip mostly holds}
+\section{On eleven datasets the single-party flip holds, and the two-observer flip holds where the Gaussian model does}
 \label{sec:data}
 
 The companion notebook \texttt{ot\_figures/ot\_figures.ipynb} tests two
@@ -259,7 +259,11 @@ correlation ranks the leakage removed with a Spearman correlation of
 0.62, with a residual at zero correlation. Two further predictions were
 refuted and are recorded in the notebook. A view uncorrelated with the
 decoder's principal read still yields a flip once the budget has slack,
-and a local onset test held in only four of eleven datasets.
+and a local onset test held in only four of eleven datasets. Both used
+the squared correlation with the decoder's principal read as the
+predictor. The boundary theory below replaces it with the position of
+that read in a pencil of the view, under which an uncorrelated view can
+still flip once the budget has slack.
 
 The boundary of the two-observer flip was then registered in two
 stages. The theory places it at the position of the decoder's principal
@@ -286,6 +290,36 @@ Topology Zoo tables are again reversed. We read these misses as returns
 from the edge of the Gaussian model, and a second registration tests
 that reading by asking whether a measured departure from Gaussianity
 predicts where they fall.
+
+The leakage predictions rest on one modelling step. What the second
+party learns from a code depends on its view only through a linear
+correlation, which is exact when the projection and the view are jointly
+Gaussian. The second registration measures, on training halves only,
+how far each code departs from that step. It adds the information the
+view carries beyond the linear correlation to the divergence of the
+code's cell occupancies from their Gaussian design, each in bits above
+the 95th percentile of a Gaussian null of the same size. On the measured
+datasets this index ranks the size of each miss with a Spearman
+correlation of 0.71 over 477 cases. It was then applied blind to six
+public datasets this program had never touched, with a cut calibrated on
+the eleven measured ones. Before any of their codes were measured, it
+forecast that a power-plant table, an airfoil-noise table, and a
+real-estate table would track the theory, and that a yacht-hydrodynamics
+table, a forest-fire table, and a red-wine table would not. All six
+forecasts were right. On the fresh cases the index ranks the misses with
+a correlation of 0.67, and the cases it cannot tell from Gaussian agree
+with their predictions in 16 of 16, against 33 percent of the rest. Two
+criteria were not met. A calibration bar asked that 90 percent of the
+synthetic Gaussian cases score zero, and 84 percent did. Each case faces
+four tests at the 95th percentile, so the bar should have been near 81
+percent. A second comparison was vacuous, because no case from the
+measured datasets scored zero. The theory's own modelling assumption
+thus forecasts where the theory holds. Read after the fact and not as a
+test, the two criteria the boundary test missed behave the same way.
+Below the cut the rank correlation in the rotated family is 0.77 on the
+measured datasets and 0.74 on the fresh ones. Above it the correlation is
+0.31 and $-0.15$. The near-boundary criterion is still unmet below the cut on the
+measured datasets, at 64 percent.
 
 \begin{figure}[t]
 \centering
