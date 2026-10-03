@@ -8,9 +8,11 @@ Hermitian matrices but not the concavity of log det, so it is built here.
 * `det_rpow_le_det_combo`  det X ^ (1 - t) det Y ^ t ≤ det ((1 - t) X + t Y) for positive definite X, Y.
 * `log_det_concave`    log det is concave on positive definite matrices.
 * `neg_log_det_convex` the rate part of Theorem convex: -log det is convex.
-
-Not yet formalized: convexity of the leakage, which needs the Loewner monotonicity of log det and the
-matrix concavity of X ↦ (X⁻¹ + J)⁻¹ (provable from the fixed-gain variational bound).
+* `det_le_det_of_loewner`  det is monotone in the Loewner order on positive definite matrices.
+* `Phi_eq`, `Fw_concave`   completing the square for the fixed-gain error covariance, and matrix concavity of
+                       F(X) = X - X Bᴴ (B X Bᴴ + I)⁻¹ B X = (X⁻¹ + Bᴴ B)⁻¹ (`Fw_eq_inv`).
+* `neg_log_det_Fw_convex`  the leakage part of Theorem convex: -log det F is convex, so the leakage
+                       ½ log det K - ½ log det (Σ_e0⁻¹ + J)⁻¹ is convex in Σ_e0 for J = Bᴴ B.
 -/
 import Mathlib
 
@@ -227,5 +229,117 @@ theorem det_le_det_of_loewner {A B : Matrix n n ℝ} (hA : A.PosDef) (hBA : (B -
   have hA0 : 0 < A.det := hA.det_pos
   rw [hB, det_mul, det_mul]
   nlinarith [hdet1, hS2, hA0]
+
+/-- A convex combination of positive definite matrices is positive definite. -/
+theorem posDef_combo {X Y : Matrix n n ℝ} (hX : X.PosDef) (hY : Y.PosDef) {t : ℝ} (ht0 : 0 ≤ t)
+    (ht1 : t ≤ 1) : ((1 - t) • X + t • Y).PosDef := by
+  rcases eq_or_lt_of_le ht0 with h | h
+  · subst h; simpa using hX
+  · exact Matrix.PosDef.posSemidef_add (hX.posSemidef.smul (by linarith)) (hY.smul h)
+
+section Leak
+
+variable {m : Type*} [Fintype m] [DecidableEq m]
+
+/-- G(X) = B X Bᴴ + I. -/
+def Gm (B : Matrix m n ℝ) (X : Matrix n n ℝ) : Matrix m m ℝ := B * X * Bᴴ + 1
+
+/-- F(X) = X - X Bᴴ G(X)⁻¹ B X, which equals (X⁻¹ + Bᴴ B)⁻¹ (`Fw_eq_inv`). -/
+noncomputable def Fw (B : Matrix m n ℝ) (X : Matrix n n ℝ) : Matrix n n ℝ := X - X * Bᴴ * (Gm B X)⁻¹ * B * X
+
+/-- The error covariance of the affine estimate with gain K: (I - K B) X (I - K B)ᴴ + K Kᴴ. -/
+def Phi (B : Matrix m n ℝ) (K : Matrix n m ℝ) (X : Matrix n n ℝ) : Matrix n n ℝ :=
+  (1 - K * B) * X * (1 - K * B)ᴴ + K * Kᴴ
+
+theorem Gm_posDef (B : Matrix m n ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) : (Gm B X).PosDef :=
+  Matrix.PosDef.posSemidef_add (hX.posSemidef.mul_mul_conjTranspose_same B) Matrix.PosDef.one
+
+/-- **Completing the square.** For every gain K, Φ_K(X) = F(X) + (K - K*) G (K - K*)ᴴ with
+K* = X Bᴴ G⁻¹. -/
+theorem Phi_eq (B : Matrix m n ℝ) (K : Matrix n m ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) :
+    Phi B K X = Fw B X + (K - X * Bᴴ * (Gm B X)⁻¹) * Gm B X * (K - X * Bᴴ * (Gm B X)⁻¹)ᴴ := by
+  have hXH : Xᴴ = X := hX.1
+  set G := Gm B X with hG
+  set P := G⁻¹ with hP
+  have hGu : IsUnit G.det := (Gm_posDef B hX).isUnit.map (Matrix.detMonoidHom)
+  have hGP : G * P = 1 := mul_nonsing_inv G hGu
+  have hPG : P * G = 1 := nonsing_inv_mul G hGu
+  have hGH : Gᴴ = G := (Gm_posDef B hX).1
+  have hPH : Pᴴ = P := by rw [hP, conjTranspose_nonsing_inv, hGH]
+  have hGPY : G * (P * (B * X)) = B * X := by rw [← Matrix.mul_assoc, hGP, Matrix.one_mul]
+  have hPGY : P * (G * Kᴴ) = Kᴴ := by rw [← Matrix.mul_assoc, hPG, Matrix.one_mul]
+  have hL : Phi B K X = X - K * (B * X) - X * (Bᴴ * Kᴴ) + K * (G * Kᴴ) := by
+    simp only [Phi, hG, Gm, conjTranspose_sub, conjTranspose_one, conjTranspose_mul, Matrix.sub_mul,
+      Matrix.mul_sub, Matrix.one_mul, Matrix.mul_one, Matrix.mul_add, Matrix.add_mul, Matrix.mul_assoc]
+    abel
+  rw [hL]
+  simp only [Fw, ← hG, ← hP, conjTranspose_sub, conjTranspose_mul, conjTranspose_conjTranspose, hPH, hXH,
+    Matrix.sub_mul, Matrix.mul_sub, Matrix.mul_assoc, hGPY, hPGY]
+  abel
+
+/-- At the optimal gain the correction vanishes. -/
+theorem Phi_opt (B : Matrix m n ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) :
+    Phi B (X * Bᴴ * (Gm B X)⁻¹) X = Fw B X := by
+  rw [Phi_eq B _ hX]; simp
+
+/-- **Matrix concavity of F.** F((1 - t) X₀ + t X₁) - ((1 - t) F(X₀) + t F(X₁)) is positive semidefinite. -/
+theorem Fw_concave (B : Matrix m n ℝ) {X₀ X₁ : Matrix n n ℝ} (h₀ : X₀.PosDef) (h₁ : X₁.PosDef) {t : ℝ}
+    (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
+    (Fw B ((1 - t) • X₀ + t • X₁) - ((1 - t) • Fw B X₀ + t • Fw B X₁)).PosSemidef := by
+  have ht : (Matrix.PosDef ((1 - t) • X₀ + t • X₁)) := posDef_combo h₀ h₁ ht0 ht1
+  set K := ((1 - t) • X₀ + t • X₁) * Bᴴ * (Gm B ((1 - t) • X₀ + t • X₁))⁻¹
+  have haff : Phi B K ((1 - t) • X₀ + t • X₁) = (1 - t) • Phi B K X₀ + t • Phi B K X₁ := by
+    simp only [Phi, Matrix.mul_add, Matrix.add_mul, Matrix.mul_smul, Matrix.smul_mul, smul_add]
+    module
+  rw [← Phi_opt B ht, haff, Phi_eq B K h₀, Phi_eq B K h₁]
+  set P₀ := (K - X₀ * Bᴴ * (Gm B X₀)⁻¹) * Gm B X₀ * (K - X₀ * Bᴴ * (Gm B X₀)⁻¹)ᴴ
+  set P₁ := (K - X₁ * Bᴴ * (Gm B X₁)⁻¹) * Gm B X₁ * (K - X₁ * Bᴴ * (Gm B X₁)⁻¹)ᴴ
+  have hP₀ : P₀.PosSemidef := (Gm_posDef B h₀).posSemidef.mul_mul_conjTranspose_same _
+  have hP₁ : P₁.PosSemidef := (Gm_posDef B h₁).posSemidef.mul_mul_conjTranspose_same _
+  have : (1 - t) • (Fw B X₀ + P₀) + t • (Fw B X₁ + P₁) - ((1 - t) • Fw B X₀ + t • Fw B X₁) =
+      (1 - t) • P₀ + t • P₁ := by
+    simp only [smul_add]; abel
+  rw [this]
+  exact (hP₀.smul (by linarith)).add (hP₁.smul ht0)
+
+/-- F(X) (X⁻¹ + Bᴴ B) = I. -/
+theorem Fw_mul (B : Matrix m n ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) : Fw B X * (X⁻¹ + Bᴴ * B) = 1 := by
+  set G := Gm B X with hG
+  set P := G⁻¹ with hP
+  have hGu : IsUnit G.det := (Gm_posDef B hX).isUnit.map (Matrix.detMonoidHom)
+  have hPG : P * G = 1 := nonsing_inv_mul G hGu
+  have hXu : IsUnit X.det := hX.isUnit.map (Matrix.detMonoidHom)
+  have hXX : X * X⁻¹ = 1 := mul_nonsing_inv X hXu
+  have hBXB : B * X * Bᴴ = G - 1 := by rw [hG, Gm]; abel
+  have hkey : P * (B * (X * (Bᴴ * B))) = B - P * B := by
+    have : B * (X * (Bᴴ * B)) = (G - 1) * B := by rw [← hBXB]; simp only [Matrix.mul_assoc]
+    rw [this, Matrix.sub_mul, Matrix.mul_sub, ← Matrix.mul_assoc, hPG, Matrix.one_mul]
+  simp only [Fw, ← hG, ← hP, Matrix.sub_mul, Matrix.mul_add, Matrix.mul_assoc, hXX, hkey, Matrix.mul_one,
+    Matrix.mul_sub]
+  abel
+
+/-- F(X) = (X⁻¹ + Bᴴ B)⁻¹, so F(X) is positive definite. -/
+theorem Fw_eq_inv (B : Matrix m n ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) : Fw B X = (X⁻¹ + Bᴴ * B)⁻¹ :=
+  (inv_eq_left_inv (Fw_mul B hX)).symm
+
+theorem Fw_posDef (B : Matrix m n ℝ) {X : Matrix n n ℝ} (hX : X.PosDef) : (Fw B X).PosDef := by
+  rw [Fw_eq_inv B hX]
+  exact Matrix.posDef_inv_iff.mpr ((Matrix.posDef_inv_iff.mpr hX).add_posSemidef
+    (Matrix.posSemidef_conjTranspose_mul_self B))
+
+/-- **Theorem convex, leakage part.** The leakage ½ log det K - ½ log det (Σ_e0⁻¹ + J)⁻¹ is convex in the error
+covariance Σ_e0, with J = Bᴴ B: -log det F is convex on positive definite matrices. -/
+theorem neg_log_det_Fw_convex (B : Matrix m n ℝ) {X₀ X₁ : Matrix n n ℝ} (h₀ : X₀.PosDef) (h₁ : X₁.PosDef)
+    {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
+    -Real.log (Fw B ((1 - t) • X₀ + t • X₁)).det ≤
+      (1 - t) * (-Real.log (Fw B X₀).det) + t * (-Real.log (Fw B X₁).det) := by
+  have hF₀ := Fw_posDef B h₀; have hF₁ := Fw_posDef B h₁
+  have hA := posDef_combo hF₀ hF₁ ht0 ht1
+  have hmono := det_le_det_of_loewner hA (Fw_concave B h₀ h₁ ht0 ht1)
+  have hlog := Real.log_le_log hA.det_pos hmono
+  have hcc := log_det_concave hF₀ hF₁ ht0 ht1
+  linarith
+
+end Leak
 
 end ObservationTheory.LogDet
