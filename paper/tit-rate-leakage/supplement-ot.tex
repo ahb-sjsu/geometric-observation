@@ -382,16 +382,25 @@ zero. Their predicted removals lie between 0.03 and 0.05 bit, and the
 criterion compared the measurement with zero rather than with the
 prediction. On synthetic Gaussian sources the mean over splits lies
 within 0.006 bit of the prediction, and every single measurement is
-within two standard errors of it. On real data inside the scope the
-predicted removals of about 0.04 bit do not appear. The mean over splits
-sits near zero, and in 80 percent of cases it lies more than three
-standard errors from the prediction. So on Gaussian data the proxy
-matches the prediction near the boundary, and on real data inside the
-scope it falls systematically short of it. These runs do not separate a
+within two standard errors of it. The replicate splits of this
+registration had a design error, found later. They recomputed the
+principal read and the context column of the rotated views on every
+split, although both were meant to be frozen, and on most real datasets
+that column changes between splits. A rotated-view case was then
+measured against a view its code was not built for. On the 20 real cases
+whose view is a single context column, which the error does not touch,
+the mean over splits falls short of the prediction by a median of 0.010
+bit, in 90 percent of them by more than three standard errors. The
+larger shortfall of about 0.05 bit on the 51 rotated-view cases comes
+mostly from the error. So on Gaussian data the proxy matches the
+prediction near the boundary, and on real data inside the scope it falls
+slightly but systematically short of it. These runs do not separate a
 misspecified Gaussian model from unequal classifier errors on the two
-codes, and the cause of the shortfall is open. A fifth registration tests the corrected
-criterion against the prediction, and whether the shortfall on real data
-is a fixed offset or a proportional attenuation.
+codes, and the cause of the shortfall is open. A fifth registration tests
+the corrected criterion against the prediction, and whether the
+shortfall on real data is a fixed offset or a proportional attenuation.
+Its replicate splits carried the same error, and both replicate designs
+are being measured again with the directions frozen as registered.
 
 \begin{figure}[t]
 \centering
@@ -424,8 +433,9 @@ Flips A and B & \path{ot_figures.ipynb}, roles on branch \path{prespec/ot-notebo
 Boundary of Flip B & \path{ot_boundary.py}, \path{boundary_predictions.json}, \path{7332b8c} & \path{boundary_score.py} (\path{86eccd7}), \path{daca788} & C1 pass, C2 fail, C3 pass, C5 fail\\
 Gaussian departure & \path{ot_gaussianity.py} (\path{1441065}), \path{gauss_predictions.json} (\path{ec3300d}) & \path{gauss_score.py}, \path{9f2a61b} & R1 pass, R2 vacuous, K1 fail, B1 pass, B2 pass, B3 6 of 6\\
 Gaussian scope & \path{ot_scope.py} (\path{74c446d}), \path{scope_predictions.json} (\path{9f5f2ca}), correction note \path{15cca7b} & \path{scope_score.py}, \path{c14e579} & S0 6 of 6, S1 pass, S2 fail, S3 pass, S4a pass, S4b pass, K1 pass, M1 fail, E1 fail, E2 fail, E3 pass\\
-Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass\\
-Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script & pending\\
+Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass; rotated views confounded by a design error, re-run registered\\
+Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script, \path{d5ff89c} & P1c pass, P1r fail, SH pass, D1 fail, A1 pass; confounded by the same design error, re-run registered\\
+Design correction & \path{ot_crossfit_c.py} & built into the script & pending\\
 \hline
 \end{tabular}
 \end{table}
