@@ -2,9 +2,11 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{xr}
 \externaldocument[P-]{tit-rate-leakage}
 \usepackage[hidelinks]{hyperref}
+\def\UrlBreaks{\do\_\do\.\do\-\do\/}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\E}{\mathbb{E}}
@@ -95,7 +97,7 @@ observer's reconstruction requires. The following table records the
 correspondence.
 
 \begin{center}
-\begin{tabular}{ll}
+\begin{tabular}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}p{7.2cm}}
 \hline
 Observation Theory & Companion paper \\
 \hline
@@ -238,9 +240,21 @@ routing study. For each dataset the roles were fixed before any outcome
 was computed and pushed to the public repository on 2 October 2026, and
 the run started a minute after the push, as the notebook records. Predictions use the
 second-order statistics of a training half. Outcomes use real 3-bit
-quantizers on a held-out half, and leakage is the cross-entropy of the
-best of three classifiers that predict the code from the second party's
-view.
+quantizers on a held-out half. On real data the conditional leakage
+$H(M\mid S)$ of a code $M$ cannot be computed, and every measured leakage
+in this section is a proxy for it, the cross-entropy of the best of three
+classifiers $q(m\mid s)$ that predict the code from the second party's
+view. Its population value is
+\[
+\E[-\log_2 q(M\mid S)]=H(M\mid S)+\E_S\,D\bigl(p(M\mid S)\,\big\|\,q(M\mid S)\bigr),
+\]
+so it adds the classifier's error to the leakage, and the difference of
+two proxies mixes a difference of conditional entropies with a
+difference of classifier errors. In these runs the classifier was also
+chosen on the same held-out samples on which its loss was reported. The
+ordering of two proxies therefore does not establish the ordering of the
+true conditional entropies, and the claims below are claims about the
+proxy.
 
 The single-party flip holds in all eleven datasets. At matched bits, the
 code that reconstructs the whole source worse serves the decoder better.
@@ -251,9 +265,10 @@ whole-source half is noisy below 30 degrees.
 
 The two-observer flip holds at all three budgets in eight datasets and
 at two of three in a ninth. At matched bits, the code that reconstructs
-the decoder's target worse conveys less to the second party. It fails in
-two datasets, a wine-quality table with a discrete target and the
-175-row Topology Zoo table, where the leakage-aware code conveyed more.
+the decoder's target worse has the lower leakage proxy at the second
+party. It fails in two datasets, a wine-quality table with a discrete
+target and the 175-row Topology Zoo table, where the leakage-aware code
+had the higher proxy.
 Across 115 choices of what the second party sees, the predicted
 correlation ranks the leakage removed with a Spearman correlation of
 0.62, with a residual at zero correlation. Two further predictions were
@@ -332,10 +347,11 @@ the smallest slack in 4 of 4 cases and the first-order family rising
 above it in 4 of 5. The near-boundary criterion failed for the third
 time, at 35 percent of 23 cases, so it fails inside the scope as well as
 outside it. The registration also tested the deduced account of the
-misses. The error of a leakage prediction splits exactly into a
-marginal defect, the mismatch between a code's cell occupancy and its
-Gaussian design, and a dependence defect, the information the view
-carries beyond its linear correlation. On the 20 earlier sources the
+misses. The error of a leakage prediction, measured against the true
+conditional entropy, splits exactly into a marginal defect, the mismatch
+between a code's cell occupancy and its Gaussian design, and a
+dependence defect, the information the view carries beyond its linear
+correlation. The proxy adds the classifier's error to both. On the 20 earlier sources the
 marginal defect accounted for most of the error. On the new data,
 correcting for it did not lower the mean miss, which was 0.096 bit
 against 0.092 without the correction. Codes with equal cell occupancy
@@ -347,8 +363,9 @@ squared difference of the two codes' dependence defects as the predictor
 of the remaining misses. It did not hold across datasets there and was
 only reported, but on the new data it classified 86 percent of cases
 correctly, against 63 percent for always predicting no miss. Outside the Gaussian scope the dependence
-defect is therefore the larger unexplained term, and the marginal
-account of the misses holds only in part.
+defect, or the classifier error that the proxy adds, is therefore the
+larger unexplained term, and the marginal account of the misses holds
+only in part.
 
 A fourth registration asked why the near-boundary criterion keeps
 failing. One account held that its standard error, a bootstrap over the
@@ -368,9 +385,11 @@ within 0.006 bit of the prediction, and every single measurement is
 within two standard errors of it. On real data inside the scope the
 predicted removals of about 0.04 bit do not appear. The mean over splits
 sits near zero, and in 80 percent of cases it lies more than three
-standard errors from the prediction. The theory is exact near the
-boundary on Gaussian data and overpredicts small removals on real data,
-even inside its scope. A fifth registration tests the corrected
+standard errors from the prediction. So on Gaussian data the proxy
+matches the prediction near the boundary, and on real data inside the
+scope it falls systematically short of it. These runs do not separate a
+misspecified Gaussian model from unequal classifier errors on the two
+codes, and the cause of the shortfall is open. A fifth registration tests the corrected
 criterion against the prediction, and whether the shortfall on real data
 is a fixed offset or a proportional attenuation.
 
@@ -383,6 +402,39 @@ decoder task. The decoder's gain (left) and the whole-source loss
 predicts alignment, and grow with the predicted angle.}
 \label{fig:flipA}
 \end{figure}
+
+\paragraph{Experiment ledger.} The companion notebook covers the first
+campaign only. Table~\ref{tab:ledger} lists every registration with the
+commit at which its code and predictions were frozen and the commit of
+its scored outcome, all in the public repository under
+\texttt{paper/tit-rate-leakage}.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Registrations of the empirical campaign. Verdicts are as scored
+by the frozen scripts. Every leakage is the classifier cross-entropy
+proxy described in Section~\ref{sec:data}.}
+\label{tab:ledger}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{4.6cm}}
+\hline
+Registration & Frozen code and predictions & Scoring and outcome & Verdicts\\
+\hline
+Flips A and B & \path{ot_figures.ipynb}, roles on branch \path{prespec/ot-notebook-2026-10-01} & notebook record, \path{9ffbd20} & Flip A 11 of 11, Flip B 8 of 11, onset refuted\\
+Boundary of Flip B & \path{ot_boundary.py}, \path{boundary_predictions.json}, \path{7332b8c} & \path{boundary_score.py} (\path{86eccd7}), \path{daca788} & C1 pass, C2 fail, C3 pass, C5 fail\\
+Gaussian departure & \path{ot_gaussianity.py} (\path{1441065}), \path{gauss_predictions.json} (\path{ec3300d}) & \path{gauss_score.py}, \path{9f2a61b} & R1 pass, R2 vacuous, K1 fail, B1 pass, B2 pass, B3 6 of 6\\
+Gaussian scope & \path{ot_scope.py} (\path{74c446d}), \path{scope_predictions.json} (\path{9f5f2ca}), correction note \path{15cca7b} & \path{scope_score.py}, \path{c14e579} & S0 6 of 6, S1 pass, S2 fail, S3 pass, S4a pass, S4b pass, K1 pass, M1 fail, E1 fail, E2 fail, E3 pass\\
+Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass\\
+Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script & pending\\
+\hline
+\end{tabular}
+\end{table}
+
+The deduction of the two defects (\texttt{DEDUCTION-gaussian-defect-2026-10-02.md},
+\texttt{c9fcc18}) was committed before it was computed. The mining and
+symbolic-regression runs that followed it (\texttt{ot\_mining.py},
+\texttt{ot\_radar\_induction.py}) are exploratory and are not
+registrations.
 
 \section{What does not need Observation Theory}
 \label{sec:standard}
@@ -408,15 +460,19 @@ one it is not. Observation Theory asks the same questions of more.
 
 \emph{Several holders.} With holders that see different views, the
 content conveyed to each is a separate cost, and the frontier becomes a
-surface. Whether the tilt of \Th{thm:tilted} becomes a sum of tilts, one
-per holder, and whether the optimal direction can turn toward one holder
-and away from another, is open.
+surface. A weighted Gaussian objective already gives a sum of tilts, one
+per holder, by the argument of \Th{thm:tilted}. The open questions are
+operational and geometric. Whether every point of that surface is
+achievable needs a coding theorem for several holders at once, and
+whether it has explicit solutions, for instance a direction that turns
+toward one holder and away from another, is not known.
 
 \emph{Observers on both sides.} When the decoder also has side
 information and neither side dominates, the second auxiliary of the
 secure source coding region can matter. Xu, Chen, Chen, and Jin
-\cite{xu2024} establish that Gaussian auxiliaries are optimal under a
-matrix distortion and full-rank views. Whether the observer effects of
+\cite{xu2024} characterize the region under a matrix distortion on the
+whole source, stated in the preprint for full-rank views of both
+receivers. Whether the observer effects of
 Sections~\ref{sec:geometry} and~\ref{sec:augmented} survive under
 constraints that leave a choice of error covariance, such as a weighted
 total distortion, and a rank-deficient holder is the main open question.
