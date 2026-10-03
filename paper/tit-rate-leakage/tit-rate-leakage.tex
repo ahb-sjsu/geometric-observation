@@ -1577,9 +1577,9 @@ auxiliaries are what makes the region hard to evaluate. Xu, Chen, Chen,
 and Jin \cite{xu2024} characterize the region under a matrix distortion on
 the whole source, and in the preprint version \cite{xuchen2021}, which is
 the version we checked, the characterization is stated for full-rank side
-informations. Under a weighted distortion we do not settle whether
-Gaussian auxiliaries are optimal. The two
-degraded cases are explicit.
+informations. This paper does not settle whether jointly Gaussian
+auxiliaries suffice under a weighted distortion with possibly
+rank-deficient observations. The two degraded cases are explicit.
 
 For Gaussian linear observations the information matrices order the
 side informations. If $J_S\preceq J_C$, the sufficient statistic
@@ -1729,8 +1729,10 @@ So a decoder that knows more than the holder removes the tradeoff, and
 a holder that knows more than the decoder leaves exactly the problem of
 the preceding sections for the source as the decoder already knows it,
 with the holder's excess information in place of its total. When
-neither dominates, the auxiliary $V_0$ can matter and the exact region is
-open, but Proposition~\ref{prop:decbounds} below brackets it.
+neither dominates, the auxiliary $V_0$ can matter, and this paper gives
+the region only through bounds. Proposition~\ref{prop:decbounds} below
+brackets it between a Gaussian inner bound and two outer bounds that are
+tight in the degraded cases.
 
 The construction before Lemma~\ref{lem:mmsecomp} applies to any two
 Gaussian observations of $T$ with information matrices $J\preceq J'$, so
@@ -1899,8 +1901,12 @@ structure. It is a convex program in the error covariance, it has a closed form 
 one-dimensional case, and its directions turn with the budget exactly
 when the two parties' geometries are not aligned. Several problems remain
 open. With side information at the decoder, the region is proved for
-the continuous source and the degraded cases are settled here. When
-neither side information dominates, the second auxiliary can matter.
+the continuous source, the degraded cases are settled, and the general
+case is bracketed by Proposition~\ref{prop:decbounds}. When neither side
+information dominates, two questions are left. One is whether jointly
+Gaussian auxiliaries suffice under a weighted distortion. The other is
+the structure and explicit solution of the resulting program in two
+auxiliaries.
 Under a matrix distortion on the whole source, Xu, Chen, Chen, and Jin
 \cite{xu2024} characterize the region. Whether their two-precision
 program, in the form of the preprint \cite{xuchen2021}, under a
