@@ -134,6 +134,44 @@ jobs:
             echo "No undefined references or citations in any GO-series or draft document."
           fi
           exit $rc
+      # The rate-leakage T-IT manuscript and its OT supplement (added 2026-10-02).
+      # The supplement cross-references the manuscript through xr
+      # (\externaldocument[P-]{tit-rate-leakage}), so the manuscript is compiled
+      # first and its .aux must exist when the supplement compiles.
+      - name: Compile the rate-leakage manuscript (tit-rate-leakage.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: tit-rate-leakage.tex
+          working_directory: paper/tit-rate-leakage
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Compile the OT supplement (supplement-ot.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: supplement-ot.tex
+          working_directory: paper/tit-rate-leakage
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (rate-leakage manuscript and supplement)
+        run: |
+          cd paper/tit-rate-leakage
+          rc=0
+          for f in tit-rate-leakage supplement-ot; do
+            if [ ! -f "$f.log" ]; then
+              echo "::error::$f.log is missing -- the document did not compile"
+              rc=1
+              continue
+            fi
+            if grep -qiE "there were undefined (references|citations)" "$f.log"; then
+              echo "::error::Undefined references or citations in $f.log"
+              grep -iE "warning:.*undefined|there were undefined" "$f.log" || true
+              rc=1
+            fi
+          done
+          if [ $rc -eq 0 ]; then
+            echo "No undefined references or citations in the rate-leakage manuscript or its supplement."
+          fi
+          exit $rc
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:
@@ -159,4 +197,6 @@ jobs:
             paper/ieee/cover-letter.pdf
             paper/*.pdf
             paper/ieee/graphical-abstract.pdf
+            paper/tit-rate-leakage/tit-rate-leakage.pdf
+            paper/tit-rate-leakage/supplement-ot.pdf
           if-no-files-found: warn
