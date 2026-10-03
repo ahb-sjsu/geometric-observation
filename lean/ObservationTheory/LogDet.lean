@@ -177,4 +177,55 @@ theorem neg_log_det_convex {X Y : Matrix n n ℝ} (hX : X.PosDef) (hY : Y.PosDef
   have := log_det_concave hX hY ht0 ht1
   linarith
 
+/-! ### The leakage part of Theorem convex -/
+
+/-- Every positive definite real matrix has a symmetric square root with a symmetric inverse. -/
+theorem exists_sqrt {X : Matrix n n ℝ} (hX : X.PosDef) :
+    ∃ S Si : Matrix n n ℝ, S * S = X ∧ S * Si = 1 ∧ Si * S = 1 ∧ Siᴴ = Si ∧ Sᴴ = S := by
+  set d := hX.1.eigenvalues with hd_def
+  set U := hX.1.eigenvectorUnitary with hU_def
+  have hdpos : ∀ i, 0 < d i := fun i => hX.eigenvalues_pos i
+  have hXs : X = (U : Matrix n n ℝ) * diagonal d * star (U : Matrix n n ℝ) := by
+    rw [hd_def, hU_def]
+    conv_lhs => rw [hX.1.spectral_theorem]
+    simp [RCLike.ofReal_real_eq_id, Unitary.conjStarAlgAut_apply]
+  have hsq : ∀ i, Real.sqrt (d i) * Real.sqrt (d i) = d i := fun i => Real.mul_self_sqrt (hdpos i).le
+  have hsqpos : ∀ i, 0 < Real.sqrt (d i) := fun i => Real.sqrt_pos.mpr (hdpos i)
+  refine ⟨(U : Matrix n n ℝ) * diagonal (fun i => Real.sqrt (d i)) * star (U : Matrix n n ℝ),
+    (U : Matrix n n ℝ) * diagonal (fun i => (Real.sqrt (d i))⁻¹) * star (U : Matrix n n ℝ), ?_, ?_, ?_,
+    conj_diag_herm U _, conj_diag_herm U _⟩
+  · rw [conj_diag_mul, hXs]; simp only [hsq]
+  · rw [conj_diag_mul]
+    have : (fun i => Real.sqrt (d i) * (Real.sqrt (d i))⁻¹) = fun _ => (1 : ℝ) := by
+      funext i; exact mul_inv_cancel₀ (hsqpos i).ne'
+    rw [this, diagonal_one, Matrix.mul_one]; exact Unitary.mul_star_self_of_mem U.2
+  · rw [conj_diag_mul]
+    have : (fun i => (Real.sqrt (d i))⁻¹ * Real.sqrt (d i)) = fun _ => (1 : ℝ) := by
+      funext i; exact inv_mul_cancel₀ (hsqpos i).ne'
+    rw [this, diagonal_one, Matrix.mul_one]; exact Unitary.mul_star_self_of_mem U.2
+
+/-- **Loewner monotonicity of det.** If A is positive definite and B - A is positive semidefinite, then
+det A ≤ det B. -/
+theorem det_le_det_of_loewner {A B : Matrix n n ℝ} (hA : A.PosDef) (hBA : (B - A).PosSemidef) :
+    A.det ≤ B.det := by
+  obtain ⟨S, Si, hSS, hSSi, hSiS, hSiH, hSH⟩ := exists_sqrt hA
+  set N := Si * (B - A) * Si with hN
+  have hNpsd : N.PosSemidef := by
+    have := hBA.conjTranspose_mul_mul_same Si
+    rwa [hSiH] at this
+  have hB : B = S * ((1 : ℝ) • (1 : Matrix n n ℝ) + (1 : ℝ) • N) * S := by
+    have hSNS : S * N * S = B - A := by
+      rw [hN]
+      calc S * (Si * (B - A) * Si) * S = (S * Si) * (B - A) * (Si * S) := by simp only [Matrix.mul_assoc]
+        _ = B - A := by rw [hSSi, hSiS, Matrix.one_mul, Matrix.mul_one]
+    rw [one_smul, one_smul, Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, hSS, hSNS]
+    abel
+  have hdet1 : 1 ≤ ((1 : ℝ) • (1 : Matrix n n ℝ) + (1 : ℝ) • N).det := by
+    rw [det_affine_herm hNpsd.1]
+    exact Finset.one_le_prod (fun i _ => by have := hNpsd.eigenvalues_nonneg i; linarith)
+  have hS2 : S.det * S.det = A.det := by rw [← det_mul, hSS]
+  have hA0 : 0 < A.det := hA.det_pos
+  rw [hB, det_mul, det_mul]
+  nlinarith [hdet1, hS2, hA0]
+
 end ObservationTheory.LogDet
