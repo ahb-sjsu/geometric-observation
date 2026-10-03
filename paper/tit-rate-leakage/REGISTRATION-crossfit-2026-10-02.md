@@ -51,8 +51,12 @@ scoring script on the re-measured file.
 The Gaussian-departure scores take Gamma from the frozen predictions file,
 so they are unchanged.
 
-**Phase B (later).** Registrations 4 and 5 use replicate splits and need
-several hours.
+**Phase B.** Registrations 4 and 5 use replicate splits and need several
+hours. The code is `ot_crossfit_b.py`, registered before phase A finished and
+before any phase B number existed. It uses the same protocol, case rules,
+replicate seeds and criteria. Registration 4 is scored by a verbatim copy of
+its scoring block, with the phase A cross-fitted value as the seed-0
+measurement. Registration 5 is scored by `ot_nearboundary.score`.
 
 ## How results are reported
 
