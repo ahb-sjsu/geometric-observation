@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\E}{\mathbb{E}}
+\title{Gaussian auxiliaries are optimal for the rate--leakage region with decoder side information and a weighted distortion\\[4pt]\large Working note, 2 October 2026, not yet refereed}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\noindent This note extends the companion manuscript \emph{Rate, Leakage, and Distortion for Gaussian Sources} (tit-rate-leakage.tex, Section on decoder side information and Proposition decbounds) and uses its notation. Its only outside ingredient is the single-letter extremal inequality of Xu and Chen \cite[Theorem~4, eq.~(200)]{xuchen2021}, together with the chain-rule identities of their eqs.~(196)--(199). Their operational characterization of the matrix-distortion region is not used, because its converse rests on a discrete-alphabet single-letterization \cite[eq.~(196), citing Villard and Piantanida]{xuchen2021}. The continuous-source single-letterization is taken from the manuscript's Theorem decregion instead. The equation numbers are those of the preprint. The published version \cite{xu2024} describes its proofs as simplified and corrected and has not been checked against the form used here.
+
+\section{Setting and the Gaussian program}
+
+A jointly Gaussian source $T\sim\mathcal N(0,\Sigma_T)$, $\Sigma_T\succ0$, is described by a deterministic encoder $M=f_n(T^n)$. The decoder sees $(M,C^n)$ and must reproduce $Y=FT$ under the weighted distortion with weight $Q=F^{\mathsf T}WF$, $W\succ0$. The holder sees $S^n$. The side informations are linear Gaussian observations of $T$ with information matrices $J_C,J_S\succeq0$, and $C$ and $S$ are conditionally independent given $T$. Rate, distortion, and leakage $L_n=\tfrac1nH(M\mid S^n)$ are as in the manuscript, and $\mathcal A(D)$ is the closure of the set of pairs $(R,L)$ achievable at distortion $D$. Write $\Sigma_{T\mid C}=(\Sigma_T^{-1}+J_C)^{-1}$ and assume $0<D<\tr(Q\Sigma_{T\mid C})$.
+
+For matrices $0\prec B\preceq A\preceq\Sigma_T$ define, in bits,
+\begin{align*}
+r(A,B)&=\tfrac12\log\det\bigl(\Sigma_{T\mid C}(B^{-1}+J_C)\bigr),\\
+\ell(A,B)&=r(A,B)+\tfrac12\log\frac{\det(I+J_C\Sigma_T)}{\det(I+J_CA)}-\tfrac12\log\frac{\det(I+J_S\Sigma_T)}{\det(I+J_SA)},\\
+\Lambda(B)&=(B^{-1}+J_C)^{-1}=B(I+J_CB)^{-1}.
+\end{align*}
+For a jointly Gaussian pair $V_0\subseteq V$ (that is, $V_0$ a sub-vector of $V$) with $V-T-(C,S)$, $A=\Cov(T\mid V_0)$, and $B=\Cov(T\mid V)$, these are $I(T;V\mid C)$, $I(T;V\mid C)+I(V_0;C)-I(V_0;S)$, and $\Cov(T\mid V,C)$, because $I(V_0;C)=I(T;C)-I(T;C\mid V_0)$ and similarly for $S$. The \emph{Gaussian region} is
+\[
+\mathcal G(D)=\overline{\operatorname{conv}}\bigl\{(r(A,B),\ell(A,B)):0\prec B\preceq A\preceq\Sigma_T,\ \tr(Q\Lambda(B))\le D\bigr\}+\mathbb R_+^2,
+\]
+and for a matrix $\Lambda_0\succeq0$ the matrix-distortion Gaussian region $\mathcal G_{\mathrm m}(\Lambda_0)$ is defined the same way with the constraint $\Lambda(B)\preceq\Lambda_0$ (it is empty when $\Lambda_0$ is singular). Both are closed, because the closed convex hull is bounded below ($r\ge0$ and $\ell\ge0$) and adding $\mathbb R_+^2$ to a closed set bounded below keeps it closed. They are convex and closed upward in $(R,L)$.
+
+\begin{theorem}\label{thm:main}
+For all $J_C,J_S\succeq0$ and all $D>0$, $\mathcal A(D)=\mathcal G(D)$.
+\end{theorem}
+
+\section{Proof}
+
+\begin{lemma}[Inner bound]\label{lem:inner}
+$\mathcal G(D)\subseteq\mathcal A(D)$.
+\end{lemma}
+
+\begin{proof}
+Given $0\prec B\preceq A\preceq\Sigma_T$, let $V_0=G_0T+N_0$ with $G_0^{\mathsf T}G_0=A^{-1}-\Sigma_T^{-1}$ and unit noise, so $\Cov(T\mid V_0)=A$, and let $V=(V_0,G_1T+N_1)$ with $G_1^{\mathsf T}G_1=B^{-1}-A^{-1}\succeq0$ and an independent unit noise, so $\Cov(T\mid V)=B$. All noises are independent of $(T,C,S)$, so $V_0-V-T-(C,S)$ and $I(T;V)<\infty$. Proposition decbounds(a) of the manuscript then makes $(r,\ell)$ achievable at distortion $\tr(Q\Lambda(B))$. Pairs above an achievable pair are achievable, time sharing gives convex combinations, and $\mathcal A(D)$ is closed by definition.
+\end{proof}
+
+\begin{lemma}[Continuity]\label{lem:cont}
+Let the parameters $p=(J_C,J_S,D)$ or $p=(J_C,J_S,\Lambda_0)$ converge, $p_k\to p$, and let $(R,L)\in\mathcal G(p_k)$ for all $k$ (with the corresponding constraint). Then $(R,L)\in\mathcal G(p)$.
+\end{lemma}
+
+\begin{proof}
+On the compact set $\Theta=\{0\preceq B\preceq A\preceq\Sigma_T\}$, the map $(A,B)\mapsto\Lambda(B)=B(I+J_CB)^{-1}$ is continuous jointly with $J_C$, so the constraint set is closed. The two log-determinant ratios in $\ell$ are continuous on $\Theta$ jointly with $(J_C,J_S)$ and bounded in absolute value by $\tfrac12\log\det(I+J_C\Sigma_T)+\tfrac12\log\det(I+J_S\Sigma_T)$. Writing $r=\tfrac12\log\det\Sigma_{T\mid C}+\tfrac12\log\det(I+J_CB)-\tfrac12\log\det B$ shows that $r$, extended by $+\infty$ where $\det B=0$, is lower semicontinuous on $\Theta$ jointly with $J_C$, and so is $\ell$. Both are bounded below by a constant $-c$ uniform over a neighbourhood of $p$, since $r\ge0$ and the ratios are bounded.
+
+By Carath\'eodory's theorem in $\mathbb R^2$ and the definition of the closure, for each $k$ there are $(A_j^k,B_j^k)$ feasible for $p_k$ and weights $w_j^k\ge0$ summing to one, $j=1,2,3$, with $\sum_jw_j^k(r,\ell)(A_j^k,B_j^k;p_k)\le(R,L)+(1/k,1/k)$ componentwise. Pass to a subsequence along which $(A_j^k,B_j^k)\to(\bar A_j,\bar B_j)\in\Theta$ and $w_j^k\to\bar w_j$. Each limit point is feasible for $p$ by closedness. For $j$ with $\bar w_j>0$, lower semicontinuity gives $(r,\ell)(\bar A_j,\bar B_j;p)\le\liminf(r,\ell)(A_j^k,B_j^k;p_k)$, and the terms with $\bar w_j=0$ contribute at least $-cw_j^k\to0$. Hence $\sum_j\bar w_j(r,\ell)(\bar A_j,\bar B_j;p)\le(R,L)$, which forces $\det\bar B_j>0$ whenever $\bar w_j>0$, and $(R,L)\in\mathcal G(p)$.
+\end{proof}
+
+\begin{lemma}[Monotonicity]\label{lem:mono}
+If $J_C\preceq J_C'$ and $J_S\preceq J_S'$, then $\mathcal A(D;J_C,J_S)\subseteq\mathcal A(D;J_C',J_S')$.
+\end{lemma}
+
+\begin{proof}
+This is the argument of Proposition decbounds(b) and (c) of the manuscript, applied in turn. A decoder that sees an observation with information $J_C'$ can simulate one with information $J_C$, after which derandomization leaves a deterministic decoder with no larger distortion and the same leakage. A holder with information $J_S'$ can simulate one with information $J_S$, so $H(M\mid S'^n)\le H(M\mid S^n)$ for every code.
+\end{proof}
+
+\begin{lemma}[Single-letter extremal bound]\label{lem:full}
+Let $J_C\succ0$, $J_S\succ0$, $\Lambda_0\succ0$, and $\mu\ge0$. For every $V_0-V-T-(C,S)$ with $I(T;V)<\infty$ and $\E\Cov(T\mid V,C)\preceq\Lambda_0$,
+\[
+\mu\,I(T;V\mid C)+\bigl[I(T;V\mid C)+I(V_0;C)-I(V_0;S)\bigr]\ \ge\ \min\bigl\{\mu r(A,B)+\ell(A,B):\ 0\prec B\preceq A\preceq\Sigma_T,\ \Lambda(B)\preceq\Lambda_0\bigr\}.
+\]
+\end{lemma}
+
+\begin{proof}
+With $J_C\succ0$ the statistic $Y=J_C^{-1}H_C^{\mathsf T}\Sigma_{N_C}^{-1}C$ is sufficient for $T$ in $C$ and equals $T+N_Y$ with $\Cov N_Y=J_C^{-1}$, and likewise $S$ reduces to $Z=T+N_Z$ with $\Cov N_Z=J_S^{-1}$. Since $V_0-V-T-(C,S)$ and $C$ given $Y$ is independent of $T$, every term on the left is unchanged when $C$ and $S$ are replaced by $Y$ and $Z$, and so is $\E\Cov(T\mid V,C)$. This is the setting of \cite[Sec.~V]{xuchen2021} with $X=T$, $K=\Sigma_T$, $K_Y=J_C^{-1}$, $K_Z=J_S^{-1}$, $U=V_0$, and distortion matrix $\Lambda_0$. By the chain rule, as in their eqs.~(196)--(199), the left side equals
+\[
+-(\mu+1)h(T\mid Y,V)+h(T\mid Y,V_0)-h(T\mid Z,V_0)+c_\mu,
+\]
+with a constant $c_\mu$ depending only on $\mu$ and the source. Their extremal inequality \cite[Theorem~4, eq.~(200)]{xuchen2021} bounds this from below by the value of their program (189) at its minimizer $(B_1^*,B_2^*)$. The substitution $A^{-1}=\Sigma_T^{-1}+B_2$, $B^{-1}=\Sigma_T^{-1}+B_1+B_2$ maps $\{B_1,B_2\succeq0,\ B_1+B_2\succeq\Lambda_0^{-1}-\Sigma_T^{-1}-J_C\}$ bijectively onto $\{0\prec B\preceq A\preceq\Sigma_T,\ \Lambda(B)\preceq\Lambda_0\}$, and it maps the objective of (189), plus the same constant $c_\mu$, to $\mu r(A,B)+\ell(A,B)$, because $\log\det(I+J_CA)=\log\det A+\log\det(A^{-1}+J_C)$ and similarly for $J_S$, so the terms in $\log\det A$ cancel.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Lemma~\ref{lem:inner} gives $\mathcal G(D)\subseteq\mathcal A(D)$.
+
+\emph{Full rank.} Let $J_C,J_S\succ0$ and let $(R,L)$ be achievable at $D$. By the manuscript's Theorem decregion, for every $\epsilon>0$ there are $V_0-V-T-(C,S)$ with $I(T;V)<\infty$ and a reconstruction from $(V,C)$ with distortion at most $D+\epsilon$, such that $R+\epsilon\ge I(T;V\mid C)$ and $L+\epsilon\ge I(T;V\mid C)+I(V_0;C)-I(V_0;S)$. Let $\Lambda_0=\E\Cov(T\mid V,C)$. The distortion is at least $\tr(Q\Lambda_0)$, so $\tr(Q\Lambda_0)\le D+\epsilon$, and $\Lambda_0\succ0$ because $I(T;V\mid C)<\infty$ (proof of the manuscript's Theorem decsi). By Lemma~\ref{lem:full}, $\mu(R+\epsilon)+(L+\epsilon)$ is at least the least value of $\mu R'+L'$ over $\mathcal G_{\mathrm m}(\Lambda_0)$ for every $\mu\ge0$. Dividing by $\mu$ and letting $\mu\to\infty$ gives the same for the direction $(1,0)$. Every other direction has infimum $-\infty$ over both $\{(R+\epsilon,L+\epsilon)\}+\mathbb R_+^2$ and $\mathcal G_{\mathrm m}(\Lambda_0)$, and a closed convex set that is closed upward is the intersection of its supporting half-planes in the directions $(\mu,1)$, $\mu\ge0$, and $(1,0)$. Hence $(R+\epsilon,L+\epsilon)\in\mathcal G_{\mathrm m}(\Lambda_0)\subseteq\mathcal G(D+\epsilon)$, and Lemma~\ref{lem:cont} with $\epsilon\to0$ gives $(R,L)\in\mathcal G(D)$.
+
+\emph{General $J_C,J_S$.} For $\epsilon>0$, Lemma~\ref{lem:mono} and the full-rank case give $\mathcal A(D;J_C,J_S)\subseteq\mathcal A(D;J_C+\epsilon I,J_S+\epsilon I)=\mathcal G(D;J_C+\epsilon I,J_S+\epsilon I)$. Letting $\epsilon\to0$, Lemma~\ref{lem:cont} gives $\mathcal A(D)\subseteq\mathcal G(D)$. When $D\ge\tr(Q\Sigma_{T\mid C})$, the choice $A=B=\Sigma_T$ gives the pair $(0,0)$ and both regions are $\mathbb R_+^2$.
+\end{proof}
+
+\begin{remark}
+The theorem says that the second auxiliary of the manuscript's Theorem decregion can be taken jointly Gaussian and nested in the description for every pair of linear Gaussian observations and every weighted quadratic distortion. It reduces the open region of Proposition decbounds to a finite-dimensional program over $0\prec B\preceq A\preceq\Sigma_T$. That program is not convex in general, and its explicit solution, an analogue of the manuscript's tilted water-filling with two auxiliaries, is not given here. In the degraded cases the optimum can be taken with $A=\Sigma_T$ ($V_0$ constant) or $A=B$ ($V_0=V$), which recovers Theorem decsi. The weighted-to-matrix reduction is routine. What is new is the combination of the extremal inequality with the continuous-source single-letterization of the manuscript, and the extension to singular $J_C$, $J_S$, and $Q$ by enhancement and continuity.
+\end{remark}
+
+\begin{thebibliography}{9}
+\bibitem{xuchen2021} Y. Xu and G. Chen, ``New proofs of extremal inequalities with applications,'' arXiv:2109.00377, 2021.
+\bibitem{xu2024} Y. Xu, G. Chen, J. Chen, and S. Jin, ``New proofs of Gaussian extremal inequalities with applications,'' \emph{IEEE Trans. Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
+\end{thebibliography}
+\end{document}
