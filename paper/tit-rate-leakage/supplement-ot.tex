@@ -399,8 +399,28 @@ misspecified Gaussian model from unequal classifier errors on the two
 codes, and the cause of the shortfall is open. A fifth registration tests
 the corrected criterion against the prediction, and whether the
 shortfall on real data is a fixed offset or a proportional attenuation.
-Its replicate splits carried the same error, and both replicate designs
-are being measured again with the directions frozen as registered.
+Its replicate splits carried the same error. Both replicate designs were
+measured again with the directions frozen as registered, under the
+corrected protocol, and with three Gaussian controls set aside because
+their principal read is degenerate. The fourth registration's verdicts
+did not change. The spread across splits is 1.10 times the bootstrap
+error, and the mean over splits sits more than three standard errors
+from zero in 55 percent of cases, so the misses remain systematic rather
+than noise. Against the prediction, the corrected means fall short by a
+median of 0.003 bit on Gaussian controls, 0.010 bit on real data with a
+single-column view, and 0.018 bit on real data with a rotated view. In
+the fifth registration the corrected Gaussian controls agreed with every
+prediction, and the real in-scope cases with 65 percent of them, short of
+the registered 80. The median shortfall was $-0.001$ bit, so the
+systematic shortfall it had registered did not appear. Measured removal
+grew with predicted removal at a slope of $0.50$ with standard error
+$0.14$ and an intercept near zero, which meets the registered form of a
+proportional attenuation and not that of a fixed offset. The slope varies
+between datasets, and with standard errors clustered by dataset it is
+$0.50 \pm 0.19$, which would not meet that form. Near the boundary, on
+real data inside the scope, the proxy therefore follows the prediction
+with about half its slope and with no fixed offset, varying from one
+dataset to another.
 
 \begin{figure}[t]
 \centering
@@ -433,9 +453,9 @@ Flips A and B & \path{ot_figures.ipynb}, roles on branch \path{prespec/ot-notebo
 Boundary of Flip B & \path{ot_boundary.py}, \path{boundary_predictions.json}, \path{7332b8c} & \path{boundary_score.py} (\path{86eccd7}), \path{daca788} & C1 pass, C2 fail, C3 pass, C5 fail\\
 Gaussian departure & \path{ot_gaussianity.py} (\path{1441065}), \path{gauss_predictions.json} (\path{ec3300d}) & \path{gauss_score.py}, \path{9f2a61b} & R1 pass, R2 vacuous, K1 fail, B1 pass, B2 pass, B3 6 of 6\\
 Gaussian scope & \path{ot_scope.py} (\path{74c446d}), \path{scope_predictions.json} (\path{9f5f2ca}), correction note \path{15cca7b} & \path{scope_score.py}, \path{c14e579} & S0 6 of 6, S1 pass, S2 fail, S3 pass, S4a pass, S4b pass, K1 pass, M1 fail, E1 fail, E2 fail, E3 pass\\
-Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass; rotated views confounded by a design error, re-run registered\\
-Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script, \path{d5ff89c} & P1c pass, P1r fail, SH pass, D1 fail, A1 pass; confounded by the same design error, re-run registered\\
-Design correction & \path{ot_crossfit_c.py} & built into the script & pending\\
+Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass; rotated views confounded by a design error; corrected (\path{3638f05}): N1 fail, N2 fail, B1 pass\\
+Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script, \path{d5ff89c} & P1c pass, P1r fail, SH pass, D1 fail, A1 pass; confounded by the same design error; corrected (\path{8e0ce51}): P1c pass, P1r fail, SH fail, D1 fail, A1 pass\\
+Design correction & \path{ot_crossfit_c.py} (\path{ed41c48}) & built into the script, \path{3638f05}, \path{8e0ce51} & results in the two rows above\\
 \hline
 \end{tabular}
 \end{table}
