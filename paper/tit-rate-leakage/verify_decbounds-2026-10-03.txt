@@ -1,0 +1,13 @@
+PASS D1 outer <= inner: max(Lout - Lin) -1.44e-06 bits over 117 budgets
+   D=0.10: restricted inner (V_b constant or V) 3.0994  outer 2.1265 (enhanced decoder 2.0000, enhanced holder 2.1265)  gap 0.9730 bits
+   D=0.20: restricted inner (V_b constant or V) 1.7739  outer 1.2275 (enhanced decoder 1.0000, enhanced holder 1.2275)  gap 0.5464 bits
+   D=0.30: restricted inner (V_b constant or V) 0.7427  outer 0.7273 (enhanced decoder 0.4150, enhanced holder 0.7273)  gap 0.0155 bits
+   D=0.40: restricted inner (V_b constant or V) 0.4240  outer 0.4240 (enhanced decoder 0.0000, enhanced holder 0.4240)  gap 0.0000 bits
+   D=0.60: restricted inner (V_b constant or V) 0.1893  outer 0.1893 (enhanced decoder 0.0000, enhanced holder 0.1893)  gap 0.0000 bits
+   D=0.90: restricted inner (V_b constant or V) 0.0593  outer 0.0593 (enhanced decoder 0.0000, enhanced holder 0.0593)  gap 0.0000 bits
+   restricted gap: largest 1.1306 bits at D=0.02; gap below 1e-4 bit for D >= 0.33
+PASS D2 degraded J_S <= J_C: inner = outer(b): max difference 0.0e+00 bits (both are R_C(D))
+PASS D3 degraded J_C <= J_S: inner = outer(c): max |inner - outer(c)| 0.00e+00 bits
+PASS D4 closed-form enhancement dominates J_C and J_S: min eigenvalue of J' - J_C, J' - J_S: -3.42e-13
+PASS D5 example inner bound with V0 = V_b from generic log-determinants: max error 1.24e-13 bits over 400 descriptions
+FAILS: 0

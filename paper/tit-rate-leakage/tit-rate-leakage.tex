@@ -1699,8 +1699,127 @@ So a decoder that knows more than the holder removes the tradeoff, and
 a holder that knows more than the decoder leaves exactly the problem of
 the preceding sections for the source as the decoder already knows it,
 with the holder's excess information in place of its total. When
-neither dominates, the auxiliary $V_0$ can matter, and the region is
-beyond the methods of this paper.
+neither dominates, the auxiliary $V_0$ can matter and the exact region is
+open, but Proposition~\ref{prop:decbounds} below brackets it.
+
+The construction before Lemma~\ref{lem:mmsecomp} applies to any two
+Gaussian observations of $T$ with information matrices $J\preceq J'$, so
+the first can be simulated from the second. Write
+$\Sigma_{T\mid S}=(\Sigma_T^{-1}+J_S)^{-1}$ as before. For $J'\succeq J_C$
+write $\Sigma_{T\mid C'}=(\Sigma_T^{-1}+J')^{-1}$, let $R_{C'}(D)$ be the
+reverse water-filling value of Theorem~\ref{thm:decsi}(a) with
+$\Sigma_{T\mid C'}$ in place of $\Sigma_{T\mid C}$, set to $0$ when
+$D\ge\tr(Q\Sigma_{T\mid C'})$, and let $\RW_{J'}(D)$ be the region of
+Proposition~\ref{prop:posterior} for the source
+$\mathcal N(0,\Sigma_{T\mid C})$ with holder information $J'-J_C$ and
+weight $Q$. An observation with information $J'$ is realized as $BT+n$
+with $J'=B^{\mathsf T}B$ and unit noise, so Theorem~\ref{thm:decsi}
+applies to it as stated. For a jointly Gaussian description $V$ with
+$V-T-(C,S)$ write $\Sez=\Cov(T\mid V)$, so that
+$\Cov(T\mid V,C)=(\Sez^{-1}+J_C)^{-1}$ and
+$\Cov(T\mid V,S)=(\Sez^{-1}+J_S)^{-1}$.
+
+\begin{proposition}\label{prop:decbounds}
+Let $J_S$ and $J_C$ be arbitrary and $0<D<\tr(Q\Sigma_{T\mid C})$.
+\begin{enumerate}
+\item[(a)] (Inner bound.) Let $V=(V_a,V_b)$ be jointly Gaussian with
+$V-T-(C,S)$ and $\tr\bigl(Q(\Sez^{-1}+J_C)^{-1}\bigr)\le D$. The pair
+\[
+R=I(T;V\mid C),\qquad L=I(T;V\mid C)+I(V_b;C)-I(V_b;S)
+\]
+is achievable at distortion $D$. Each term is a ratio of Gaussian
+determinants. With $V_b$ constant, $L=R=\tfrac12\log\bigl(\det\Sigma_{T\mid C}\det(\Sez^{-1}+J_C)\bigr)$,
+and with $V_b=V$,
+$L=I(T;V\mid S)=\tfrac12\log\bigl(\det\Sigma_{T\mid S}\det(\Sez^{-1}+J_S)\bigr)$.
+Time sharing between achievable pairs, at distortions averaging to $D$,
+is achievable at $D$.
+\item[(b)] (Outer bound, enhanced decoder.) Every achievable pair has
+$R\ge R_C(D)$ and $L\ge R_{C'}(D)$ for every $J'$ with $J'\succeq J_C$ and
+$J'\succeq J_S$.
+\item[(c)] (Outer bound, enhanced holder.) Every achievable pair lies in
+$\RW_{J'}(D)$ for every $J'$ with $J'\succeq J_S$ and $J'\succeq J_C$.
+\end{enumerate}
+If $J_S\preceq J_C$, then (a) with $V_b$ constant and (b) with $J'=J_C$
+both give the region of Theorem~\ref{thm:decsi}(a). If $J_C\preceq J_S$,
+then (a) with $V_b=V$ and (c) with $J'=J_S$ both give the region of
+Theorem~\ref{thm:decsi}(b). Both bounds are therefore tight in both
+degraded cases.
+\end{proposition}
+
+\begin{proof}
+(a) Take $V_0=V_b$ and $\hat y=\E[Y\mid V,C]$ in
+Theorem~\ref{thm:decregion}. Then $V_0-V-T-(C,S)$, the distortion is
+$\tr\bigl(Q\Cov(T\mid V,C)\bigr)$, and the pair meets the theorem's two
+inequalities. With $V_b=V$ the leakage term is
+$I(T;V\mid C)+I(V;C)-I(V;S)=I(T;V)-I(V;S)=I(T;V\mid S)$. Every
+conditional mutual information of jointly Gaussian variables is a ratio
+of determinants of conditional covariances. Time sharing between two
+codes of the same blocklength averages their rates, distortions, and
+leakages.
+
+(b) The bound on $R$ is the rate bound in the proof of
+Theorem~\ref{thm:decsi}, together with the continuity of $R_C$. For the
+leakage, let $C'$ be an observation with information $J'$. A decoder that
+sees $C'$ can simulate $C$ and then run any decoder that sees $C$. The
+simulation noise is independent of everything else, and fixing a
+realization of it that does not increase the expected distortion leaves
+a deterministic decoder. So every code for the original problem is a code
+for the problem with $C'$, with the same rate, no larger distortion, and
+the same leakage, because the leakage does not depend on the decoder.
+Since $J_S\preceq J'$, Theorem~\ref{thm:decsi}(a) applies to that problem
+and gives $L\ge R_{C'}(D)$.
+
+(c) Let $S'$ be an observation with information $J'$. Since
+$J_S\preceq J'$, there is a channel from $S'$ to a variable $S''$, with
+noise independent of everything else, such that $(T,S'')$ has the law of
+$(T,S)$. Then $(M,S''^n)$ has the law of $(M,S^n)$ and $M-S'^n-S''^n$, so
+$H(M\mid S'^n)\le H(M\mid S''^n)=H(M\mid S^n)$ for every code. Its rate and
+distortion do not involve the holder, so every pair achievable with $S$
+is achievable with $S'$. Since $J_C\preceq J'$, Theorem~\ref{thm:decsi}(b)
+identifies the pairs achievable with $S'$ as $\RW_{J'}(D)$.
+
+For the degraded cases, the map $\Sez\mapsto(\Sez^{-1}+J_C)^{-1}$ is a
+bijection from $\{0\prec\Sez\preceq\Sigma_T\}$ onto
+$\{0\prec M\preceq\Sigma_{T\mid C}\}$, and pairs above an achievable pair
+are achievable. If $J_S\preceq J_C$, the pairs of (a) with $V_b$ constant
+include $(R_C(D),R_C(D))$, which with (b) at $J'=J_C$ gives
+Theorem~\ref{thm:decsi}(a). If $J_C\preceq J_S$, the pairs of (a) with
+$V_b=V$ are the coordinates \eqref{eq:posterior} of the conditioned
+problem at $\Sez=M$, because
+$(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Sigma_{T\mid S}$, and (c) at $J'=J_S$
+is the same region.
+\end{proof}
+
+The enhanced information matrices need not be found by search. When
+$J_C\succ0$, the matrix
+$J'=J_C^{1/2}\bigl(I+(J_C^{-1/2}J_SJ_C^{-1/2}-I)_+\bigr)J_C^{1/2}$, with
+$(\cdot)_+$ the positive part of a symmetric matrix, dominates both $J_C$
+and $J_S$, and it returns $J_C$ when $J_S\preceq J_C$ and $J_S$ when
+$J_C\preceq J_S$.
+
+The bounds can meet where neither side information dominates, and the
+second auxiliary is what makes them meet. Take $\Sigma_T=I_2$, a decoder
+that reproduces both coordinates ($Q=I_2$), decoder side information
+$J_C=\mathrm{diag}(4,0)$ on the first coordinate and holder information
+$J_S=\mathrm{diag}(0,4)$ on the second, and $J'=\mathrm{diag}(4,4)$,
+chosen directly because $J_C$ is singular. In (c) the matrices
+$\Sigma_{T\mid C}=\mathrm{diag}(0.2,1)$, $J'-J_C=\mathrm{diag}(0,4)$, and $Q$
+commute, so by Theorem~\ref{thm:commuting} applied through
+Theorem~\ref{thm:decsi}(b) diagonal error covariances are optimal, and the
+least leakage of (c) is the least value of
+$\tfrac12\log(0.2/m_1)+\tfrac12\log(0.8+0.2/m_2)$ over $m_1+m_2\le D$,
+$m_1\le0.2$. In (a) take independent Gaussian descriptions $V_a$ of the
+first coordinate and $V_b$ of the second. Since $(T_1,V_a,C)$ is
+independent of $(T_2,V_b,S)$, the leakage of (a) is
+$I(T_1;V_a\mid C)+I(T_2;V_b\mid S)$, which is the same function of the
+decoder's error variances $m_1,m_2$. So the inner and outer bounds
+coincide at every budget, and the least leakage of this problem is known
+exactly. For $D\ge0.331$ the optimum leaves the first coordinate to the
+decoder's side information and spends the whole budget on the second,
+with $L=\tfrac12\log_2(0.8+0.2/(D-0.2))$. The choices $V_b$ constant and
+$V_b=V$ do not reach this value at small budgets. At $D=0.1$ the least
+leakage is $2.13$ bits, and the better of those two choices gives
+$3.10$ bits.
 
 \section{Instances}
 \label{sec:examples}
@@ -2385,23 +2504,39 @@ fixed-gain identity in the proof of Lemma~\ref{lem:mmsecomp}, the
 reduction identity of Theorem~\ref{thm:decsi}(b), the determinant identity
 and the rank-one error covariance behind the substitution in its proof,
 and the degradedness map for a singular $J_C$. The Lean~4 module
-\texttt{lean/ObservationTheory/RateLeakage.lean} (Mathlib, fifteen lemmas,
-no \texttt{sorry}, only the standard axioms) machine-checks the same scalar
-steps, their scalar forms for Section~\ref{sec:decsi}, and the generic
-majorization--minimization inequality. The matrix-analytic results,
-Theorems~\ref{thm:convex} and~\ref{thm:tilted},
-Proposition~\ref{prop:rank}, the convergence part of
-Proposition~\ref{prop:mm}, and the coding theorem
-Theorem~\ref{thm:decregion}, are not formalized. Both outputs are recorded
+\texttt{lean/ObservationTheory/RateLeakage.lean} (Mathlib, eighteen
+theorems, no \texttt{sorry}, only the standard axioms) machine-checks the
+same scalar steps, their scalar forms for Section~\ref{sec:decsi}, the
+generic majorization--minimization inequality, and the linear-algebra
+step of Proposition~\ref{prop:rank} for real matrices of any size. That
+step says that if an invertible $P$ equals $\nu Q+\Theta$ and
+$\Theta(\Sigma_T-\Sez)=0$, then $\operatorname{rank}(\Sigma_T-\Sez)\le\operatorname{rank}Q$.
+The existence of the multipliers that produce it is not formalized, and
+neither are Theorems~\ref{thm:convex} and~\ref{thm:tilted}, the
+convergence part of Proposition~\ref{prop:mm}, or the coding theorem
+Theorem~\ref{thm:decregion}. The convexity results rest on the concavity
+of $\log\det$, which Mathlib does not yet provide. Both outputs are recorded
 in \texttt{symbolic\_and\_lean-2026-10-02.txt} and, with the checks for
 Section~\ref{sec:decsi}, in \texttt{symbolic\_and\_lean-decsi-2026-10-02.txt}.
+The current Lean build and axiom audit are recorded in
+\texttt{lean-2026-10-03.txt}.
 \texttt{verify\_decsi\_identities.py} checks the same identities on random
 matrices of dimension up to five, including singular $J_C$ and
 rank-deficient $H$. It checks the fixed-gain estimate of
 Lemma~\ref{lem:mmsecomp} by Monte Carlo on a sign-quantized description
 and the finite-alphabet leakage identity of Appendix~\ref{app:decsi} on
 random distributions. Its output is recorded in
-\texttt{verify\_decsi\_identities-2026-10-02.txt}. No proof depends on them. The instances
+\texttt{verify\_decsi\_identities-2026-10-02.txt}.
+\texttt{verify\_decbounds.py} computes the example after
+Proposition~\ref{prop:decbounds}. It checks that the outer bound never
+exceeds the inner bound restricted to $V_b$ constant or $V_b=V$, and it
+computes the inner bound with $V_b$ the description of the second
+coordinate from the determinants of the joint covariance of
+$(T,V,C,S)$, which agrees with the objective of the outer bound (c) to
+$10^{-12}$ bit. It also confirms that the bounds agree in the two
+degraded cases and checks on random matrices that the closed-form
+enhancement dominates both information matrices. Its output is recorded
+in \texttt{verify\_decbounds-2026-10-03.txt}. No proof depends on them. The instances
 illustrate theorems proved in the text.
 
 \section*{Acknowledgment}

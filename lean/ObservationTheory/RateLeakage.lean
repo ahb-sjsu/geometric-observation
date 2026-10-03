@@ -21,6 +21,10 @@ over ℝ with explicit hypotheses, the closed-form and scalar steps their proofs
 * `degraded_scalar`         degradedness: a = s/c maps c to s, and a² c ≤ s when s ≤ c.
 * `det_identity_scalar`     carry-over: h² x + σ = σ (1 + (h²/σ) x).
 * `rank_one_posterior`      carry-over: m - (a m)²/(a² m + v) = (1/m + a²/v)⁻¹.
+* `rank_le_of_stationarity` Proposition rank, linear-algebra step: P invertible, P = ν Q + Θ, Θ X = 0 imply
+                            rank X ≤ rank Q (with `rank_add_le'`, `rank_smul_le'`). The KKT conditions that produce
+                            P, Θ are not formalized. Mathlib (v4.32.2) has no concavity of log det, so the general
+                            convexity results are not formalized either.
 
 The coding theorem with decoder side information (Theorem decregion) is a limit argument and is not
 formalized; its matrix identities are checked symbolically (matlab_checks.m C12-C16) and numerically
@@ -152,5 +156,38 @@ theorem rank_one_posterior (m a v : ℝ) (hm : 0 < m) (hv : 0 < v) :
   have h2 : 0 < 1 / m + a ^ 2 / v := by positivity
   field_simp
   ring
+
+/-! ### Proposition rank: the linear-algebra step -/
+
+/-- The rank of a sum is at most the sum of the ranks. -/
+theorem rank_add_le' {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℝ) : (A + B).rank ≤ A.rank + B.rank := by
+  unfold Matrix.rank
+  rw [Matrix.mulVecLin_add]
+  calc Module.finrank ℝ (LinearMap.range (A.mulVecLin + B.mulVecLin))
+      ≤ Module.finrank ℝ ↥(LinearMap.range A.mulVecLin ⊔ LinearMap.range B.mulVecLin : Submodule ℝ (Fin n → ℝ)) :=
+        Submodule.finrank_mono (LinearMap.range_add_le _ _)
+    _ ≤ _ := Submodule.finrank_add_le_finrank_add_finrank _ _
+
+/-- Scaling does not raise the rank. -/
+theorem rank_smul_le' {n : ℕ} (c : ℝ) (A : Matrix (Fin n) (Fin n) ℝ) : (c • A).rank ≤ A.rank := by
+  unfold Matrix.rank
+  apply Submodule.finrank_mono
+  rintro y ⟨x, rfl⟩
+  exact ⟨c • x, by simp [Matrix.mulVec_smul, Matrix.smul_mulVec]⟩
+
+/-- Proposition rank, linear-algebra step: if an invertible P equals ν Q + Θ and Θ annihilates X (in the proof,
+P is the positive definite left side of the stationarity condition, Θ the multiplier of the cap, and
+X = Σ_T - Σ_e0), then rank X ≤ rank Q. The existence of the multipliers (KKT) is not formalized. -/
+theorem rank_le_of_stationarity {n : ℕ} (P Q Θ X : Matrix (Fin n) (Fin n) ℝ) (ν : ℝ)
+    (hP : IsUnit P.det) (hsum : P = ν • Q + Θ) (hker : Θ * X = 0) : X.rank ≤ Q.rank := by
+  have h1 : Θ.rank + X.rank ≤ n := by
+    simpa using Matrix.rank_add_rank_le_card_of_mul_eq_zero hker
+  have hPr : P.rank = n := by
+    have hu : IsUnit P := (Matrix.isUnit_iff_isUnit_det P).mpr hP
+    simpa using Matrix.rank_of_isUnit P hu
+  have h2 : P.rank ≤ Q.rank + Θ.rank := by
+    rw [hsum]
+    exact (rank_add_le' _ _).trans (Nat.add_le_add_right (rank_smul_le' ν Q) _)
+  omega
 
 end ObservationTheory.RateLeakage
