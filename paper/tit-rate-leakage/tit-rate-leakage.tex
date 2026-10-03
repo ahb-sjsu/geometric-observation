@@ -43,29 +43,26 @@ geometric-observation repository.}}
 An encoder observes a jointly Gaussian vector and describes part of it
 to a decoder under a weighted quadratic distortion. A second party
 holds a noisy linear observation of the source and never decodes. The
-description then has two costs, its rate and its conditional leakage to
-the second party, which is also the least rate at which that party can
-re-encode it. The single-letter region is known from secure source
-coding, and we determine its structure. In every geometry and at every
-budget, each frontier point is the fixed point of reverse water-filling
-on the decoder's weight tilted by the second party's information, and
-for a scalar second-party observation it reduces to two scalar
-equations. For a scalar described variable the frontier is a
-one-parameter curve of projection directions, located by one scalar
-root. The direction of the best one-dimensional description turns
-with the budget unless the two parties' geometries share it, while a
-description built for a single party keeps fixed directions, with an
-explicit lower bound on its excess leakage. When
-the optimal description is one-dimensional, which an explicit test
-certifies, the minimum leakage is a closed-form function of the largest
-eigenvalue of a matrix pencil in which the budget enters. The tradeoff
-exists because the distortion is a trace-type constraint. Under a matrix
-distortion on the whole source, one description minimizes both costs.
-When the decoder also has side information, we prove the region for the
-continuous source and settle the two degraded cases. If the decoder
-knows more than the second party there is no tradeoff, and if it knows
-less the problem reduces exactly to the one without decoder side
-information.
+description has two costs, its rate and its conditional leakage to the
+second party. We determine the structure of the single-letter region
+known from secure source coding. At every budget and in every
+geometry, each frontier point is the fixed point of reverse
+water-filling on the decoder's weight tilted by the second party's
+information. For a scalar second-party observation this reduces to two
+scalar equations, and for a scalar described variable to one scalar
+root. When the optimal description is one-dimensional, the minimum
+leakage is a closed-form function
+of the largest eigenvalue of a matrix pencil in which the budget enters.
+The direction of the best one-dimensional description turns with the
+budget unless the two parties' geometries share it, while a description
+built for a single party keeps fixed directions, and a fixed direction
+pays an explicit excess leakage. The tradeoff exists because the
+distortion is a trace-type constraint. Under a matrix distortion on the
+whole source, one description minimizes both costs. With side
+information at the decoder, we prove the region for the continuous
+source. If the decoder knows more than the second party there is no
+tradeoff, and if it knows less the problem reduces exactly to the one
+without decoder side information.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -2307,7 +2304,7 @@ derivations by scripts run on a remote workstation. The scripts and
 their recorded outputs are in the public repository
 \begin{center}
 \texttt{https://github.com/ahb-sjsu/geometric-observation}\\
-commit \texttt{93d48f2ee53dff637bcb0590ba3fd6a065b9475c}
+commit \texttt{8a48473d6671afd1ddb385b9cfd1ee8b111a051b}
 \end{center}
 in the directory \texttt{paper/tit-rate-leakage} unless another directory
 is named.
@@ -2323,8 +2320,8 @@ Theorem~\ref{thm:misalign}. \texttt{verify\_commuting.py} checks the closed form
 Theorem~\ref{thm:commuting} for the minimum leakage and for weighted
 frontier points against brute force, the diagonality of the optimum in
 the common eigenbasis, the activation rule, and the block-diagonal
-optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_coupled.py},
-\texttt{verify\_parallel.py} (in \texttt{tit-vector-described}) and
+optimum of Theorem~\ref{thm:decouple}. \texttt{verify\_coupled.py} and
+\texttt{verify\_parallel.py} (both in \texttt{tit-vector-described}), and
 \texttt{verify\_pencil.py} (in \texttt{tit-cr-context}) check the
 scalar identity of Corollary~\ref{cor:scalar} symbolically, the
 determinant program against brute force, the certificate, Lemma
