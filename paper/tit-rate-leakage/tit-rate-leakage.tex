@@ -1723,7 +1723,7 @@ $\Cov(T\mid V,S)=(\Sez^{-1}+J_S)^{-1}$.
 Let $J_S$ and $J_C$ be arbitrary and $0<D<\tr(Q\Sigma_{T\mid C})$.
 \begin{enumerate}
 \item[(a)] (Inner bound.) Let $V=(V_a,V_b)$ be jointly Gaussian with
-$V-T-(C,S)$ and $\tr\bigl(Q(\Sez^{-1}+J_C)^{-1}\bigr)\le D$. The pair
+$V-T-(C,S)$, $I(T;V)<\infty$, and $\tr\bigl(Q(\Sez^{-1}+J_C)^{-1}\bigr)\le D$. The pair
 \[
 R=I(T;V\mid C),\qquad L=I(T;V\mid C)+I(V_b;C)-I(V_b;S)
 \]
@@ -1742,8 +1742,8 @@ $\RW_{J'}(D)$ for every $J'$ with $J'\succeq J_S$ and $J'\succeq J_C$.
 If $J_S\preceq J_C$, then (a) with $V_b$ constant and (b) with $J'=J_C$
 both give the region of Theorem~\ref{thm:decsi}(a). If $J_C\preceq J_S$,
 then (a) with $V_b=V$ and (c) with $J'=J_S$ both give the region of
-Theorem~\ref{thm:decsi}(b). Both bounds are therefore tight in both
-degraded cases.
+Theorem~\ref{thm:decsi}(b). In each degraded case the inner bound meets
+one of the outer bounds.
 \end{proposition}
 
 \begin{proof}
@@ -1785,7 +1785,7 @@ are achievable. If $J_S\preceq J_C$, the pairs of (a) with $V_b$ constant
 include $(R_C(D),R_C(D))$, which with (b) at $J'=J_C$ gives
 Theorem~\ref{thm:decsi}(a). If $J_C\preceq J_S$, the pairs of (a) with
 $V_b=V$ are the coordinates \eqref{eq:posterior} of the conditioned
-problem at $\Sez=M$, because
+problem with error covariance $M=(\Sez^{-1}+J_C)^{-1}$, because
 $(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Sigma_{T\mid S}$, and (c) at $J'=J_S$
 is the same region.
 \end{proof}
@@ -1809,12 +1809,14 @@ Theorem~\ref{thm:decsi}(b) diagonal error covariances are optimal, and the
 least leakage of (c) is the least value of
 $\tfrac12\log(0.2/m_1)+\tfrac12\log(0.8+0.2/m_2)$ over $m_1+m_2\le D$,
 $m_1\le0.2$. In (a) take independent Gaussian descriptions $V_a$ of the
-first coordinate and $V_b$ of the second. Since $(T_1,V_a,C)$ is
-independent of $(T_2,V_b,S)$, the leakage of (a) is
-$I(T_1;V_a\mid C)+I(T_2;V_b\mid S)$, which is the same function of the
-decoder's error variances $m_1,m_2$. So the inner and outer bounds
+first coordinate and $V_b$ of the second. Because $J_C$ vanishes on the
+second coordinate and $J_S$ on the first, $C$ depends on $T$ only through
+$T_1$ and $S$ only through $T_2$, and the noises are independent, so
+$(T_1,V_a,C)$ is independent of $(T_2,V_b,S)$ and the leakage of (a) is
+$I(T_1;V_a\mid C)+I(T_2;V_b\mid S)$. In the decoder's error variances
+$m_1,m_2$ this is the same function as in (c), and so is the rate. So the inner and outer bounds
 coincide at every budget, and the least leakage of this problem is known
-exactly. For $D\ge0.331$ the optimum leaves the first coordinate to the
+exactly. For $0.331\le D<1.2$ the optimum leaves the first coordinate to the
 decoder's side information and spends the whole budget on the second,
 with $L=\tfrac12\log_2(0.8+0.2/(D-0.2))$. The choices $V_b$ constant and
 $V_b=V$ do not reach this value at small budgets. At $D=0.1$ the least
@@ -2533,7 +2535,7 @@ exceeds the inner bound restricted to $V_b$ constant or $V_b=V$, and it
 computes the inner bound with $V_b$ the description of the second
 coordinate from the determinants of the joint covariance of
 $(T,V,C,S)$, which agrees with the objective of the outer bound (c) to
-$10^{-12}$ bit. It also confirms that the bounds agree in the two
+$10^{-12}$ bit on 400 random descriptions. It also confirms that the bounds agree in the two
 degraded cases and checks on random matrices that the closed-form
 enhancement dominates both information matrices. Its output is recorded
 in \texttt{verify\_decbounds-2026-10-03.txt}. No proof depends on them. The instances
