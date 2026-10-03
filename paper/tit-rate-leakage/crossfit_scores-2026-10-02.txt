@@ -1,0 +1,81 @@
+== boundary test (boundary_score.py on boundary_measured_crossfit.json)
+PASS C1: positive in 80.9% of 413 cases with prediction >= 0.10 bit; Spearman 0.657 over 522 cases
+FAIL C2: |measured| <= 2 SE in 33.3% of 57 near-boundary cases
+PASS C3: measured within 2 SE of predicted in 100.0% of 45 synthetic Gaussian cases
+C4 Wine: positive where predicted >= 0.10 bit in 0.0%; Spearman 0.051 over 45 cases
+C4 Zoo: positive where predicted >= 0.10 bit in 19.4%; Spearman 0.478 over 39 cases
+FAIL C5: Spearman 0.535 over 156 mix-family cases
+consistency: principal-copy max |measured| 8.12e-14 over 39 cases (zero by construction)
+descriptive: least-squares slope of measured on predicted 0.896, intercept -0.136
+   Abalone      n= 39 Spearman +0.963  mean pred 0.451  mean meas +0.325
+   AutoMPG      n= 33 Spearman +0.832  mean pred 0.520  mean meas +0.621
+   Bike         n= 48 Spearman +0.870  mean pred 0.307  mean meas +0.024
+   Concrete     n= 36 Spearman +0.900  mean pred 0.332  mean meas +0.321
+   Diabetes     n= 42 Spearman +0.879  mean pred 0.388  mean meas +0.252
+   Energy       n= 33 Spearman +0.686  mean pred 0.393  mean meas +0.337
+   Gauss8       n= 30 Spearman +0.998  mean pred 0.327  mean meas +0.328
+   GaussCoupled n= 15 Spearman +1.000  mean pred 0.336  mean meas +0.330
+   Housing      n= 33 Spearman +0.975  mean pred 0.260  mean meas +0.224
+   Parkinsons   n= 69 Spearman +0.980  mean pred 0.235  mean meas +0.231
+   Student      n= 60 Spearman +0.890  mean pred 0.294  mean meas +0.251
+   Wine         n= 45 Spearman +0.051  mean pred 0.275  mean meas -0.529
+   Zoo          n= 39 Spearman +0.478  mean pred 0.340  mean meas -0.315
+
+== Gaussian-departure registration (gauss_score.py on crossfit files)
+R1: PASS  Spearman(Gamma, miss) 0.692 over 477 cases
+R2: VACUOUS  Gamma=0 n=0, Gamma>0 n=477
+K1: FAIL  Gamma = 0 in 84.4% of 45 synthetic Gaussian cases
+   Abalone      median Gamma 0.3793  mean miss 0.134
+   AutoMPG      median Gamma 0.2026  mean miss 0.155
+   Bike         median Gamma 0.7947  mean miss 0.282
+   Concrete     median Gamma 0.1252  mean miss 0.075
+   Diabetes     median Gamma 0.1857  mean miss 0.135
+   Energy       median Gamma 0.7815  mean miss 0.277
+   Gauss8       median Gamma 0.0000  mean miss 0.004
+   GaussCoupled median Gamma 0.0000  mean miss 0.008
+   Housing      median Gamma 0.2111  mean miss 0.043
+   Parkinsons   median Gamma 0.1132  mean miss 0.019
+   Student      median Gamma 0.0736  mean miss 0.080
+   Wine         median Gamma 1.6324  mean miss 0.804
+   Zoo          median Gamma 0.8747  mean miss 0.670
+B1: PASS  Spearman(Gamma, miss) 0.630 over 198 cases
+B2: PASS  agree 87.5% (Gamma=0, n=16) vs 27.5% (Gamma>0, n=182)
+   PowerPlant   forecast TRACK outcome TRACK (Spearman +0.981, median Gamma 0.2388)
+   Airfoil      forecast TRACK outcome TRACK (Spearman +0.927, median Gamma 0.0466)
+   Yacht        forecast MISS  outcome MISS  (Spearman +0.051, median Gamma 1.2153)
+   Fires        forecast MISS  outcome MISS  (Spearman -0.607, median Gamma 2.5062)
+   RedWine      forecast MISS  outcome MISS  (Spearman -0.039, median Gamma 1.8742)
+   RealEstate   forecast TRACK outcome TRACK (Spearman +0.873, median Gamma 0.0000)
+B3: PASS  6 of 6 forecasts correct
+K2: reported  Gauss8-exp median Gamma 0.2790, mean miss 0.067 vs Gauss8 mean miss 0.004
+
+== registration 3 (scope_score.py on scope_measured_crossfit.json)
+   GasTurbine    forecast TRACK outcome TRACK (Spearman +0.974, median Gamma 0.6752)
+   Grid          forecast TRACK outcome TRACK (Spearman +0.993, median Gamma 0.0722)
+   QSARFish      forecast TRACK outcome TRACK (Spearman +0.955, median Gamma 0.0260)
+   QSARAquatic   forecast TRACK outcome TRACK (Spearman +0.885, median Gamma 0.0409)
+   TempForecast  forecast TRACK outcome TRACK (Spearman +0.995, median Gamma 0.0156)
+   Appliances    forecast MISS  outcome MISS  (Spearman -0.344, median Gamma 1.6368)
+S0: PASS  6 of 6 forecasts correct
+S1: PASS  positive 100.0% of 180 predicted >= 0.10; Spearman 0.963 over 217
+S2: FAIL  |measured| <= 2 SE in 30.4% of 23
+S3: PASS  mix-family Spearman 0.923 over 59
+S4a: FAIL  within 2 SE of predicted in 73.9% of 46 onset cases
+S4b: FAIL  orth at 0.02 within 2 SE of zero 75.0% (n=4); mix15 at 0.02 above 2 SE 80.0% (n=5)
+K1: PASS  Gamma = 0 in 89.8% of 59 control cases
+S1 (out of scope, reported): positive 30.3% of 66 predicted >= 0.10; Spearman -0.234 over 95  [would be False]
+S2 (out of scope, reported): |measured| <= 2 SE in 15.8% of 19  [would be False]
+S3 (out of scope, reported): mix-family Spearman 0.588 over 13  [would be VACUOUS]
+   GasTurbine    in scope 34/46
+   Grid          in scope 52/52
+   QSARFish      in scope 37/37
+   QSARAquatic   in scope 43/43
+   TempForecast  in scope 82/82
+   Appliances    in scope 0/94
+M1: FAIL  Spearman 0.955 over 354; mean|miss| 0.098 vs Gaussian 0.095
+E1: FAIL  out of scope n=106: agree 8.5% (equal-occupancy) vs 14.2% (standard); Spearman 0.797
+E2: FAIL  Spearman 0.791 over 354; mean|miss| 0.104 vs standard-Gaussian 0.095
+   Appliances    equal-occupancy Spearman +0.820
+E3: PASS  1 of 1 MISS-forecast datasets track with equal-occupancy codes
+T0: reported  accuracy 0.754 (base rate of misses 0.472), F1 0.717
+T1: reported  accuracy 0.782 (base rate of misses 0.477), F1 0.749
