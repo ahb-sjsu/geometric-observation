@@ -1179,10 +1179,13 @@ Corollary~\ref{cor:scalar}.
 \label{sec:directions}
 
 \begin{proposition}\label{prop:single}
-With no holder ($J=0$), the best one-dimensional description reads the
-top generalized eigenvector of the pencil $(\Sigma_TQ\Sigma_T,\Sigma_T)$
-at every budget, and the rate-optimal description reverse water-fills on
-the eigenvalues of $W^{1/2}\Sigma_YW^{1/2}$ along fixed directions.
+With no holder ($J=0$), the best one-dimensional descriptions read the
+top generalized eigenspace of the pencil $(\Sigma_TQ\Sigma_T,\Sigma_T)$ at
+every budget, a single line when its largest eigenvalue is simple, and
+the rate-optimal description reverse water-fills on the eigenvalues of
+$W^{1/2}\Sigma_YW^{1/2}$ along fixed directions. An optimal description
+with positive rate has rank one only if that largest eigenvalue is
+simple. A repeated largest eigenvalue activates its whole eigenspace.
 \end{proposition}
 
 \begin{proof}
@@ -1192,6 +1195,10 @@ depend on $\Delta$. The rate-optimal description is the weighted
 quadratic rate--distortion solution \cite{sakrison1968}. In the
 coordinates $W^{1/2}Y$ the distortion is squared error, and reverse
 water-filling describes fixed principal components \cite{berger1971}.
+Components with equal eigenvalues receive the same water level, so a
+description with positive rate describes either all of them or none, and
+a repeated largest eigenvalue gives every optimal description with
+positive rate rank at least two.
 \end{proof}
 
 The Gaussian information bottleneck has the same property. Its optimal
@@ -1344,9 +1351,14 @@ Corollary~\ref{cor:scalar}. Since $L(D)$ is strictly decreasing in $D$
 (if $L(D_1)=L(D_2)$ with $D_1<D_2$, the unique minimizer at $D_2$ would be
 the one at $D_1$, whose constraint is slack at $D_2$, contradicting
 Theorem~\ref{thm:convex}(a)), $g^\star$ is strictly decreasing in $D$, so the
-projection line differs at any two budgets. By Proposition~\ref{prop:single},
-applied to any fixed weight on $T$, the best one-dimensional description
-for a single party reads the same line at both budgets. The coupled
+projection line differs at any two budgets. Apply
+Proposition~\ref{prop:single} to any fixed weight on $T$. If the largest
+weighted eigenvalue of that single-party problem is simple, its optimal
+one-dimensional description reads the same line at both budgets. If it
+is repeated, every optimal description with positive rate has rank at
+least two. In neither case are the two leakage-optimal descriptions,
+which are one-dimensional with different lines, both optimal for the
+single party. The coupled
 instance of Section~\ref{sec:model}, whose leakage-optimal
 descriptions reduce the error along $47.48^\circ$ and $41.15^\circ$ at
 two budgets, illustrates the same effect in the space of the described

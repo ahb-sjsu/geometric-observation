@@ -250,11 +250,18 @@ view. Its population value is
 \]
 so it adds the classifier's error to the leakage, and the difference of
 two proxies mixes a difference of conditional entropies with a
-difference of classifier errors. In these runs the classifier was also
-chosen on the same held-out samples on which its loss was reported. The
-ordering of two proxies therefore does not establish the ordering of the
-true conditional entropies, and the claims below are claims about the
-proxy.
+difference of classifier errors. In the original runs the classifier was
+also chosen on the same held-out samples on which its loss was reported.
+A corrected protocol, registered after review, chooses the classifier on
+one half of the held-out samples and scores it on the other, swaps the
+halves, and bootstraps the paired loss difference between the two codes.
+Every registration was measured again under it, and its verdicts are
+reported beside the originals. The ordering of two proxies does not
+establish the ordering of the true conditional entropies under either
+protocol, so the claims below are claims about the proxy. The
+experiments are evidence about the predictive usefulness of the Gaussian
+model under this measurement protocol, not measurements of conditional
+entropy.
 
 The single-party flip holds in all eleven datasets. At matched bits, the
 code that reconstructs the whole source worse serves the decoder better.
@@ -342,9 +349,13 @@ again right for all six. Inside the Gaussian scope the measured removal
 was positive in all 180 cases predicted at 0.10 bit or more, the rank
 correlation was 0.97, and the rotated family reached 0.92, so the
 criterion the boundary test missed holds inside the scope on new data.
-The onset criteria passed, the second-order family staying at zero at
-the smallest slack in 4 of 4 cases and the first-order family rising
-above it in 4 of 5. The near-boundary criterion failed for the third
+The onset criteria passed under the original protocol, the second-order
+family staying at zero at the smallest slack in 4 of 4 cases and the
+first-order family rising above it in 4 of 5. Under the corrected
+protocol both fail, at 74 percent of 46 onset cases against a registered
+80 and with the second-order family at zero in 3 of 4, so the onset
+results do not survive the correction. The boundary test and the
+Gaussian-departure registration keep every verdict under it. The near-boundary criterion failed for the third
 time, at 35 percent of 23 cases, so it fails inside the scope as well as
 outside it. The registration also tested the deduced account of the
 misses. The error of a leakage prediction, measured against the true
@@ -450,9 +461,9 @@ proxy described in Section~\ref{sec:data}.}
 Registration & Frozen code and predictions & Scoring and outcome & Verdicts\\
 \hline
 Flips A and B & \path{ot_figures.ipynb}, roles on branch \path{prespec/ot-notebook-2026-10-01} & notebook record, \path{9ffbd20} & Flip A 11 of 11, Flip B 8 of 11, onset refuted\\
-Boundary of Flip B & \path{ot_boundary.py}, \path{boundary_predictions.json}, \path{7332b8c} & \path{boundary_score.py} (\path{86eccd7}), \path{daca788} & C1 pass, C2 fail, C3 pass, C5 fail\\
-Gaussian departure & \path{ot_gaussianity.py} (\path{1441065}), \path{gauss_predictions.json} (\path{ec3300d}) & \path{gauss_score.py}, \path{9f2a61b} & R1 pass, R2 vacuous, K1 fail, B1 pass, B2 pass, B3 6 of 6\\
-Gaussian scope & \path{ot_scope.py} (\path{74c446d}), \path{scope_predictions.json} (\path{9f5f2ca}), correction note \path{15cca7b} & \path{scope_score.py}, \path{c14e579} & S0 6 of 6, S1 pass, S2 fail, S3 pass, S4a pass, S4b pass, K1 pass, M1 fail, E1 fail, E2 fail, E3 pass\\
+Boundary of Flip B & \path{ot_boundary.py}, \path{boundary_predictions.json}, \path{7332b8c} & \path{boundary_score.py} (\path{86eccd7}), \path{daca788} & C1 pass, C2 fail, C3 pass, C5 fail; corrected protocol (\path{a5c0140}): unchanged\\
+Gaussian departure & \path{ot_gaussianity.py} (\path{1441065}), \path{gauss_predictions.json} (\path{ec3300d}) & \path{gauss_score.py}, \path{9f2a61b} & R1 pass, R2 vacuous, K1 fail, B1 pass, B2 pass, B3 6 of 6; corrected protocol: unchanged\\
+Gaussian scope & \path{ot_scope.py} (\path{74c446d}), \path{scope_predictions.json} (\path{9f5f2ca}), correction note \path{15cca7b} & \path{scope_score.py}, \path{c14e579} & S0 6 of 6, S1 pass, S2 fail, S3 pass, S4a pass, S4b pass, K1 pass, M1 fail, E1 fail, E2 fail, E3 pass; corrected protocol: S4a fail, S4b fail, others unchanged\\
 Near-boundary noise & \path{ot_s2noise.py} (\path{fec42f0}) & built into the script, \path{9fa0d23} & N1 fail, N2 fail, B1 pass; rotated views confounded by a design error; corrected (\path{3638f05}): N1 fail, N2 fail, B1 pass\\
 Corrected near-boundary test & \path{ot_nearboundary.py} (\path{ae487c4}), \path{nb_predictions.json} (\path{3f9d1aa}) & built into the script, \path{d5ff89c} & P1c pass, P1r fail, SH pass, D1 fail, A1 pass; confounded by the same design error; corrected (\path{8e0ce51}): P1c pass, P1r fail, SH fail, D1 fail, A1 pass\\
 Design correction & \path{ot_crossfit_c.py} (\path{ed41c48}) & built into the script, \path{3638f05}, \path{8e0ce51} & results in the two rows above\\
