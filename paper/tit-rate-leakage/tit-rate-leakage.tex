@@ -32,10 +32,11 @@
 \author{Andrew~H.~Bond,~\IEEEmembership{Senior Member,~IEEE}%
 \thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e
 State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
-The check scripts of Appendix~\ref{app:numver} are in the author's
-geometric-observation repository.}}
+The manuscript sources and the check scripts of Appendix~\ref{app:numver}
+are in the public repository named there and are archived at
+doi:10.5281/zenodo.23127802.}}
 
-\markboth{Manuscript draft}{Bond: Rate, Leakage, and Distortion for Gaussian Sources}
+\markboth{IEEE Transactions on Information Theory}{Bond: Rate, Leakage, and Distortion for Gaussian Sources}
 
 \maketitle
 
@@ -248,6 +249,19 @@ task-based quantization \cite{shlezinger2019}. Parameterizing a
 Gaussian description by its error covariance is a standard device in
 vector Gaussian source coding \cite{rahman2012}, and the resulting
 endpoint program is a determinant maximization \cite{vandenberghe1998}.
+
+Two archived manuscripts by the author precede this paper. A preliminary
+manuscript \cite{bond2026prelim} contains the discrete region theorem,
+which coincides with \cite[Theorem~3]{villard2013}, and the scalar
+Gaussian corner. A second manuscript \cite{bond2026cr}, not submitted for
+publication, treats a scalar described variable and a scalar context.
+Its closed form is Corollary~\ref{cor:scalar} here, and its region,
+misalignment, and non-determination results, its pencil characterization
+for vector context, and its direct Gaussian operational theorem are
+special cases of Theorems~\ref{thm:op}, \ref{thm:onedim},
+and~\ref{thm:misalign} and of Appendix~\ref{app:coding}. Its binary
+rate--leakage frontier is not treated here. The present paper supersedes
+the Gaussian results of that manuscript.
 
 The paper is organized as follows. Section~\ref{sec:model} sets up the
 model and the coding theorem, Section~\ref{sec:convex} proves the convex
@@ -1057,7 +1071,7 @@ not raise the distortion, so the optimum is a one-dimensional
 description.
 \end{proof}
 
-\begin{corollary}\label{cor:scalar}
+\begin{corollary}[{\cite{bond2026cr}}]\label{cor:scalar}
 Let $T=(Y,V)$ be scalar with unit variances and correlation $\rho$,
 $|\rho|<1$, let $W=1$, and let $S=V+U$ with $\Var U=\tau^2>0$, and write
 $s=1+\tau^2$. For $0<D<1$,
@@ -2605,28 +2619,17 @@ Trans. Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.
 \bibitem{ekrem2013} E. Ekrem and S. Ulukus, ``Secure lossy transmission of
 vector Gaussian sources,'' \emph{IEEE Trans. Inf. Theory}, vol. 59, no. 9,
 pp. 5466--5487, 2013.
+\bibitem{xu2024} Y. Xu, G. Chen, J. Chen, and S. Jin, ``New proofs of
+Gaussian extremal inequalities with applications,'' \emph{IEEE Trans.
+Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
 \bibitem{berger1971} T. Berger, \emph{Rate Distortion Theory: A Mathematical
 Basis for Data Compression}. Englewood Cliffs, NJ: Prentice-Hall, 1971.
 \bibitem{chechik2005} G. Chechik, A. Globerson, N. Tishby, and Y. Weiss,
 ``Information bottleneck for Gaussian variables,'' \emph{J. Mach. Learn.
 Res.}, vol. 6, pp. 165--188, 2005.
-\bibitem{xu2024} Y. Xu, G. Chen, J. Chen, and S. Jin, ``New proofs of
-Gaussian extremal inequalities with applications,'' \emph{IEEE Trans.
-Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
 \bibitem{xuchen2021} Y. Xu and G. Chen, ``New proofs of extremal
 inequalities with applications,'' arXiv:2109.00377, 2021 (preprint
 version of \cite{xu2024}).
-\bibitem{yuille2003} A. L. Yuille and A. Rangarajan, ``The concave-convex
-procedure,'' \emph{Neural Comput.}, vol. 15, no. 4, pp. 915--936, 2003.
-\bibitem{lipp2016} T. Lipp and S. Boyd, ``Variations and extension of the
-convex-concave procedure,'' \emph{Optim. Eng.}, vol. 17, no. 2,
-pp. 263--287, 2016.
-\bibitem{hunter2004} D. R. Hunter and K. Lange, ``A tutorial on MM
-algorithms,'' \emph{Amer. Statist.}, vol. 58, no. 1, pp. 30--37, 2004.
-\bibitem{sun2017} Y. Sun, P. Babu, and D. P. Palomar,
-``Majorization-minimization algorithms in signal processing,
-communications, and machine learning,'' \emph{IEEE Trans. Signal
-Process.}, vol. 65, no. 3, pp. 794--816, 2017.
 \bibitem{gunlu2022} O. G\"unl\"u, R. F. Schaefer, H. Boche, and H. V. Poor,
 ``Private key and decoder side information for secure and private source
 coding,'' \emph{Entropy}, vol. 24, no. 12, art. 1716, 2022;
@@ -2671,22 +2674,39 @@ Theory}, vol. 58, no. 1, pp. 172--188, 2012.
 \bibitem{vandenberghe1998} L. Vandenberghe, S. Boyd, and S.-P. Wu,
 ``Determinant maximization with linear matrix inequality constraints,''
 \emph{SIAM J. Matrix Anal. Appl.}, vol. 19, no. 2, pp. 499--533, 1998.
+\bibitem{bond2026prelim} A. H. Bond, ``A rate--work--distortion region for
+consumer-relative observation,'' preliminary manuscript, 2026, archived at
+doi:10.5281/zenodo.21776291.
+\bibitem{bond2026cr} A. H. Bond, ``Tradeoffs between rate and conditional
+content with encoder-observed context,'' manuscript, 2026, archived at
+doi:10.5281/zenodo.22678341.
 \bibitem{boyd2004} S. Boyd and L. Vandenberghe, \emph{Convex Optimization}.
 Cambridge, U.K.: Cambridge Univ. Press, 2004.
+\bibitem{yuille2003} A. L. Yuille and A. Rangarajan, ``The concave-convex
+procedure,'' \emph{Neural Comput.}, vol. 15, no. 4, pp. 915--936, 2003.
+\bibitem{lipp2016} T. Lipp and S. Boyd, ``Variations and extension of the
+convex-concave procedure,'' \emph{Optim. Eng.}, vol. 17, no. 2,
+pp. 263--287, 2016.
+\bibitem{hunter2004} D. R. Hunter and K. Lange, ``A tutorial on MM
+algorithms,'' \emph{Amer. Statist.}, vol. 58, no. 1, pp. 30--37, 2004.
+\bibitem{sun2017} Y. Sun, P. Babu, and D. P. Palomar,
+``Majorization-minimization algorithms in signal processing,
+communications, and machine learning,'' \emph{IEEE Trans. Signal
+Process.}, vol. 65, no. 3, pp. 794--816, 2017.
 \bibitem{kato1995} T. Kato, \emph{Perturbation Theory for Linear Operators},
 reprint of the 1980 ed. Berlin, Germany: Springer, 1995.
+\bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
+of probability distributions and indirect observations,'' \emph{Studia Sci.
+Math. Hungar.}, vol. 2, pp. 299--318, 1967.
+\bibitem{wyner1978} A. D. Wyner, ``A definition of conditional mutual
+information for arbitrary ensembles,'' \emph{Inf. Control}, vol. 38, no. 1,
+pp. 51--59, 1978.
 \bibitem{pinsker1964} M. S. Pinsker, \emph{Information and Information
 Stability of Random Variables and Processes}. San Francisco, CA:
 Holden-Day, 1964.
 \bibitem{posner1975} E. C. Posner, ``Random coding strategies for minimum
 entropy,'' \emph{IEEE Trans. Inf. Theory}, vol. 21, no. 4, pp. 388--391,
 1975.
-\bibitem{wyner1978} A. D. Wyner, ``A definition of conditional mutual
-information for arbitrary ensembles,'' \emph{Inf. Control}, vol. 38, no. 1,
-pp. 51--59, 1978.
-\bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
-of probability distributions and indirect observations,'' \emph{Studia Sci.
-Math. Hungar.}, vol. 2, pp. 299--318, 1967.
 \bibitem{lloyd1982} S. P. Lloyd, ``Least squares quantization in PCM,''
 \emph{IEEE Trans. Inf. Theory}, vol. 28, no. 2, pp. 129--137, 1982.
 \bibitem{max1960} J. Max, ``Quantizing for minimum distortion,'' \emph{IRE

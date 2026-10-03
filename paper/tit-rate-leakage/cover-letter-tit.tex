@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{flushright}
+Andrew H. Bond\\
+Department of Computer Engineering\\
+San Jos\'e State University\\
+San Jos\'e, CA 95192 USA\\
+andrew.bond@sjsu.edu\\[0.8em]
+October 3, 2026
+\end{flushright}
+
+To the Editor-in-Chief and Associate Editor\\
+IEEE Transactions on Information Theory
+
+Dear Editor:
+
+Please consider the enclosed manuscript, ``Rate, Leakage, and Distortion
+for Gaussian Sources: Water-Filling on a Tilted Weight,'' for publication
+in the IEEE Transactions on Information Theory. I am the sole author. The
+review manuscript is in single-column format.
+
+An encoder observes a jointly Gaussian vector and describes part of it to
+a decoder under a weighted quadratic distortion, while a second party
+holds a noisy linear observation of the source and never decodes. The
+description then has two costs, its rate and its conditional leakage to
+the second party. The single-letter region is known from secure source
+coding (Villard and Piantanida [1]), and Ekrem and Ulukus [2] and Xu, Chen,
+Chen, and Jin [3] treat vector Gaussian sources under a matrix distortion
+on the whole source, a setting in which their bounds already imply that
+one description minimizes both costs (Proposition~4). The manuscript
+determines the structure of the region under a weighted distortion on
+part of the source, where the two costs trade off.
+
+The main results are in three groups. First, both costs are convex in the
+error covariance, and every frontier point is the fixed point of reverse
+water-filling on the decoder's weight tilted by the second party's
+information (Theorem~7), computable by a monotone iteration
+(Proposition~11). Second, explicit solutions. When the optimal
+description is one-dimensional, which an explicit certificate decides,
+the minimum leakage is a closed-form function of the largest eigenvalue
+of a matrix pencil in which the budget enters (Theorem~16). For a scalar
+second-party observation the frontier reduces to two scalar equations,
+and for a scalar described variable to one scalar root (Corollary~9 and
+Theorem~18). Third, directions. The best one-dimensional description
+turns with the budget unless the two parties' geometries share it
+(Theorem~20), a description with a fixed direction pays an explicit
+excess leakage (Theorem~25), and the rate-optimal and leakage-optimal
+descriptions differ exactly under a stated misalignment condition
+(Theorem~22). With side information at the decoder, the manuscript
+proves the region for the continuous source (Theorem~29), settles the two
+degraded cases (Theorem~31), and brackets the general case between a
+Gaussian inner bound and two outer bounds that are tight in both
+degraded cases (Proposition~32). An appendix shows the same effects in
+fixed-rate scalar quantizers.
+
+Several earlier documents are relevant, and they are distinct from one
+another. First, this Transactions declined a different manuscript of
+mine, IT-26-0996, on 27 July 2026 without review, on scope and
+presentation. That manuscript was a broad synthesis. The present submission is a
+focused source-coding paper, shares no theorem with IT-26-0996, and uses
+standard source-coding terminology throughout.
+
+Second, the manuscript cites two archived manuscripts by the author, as
+disclosed in its Related Work section. Reference [21]
+(doi:10.5281/zenodo.21776291) is a preliminary manuscript containing the
+discrete region theorem, which coincides with [1, Theorem~3] and is
+credited there, and the scalar Gaussian corner. Reference [22]
+(doi:10.5281/zenodo.22678341) is a manuscript on a scalar described
+variable and a scalar context, which was prepared for this Transactions
+but not submitted. Its closed form appears here as Corollary~17, credited
+to it, and its other Gaussian results are special cases of the present
+theorems. The present manuscript supersedes the Gaussian results of [22],
+which will not be submitted separately. Its binary rate--leakage frontier
+is not part of the present manuscript. A companion draft on vector
+described variables is likewise superseded and will not be submitted.
+
+The present manuscript's sources, verification scripts, and recorded
+outputs are archived at doi:10.5281/zenodo.23127802 and at a pinned
+commit of the public repository named in its Appendix. The identities
+and instances are checked numerically and symbolically, and the scalar
+steps, the linear-algebra step of the rank bound, and the convexity of
+both costs in the error covariance are machine-checked in Lean~4, as
+described in the Appendix. The check scripts, their records, and the
+Lean modules are submitted as supplementary material. Also submitted, as
+optional supplementary reading, is a short note that relates the results
+to a broader programme on observer-dependent descriptions and reports a
+registered empirical campaign. Its measurements use a classifier
+cross-entropy proxy for leakage and are reported as evidence about the
+predictive usefulness of the Gaussian model, not as measurements of
+conditional entropy. The manuscript does not depend on it.
+
+The use of AI tools in preparing the manuscript is disclosed in its
+Acknowledgment, as IEEE policy requires. This manuscript is not under
+review elsewhere, and I have no conflicts of interest to declare.
+
+Sincerely,
+
+Andrew H. Bond\\
+Senior Member, IEEE
+
+\end{document}
