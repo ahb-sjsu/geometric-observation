@@ -2425,7 +2425,7 @@ derivations by scripts run on a remote workstation. The scripts and
 their recorded outputs are in the public repository
 \begin{center}
 \texttt{https://github.com/ahb-sjsu/geometric-observation}\\
-commit \texttt{55b75bca21aada2879617dcea03dc0d8935ccb41}
+commit \texttt{150b2531fa8c9cbb68c27dfb8f1bc51c6e2b499d}
 \end{center}
 in the directory \texttt{paper/tit-rate-leakage} unless another directory
 is named.
@@ -2513,15 +2513,22 @@ generic majorization--minimization inequality, and the linear-algebra
 step of Proposition~\ref{prop:rank} for real matrices of any size. That
 step says that if an invertible $P$ equals $\nu Q+\Theta$ and
 $\Theta(\Sigma_T-\Sez)=0$, then $\operatorname{rank}(\Sigma_T-\Sez)\le\operatorname{rank}Q$.
-The existence of the multipliers that produce it is not formalized, and
-neither are Theorems~\ref{thm:convex} and~\ref{thm:tilted}, the
-convergence part of Proposition~\ref{prop:mm}, or the coding theorem
-Theorem~\ref{thm:decregion}. The convexity results rest on the concavity
-of $\log\det$, which Mathlib does not yet provide. Both outputs are recorded
+The module \texttt{lean/ObservationTheory/LogDet.lean} (nineteen
+theorems, no \texttt{sorry}, only the standard axioms) builds the
+concavity of $\log\det$ on positive definite matrices from Mathlib's
+spectral theorem and formalizes the convexity of both costs in the error
+covariance in Theorem~\ref{thm:convex}. The leakage part rests on the
+Loewner monotonicity of $\det$ and on the matrix concavity of
+$\Sez\mapsto(\Sez^{-1}+J)^{-1}$, proved by completing the square in the
+fixed-gain estimate of Lemma~\ref{lem:mmsecomp}. Not formalized are the
+existence of the multipliers in Proposition~\ref{prop:rank}, the
+remaining parts of Theorem~\ref{thm:convex}, Theorem~\ref{thm:tilted},
+the convergence part of Proposition~\ref{prop:mm}, and the coding theorem
+Theorem~\ref{thm:decregion}. Both outputs are recorded
 in \texttt{symbolic\_and\_lean-2026-10-02.txt} and, with the checks for
 Section~\ref{sec:decsi}, in \texttt{symbolic\_and\_lean-decsi-2026-10-02.txt}.
-The current Lean build and axiom audit are recorded in
-\texttt{lean-2026-10-03.txt}.
+The current Lean builds and axiom audits are recorded in
+\texttt{lean-2026-10-03.txt} and \texttt{lean-logdet-2026-10-03.txt}.
 \texttt{verify\_decsi\_identities.py} checks the same identities on random
 matrices of dimension up to five, including singular $J_C$ and
 rank-deficient $H$. It checks the fixed-gain estimate of
