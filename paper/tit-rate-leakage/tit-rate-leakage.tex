@@ -184,7 +184,8 @@ rate-optimal and leakage-optimal descriptions coincide
 rate and equal budget, a Lloyd--Max quantizer on a leakage-aware
 projection leaks 13\% to 72\% less than the same quantizer on the
 principal axis, and its direction turns with the budget
-(Appendix~\ref{sec:quant}).
+(Appendix~\ref{sec:quant}, Table~\ref{tab:quant} and
+Fig.~\ref{fig:quant}).
 
 \subsection*{Related work}
 
@@ -1285,15 +1286,30 @@ descriptions coincide exactly when it is the top one.
 \begin{proof}
 In the stated range reverse water-filling describes only the principal
 component, so the rate-optimal description is the one-dimensional
-description reading $b_R$, where $Q\Sigma_Tb_R=\lambda_1b_R$. If it were
-leakage-optimal, then $L(D)=L_{\mathrm{1d}}(D)$ and $b_R$ would maximize
-the Rayleigh quotient of Theorem~\ref{thm:onedim}(a), hence be a
-generalized eigenvector of $(A(\Delta),\Kc)$, that is,
-$(\lambda_1-\Delta)\Sigma_Tb_R\propto\Kc b_R$. Multiplying by
-$\Kc^{-1}=\Sigma_T^{-1}+J$ gives $J\Sigma_Tb_R\propto b_R$. So when
-$J\Sigma_Tb_R$ is not parallel to $b_R$ the rate-optimal description is not
-leakage-optimal, and since both minimizers of Theorem~\ref{thm:convex}(a)
-are unique, the leakage-optimal description is not rate-optimal either.
+description reading $b_R$, where $Q\Sigma_Tb_R=\lambda_1b_R$, with the
+distortion constraint active. Write
+$\mu(b)=b^{\mathsf T}A(\Delta)b/b^{\mathsf T}\Kc b$ for $b\ne0$. By the proof
+of Theorem~\ref{thm:onedim}(a), the leakage of the rate-optimal
+description is $\tfrac12\log\bigl(1+\Delta/\mu(b_R)\bigr)$. Since
+$A(\Delta)b_R=(\lambda_1-\Delta)\Sigma_Tb_R$ and $\Delta<\lambda_1$, we have
+$\mu(b_R)=(\lambda_1-\Delta)b_R^{\mathsf T}\Sigma_Tb_R/b_R^{\mathsf T}\Kc b_R>0$.
+A maximizer of $\mu$ is a stationary point, and the stationary points of
+the Rayleigh quotient of a symmetric pencil with $\Kc\succ0$ are its
+generalized eigenvectors, so every maximizer satisfies
+$A(\Delta)b=\mu_{\max}\Kc b$. If $b_R$ were a generalized eigenvector, then
+$(\lambda_1-\Delta)\Sigma_Tb_R\propto\Kc b_R$, and multiplying by
+$\Kc^{-1}=\Sigma_T^{-1}+J$ would give $J\Sigma_Tb_R\propto b_R$. So when
+$J\Sigma_Tb_R$ is not parallel to $b_R$, the inequality
+$\mu(b_R)<\mu_{\max}(\Delta)$ is strict, and because $\Delta>0$,
+\[
+\tfrac12\log\Bigl(1+\frac{\Delta}{\mu(b_R)}\Bigr)
+>\tfrac12\log\Bigl(1+\frac{\Delta}{\mu_{\max}(\Delta)}\Bigr)
+=L_{\mathrm{1d}}(D)\ge L(D).
+\]
+The rate-optimal description therefore pays a strictly positive excess in
+leakage. Since both minimizers of Theorem~\ref{thm:convex}(a) are unique,
+the leakage-optimal description differs from the rate-optimal one, and
+its rate exceeds $R_{\min}(D)$ strictly.
 The same computation read backward shows that $J\Sigma_Tb_R\propto b_R$
 makes $b_R$ a generalized eigenvector at every $\Delta$, and inside the
 one-dimensional range the leakage-optimal description reads the top
@@ -1625,7 +1641,9 @@ $M=\E[\Cov(T\mid V,C)]$. The results of
 Sections~\ref{sec:convex}--\ref{sec:directions} are statements about that
 program, so they hold with $\Sigma_T$ replaced by $\Sigma_{T\mid C}$, $J$
 by $J_S-J_C$ (written as $H'^{\mathsf T}H'$ with unit noise where an
-observation map is needed), and $D_{\max}$ by $\tr(Q\Sigma_{T\mid C})$.
+observation map is needed, which gives the same program because
+$\det(HXH^{\mathsf T}+\Sigma_U)=\det\Sigma_U\det(I+JX)$ depends on the
+holder only through $J$), and $D_{\max}$ by $\tr(Q\Sigma_{T\mid C})$.
 \end{enumerate}
 \end{theorem}
 
@@ -1636,8 +1654,8 @@ $M_C$ reveals a linear functional of $T$ without noise and makes
 $I(T;V\mid C)$ infinite. Since $T$ has a conditional density given $C$
 and $I(T;V\mid C)<\infty$, it has a conditional density given $(V,C)$
 almost surely. Since $h(T\mid C)=\tfrac12\log\det(2\pi e\Sigma_{T\mid C})$
-and, by the Gaussian maximum-entropy bound and the concavity of
-$\log\det$, $h(T\mid V,C)\le\tfrac12\log\det(2\pi eM_C)$, we have
+and, by the Gaussian maximum-entropy bound and Jensen's inequality for
+the concave function $\log\det$, $h(T\mid V,C)\le\tfrac12\log\det(2\pi eM_C)$, we have
 $I(T;V\mid C)\ge\tfrac12\log(\det\Sigma_{T\mid C}/\det M_C)$, and likewise
 $I(T;V\mid S)\ge\tfrac12\log(\det\Sigma_{T\mid S}/\det M_S)$. The distortion
 of any reconstruction from $(V,C)$ is at least $\tr(QM_C)$.
@@ -2173,8 +2191,10 @@ infinite. Otherwise $\log(dP_G/dQ_S)$ is quadratic in $t$ and $P$, $P_G$
 share two moments, so $D(P\|Q_S)=D(P\|P_G)+D(P_G\|Q_S)\ge D(P_G\|Q_S)$.
 Averaging $D(P_G\|Q_S)$, the trace term plus the mean term,
 $\E[\tr(\Kc^{-1}C)+(\mu-\mu_S)^{\mathsf T}\Kc^{-1}(\mu-\mu_S)]$, averages to
-$p$ by the law of total covariance, and by concavity of $\ln\det$ and Jensen,
-$\E[-\ln\det C]\ge-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
+$p$ by the law of total covariance. Jensen's inequality for the concave
+function $\ln\det$ on positive definite matrices (formalized in
+Appendix~\ref{app:numver}) gives $\E[-\ln\det C]\ge-\ln\det\E C$, and
+$-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
 has error covariance no larger than any linear estimator. Hence
 $I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the same argument
 without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
@@ -2272,8 +2292,11 @@ formulas. Table~\ref{tab:quant} lists the results.
 \caption{Lloyd--Max quantizers on one projection of the coupled
 instance. At each budget the leakage-aware projection leaks less than
 the principal axis at the same rate, and it reads a direction that turns
-further than the Gaussian optimum. Leakage in bits, angles in degrees
-in the plane of $Y$.}
+further than the Gaussian optimum. The budget is
+$D_0=D_R+f(\tr\Sigma_Y-D_R)$, with $D_R$ the principal-axis quantizer's
+distortion. For $f\ge0.64$ the budget admits the context projection $V$,
+which is then the leakage-aware projection. Leakage in bits, angles in
+degrees in the plane of $Y$.}
 \label{tab:quant}
 \begin{tabular}{ccccccccc}
 \hline
