@@ -25,6 +25,7 @@
 \newcommand{\Sez}{\Sigma_{e0}}
 \newcommand{\Kc}{\Sigma_{T\mid S}}
 
+\emergencystretch=1.5em
 \begin{document}
 
 \title{Rate, Leakage, and Distortion for Gaussian Sources:\\ Water-Filling on a Tilted Weight}
@@ -34,7 +35,7 @@
 State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
 The manuscript sources and the check scripts of Appendix~\ref{app:numver}
 are in the public repository named there and are archived at
-doi:10.5281/zenodo.23127802.}}
+\url{https://doi.org/10.5281/zenodo.23127802}.}}
 
 \markboth{IEEE Transactions on Information Theory}{Bond: Rate, Leakage, and Distortion for Gaussian Sources}
 
@@ -443,10 +444,9 @@ maximization,
 \begin{equation}
 L(D)=\tfrac12\log\det\Kc-\tfrac12\max\bigl\{\log\det\Se:\
 0\prec\Se\preceq\Kc,\ \tr\bigl(Qh(\Se)\bigr)\le D\bigr\},
-\qquad h(\Se):=(\Se^{-1}-J)^{-1},
 \label{eq:maxdet}
 \end{equation}
-in which $h$ is matrix-convex and the constraint is equivalent to a
+where $h(\Se):=(\Se^{-1}-J)^{-1}$ is matrix-convex and the constraint is equivalent to a
 linear matrix inequality. With $J=B^{\mathsf T}B$,
 $\tr(Qh(\Se))\le D$ if and only if some symmetric $Z$ has
 $\tr(QZ)\le D$ and
@@ -760,9 +760,10 @@ $\Lambda=\lambda_{\max}(2\bar\nu\tilde Q+\bar T)$, so $X_{t+1}\succeq\delta I$
 with $\delta=\min\{1,1/\Lambda\}$. The iterates lie in the compact set
 $\mathcal P\cap\{X\succeq\delta I\}$.
 
-\emph{Sufficient decrease.} On $\{0\prec X\preceq I\}$ the second
-derivative of $-\tfrac12\ln\det X$ in a direction $V$ is
-$\tfrac12\tr(X^{-1}VX^{-1}V)\ge\tfrac12\|V\|_F^2$, so $g_t$ is strongly
+\emph{Sufficient decrease.} The second derivative of
+$-\tfrac12\ln\det X$ in a direction $V$ is
+$\tfrac12\tr(X^{-1}VX^{-1}V)$, which is at least $\tfrac12\|V\|_F^2$ on
+the set $\{0\prec X\preceq I\}$, so $g_t$ is strongly
 convex there with modulus $\tfrac12$, and the first-order optimality of
 $X_{t+1}$ over the convex set $\mathcal P$ gives
 $g_t(X_t)-g_t(X_{t+1})\ge\tfrac14\|X_t-X_{t+1}\|_F^2$. Hence
@@ -2094,7 +2095,7 @@ given $T_i$, the variable $V_i$ is a function of $T_i$ and of
 $(T^n,C^n,S^n)$ with the $i$-th letter removed, which is independent of
 $(T_i,C_i,S_i)$. The reconstruction $\hY_i$ is a function of $(V_i,C_i)$.
 Every mutual information below is finite, being at most $H(M)$ or
-$I(T_i;C_i)$ or $I(T_i;S_i)$, so the chain rule and the Csiszár sum
+$I(T_i;C_i)$ or $I(T_i;S_i)$, so the chain rule and the Csisz\'ar sum
 identity apply to these continuous variables. For the rate,
 \[
 nR_n\ge H(M)\ge I(T^n;M\mid C^n)=\sum_iI(T_i;M,C^{n}_{\setminus i},T_{i+1}^n\mid C_i)
@@ -2108,7 +2109,7 @@ leakage, $H(M\mid T^n,S^n)=0$ and $M-T^n-(C^n,S^n)$ give
 \[
 nL_n=I(M;T^n\mid S^n)=I(M;T^n\mid C^n)+I(M;C^n)-I(M;S^n),
 \]
-and the Csiszár sum identity gives
+and the Csisz\'ar sum identity gives
 $I(M;C^n)-I(M;S^n)=\sum_i[I(M;C_i\mid C^{i-1},S_{i+1}^n)-I(M;S_i\mid C^{i-1},S_{i+1}^n)]$.
 Since $(C^{i-1},S_{i+1}^n)$ is independent of $(C_i,S_i)$, each term equals
 $I(V_{0,i};C_i)-I(V_{0,i};S_i)$, so
@@ -2676,10 +2677,10 @@ Theory}, vol. 58, no. 1, pp. 172--188, 2012.
 \emph{SIAM J. Matrix Anal. Appl.}, vol. 19, no. 2, pp. 499--533, 1998.
 \bibitem{bond2026prelim} A. H. Bond, ``A rate--work--distortion region for
 consumer-relative observation,'' preliminary manuscript, 2026, archived at
-doi:10.5281/zenodo.21776291.
+\url{https://doi.org/10.5281/zenodo.21776291}.
 \bibitem{bond2026cr} A. H. Bond, ``Tradeoffs between rate and conditional
 content with encoder-observed context,'' manuscript, 2026, archived at
-doi:10.5281/zenodo.22678341.
+\url{https://doi.org/10.5281/zenodo.22678341}.
 \bibitem{boyd2004} S. Boyd and L. Vandenberghe, \emph{Convex Optimization}.
 Cambridge, U.K.: Cambridge Univ. Press, 2004.
 \bibitem{yuille2003} A. L. Yuille and A. Rangarajan, ``The concave-convex
