@@ -136,3 +136,37 @@ convex averaging, Theorem 6's assembly — netted by
 **Build record:** Lean `leanprover/lean4:v4.32.2`, Mathlib tag `v4.32.2`,
 built clean 2026-08-21 on the Atlas workstation (`lake build`, 8664 jobs,
 zero errors, zero `sorry`).
+
+## T-IT rate–leakage: Theorem tilted (water-filling on a tilted weight)
+
+`ObservationTheory/TiltedWaterFilling.lean` machine-checks Theorem tilted of
+`paper/tit-rate-leakage/tit-rate-leakage.tex`, building on `LogDet.lean`.
+Reverse water-filling at level one is `waterfill A = (I + (A - I)⁺)⁻¹`, where
+`⁺` is Mathlib's continuous-functional-calculus positive part.
+
+- `kkt_iff_waterfill`: the spectral core of the proof. For symmetric `A` and
+  `X ≻ 0`, the KKT system (`X ⪯ I`, `Θ ⪰ 0`, `Θ(I − X) = 0`, `X⁻¹ = A + 2Θ`)
+  holds for some `Θ` iff `X = waterfill A`. The forward direction uses
+  uniqueness of the positive/negative-part decomposition of `A − I`.
+- `fixed_point_minimizes`: a fixed point `X = waterfill(Ã(X))` with
+  `ν ≥ 0` and an active budget minimizes the weighted objective over
+  `{Y ≻ 0, Y ⪯ I, tr(QY) ≤ D}`. The proof is calculus-free. It uses the tangent
+  bound `log_det_add_le` (from `log x ≤ x − 1`) and the fixed-gain tangent
+  `neg_log_det_Fw_tangent` (from `Phi_eq`).
+- `log_det_mid_strict`, `obj_mid_strict`, `minimizer_unique`: strict midpoint
+  convexity, so the minimizer is unique.
+- `tilted_waterfilling`, `fixed_point_unique`: the assembled theorem. A
+  budget-active fixed point is feasible, is a minimizer, and is the only
+  minimizer. Fixed points for any two multipliers coincide.
+- `whiten_tilt`, `whiten_log_det`: with `Σ_U = R R` and `B = R⁻¹ H̃`, the
+  formalized `obj` and `tilt` equal the paper's objective (up to a constant
+  and a factor 2) and tilted weight.
+
+Unformalized remainder: the existence of the multipliers `ν, Θ` at the
+frontier point. This is the paper's Slater/KKT-necessity step and the source
+of `ν > 0`; Mathlib has no KKT theorem for matrix programs.
+
+**Build record:** built clean 2026-10-07 on Atlas (`lake build`, 8666 jobs,
+zero errors, zero warnings in the module, zero `sorry`). All 13 theorems
+depend only on `propext`, `Classical.choice` and `Quot.sound`. See
+`paper/tit-rate-leakage/lean-tilted-2026-10-07.txt`.
