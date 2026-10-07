@@ -1322,15 +1322,27 @@ and $D_{\mathrm{floor}}:=\tr(\tilde P\Pi)$. Then every allocation in the $\hat
 P$-water-filling family, at every rate, has true distortion in the compact band
 $D_{\mathrm{floor}}\le\tr(P\Sigma_\delta)\le\tr(P\Sigma_x)$, with $D_{\mathrm{floor}}>0$
 iff $\mathrm{range}\,P\not\subseteq\mathrm{range}\,\hat P$. Distortion is never unbounded,
-but reaching any $D<D_{\mathrm{floor}}$ costs infinite rate---the rate diverges as
-$D\downarrow D_{\mathrm{floor}}$.
+and no allocation in the family reaches $D<D_{\mathrm{floor}}$ at any rate. If moreover
+$\tr\big(\tilde P(I-\Pi)\big)>0$, so that the true operator reads some of the coded
+whitened subspace, the true distortion exceeds $D_{\mathrm{floor}}$ at every finite rate
+and the rate diverges as $D\downarrow D_{\mathrm{floor}}$. If
+$\tr\big(\tilde P(I-\Pi)\big)=0$, the true distortion equals $D_{\mathrm{floor}}$ at every
+rate, including zero (e.g.\ $\Sigma_x=I$, $\hat P=\mathrm{diag}(1,0)$,
+$P=\mathrm{diag}(0,1)$), so the rate is wasted rather than divergent.
 \end{theorem}
 \begin{proof}
 In the $\hat P$-whitened eigenbasis $\Sigma_\delta(\theta)=\Sigma_x^{1/2}S(\theta)
 \Sigma_x^{1/2}$, $S(\theta)=1$ on $\ker(\Sigma_x^{1/2}\hat P\Sigma_x^{1/2})$ and
 $\min(1,\theta/\hat p_k)\in[0,1]$ on read modes, so $\Pi\preceq S(\theta)\preceq I$;
 tracing against $P\succeq0$ gives the band. As $\theta\to0$, $S(\theta)\to\Pi$ and
-$\tr(P\Sigma_\delta)\to D_{\mathrm{floor}}$ while the read-block rate diverges. Positivity:
+$\tr(P\Sigma_\delta)\to D_{\mathrm{floor}}$ while the read-block rate diverges. For
+$\theta>0$, $S(\theta)-\Pi\succeq c_\theta(I-\Pi)$ with
+$c_\theta=\min_k\min(1,\theta/\hat p_k)>0$, so
+$\tr(P\Sigma_\delta)-D_{\mathrm{floor}}=\tr\big(\tilde P(S(\theta)-\Pi)\big)\ge
+c_\theta\tr\big(\tilde P(I-\Pi)\big)$. When $\tr(\tilde P(I-\Pi))>0$ this is positive at
+every finite rate, so approaching the floor forces $\theta\to0$ and a divergent rate. When
+it is zero, $\tilde P\succeq0$ gives $\tilde P(I-\Pi)=0$, hence
+$\tr(\tilde P S(\theta))=\tr(\tilde P\Pi)$ for every $\theta$. Positivity:
 $\tr(\tilde P\Pi)>0$ iff $\ker(\Sigma_x^{1/2}\hat P\Sigma_x^{1/2})\not\subseteq\ker\tilde
 P$, i.e.\ (whitening is a bijection) $\mathrm{range}\,P\not\subseteq\mathrm{range}\,\hat
 P$. The whitened kernel is the correct one: in whitened coordinates the modes are
