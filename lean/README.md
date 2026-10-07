@@ -162,11 +162,28 @@ Reverse water-filling at level one is `waterfill A = (I + (A - I)⁺)⁻¹`, whe
   formalized `obj` and `tilt` equal the paper's objective (up to a constant
   and a factor 2) and tilted weight.
 
-Unformalized remainder: the existence of the multipliers `ν, Θ` at the
-frontier point. This is the paper's Slater/KKT-necessity step and the source
-of `ν > 0`; Mathlib has no KKT theorem for matrix programs.
+**Existence half: `ObservationTheory/TiltedExistence.lean` (added 2026-10-07).**
+Mathlib has no KKT theorem for matrix programs, so the multipliers are proved to
+exist by a problem-specific route:
 
-**Build record:** built clean 2026-10-07 on Atlas (`lake build`, 8666 jobs,
-zero errors, zero warnings in the module, zero `sorry`). All 13 theorems
-depend only on `propext`, `Classical.choice` and `Quot.sound`. See
-`paper/tit-rate-leakage/lean-tilted-2026-10-07.txt`.
+- `exists_minimizer`: a minimizer exists by compactness. The proof uses
+  `obj ≥ −log det`, that the entries of `0 ⪯ Y ⪯ I` are bounded by 1, and that
+  `det` is continuous.
+- `first_order`: at a minimizer, `tr(M(Y − X)) ≤ 0` on the feasible set. The
+  proof is calculus-free. It uses `−log(1+u) ≤ −u + 2u²` on eigenvalues, plus
+  the concave tangent bound.
+- `slope_duality`: `ν` is the supremum of the slopes `(tr MZ − p*)/(tr QZ − D)`.
+  This is one-variable strong duality from the Slater point `εI`.
+- `psd_of_trace_cap`, `psd_mul_eq_zero`: `A = M − νQ ⪰ 0`, by testing with
+  eigen-projections. Then `A(I − X) = 0`, from a zero trace.
+- `minimizer_is_fixed_point`, `tilted_waterfilling_exists`: because `M ≻ 0`,
+  `ν > 0` and the budget is active whenever `0 < D < tr Q`.
+- `tilted_waterfilling_complete`: **Theorem tilted in full.** The frontier point
+  (the unique minimizer) is the unique `X` with `tr(QX) = D` and `X = Φ(Ã(X))`
+  for some `ν > 0`. Every budget-active fixed point (with `ν ≥ 0`) equals it.
+
+**Build record:** both modules built clean 2026-10-07 on Atlas (`lake build`,
+8667 jobs). There are no errors, no warnings in either module, and no `sorry`.
+Every audited theorem depends only on `propext`, `Classical.choice` and
+`Quot.sound`. See `paper/tit-rate-leakage/lean-tilted-2026-10-07.txt` and
+`paper/tit-rate-leakage/lean-tilted-complete-2026-10-07.txt`.

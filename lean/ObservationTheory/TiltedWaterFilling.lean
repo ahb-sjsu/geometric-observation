@@ -22,10 +22,10 @@ positive part of the continuous functional calculus: `I + (A - I)⁺` has eigenv
 * `minimizer_unique`, `tilted_waterfilling` — uniqueness by strict midpoint convexity of `log det`, and the
   assembled statement: every budget-active fixed point is THE frontier point.
 
-Scope. Not formalized: the existence of the multiplier `ν` and of `Θ` at the frontier point (the paper's
-appeal to Slater's condition for the convex program), which is where `ν > 0` comes from. Mathlib has no
-KKT theorem for matrix programs. Everything after "Suppose these hold" in the paper's proof, and the converse,
-is checked here.
+Scope. This file checks everything after "Suppose these hold" in the paper's proof, and the converse. The
+existence of the multipliers `ν > 0` and `Θ` at the frontier point (the paper's appeal to Slater's condition)
+is proved in `TiltedExistence.lean` by a problem-specific route, because Mathlib has no KKT theorem for
+matrix programs. The complete statement is `tilted_waterfilling_complete` there.
 -/
 import Mathlib
 import ObservationTheory.LogDet
