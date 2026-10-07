@@ -2481,7 +2481,7 @@ derivations by scripts run on a remote workstation. The scripts and
 their recorded outputs are in the public repository
 \begin{center}
 \texttt{https://github.com/ahb-sjsu/geometric-observation}\\
-commit \texttt{150b2531fa8c9cbb68c27dfb8f1bc51c6e2b499d}
+commit \texttt{a614136621de0ab96002e5157718613c30737ea6}
 \end{center}
 in the directory \texttt{paper/tit-rate-leakage} unless another directory
 is named.
@@ -2576,15 +2576,36 @@ spectral theorem and formalizes the convexity of both costs in the error
 covariance in Theorem~\ref{thm:convex}. The leakage part rests on the
 Loewner monotonicity of $\det$ and on the matrix concavity of
 $\Sez\mapsto(\Sez^{-1}+J)^{-1}$, proved by completing the square in the
-fixed-gain estimate of Lemma~\ref{lem:mmsecomp}. Not formalized are the
-existence of the multipliers in Proposition~\ref{prop:rank}, the
-remaining parts of Theorem~\ref{thm:convex}, Theorem~\ref{thm:tilted},
-the convergence part of Proposition~\ref{prop:mm}, and the coding theorem
-Theorem~\ref{thm:decregion}. Both outputs are recorded
-in \texttt{symbolic\_and\_lean-2026-10-02.txt} and, with the checks for
-Section~\ref{sec:decsi}, in \texttt{symbolic\_and\_lean-decsi-2026-10-02.txt}.
-The current Lean builds and axiom audits are recorded in
-\texttt{lean-2026-10-03.txt} and \texttt{lean-logdet-2026-10-03.txt}.
+fixed-gain estimate of Lemma~\ref{lem:mmsecomp}. Two further modules
+machine-check Theorem~\ref{thm:tilted} in full, in the whitened coordinates
+of its proof. \texttt{lean/ObservationTheory/TiltedWaterFilling.lean}
+writes $\Phi(A)$ as $(I+(A-I)^+)^{-1}$, where $(\cdot)^+$ is the positive
+part of the continuous functional calculus. It proves that the optimality
+conditions in the proof of Theorem~\ref{thm:tilted} hold for some $\Theta$
+if and only if $X=\Phi(\tilde A)$. It also proves that a fixed point with an
+active budget and $\nu\ge0$ minimizes the weighted objective over the
+feasible set, and that this minimizer is unique.
+\texttt{lean/ObservationTheory/TiltedExistence.lean} proves that the
+minimizer exists for $0<D<D_{\max}$ and carries multipliers with $\nu>0$.
+Mathlib has no Karush--Kuhn--Tucker theorem for matrix programs, so the
+module constructs the multipliers directly. Compactness gives a minimizer.
+The bound $-\ln(1+u)\le-u+2u^2$, applied to eigenvalues, gives a
+first-order condition there. The multiplier $\nu$ is the supremum of the
+slopes along which the budget is exceeded, with $\epsilon I$ as the
+strictly feasible point. Testing against eigenvector projections gives
+$\Theta\succeq0$. Two lemmas identify the formal objective and tilt with
+those of the paper after the holder's noise is whitened. Neither module
+uses \texttt{sorry}, and both depend only on the standard axioms. Not
+formalized are the existence of the multipliers in
+Proposition~\ref{prop:rank}, the remaining parts of
+Theorem~\ref{thm:convex}, the convergence part of Proposition~\ref{prop:mm},
+and the coding theorem Theorem~\ref{thm:decregion}. Both outputs are
+recorded in \texttt{symbolic\_and\_lean-2026-10-02.txt} and, with the checks
+for Section~\ref{sec:decsi}, in
+\texttt{symbolic\_and\_lean-decsi-2026-10-02.txt}. The current Lean builds
+and axiom audits are recorded in \texttt{lean-2026-10-03.txt} and
+\texttt{lean-logdet-2026-10-03.txt}, and for the two further modules in
+\texttt{lean-tilted-complete-2026-10-07.txt}.
 \texttt{verify\_decsi\_identities.py} checks the same identities on random
 matrices of dimension up to five, including singular $J_C$ and
 rank-deficient $H$. It checks the fixed-gain estimate of
