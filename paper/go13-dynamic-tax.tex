@@ -18,12 +18,12 @@ statement (GO-13)}
 \maketitle
 
 \begin{abstract}
-GO-10 measured the complementarity tax two consumers pay on one static
+GO-10 measured the complementarity tax two downstream estimators pay on one static
 source; GO-11 solved the exact region behind it, through the $m=2$
 frontier system with its $2\times2$ matrix water levels; GO-12 showed
 the staleness of the eraser's context is an access-width phenomenon,
 reduced entirely to one conditional variance $q_{\mathcal G}$. GO-13
-asks the merged question: \emph{what do two consumers pay when the
+asks the merged question: \emph{what do two estimators pay when the
 eraser's context ages?} Nothing here is a claim; the conjectures are
 gates for future registrations.
 \end{abstract}
@@ -34,12 +34,14 @@ Take GO-11's $m=2$ setup verbatim (whitened latent $Z\in\mathbb
 R^{2+r}$, reads $y_A,y_B$, context block $V$ now a stationary AR(1)
 \emph{process} with observations $S_s=V_s+U_s$, $\mathrm{Var}\,U=
 \tau^2$), single-letter two-dimensional records
-$\hat{\mathbf Y}=AZ+N$ with per-consumer distortions $D_A,D_B$. The
+$\hat{\mathbf Y}=AZ+N$ with per-estimator distortions $D_A,D_B$. The
 eraser holds a context $\sigma$-algebra $\mathcal G$ from the
 observation process (slice, causal prefix, full path --- GO-12's access
 family). Coordinates: the joint conditional coordinate
-$L_{AB}(\mathcal G)$ (weighted-program value of GO-11 Theorem~9 with
-the conditional covariance induced by $\mathcal G$), the single-consumer
+$L_{AB}(\mathcal G)$, which is the conditional leakage to the
+side-information holder in the sense of secure source coding
+\cite{bib:villard2013,bib:ekrem2013} (weighted-program value of GO-11 Theorem~9 with
+the conditional covariance induced by $\mathcal G$), the single-estimator
 coordinates $L_A(\mathcal G),L_B(\mathcal G)$, and the taxes
 \[
 \mathrm{CT}_R \;=\; R_{AB}-\max(R_A,R_B),\qquad
@@ -100,17 +102,17 @@ sensitivity is on record), Danskin's theorem \cite{bib:danskin66} gives
 \]
 at the optimal channels (otherwise only the one-sided derivatives,
 $J'(q\pm)=\min/\max$ of the sensitivity over the argmin). Away from
-the max-switch locus, with the binding consumer any argmax of
+the max-switch locus, with the binding estimator any argmax of
 $(L_A,L_B)$ (their sensitivities agreeing at ties),
 \[
 \frac{d\,\mathrm{CT}_W}{dq}=\frac{1-w}{2\ln2}\Bigl[(Ac)^{\mathsf T}
 M_1^{-1}(Ac)-s_{\mathrm{binding}}\Bigr]:
 \]
 \textbf{staleness raises the tax iff the joint record's context
-coupling, in the $M_1^{-1}$ metric, exceeds the binding consumer's.}
+coupling, in the $M_1^{-1}$ metric, exceeds the binding estimator's.}
 At an interior max-switch crossing the curve is continuous with a
 kink that is \emph{always downward}: the right derivative subtracts
-the \emph{larger} sensitivity (that consumer binds beyond $q^\star$),
+the \emph{larger} sensitivity (that estimator binds beyond $q^\star$),
 the left the smaller, magnitude $\tfrac{1-w}{2\ln2}|s_A-s_B|$ (zero
 allowed at sensitivity ties; interior crossings require asymmetric
 distortions or variances). At $w=1$ the curve is identically flat,
@@ -125,7 +127,7 @@ $A$-referenced); governed harness 068.]
 Theorem~\ref{thm:taxcurve} closes the question the 067 pass opened
 and explains its instances: I2's increasing tax is a
 joint-coupling-dominant regime; the near-invariant curves arise when
-the binding consumer carries almost all the context coupling
+the binding estimator carries almost all the context coupling
 ($s_{\mathrm{binding}}\approx s_J$). Open residue: the global regime
 map over $(\rho_{AB},\rho_{AV},\rho_{BV},D_A,D_B,w)$ --- for which the
 sign law is now the instrument --- and the operational face
@@ -137,8 +139,8 @@ disclosed]
 An 18-point envelope sweep (\texttt{go13\_regime\_sweep.py}, seed
 20260925; $[$exploratory$]$-grade only): the dynamic tax \emph{rises}
 with staleness at 16/18 grid points; decreases are shallow slivers
-($|d\mathrm{CT}/dq|<10^{-3}$) occurring only when the binding consumer
-is the context-\emph{rich} one; when the binding consumer is
+($|d\mathrm{CT}/dq|<10^{-3}$) occurring only when the binding estimator
+is the context-\emph{rich} one; when the binding estimator is
 context-poor the rise is strong at 10/10 points, up to $+0.286$
 bits/unit-$q$. The candidate iff-law (``rises iff binding is
 context-poor'') \emph{fails} at 6/18 points and is recorded as
@@ -174,9 +176,10 @@ rate-face endpoint is Xiao--Luo (Allerton 2005)
 tuple's reduction to pairwise subproblems with an implicit
 two-water-level system is Stylianou--Charalambous--Charalambous (ISIT
 2021/2024) \cite{bib:stylianou2021}; what this theorem adds is the \emph{spectral lift}, the
-conditional/weighted face, and the third-party conditioner. At the
-allocation optimum the interior-mode partial slopes are equal per
-consumer: \textbf{two common prices} $(\mu_A,\mu_B)$, one per
+conditional/weighted face, and the side-information holder (the
+eavesdropper of secure source coding, so new only in this spectral form). At
+the allocation optimum the interior-mode partial slopes are equal per
+estimator: \textbf{two common prices} $(\mu_A,\mu_B)$, one per
 distortion constraint, generically distinct (a measure-zero
 coincidence set is possible) --- this is where a ``common pair of
 Lagrange prices'' lives, vindicating GO-12 Conjecture~1's
@@ -198,8 +201,10 @@ mapping $2.7\times10^{-15}$ for $n\le8$; full-vs-allocation
 $7.4\times10^{-14}$ over five settings and 100+ starts; prices
 $(-2.80690,-2.88527)$ with spreads $\le3.4\times10^{-7}$; five
 sharpenings folded. Novelty flank swept (record in the GO-13 novelty
-file): the spectral lift with two prices and the third-party
-conditioner remain claimable; language gated per the sweep.]
+file): the spectral lift with two prices and the side-information
+holder remain claimable; language gated per the sweep. Note added
+2026-10-01: the holder alone is the eavesdropper of secure source coding,
+so only its spectral, aged form is claimed.]
 \end{theorem}
 
 \begin{theorem}[The binary twin; settled and netted, GO-P-2026-072]
@@ -249,7 +254,7 @@ numeric corrections now in this statement.]
 
 \begin{question}
 The operational face: 058-lineage decode-threshold instruments with
-two consumers and an aged context, gating (i) the tax at two access
+two estimators and an aged context, gating (i) the tax at two access
 classes tuned to equal $q$ (the universality control), and (ii) the
 monotone tax curve across staleness levels. Instrument bias budget per
 PROTOCOL \S5.1, with the paired-bias device of the 064 cross-net.
@@ -331,6 +336,12 @@ correlated multivariate Gaussian sources with individual fidelity
 criteria, \emph{Proc. IEEE ISIT}, 2021 (arXiv:2102.07236); explicit
 formulas in arXiv:2508.16301, 2025.
 
+\bibitem{bib:villard2013} J.~Villard, P.~Piantanida, Secure multiterminal
+source coding with side information at the eavesdropper, \emph{IEEE Trans.
+Inf. Theory} 59(6):3668--3692, 2013.
+\bibitem{bib:ekrem2013} E.~Ekrem, S.~Ulukus, Secure lossy transmission of
+vector Gaussian sources, \emph{IEEE Trans. Inf. Theory} 59(9):5466--5487,
+2013.
 \bibitem{bib:danskin66} J.~M. Danskin, The theory of max-min, with
 applications, \emph{SIAM J. Appl. Math.} 14(4):641--664, 1966.
 

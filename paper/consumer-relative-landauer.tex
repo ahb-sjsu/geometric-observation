@@ -17,7 +17,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
-\hypersetup{pdftitle={A Rate--Work--Distortion Region for Consumer-Relative Observation},pdfauthor={Andrew H. Bond}}
+\hypersetup{pdftitle={A Rate--Work--Distortion Region for Erasure with Side Information},pdfauthor={Andrew H. Bond}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
@@ -47,7 +47,7 @@
 
 \begin{document}
 
-\title{A Rate--Work--Distortion Region for\\Consumer-Relative Observation}
+\title{A Rate--Work--Distortion Region for\\Erasure with Side Information}
 
 \author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
 \thanks{Draft prepared August 2026. The author is with the Department of
@@ -67,27 +67,32 @@ to its most recent version.}}
 \maketitle
 
 \begin{abstract}
-Source coding counts the bits needed to serve a consumer. A cyclic physical
+Source coding counts the bits needed to serve a decoder. A cyclic physical
 observer must also erase the memory that carried those bits. The two costs
 coincide only when no correlated side information survives at reset. We study
 a memory that stores a lossy description of an i.i.d. source, supports a
-declared consumer distortion without access to side information, and is later
+declared distortion at a decoder without side information, and is later
 erased while correlated side information is retained. Under the classical,
 isothermal Landauer model, we characterize the complete achievable region of
-description rate, ideal reset work, and consumer distortion. For a test channel
+description rate, ideal reset work, and distortion. For a test channel
 from the source to its reconstruction, the two coordinates are the ordinary
 mutual information and the mutual information conditioned on the reset side
-information. The work-only endpoint is the common-reconstruction
+information. The conditional coordinate is the conditional leakage of secure
+source coding, and the region is, up to a constant shift, the
+rate--distortion--equivocation region of Villard and Piantanida with no decoder
+side information. Our contribution is its thermodynamic reading and its
+Gaussian corners. The work-only endpoint is the common-reconstruction
 rate--distortion function, but the full two-resource region distinguishes codes
 that have the same rate and distortion and different thermodynamic costs. We
 derive the supporting-channel equations for its Pareto boundary and give an
 exact binary example with a nontrivial rate--work frontier. We then prove a
 materialize-then-project barrier: once a full digital source record has been
 created, jointly resetting it and every derived description costs its full
-conditional entropy, regardless of the consumer's lower-dimensional need. We
-extend the region to several consumers, identify the conditional total
-correlation saved by coordinated reset, derive the Landauer scaling of the
-Gaussian read-operator water-filling solution, and obtain a temperature-weighted
+conditional entropy, regardless of the lower-dimensional need of the
+downstream task. We extend the region to several decoders, identify the
+conditional total correlation saved by coordinated reset, derive the Landauer
+scaling of the Gaussian weighted water-filling solution, and obtain a
+temperature-weighted
 water-filling rule for heterogeneous memory banks. With jointly Gaussian reset
 side information, the scalar region collapses to a single corner whose
 rate--work gap grows to the full source--side-information mutual information as
@@ -100,7 +105,7 @@ the total energy of sensing, communication, or finite-time operation.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Common reconstruction, consumer-relative distortion, information
+Common reconstruction, weighted distortion, secure source coding, information
 thermodynamics, Landauer principle, rate--distortion theory, semantic source
 coding, side information, source coding, thermodynamics of information.
 \end{IEEEkeywords}
@@ -109,7 +114,7 @@ coding, side information, source coding, thermodynamics of information.
 
 \section{Introduction}\label{sec:intro}
 
-Source coding asks how many bits a consumer needs. A cyclic physical observer
+Source coding asks how many bits a decoder needs. A cyclic physical observer
 has a second obligation: it must eventually clear the memory that carried those
 bits. Landauer's principle assigns a thermodynamic cost to this logically
 irreversible step \cite{landauer1961,bennett1973}. In the ideal classical model,
@@ -120,9 +125,9 @@ rather than entropy \cite{delrio2011,faist2015}. Thus a description can be
 expensive to communicate and cheap to erase, or the reverse.
 
 This paper studies that separation. A source block $X^n$ is encoded into a
-memory index $M$. A consumer reconstructs $\hXn$ from $M$ alone and is judged by
+memory index $M$. A decoder reconstructs $\hXn$ from $M$ alone and is judged by
 a declared distortion $d_{\cC}$. Later, when $M$ is reset, a correlated block
-$S^n$ is available to the reset mechanism. The consumer never sees $S^n$.
+$S^n$ is available to the reset mechanism. The decoder never sees $S^n$.
 Figure~\ref{fig:model} shows the distinction. The rate of the description is
 controlled by the size of $M$; its ideal reset work is controlled by
 $H(M\mid S^n)$.
@@ -139,7 +144,7 @@ $H(M\mid S^n)$.
   \node[block] (x) {$X^n$};
   \node[block,right=of x] (enc) {encoder};
   \node[mem,right=of enc] (m) {memory\\$M$};
-  \node[block,right=of m] (dec) {consumer};
+  \node[block,right=of m] (dec) {decoder};
   \node[block,right=of dec] (xh) {$\widehat X^n$};
   \node[block,below=14mm of m] (s) {retained side\\information $S^n$};
   \node[block,above=12mm of m] (rst) {conditional reset\\$M\mapsto 0$};
@@ -149,23 +154,25 @@ $H(M\mid S^n)$.
   \draw[arr] (dec)--(xh);
   \draw[darr] (s)--(rst);
   \draw[arr] (m)--node[right,font=\footnotesize]{$\kb T\ln2\,H(M\mid S^n)$}(rst);
-  \node[font=\footnotesize,align=center,below=3mm of dec] {$S^n$ is not available\\to the consumer};
+  \node[font=\footnotesize,align=center,below=3mm of dec] {$S^n$ is not available\\to the decoder};
 \end{tikzpicture}
-\caption{The model. The consumer reconstructs from the stored description alone.
+\caption{The model. The decoder reconstructs from the stored description alone.
 Correlated side information is available only when the description memory is
 reset. Rate and reset work are therefore different resources.}
 \label{fig:model}
 \end{figure}
 
-The distortion is consumer-relative. Let $\cC$ be the map that reads an
-observation and let $D_{\mathcal Y}$ be the loss on its output. The induced
-distortion may be written
+The distortion is task-weighted. Let $\cC$ be the downstream task map applied
+to an observation and let $D_{\mathcal Y}$ be the loss on its output. The
+induced distortion may be written
 \begin{equation}
  d_{\cC}(x,\hat x)
    =D_{\mathcal Y}\!\left(\cC(x),\cC(\hat x)\right).
  \label{eq:consumer-dist}
 \end{equation}
-This is the exact form used in Observation Theory \cite{bond2026observation}.
+This is the induced distortion of indirect source coding
+\cite{sakrison1968,wolfziv1970}. Observation Theory uses the same form and calls
+the task map a consumer \cite{bond2026observation}.
 Ordinary reconstruction is the special case in which $\cC$ is the identity and
 $D_{\mathcal Y}$ is a source-space metric. The present paper takes
 $d_{\cC}$ as given and asks a different question: what thermodynamic work is
@@ -176,7 +183,7 @@ $p(\hat x\mid x)$ meeting the distortion constraint, the description-rate
 coordinate is $I(X;\hX)$ and the normalized reset-work coordinate is
 $I(X;\hX\mid S)$. Their separate minima do not, in general, describe the full
 frontier: two test channels can have the same rate and distortion but different
-conditional work. The work-only endpoint coincides mathematically with the
+conditional leakage. The work-only endpoint coincides mathematically with the
 common-reconstruction rate--distortion function of Steinberg
 \cite{steinberg2009}. That connection is useful rather than accidental. In the
 common-reconstruction problem, side information reduces a communication rate
@@ -189,6 +196,20 @@ entropy-constrained quantization \cite{chou1989,chou1990}; the new ingredient is
 that the entropy coordinate is conditional on information retained by the reset
 mechanism and is assigned a thermodynamic meaning.
 
+The conditional coordinate has a standard name. For a deterministic encoder,
+$H(M\mid S^n)=I(X^n;M\mid S^n)$, which is the conditional leakage of secure
+source coding. Equivalently,
+$H(X^n\mid M,S^n)=H(X^n\mid S^n)-H(M\mid S^n)$ is the equivocation of a
+side-information holder who sees $M$ and $S^n$. Minimizing the leakage is the
+same problem as maximizing that equivocation. Theorem~\ref{thm:main-region} is
+therefore Theorem~3 of Villard and Piantanida \cite{villard2013} with no decoder
+side information, up to this constant shift. Ekrem and Ulukus found the minimum
+leakage for vector Gaussian sources at unconstrained rate, and they could not
+solve the joint rate--leakage region \cite{ekrem2013}. The contribution of this
+paper is not the region as a coding theorem. It is the thermodynamic reading of
+the leakage as ideal reset work, the materialization barrier, and the Gaussian
+corners of Section~\ref{sec:gaussian}.
+
 Six consequences follow. First, the lower boundary has a direct
 supporting-channel characterization, and even a two-bit source exhibits a
 strict tradeoff between description capacity and reset work. Second, a full
@@ -196,12 +217,12 @@ digital record cannot be made thermodynamically cheap by compressing it after
 the fact. If a register holding
 $X^n$ has already been materialized, the ideal work required to reset that
 register and every deterministic description derived from it is
-$\kb T\ln2\,H(X^n\mid S^n)$. Consumer-native observation saves work only when
+$\kb T\ln2\,H(X^n\mid S^n)$. Task-native observation saves work only when
 irrelevant distinctions are never committed to volatile memory, or are
-reversibly uncomputed. Third, a shared observation for several consumers is
-priced by the joint consumer output; coordinated reset saves their conditional
-total correlation. Fourth, for a Gaussian source and the read operator
-$\PC$ of Observation Theory, the usual spectral water-filling rate becomes an
+reversibly uncomputed. Third, a shared observation for several decoders is
+priced by their joint output; coordinated reset saves their conditional
+total correlation. Fourth, for a Gaussian source and a distortion weight matrix
+$\PC$, the usual spectral water-filling rate becomes an
 isothermal work law. If eigenmodes are erased in memory banks at different
 temperatures, the water level is proportional to temperature. Fifth, with
 jointly Gaussian reset side information the scalar region is a single corner
@@ -209,7 +230,7 @@ whose rate--work gap grows to $I(X;S)$ as distortion vanishes, and the
 tradeoff reappears in the vector case through the allocation of distortion
 across modes that the reset context knows unequally well. Sixth, for a
 stale Markov record, the loss of predictive information and the rise of
-conditional reset work are two sides of the same entropy identity.
+conditional leakage are two sides of the same entropy identity.
 
 The physical scope is deliberately narrow. We count the reversible lower bound
 for resetting a classical, degenerate memory in the asymptotic i.i.d. regime.
@@ -226,10 +247,10 @@ engineering losses are added.
 All logarithms are base two. Random variables have finite alphabets unless a
 Gaussian specialization is stated. Let $(X,S)\sim p_{XS}$, and let
 $(X^n,S^n)$ be i.i.d. copies. The encoder observes $X^n$ but not $S^n$. The
-consumer and its decoder also do not observe $S^n$. The reset mechanism alone
+decoder also does not observe $S^n$. The reset mechanism alone
 has access to $S^n$, which remains unchanged by the reset.
 
-A consumer-relative distortion is a bounded function
+A task-weighted distortion is a bounded function
 \begin{equation}
  d_{\cC}:\cX\times\widehat{\cX}\longrightarrow[0,d_{\max}].
 \end{equation}
@@ -250,8 +271,11 @@ The three operational quantities are
  D_n&=\frac{1}{n}\sum_{i=1}^{n}\E\,d_{\cC}(X_i,\hX_i),\label{eq:dist-def}\\
  L_n&=\frac{1}{n}H(M\mid S^n).\label{eq:work-def}
 \end{align}
-The dimensionless quantity $L_n$ is the \emph{Landauer content} of the memory
-relative to the retained side information. Under an ideal conditional reset,
+The dimensionless quantity $L_n$ is the \emph{conditional leakage} of the
+memory to the retained side information. For a deterministic encoder it equals
+$\frac1nI(X^n;M\mid S^n)$, the leakage of secure source coding. Its
+thermodynamic reading is the Landauer content of the memory relative to $S^n$.
+Under an ideal conditional reset,
 the average work satisfies
 \begin{equation}
  W_n\ \ge\ n\kb T\ln2\,L_n.
@@ -292,17 +316,17 @@ computation can retain and uncompute intermediate information
 \begin{remark}[Semantic invariance of erasure]\label{rem:invariance}
 For a fixed joint state $p_{MS^n}$, fixed memory physics, temperature, and
 reset operation, the minimum reset work is independent of the identity,
-purpose, or loss function of any downstream consumer. The consumer enters
+purpose, or loss function of any downstream task. The task enters
 this paper only by constraining the set of admissible codes through the
 distortion requirement. The causal chain is
 \begin{equation*}
- \text{consumer requirement}\longrightarrow\text{code design}
+ \text{task requirement}\longrightarrow\text{code design}
  \longrightarrow p_{MS^n}\longrightarrow\text{reset work},
 \end{equation*}
-and once the code and the physical state are fixed, the consumer drops out
+and once the code and the physical state are fixed, the task drops out
 of the thermodynamic accounting. Two senses of ``observer'' must accordingly
-be kept distinct. The Observation-Theory \emph{consumer} is a downstream
-functional that defines the operative distortion. The \emph{reset agent} of
+be kept distinct. The \emph{downstream task} (the consumer of Observation
+Theory) is a functional that defines the operative distortion. The \emph{reset agent} of
 conditional-erasure thermodynamics is a physical system holding the
 correlated state $S^n$ that participates in the erasure protocol
 \cite{delrio2011}. Theorem~\ref{thm:materialization} is the sharp form of
@@ -343,7 +367,7 @@ difference is a priori indefinite.
 \end{proof}
 
 \begin{theorem}[Rate--work--distortion region]\label{thm:main-region}
-For a discrete memoryless source $(X,S)$ and bounded consumer distortion
+For a discrete memoryless source $(X,S)$ and bounded task-weighted distortion
 $d_{\cC}$,
 \begin{equation}
 \boxed{
@@ -361,6 +385,15 @@ compactness of $\mathcal T_{\cC}(D)$ and continuity of both coordinates; no
 time sharing is required, and every boundary point is attained by a single
 test channel.
 \end{theorem}
+
+\begin{remark}[Prior region]\label{rem:vp}
+Theorem~\ref{thm:main-region} is not new as a coding theorem. Take Theorem~3 of
+Villard and Piantanida \cite{villard2013} with no side information at the
+legitimate decoder. Their eavesdropper holds $S^n$ and has equivocation
+$\Delta$. Their region then becomes \eqref{eq:main-region} under
+$L=H(X\mid S)-\Delta$. We include the proof because it is short and because its
+binning step carries the reset reading below.
+\end{remark}
 
 \begin{proof}
 We first prove the converse. Let a code produce $M$ and $\hXn$. Since
@@ -399,7 +432,7 @@ For achievability, fix $p(\hat x\mid x)\in\mathcal T_{\cC}(D)$ and
 $\epsilon>0$. Generate a standard rate--distortion codebook containing
 $2^{n(I(X;\hX)+2\epsilon)}$ independent $\hat x^n$ codewords. A covering
 encoder selects a codeword jointly typical with $x^n$ and stores its index $M$.
-The consumer reconstructs that codeword from $M$ alone. Standard typicality
+The decoder reconstructs that codeword from $M$ alone. Standard typicality
 arguments give rate $I(X;\hX)+2\epsilon$ and distortion at most
 $D+o(1)$.
 
@@ -411,7 +444,7 @@ Because $\hX-X-S$,
 \end{equation}
 The usual Wyner--Ziv packing argument therefore gives a decoder that recovers
 $M$ from $(B,S^n)$ with probability of error tending to zero. This decoder is a
-proof device; the consumer still receives no side information. By Fano's
+proof device; the decoder still receives no side information. By Fano's
 inequality,
 \begin{align}
  H(M\mid S^n)
@@ -420,13 +453,13 @@ inequality,
  \label{eq:entropy-ach}
 \end{align}
 Thus the same stored index has ordinary description rate $I(X;\hX)$ and
-conditional Landauer content $I(X;\hX\mid S)$. Since the union in
+conditional leakage $I(X;\hX\mid S)$. Since the union in
 \eqref{eq:main-region} is already convex and closed
 (Lemma~\ref{lem:convexity}), this exhibits the entire region.
 \end{proof}
 
 The binning step in the proof has a simple interpretation. The full codeword
-index is required by the consumer. At reset, side information identifies the
+index is required by the decoder. At reset, side information identifies the
 codeword up to a bin of asymptotic size $2^{nI(X;\hX\mid S)}$. Only that
 residual uncertainty is thermodynamically irreducible. The step is also
 operationally checkable at finite blocklength. In the reproducibility
@@ -434,7 +467,7 @@ materials, a random codebook on the source of
 Proposition~\ref{prop:binary-frontier} stores an index whose in-bin
 maximum-likelihood recovery from $(B,S^n)$ succeeds at bin rates near $0.39$
 of the measured description rate and fails increasingly below the measured
-conditional content, while the same decoder without $S^n$ fails at every bin
+conditional leakage, while the same decoder without $S^n$ fails at every bin
 rate tested. The check replicates across five independent codebook draws
 and, at bin rates near $0.41$ of the measured description rate, on a scalar
 Gaussian source in the setting of
@@ -442,13 +475,13 @@ Proposition~\ref{prop:scalar-corner}.
 
 \subsection{Endpoints and relation to common reconstruction}
 
-Define the ordinary consumer-relative rate--distortion function
+Define the ordinary weighted (indirect) rate--distortion function
 \begin{equation}
  R_{\cC}(D)
  =\min_{p(\hat x\mid x)\in\mathcal T_{\cC}(D)}I(X;\hX)
  \label{eq:ordinary-rd}
 \end{equation}
-and the minimum Landauer content
+and the minimum conditional leakage
 \begin{equation}
  L_{\cC}(D\mid S)
  =\min_{p(\hat x\mid x)\in\mathcal T_{\cC}(D)}I(X;\hX\mid S).
@@ -487,15 +520,16 @@ under $\hX-X-S$.
 \end{proof}
 
 The corollary is also a novelty boundary. The conditional mutual information in
-\eqref{eq:work-endpoint} is not a new source-coding functional. What is new in
-the present formulation is its role as one coordinate of a joint
-rate--work--distortion region when the full description, not merely a bin, must
-remain available to a consumer that lacks $S$.
+\eqref{eq:work-endpoint} is not a new source-coding functional. The joint
+region with this coordinate also appears in secure source coding
+(Remark~\ref{rem:vp}). What the present formulation adds is the reading of that
+coordinate as ideal reset work when the full description, not merely a bin,
+must remain available to a decoder that lacks $S$.
 
 \subsection{Supporting channels on the lower boundary}
 
 Because the region is convex, each exposed point of its lower boundary minimizes
-a weighted sum of description rate and Landauer content. The resulting channel
+a weighted sum of description rate and conditional leakage. The resulting channel
 equation generalizes the Blahut--Arimoto fixed point.
 
 \begin{proposition}[Pareto-channel equation]\label{prop:pareto-channel}
@@ -549,8 +583,8 @@ rate--distortion fixed point. For $\alpha=0$, it supports the minimum-work, or
 common-reconstruction, endpoint. Intermediate values expose the rate--work
 tradeoff rather than either intercept alone.
 
-\begin{corollary}[Exact consumer output]\label{cor:exact-output}
-Let $U=\cC(X)$ be a deterministic consumer output, and suppose zero distortion
+\begin{corollary}[Exact task output]\label{cor:exact-output}
+Let $U=\cC(X)$ be a deterministic task output, and suppose zero distortion
 means exact recovery of $U$ but not necessarily of $X$. Then
 \begin{equation}
  R_{\cC}(0)=H(U),
@@ -558,7 +592,7 @@ means exact recovery of $U$ but not necessarily of $X$. Then
  L_{\cC}(0\mid S)=H(U\mid S).
  \label{eq:exact-output}
 \end{equation}
-Thus the exact thermodynamic object is the consumer quotient $U$, not the full
+Thus the exact thermodynamic object is the task output $U$, not the full
 source state.
 \end{corollary}
 
@@ -574,7 +608,7 @@ The smallest nontrivial example already separates the two resources.
 
 \begin{proposition}[Two independent bits]\label{prop:binary-frontier}
 Let $X=(A,B)$, where $A$ and $B$ are independent fair bits, and let the reset
-side information be $S=A$. The consumer reconstructs both components under
+side information be $S=A$. The decoder reconstructs both components under
 average Hamming distortion
 \begin{equation}
  d(x,\hat x)=\tfrac12\1\{a\ne\hat a\}
@@ -628,7 +662,7 @@ uncertainty to erase. No single scalar ``number of bits'' describes both choices
   width=0.76\linewidth,
   height=6.1cm,
   xlabel={description rate $R$ (bits/source symbol)},
-  ylabel={Landauer content $L$ (bits/source symbol)},
+  ylabel={conditional leakage $L$ (bits/source symbol)},
   xmin=0.74,xmax=1.16,
   ymin=0.08,ymax=1.04,
   grid=major,
@@ -653,7 +687,7 @@ uncertainty to erase. No single scalar ``number of bits'' describes both choices
 \caption{Exact lower rate--work frontier for Proposition~\ref{prop:binary-frontier}
 at distortion $D=0.15$. The marked point at $L=1$ comes from reversing the two
 component distortions: it has the same rate and source distortion as the
-minimum-work endpoint, but about $8.4$ times the Landauer content.}
+minimum-work endpoint, but about $8.4$ times the conditional leakage.}
 \label{fig:binary-frontier}
 \end{figure}
 
@@ -662,7 +696,7 @@ $(D_A,D_B)=(0,0.30)$ and $(0.30,0)$ both have
 \begin{equation}
  R=2-\hbin(0.30)=1.1187\ \text{bits/source symbol}
 \end{equation}
-and total distortion $0.15$. Their Landauer contents are respectively
+and total distortion $0.15$. Their conditional leakages are respectively
 $0.1187$ and $1$ bit/source symbol. The second point is not Pareto optimal, but
 it isolates the physical effect: two descriptions tied by ordinary rate and
 distortion can differ sharply in reset work.
@@ -708,7 +742,7 @@ clear that record. One may retain the discarded detail as reversible garbage
 and uncompute it, or avoid recording it. Overwriting it is the irreversible
 step.
 
-For a direct consumer-native observer, only $M$ is materialized. Combining
+For a direct task-native observer, only $M$ is materialized. Combining
 Theorem~\ref{thm:materialization} with Corollary~\ref{cor:cr} gives the ideal
 work gap
 \begin{equation}
@@ -716,14 +750,14 @@ work gap
  =\kb T\ln2\left[H(X\mid S)-L_{\cC}(D\mid S)\right].
  \label{eq:materialization-tax}
 \end{equation}
-At zero distortion for a deterministic consumer output $U=\cC(X)$,
+At zero distortion for a deterministic task output $U=\cC(X)$,
 \begin{equation}
  \Delta W_{\cC}(0,T\mid S)
  =\kb T\ln2\,H(X\mid U,S).
  \label{eq:exact-tax}
 \end{equation}
 The conditional entropy in \eqref{eq:exact-tax} is the physical price of
-materializing distinctions that neither the consumer nor the retained reset
+materializing distinctions that neither the decoder nor the retained reset
 context needs.
 
 This result has an architectural reading. Post-hoc semantic compression can
@@ -732,14 +766,14 @@ saving if a full volatile source record was already created and must be erased.
 The thermodynamic advantage requires projection at or before the first digital
 memory boundary.
 
-\section{Several consumers}\label{sec:multi}
+\section{Several decoders}\label{sec:multi}
 
-A practical observer often serves several consumers: a controller, an alarm, an
+A practical observer often serves several decoders: a controller, an alarm, an
 auditor, and a forensic process may read different functions of the same source.
-Let consumer $j$ receive $\widehat X_j^n=g_{j,n}(M)$ and incur distortion
+Let decoder $j$ receive $\widehat X_j^n=g_{j,n}(M)$ and incur distortion
 $d_j(X_i,\widehat X_{j,i})$.
 
-\begin{theorem}[Shared observation for several consumers]\label{thm:multi}
+\begin{theorem}[Shared observation for several decoders]\label{thm:multi}
 For distortion vector $\bm D=(D_1,\ldots,D_m)$, the achievable rate--work region
 of one shared memory is
 \begin{equation}
@@ -761,12 +795,12 @@ $\widehat{\bm X}=(\widehat X_1,\ldots,\widehat X_m)$ as the reproduction alphabe
 in Theorem~\ref{thm:main-region}. The covering step enforces all $m$ distortion
 constraints simultaneously through joint typicality with the vector
 reproduction, and the converse applies verbatim with the vector constraint set
-in place of $\mathcal T_{\cC}(D)$. Each consumer obtains its component by a
+in place of $\mathcal T_{\cC}(D)$. Each decoder obtains its component by a
 deterministic projection.
 \end{proof}
 
-\begin{corollary}[Exact consumers and coordinated reset]\label{cor:tc}
-Let $U_j=\cC_j(X)$ be exact deterministic consumer outputs. A joint memory, or
+\begin{corollary}[Exact task outputs and coordinated reset]\label{cor:tc}
+Let $U_j=\cC_j(X)$ be exact deterministic task outputs. A joint memory, or
 separate memories reset with full cross-memory coordination, has ideal reset
 content
 \begin{equation}
@@ -785,40 +819,41 @@ correlation
 
 The qualification about coordinated reset matters. The saving in
 \eqref{eq:conditional-tc} is not attached to a particular memory package. It is
-obtained whenever the erasure protocol can use the other consumer records as
+obtained whenever the erasure protocol can use the other decoders' records as
 side information before they are cleared. Independent administrative or
 physical reset domains forfeit that correlation.
 
 For observation architecture, the corollary gives a thermodynamic reason to use
-a common base representation with consumer-specific refinements. Shared
-consumer structure is not merely a compression opportunity; it is conditional
+a common base representation with decoder-specific refinements. Shared
+task structure is not merely a compression opportunity; it is conditional
 entropy that need not be paid more than once at reset.
 
-\section{Gaussian read geometry, reset side information, and thermal water-filling}\label{sec:gaussian}
+\section{Gaussian weighted distortion, reset side information, and thermal water-filling}\label{sec:gaussian}
 
 The preceding results accept any bounded single-letter distortion. We now
-connect them to the local read geometry of Observation Theory. Let
-$X\sim\mathcal N(0,\Sigma_X)$ and let a smooth consumer have Jacobian $J_{\cC}$
-and output metric $G\succeq0$. Its local read operator is
+specialize them to weighted quadratic distortion. Let
+$X\sim\mathcal N(0,\Sigma_X)$ and let a smooth downstream task have Jacobian
+$J_{\cC}$ and output metric $G\succeq0$. Its local distortion weight matrix
+(the read operator of Observation Theory) is
 \begin{equation}
  \PC=J_{\cC}^{\mathsf T}GJ_{\cC}\succeq0,
  \label{eq:readop}
 \end{equation}
-and the quadratic consumer distortion is
+and the weighted quadratic distortion is
 \begin{equation}
  d_{\cC}(x,\hat x)=(x-\hat x)^{\mathsf T}\PC(x-\hat x).
  \label{eq:weighted-dist}
 \end{equation}
-For a nonlinear consumer, this is the second-order approximation to its output
-loss; for a linear consumer with quadratic output loss it is exact
+For a nonlinear task, this is the second-order approximation to its output
+loss; for a linear task with quadratic output loss it is exact
 \cite{bond2026observation}.
 
 Let $\lambda_1,\ldots,\lambda_r>0$ be the nonzero eigenvalues of
 $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$, where
 $r=\rank(\Sigma_X^{1/2}\PC\Sigma_X^{1/2})$. In an isothermal memory with no
-reset side information, rate and Landauer content coincide.
+reset side information, rate and conditional leakage coincide.
 
-\begin{corollary}[Isothermal read-operator work law]\label{cor:gauss}
+\begin{corollary}[Isothermal weighted work law]\label{cor:gauss}
 For $0<D<\sum_{i=1}^{r}\lambda_i$, let $\theta$ be chosen so that
 \begin{equation}
  D=\sum_{i=1}^{r}\min\{\lambda_i,\theta\}.
@@ -846,8 +881,8 @@ $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$ and applying reverse water-filling. Multiply
 bits by $\kb T\ln2$ to obtain \eqref{eq:gaussian-work}.
 \end{proof}
 
-The final proviso is the materialization barrier in spectral form. A null
-read-direction is free to omit. It is not free to erase after it has been
+The final proviso is the materialization barrier in spectral form. A
+direction in $\ker\PC$ is free to omit. It is not free to erase after it has been
 stored.
 
 Reset side information changes the Gaussian picture in a way the scalar case
@@ -975,7 +1010,7 @@ Setting every $\rho_i=0$ gives $L\equiv R$ and recovers
 Corollary~\ref{cor:gauss}. The tradeoff lives entirely in the heterogeneity
 of the $\rho_i$ and $\sigma_i$. For two unit-variance modes with
 $\rho=(0.95,0)$, equal read weights, and $D=0.5$, the minimum-rate and
-minimum-work allocations differ by about $0.11$ bits of Landauer content and
+minimum-work allocations differ by about $0.11$ bits of conditional leakage and
 $0.13$ bits of rate at matched distortion; the reproducibility materials
 carry the exact frontier. This is the Gaussian analogue of the binary
 frontier, with the water level of \eqref{eq:alloc-kkt} playing the role of
@@ -1039,7 +1074,7 @@ link between age, relevance, and work.
 Let $X_0,X_1,\ldots$ be a stationary Markov chain, and let a stored record $M$
 be generated from $X_0$, so that $M$ is conditionally independent of the future
 trajectory $(X_1,X_2,\ldots)$ given $X_0$. If $X_t$ is retained when $M$ is
-erased, then the ideal Landauer content at age $t$ is
+erased, then the conditional leakage at age $t$ is
 \begin{equation}
  L_t=H(M\mid X_t)=H(M)-I(M;X_t).
  \label{eq:stale-complement}
@@ -1073,7 +1108,7 @@ Therefore
  I(X_0;X_t)&=1-\hbin(q_t),\label{eq:predictive-age}\\
  L_t=H(X_0\mid X_t)&=\hbin(q_t),\label{eq:work-age}
 \end{align}
-so predictive information and conditional reset content sum to one bit for
+so predictive information and conditional leakage sum to one bit for
 every age. Figure~\ref{fig:stale} shows the exchange for $p=0.05$.
 \end{example}
 
@@ -1106,8 +1141,8 @@ every age. Figure~\ref{fig:stale} shows the exchange for $p=0.05$.
 \end{axis}
 \end{tikzpicture}
 \caption{For a symmetric binary Markov source with $p=0.05$, predictive
-information lost with age is gained exactly as conditional Landauer content.
-The unconditional content of the stored fair bit remains one bit.}
+information lost with age is gained exactly as conditional leakage.
+The unconditional entropy of the stored fair bit remains one bit.}
 \label{fig:stale}
 \end{figure}
 
@@ -1132,9 +1167,9 @@ the thermodynamic cost of erasing a record with its compressed length
 \cite{zurek1989}, and Wolf sharpened the erasure principle to the
 compressibility of the string given the erasing agent's knowledge
 \cite{wolf2018}. The present paper is a block-coding, lossy, and
-consumer-constrained counterpart of that observation: the object whose
+decoder-constrained counterpart of that observation: the object whose
 conditional compressibility is priced is a description that must remain
-decodable by a consumer lacking the side information available at reset.
+decodable by a decoder lacking the side information available at reset.
 These results supply the physical accounting used here; this paper does not
 alter Landauer's principle (Remark~\ref{rem:invariance}).
 
@@ -1146,13 +1181,27 @@ the reproduction to be determined without relying on decoder-only side
 information \cite{steinberg2009}. Equation~\eqref{eq:work-endpoint} is exactly
 that common-reconstruction functional.
 
+Secure source coding prices the same coordinate under another name. There the
+encoder must serve a legitimate decoder while an eavesdropper holding
+correlated side information learns as little as possible. Villard and
+Piantanida characterized the rate--distortion--equivocation region with side
+information at the eavesdropper \cite{villard2013}. With no decoder side
+information their Theorem~3 is Theorem~\ref{thm:main-region}, with equivocation
+$H(X\mid S)-L$ (Remark~\ref{rem:vp}). Ekrem and Ulukus solved the minimum
+leakage for vector Gaussian sources at unconstrained rate and left the joint
+rate--leakage region open \cite{ekrem2013}. Our Gaussian results in
+Section~\ref{sec:gaussian} cover the scalar corner and the case of
+independently read and independently known modes. The present paper reads the
+leakage as the conditional entropy left for reset, and that reading is what
+Landauer's principle prices.
+
 The distinction between codebook size and output entropy is also classical.
 Entropy-constrained vector quantization replaces a fixed-rate objective by the
 entropy of the quantizer output \cite{chou1989}; conditional
 entropy-constrained quantization exploits a retained context when coding a
 sequence of quantizer outputs \cite{chou1990}. Those works are an important
 precursor to the two-resource view. Theorem~\ref{thm:main-region} differs in
-holding the full fixed description available to a consumer that lacks $S$ while
+holding the full fixed description available to a decoder that lacks $S$ while
 pricing the conditional entropy left for a separate reset mechanism that has
 $S$. Its thermodynamic content depends on that lifecycle distinction, not on the
 claim that output entropy had previously been ignored.
@@ -1165,15 +1214,16 @@ dissipation in driven systems \cite{still2012}; subsequent work showed that
 retaining irrelevant memory limits thermodynamic efficiency and connects an
 information engine to the information bottleneck \cite{still2020}. The present
 model prices a different stage of the cycle: conditional reset of an already
-available description. Relevance is specified by an arbitrary consumer
+available description. Relevance is specified by an arbitrary task-weighted
 distortion rather than only future prediction; the description must remain
 decodable without the reset side information; and the main object is a joint
 rate--work region rather than a single preparation or dissipation bound.
 
-Observation Theory supplies the consumer geometry used in
-Section~\ref{sec:gaussian}: a consumer pulls its output metric back to a positive
-semidefinite read operator, and the resulting distortion defines a
-consumer-relative rate--distortion problem \cite{bond2026observation}. The
+Observation Theory supplies the weighted geometry used in
+Section~\ref{sec:gaussian}. A downstream task pulls its output metric back to a
+positive semidefinite distortion weight matrix, which Observation Theory calls
+the read operator. The resulting distortion defines a weighted, or indirect,
+rate--distortion problem \cite{bond2026observation,sakrison1968,wolfziv1970}. The
 present paper starts after that geometry has been identified. It asks which
 parts of the resulting representation must be erased, under which retained
 correlations, and at what ideal work.
@@ -1231,23 +1281,24 @@ single-letter mutual informations.
 
 A useful observation is not only a message. It is a physical memory state with
 a lifecycle. Theorem~\ref{thm:main-region} separates two costs of that state:
-the information a consumer must receive and the uncertainty a reset mechanism
+the information a decoder must receive and the uncertainty a reset mechanism
 must irreversibly discard. Side information available only at reset can lower
-the second cost without helping the consumer with the first.
+the second cost without helping the decoder with the first. The second cost is
+the conditional leakage of secure source coding, read as reset work.
 
-The distinction sharpens consumer-relative observation. The consumer determines
+The distinction sharpens task-weighted observation. The downstream task determines
 which source distinctions must survive distortion. The reset context determines
 which of the stored distinctions remain predictable when the memory is cleared.
 The binary frontier shows why neither coordinate can be inferred from the
 other: a code that minimizes description capacity need not minimize reset work.
 Landauer's principle then prices the residue. In the exact case, that residue is
-$H(\cC(X)\mid S)$. In the Gaussian local model, it is the ordinary read-operator
-water-filling rate multiplied by $\kb T\ln2$. Across several consumers, it is the
+$H(\cC(X)\mid S)$. In the Gaussian local model, it is the ordinary weighted
+water-filling rate multiplied by $\kb T\ln2$. Across several decoders, it is the
 conditional entropy of their joint read rather than the sum of isolated records.
 
 The materialization theorem states the practical boundary most plainly. Once a
 full volatile source record exists, later projection cannot make its erasure
-cheap. A consumer-relative observer reaches the lower work law only by avoiding
+cheap. A task-native observer reaches the lower work law only by avoiding
 that record, or by preserving enough reversible history to uncompute it. The
 thermodynamic consequence of Observation Theory is therefore not that irrelevant
 information disappears. It is that an observer should decide what is irrelevant

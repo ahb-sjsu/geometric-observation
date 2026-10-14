@@ -42,7 +42,7 @@
 \begin{document}
 
 \title{Observation Theory for Estimation and Control:\\
-Consumer-Induced Geometry as a Complement to\\
+Task-Induced Geometry as a Complement to\\
 Observability, Filtering, and Feedback}
 
 \author{Andrew~H.~Bond,~\IEEEmembership{Senior~Member,~IEEE}%
@@ -62,17 +62,17 @@ Classical control theory separates several questions that are easy to
 conflate: whether a plant can be driven, whether its state can be inferred,
 how uncertainty should be filtered, and how actions should be chosen. A
 further question is usually supplied externally by the designer: \emph{which
-distinctions in the estimated state matter to the downstream consumer?}
+distinctions in the estimated state matter to the downstream task?}
 Observation Theory (OT) supplies a candidate mathematical object for that
-missing interface. If a consumer $\C:\R^d\to\R^m$ is judged in a local output
-metric $G$, its pullback $\PC(x)=J_\C(x)^{\top}G(\C(x))\,J_\C(x)$ induces the
-local state geometry the consumer can distinguish, and estimator uncertainty
-$\Sig$ and consumer geometry compose as the operational uncertainty
+missing interface. If a downstream task map $\C:\R^d\to\R^m$ (the consumer
+of Observation Theory) is judged in a local output metric $G$, its pullback $\PC(x)=J_\C(x)^{\top}G(\C(x))\,J_\C(x)$ induces the
+local state geometry the task can distinguish, and estimator uncertainty
+$\Sig$ and task geometry compose as the operational uncertainty
 $\UC=\tr(\PC\Sig)$. This paper defines a research campaign around that
 composition, organized as three interfaces to the classical stack:
 \emph{estimator geometry} (a state-dependent $\PC(x)$ moves the optimal
 estimate off the posterior mean), \emph{resource value}
-($\VC=\tr(\PC(\Sm-\Sp))$, the consumer-relative value of a measurement), and
+($\VC=\tr(\PC(\Sm-\Sp))$, the task-relative value of a measurement), and
 \emph{dynamic relevance} ($\SC(\Delta)=\tr[\PC\,\Sig(t{+}\Delta\mid I_t)]$,
 the age of operationally relevant uncertainty). We first establish a
 boundary: for a fixed positive-semidefinite $\PC$ and an unconstrained
@@ -82,32 +82,32 @@ identity are machine-checked in Lean~4/Mathlib (in their discrete and
 matrix forms) and have passed independent fresh-context derivation review.
 Each pillar of the program
 has close prior art in isolation: black-box recovery of quadratic task
-metrics (decision-focused learning), and consumer-derived weights composed
+metrics (decision-focused learning), and task-derived weights composed
 with covariances (LQG sensing co-design, goal-oriented experimental design,
 value-of-information scheduling) in analytic form. The narrow novelty
-hypothesis is their conjunction: that a downstream consumer's operational
-metric can be recovered from the consumer itself under \emph{query access
+hypothesis is their conjunction: that a downstream task's operational
+metric can be recovered from the task itself under \emph{query access
 only}, composed with classical estimator uncertainty, and validated
 prospectively, out of sample, at matched budgets that include the cost of
 probing. Evidence now exists for the full campaign: all seven experiments
 were sealed under the program's preregistration protocol and run once each
 at governed seeds --- six passing every gate (blind recovery~$\to$~scheduling
-with its analytic positive control; the reconstruction-matched two-consumer
+with its analytic positive control; the reconstruction-matched two-task
 flip in sensing; signal-aware operational triggering; a physical-model
-optical-link consumer probed through the belief-averaged operator; and the
-multi-consumer tax, measured with its predicted angular shape), and the
+optical-link task probed through the belief-averaged operator; and the
+multi-task tax, measured with its predicted angular shape), and the
 closed-loop campaign promoted on its third seal after two registered
 instrument misses whose corrections are part of the record
 (\S\ref{sec:evidence}). The dynamic-relevance interface, pursued as its
 own track, has its first three sealed results as well: the
 age/staleness orderings cross at a point predictable in closed form,
-two consumers can disagree about which of two identically-aged
+two tasks can disagree about which of two identically-aged
 histories is fresh, and a directional trigger beats the matched-budget
 isotropic signal-aware threshold by 16\% --- the honest baseline
 family, since signal-aware sampling already beats age-based
 scheduling. The conjunction has also met its first \emph{neural}
-consumer: on a frozen, hosted, black-box language model consuming
-serialized numeric state, the read operator recovered by query-only
+downstream model: on a frozen, hosted, black-box language model consuming
+serialized numeric state, the weight matrix recovered by query-only
 logprob probing predicts the model's own held-out behavior, and
 precision allocated by it at matched serialization budgets beats
 task-blind allocation by 26\% while capturing the full
@@ -129,7 +129,7 @@ operational distinguishability.
 A modern estimation-and-control stack can be schematized as
 \begin{equation*}
 \text{plant} \;\to\; \text{sensors} \;\to\; \text{estimator} \;\to\;
-\text{consumer(s)} \;\to\; \text{actions}.
+\text{task(s)} \;\to\; \text{actions}.
 \end{equation*}
 Classical systems theory provides precise concepts for controllability and
 observability. Kalman filtering \cite{kalman1960} provides an optimal state
@@ -143,14 +143,16 @@ many systems these choices are engineered successfully --- but their
 operational geometry is externally specified.
 
 Observation Theory begins one step downstream. Let $\C:\R^d\to\R^m$ be a
-consumer and let $D_Y$ be a twice-differentiable divergence on its output.
-Define the output metric and consumer Jacobian
+downstream task map, which Observation Theory calls a consumer, and let $D_Y$ be a twice-differentiable divergence on its output.
+Define the output metric and task Jacobian
 \begin{equation}
 G(z)\;=\;\nabla_v^2\,D_Y(z,v)\big|_{v=z},
 \qquad
 J_\C(x)\;=\;\frac{\partial \C}{\partial x}(x),
 \end{equation}
-and the \emph{read operator}
+and the \emph{weight matrix}, which Observation Theory calls the read
+operator. Averaged over the state it is the active-subspace matrix of
+Constantine, Dow, and Wang \cite{cdw2014,constantine2015}.
 \begin{equation}
 \label{eq:pullback}
 \boxed{\;\PC(x)\;=\;J_\C(x)^{\top}\,G(\C(x))\,J_\C(x).\;}
@@ -168,13 +170,13 @@ composition
 \UC \;=\; \tr\!\big(\PC\,\Sig\big)
 \end{equation}
 reads: \emph{what the estimator does not know}, weighted by \emph{what the
-consumer can distinguish}. Neither object substitutes for the other: an
-accurate consumer model cannot estimate the plant; a perfect error covariance
+task can distinguish}. Neither object substitutes for the other: an
+accurate task model cannot estimate the plant; a perfect error covariance
 cannot say which residual uncertainty matters operationally.
 
 The systems question is therefore not ``can Observation Theory replace the
 Kalman filter?'' It is: \emph{given a classical estimator that tells us what
-we do not know, can a consumer-induced geometry tell us which parts of that
+we do not know, can a task-induced geometry tell us which parts of that
 uncertainty matter --- and therefore where scarce sensing, communication,
 computation, and control resources should be spent?}
 
@@ -197,7 +199,7 @@ operator and the classical stack:
 \end{equation}
 Interface~1 is \emph{opened} rather than closed by the boundary theorem of
 \S\ref{sec:boundary}: the posterior-mean invariance holds for fixed $\PC$,
-and its failure under state-dependent $\PC(x)$ is precisely where consumer
+and its failure under state-dependent $\PC(x)$ is precisely where task
 geometry can change the estimator itself. Interface~2 is the paper's spine.
 Interface~3 is developed as an explicitly conjectural branch.
 
@@ -207,11 +209,11 @@ Interface~3 is developed as an explicitly conjectural branch.
 The distinction that defines this program's niche is the access model.
 Inverse optimal control and inverse reinforcement learning recover objectives
 from \emph{demonstrations}. Decision-focused learning differentiates through
-a \emph{known} (or differentiable) consumer
+a \emph{known} (or differentiable) task
 \cite{elmachtoub2022,amos2017,mandi2024}. Observation Theory probes a
-\emph{black-box} consumer under a declared observation distribution. Only the
-third access model is available when the consumer is a learned perception
-stack, a physical link, or another party's system --- and those consumers,
+\emph{black-box} task under a declared observation distribution. Only the
+third access model is available when the task is a learned perception
+stack, a physical link, or another party's system --- and those tasks,
 which resist hand-modeling, are exactly where a recovered geometry is
 necessary rather than convenient.
 
@@ -220,13 +222,13 @@ necessary rather than convenient.
 
 Consider $x_{k+1}=Ax_k+Bu_k+w_k$, $y_k=Cx_k+v_k$. Classical observability
 asks whether distinct internal states can be distinguished from the
-measurement history. OT asks a downstream question: for consumer $\C$, two
+measurement history. OT asks a downstream question: for task $\C$, two
 nearby states $x$ and $x+\delta$ are \emph{locally operationally
 distinguishable} according to $\delta^{\top}\PC(x)\,\delta$. A direction in
-$\ker\PC$ is locally invisible to that consumer; a direction with a large
+$\ker\PC$ is locally invisible to that task; a direction with a large
 eigenvalue of $\PC$ is strongly read. Hence a state direction can be
 perfectly observable to the sensor system and nearly irrelevant to the
-consumer; conversely, a very small estimation error can be operationally
+task; conversely, a very small estimation error can be operationally
 dominant if it lies in a strongly weighted read direction. These are
 complementary geometries on opposite sides of the estimator.
 
@@ -234,9 +236,9 @@ Two classical structures must be engaged here by name. First,
 \emph{functional observability} \cite{darouach2000,montanari2022} asks when a
 hand-specified linear functional $z=Lx$ can be reconstructed; OT's linear
 special case $\C(x)=Lx$ lies inside its subject matter, and OT adds the
-\emph{metric} (not merely subspace) structure, nonlinear consumers, and
-recovery of $L$-like structure from the consumer itself. Second, for a linear
-consumer $z=Lx$ with output metric $G$, the pointwise OT geometry is
+\emph{metric} (not merely subspace) structure, nonlinear tasks, and
+recovery of $L$-like structure from the task itself. Second, for a linear
+task $z=Lx$ with output metric $G$, the pointwise OT geometry is
 $\PC=L^{\top}GL$, and the output-weighted observability Gramian of
 frequency-weighted balanced truncation \cite{enns1984} (in its
 static-weight specialization) is its \emph{dynamics-propagated accumulated
@@ -246,7 +248,7 @@ analogue},
 W_\C(T)\;=\;\int_0^{T} e^{A^{\top}t}\,\PC\,e^{At}\,dt .
 \end{equation}
 Classical observability geometry thus \emph{emerges from accumulated OT
-geometry} in the linear case: the Gramian is what the consumer's
+geometry} in the linear case: the Gramian is what the task's
 instantaneous read metric integrates to under the flow.
 
 \section{A boundary proposition: OT does not create a new Kalman filter}
@@ -307,21 +309,21 @@ against Remark~\ref{rem:statedep}.
 \begin{remark}[State dependence opens Interface 1]
 \label{rem:statedep}
 Proposition~\ref{prop:invariance} is for $X$-independent $P$. For a
-nonlinear consumer, $\PC(x)$ depends on $x$; the loss
+nonlinear task, $\PC(x)$ depends on $x$; the loss
 $\E[(X-\hat x)^{\top}\PC(X)(X-\hat x)\mid Y]$ is then no longer a
 \emph{fixed-weighting} quadratic, and its minimizer is in general not the
 posterior mean but the $\PC$-tilted mean: writing $P_s$ for the symmetric
 part of $\PC$, the unconstrained minimizer is
 $\hat x^{\star}=\big(\E[P_s(X)\mid Y]\big)^{-1}\,\E[P_s(X)\,X\mid Y]$
 whenever the belief-averaged weighting is invertible, and it equals the
-posterior mean iff $\E[P_s(X)(X-m)\mid Y]=0$. Consumer geometry can thus
+posterior mean iff $\E[P_s(X)(X-m)\mid Y]=0$. Task geometry can thus
 change the estimator itself, not only the allocation of resources around
 it. The single-stage shift is elementary; what remains open in the
 campaign is its \emph{recursive} form --- the filtering analogue in which
 the tilted update propagates.
 \end{remark}
 
-\section{Consumer-relative value of observation}
+\section{Task-relative value of observation}
 \label{sec:voi}
 
 Let a Bayesian or Kalman estimator hold prior covariance $\Sm$ (symmetric)
@@ -329,7 +331,7 @@ and consider a candidate measurement $y=Hx+v$, $v\sim\mathcal N(0,R)$, with
 $H\Sm H^{\top}+R$ invertible (automatic for $R\succ 0$ and $\Sm\succeq 0$).
 The covariance update gives
 $\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
-\emph{consumer-relative value of observation}
+\emph{task-relative value of observation}
 \begin{equation}
 \label{eq:voi}
 \VC \;=\; \tr\!\big(\PC\,(\Sm-\Sp)\big)
@@ -339,7 +341,7 @@ $\Sp=\Sm-\Sm H^{\top}(H\Sm H^{\top}+R)^{-1}H\Sm$. Define the
 \begin{proposition}[Rank-one form]
 \label{prop:voi}
 For symmetric $\Sm$, a scalar measurement $y=h^{\top}x+v$ with
-$\operatorname{Var}(v)=r>0$, and a rank-one consumer $\PC=gg^{\top}$,
+$\operatorname{Var}(v)=r>0$, and a rank-one task $\PC=gg^{\top}$,
 \begin{equation}
 \label{eq:voirankone}
 \VC \;=\; \frac{\big(g^{\top}\Sm h\big)^{2}}{\,h^{\top}\Sm h+r\,}.
@@ -356,9 +358,9 @@ squared form for asymmetric $\Sm$.)
 This form is the section's message: a sensor is not operationally valuable
 because it observes a high-variance direction; it is valuable when its
 measurement direction $h$, \emph{propagated through the current uncertainty}
-$\Sm$, overlaps a direction $g$ the consumer actually reads. The covariance
+$\Sm$, overlaps a direction $g$ the task actually reads. The covariance
 algebra is classical. The proposed OT contribution is the \emph{provenance}
-of $g$ or $\PC$: supplied by the downstream consumer's distinguishability
+of $g$ or $\PC$: supplied by the downstream task's distinguishability
 geometry rather than chosen as an engineering weight.
 
 \section{Resource-constrained operation is the natural interface}
@@ -370,17 +372,17 @@ objectives in scheduling and selection \cite{unified2023} and LQG sensing
 co-design \cite{tzoumas2021}; the optimization $\min_a \tr(M\Sp(a))$ for a
 designer-specified $M$ is not an OT novelty. The proposed pipeline is
 \begin{equation*}
-\text{consumer} \;\xrightarrow{\;\text{probe}\;}\; \widehat{\PC}
+\text{task} \;\xrightarrow{\;\text{probe}\;}\; \widehat{\PC}
 \;\xrightarrow{\;\text{compose}\;}\; \tr\big(\widehat{\PC}\,\Sig\big)
 \;\xrightarrow{\;\text{allocate}\;}\; a^{\star},
 \end{equation*}
-with the allocation judged on the actual downstream consumer.
+with the allocation judged on the actual downstream task.
 
 \subsection{Probe cost is part of the objective}
 \label{sec:probecost}
 
 Recovering $\widehat{\PC}$ --- and re-recovering it along trajectories when
-the consumer is nonlinear --- consumes exactly the resources OT allocates.
+the task is nonlinear --- consumes exactly the resources OT allocates.
 The policy problem is therefore not
 $\min_\pi D_\C(\pi)$ subject to side constraints, but
 \begin{equation}
@@ -390,7 +392,7 @@ $\min_\pi D_\C(\pi)$ subject to side constraints, but
 \;+\;\lambda_c\,C_{\mathrm{comm}}(\pi)
 \;+\;\lambda_p\,C_{\mathrm{probing}}(\pi),
 \end{equation}
-which contains a genuine exploration problem: \emph{when is another consumer
+which contains a genuine exploration problem: \emph{when is another task
 query worth its cost?} The marginal value of a probe --- how much a further
 refinement of $\widehat{\PC}$ changes downstream allocations --- is itself an
 OT quantity. All campaign comparisons in \S\ref{sec:campaigns} are run under
@@ -414,27 +416,27 @@ claimed result.
 \subsection{Operational event triggering}
 \label{sec:trigger}
 
-An operational trigger updates when the uncertainty visible to the consumer
+An operational trigger updates when the uncertainty visible to the task
 becomes excessive --- rather than when a timer expires or isotropic variance
 crosses a threshold. The analytic special case is the value-of-information
 trigger of Soleymani, Baras, and Hirche \cite{soleymani2022,soleymani2023},
 in which the transmit rule derived from the downstream LQG cost is provably
 optimal. Any OT triggering claim must cite that line as its analytic
 ancestor and either match it (LQG) or generalize beyond it (non-analytic
-consumers).
+tasks).
 
 A registered finding from Campaign 4's calibration pilots
 (\S\ref{sec:evidence}) sharpens the proposal: a \emph{covariance-only}
 threshold $\tr(\PC\,\Sig_t)>\tau$ is direction-blind in effect --- the
 covariance recursion is measurement-independent, so at a fixed budget every
 covariance functional collapses to a quasi-periodic schedule and the
-consumer weighting adds nothing. The operational trigger must be
-\emph{signal- or belief-aware}: fire on the consumer-weighted \emph{realized}
+task weighting adds nothing. The operational trigger must be
+\emph{signal- or belief-aware}: fire on the task-weighted \emph{realized}
 discrepancy (e.g.\ $e^{\top}\PC\,e>\tau$ for the innovation or
 sensor--remote gap $e$), consistent with the signal-aware designs of the VoI
 literature and with the belief-relative construction of \S\ref{sec:belief}.
 
-\section{Consumer geometry as a local control geometry}
+\section{Task geometry as a local control geometry}
 \label{sec:control}
 
 If the ultimate objective is expressed at a downstream output $z=\C(x)$ with
@@ -442,30 +444,30 @@ desired value $z^{\star}=\C(x^{\star})$, a second-order expansion gives
 $D_Y(\C(x),\C(x^{\star}))\approx\tfrac12 (x-x^{\star})^{\top}
 \PC(x^{\star})(x-x^{\star})$, so $\PC(x^{\star})$ is a natural local state
 penalty --- a candidate \emph{provenance} for one component of an LQR/MPC
-objective, not a replacement for it. For a nonlinear consumer the penalty is
+objective, not a replacement for it. For a nonlinear task the penalty is
 trajectory dependent. Stability, robustness, terminal costs, actuator
 constraints, and feasibility remain control-theoretic problems; the proposed
 division of labor is that OT supplies where the state penalty comes from, and
 control theory determines what to do with it.
 
-\subsection{Threshold consumers and the belief-averaged read operator}
+\subsection{Threshold tasks and the belief-averaged weight matrix}
 \label{sec:belief}
 
 The local metric \eqref{eq:pullback} presumes a Hessian. Threshold-like
-consumers --- bit-error rate, outage, any cliff --- have degenerate or
+tasks --- bit-error rate, outage, any cliff --- have degenerate or
 explosive $G$ near the threshold, and the paper's own application exemplar
 (\S\ref{sec:fso}) is of this type. Where the local geometry exists, the
-robustified object is the \emph{belief-averaged read operator}
+robustified object is the \emph{belief-averaged weight matrix}
 \begin{equation}
 \label{eq:beliefavg}
 \PCb(b)\;=\;\E_{X\sim b}\!\left[\,J_\C(X)^{\top}\,G(\C(X))\,J_\C(X)\,\right],
 \end{equation}
-where $b$ is the estimator's belief: the read operator is averaged over the
+where $b$ is the estimator's belief: the weight matrix is averaged over the
 uncertainty the estimator actually has, rather than evaluated at a point the
 system may not occupy. For genuinely nonsmooth outage metrics no Hessian
 exists to average, and a finite-perturbation or smoothed operational metric
 must replace \eqref{eq:pullback} rather than pretending one does.
-\emph{Belief-relative Observation Theory} --- the read operator as a
+\emph{Belief-relative Observation Theory} --- the weight matrix as a
 functional of the belief --- is flagged as a substantial extension in its own
 right.
 
@@ -475,24 +477,24 @@ right.
 If $\PC$ must always be hand-specified, much of this program reduces to
 established task-weighted estimation and control. The stronger proposition is
 that the read geometry can, under stated conditions, be identified from the
-consumer itself: for appropriate consumers, finite-difference probes under a
+task itself: for appropriate tasks, finite-difference probes under a
 declared observation distribution recover sensitivity information without
-privileged access to the consumer's implementation. The probing
+privileged access to the task's implementation. The probing
 \emph{methodology} is itself prior art --- empirical observability Gramians
 recover plant sensitivity by perturb-and-simulate \cite{krenderide2009} ---
 and in machine learning, locally optimized decision losses recover quadratic
 task-metric surrogates from a black-box decision oracle by sampled
 perturbations \cite{shah2022,shah2024}. What is claimed here is the probed
-\emph{object} (a downstream consumer's operational metric), its
+\emph{object} (a downstream task's operational metric), its
 \emph{composition} with an explicit estimator covariance, and the
 \emph{validation protocol}: recovery on one perturbation distribution
 followed by success only on the same perturbations is insufficient; the test
-must be out of sample, at matched budgets, on the held-out consumer.
+must be out of sample, at matched budgets, on the held-out task.
 
-\section{Multiple consumers}
+\section{Multiple tasks}
 \label{sec:multi}
 
-A real state service rarely has one downstream consumer. Given
+A real state service rarely has one downstream task. Given
 $P_1,\dots,P_m$ for navigation, tracking, collision avoidance,
 communications, or mission logic, a weighted sum $\PC^{\mathrm{tot}}=\sum_i
 \lambda_i P_i$ can be useful but can hide incompatibility. Observation
@@ -502,8 +504,8 @@ exactly when the observers' optimal residual uncertainty ellipsoids nest;
 distinct observers can demand geometrically incompatible information. That
 result is a coding theorem, not yet a control theorem. The corresponding
 systems question --- when can one estimator, sensor schedule, or state
-representation efficiently serve several consumers, and when does their
-operational geometry force a multi-consumer tax? --- was open when this
+representation efficiently serve several tasks, and when does their
+operational geometry force a multi-task tax? --- was open when this
 campaign was designed and must not be answered by smuggling the coding
 result across. Campaign 6 has since measured it (\S\ref{sec:evidence}):
 the tax exists, is exactly zero when the read geometries coincide, and
@@ -520,7 +522,7 @@ Define
 \SC(\Delta)\;=\;\tr\!\big[\,\PC(t{+}\Delta)\;\Sig(t{+}\Delta\mid I_t)\,\big].
 \end{equation}
 An observation becomes stale when the uncertainty it leaves \emph{in the
-consumer's read directions} becomes operationally expensive --- age of
+task's read directions} becomes operationally expensive --- age of
 information, in its signal-aware and semantics-aware refinements
 \cite{sun2020,maatouk2022}, weighted by operational geometry
 rather than by the clock. Our prior-art sweep found no anisotropic-staleness
@@ -531,14 +533,14 @@ has its own community, baselines (AoI, AoII, VoI), and falsifier, it is
 retained here as a conjectural branch and pursued independently as its
 own campaign track --- whose first three sealed results now exist and
 are summarized in \S\ref{sec:evidence}: the age/staleness orderings
-provably cross at a preregisterable point, two consumers can disagree
+provably cross at a preregisterable point, two tasks can disagree
 about which of two identically-aged histories is fresh, and triggering
 on directional staleness beats the matched-budget isotropic
 signal-aware threshold (the falsifier in its honest form, since
 signal-aware sampling already beats age-based scheduling
 \cite{sun2020}; no optimality claim attaches to either threshold
 heuristic). If long-horizon consequences dominate immediate
-consumer-relative covariance reduction, $\SC$ may still remain a feature
+task-relative covariance reduction, $\SC$ may still remain a feature
 or terminal metric rather than a sufficient scheduling policy in richer
 settings; that outcome was a registered possible verdict of the sealed
 campaign (it did not occur in the synthetic class) and remains the
@@ -555,18 +557,21 @@ separately in strong form. Local quadratic task metrics are recovered from
 black-box decision oracles by sampled probing in decision-focused learning
 \cite{shah2022,shah2024}, and learned as Mahalanobis task metrics by
 end-to-end gradients through a differentiable task loss \cite{bansal2023}.
-Consumer-derived weights composed with
+Task-derived weights composed with
 estimator covariances drive prospective sensor and bit allocation in LQG
 sensing co-design \cite{tzoumas2021}, goal-oriented Bayesian experimental
 design \cite{attia2018,wu2023,quadgoed2025} --- including Jacobian/Hessian
 pullbacks of nonlinear goal maps with adjoint access --- value-of-information
 scheduling \cite{soleymani2022,soleymani2023,soleymani2024}, rate-cost
 control \cite{kostina2019,tanaka2015}, goal-oriented quantization
-\cite{zou2022}, and task-based quantization \cite{shlezinger2019}. Attention
+\cite{zou2022}, and task-based quantization \cite{shlezinger2019}. The
+averaged weight matrix $\E[\PC]$ is the active-subspace matrix
+\cite{cdw2014,constantine2015}, and its query-only recovery is
+finite-difference active-subspace estimation. Attention
 and anticipation select sensing resources against task-projected covariance
 metrics in closed loop \cite{carlone2018}; task-driven representations are
 co-designed by information bottlenecks \cite{pacelli2019}; and
-consumer-derived perceptual metrics are established practice in vision
+task-derived perceptual metrics are established practice in vision
 \cite{zhang2018} and are consumed as training losses throughout learned
 compression. No novelty is claimed for any of these, nor for Kalman
 filtering, posterior-mean optimality, PSD-weighted covariance objectives,
@@ -575,24 +580,24 @@ loss-calibrated inference \cite{lacostejulien2011}, or inverse optimal
 control. The analytic LQG case is conceded entirely.
 
 \begin{quote}
-\textbf{Research hypothesis (conjunction).} A downstream consumer induces an
+\textbf{Research hypothesis (conjunction).} A downstream task induces an
 operational state geometry $\PC=J^{\top}GJ$ that can, under explicit
-observation conditions, be recovered from the consumer itself under
+observation conditions, be recovered from the task itself under
 \emph{query access only} and a declared observation distribution; composed
 with classical estimator uncertainty as $\tr(\PC\Sig)$; and used to predict
 and optimize the operational value of sensing, communication,
-representation, and local control resources for consumers \emph{outside the
+representation, and local control resources for tasks \emph{outside the
 analytic families} --- validated prospectively, out of sample, at matched
-budgets that include the cost of probing, on the actual downstream consumer.
+budgets that include the cost of probing, on the actual downstream task.
 \end{quote}
 
 This is a novelty hypothesis, not a novelty verdict: no single work found
-combines black-box probed consumer geometry, explicit covariance
+combines black-box probed task geometry, explicit covariance
 composition, and prospective matched-budget validation, but a referee
 holding decision-focused learning in one hand and goal-oriented experimental
 design in the other could reasonably call the conjunction an integration.
 The answer is the integration \emph{plus the validation protocol} ---
-reconstruction-matched flips, held-out consumers, matched budgets, physical
+reconstruction-matched flips, held-out tasks, matched budgets, physical
 endpoints --- which no found work runs.
 
 \section{Research campaign}
@@ -600,19 +605,19 @@ endpoints --- which no found work runs.
 
 \subsubsection*{Campaign 1 --- Verify the boundary}
 Random linear systems; direct optimization over admissible linear estimator
-gains compared with the Kalman solution under randomly drawn PSD consumer
+gains compared with the Kalman solution under randomly drawn PSD task
 metrics. Any repeatable improvement over the Kalman estimate indicates an
 implementation error or a model violation. The invariance is classical and
 now machine-checked (Remark~\ref{rem:kernel}); the campaign \emph{verifies}
 the boundary publicly rather than discovers it.
 
-\subsubsection*{Campaign 2 --- Consumer-relative value of observation}
+\subsubsection*{Campaign 2 --- Task-relative value of observation}
 A dynamical state with heterogeneous candidate sensors and a planted low-rank
-consumer; selection by \eqref{eq:voi}. The signature experiment is a
+task; selection by \eqref{eq:voi}. The signature experiment is a
 \emph{reconstruction-matched flip}: two sensing policies with essentially
-identical $\tr\Sig$ but differently shaped uncertainty; only the consumer
+identical $\tr\Sig$ but differently shaped uncertainty; only the task
 changes. Preregistered prediction: $\tr(\PC\Sig)$ identifies which policy is
-better for the downstream consumer while ordinary state MSE cannot. Where an
+better for the downstream task while ordinary state MSE cannot. Where an
 analytic model exists, baselines must include the Riccati/VoI-derived weight
 --- not merely hand-tuned or isotropic alternatives.
 \emph{Status: sealed, run, all gates passed (\S\ref{sec:evidence}).}
@@ -620,42 +625,42 @@ analytic model exists, baselines must include the Riccati/VoI-derived weight
 \subsubsection*{Campaign 3 --- Blind recovery, then scheduling (flagship)}
 The point at which the pieces stop resembling analytic LQG/VoI machinery:
 \begin{equation*}
-\text{unknown consumer}\;\to\;\text{query-only recovery of }\widehat{\PC}
-\;\to\;\text{sensor scheduling}\;\to\;\text{held-out real consumer},
+\text{unknown task}\;\to\;\text{query-only recovery of }\widehat{\PC}
+\;\to\;\text{sensor scheduling}\;\to\;\text{held-out real task},
 \end{equation*}
 at equal sensing budgets with probe cost included per \eqref{eq:policy}, and
-with an \emph{analytic-consumer positive-control arm}: on a consumer whose
+with an \emph{analytic-task positive-control arm}: on a task whose
 optimal weight is known (LQG/VoI), the blind pipeline is required to
 \emph{recover and match} the known optimum --- not beat it. Matching the
 analytic optimum blind is the calibration proof; winning on non-analytic
-consumers is the contribution. Success requires more than subspace recovery:
+tasks is the contribution. Success requires more than subspace recovery:
 the recovered operator must choose useful measurements and improve the
-held-out consumer at matched budget.
+held-out task at matched budget.
 \emph{Status: sealed, run, all gates passed --- including the positive
 control (\S\ref{sec:evidence}).}
 
 \subsubsection*{Campaign 4 --- Operational event triggering}
 Limited transmissions or measurement energy; compare periodic, age-based,
 isotropic-covariance, hand-weighted, analytic-VoI (where available), and
-recovered-OT triggering. Primary outcome: downstream consumer performance at
+recovered-OT triggering. Primary outcome: downstream task performance at
 matched communication or energy --- never lower OT surrogate loss by
 construction.
 \emph{Status: sealed, run, all gates passed; its pilots contributed the
 covariance-null finding of \S\ref{sec:trigger} (\S\ref{sec:evidence}).}
 
-\subsubsection*{Campaign 5 --- Physical consumer}
+\subsubsection*{Campaign 5 --- Physical task}
 A moving RF or free-space optical tracking system (\S\ref{sec:fso}).
 Navigation state includes position, velocity, attitude, angular rate, and
-structural motion; the physical consumer reads angle error, optical coupling,
+structural motion; the physical task reads angle error, optical coupling,
 received power, BER, or outage. The key test is again reconstruction-matched:
 two navigation systems with similar state RMSE but different covariance
 geometry should produce different physical performance, and a blindly
 recovered $\PCb$ should predict the ordering \emph{before} the run.
-\emph{Status: passed on the physics-based simulated consumer
+\emph{Status: passed on the physics-based simulated task
 (\S\ref{sec:evidence}); the hardware endpoint remains open.}
 
-\subsubsection*{Campaign 6 --- Multi-consumer state service}
-Two consumers with read subspaces ranging from aligned to orthogonal; compare
+\subsubsection*{Campaign 6 --- Multi-task state service}
+Two tasks with read subspaces ranging from aligned to orthogonal; compare
 common estimation, weighted scalarization, separate service, and
 layered/refined descriptions. The two-observer coding theorem supplies
 hypotheses about incompatibility but must not be imported as a control
@@ -669,7 +674,7 @@ Only after the estimation and sensing claims survive: a recovered or derived
 $\PC(x)$ inside an LQR/MPC objective against isotropic and competently
 hand-tuned baselines at matched control effort, with stability and
 constraint satisfaction independently audited, and the endpoint again the
-real downstream consumer.
+real downstream task.
 \emph{Status: promoted on its third seal after two registered instrument
 misses --- the record's proof of work (\S\ref{sec:evidence}).}
 
@@ -693,7 +698,7 @@ timestamps, and Campaigns 5--7 are sealed natively in the campaign
 repository.
 
 Campaign 5 is the belief-averaged operator's first test on a
-threshold-like consumer: the link model (Gaussian far-field + fiber
+threshold-like task: the link model (Gaussian far-field + fiber
 rolloff over a hidden state$\to$physical map mixing attitude and
 range-scaled transverse position, operating at the Gaussian shoulder) is
 strictly query-access, its endpoint --- coupling loss and outage when
@@ -704,15 +709,15 @@ covariance path is deterministic, the E1 prediction (which trace-matched
 schedule serves the link better, read off $\tr(\PCb\bar\Sig)$)
 \emph{precedes} the loss measurement by construction --- the paper's
 ``predict the ordering before the run'' test, passed at 94.1\%. Scope,
-plainly: this is a physics-based \emph{simulated} consumer --- a step
+plainly: this is a physics-based \emph{simulated} task --- a step
 toward, not the arrival at, the hardware endpoint.
 
 Campaign 6 answers the question \S\ref{sec:multi} left open: a dynamic
 analogue of observer complementarity \emph{exists}, as a measured tax
-curve. For planted consumer pairs whose read subspaces sit at a controlled
+curve. For planted task pairs whose read subspaces sit at a controlled
 principal angle (identical within-subspace weights, so the angle is the
 only contrast), the egalitarian price of serving both from one budget ---
-best shared schedule over per-consumer utopia on the worst-of-two
+best shared schedule over per-task utopia on the worst-of-two
 endpoint --- is exactly $1.000$ when the geometries coincide and rises
 monotonically to $1.149$ at orthogonality. The two-observer coding
 theorem's nesting intuition motivated the design and was at no point
@@ -722,7 +727,7 @@ scheduling dominated time-sharing in 72 of 80 cells at this budget, so the
 successive-refinement analogue proper (layered descriptions) remains open.
 
 Campaign 7 is the record's proof of work. Its three predictions ---
-consumer-derived LQG penalty over isotropic at matched control effort,
+task-derived LQG penalty over isotropic at matched control effort,
 blind recover/match, and full geometry over the best endpoint-tuned
 diagonal --- passed numerically in \emph{all three} governed runs
 (K1 $= 0.083/0.094/0.084$ across seals, bars inherited unchanged
@@ -761,14 +766,14 @@ charged where a recovered operator is used).}
 C3 flagship: blind recovery $\to$ scheduling (087) &
 positive control: blind pipeline captures \textbf{94.6\%} of the analytic
 optimum's gain ($\ge$75\%); wins \textbf{+16.3\%} over the best
-consumer-agnostic policy on black-box consumers ($\ge$8\%); trace-matched
+task-agnostic policy on black-box tasks ($\ge$8\%); trace-matched
 ordering carried by $\tr(\widehat\PC\Sig)$ in \textbf{86.9\%} of 61 pairs
 ($\ge$65\%) & ALL PASS 5/5 \\
 \addlinespace
 C2: the flip in sensing (088) &
-full two-consumer verdict inversion in \textbf{100\%} of trace-matched
+full two-task verdict inversion in \textbf{100\%} of trace-matched
 systems ($\ge$80\%); $\tr(P_i\bar\Sig)$ predicts the ordering in
-\textbf{100\%} of cells ($\ge$85\%); mean relative consumer gap
+\textbf{100\%} of cells ($\ge$85\%); mean relative task gap
 \textbf{31.8\%} ($\ge$10\%) at $\tr\bar\Sig$ matched within 10\% & ALL PASS 6/6 \\
 \addlinespace
 C4: operational triggering (089) &
@@ -777,7 +782,7 @@ signal-aware $e^{\top}\PC e$ trigger beats periodic/isotropic by
 realized budgets ($\ge$10\%); probe-charged blind trigger captures
 \textbf{86.9\%} of the true-operator advantage ($\ge$75\%) & ALL PASS 6/6 \\
 \addlinespace
-C5: physical-model FSO consumer (EC5-001) &
+C5: physical-model FSO task (EC5-001) &
 belief-averaged probe of a black-box optical-link model
 (\S\ref{sec:belief}): physical coupling-loss ordering of trace-matched
 schedules predicted \emph{before the run} in \textbf{94.1\%} of 17 pairs
@@ -785,18 +790,18 @@ schedules predicted \emph{before the run} in \textbf{94.1\%} of 17 pairs
 vs the best agnostic ($\ge$4\%); blind capture of an 8$\times$-probe
 reference \textbf{89.8\%} ($\ge$70\%) & ALL PASS 6/6 \\
 \addlinespace
-C6: the multi-consumer tax (EC6-001) &
-consumer pairs at controlled principal angles: the egalitarian
+C6: the multi-task tax (EC6-001) &
+task pairs at controlled principal angles: the egalitarian
 best-shared-over-utopia tax runs \textbf{1.000/1.037/1.123/1.149} at
 $0^{\circ}/30^{\circ}/60^{\circ}/90^{\circ}$ --- sharing exactly free when
 geometries coincide ($\le$1.05), a \textbf{14.9\%} tax at orthogonality
-($\ge$1.05); consumer-aware sharing beats agnostic sharing by
+($\ge$1.05); task-aware sharing beats agnostic sharing by
 \textbf{12.5\%} pooled on worst-of-two ($\ge$5\%) & ALL PASS 6/6 \\
 \addlinespace
 C7: closed-loop control (EC7-003, third seal) &
-consumer-derived LQG penalty at \emph{analytically} matched control effort
+task-derived LQG penalty at \emph{analytically} matched control effort
 (instrument residual $10^{-5}$): \textbf{+8.4\%} vs the isotropic penalty
-on the consumer endpoint ($\ge$4\%); probe-charged blind penalty captures
+on the task endpoint ($\ge$4\%); probe-charged blind penalty captures
 \textbf{99.5\%} of the oracle advantage ($\ge$60\%); \textbf{+7.7\%} vs
 the best endpoint-tuned diagonal ($\ge$0); every loop stable & ALL PASS 8/8 \\
 \bottomrule
@@ -825,18 +830,18 @@ minimum-matched-systems count), which is noted in the ledger rather than
 hidden.
 
 Scope, stated plainly: these are synthetic LTI plants with planted or frozen
-consumers, single governed runs at class \texttt{[predicted]}, and greedy
+tasks, single governed runs at class \texttt{[predicted]}, and greedy
 selection with no optimality guarantee (\S\ref{sec:greedy}). What they
 establish is precisely the conjunction of \S\ref{sec:priorart} in its first
 instantiation --- query-only recovery, covariance composition, prospective
 matched-budget validation with probe cost charged, and the recover/match
 positive control passed --- and the two transfer results: the
 reconstruction-matched flip survives the move from codes to sensor
-schedules, and consumer weighting pays in the timing interface only through
-the realized error. The multi-consumer question is resolved through the tax
+schedules, and task weighting pays in the timing interface only through
+the realized error. The multi-task question is resolved through the tax
 curve and the closed-loop question through the third seal; the hardware
-endpoint, richer consumer sets ($m>2$, asymmetric priorities, layered
-descriptions), and the Interface-1 frontier (nonlinear consumers inside
+endpoint, richer task sets ($m>2$, asymmetric priorities, layered
+descriptions), and the Interface-1 frontier (nonlinear tasks inside
 MPC, where $\PC(x)$ moves the estimator itself) remain open.
 
 \emph{The dynamic-relevance interface now has its own first evidence.}
@@ -852,16 +857,16 @@ establishes the vocabulary: over a declared random system class, the
 age ordering and the directional-staleness ordering of two information
 sets provably disagree below a crossing angle computable in closed form
 before any rollout --- a $6\times$-older observation of the slow mode
-beats a fresh observation of the fast mode wherever the consumer reads
+beats a fresh observation of the fast mode wherever the task reads
 mostly slow --- and the effect vanishes for the isotropic (trace)
-consumer. DR-2 transports the Paper-IV/Campaign-2 flip from WHERE to
-WHEN: two consumers at canonical read angles declared before any system
+task. DR-2 transports the Paper-IV/Campaign-2 flip from WHERE to
+WHEN: two tasks at canonical read angles declared before any system
 draw, given \emph{identical} histories with \emph{identical} age
-profiles, return opposite freshness verdicts; no consumer-blind
+profiles, return opposite freshness verdicts; no task-blind
 freshness scalar can serve both. DR-3 is the operational claim: at
 matched realized transmit budgets, triggering on the realized error in
-the consumer's read direction beats the isotropic signal-aware
-threshold by \textbf{16.3\%} pooled on the consumer endpoint (both are
+the task's read direction beats the isotropic signal-aware
+threshold by \textbf{16.3\%} pooled on the task endpoint (both are
 matched-budget heuristics; no optimality claim attaches), with the
 advantage carrying its sealed geometric signature --- it shrinks
 (Spearman $-0.93$) exactly as the read direction rotates toward the
@@ -870,7 +875,7 @@ pre-committed boundary outcome ($\SC$ as a feature rather than a
 policy) was a registered possible verdict and did \emph{not} occur in
 this system class. Scope, again plainly: smart-sensor idealization
 (exact-state transmission over a deterministic channel, so age-based
-and periodic coincide), planted known consumers, exact-linear plants;
+and periodic coincide), planted known tasks, exact-linear plants;
 the probe-charged blind-recovery arm, random-delay channels (where the
 age-of-information line has its native force), and nonlinear plants are
 designated future seals.
@@ -894,14 +899,14 @@ wins below the crossing in all 20; isotropic-null flips 0/20 & ALL
 PASS 7/7 \\
 \addlinespace
 DR-2: the staleness flip (DR2-001) &
-two-consumer verdict inversion on identical histories with identical
+two-task verdict inversion on identical histories with identical
 age: predicted \textbf{19/20} ($\ge$80\%; the 20th correctly predicted
 as no-flip and measured as none), measured \textbf{19/19} ($\ge$90\%);
 pooled minimum relative gap \textbf{0.39} ($\ge$0.10) & ALL PASS 5/5 \\
 \addlinespace
 DR-3: scheduling at matched budgets (DR3-001) &
 directional trigger vs isotropic signal-aware threshold at matched
-realized budgets: \textbf{+16.3\%} pooled consumer loss ($\ge$8\%),
+realized budgets: \textbf{+16.3\%} pooled task loss ($\ge$8\%),
 positive 20/20; +65.3\% over periodic ($\ge$30\%, context);
 anti-control $-61.5\%$; sealed angle structure Spearman
 \textbf{$-0.93$} ($\le-0.5$); budget-integrity spread 0.58\% ($\le$2\%)
@@ -910,11 +915,11 @@ anti-control $-61.5\%$; sealed angle structure Spearman
 \end{tabular}
 \end{table}
 
-\emph{The sharp claim now has a neural-consumer instantiation.} The
+\emph{The sharp claim now has a neural-model instantiation.} The
 program's LM track sends the conjunction of \S\ref{sec:priorart} at a
 real language model: a frozen, hosted, black-box LLM (gemma-small on a
 managed research inference gateway) consuming a serialized 6-dim
-numeric state through planted question consumers, probed by query-only
+numeric state through planted question tasks, probed by query-only
 logprob finite differences with no gradient or attention access.
 Because a hosted endpoint is not bitwise-reproducible, the seal
 discipline adapts as it would for hardware: the governed artifact logs
@@ -922,38 +927,38 @@ every prompt and returned logprob verbatim, so the entire gate
 evaluation is bitwise-reproducible from the committed record, with
 repeat-query agreement measured as its own instrument gate. Two
 campaigns are promoted (Table~\ref{tab:lm-evidence}). LM-1
-(recovery, third seal): the probed operator predicts the consumer's
+(recovery, third seal): the probed operator predicts the task's
 \emph{own} response to held-out perturbation directions --- pooled
 Spearman $0.61$ against a bar calibrated from two independent powered
-calibration draws --- with the two consumers' measured geometries
+calibration draws --- with the two tasks' measured geometries
 separating at a preregistered operator distance. LM-2 (allocation,
 second seal): serialization precision allocated by the probed
 geometry at a \emph{matched} budget beats a degeneracy-proof
-task-blind baseline by \textbf{26.4\%} pooled on held-out consumer
+task-blind baseline by \textbf{26.4\%} pooled on held-out task
 loss, with the blind allocation capturing the \emph{full} oracle
 advantage (capture $1.00$) --- probing the black box is operationally
 equivalent to knowing the read components, at a logged probing
 capital cost. Three sealed misses precede the promotions and stay on
-the record: a task-oracle-anchored gate set (the consumer measurably
+the record: a task-oracle-anchored gate set (the task measurably
 deviates from the task ideal --- gates must anchor to measured
-consumer behavior), a single-draw bar calibration (bars must come
+task behavior), a single-draw bar calibration (bars must come
 from the across-draw distribution at final power), and a
 baseline-degeneracy coincidence (a task-blind draw can coincide with
 the aligned allocation; the successor's mean-of-four distinct-subset
 baseline makes this impossible). One finding is reported ungated
 because it recurred without being sought: \emph{coarsening the
-components the consumer does not read can actively improve the
-consumer} --- the measured spurious-sensitivity channels operating in
+components the task does not read can actively improve the
+task} --- the measured spurious-sensitivity channels operating in
 reverse --- suggesting that context precision should be
 \emph{deliberately} withheld outside the task's read geometry;
-the effect is consumer-dependent and is reported, never gated. Scope,
-plainly: one hosted model, planted numeric consumers, a fine/coarse
+the effect is task-dependent and is reported, never gated. Scope,
+plainly: one hosted model, planted numeric tasks, a fine/coarse
 serialization ladder; multi-model transfer, realistic task suites,
 and the staleness interface (LM-3) are designated future seals.
 
 \begin{table}[t]
 \caption{Governed LM-track results (single sealed runs per seal; a
-frozen hosted black-box LLM as the consumer; raw prompt/logprob logs
+frozen hosted black-box LLM as the task; raw prompt/logprob logs
 are the committed artifacts).}
 \label{tab:lm-evidence}
 \centering
@@ -962,9 +967,9 @@ are the committed artifacts).}
 \textbf{Campaign (seals)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
 \midrule
 LM-1: blind recovery from a hosted LLM (LM1-001/002/003) &
-probed $\widehat\PC$ predicts the consumer's own held-out response:
+probed $\widehat\PC$ predicts the task's own held-out response:
 pooled Spearman \textbf{0.61} ($\ge$0.45, bars from two powered
-calibration draws), per-consumer 0.46/0.76 ($\ge$0.30); measured
+calibration draws), per-task 0.46/0.76 ($\ge$0.30); measured
 geometries separate at operator distance 0.41 ($\ge$0.25); stability
 0.93/0.77 ($\ge$0.70); repeat/parse/transport instrument gates clean &
 promoted on the 3rd seal, ALL PASS 7/7 (two prior misses on the
@@ -983,10 +988,10 @@ PASS 7/7 (one prior miss on the record: baseline degeneracy) \\
 
 \emph{The same objective governs where a shared sensor spends its
 budget.} The program's sensor-management (SM) track applies the
-consumer-relative value to a multifunction phased aperture time-shared,
+task-relative value to a multifunction phased aperture time-shared,
 at a matched time budget, across active imaging of scene cells, a passive
 listen channel for a radio-command detection, and direction-finding. The
-consumer is the operational decision --- a bounded reaction deadline on
+task is the operational decision --- a bounded reaction deadline on
 the command detection and a stationary-occupant detection --- so $\PC$
 weights exactly those state directions. Two established results bound the
 claim and are credited, not restated: task-driven scheduling already
@@ -1000,24 +1005,24 @@ channel is \emph{low}-uncertainty, information-greedy scheduling ---
 minimizing $\tr\Sig$ or maximizing mutual information --- structurally
 never attends it (mutual-information scheduling misses the reaction
 deadline in $100\%$ of runs), fair round-robin meets it only $38\%$ of
-the time under the clutter-driven dwell cost, and consumer-relative
+the time under the clutter-driven dwell cost, and task-relative
 scheduling meets it $95\%$ while detecting the stationary occupant
 $99.7\%$. SM-2 (derivation, sealed, governed all-pass) closes the
 question the quality-of-service literature leaves open, namely where the
-priorities come from: the consumer projection \emph{derives} a
+priorities come from: the task projection \emph{derives} a
 state-dependent value $\tr(\PC\,\Delta\Sig)/\mathrm{dwell}$ that, with no
 per-task tuning, matches or beats fixed priorities selected per scenario
 with hindsight from a grid (joint success $\mathbf{98.8\%}$ against the
 hindsight oracle's $94.5\%$), because the schedule that meets both
 objectives is time-varying within an encounter --- confirm the stationary
 occupant, then guard the command channel --- and no fixed revisit
-interval can be. The contribution is not that consumer-relevance or
+interval can be. The contribution is not that task-relevance or
 adaptivity is new; it is that the \emph{same} $\PC$ object supplies the
 scheduling objective that radar resource management otherwise
 hand-crafts, the object recovered in \S\ref{sec:campaigns}'s estimation,
 dynamic-relevance and language-model tracks. The same principle is
 arriving independently from the communication side, where goal-oriented
-and semantic scheduling move past information freshness to the consumer's
+and semantic scheduling move past information freshness to the task's
 use of the information; OT is its geometric form. Scope, plainly: a
 linear-Gaussian model with clutter abstracted as a two-state
 platform-motion process, myopic greedy selection, and a comparison
@@ -1035,8 +1040,8 @@ harness and gate evaluation are the committed artifacts).}
 \toprule
 \textbf{Campaign (seals)} & \textbf{Headline results (sealed gate)} & \textbf{Verdict} \\
 \midrule
-SM-1: consumer-relative vs information-greedy at matched time (SM1-001) &
-consumer-relative meets the $30$\,ms reaction deadline \textbf{95\%} of
+SM-1: task-relative vs information-greedy at matched time (SM1-001) &
+task-relative meets the $30$\,ms reaction deadline \textbf{95\%} of
 runs; information-greedy misses it (mutual-information $0\%$ met) and fair
 round-robin only $38\%$, both structural; stationary-occupant detection
 $99.7\%$ at $0.5\%$ false alarm; lowest decision cost &
@@ -1055,7 +1060,7 @@ ALL PASS 3/3 (derivation; QoS priorities \cite{rajkumar1997}) \\
 \section{Falsifiers}
 \label{sec:falsifiers}
 
-The program narrows or fails if: the recovered read operator does not
+The program narrows or fails if: the recovered weight matrix does not
 generalize outside its probing distribution; a conventional
 engineer-specified task matrix performs as well, making recovery
 operationally unnecessary; $\PC(x)$ varies too rapidly for a local metric to
@@ -1064,8 +1069,8 @@ hold over realistic estimator uncertainty (the belief-averaged operator
 bound belief-relative OT as well); probe cost under \eqref{eq:policy}
 consumes the advantage the recovered geometry provides; or long-horizon
 closed-loop consequences systematically defeat policies based on
-consumer-relative covariance reduction, in which case OT remains a theory of
-consumer-relative representation with local and terminal uses. These
+task-relative covariance reduction, in which case OT remains a theory of
+task-relative representation with local and terminal uses. These
 outcomes are scientific boundaries, to be reported, not patched away.
 
 \section{Application exemplar: cooperative optical high-altitude platforms}
@@ -1077,19 +1082,19 @@ optical links (see \cite{kaymak2018} for mobile-FSO acquisition, tracking,
 and pointing generally). Each vehicle has a navigation and attitude
 state; each optical terminal reads only particular combinations of
 transverse displacement, line-of-sight angle, attitude, angular velocity,
-structural jitter, range, and optical state. Its physical consumer geometry
+structural jitter, range, and optical state. Its physical task geometry
 need not resemble 6-DOF navigation MSE, and the standard practice in the
 pointing-acquisition-tracking literature is a static top-down pointing-error
 budget: the causal arrow runs forward (attitude error $\to$ link budget)
 only. The OT proposal runs it backward: probe the black-box receiver through
-modeled state perturbations, recover a belief-averaged read operator
+modeled state perturbations, recover a belief-averaged weight matrix
 \eqref{eq:beliefavg} --- the endpoint metrics are threshold-like, so the
 smoothed construction of \S\ref{sec:belief} is required, not optional ---
 and contract it with the platform's Kalman covariance to decide when to
 request a beacon update, which navigation measurement to acquire, which
 information to transmit to a neighbor, and how much precision to allocate to
 each state direction. Multiple simultaneous links provide a natural
-multi-consumer test. The advantage of this exemplar is that its endpoint ---
+multi-task test. The advantage of this exemplar is that its endpoint ---
 received power, fiber coupling, BER, outage --- is external and physical: OT
 cannot win merely by optimizing its own metric.
 
@@ -1115,14 +1120,14 @@ claim --- that nobody derives estimator requirements from the link at all
 
 Observation Theory proposes an estimation-and-control research program
 centered on a compact composition, $\UC=\tr(\PC\Sig)$: the covariance
-belongs to estimation theory, the read operator to the consumer's
+belongs to estimation theory, the weight matrix to the task's
 operational geometry; the former says what is uncertain, the latter what
 matters. Three interfaces organize the program --- estimator geometry when
 $\PC$ varies with state, resource value through $\tr(\PC\,\Delta\Sig)$, and
 dynamic relevance through $\SC(\Delta)$ --- and none replaces observability,
 filtering, LQG, MPC, or stability theory. The campaign succeeds only if its
 sharpest claim survives: that $\PC$ can be recovered from real downstream
-consumers under query access, at accounted probe cost, and prospectively
+tasks under query access, at accounted probe cost, and prospectively
 predicts resource allocations that ordinary state reconstruction does not
 --- matching the analytic optimum where one exists and winning where none
 does. All seven campaigns have now been run under seal --- six passing
@@ -1131,11 +1136,11 @@ registered instrument misses whose corrections are themselves part of the
 record (\S\ref{sec:evidence}); positive controls included throughout.
 The dynamic-relevance track has followed with three sealed results of
 its own --- the preregisterable age/staleness crossover, the
-two-consumer staleness flip, and the matched-budget scheduling win over
+two-task staleness flip, and the matched-budget scheduling win over
 the honest (isotropic signal-aware) baseline, with its predicted
 geometric signature. And the language-model track has carried the
-sharp claim to a real neural consumer: blind recovery that predicts
-the consumer's own held-out behavior, and matched-budget allocation
+sharp claim to a real neural downstream model: blind recovery that predicts
+the task's own held-out behavior, and matched-budget allocation
 that captures the full known-geometry advantage --- five seals, two
 promotions, three named misses, all on the record. The hardware
 endpoint is where the claim now goes to be risked.
@@ -1143,7 +1148,7 @@ The program is judged by reconstruction-matched flips, blind recovery,
 held-out dynamics, physical endpoints, competent classical baselines, and
 explicit negative results. Those gates have now been passed in the
 synthetic program, misses included on the record. If the physical
-endpoints fail, Observation Theory remains a theory of consumer-relative
+endpoints fail, Observation Theory remains a theory of task-relative
 representation; if they pass, operational distinguishability becomes a
 working complement to the classical control stack.
 
@@ -1308,6 +1313,14 @@ target tracking,'' in \emph{Proc. 44th IEEE Conf. Decision and Control
 \bibitem{rajkumar1997} R.~Rajkumar, C.~Lee, J.~Lehoczky, and D.~Siewiorek,
 ``A resource allocation model for QoS management,'' in \emph{Proc. 18th
 IEEE Real-Time Systems Symp. (RTSS)}, 1997. % verify pages on final
+
+\bibitem{cdw2014} P.~G. Constantine, E.~Dow, and Q.~Wang, ``Active subspace
+methods in theory and practice: Applications to kriging surfaces,''
+\emph{SIAM J. Sci. Comput.}, vol.~36, no.~4, pp.~A1500--A1524, 2014.
+
+\bibitem{constantine2015} P.~G. Constantine, \emph{Active Subspaces: Emerging
+Ideas for Dimension Reduction in Parameter Studies}. Philadelphia, PA, USA:
+SIAM, 2015.
 
 \end{thebibliography}
 

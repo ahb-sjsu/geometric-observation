@@ -128,3 +128,27 @@ and Chen et al. 2026, plus primary retrieval of Xiao–Luo 2005.
 - 12 references added (Gray 73; Xiao–Luo 05; Lapidoth–Tinguely 10; Nayak et al.
   08; Stylianou et al. 21; Chen et al. 26; Nguyen et al. 25; Berta et al. 10;
   Safaryan et al. 22; del Rio et al. 11; BBMW 18; Barato–Seifert 15).
+
+## Addendum 2026-10-01: secure source coding and Gray on the work side
+
+Source: `articles/2026-10-01-ot-novelty-assessment.md`.
+
+- The work coordinate I(X; X̂_A, X̂_B | S) is the conditional leakage of secure
+  source coding. The manuscript now credits Villard and Piantanida, IEEE T-IT
+  59(6):3668-3692, 2013, and Ekrem and Ulukus, IEEE T-IT 59(9):5466-5487, 2013.
+  Both verified by web search on 2026-10-01.
+- The work floor (Thm. 4) is now stated as a Gaussian evaluation of Gray's
+  conditional rate-distortion function (Gray 1973), and the discount (Cor. 5) as
+  the gap between Gray's unconditional and conditional functions. New Remark
+  "Attribution of the work floor". What remains claimed is the operational
+  reading at reset (the reset mechanism holds S, the estimators never see it),
+  the tax quantity, and its closed form.
+- The open exact two-estimator work region is now positioned as a two-constraint
+  case of the joint rate-leakage problem Ekrem and Ulukus left open.
+- Bibliographic fix: Nayak, Tuncel, Gündüz and Erkip, "Successive refinement of
+  vector sources under individual distortion criteria," is IEEE T-IT
+  56(4):1769-1781, 2010 (was listed as 54(4), 2008). Verified by web search.
+- Terminology in the manuscript: consumer -> downstream estimator; read
+  operator -> distortion weight matrix; consumer-relative -> weighted. Title now
+  "A Landauer Test for Task Complementarity: Rate and Reset-Work Floors for
+  Serving Two Weighted Distortions". This record keeps its original wording.

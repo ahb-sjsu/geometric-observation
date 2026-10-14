@@ -11,15 +11,15 @@
 % [NOVELTY-CHECK] flags mark mandatory prior-art delineations.
 
 \title{Two Observers, One Source:\\ An Exact Characterization of Successive
-Refinement\\ Across Read Operators}
+Refinement\\ Across Weighted Distortions}
 \author{Andrew H. Bond}
 \date{Working draft v0.1 --- July 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
 A Gaussian source is described in two stages for two different observers:
-the base layer is judged by the weighted-quadratic distortion of read operator
-$P_1$, the full description by that of $P_2$. We characterize exactly when
+the base layer is judged by the weighted quadratic distortion with weight
+matrix $P_1$, the full description by that with weight matrix $P_2$. We characterize exactly when
 this incurs no rate loss. Each observer's single-stage problem has a unique
 optimal error covariance $\Sigma^\star(P_i,D_i)$, the maximizer of
 $\log\det\Sigma$ over $\{\Sigma\preceq\Sigma_x,\ \tr(P_i\Sigma)\le D_i\}$.
@@ -39,7 +39,7 @@ signal is the other observer's overhead, made quantitative.
 
 \section{Setup}
 $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, i.i.d.\
-copies. Observer $i\in\{1,2\}$ has read operator $P_i\succeq0$ and distortion
+copies. Observer $i\in\{1,2\}$ has distortion weight matrix $P_i\succeq0$ and distortion
 $d_i(x,\hat x)=(x-\hat x)^\top P_i(x-\hat x)$. A two-stage code sends $nR_1$
 bits decoded to $\hat X_1^n$ for observer~1 and $n(R_2-R_1)$ further bits so
 that both messages decode to $\hat X_2^n$ for observer~2, with
@@ -275,7 +275,7 @@ mean serves both observers at once --- and the Gaussian backward channel.)
 \end{proposition}
 \begin{remark}
 Simultaneous service mixes observers through multipliers into an effective
-read operator $\lambda_1P_1+\lambda_2P_2$; successive refinement cannot mix
+weight matrix $\lambda_1P_1+\lambda_2P_2$; successive refinement cannot mix
 --- the stages are ordered, and Theorem~\ref{thm:main} says compatibility is
 the nesting of optima, not any blend of them.
 \end{remark}
@@ -292,13 +292,28 @@ pass (R-IND-5)} on Lemmas 1--4 and both theorems.
 \cite{equitzcover}; Rimoldi \cite{rimoldi} (per-stage measures may differ);
 Effros \cite{effros}; Kostina--Tuncel \cite{kostinatuncel} (abstract
 sources); Lastras--Berger (rate-loss bounds, MSE); Tuncel--Rose.
-% [NOVELTY-CHECK] Mandatory: obtain and delineate against
-% "Successive Refinement of Vector Sources Under Individual Distortion
-% Criteria" (Nayak--Tuncel line): their individual/per-subvector criteria
-% vs our two full PSD read operators and the PSD-nesting characterization.
-% Verify no prior explicit Gaussian solution of this exact form exists.
+
+Two lines are closest to Theorem~\ref{thm:main}. Nayak, Tuncel, G\"und\"uz and
+Erkip study successive refinement of vector sources under individual distortion
+criteria \cite{nayak2010}. Their stages carry one mean-square constraint per
+component. Ours carry one weighted constraint with an arbitrary positive
+semidefinite weight. Neither setting contains the other as stated. Op 't Veld
+and Gastpar replace the first stage by a projection of a Gaussian vector source
+to a low-dimensional space and refine to the full source \cite{opveld2014}.
+They show that such codes can be successively refinable and give a parametric
+description of the refinable distortion pairs. Their setting is close to a
+projector $P_1$ followed by $P_2=I$ here. Theorem~\ref{thm:main} states the
+condition for every pair of positive semidefinite weights as a nesting of two
+max-det optima. Theorem~\ref{thm:loss} gives the exact loss when the nesting
+fails.
+% Positioning against Op 't Veld--Gastpar is from a search summary of its
+% abstract only; verify the exact overlap against its full text before submission.
+% [NOVELTY-CHECK] Still open: confirm that no prior explicit Gaussian solution of
+% this exact PSD-nesting form exists beyond the two lines above.
+
 Observation-theoretic reading: the base and refinement layers serve two
-read operators; refinability is the nesting of the observers' optimal
+weight matrices, which Observation Theory calls read operators; refinability
+is the nesting of the observers' optimal
 worlds, and Corollary~\ref{cor:kernel} is ``one observer's noise is
 another's signal'' as a coding theorem (companion Paper III).
 
@@ -316,5 +331,13 @@ variable-rate multiresolution source codes, \emph{IEEE Trans. Inf. Theory}
 \bibitem{kostinatuncel} V.~Kostina, E.~Tuncel, Successive refinement of
 abstract sources, \emph{IEEE Trans. Inf. Theory} 65(10):6385--6398, 2019.
 % verify final page range at splice time
+\bibitem{nayak2010} J.~Nayak, E.~Tuncel, D.~G\"und\"uz, E.~Erkip, Successive
+refinement of vector sources under individual distortion criteria,
+\emph{IEEE Trans. Inf. Theory} 56(4):1769--1781, 2010.
+\bibitem{opveld2014} G.~J. Op 't Veld, M.~C. Gastpar, Successive refinement of
+Gaussian projections, \emph{Proc. 35th WIC Symp. Inf. Theory in the Benelux},
+2014.
+% verify: venue and year from a search summary of the EPFL record, not from the
+% paper itself; title and authors confirmed (EPFL Infoscience PDF)
 \end{thebibliography}
 \end{document}

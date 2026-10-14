@@ -26,7 +26,7 @@
 \newcommand{\Sq}{\Sigma_{q}}
 
 \title{\textbf{Observation Theory in Space Communications}\\[2pt]
-\large Two Consumer-Relative Laws for the Bandwidth-Starved,
+\large Two Task-Weighted Laws for the Bandwidth-Starved,
 Delay-Dominated Channel}
 \author{Andrew H. Bond,~\emph{Senior Member, IEEE}\\
 \small Department of Computer Engineering, San Jos\'e State University\\
@@ -40,16 +40,17 @@ claim resolves to a sealed, pre-registered ledger row).}}
 \begin{abstract}
 Observation Theory holds that operational distortion and reliability are
 properties not of a signal alone but of the \emph{relation} among object,
-consumer (a downstream reader with its own operator and output metric),
+downstream task (a reader with its own weight matrix and output metric,
+which Observation Theory calls a consumer),
 channel, and budget. We carry the theory into space communications --- a
 domain it had not touched --- and report two results, each derived
 \emph{a priori} and then tested under a sealed pre-registration
 discipline (bars committed before any run, a coded cooling-off, and every
 outcome, pass or fail, kept as executed).
 
-First, for a bandwidth-starved multi-instrument downlink whose consumers
-are science processors with distinct read operators $P_i$, the gain of
-consumer-relative bit allocation over reconstruction-error (MSE)
+First, for a bandwidth-starved multi-instrument downlink whose tasks
+are science processors with distinct weight matrices $P_i$, the gain of
+task-weighted bit allocation over reconstruction-error (MSE)
 allocation is, in the high-rate limit, exactly the arithmetic-over-%
 geometric-mean gap of the instrument-importance spectrum,
 $G=\AM(d)/\GM(d)$ --- the source variance cancels. The gain is $\ge 1$,
@@ -61,7 +62,7 @@ from fiber-core and broadband transport (where it does not).
 Second, for the delay-dominated transport channel --- Starlink's
 $\sim\!15$\,s handovers, and SpaceX's proposed Marslink relay at up to
 $1.5$\,AU, where a $\sim\!25$-minute round trip makes closed-loop control
-impossible --- we model the congestion controller as a consumer whose
+impossible --- we model the congestion controller as a task whose
 ``loss $\to$ congestion'' operator is mismatched to a predictably
 nonstationary channel. Masking the known schedule removes a
 false-congestion error equal to $\kappa\rho$ with the derived, machine-%
@@ -80,15 +81,15 @@ so the results earn the \emph{mechanism}, not a systems claim.
 A deep-space link is the purest instance of the setting Observation
 Theory was built for: the resource is scarce (the Deep Space Network is
 oversubscribed; interplanetary links run kilobits to a few megabits per
-second), the payload serves several downstream consumers at once (a
-star-tracker centroid, a spectral-line fit, an imager), and each consumer
+second), the payload serves several downstream tasks at once (a
+star-tracker centroid, a spectral-line fit, an imager), and each task
 reads the recovered data through its own operator. What ``distortion''
-\emph{means} is therefore consumer-relative: the quantity an instrument
+\emph{means} is therefore task-weighted: the quantity an instrument
 $i$ actually feels is the operator-weighted error $\tr(P_i\Sq)$, not the
 reconstruction MSE $\tr(\Sq)$.
 
 We report two laws. Section~\ref{sec:sc1} treats \emph{allocation}: how to
-spend a hard bit budget across a transform basis when the consumers are
+spend a hard bit budget across a transform basis when the tasks are
 heterogeneous. Section~\ref{sec:sc2} treats \emph{transport}: how a
 congestion controller should read a channel whose disruptions are
 predictable but whose feedback is stale --- the regime of low-Earth-orbit
@@ -100,9 +101,9 @@ that motivated this work recorded one, and the discipline is what makes
 the two passes here meaningful rather than decorative.
 
 \paragraph{Contributions.}
-(i) A closed-form gain law for consumer-relative downlink allocation,
-$G=\AM(d)/\GM(d)$, with its homogeneous-consumer boundary
-(Section~\ref{sec:sc1}). (ii) A read-operator account of handover-aware
+(i) A closed-form gain law for task-weighted downlink allocation,
+$G=\AM(d)/\GM(d)$, with its homogeneous-task boundary
+(Section~\ref{sec:sc1}). (ii) A weight-matrix account of handover-aware
 transport, with the machine-checked masking coefficient $\kappa=1-2c$ and
 the delay-decorrelation collapse that makes interplanetary feedback
 useless while the schedule survives (Section~\ref{sec:sc2}). (iii) Sealed,
@@ -111,8 +112,8 @@ synthetic substrate can and cannot earn (Section~\ref{sec:scope}).
 
 \section{Preliminaries}
 
-\paragraph{Consumer-relative distortion.}
-A consumer is a reader with an operator $P\succeq 0$ acting on the
+\paragraph{Task-weighted distortion.}
+A downstream task is a reader with a weight matrix $P\succeq 0$ acting on the
 recovered signal; the distortion it feels under an error second moment
 $\Sq$ is $\tr(P\Sq)$. When the channel is a lossy codec that quantizes a
 transform of the source, $\Sq$ is diagonal in the coding basis, and only
@@ -135,16 +136,16 @@ Code a frame in the basis where the quantization noise is diagonal. Let
 $\sigma_k^2$ be the source variance per coordinate, $b_k$ the bits
 assigned to coordinate $k$ (high-rate quantization gives
 $\Sq{}_{,k}=\sigma_k^2 2^{-2b_k}$), and let the aggregate instrument
-importance be $d_k=\sum_i w_i (P_i)_{kk}$ for consumer weights $w_i$. The
-consumer distortion of an allocation $b$ is
+importance be $d_k=\sum_i w_i (P_i)_{kk}$ for task weights $w_i$. The
+task distortion of an allocation $b$ is
 $D(b)=\sum_k d_k\,\sigma_k^2\,2^{-2b_k}$, minimized subject to
 $\sum_k b_k=B$.
 
 \begin{theorem}[The AM/GM gain]
 \label{thm:amgm}
 In the high-rate regime with all coordinates active, the ratio of the
-consumer distortion under MSE-optimal allocation (which minimizes
-$\tr\Sq=\sum_k\sigma_k^2 2^{-2b_k}$) to that under consumer-optimal
+task distortion under MSE-optimal allocation (which minimizes
+$\tr\Sq=\sum_k\sigma_k^2 2^{-2b_k}$) to that under task-optimal
 allocation (which minimizes $D$) is
 \[
   G \;=\; \frac{D_{\mathrm{mse}}}{D_{\mathrm{cons}}}
@@ -157,24 +158,24 @@ equality iff $d$ is constant.
 
 \begin{proof}
 Reverse water-filling for weights $w_k$ under budget $B$ gives optimal
-distortion $n\,\GM(w)\,2^{-2B/n}$. Consumer-optimal allocation uses
+distortion $n\,\GM(w)\,2^{-2B/n}$. Task-optimal allocation uses
 weights $d_k\sigma_k^2$, so
 $D_{\mathrm{cons}}=n\,\GM(d\sigma^2)\,2^{-2B/n}
    =n\,\GM(d)\,\GM(\sigma^2)\,2^{-2B/n}$.
 MSE-optimal allocation equalizes $\sigma_k^2 2^{-2b_k}=L$ with
 $L=\GM(\sigma^2)2^{-2B/n}$ (from $\sum b_k=B$), so applying it to the
-consumer weights gives
+task weights gives
 $D_{\mathrm{mse}}=\sum_k d_k\sigma_k^2\,(L/\sigma_k^2)
    =L\sum_k d_k=n\,\GM(\sigma^2)\,\AM(d)\,2^{-2B/n}$.
 The ratio is $\AM(d)/\GM(d)$; $G\ge1$ is the AM--GM inequality, with
 equality iff all $d_k$ are equal.
 \end{proof}
 
-\begin{remark}[The homogeneous-consumer boundary]
+\begin{remark}[The homogeneous-task boundary]
 For a small importance spread, $\AM(d)/\GM(d)\approx 1+\tfrac12\,
 \mathrm{CV}^2(d)$, where $\mathrm{CV}$ is the coefficient of variation.
-The gain therefore vanishes as the consumers homogenize. A broadband
-link carrying opaque IP traffic has one effectively uniform consumer, so
+The gain therefore vanishes as the tasks homogenize. A broadband
+link carrying opaque IP traffic has one effectively uniform task, so
 the theory predicts \emph{no} allocation gain there --- the fiber-core
 and Starlink-broadband case --- while a deep-space downlink shared by
 instruments with disjoint spectral interests sees the full gap. The law
@@ -215,7 +216,7 @@ with $G_{\mathrm{meas}}/(\AM/\GM)=1.000$ throughout.
 \addlegendentry{$G_{\mathrm{meas}}$ (sealed run)}
 \draw[dashed, gray!60] (axis cs:-0.04,1) -- (axis cs:1.04,1);
 \node[anchor=west, font=\small, gray!55!black]
-  at (axis cs:0.03,1.028) {no gain (homogeneous consumers)};
+  at (axis cs:0.03,1.028) {no gain (homogeneous tasks)};
 \end{axis}
 \end{tikzpicture}
 \caption{The AM/GM allocation gain and its boundary. As traffic-class
@@ -239,7 +240,7 @@ its structure. Model the observed loss as $L=H\vee C$: a deterministic,
 \emph{known} handover indicator $H$ with duty cycle $\rho$, ORed with the
 true congestion state $C$ (a two-state Markov process, stationary rate
 $c$, lag-one autocorrelation $\lambda$). Feedback is delayed by $D$. The
-controller is a consumer with a read operator; we compare the naive
+controller is a task with a weight matrix; we compare the naive
 reader $\hat C=L(t\!-\!D)$ with the schedule-aware reader
 $\hat C=L(t\!-\!D)\wedge\neg H(t\!-\!D)$.
 
@@ -362,7 +363,7 @@ Both substrates are \emph{synthetic}: planted source spectra with
 archetype instrument operators for the downlink, and a planted Markov
 channel with a deterministic schedule for the transport. A pass therefore
 earns the \emph{mechanism} --- that the AM/GM gap is the sufficient
-statistic for the allocation gain, and that a read-operator account
+statistic for the allocation gain, and that a weight-matrix account
 explains handover-aware transport and the interplanetary collapse of
 feedback --- not a systems claim about a specific spacecraft, the Deep
 Space Network, StarTCP, or Marslink. Real-trace substrates (measured DSN
@@ -374,23 +375,24 @@ derived and sealed; their transfer to fielded systems is future work.
 \section{Related Work}
 
 Rate--distortion theory and reverse water-filling are classical
-\cite{cover2006}; the contribution here is the consumer-relative gain in
-closed form and its homogeneous-consumer boundary. Handover-aware LEO
+\cite{cover2006}, and so is weighted-MSE allocation; the contribution here is
+the task-weighted gain in
+closed form and its homogeneous-task boundary. Handover-aware LEO
 transport is an active area: StarTCP proactively stalls during handovers
 \cite{startcp2024}, information-centric designs such as Leotp target LEO
 directly, and industry proposals address LEO congestion control. Our
-account is complementary --- a read-operator model that explains
+account is complementary --- a weight-matrix model that explains
 \emph{why} schedule-awareness helps and quantifies its gain --- rather
 than a new protocol. The allocation side connects to network-utility
 maximization and QoS scheduling; the distinctive elements are the
-\emph{derivable} margin and the blind estimation of consumer operators
+\emph{derivable} margin and the blind estimation of task operators
 when they are not known in advance.
 
 \section{Conclusion}
 
 Observation Theory transfers to space communications through a single
-lens: distortion and reliability are consumer-relative, and the useful
-structure of a scarce, delayed channel is whatever the consumer's
+lens: distortion and reliability are task-weighted, and the useful
+structure of a scarce, delayed channel is whatever the task's
 operator can read from it. Two laws follow --- the AM/GM allocation gain
 and the $\kappa=1-2c$ / delay-decorrelation transport account --- each
 derived a priori, sealed before measurement, and passed on disjoint

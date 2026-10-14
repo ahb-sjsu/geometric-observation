@@ -31,7 +31,7 @@
 % addendum in go11-conditional-region-NOVELTY.md.
 % v0.4/v0.5 (2026-08-05): the REFINED QUESTION is SETTLED (Sec. 7):
 % Theorem 1 (pair sufficiency -- the d-dimensional problem collapses to
-% (Y, V) for every d), Theorem 2 (exact single-consumer CR function for
+% (Y, V) for every d), Theorem 2 (exact single-estimator CR function for
 % rank-one reads: L = 1/2 log2 g*, g* in CLOSED FORM as the larger root of
 % the quadratic P(g) = Dsg^2 - (D+s-rho^2)g + (1-rho^2), s = 1+tau^2;
 % uniqueness proved via P(1) < 0; achievability complete; converse PROVED
@@ -81,15 +81,15 @@
 % functional zero exactly on the (a)/(b) branches). R-IND-5 pass on
 % Theorem 6: NOVELTY addendum 5.
 
-\title{GO-11 (problem statement): The Exact Two-Consumer\\
-Rate--Work Region with Reset Side Information}
+\title{GO-11 (problem statement): The Exact Two-Estimator\\
+Rate--Leakage Region with Reset Side Information}
 \author{Andrew H. Bond}
 \date{Problem statement v0.11 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
 The complementarity-tax note proved \emph{floors} for the joint description
-of two consumers whose reset may consult side information; those floors are
+of two estimators whose reset may consult side information; those floors are
 tight only as $D\to0$. This document poses the exact-region problem. The
 coordinate pair itself is not new: per test channel the rate--work gap is
 $I(\hX;S)$ (a chain-rule identity that is working folklore in the
@@ -101,18 +101,21 @@ region under a degradedness ordering, and Wang et al.'s
 rate--distortion--classification function, which is the scalar instance of
 our frontier. What our sweeps did not find, and what GO-11 asks for, is the
 region when (i) the source is a vector read through \emph{two} simultaneous
-weighted-quadratic consumer distortions, (ii) $S$ is arbitrary jointly
+weighted quadratic distortions, (ii) $S$ is arbitrary jointly
 Gaussian --- neither aligned with the read modes nor degraded relative to
 any decoder observation --- and (iii) the frontier comes with the
 semidefinite condition under which the complementarity-tax work floor is
-attained. Even the single-consumer vector endpoint (a vector-Gaussian
-common-reconstruction function) has no published solution. We state the
+attained. Even the single-estimator vector endpoint (a vector-Gaussian
+common-reconstruction function) has no published solution. Throughout, the
+work coordinate $I(X;\hX\mid S)$ is the conditional leakage of secure source
+coding \cite{villard2013,ekrem2013}. Its thermodynamic reading is the ideal
+reset work of Paper~V. We state the
 conjectured structure, the first decidable step, and the verification
 obligations a registration must meet.
 \end{abstract}
 
 \section{The problem}
-$X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, i.i.d.; consumers $A,B$ with
+$X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, i.i.d.; downstream estimators $A,B$ with
 rank-one reads $u,v$ (general PSD $P_1,P_2$ as the extension); reset side
 information $S$, jointly Gaussian with $X$, available only at erasure, with
 the model Markov chain $(\hX_A,\hX_B)-X-S$ \cite{bondlandauerV}. Define, for
@@ -132,7 +135,12 @@ attained.
 (i) \emph{The one-constraint pair-region is solved, in general.} Paper V's
 main region theorem characterizes
 $\{(I(X;\hX),I(X;\hX\mid S))\}$ under a single distortion constraint for
-general alphabets, and its Pareto-channel equation is a Blahut--Arimoto-type
+general alphabets. That region is Theorem~3 of Villard and Piantanida
+\cite{villard2013} with no decoder side information, up to the constant
+shift between leakage and equivocation. For a deterministic encoder,
+$H(X^n\mid M,S^n)=H(X^n\mid S^n)-H(M\mid S^n)$, so minimizing the
+conditional leakage $H(M\mid S^n)/n=I(X^n;M\mid S^n)/n$ is maximizing the
+equivocation of the side-information holder. Paper V's Pareto-channel equation is a Blahut--Arimoto-type
 fixed point for the weighted objective
 $\alpha I(X;\hX)+(1-\alpha)I(X;\hX\mid S)+\beta\,\E d$ --- which, by
 Fact~\ref{fact:gap}, \emph{is} the scalarization \eqref{eq:dcib} below with
@@ -156,7 +164,7 @@ coordinate itself under degradedness (G\"unl\"u et al.) and with the
 non-degraded scalar Gaussian converse explicitly left open
 (Villard--Piantanida). GO-11's open content is therefore exactly: general
 (non-aligned, non-degraded) Gaussian $S$ --- already for \emph{one}
-consumer --- and everything two-consumer beyond Paper V's structural union.
+estimator --- and everything two-estimator beyond Paper V's structural union.
 
 \section{The organizing identity}
 \begin{fact}[chain rule; folklore]\label{fact:gap}
@@ -221,7 +229,7 @@ is precisely the non-degraded, non-aligned coupling, where
 Villard--Piantanida's scalar converse is already open.}
 \end{conjecture}
 
-\begin{conjecture}[Two-consumer reset water-filling --- possibly
+\begin{conjecture}[Two-estimator reset water-filling --- possibly
 optimistic]\label{conj:frontier}
 In the $S$-whitened read frame, the frontier is traced by an
 $\alpha$-parametrized allocation program generalizing Paper V's reset
@@ -230,7 +238,7 @@ the $\alpha=0$ endpoint tilts distortion toward the directions of the read
 plane that $S$ resolves least (the operational allocation signature of
 GO-P-2026-058/059), and for scalar-pair instances the program reduces to a
 two-mode quadratic of the Paper V vector-frontier type. \emph{Caution: with
-$\Sigma_x$, $\Sigma_{X\mid S}$, and the read operators not simultaneously
+$\Sigma_x$, $\Sigma_{X\mid S}$, and the distortion weight matrices not simultaneously
 diagonalizable, three mutually non-commuting matrices compete; the
 analogous regime of the 2026 rate--distortion--deception work found no
 closed form. A clean water-filling may exist only under an alignment
@@ -246,12 +254,12 @@ to fail at every $D>0$ when $S$ has an $X$-independent component
 ($\tau^2>0$; matching the strictness remark of \cite{bondtaxnote} and the
 scalar corner's $D>0$ gap), with equality exactly in the $D\to0$ limit.
 The qualifier is forced by Proposition~\ref{prop:marg}: an $X$-measurable
-$S$ is maximally informative yet the single-consumer conditional floor is
+$S$ is maximally informative yet the single-estimator conditional floor is
 attained there at every $D\le\tfrac12$ --- the strictness belongs to the
 encoder's ignorance of $S$'s residual, not to informativeness.
 \end{conjecture}
 
-\begin{question}[Single-consumer vector case; endpoint = a vector-Gaussian
+\begin{question}[Single-estimator vector case; endpoint = a vector-Gaussian
 common-reconstruction function]\label{q:single}
 Even $m=1$ is open: for one rank-one read of a $d$-dimensional source with
 \emph{arbitrary} jointly Gaussian $S$, what is the frontier --- and already
@@ -298,7 +306,7 @@ L_{\mathrm{vec}}(D)\;=\;\tfrac12\log_2^{+}\!\frac{1}{2D}
 Gray's conditional rate--distortion function of $(Y,S)$
 ($\operatorname{Var}(Y\mid S)=\tfrac12$), attained by the linear channel
 $\hY=(1-D)X_1+DX_2+N$, $N\sim\mathcal N(0,D(1-2D))$, for $D\le\tfrac12$,
-and by $\hY=S/2$ (zero conditional content) for $D\ge\tfrac12$;
+and by $\hY=S/2$ (zero conditional leakage) for $D\ge\tfrac12$;
 \item[(iii)] hence the strict gap
 $L_{\mathrm{marg}}(D)-L_{\mathrm{vec}}(D)=\tfrac12\log_2(1+D)>0$ on
 $(0,\tfrac12]$, and equal to the full marginalized value on
@@ -379,7 +387,7 @@ randomness (including any resampling randomness below) \emph{mutually}
 independent --- the joint form is what the $S$-kernel argument uses.
 
 \begin{theorem}[Pair sufficiency]\label{thm:pair}
-In the single-consumer problem
+In the single-estimator problem
 $L(D)=\min\{I(X;\hY\mid S):\hY-X-S,\ \E(Y-\hY)^2\le D\}$, it is without
 loss of optimality to let the channel depend on $X$ only through
 $T=(Y,V)$, and then $I(X;\hY\mid S)=I(T;\hY\mid S)$. Consequently $L(D)$
@@ -401,7 +409,7 @@ computation applied to a $T$-channel directly gives
 $I(X;\hY\mid S)=I(T;\hY\mid S)$.
 \end{proof}
 
-\begin{theorem}[The exact single-consumer CR function, rank-one read]
+\begin{theorem}[The exact single-estimator CR function, rank-one read]
 \label{thm:cubic}
 Write $s=1+\tau^2$. For $0<D<1$,
 \begin{equation}
@@ -476,7 +484,7 @@ $\alpha R+(1-\alpha)L$ (both max-entropy bounds hold with the same three
 moments) --- tracing that frontier is the named next step, before the
 $m\ge2$ case, for which the pair-sufficiency argument generalizes
 verbatim (``$(P$-read components, $\gamma^{\mathsf T}X)$ suffice''),
-collapsing two rank-one consumers to at most three coordinates.
+collapsing two rank-one estimators to at most three coordinates.
 \end{remark}
 
 \subsection*{The $m=1$ frontier}
@@ -484,7 +492,7 @@ collapsing two rank-one consumers to at most three coordinates.
 \begin{theorem}[The exact rate--work region, $m=1$, rank-one read]
 \label{thm:frontier}
 For $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$, the region
-$\{(R,L)\}$ of Section~1 restricted to one consumer is the closed convex
+$\{(R,L)\}$ of Section~1 restricted to one estimator is the closed convex
 set whose Pareto frontier is traced by $\alpha\in[0,1]$ as follows. Let
 $(\gamma_0,\gamma_1)\in(0,1]^2$ solve, together with
 $(a,b,n)$, the stationarity system
@@ -599,7 +607,7 @@ Conjecture~\ref{conj:frontier}?
 \textbf{In-repo (Paper V).} The one-constraint pair-region is Paper V's,
 completely: main region theorem (general alphabets), Pareto-channel fixed
 point (= our scalarization at $\beta'=1-\alpha$), scalar corner, and
-mode-aligned reset water-filling. Paper V's multi-consumer theorem gives
+mode-aligned reset water-filling. Paper V's several-decoder theorem gives
 only the structural union for $m\ge2$; its ``general Gaussian coupling''
 limitation names Question~\ref{q:single}'s territory as open.
 
@@ -627,17 +635,27 @@ Maximizing source equivocation at an $S$-holding party is minimizing our
 $L$ up to $H(X\mid S)$, so the Yamamoto lineage \cite{yamamoto1983} is not
 a cousin but the family itself. Exact Gaussian regions exist and are all
 scalar with one distortion constraint: Villard--Piantanida
-\cite{villard2013} (exact only when the eavesdropper has no side
-information; the non-degraded scalar Gaussian converse \emph{explicitly
-left open}); Schieler--Cuff (Gaussian solved only without adversary side
+\cite{villard2013} (the non-degraded scalar Gaussian converse \emph{explicitly
+left open}, per the 2026-08-04 sweep); Schieler--Cuff (Gaussian solved only without adversary side
 information); and, sharpest, G\"unl\"u--Schaefer--Boche--Poor
 \cite{gunlu2023}, whose privacy-leakage coordinate $I(X;W\mid S)$ \emph{is}
 our conditional coordinate, solved in closed scalar-Gaussian form via the
 conditional EPI under a degradedness ordering --- containing the scalar
-single-consumer corner. The only vector-Gaussian equivocation result found
+single-estimator corner. The only vector-Gaussian equivocation result found
 (Ekrem--Ulukus \cite{ekrem2013}) is tight only with the rate constraint
-removed. The only exact two-distortion-plus-equivocation region found
-(Tandon--Sankar--Poor) is discrete-alphabet, and it privatizes $S$ itself.
+removed. Ekrem and Ulukus state that they could not solve the joint
+rate--leakage region. The only exact two-distortion-plus-equivocation region
+found (Tandon--Sankar--Poor) is discrete-alphabet, and it privatizes $S$
+itself.
+
+\emph{Correction (2026-10-01).} An earlier version of this paragraph said
+that the Villard--Piantanida region is exact only when the eavesdropper has
+no side information. That is wrong for our case. Their Theorem~3 is tight
+with uncoded side information at the legitimate decoder, which includes no
+decoder side information. With that choice it gives the discrete
+rate--distortion--leakage region with side information at the eavesdropper,
+which is Paper V's one-constraint region. The open Gaussian questions below
+are unaffected.
 
 \textbf{Common reconstruction (Question~\ref{q:single}'s endpoint).}
 Steinberg \cite{steinberg2009} and Lapidoth--Mal\"ar--Wigger
@@ -662,7 +680,7 @@ maximal-correlation area received the weakest coverage.
 
 \section{The $m=2$ region, settled as a matrix program}\label{sec:m2}
 
-Two rank-one consumers ($Y_A=u^{\mathsf T}X$, $Y_B=v^{\mathsf T}X$,
+Two rank-one estimators ($Y_A=u^{\mathsf T}X$, $Y_B=v^{\mathsf T}X$,
 normalized unit variances, read correlation $\rho_{AB}$), scalar jointly
 Gaussian reset context $S=V+U$ as before, correlations
 $(\rho_{AV},\rho_{BV})$; WLOG scalar reproductions
@@ -670,7 +688,7 @@ $(\hY_A,\hY_B)$ (per-coordinate data processing, as in
 Section~\ref{sec:marg}).
 
 \begin{theorem}[$(m{+}1)$-sufficiency]\label{thm:triple}
-For $m$ rank-one consumers, it is without loss of optimality to let the
+For $m$ rank-one estimators, it is without loss of optimality to let the
 joint channel depend on $X$ only through
 $T=(Y_1,\ldots,Y_m,V)$, and then both coordinates equal their
 $T$-versions. The proof of Theorem~\ref{thm:pair} applies verbatim: the
@@ -743,7 +761,7 @@ by Theorem~\ref{thm:m2} itself.
 \end{remark}
 
 \begin{corollary}[The GO-10 worked instance, exactly]\label{cor:go10}
-For orthogonal reads ($\rho_{AB}=0$) with $S$ aligned to consumer $A$
+For orthogonal reads ($\rho_{AB}=0$) with $S$ aligned to estimator $A$
 ($V=Y_A$), the region is the single-corner quadrant at
 $\bigl(R_A+R_B,\ L_A+L_B\bigr)$ with $R_A=R_B=\tfrac12\log_2(1/D)$,
 $L_B=R_B$, and $L_A$ Steinberg's corner at $\rho_s^2=1/(1+\tau^2)$;
@@ -762,7 +780,7 @@ coinciding --- corner degeneracy --- as alignment requires).
 This instance is $\Sigma_T$-degenerate ($V=Y_A$); apply
 Theorem~\ref{thm:m2}'s reduced form on $T'=(Y_A,Y_B)$, $\Sigma_{T'}=I_2$,
 $\Sigma_{T'\mid S}=\mathrm{diag}(s^2,1)$. \emph{Achievability}:
-independent per-consumer channels. \emph{Super-additivity converse}:
+independent per-estimator channels. \emph{Super-additivity converse}:
 $(Y_A,S)\perp Y_B$ (since $S=Y_A+U$, $Y_B\perp Y_A$, $U$ jointly
 independent), so for any admissible channel
 $I(T';\hat{\mathbf Y}\mid S)=I(Y_A;\hat{\mathbf Y}\mid S)
@@ -812,7 +830,7 @@ Theorem~\ref{thm:cubic} forced everywhere else in this program.
 \emph{Necessity.} Suppose the floor is attained. Equality in the floor's
 chain forces, at the moment level (max-entropy tightness makes the joint
 WLOG Gaussian): $E_S:=\E[\Cov(Y\mid\hat{\mathbf Y},S)]=\Delta$ with
-per-consumer equality, so $Z:=Y-\hat{\mathbf Y}$ has $\Cov Z=\Delta$,
+per-estimator equality, so $Z:=Y-\hat{\mathbf Y}$ has $\Cov Z=\Delta$,
 $\Cov(Z,\hat{\mathbf Y})=0$, $\Cov(Z,S)=0$; the latter with the Markov
 moment identity gives $\Cov(Z,V)=0$, hence
 $\Cov(\hat{\mathbf Y},V)=\beta$. Since $E_S\preceq\Sigma_{Y\mid S}$ always,
@@ -855,7 +873,7 @@ $L_{\min}$ is \emph{attained} (compact feasible $(A,\Sigma_N)$ set, lower
 semicontinuity); at the non-strict boundary of
 $\Delta\preceq\Sigma_{Y\mid V}$ in case (a), where the displayed ratio is
 $0/0$, attainment follows by $\Delta_t\uparrow\Delta$ feasibility and
-floor continuity. \emph{(m=1 corollary.)} For one consumer, on the
+floor continuity. \emph{(m=1 corollary.)} For one estimator, on the
 active-floor regime $D\le\operatorname{Var}(Y\mid V)$, the floor
 $\tfrac12\log_2(\operatorname{Var}(Y\mid S)/D)$ is attained iff
 $\rho\tau=0$: substituting $g_f=(s-\rho^2)/(Ds)$ into
@@ -1018,7 +1036,7 @@ eigenvalue $+0.36$; fixed-point hunts: one root in all 2160 runs.]
 
 Theorem~\ref{thm:m2} characterized the $m{=}2$ region as a nine-parameter
 program; the $m{=}1$ closure now begs the structural question of whether
-the two-water-level form survives a second consumer. It does --- the
+the two-water-level form survives a second estimator. It does --- the
 water levels become $2\times2$ matrices.
 
 \begin{theorem}[The $m=2$ frontier system]\label{thm:m2sys}
@@ -1066,7 +1084,7 @@ Theorems~\ref{thm:frontier}/\ref{thm:vecS} is its scalar shadow
 (substituting scalars reproduces \eqref{eq:vecfoc} exactly). At $w=1$
 the record is confined to the read span, $A=\Sigma_N\,\mathrm{diag}(\mu)
 \widetilde Y$, recovering the rate-only (Xiao--Luo) structure; on the
-Xiao--Luo regime (where the two-consumer rate bound
+Xiao--Luo regime (where the two-estimator rate bound
 $\tfrac12\log_2\!\bigl[\det\Sigma_{\mathbf Y}/(D_AD_B)\bigr]$ is tight)
 the $w{=}1$ error covariance is forced to
 $EE^{\mathsf T}+\Sigma_N=\mathrm{diag}(D_A,D_B)$ ($E=\widetilde Y-A$; the
@@ -1136,7 +1154,7 @@ $\Pr[Y\ne V]=p\in(0,\tfrac12)$), context $V$, side information
 $S=V\oplus W$ with $W\sim\mathrm{Bern}(q)$, $q\in[0,\tfrac12]$,
 independent. The record is the reproduction $\hat Y\in\{0,1\}$ itself
 (richer records only cost more: for any stored $Z$ from which the
-consumer computes $\hat Y=f(Z)$, $I(T;Z\mid S)\ge I(T;\hat Y\mid S)$ by
+decoder computes $\hat Y=f(Z)$, $I(T;Z\mid S)\ge I(T;\hat Y\mid S)$ by
 the data-processing inequality), Hamming distortion
 $\Pr[\hat Y\ne Y]\le D$. Write $x*q=x(1-q)+(1-x)q$ and
 $\ell(x)=\ln\frac{1-x}{x}$.
@@ -1264,11 +1282,11 @@ this document reserves no ID and asserts no claim.
 
 \begin{thebibliography}{99}
 \bibitem{bondlandauerV} A.~H. Bond, A rate--work--distortion region for
-consumer-relative observation, this repository,
+erasure with side information, this repository,
 \texttt{paper/consumer-relative-landauer.tex} (Paper V).
 \bibitem{bondtwoobserver} A.~H. Bond, Two observers, one source, this
 repository, \texttt{paper/two-observer-theorem.tex}.
-\bibitem{bondtaxnote} A.~H. Bond, A Landauer test for consumer
+\bibitem{bondtaxnote} A.~H. Bond, A Landauer test for task
 complementarity, this repository, \texttt{paper/complementarity-tax.tex}
 (v0.4; GO-10, $[\mathrm{replicated}]$).
 \bibitem{gib2005} G.~Chechik, A.~Globerson, N.~Tishby, Y.~Weiss,
@@ -1288,8 +1306,8 @@ information, \emph{IEEE Trans. Inf. Forensics Security} 18:3803--3816,
 Utility-privacy tradeoffs in databases: an information-theoretic approach,
 \emph{IEEE Trans. Inf. Forensics Security} 8(6):838--852, 2013.
 \bibitem{ekrem2013} E.~Ekrem, S.~Ulukus, Secure lossy transmission of
-vector Gaussian sources, \emph{IEEE Trans. Inf. Theory}, 2013
-(arXiv:1108.3544).
+vector Gaussian sources, \emph{IEEE Trans. Inf. Theory} 59(9):5466--5487,
+2013 (arXiv:1108.3544).
 \bibitem{wang2024rdc} Y.~Wang, Y.~Wu, S.~Ma, Y.-J.~A. Zhang, Task-oriented
 lossy compression with data, perception, and classification constraints,
 \emph{IEEE J. Sel. Areas Commun.}, 2024/25 (arXiv:2405.04144).

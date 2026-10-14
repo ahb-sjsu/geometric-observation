@@ -41,12 +41,12 @@
 
 \begin{abstract}
 Two earlier papers report results that look alike but stand on different ground.
-One characterizes the rate and conditional content of a stored description whose distortion is scored on a projection of the source.
+One characterizes the rate and conditional content of a stored description whose distortion is scored on a projection of the source. Conditional content is the conditional leakage of secure source coding.
 The other predicts economic choice frequencies from a hand-coded map of scenarios into nine attributes and a Mahalanobis cost.
 A skeptical reader can say these are two good but separate models.
 This paper gives the construction under which they are two applications of one object.
-An observer is a consumer map, an output metric, and a budget.
-The consumer and the output metric pull the output geometry back to the source and induce, at every regular point, a positive semidefinite read operator whose kernel is the set of directions the observer cannot distinguish.
+An observer is a consumer map, an output metric, and a budget. The consumer map is the downstream task map of indirect source coding.
+The consumer and the output metric pull the output geometry back to the source and induce, at every regular point, a positive semidefinite read operator whose kernel is the set of directions the observer cannot distinguish. The read operator is a pullback metric, and its average over the source is the active-subspace matrix.
 We prove that the read operator, the quotient of the source by observational indistinguishability, a global consumer-relative distortion, a nonnegative transfer regret when a representation built for one consumer is reused by another, and a consumer-relative rate--content region all follow from the triple under stated regularity.
 The rate--content region of the coding paper is the region obtained when the consumer is the projection of an augmented Gaussian source onto its first component.
 When the described variable is a vector, that paper has two observers, the decoder that sets the distortion budget and the holder of the context that pays the content, and the direction its optimal description reads turns with the budget unless the two observers' geometries share an eigenvector, which no single observer with a fixed geometry reproduces.
@@ -59,7 +59,7 @@ We then give a non-reducibility theorem for the budgeted observer, whose menu-se
 
 A theory earns the name when its parts are consequences of one construction rather than a family resemblance.
 The observation-theory program has produced two results that a careful reader can hold apart.
-The first is a rate--content region for a description of a Gaussian source when the consumer of the description reads only one component and a third party retains context.
+The first is a rate--content region for a description of a Gaussian source when the consumer of the description reads only one component and a third party retains context. In classical terms the consumer is the decoder's downstream task, the third party is a side-information holder, and the content is the conditional leakage of secure source coding~\cite{villard2013,ekrem2013}.
 The second is a nine-dimensional geometric model of economic choice, calibrated on bargaining games and evaluated on lottery problems, whose monetary dimension turned out to be unread at low stakes and whose stake-scaling corollary was then rejected on high-stakes data.
 Both papers say the word consumer.
 That is not yet a shared theory.
@@ -68,7 +68,7 @@ This paper supplies the construction and proves what it gives.
 The starting point is the observer triple, a consumer map from the source to an output space, a metric on the output space, and a budget.
 The only thing the theory ever computes with is the pullback of the output metric through the consumer.
 From that pullback we obtain the equivalence classes of states the observer cannot distinguish, a degenerate geometry on the source whose null directions are those classes, a global notion of consumer-relative distortion, and a nonnegative regret that a representation built for one consumer pays when a second consumer reads it.
-A consumer-relative rate--distortion function and a rate--content region are then definitions on top of that distortion, and we prove the properties they inherit.
+A consumer-relative rate--distortion function and a rate--content region are then definitions on top of that distortion, and we prove the properties they inherit. Their classical names are the indirect, or weighted, rate--distortion function~\cite{sakrison1968,wolfziv1970} and the rate--leakage region of secure source coding~\cite{villard2013}.
 
 The two earlier papers are then specializations.
 The coding paper's region is the rate--content region when the source is a Gaussian pair, the consumer is the projection onto the first component, and the retained context is a noisy copy of the second.
@@ -128,6 +128,8 @@ L_{B}(C_{1}\to C_{2})=D_{C_{2}}(Q_{1}^{*})-\inf_{Q\in\mathcal{Q}_{B}}D_{C_{2}}(Q
 with equality if and only if $Q_{1}^{*}$ is also $C_{2}$-optimal in $\mathcal{Q}_{B}$.
 \end{enumerate}
 \end{theorem}
+
+The objects of Theorem~\ref{thm:rep} have classical names. The read operator \eqref{eq:PC} is the pullback metric $C^{*}G$ of information geometry~\cite{amari2016}. For a scalar consumer with Euclidean output metric, the averaged operator $\bar{P}_{C,\mu}=\E_{\mu}[\nabla C\,\nabla C^{\top}]$ is the active-subspace matrix of Constantine, Dow, and Wang~\cite{cdw2014,constantine2015}, and its kernel is their inactive subspace. For a vector consumer it is the corresponding gradient outer-product matrix weighted by $G$. The quotient of part (a) is the quotient by that kernel, and the distortion of part (c) is the induced distortion of indirect source coding~\cite{sakrison1968,wolfziv1970}.
 
 \begin{proof}
 (a) Reflexivity, symmetry, and transitivity are those of equality in $\Y$, and the class of $x$ is $C^{-1}(C(x))$ by definition.
@@ -208,13 +210,15 @@ The quadratic specialization is the definition, and the Gaussian statement is th
 
 \begin{definition}[Rate--content region]
 \label{def:region}
-Let $(X,S)$ be jointly distributed, with $S$ the context retained by a third party. The consumer-relative rate--content region at distortion $D$ is
+Let $(X,S)$ be jointly distributed, with $S$ the context retained by a third party, a side-information holder in classical terms. The consumer-relative rate--content region at distortion $D$ is
 \begin{equation}
 \mathcal{R}_{C}(D)=\Bigl\{(R,L):\ \exists\,(q_{W|X},\hat{x})\ \text{with}\ R\ge I(X;\hat{X}),\ L\ge I(X;\hat{X}\mid S),\ \E\bigl[D_{C}(X,\hat{X})\bigr]\le D\Bigr\},
 \label{eq:region}
 \end{equation}
 where $\hat{X}=\hat{x}(W)$ and the joint law of $(X,S,W)$ has $W$ conditionally independent of $S$ given $X$.
 \end{definition}
+
+The coordinate $L$ is the conditional leakage of secure source coding. For a deterministic encoder, $H(X^{n}\mid M,S^{n})=H(X^{n}\mid S^{n})-H(M\mid S^{n})$, so the content $H(M\mid S^{n})/n$ equals $I(X^{n};M\mid S^{n})/n$ and is $H(X\mid S)$ minus the equivocation of the holder.
 
 The region is a definition, and two facts give it operational content.
 The first is a lemma that lets the reproduction live in the output space, which is where a coding theorem places it.
@@ -265,6 +269,7 @@ Its single-letter characterization is, for a discrete memoryless pair $(X,S)$ wi
 \label{eq:titregion}
 \end{equation}
 with the Markov chain $\hat{X}-X-S$ imposed because the description is formed without access to $S$.
+For discrete sources this region is Theorem~3 of Villard and Piantanida~\cite{villard2013} with no decoder side information, up to the constant shift between leakage and equivocation. Ekrem and Ulukus found the minimum leakage for vector Gaussian sources at unconstrained rate, and they could not solve the joint rate--leakage region~\cite{ekrem2013}. The Gaussian theorems of the coding paper address that joint region in the case without decoder side information.
 The content endpoint $\min I(X;\hat{X}\mid S)$ is Steinberg's common-reconstruction functional~\cite{steinberg2009} as an information quantity, and the coding paper is explicit that the operational roles differ. In Steinberg's problem $S$ is decoder side information that must not affect reproducibility. In the coding paper $S$ is held by a party that never serves the decoder, and no common-reconstruction constraint appears in the code definition.
 
 \begin{corollary}[The coding region is a consumer-relative region]
@@ -725,6 +730,22 @@ A.~H.~Bond, \emph{The Observation Theory Encyclopedia}, entries \emph{observer},
 
 \bibitem{constantine2015}
 P.~G.~Constantine, \emph{Active Subspaces: Emerging Ideas for Dimension Reduction in Parameter Studies}. Philadelphia, PA, USA: SIAM, 2015, doi: 10.1137/1.9781611973860.
+
+\bibitem{cdw2014}
+P.~G.~Constantine, E.~Dow, and Q.~Wang, ``Active subspace methods in theory and practice: Applications to kriging surfaces,'' \emph{SIAM J. Sci. Comput.}, vol.~36, no.~4, pp.~A1500--A1524, 2014.
+
+\bibitem{sakrison1968}
+D.~J.~Sakrison, ``Source encoding in the presence of random disturbance,'' \emph{IEEE Trans. Inf. Theory}, vol.~14, no.~1, pp.~165--167, Jan. 1968.
+% verify: pages 165--167 not confirmed by search; volume and year confirmed
+
+\bibitem{wolfziv1970}
+J.~K.~Wolf and J.~Ziv, ``Transmission of noisy information to a noisy receiver with minimum distortion,'' \emph{IEEE Trans. Inf. Theory}, vol.~16, no.~4, pp.~406--411, 1970.
+
+\bibitem{villard2013}
+J.~Villard and P.~Piantanida, ``Secure multiterminal source coding with side information at the eavesdropper,'' \emph{IEEE Trans. Inf. Theory}, vol.~59, no.~6, pp.~3668--3692, 2013.
+
+\bibitem{ekrem2013}
+E.~Ekrem and S.~Ulukus, ``Secure lossy transmission of vector Gaussian sources,'' \emph{IEEE Trans. Inf. Theory}, vol.~59, no.~9, pp.~5466--5487, Sep. 2013, doi: 10.1109/TIT.2013.2265802.
 
 \bibitem{chechik2005}
 G.~Chechik, A.~Globerson, N.~Tishby, and Y.~Weiss, ``Information bottleneck for Gaussian variables,'' \emph{J. Mach. Learn. Res.}, vol.~6, pp.~165--188, 2005.

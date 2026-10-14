@@ -283,3 +283,21 @@ remains unwritten in everything reachable.
 - ~63 queries + 10 page-verified documents across the four sweeps;
   sweep transcripts in the session task outputs; per-sweep query lists
   reproduced in each agent report.
+
+## Addendum 2026-10-01: the "third-party conditioner" is the eavesdropper
+
+Source: `articles/2026-10-01-ot-novelty-assessment.md`.
+
+- Several entries above list the "third-party conditioner" semantics (a party
+  holding S that is neither encoder nor decoder) as ours. In secure source
+  coding that party is the eavesdropper, and L = I(Tⁿ;Ŷⁿ|Sⁿ)/n is the
+  conditional leakage to it (Villard and Piantanida, IEEE T-IT
+  59(6):3668–3692, 2013; Ekrem and Ulukus, IEEE T-IT 59(9):5466–5487, 2013;
+  both verified 2026-10-01). The semantics alone is therefore not new. What the
+  sweep did not find remains its spectral and delayed-noisy form, the two
+  coupled water levels, and the encoder-access dichotomy. The manuscript now
+  says this in its delineation.
+- Terminology in the manuscript: consumer -> decoder or estimator; third-party
+  conditioner -> side-information holder; the rate–work region is described as
+  a rate–leakage region read as reset work. This record keeps its original
+  wording.

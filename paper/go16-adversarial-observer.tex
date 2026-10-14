@@ -48,7 +48,7 @@ Atlas, zero \texttt{sorry})}
 \maketitle
 
 \begin{abstract}
-The adversarial observer is the program's first anti-aligned consumer:
+The adversarial observer is the program's first adversarial downstream reader:
 a rank-$k$-budgeted reader of the encoder's own record, where the
 record is simultaneously the encoder's payoff instrument. v0.1 posed
 the LQG disclosure game and conjectured a partition/tie structure at
@@ -92,21 +92,23 @@ complete --- the mathematical core survived intact, and the seven
 findings (2 exposition errors, 3 gaps, 2 overclaims) are addressed in
 this version. Novelty flank on record: the composite game is
 unoccupied; the SDP-ization machinery is imported
-(Sayin--Akyol--Ba\c{s}ar; Tamura), the tie's optimization ancestor is
+(Sayin--Akyol--Ba\c{s}ar \cite{sab2019}; Tamura \cite{tamura}), the tie's optimization ancestor is
 Overton--Womersley coalescence, and the partition/pricing/water-level
 theorem is the headline novelty.
 \end{abstract}
 
 \section{The object}
 
-An observer in this program is a triple $O=(C,G,B)$ inducing a read
-metric $P_C$. Everywhere so far the encoder compresses \emph{for}
-its consumer. Here the encoder's record $A$ --- its observable
+An observer in this program is a triple $O=(C,G,B)$ (task map, output
+metric, budget) inducing a distortion weight matrix $P_C$, which the
+program calls a read metric. Everywhere so far the encoder compresses
+\emph{for} its decoder. Here the encoder's record $A$ --- its observable
 behavior accumulated over play --- is read by two parties: the
 encoder's own payoff functional (actions must track the private
 state to earn value), and an adversary $D$ who reads $A$ through a
-\emph{budgeted} read operator and converts what it resolves into the
-encoder's loss. The encoder's objective is a two-consumer program
+\emph{budgeted} weight matrix (a rank-constrained attention operator)
+and converts what it resolves into the encoder's loss. The encoder's
+objective is a two-reader program
 with opposite signs. Poker vocabulary maps exactly: the ideal policy
 $S$ is maximal exploitation; shielding is balance; the reader's
 kernel is the bluffing space; reader indifference is the
@@ -770,7 +772,7 @@ regime V10 measured at generic far-from-commuting instances?
 \textbf{Discrete twin (v0.2 Conjecture 2): theorem-grade}
 (Theorem~\ref{thm:binary}; governed face 091). \textbf{Signed-weight
 reduction (v0.1 Conjecture 3), resolved in form:} revelation
-coordinates convexify the signed-weight two-consumer program; the
+coordinates convexify the signed-weight two-reader program; the
 attention water level with the class partition replaces the
 two-water-level geometry. \textbf{Commitment gap (v0.1 Conjecture
 4):} no gap for the whitened-attention game
@@ -787,8 +789,10 @@ pass, 2026-08-21; 16 must-cites; quote-level pre-seal sweep owed).
 Posture adopted per its verdict: \textbf{the composite game is
 unoccupied; the machinery is presented as imported.} Specifically:
 parametrizing Gaussian Stackelberg disclosure by posterior
-covariance and SDP-izing it is the Sayin--Akyol--Ba\c{s}ar / Tamura
-program (must-cite); the Ky Fan/fantope operator theory is classical
+covariance and SDP-izing it is the Sayin--Akyol--Ba\c{s}ar
+\cite{sab2019} / Tamura \cite{tamura} program (must-cite). The posterior-covariance
+parametrization and the reduction to a semidefinite program are theirs, and
+Theorem~\ref{thm:reduction} builds on them; the Ky Fan/fantope operator theory is classical
 (Fan; Overton--Womersley; Warmuth--Kuzmin), and the eigenvalue tie's
 optimization-theoretic ancestor is \emph{Overton--Womersley
 coalescence}; idempotent noiseless disclosure and no-commitment-gap
@@ -833,9 +837,19 @@ fixed-instrument gap is resolved at commuting scope
 sharpened to a phase-boundary question by the S1 scan. Next in the
 campaign: the alignment functional (Conjecture~\ref{conj:converse});
 the joint-subset and non-commuting fixed-instrument residues; then
-the operational face (query-only read-operator recovery of a static
-pool bot, with exploitation constructed in the kernel and submerged
+the operational face (query-only recovery of a static pool bot's weight
+matrix, that is, active-subspace estimation from queries, with exploitation constructed in the kernel and submerged
 classes and measured leakage) --- the campaign node stays
 \texttt{[exploratory]} until that face lands. House rules bind;
 misses enter the ledger at equal prominence.
+
+\begin{thebibliography}{9}
+\bibitem{sab2019} M.~O. Sayin, E.~Akyol, T.~Ba\c{s}ar, Hierarchical multistage
+Gaussian signaling games in noncooperative communication and control systems,
+\emph{Automatica} 107:9--20, 2019 (arXiv:1609.09448).
+\bibitem{tamura} W.~Tamura, Bayesian persuasion with quadratic preferences,
+SSRN working paper 1987877.
+% verify: year and any later journal version not confirmed; SSRN abstract page
+% confirmed by search 2026-10-01, full text not retrieved (403 per the flank record)
+\end{thebibliography}
 \end{document}

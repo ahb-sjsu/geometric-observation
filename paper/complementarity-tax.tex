@@ -34,17 +34,17 @@
 % Earlier pre-seal SANITY run (author-side, seed 20260803) is disclosed in
 % the sealed prereg and is not evidence.
 
-\title{A Landauer Test for Consumer Complementarity:\\
-Rate and Reset-Work Floors for Serving Two Read Operators}
+\title{A Landauer Test for Task Complementarity:\\
+Rate and Reset-Work Floors for Serving Two Weighted Distortions}
 \author{Andrew H. Bond}
 \date{Working draft v0.4 --- August 2026}
 \begin{document}\maketitle
 
 \begin{abstract}
-Two consumers read the same Gaussian source through different rank-one read
-operators. We ask what a description that serves both must cost, in bits
-materialized and in ideal Landauer work at reset, beyond what the more
-expensive consumer costs alone --- the \emph{complementarity tax}. The rate
+Two downstream estimators judge a description of the same Gaussian source
+through different rank-one distortion weight matrices. We ask what a
+description that serves both must cost, in bits materialized and in ideal
+Landauer work at reset, beyond what the more expensive estimator costs alone --- the \emph{complementarity tax}. The rate
 side, restricted to the read plane, is classical and we claim no novelty for
 it: the product bound $D_A D_B \ge \kappa\,2^{-2R}$, with
 $\kappa=(u^{\mathsf T}\Sigma_x u)(v^{\mathsf T}\Sigma_x v)(1-\rho_{AB}^2)$
@@ -55,21 +55,26 @@ function precisely when $\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma_x
 B$, $B=[u\;v]$ --- the low-distortion branch of the bivariate
 individual-distortion problem \cite{xiaoluo2005,lapidothtinguely2010}, in
 the semidefinite-condition form of the recent vector literature
-\cite{stylianou2021,chen2026}. We repackage these facts consumer-relatively
+\cite{stylianou2021,chen2026}. We restate these facts for weighted distortion
 --- two rank-one reads of a $d$-dimensional source, the pair's geometry
 entering only through the incompatibility invariant
 $\kappa=\det(B^{\mathsf T}\Sigma_xB)$ --- and prove what our prior-art
 sweeps did not find. First, the complementarity tax itself: on the
 incompatibility-dominated regime it has a closed form, and no prior
 isolation of the excess of simultaneous service over the more expensive
-single consumer surfaced under any name. Second, and principally, the
-thermodynamic half: the reset-work coordinate of the consumer-relative
-Landauer region obeys the same product bound with $\Sigma_x$ replaced by
-$\Sigma_{X\mid S}$, so the work floor is discounted from the rate floor by
-exactly $I(u^{\mathsf T}X, v^{\mathsf T}X; S)$, the side information the
-reset context holds about the read plane.
-Erasure pays for consumer incompatibility only to the extent that the reset
-context does not already resolve it. A worked two-consumer instance gives
+single estimator surfaced under any name. Second, and principally, the
+thermodynamic half. The reset-work coordinate is the conditional leakage of
+secure source coding \cite{villard2013,ekrem2013}. It obeys the same product
+bound with $\Sigma_x$ replaced by $\Sigma_{X\mid S}$. This work floor is a
+Gaussian evaluation of Gray's conditional rate--distortion function, and the
+discount between the two floors is the gap between Gray's unconditional and
+conditional functions \cite{gray1973}. The discount equals exactly
+$I(u^{\mathsf T}X, v^{\mathsf T}X; S)$, the side information the
+reset context holds about the read plane. What the note adds is the reading
+of that gap at reset.
+Erasure pays for the incompatibility of the two estimators only to the extent
+that the reset context does not already resolve it. A worked two-estimator
+instance gives
 exact tax values and an exact rate-tax/work-tax gap that grows to
 $I(X;S)$-type quantities as distortion vanishes. These predictions have
 been confirmed: a preregistered falsification harness passed every gate
@@ -82,20 +87,22 @@ context cannot resolve (GO-P-2026-058/059, all gates passed).
 
 \section{Setup}\label{sec:setup}
 $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, i.i.d.\
-copies. Consumers $A$ and $B$ have read directions $u,v\in\mathbb R^d$,
-linearly independent, with read operators $P_A=uu^{\mathsf T}$,
+copies. Downstream estimators $A$ and $B$ have read directions
+$u,v\in\mathbb R^d$, linearly independent, with distortion weight matrices
+$P_A=uu^{\mathsf T}$,
 $P_B=vv^{\mathsf T}$ and distortions
 $d_A(x,\hat x)=\bigl(u^{\mathsf T}(x-\hat x)\bigr)^2$,
 $d_B(x,\hat x)=\bigl(v^{\mathsf T}(x-\hat x)\bigr)^2$ --- the rank-one case of
-the consumer-relative quadratic distortion $d_{\mathcal C}(x,\hat x)=
-(x-\hat x)^{\mathsf T}P_{\mathcal C}(x-\hat x)$ of Observation Theory
-\cite{bond2026observation}. Write
+the weighted quadratic distortion $d_{\mathcal C}(x,\hat x)=
+(x-\hat x)^{\mathsf T}P_{\mathcal C}(x-\hat x)$. Observation Theory calls the
+weight matrix $P_{\mathcal C}$ a read operator \cite{bond2026observation}.
+Write
 \[
 B:=[\,u\ \ v\,]\in\mathbb R^{d\times2},\qquad
 Y:=B^{\mathsf T}X=\begin{pmatrix}u^{\mathsf T}X\\ v^{\mathsf T}X\end{pmatrix},
 \qquad \Sigma_Y:=B^{\mathsf T}\Sigma_x B\succ0 .
 \]
-$Y$ is what the two consumers, jointly, can ever be judged on. Its covariance
+$Y$ is what the two estimators, jointly, can ever be judged on. Its covariance
 carries the incompatibility of the pair: with
 $\sigma_u^2=u^{\mathsf T}\Sigma_x u$, $\sigma_v^2=v^{\mathsf T}\Sigma_x v$,
 and read correlation
@@ -109,16 +116,16 @@ the squared area of the parallelogram spanned by $\Sigma_x^{1/2}u$ and
 $\Sigma_x^{1/2}v$ (strictly positive under the standing hypotheses
 $\Sigma_x\succ0$, $u,v$ linearly independent). For $\Sigma_x=\sigma^2 I$ and
 unit $u,v$ at angle $\theta$, $\kappa=\sigma^4\sin^2\theta$. As the
-consumers align, $\kappa\to0$;
-consumers whose reads are uncorrelated under the source have maximal
+two reads align, $\kappa\to0$;
+estimators whose reads are uncorrelated under the source have maximal
 $\kappa$.
 
-For the thermodynamic coordinate we adopt the model of the consumer-relative
-Landauer paper \cite{bondlandauerV}: descriptions are stored in a memory
+For the thermodynamic coordinate we adopt the model of the rate--work
+paper \cite{bondlandauerV}: descriptions are stored in a memory
 whose later reset may consult retained side information $S$, jointly
 Gaussian with $X$, with the Markov structure $\hX-X-S$ (side information is
-never available to the consumers). By the multi-consumer region
-(\emph{Shared observation for several consumers}, \cite{bondlandauerV}), a
+never available to the estimators). By the several-decoder region
+(\emph{Shared observation for several decoders}, \cite{bondlandauerV}), a
 shared memory serving reproductions
 % [VI-10 sharpening] That theorem is proved in the source for finite
 % alphabets and bounded distortion; its Gaussian/quadratic use here is the
@@ -134,8 +141,11 @@ L\ \ge\ I(X;\hX_A,\hX_B\mid S),
 \label{eq:coords}
 \end{equation}
 over joint test channels meeting both distortion constraints; the ideal
-isothermal reset work is $W^\star=\kb T\ln2\cdot L$ with $L$ in bits. All
-logarithms are base 2. Define the conditional analogues
+isothermal reset work is $W^\star=\kb T\ln2\cdot L$ with $L$ in bits. The
+coordinate $L$ is the conditional leakage of the description to a
+side-information holder with $S$, as in secure source coding
+\cite{villard2013,ekrem2013}. Its thermodynamic reading is the Landauer content
+of the memory at reset. All logarithms are base 2. Define the conditional analogues
 \begin{equation}
 \Sigma_{X\mid S}:=\E\bigl[\Cov(X\mid S)\bigr],\qquad
 \kappa_S:=\det\bigl(B^{\mathsf T}\Sigma_{X\mid S}B\bigr)
@@ -145,7 +155,7 @@ logarithms are base 2. Define the conditional analogues
 Since $(X,S)$ is jointly Gaussian, $\Sigma_{X\mid S}$ is the (deterministic)
 conditional covariance and $\Sigma_{Y\mid S}=B^{\mathsf T}\Sigma_{X\mid S}B$.
 
-\begin{definition}[Joint and single-consumer optima]\label{def:optima}
+\begin{definition}[Joint and single-estimator optima]\label{def:optima}
 For $0<D_A\le\sigma_u^2$, $0<D_B\le\sigma_v^2$,
 \begin{align*}
 R_{AB}(D_A,D_B)&:=\min\bigl\{I(X;\hX_A,\hX_B):\E d_A(X,\hX_A)\le D_A,\
@@ -154,8 +164,8 @@ L_{AB}(D_A,D_B\mid S)&:=\min\bigl\{I(X;\hX_A,\hX_B\mid S):\text{same
 constraints},\ (\hX_A,\hX_B)-X-S\bigr\},
 \end{align*}
 and $R_A(D_A),L_A(D_A\mid S)$ (resp.\ $B$) the same programs with only one
-constraint. The single-consumer rate is classical rank-one reverse
-water-filling (\emph{Isothermal read-operator work law},
+constraint. The single-estimator rate is classical rank-one reverse
+water-filling (\emph{Isothermal weighted work law},
 \cite{bondlandauerV}):
 $R_A(D_A)=\tfrac12\log(\sigma_u^2/D_A)$.
 \end{definition}
@@ -166,7 +176,7 @@ $R_A(D_A)=\tfrac12\log(\sigma_u^2/D_A)$.
 \quad
 \mathrm{CT}_W(D_A,D_B\mid S):=L_{AB}-\max\bigl(L_A,L_B\bigr).
 \]
-Both are $\ge0$ trivially (a joint code contains a code for each consumer).
+Both are $\ge0$ trivially (a joint code contains a code for each estimator).
 The content of this note is \emph{how large} they must be, and how retained
 side information separates them.
 \end{definition}
@@ -255,14 +265,14 @@ Gaussian under individual square-error criteria, solved by Xiao and Luo
 Lapidoth and Tinguely \cite[Thm.~III.1]{lapidothtinguely2010}, and stated as
 a semidefinite condition in the vector case
 \cite{stylianou2021,chen2026}. We state and prove them in the
-consumer-relative form --- the source is $d$-dimensional and only the two
+weighted form --- the source is $d$-dimensional and only the two
 rank-one functionals are judged, with the reduction carried by
 Lemma~\ref{lem:plane} and the geometry by $\kappa$ --- both for completeness
 and because the work-side results of Section~4, which we did not find in
 prior literature, reuse every step. See Section~7 for the full delineation.
 
-\begin{theorem}[Consumer complementarity relation; classical after
-reduction]\label{thm:rate}
+\begin{theorem}[Complementarity relation for two weighted distortions;
+classical after reduction]\label{thm:rate}
 Let $(\hX_A,\hX_B)$ be jointly distributed with $X$ and satisfy
 $\E d_A(X,\hX_A)\le D_A$, $\E d_B(X,\hX_B)\le D_B$. Then
 \begin{equation}
@@ -333,7 +343,7 @@ $\Sigma_Y=\sigma^2\bigl(\begin{smallmatrix}1&\cos\theta\\
 $\sigma^2(1\pm\cos\theta)$, so
 $\Sigma_Y-DI\succeq0$ iff $D\le\sigma^2(1-\lvert\cos\theta\rvert)$
 --- symmetric in $\theta\mapsto\pi-\theta$, as it must be since $v\mapsto-v$
-changes neither consumer.
+changes neither distortion.
 \end{proof}
 
 \begin{remark}
@@ -349,7 +359,7 @@ at a bracket around the boundary $\theta^\star=\arccos(1-D/\sigma^2)$.
 \end{remark}
 
 \begin{corollary}[Complementarity tax, closed form]\label{cor:taxrate}
-On the regime $\Delta\preceq\Sigma_Y$, with $M\in\{A,B\}$ the consumer of
+On the regime $\Delta\preceq\Sigma_Y$, with $M\in\{A,B\}$ the estimator of
 larger single-rate and $m$ the other,
 \[
 \mathrm{CT}_R(D_A,D_B)
@@ -401,7 +411,7 @@ $I(X;V\mid S)\ge\tfrac12\log\det\Sigma_{Y\mid S}
 $\det\E[\Cov(Y\mid V,S)]\le\det\bigl(B^{\mathsf T}\Sigma(V)B\bigr)\le
 D_AD_B$ by the ordering in Lemma~\ref{lem:plane} and
 Lemma~\ref{lem:hadamard}. Note the distortion constraints bound the
-\emph{unconditional} error covariance --- the consumers never see $S$ ---
+\emph{unconditional} error covariance --- the estimators never see $S$ ---
 while the erasure mechanism does; this asymmetry is exactly the model of
 \cite{bondlandauerV}. The Markov hypothesis is not used in the derivation
 --- inequality \eqref{eq:workbound} holds for arbitrary joints of
@@ -423,7 +433,7 @@ The rate floor and the work floor of
 exactly, for jointly Gaussian $(X,S)$. Consequently: (i) $\kappa_S\le\kappa$
 always --- erasure never pays more incompatibility than materialization;
 (ii) if $S$ determines some direction in $\mathrm{span}\{u,v\}$ (e.g.\ $S$
-retains one consumer's read exactly), then $\kappa_S=0$ and the work floor
+retains one estimator's read exactly), then $\kappa_S=0$ and the work floor
 is vacuous: the reset context has already resolved the read-plane
 incompatibility; (iii) if $S$ is independent of $Y$ (a mismatched or
 shuffled reset context), $\kappa_S=\kappa$ and the two floors coincide ---
@@ -435,9 +445,22 @@ $\Sigma_{Y\mid S}\preceq\Sigma_Y$ and monotonicity of $\det$; (ii)--(iii)
 are the degenerate and independent cases of the same identity.
 \end{proof}
 
+\begin{remark}[Attribution of the work floor]\label{rem:grayfloor}
+Inequality \eqref{eq:workbound} is a Gaussian evaluation of Gray's conditional
+rate--distortion function \cite{gray1973}. With $V=(\hX_A,\hX_B)$, the
+coordinate $I(X;V\mid S)$ is at least $I(Y;V\mid S)$, which is at least the
+conditional rate--distortion function of the read pair $Y$ given $S$ at the
+two individual distortions. In that function both encoder and decoder see $S$.
+The proof of Theorem~\ref{thm:work} is its Shannon lower bound.
+Corollary~\ref{cor:discount} is then the gap between Gray's unconditional and
+conditional functions, evaluated at their Gaussian floors. What this note adds
+is the operational asymmetry. The reset mechanism holds $S$ and the estimators
+never see it, so the gap is a discount on erasure only.
+\end{remark}
+
 \begin{remark}[Tightness of the work floor]\label{rem:worktight}
 Unlike Theorem~\ref{thm:rate}, the floor \eqref{eq:workbound} is generally
-not attained at $D>0$: the consumer cannot condition on $S$, so its test
+not attained at $D>0$: the decoder cannot condition on $S$, so its test
 channel leaves residual correlation with $S$ that the erasure integral
 counts. This is the same $D>0$ gap exhibited by the scalar Gaussian corner
 (\emph{Scalar Gaussian corner}, \cite{bondlandauerV}), whose work coordinate
@@ -447,9 +470,11 @@ $\tfrac12\log\bigl[(\sigma^2_{X\mid S}+(\sigma^2-\sigma^2_{X\mid
 S})D/\sigma^2)/\sigma^2_{X\mid S}\bigr]$, vanishing as $D\to0$. The worked
 instance below inherits this: the work floor is asymptotically tight as
 $D\to0$, and the \emph{exact} finite-$D$ work tax is computed there by
-per-coordinate reduction. Characterizing the exact two-consumer
+per-coordinate reduction. Characterizing the exact two-estimator
 rate--work--distortion region with side information (the $S$-analogue of
-the simultaneous-service SDP) is open and flagged for the sequel.
+the simultaneous-service SDP) is open and flagged for the sequel. It is a
+two-constraint case of the joint rate--leakage problem that Ekrem and Ulukus
+left open for vector Gaussian sources \cite{ekrem2013}.
 \end{remark}
 
 \section{Worked instance: the GO-10 targets}\label{sec:instance}
@@ -470,7 +495,7 @@ At $D=0.1$: $\mathrm{CT}_R=0.661,\ 1.161,\ 1.453,\ 1.611,\ 1.661$ bits at
 $\theta=30^\circ,45^\circ,60^\circ,75^\circ,90^\circ$; at $\theta=15^\circ$
 the regime condition fails ($1-\cos15^\circ\approx0.034<0.1$) and the exact
 value is the SDP's ($\mathrm{CT}_R\approx0.122$ bits), strictly above the
-now-inactive floor. Aligned consumers, $\theta\to0$: tax $\to0$.
+now-inactive floor. Aligned reads, $\theta\to0$: tax $\to0$.
 
 \paragraph{Work side ($\theta=90^\circ$, $\tau$-sweep).} Here the two source
 coordinates are independent, $S$ is correlated with $X_1$ only, and the
@@ -497,8 +522,8 @@ L_{AB}=L_A+L_B,
 The tax gap \eqref{eq:taxgap} is exact at every $D$, monotone in the
 staleness/quality of $S$, equals $0$ when $S$ is useless ($s^2=1$), and
 approaches the full retained information $I(X_1;S)=\tfrac12\log(1/s^2)$ as
-$D\to0$ --- the two-consumer face of the Paper~V separation between what a
-consumer must be sent and what a reset must destroy. Representative exact
+$D\to0$ --- the two-estimator face of the Paper~V separation between what a
+decoder must be sent and what a reset must destroy. Representative exact
 values ($s^2=0.2$): $\mathrm{CT}_R-\mathrm{CT}_W=0.661,\ 1.029,\ 1.147$
 bits at $D=0.25,\ 0.05,\ 0.005$, against $I(X_1;S)=1.161$.
 
@@ -541,7 +566,8 @@ Theorem~\ref{thm:work} is the thermodynamic half: at reset, the same product
 bound holds against the conditional incompatibility $\kappa_S$, and
 Corollary~\ref{cor:discount} prices the difference at exactly the side
 information the reset context holds about the read plane. Materialization
-pays for consumer incompatibility against the prior; erasure pays only for
+pays for the incompatibility of the two estimators against the prior;
+erasure pays only for
 the part the reset context has not already resolved.
 
 \section{Delineation}\label{sec:delineation}
@@ -579,21 +605,30 @@ vanishes in its Gaussian setting; and anything thermodynamic.
 
 \textbf{Two-observer theorem \cite{bondtwoobserver}.} The
 simultaneous-service proposition there (\S7) characterizes $R_{AB}$ as a
-max-det SDP for arbitrary PSD read operators; the orthogonal-observers
+max-det SDP for arbitrary PSD distortion weight matrices; the orthogonal-observers
 example (\S6) computes the extreme value; neither contains the closed-form
 floor or the regime characterization, which --- as established above ---
 were already in \cite{xiaoluo2005,lapidothtinguely2010,stylianou2021}.
 Relative to both, the contributions of this note are the tax quantity and
 its closed form (Corollary~\ref{cor:taxrate}) and the entire work side
-(Section~4). \textbf{Consumer-relative Landauer \cite{bondlandauerV}.} The
-multi-consumer theorem supplies the coordinates \eqref{eq:coords}; the
+(Section~4). \textbf{Rate--work region \cite{bondlandauerV}.} That region is
+the rate--distortion--leakage region of Villard and Piantanida with no decoder
+side information \cite{villard2013}, read thermodynamically. Its
+several-decoder theorem supplies the coordinates \eqref{eq:coords}; the
 coordinated-reset corollary (conditional total correlation) prices
 resetting \emph{several existing records} jointly versus separately --- the
 GO-9 face. The tax is a different comparison: one record serving two
-consumers versus the more expensive consumer alone. Both reduce to
+estimators versus the more expensive estimator alone. Both reduce to
 conditional-information accounting, but neither implies the other.
 \textbf{Common reconstruction (Steinberg).} Supplies the work-only endpoint
-semantics in \cite{bondlandauerV}; not a two-consumer statement.
+semantics in \cite{bondlandauerV}; not a two-estimator statement.
+\textbf{Secure source coding.} The work coordinate is the conditional leakage
+$I(X;\hX_A,\hX_B\mid S)$ to a side-information holder. Ekrem and Ulukus found
+the minimum leakage for vector Gaussian sources with Gaussian side information
+at unconstrained rate, and they could not solve the joint rate--leakage region
+\cite{ekrem2013}. Theorem~\ref{thm:work} is a lower bound on that leakage under
+two individual distortion constraints. It is not the exact two-constraint
+leakage, which Remark~\ref{rem:worktight} leaves open.
 \textbf{Multiple descriptions (El Gamal--Cover).} Distinct problem: there,
 two \emph{channels} may fail independently and every subset of descriptions
 must decode; here one shared memory serves two \emph{distortion
@@ -605,13 +640,14 @@ context discounts Landauer work: classically Sagawa--Ueda, quantumly del
 Rio et al.\ \cite{delrio2011} and, most sharply, Berta, Brand\~ao, Majenz,
 and Wilde \cite{bbmw2018}, where conditional mutual information exactly
 prices decoupling given a retained system. All price the erasure of one
-record against one knowledge context; the sweep found no two-consumer or
+record against one knowledge context; the sweep found no two-estimator or
 two-observable erasure floor, no product bound of the form
 \eqref{eq:workbound}, and no discount identity of the form
-Corollary~\ref{cor:discount}. At the level of floors, the discount is a
-two-consumer Gaussian instance of the gap between rate--distortion and
-conditional rate--distortion functions \cite{gray1973}; its content here is
-the operational asymmetry --- the reset mechanism holds $S$, the consumers
+Corollary~\ref{cor:discount}. At the level of floors, the work floor and the
+discount are two-estimator Gaussian evaluations of Gray's conditional
+rate--distortion function and of its gap to the unconditional one
+\cite{gray1973} (Remark~\ref{rem:grayfloor}); their content here is
+the operational asymmetry --- the reset mechanism holds $S$, the estimators
 never see it --- which turns Gray's coding gap into a statement about what
 erasure, and only erasure, gets to discount. Finally, despite the name,
 Theorem~\ref{thm:work} is \emph{not} a thermodynamic uncertainty relation
@@ -682,10 +718,10 @@ monotone chain holds --- while the \emph{absolute} covering offsets
 \bibitem{bond2026observation} A.~H. Bond, Observation theory: consumer-relative
 rate--distortion, this repository, \texttt{paper/observation-theory.pdf}.
 \bibitem{bondtwoobserver} A.~H. Bond, Two observers, one source: an exact
-characterization of successive refinement across read operators, this
+characterization of successive refinement across weighted distortions, this
 repository, \texttt{paper/two-observer-theorem.tex}, working draft v0.1.
 \bibitem{bondlandauerV} A.~H. Bond, A rate--work--distortion region for
-consumer-relative observation, this repository,
+erasure with side information, this repository,
 \texttt{paper/consumer-relative-landauer.tex} (Paper V); theorem and
 proposition numbers cited as of the VI-9 verified revision.
 \bibitem{steinberg2009} Y.~Steinberg, Coding and common reconstruction,
@@ -710,8 +746,7 @@ Gaussian over a Gaussian MAC, \emph{IEEE Trans. Inf. Theory}
 56(6):2714--2752, 2010.
 \bibitem{nayak2008} J.~Nayak, E.~Tuncel, D.~G\"und\"uz, E.~Erkip, Successive
 refinement of vector sources under individual distortion criteria,
-\emph{IEEE Trans. Inf. Theory} 54(4):1769--1781, 2008. (Page range to
-verify at splice time.)
+\emph{IEEE Trans. Inf. Theory} 56(4):1769--1781, 2010.
 \bibitem{stylianou2021} E.~Stylianou, C.~D. Charalambous, T.~Charalambous,
 Joint rate distortion function of a tuple of correlated multivariate
 Gaussian sources with individual fidelity criteria, \emph{Proc. IEEE ISIT},
@@ -735,6 +770,11 @@ V.~Vedral, The thermodynamic meaning of negative entropy, \emph{Nature}
 \bibitem{bbmw2018} M.~Berta, F.~G.~S.~L. Brand\~ao, C.~Majenz, M.~M. Wilde,
 Deconstruction and conditional erasure of quantum correlations, \emph{Phys.
 Rev. A} 98:042320, 2018.
+\bibitem{villard2013} J.~Villard, P.~Piantanida, Secure multiterminal source
+coding with side information at the eavesdropper, \emph{IEEE Trans. Inf.
+Theory} 59(6):3668--3692, 2013.
+\bibitem{ekrem2013} E.~Ekrem, S.~Ulukus, Secure lossy transmission of vector
+Gaussian sources, \emph{IEEE Trans. Inf. Theory} 59(9):5466--5487, 2013.
 \bibitem{baratoseifert2015} A.~C. Barato, U.~Seifert, Thermodynamic
 uncertainty relation for biomolecular processes, \emph{Phys. Rev. Lett.}
 114:158101, 2015.
