@@ -11,7 +11,10 @@ are, one after another, the price of a preliminary taken loosely.
 
 Let $C : X \to Y$ be differentiable with Jacobian $J = \partial C|_{x_0}$, and let $G
 \succeq 0$ be a metric on $Y$. The **pullback** of $G$ through $C$ at $x_0$ is
-$P_C = J^\top G J$. Two facts are used constantly.
+$P_C = J^\top G J$. Information geometry studies this object (Rao 1945; Amari and
+Nagaoka 2000). Its average over inputs is the active-subspace matrix (Constantine,
+Dow and Wang 2014; Constantine 2015), or expected gradient outer product (Xia et al.
+2002). Two facts are used constantly.
 
 *Composition.* Pullbacks compose contravariantly: if $C = C_2 \circ C_1$, then
 $P_C = J_1^\top (J_2^\top G J_2) J_1 = J_1^\top P_{C_2} J_1$. The read metric of a
@@ -46,6 +49,8 @@ distortion
 
 $$ \operatorname{tr}(P_C\Sigma_\delta) = \sum_i \lambda_i\, d_i $$
 
+(a weighted mean squared error in the sense of Sakrison 1968)
+
 subject to the budget yields, by a Lagrange argument identical in form to Shannon's,
 an allocation that pours resolution into the high-$\lambda_i$ (high-sensitivity)
 directions and abandons the low ones below a threshold:
@@ -54,14 +59,15 @@ $$ \boxed{\; d_i^\star \propto \lambda_i^{-1/2} \text{ above a water-line; } d_i
    = \text{(free)} \text{ on } \ker P_C. \;} $$
 
 The content is entirely in *which basis* the water-filling happens. Classical reverse
-water-filling allocates by *source* variance (the eigenbasis of $\Sigma_x$); the read
+water-filling (Kolmogorov 1956; Berger 1971) allocates by *source* variance (the eigenbasis of $\Sigma_x$); the read
 distortion allocates by *consumer* sensitivity (the eigenbasis of $P_C$). When
 $P_C = I$ these coincide up to the source shaping and you recover the slice. When
 $P_C \ne I$ they diverge, and the divergence is the tilt of the COST shadow (Chapter
 7) and the room for the flip of the VALUE shadow (Chapter 8). The full theory works in
 the *joint* basis that simultaneously accounts for source energy $\Sigma_x$ and read
 metric $P_C$ — the whitened basis $\Sigma_x^{1/2} P_C \Sigma_x^{1/2}$ — which is where
-the two-observer max-determinant program lives and where a naive kernel projector
+the two-observer max-determinant program (successive refinement, Equitz and Cover
+1991; Nayak et al. 2010) lives and where a naive kernel projector
 overstates the omission floor by $\sim 30\%$ (the VI-4 and VI-6 corrections, Chapter
 15). Get the basis wrong and every constant is wrong; this is why the preliminary is
 worth stating exactly.

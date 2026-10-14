@@ -15,7 +15,8 @@ losing the global geometry. Read as a verdict, the spectral embedding dies at sc
 
 Put each node's low-mode embedding in polar form, $x = r\,u$ with $u$ on the unit
 sphere. The commute distance is the reading of this embedding by one observer — the
-geodesic-rank consumer — and its read metric, worked out, is *nondegenerate on the
+geodesic-rank consumer — and its read metric (its pullback metric, Amari and Nagaoka
+2000), worked out, is *nondegenerate on the
 angular coordinate and degenerate on the radial one.* The collapse is confined to the
 radius; the radius carries the degree and density (the nuisance the theorem says will
 swamp everything), and the **angle carries the graph geodesics, almost undamaged**

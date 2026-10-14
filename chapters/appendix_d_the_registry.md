@@ -6,6 +6,13 @@ can verify the sequence is gap-free and every sealed run is reported at equal pr
 — confirmations and misses alike. Authoritative outcomes are in `claims/LEDGER.md`; this
 table is the index that proves completeness. It mirrors `claims/REGISTRY-ACCOUNTING.md`.*
 
+*Classical names used in the rows.* A "flip" is a ranking reversal between
+reconstruction error and task loss (Shlezinger, Eldar and Rodrigues 2019). The "read
+operator" is the consumer's active-subspace matrix (Constantine 2015). The "blind probe"
+is finite-difference active-subspace estimation. "Two-observer successive-refinement"
+is Gaussian successive refinement under individual distortion criteria (Equitz and
+Cover 1991; Nayak, Tuncel, Gündüz and Erkip 2010). Appendix A has the references.
+
 **Disposition classes.** `core` = falsifiable-core row GO-1…GO-6 (Papers I/I.5/II);
 `cost` = a COST-face theorem harness (Paper III); `sweep` = a domain-generality row
 (Paper IV, VALUE face); `superseded→NNN` = a registered miss/flawed design corrected by a

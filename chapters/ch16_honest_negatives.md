@@ -39,11 +39,12 @@ the next hypothesis:
 - **NEG-6**: a demeaned-error-norm proxy fails to order the arms. The controlling quantity is
   the across-token *variance* of the query-projected error, not an error-magnitude scalar.
   *Magnitude ≠ downstream-relevant structure* (Chapter 6's lemma, learned here).
-- **NEG-7**: at *fixed reconstruction*, the downstream ranking **flips** with the consumer.
+- **NEG-7**: at *fixed reconstruction*, the downstream ranking **flips** with the consumer
+  (a ranking reversal between reconstruction error and task loss).
   Invariant-preservation is a property of the (compressor, consumer) *pair*, not the
   compressor — the sharpest form of GO-2's negative half.
 - **NEG-8**: the variance-ratio proxy reaches only Spearman 0.80; it is a noisy linear
-  estimator of $\operatorname{tr}(P_C\Sigma_\delta)$. Gate on the *direct* projection instead.
+  estimator of $\operatorname{tr}(P_C\Sigma_\delta)$, the weighted mean squared error. Gate on the *direct* projection instead.
 - **NEG-9**: even the direct trace $\operatorname{tr}(P_C\Sigma_\delta)$, while nailing the
   discriminating flip 12/12, is *not a complete rank statistic* — it misorders a middle pair
   whose per-token error has structure the trace misses. The mechanism is real; the scalar is
@@ -70,7 +71,7 @@ operator/spectral-confined. Retained positive: $\alpha = 1$ is the optimal diffu
 exponent, non-spectrally. A clean example of keeping the narrow true thing and refuting the
 broad hoped-for one.
 
-**NEG-12 — the blind probe clears the bar on a real frontier model (prospective).**
+**NEG-12 — the blind probe (finite-difference active-subspace estimation) clears the bar on a real frontier model (prospective).**
 `[refuted]`. On Llama-3.2-3B keys, recovery was *real but sub-bar* (median overlap 0.567 vs
 sealed 0.60, ≈4.5× chance), and the registered quantizer pair was not recon-matched, so
 `proj_beats_recon` could not fire. Two of three sealed triggers missed → the theory was

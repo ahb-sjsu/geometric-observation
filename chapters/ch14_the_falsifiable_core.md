@@ -33,7 +33,8 @@ promote a claim by looking at the same data harder.
 ## The six
 
 **GO-1 — the read/nuisance split is identifiable ex ante from the consumer.**
-`[predicted]` ✅. A black-box sensitivity probe recovers the read subspace at overlap
+`[predicted]` ✅. A black-box sensitivity probe (finite-difference active-subspace
+estimation, Constantine 2015) recovers the read subspace at overlap
 0.936 vs 0.059 chance (~16×), seeing only $C(\cdot)$; blind proj-var predicts the flip
 12/12 both consumers, Spearman 1.00; recon can't (0.40) [GO-P-2026-011, blinded,
 prospective, PASS 5/5]. Scope: planted low-rank subspace; the real-model consumer is the
@@ -80,7 +81,8 @@ data. Gate B's rows are exactly where the theory could have died in the open, an
 mixed record is the point.
 
 - **GO-B (gradient curvature)** — `[predicted]` ✅ **hit**, PASS 5/5. The read operator
-  generalizes to a *Hessian*: at identical recon the curvature-metric distortion flips
+  generalizes to a *Hessian* (the weight of Hessian-aware quantization, Choi et al. 2017;
+  Dong et al. 2019): at identical recon the curvature-metric distortion flips
   with $H$, proj-var tracks 12/12, recon uninformative [GO-P-2026-010].
 - **GO-B-Llama (frontier LLM keys)** — `[predicted]` → **MISS** → **rematch HIT**. The
   first sealed real-model test recovered the read operator (median 0.567) but *sub-bar*,
@@ -101,7 +103,7 @@ hits at all. Because a falsifiable core is defined by what would have refuted it
 program that reports only its confirmations has, in effect, no core. The Llama miss
 bounded the theory (and was later cleared by a *corrected* design, not a relaxed bar); the
 LOCATA miss caught a GT-leakage artifact and forced the rehab; D1 says "data-limited" out
-loud; D4 is a true boundary the $\kappa$ law now predicts. Each miss either bounded the
+loud; D4 is a true boundary the $\kappa$ law (a matrix cosine, as in kernel alignment) now predicts. Each miss either bounded the
 claim or improved the instrument, and none was quietly dropped. That is the difference
 between a falsifiable core and a highlight reel — and it is why the next part, on the
 discipline that produces this behavior, is a part and not an appendix.

@@ -69,7 +69,7 @@ witness-grading, and the first non-routing cell, Postgres replication
 staleness (naive monitor worst-error ≈ 0.50 vs a witnessed
 footprint-certificate ≈ 0.06). The consumer-relativity principle earned
 sealed passes in space communications (the AM/GM allocation law; the
-`κ = 1−2c` transport account) and, at mechanism level, across consumers
+`κ = 1−2c` transport account; κ is a matrix cosine, as in kernel alignment) and, at mechanism level, across consumers
 (OP1). The load-bearing algebra is machine-checked in Lean. Each of
 these is a different domain saying the same thing, under the same rules.
 

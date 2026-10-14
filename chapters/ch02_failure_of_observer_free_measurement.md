@@ -29,7 +29,9 @@ uniformly, every direction weighted the same.
 Here is the precise relationship, because vagueness here is the whole problem.
 Downstream loss, to first order, is governed by the read distortion
 $\operatorname{tr}(P_C \Sigma_\delta)$ — the coding-error covariance projected onto
-the consumer's read metric. Total reconstruction error is
+the consumer's read metric. In classical terms it is a weighted mean squared error
+(Sakrison 1968), with the weight given by the active-subspace matrix $P_C$
+(Constantine 2015). Total reconstruction error is
 $\operatorname{tr}(\Sigma_\delta)$. These coincide in exactly one case:
 
 $$ \operatorname{tr}(P_C \Sigma_\delta) = \operatorname{tr}(\Sigma_\delta)

@@ -13,10 +13,13 @@ The single theorem worth proving next is the one that would bridge the two shado
 are still only connected empirically: COST and VALUE. Call it **T1, learn-then-serve.**
 
 The empirical situation is this. The COST theory (Chapter 7) prices serving a *known*
-read metric $P_C$. The blind probe (Chapter 10) recovers $P_C$ from finitely many
+read metric $P_C$ (the active-subspace matrix). The blind probe (Chapter 10;
+finite-difference active-subspace estimation) recovers $P_C$ from finitely many
 queries. The flip (Chapter 8) shows that serving the recovered $P_C$ beats
 reconstruction. What is missing is a theorem that composes the *sample complexity of
-recovering $P_C$* with the *mismatch bounds of serving an imperfect $\hat P_C$* — a
+recovering $P_C$* (whose lower bounds are those of matrix and zeroth-order queries,
+Simchowitz, El Alaoui and Recht 2018; Rashtchian, Woodruff and Zhu 2020; Duchi et al.
+2015) with the *mismatch bounds of serving an imperfect $\hat P_C$* — a
 single guarantee of the form:
 
 > Given $N$ blind queries, the probe recovers $\hat P_C$ to accuracy $\varepsilon(N)$,
@@ -71,7 +74,7 @@ rather than an oversight.
 **The channel dual.** The COST theory prices the observer; a dual theory would price
 the *channel* symmetrically, treating the compression channel and the observer as two
 sides of one variational problem. The structure is visible (the two-observer max-det
-program hints at it) but the program has not developed it, and it is named-not-chased
+program of Gaussian successive refinement hints at it) but the program has not developed it, and it is named-not-chased
 [status: named].
 
 **The common-observation problem.** Given a *population* of observers, is there a single

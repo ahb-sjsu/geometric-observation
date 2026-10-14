@@ -17,6 +17,11 @@ reconstruction-optimal code reconstructs the signal better.* A row is a **flip**
 if, on held-out data: the read-preserving arm wins downstream, the reconstruction-optimal
 arm reconstructs better (the trade), and the anti-arm (read direction destroyed) is worst
 (the control). The reference for GT and thresholds is frozen *before* the held-out run.
+In classical terms a flip is a ranking reversal between reconstruction error and task
+loss, the premise of task-based quantization (Shlezinger, Eldar and Rodrigues 2019).
+The read operator column below lists each consumer's active-subspace matrix, or
+sensitivity weight (Constantine 2015). The blind probe is finite-difference
+active-subspace estimation.
 
 ## The sweep
 

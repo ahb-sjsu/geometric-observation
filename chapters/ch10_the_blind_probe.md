@@ -24,6 +24,14 @@ enter (we never ask what the *correct* class is), and no oracle direction enters
 never tell the probe which way to look). It sees $C(\cdot)$ and reconstructs what
 $C$ is sensitive to.
 
+The matrix $S$ is classical. It is the active-subspace matrix of sensitivity analysis
+(Constantine, Dow and Wang 2014). The blind probe is finite-difference active-subspace
+estimation (Constantine 2015). Statistics calls the same matrix the expected gradient
+outer product, or outer product of gradients, and uses its range to estimate a
+regression's central subspace (Hristache et al. 2001; Xia et al. 2002). This chapter
+does not claim the estimator. It claims the use of the estimate as a code's fidelity
+weight and the sealed grading of that use.
+
 For the retrieval consumer the same idea takes the margin-gradient form $g = \hat a -
 \cos(a,b)\,\hat b$ — the sensitivity of a cosine-ranking score to its query — and
 $S = \mathbb{E}[g g^\top]$ recovers a read operator that (this is the crucial property)

@@ -5,7 +5,8 @@ answer is that almost none of the *components* are new, and the claim of the boo
 entirely about the *composition*. This chapter is the positioning paragraph, written
 once, at length, so that later chapters can point back and no reader is left thinking
 the read metric was pulled from nowhere. It was pulled from four places, each of
-which owns part of it.
+which owns part of it. A fifth group of parents, the ones the first drafts of this book
+left uncited, is named in the section "Parents the first drafts missed" below.
 
 ## Shannon, and the birth of the slice
 
@@ -48,6 +49,21 @@ consumer, the human sensory system. The read metric says: every consumer has suc
 tilt, it is $P_C = J^\top G J$, and you can get it from the consumer instead of
 guessing it.
 
+The information-theory side of this tradition is older and more exact than the
+perceptual practice. Sakrison (1968) treated the Gaussian source under a weighted
+squared error. The rate–distortion function $R_C(D)$ of Chapter 7 is that weighted
+rate–distortion function. Indirect, or remote, source coding goes further
+(Dobrushin and Tsybakov 1962; Wolf and Ziv 1970; Witsenhausen 1980). There the decoder
+cares about a hidden variable, not the observed one. In the linear Gaussian case the
+induced distortion is a weighted squared error whose weight comes from the task. So
+point (i) above holds for perceptual coding, but indirect source coding already
+derives the weight from the task in that case. Machine learning has the same idea in
+Hessian-aware and sensitivity-weighted quantization (Choi et al. 2017; Dong et al.
+2019). Signal processing has it in task-based quantization, which designs the
+quantizer for the downstream estimate rather than the signal (Shlezinger, Eldar and
+Rodrigues 2019). The flip of Chapter 8 is the premise of that line of work, stated as
+a ranking reversal between reconstruction error and task loss.
+
 ## Amari and Čencov: the pullback metric already exists
 
 Here is the component I least want to over-claim. The object $P_C = J^\top G J$ — a
@@ -75,6 +91,49 @@ the *sentence* is the contribution. I state this here so that when the Skeptic's
 Appendix meets the objection "isn't $P_C$ just Fisher information?", the answer is
 already on the table: yes, in the case where the consumer is a likelihood — and the
 point is not the operator but the load it is asked to bear.
+
+## Active subspaces and gradient outer products: the estimator already exists
+
+The average of $J^\top J$ over a data distribution has two more names, and both
+come with estimators. In sensitivity analysis and uncertainty quantification it is
+the active-subspace matrix (Constantine, Dow and Wang 2014; Constantine 2015). Its
+dominant eigenvectors are the directions a model's output is sensitive to. It is
+estimated from gradients or from finite differences. In statistical dimension
+reduction it is the expected gradient outer product, or outer product of gradients
+(Hristache et al. 2001; Xia et al. 2002). Its range estimates the central subspace
+of a regression. The averaged read metric $\bar P_C$ of this book is this matrix with
+a general output metric $G$ in place of the identity. The blind probe of Chapter 10
+is finite-difference active-subspace estimation applied to a consumer's margin. The
+quotient by $\ker P_C$ is the quotient by the kernel of the gradient outer-product
+matrix. What this book adds is the use of the matrix to decide what a lossy code
+should keep.
+
+## Parents the first drafts missed
+
+Several results in later chapters and in the companion papers have direct classical
+parents. They are listed here so that no chapter has to claim them.
+
+- **Conditional leakage.** The programme's "conditional content" or "conditional
+  work" of a description $M$ to a party holding $S^n$ is $H(M\mid S^n)/n$. Under a
+  deterministic encoder this equals the conditional leakage
+  $I(X^n;M\mid S^n)/n$ of secure source coding. The discrete rate–distortion–leakage
+  region is the rate–distortion–equivocation region of Villard and Piantanida (2013,
+  Theorem 3). The vector Gaussian case is treated by Ekrem and Ulukus (2013).
+- **Conditional Landauer work.** Erasure work with side information is del Rio,
+  Åberg, Renner, Dahlsten and Vedral (2011).
+- **Two observers.** Serving two observers with one scalable code is Gaussian
+  successive refinement (Equitz and Cover 1991), under individual distortion criteria
+  (Nayak, Tuncel, Gündüz and Erkip 2010; Op 't Veld and Gastpar 2017).
+- **The budget cliff.** A probe confined to a span cannot identify a read operator
+  outside it. This is the identifiability limit of confined probes. Lower bounds for
+  adaptive sensing and matrix queries make it quantitative (Arias-Castro, Candès and
+  Davenport 2013; Simchowitz, El Alaoui and Recht 2018; Rashtchian, Woodruff and Zhu
+  2020), as does the dimension dependence of zeroth-order methods (Duchi et al. 2015).
+- **Alignment.** The alignment law $\kappa$ is a matrix cosine. Kernel alignment uses
+  the same normalized inner product (Cristianini et al. 2002).
+
+Appendix A states each parent with full references and one sentence on what this
+programme adds.
 
 ## von Luxburg–Radl–Hein, and the collapse that started it
 
@@ -113,7 +172,9 @@ not been written down; here the read metric writes it down.
 
 The read metric inherits its algebra from the pullback metric of Čencov and Amari,
 its purpose-of-compression from Shannon and rate–distortion, its acknowledgment that
-the fidelity measure is a free variable from perceptual coding, and its founding
+the fidelity measure is a free variable from perceptual coding, weighted
+rate–distortion and indirect source coding, its estimator from active subspaces and
+gradient outer products, and its founding
 empirical puzzle from von Luxburg's collapse and its NJW resolution. What it adds is
 the load: the claim that this one operator is the right object for lossy
 representation *in general*, across compression, embedding, and physical estimation,

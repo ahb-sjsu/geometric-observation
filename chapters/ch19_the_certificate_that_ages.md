@@ -7,7 +7,7 @@ once time is in the picture: is what the observer reads *still true*?
 
 Maya's cache returns in a second guise. In the Preface it discarded the structure
 its consumer needed — the allocation failure, $\operatorname{tr}(P_C\Sigma_\delta)$
-read as *distortion*. But a cache has a second, quieter way to be wrong: it can
+read as *distortion* (a weighted mean squared error, Sakrison 1968). But a cache has a second, quieter way to be wrong: it can
 return an answer that *was* right and no longer is. The entry is well-chosen; it is
 simply **stale**. No amount of the earlier theory sees this failure, because the
 earlier theory has no clock.
@@ -23,7 +23,7 @@ Almost every operational decision rests not on a measurement but on a **certific
 Each licenses an action (transmit, serve the read, pick the modulation, dispatch)
 intended to satisfy a target. And each is a claim about the observer's read *at a
 time* — evaluated, like everything in this book, through the consumer's read operator
-$P_C$, not through an aggregate.
+$P_C$ (the active-subspace or gradient outer-product matrix, Chapter 5), not through an aggregate.
 
 A certificate ages. The state it certifies decorrelates over a characteristic
 **coherence time** $T_{\mathrm{coh}}$; a certificate issued at $t$ and acted on at

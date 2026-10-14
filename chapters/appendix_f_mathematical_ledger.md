@@ -1,5 +1,12 @@
 # Appendix F — Mathematical Ledger: Status of Formal Claims
 
+*Status note (2026-10-01).* Chapters 1 through 18 were written before Observation Theory
+v1.0 was declared. The declaration was sealed on 2026-08-18
+(`crucible/DECLARATION-V1.md`). Some statements in those chapters predate later
+corrections and later registered results. Where a chapter and `claims/LEDGER.md`
+disagree, the ledger governs. Appendix A gives the classical name and source for each
+construct the book uses.
+
 *This appendix is the book's index into `claims/LEDGER.md`: every formal claim the text
 makes, with its class, its registry, and its custody. It exists so that a reader can audit
 any sentence tag-first — follow a `[proved]` to its harness, a `[demonstrated]` to its
@@ -33,10 +40,10 @@ lost bet, carried at full prominence.
 
 | Claim | Class | Registry | Incident |
 |---|---|---|---|
-| B1 — consumer $R_C(D)$ achievability + converse | `[proved]` | 022 blk | — |
+| B1 — consumer $R_C(D)$ (weighted rate–distortion function, Sakrison 1968) achievability + converse | `[proved]` | 022 blk | — |
 | B2 — output ≤ surrogate ≤ reconstruction | `[proved]`/`[demonstrated]` | 028 | — |
 | B3 — surrogate–output gap vanishes with rate | `[demonstrated]` | 028 | VI-3 |
-| B4 — two-observer region; refinability = Loewner nesting | `[proved]` | 022 | **VI-4** |
+| B4 — two-observer region; refinable iff $\Sigma^\star(P_2,D_2) \preceq \Sigma^\star(P_1,D_1)$ (Loewner nesting of optimal error covariances), exact excess rate $\tfrac12\log[\det\Sigma^\star(P_2,D_2)/\det\Sigma^\circ]$ otherwise | `[proved]` | 022 | **VI-4** |
 | B5 — complete rate region + k-observer chain | `[proved]` | 023 | VI-5 |
 | B6 — mismatch tax $(r/2)\log(M/m)$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[proved]`/`[demonstrated]` | 024/027 | VI-6, NEG-13 |
 | B7 — dispersion counts read dimensions ($r_D \le r$) | `[proved]` | 025 | VI-7 |

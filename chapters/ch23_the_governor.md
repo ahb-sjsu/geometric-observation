@@ -18,7 +18,8 @@
   2. **change mechanism** — already at the floor and still vacuous → refreshing
      cannot close the loop → add diversity (link certs) / re-route (serving certs) /
      re-layout (quantum) / mitigate;
-  3. **certify per consumer** — the reliability target *is* the read operator; the
+  3. **certify per consumer** — the reliability target *is* the read operator (the
+     consumer's active-subspace matrix, Chapter 5); the
      same certificate certified for a lax consumer, vacuous for a strict one.
 - **The witness-gate** (`freshread`): certify a local read iff the applied watermark
   ≥ the reader's requirement, else refresh — the ZK/PG/Mongo generalization; sound
