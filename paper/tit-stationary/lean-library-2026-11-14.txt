@@ -1,0 +1,20 @@
+# Lean whole-library build with the SpectralRateLeakage import
+# date: 2026-11-14T08:04Z  host: atlas  toolchain: leanprover/lean4:v4.32.2  mathlib: v4.32.2
+# checkout: /home/claude/go-lean-probe (not a git checkout). Before the build, sha256 of all 14 modules, lakefile.toml and
+#   lean-toolchain there were compared with this repository and matched. The root file was edited there by appending
+#   "import ObservationTheory.SpectralRateLeakage"; its sha256 then equals the committed lean/ObservationTheory.lean:
+#   e91322e99073ba23545b1eae4d77d7e6cc09424e74bad570a7c4594684f005d6
+# settings: LEAN_NUM_THREADS=8, nice 10
+# note: this was an incremental build. The 11 imported modules had compiled outputs from earlier builds of the same
+#   sources and were not recompiled; lake recompiled the root file against them. It is not a from-scratch rebuild.
+## lake build   (default target ObservationTheory, the root file with 11 imports)
+[warning] [8663/8668] Replayed ObservationTheory.LogDet   (two unused-section-variable linter warnings, lines 234 and 254)
+[ok] [8667/8668] Built ObservationTheory (6.8s)
+Build completed successfully (8668 jobs).
+## modules not imported by the root file, built as module targets
+##   lake build ObservationTheory.CRContext ObservationTheory.RateLeakage
+[ok] [8655/8656] Built ObservationTheory.CRContext (8.6s)
+[warning] [8656/8656] Built ObservationTheory.RateLeakage (9.2s)   (warning text not captured)
+Build completed successfully (8656 jobs).
+## result: all 14 modules have compiled outputs; no errors
+## grep -c sorry over ObservationTheory/*.lean: 0 in each of the 14 files

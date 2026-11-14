@@ -47,6 +47,7 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 | `build_notebook.py`, `reproduce.ipynb` | the reproduction notebook and its generator |
 | `reproduce-executed-2026-11-13.ipynb` | the notebook as executed on this machine |
 | `lean-spectral-2026-11-13.txt` | Lean build record and axiom audit |
+| `lean-library-2026-11-14.txt` | whole-library build with the new import |
 | `../../lean/ObservationTheory/SpectralRateLeakage.lean` | 21 theorems, no `sorry`, standard axioms only |
 
 ## Reproduce
@@ -66,7 +67,7 @@ Lean: in `lean/`, `lake update && lake exe cache get && lake build ObservationTh
 
 - Theorem 3 is checked by solving the period-n problem as one real matrix program with no structure assumed and comparing with the per-frequency solution (48 instances, costs agree to 9e-14 bits).
 - The window gaps for Conjecture 14 decay like 1/N from above in every case computed. That is evidence, not a proof.
-- The Lean module checks algebraic steps only (see the paper's appendix for the list of what is and is not formalized). The module was built on its own on Atlas; the whole library was **not** rebuilt with the new import line in `lean/ObservationTheory.lean`.
+- The Lean module checks algebraic steps only (see the paper's appendix for the list of what is and is not formalized). The module was first built on its own on Atlas. On 2026-11-14 the library's root target was built there with the new import line in `lean/ObservationTheory.lean`, with no errors (`lean-library-2026-11-14.txt`). That was an incremental build: modules compiled earlier from identical sources were reused. `CRContext` and `RateLeakage` are not imported by the root file; they were built as separate targets and also pass.
 
 ## Mock review, 2026-11-13
 
@@ -106,7 +107,7 @@ The same reviewer read the revision with Theorem 11 and moved to "a plausible T-
 - [ ] Unread lead: Gao and Soleymani, 25th Biennial Symp. Commun., 2010, pp. 44-48 (parametric Wyner-Ziv function for stationary Gaussian sources via the Toeplitz distribution theorem). Read before submission; it may need citing next to Theorem 10.
 - [ ] Gray 1973 and Leiner-Gray 1974 were seen as abstracts only in this pass (the GO-12 novelty record has a fuller read of Gray's 1972 report).
 - [ ] Prior-art search for the delay statement (Proposition 7) was a single targeted search.
-- [ ] Rebuild the whole Lean library with the new import.
+- [x] Build the whole Lean library with the new import (2026-11-14, incremental, no errors; see `lean-library-2026-11-14.txt`). The root file does not import `CRContext` or `RateLeakage`; whether it should is a separate decision.
 - [ ] Decide whether to seal a registration for the new checks.
 - [ ] Add the two tex files to the CI compile list if they should be guarded.
 - [ ] Venue, title, and authorship are the author's decisions; nothing here is submitted.
