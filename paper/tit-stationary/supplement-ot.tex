@@ -11,7 +11,6 @@
 \newcommand{\Th}[1]{Theorem~\ref{P-#1}}
 \newcommand{\Pp}[1]{Proposition~\ref{P-#1}}
 \newcommand{\Co}[1]{Corollary~\ref{P-#1}}
-\newcommand{\Cj}[1]{Conjecture~\ref{P-#1}}
 \newcommand{\Se}[1]{Section~\ref{P-#1}}
 
 \title{What One Description Conveys to Observers of a Signal.\\[4pt]
@@ -186,9 +185,8 @@ the rate--distortion function of a Gaussian process is derived, and the
 limit over Toeplitz windows is Szeg\H{o}'s theorem. The paper's proofs
 rest on the memoryless theorems of \cite{paper1} applied at each
 frequency. The convergence statements (\Th{thm:spectral},
-\Th{thm:affine}), the window converse (\Pp{prop:window}), the coding
-theorem (\Th{thm:achieve}), and the open
-convergence question (\Cj{conj:windows}) would be stated the same way
+\Th{thm:windows}), the window converse (\Pp{prop:window}), and the
+coding theorem (\Th{thm:achieve}) would be stated the same way
 by a reader who had never heard of observers. The fixed-lag formula in
 \Pp{prop:retention} is the smoothing recursion of estimation theory.
 
@@ -206,12 +204,13 @@ the companion paper may wait for the whole block. A decoder that must
 reconstruct with bounded delay is a different first observer, and the
 frontier against a holder is open.
 
-\emph{The signal itself.} For spectra affine in one scalar spectrum the
-spectral region is the operational region of the stationary signal, by a
-converse through windows and a coding theorem with deterministic
-encoders (\Th{thm:achieve}), when the holder's view is memoryless.
-For other spectra the region is the limit of periodic sources, and its
-status for the signal itself rests on a convergence conjecture.
+\emph{An observer whose view has memory.} When the holder's view is
+memoryless, the spectral region is the operational region of the
+stationary signal for every continuous spectrum, by a converse through
+windows and a coding theorem with deterministic encoders
+(\Th{thm:achieve}). When the holder sees the signal through a filter,
+the region is the limit of periodic sources, and its status for the
+signal itself is open.
 
 \emph{Several observers.} With several holders the weighted objective
 has one tilt per holder at each frequency, by the same argument. Whether
