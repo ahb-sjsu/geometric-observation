@@ -172,6 +172,43 @@ jobs:
             echo "No undefined references or citations in the rate-leakage manuscript or its supplement."
           fi
           exit $rc
+      # The stationary-sources manuscript and its OT supplement (added 2026-11-14).
+      # Same arrangement as the rate-leakage pair above: the supplement reads
+      # tit-stationary.aux through xr, so the manuscript is compiled first.
+      - name: Compile the stationary-sources manuscript (tit-stationary.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: tit-stationary.tex
+          working_directory: paper/tit-stationary
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Compile the stationary-sources OT supplement (supplement-ot.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: supplement-ot.tex
+          working_directory: paper/tit-stationary
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (stationary-sources manuscript and supplement)
+        run: |
+          cd paper/tit-stationary
+          rc=0
+          for f in tit-stationary supplement-ot; do
+            if [ ! -f "$f.log" ]; then
+              echo "::error::$f.log is missing -- the document did not compile"
+              rc=1
+              continue
+            fi
+            if grep -qiE "there were undefined (references|citations)" "$f.log"; then
+              echo "::error::Undefined references or citations in $f.log"
+              grep -iE "warning:.*undefined|there were undefined" "$f.log" || true
+              rc=1
+            fi
+          done
+          if [ $rc -eq 0 ]; then
+            echo "No undefined references or citations in the stationary-sources manuscript or its supplement."
+          fi
+          exit $rc
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:
@@ -199,4 +236,6 @@ jobs:
             paper/ieee/graphical-abstract.pdf
             paper/tit-rate-leakage/tit-rate-leakage.pdf
             paper/tit-rate-leakage/supplement-ot.pdf
+            paper/tit-stationary/tit-stationary.pdf
+            paper/tit-stationary/supplement-ot.pdf
           if-no-files-found: warn
