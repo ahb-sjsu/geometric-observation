@@ -1354,8 +1354,10 @@ is below the water level, the window cost is
 $\tfrac1{2N}\log\bigl(\det T_N(\Sigma)/D^N\bigr)$, and the gap is exactly
 $s_N(\Sigma)/(2N\ln2)$, so the bound holds with equality there. A gap
 of order $1/N$ at every distortion is also proved, with constants that
-are not explicit, for scalar autoregressive sources of finite order in
-the work on dispersion \cite{tian2019,tasci2026}. Other finite-block
+are not explicit, for scalar autoregressive sources of finite order
+started at zero, in the work on dispersion of Tasci and Kostina
+\cite{tasci2026}; see also \cite{tian2019} for the first-order case.
+Other finite-block
 results for $\alpha=1$ are of a different kind.
 Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
 \cite{gutierrez2017}, following Pearl \cite{pearl1973}, bound the window
@@ -2334,8 +2336,14 @@ sources with memory and an extension to abstract sources,''
 arXiv:2602.09176, 2026.
 % Title, authors (Eyyup Tasci, Victoria Kostina) and dates (v1 9 Feb 2026, v2 26 June 2026) confirmed on the arXiv
 % abstract page, whose abstract says the paper quantifies how fast the n-th order rate-distortion function approaches
-% its limit. verify on final: the statement itself (Lemma 1, eq. (53): |R_n(d) - R(d)| <= c/n for scalar
-% finite-order AR sources, every d, existential constant) is as reported by a search agent, not read here.
+% its limit. READ AT FIRST HAND 2026-11-14 (arXiv PDF, v2): Corollary 3 treats a scalar Gaussian autoregressive
+% source of finite order m with zero initial condition (X_i = 0 for i <= 0) and the zeros of A(z) inside the unit
+% circle, under mean-squared error. Its proof states that there are constants c_r, c_v > 0 with
+% |R_n(d) - R(d)| <= c_r / n and |V_n(d) - V(d)| <= c_v / n, eq. (53), for d in (0, d_max). Lemma 1 is the
+% eigenvalue estimate behind it, eq. (52), "for all sufficiently large n", with a constant depending on the
+% Lipschitz constant, the bound of the test function, and the coefficients; the constants are not explicit.
+% So the 1/n statement is eq. (53) in the proof of Corollary 3, not Lemma 1 itself, and the source is the
+% zero-start (asymptotically stationary) one, not the stationary process.
 \bibitem{gutierrez2017} J. Guti\'errez-Guti\'errez,
 M. Z\'arraga-Rodr\'iguez, and X. Insausti, ``Upper bounds for the rate
 distortion function of finite-length data blocks of Gaussian WSS
