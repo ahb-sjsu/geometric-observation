@@ -231,8 +231,8 @@ $\min\{1,1/\lambda_i\}=1$ when $\lambda_i=0$.
 
 Let $(T_t)_{t\in\mathbb Z}$ be a centered stationary Gaussian process in
 $\R^p$ with autocovariance $R(\tau)=\E[T_{t+\tau}T_t^{\mathsf T}]$ and
-spectral density matrix
-$\Sigma(\omega)=\sum_\tau R(\tau)e^{-i\omega\tau}$. We assume $\Sigma$ is
+spectral density matrix $\Sigma(\omega)$, so that
+$R(\tau)=\int_{-\pi}^{\pi}\Sigma(\omega)e^{i\omega\tau}\dw$. We assume $\Sigma$ is
 continuous on $[-\pi,\pi]$ with $\Sigma(\omega)\succ0$ for every
 $\omega$. The described process is $Y_t=FT_t\in\R^m$ with $F$ of full row
 rank, the decoder's weight is $W\succ0$, and $Q=F^{\mathsf T}WF$. The
@@ -368,7 +368,8 @@ eigenvalues, are instances of one statement.
 \begin{lemma}\label{lem:limit}
 Let $K$ be a compact metric space and let
 $u\mapsto(\tQ(u),\tH(u),\Sigma_U(u))$ be continuous on $K$, with
-$\Sigma_U(u)\succ0$. Write $X(u,\nu)$ for the minimizer of
+$\tQ(u)\succeq0$ Hermitian of a fixed size $p$ and
+$\Sigma_U(u)\succ0$. Fix $\alpha\in[0,1]$. Write $X(u,\nu)$ for the minimizer of
 Lemma~\ref{lem:hermitian} at $u$, with $X(u,0)=I$, and
 $d(u,\nu)=\tr(\tQ(u)X(u,\nu))$. Let $\mu_n$ be Borel probability
 measures on $K$ that converge weakly to $\mu$, and let
@@ -380,7 +381,9 @@ V_\lambda(\alpha,D)=\inf\Bigl\{\int f_{\alpha,u}\bigl(X(u)\bigr)\,d\lambda(u):\
 the infimum over measurable Hermitian fields with $0\prec X(u)\preceq I$.
 \begin{enumerate}
 \item[(a)] $X(u,\nu)$ is jointly continuous on $K\times[0,\infty)$.
-\item[(b)] For $\lambda=\mu$ and for $\lambda=\mu_n$ with $n$ large, there
+\item[(b)] For every Borel probability measure $\lambda$ on $K$ with
+$\int\tr\tQ\,d\lambda>D$, in particular for $\lambda=\mu$ and for
+$\lambda=\mu_n$ with $n$ large, there
 is a level $\nu_\lambda\in(0,p/D]$ with $\int d(u,\nu_\lambda)\,d\lambda=D$.
 For every such level the field $X(\cdot,\nu_\lambda)$ attains
 $V_\lambda(\alpha,D)$, and every minimizer equals it
@@ -393,7 +396,10 @@ of the minimizer for $\mu$.
 \end{lemma}
 
 \begin{proof}
-(a) Fix $\bar\nu>0$. The eigenvalue bound of Lemma~\ref{lem:hermitian} is
+(a) At $\nu=0$ the minimizer is $I$, because $r$ and $\ell$ are
+nonnegative on $0\prec X\preceq I$ and vanish only at $I$, and the
+eigenvalue bound of Lemma~\ref{lem:hermitian} holds there. Fix
+$\bar\nu>0$. The eigenvalue bound of Lemma~\ref{lem:hermitian} is
 uniform over $K\times[0,\bar\nu]$ by compactness, so there is $\delta>0$
 with $X(u,\nu)\in\mathcal K_\delta=\{\delta I\preceq X\preceq I\}$ on that
 set. The penalized objective is jointly continuous on
@@ -407,9 +413,11 @@ so $\bar X=X(u,\nu)$. This is Berge's maximum theorem
 
 (b) The map $\nu\mapsto\int d(u,\nu)\,d\lambda$ is continuous by (a) and
 bounded convergence, equals $\int\tr\tQ\,d\lambda$ at $\nu=0$, which
-exceeds $D$ for $\lambda=\mu$ and for $\lambda=\mu_n$ with $n$ large by
-weak convergence, and is at most $p/\nu$. So a level $\nu_\lambda$
-exists, and $\nu_\lambda\le p/D$. For any feasible field,
+exceeds $D$ by hypothesis, as it does for $\lambda=\mu_n$ with $n$ large by
+weak convergence, and is at most $p/\nu$. So a level $\nu_\lambda>0$
+exists, and $\nu_\lambda\le p/D$. The integrand $f_{\alpha,u}$ is
+nonnegative, so the cost of a measurable field is defined, possibly
+infinite. For any feasible field of finite cost,
 \[
 \int f_{\alpha,u}(X(u))\ln2\,d\lambda\ \ge\ \int\bigl[f_{\alpha,u}(X(u))\ln2+\nu_\lambda\tr(\tQ X(u))\bigr]d\lambda-\nu_\lambda D
 \ \ge\ \int f_{\alpha,u}\bigl(X(u,\nu_\lambda)\bigr)\ln2\,d\lambda ,
@@ -424,7 +432,8 @@ $r(X(u,\nu))$, and $\ell_u(X(u,\nu))$ are continuous, hence uniformly
 continuous, so for each of them the family indexed by $\nu$ is a
 compact subset of $C(K)$, and weak convergence is uniform on compact
 subsets of $C(K)$. Let $\nu^\ast$ be a limit point of $\nu_{\mu_n}$. Then
-$\int d(u,\nu^\ast)\,d\mu=\lim\int d(u,\nu_{\mu_n})\,d\mu_n=D$, so
+$\int d(u,\nu^\ast)\,d\mu=\lim\int d(u,\nu_{\mu_n})\,d\mu_n=D$, which is
+less than $\int d(u,0)\,d\mu$, so $\nu^\ast>0$ and
 $X(\cdot,\nu^\ast)$ is the minimizer for $\mu$ by (b), and the rate and
 leakage integrals converge along the subsequence to its rate and
 leakage. The minimizer for $\mu$ is unique almost everywhere, so every
@@ -535,11 +544,13 @@ L=\int_{-\pi}^{\pi}\ell_\omega\bigl(X(\omega)\bigr)\dw .
 \end{theorem}
 
 \begin{proof}
-Apply Lemma~\ref{lem:limit} with $K$ the circle, the data of
-Section~\ref{sec:model}, which are continuous because $\Sigma^{1/2}$ is,
+Apply Lemma~\ref{lem:limit} with $K$ the circle, on which the data of
+Section~\ref{sec:model} are periodic and continuous because
+$\Sigma^{1/2}$ is,
 $\mu_n$ the uniform measure on $\{\omega_k\}$, and $\mu$ the normalized
-Lebesgue measure. By Theorem~\ref{thm:periodic},
-$V_n(\alpha,D)=V_{\mu_n}(\alpha,D)$.
+Lebesgue measure. The hypothesis of Theorem~\ref{thm:periodic} on $D$
+holds for $n$ large because the Riemann sums converge to $D_{\max}$, and
+then $V_n(\alpha,D)=V_{\mu_n}(\alpha,D)$ by that theorem.
 \end{proof}
 
 The spectral region at distortion $D$ is
@@ -841,7 +852,8 @@ because the encoder's randomness is independent of the holder's noise. The map f
 admissible test channel for the Gaussian vector $T^N$ at distortion
 $D_N$ under the weight $\tfrac1NI_N\otimes Q$, so by \cite[Proposition~2]{part1} the pair of mutual
 informations lies in the single-letter region of the window problem.
-The second statement is \cite[Theorem~3]{part1}.
+When $D_N\ge\tr(QR(0))$ the bound is trivial, since the right side is
+zero. The second statement is \cite[Theorem~3]{part1}.
 \end{proof}
 
 The proposition holds for every spectrum. Whether the window costs
@@ -866,7 +878,8 @@ $\tH(\lambda)=H(B+\lambda A)^{1/2}$.
 $\alpha\in[0,1]$ and $0<D<D_{\max}$, and the rates and leakages of the
 window frontier points converge to those of the spectral frontier
 point.
-\item[(c)] Every sequence of codes for the stationary source with
+\item[(c)] For $0<D<D_{\max}$, every sequence of codes for the
+stationary source with
 blocklengths $N\to\infty$ and $\limsup D_N\le D$ has
 $\liminf[\alpha R_N+(1-\alpha)L_N]\ge V(\alpha,D)$.
 \end{enumerate}
@@ -881,19 +894,41 @@ $(I_N\otimes H)Z=(E\otimes I_r)(I_N\otimes H)$ and $E\otimes I_r$ commutes
 with $I_N\otimes\Sigma_U$. So the whitened weight and the whitened
 information matrix of the window problem are block-diagonal in the
 basis $Z$, the subspaces spanned by the blocks are invariant under
-both, and \cite[Theorem~12]{part1} splits the problem. The level is
+both, and \cite[Theorem~12]{part1} splits the problem. The eigenvalues
+of $T_N(f)$ lie in $K=[\min f,\max f]$, so every block $B+\lambda_jA$ is
+positive definite, as \cite{part1} requires. The level is
 common by \cite[Theorem~7]{part1}, as in the proof of
-Theorem~\ref{thm:periodic}.
+Theorem~\ref{thm:periodic}. Three points complete the identification
+with $V_{\mu_N}$. The window program is over real symmetric matrices
+and $V_{\mu_N}$ over Hermitian fields, and they agree because the data
+are real (Lemma~\ref{lem:hermitian}). A field over $K$ takes one value
+at each $\lambda$, while the window program has $N$ free blocks, and
+$T_N(f)$ may have repeated eigenvalues. Blocks with equal $\lambda_j$
+have the same data, and the minimizer of each block at the common
+level is $X(\lambda_j,\nu)$, a function of $\lambda_j$ alone, so nothing
+is lost. And the maximal distortions agree, because
+$\int\tr\tQ\,d\mu_N=\tfrac1N\tr\bigl((I_N\otimes Q)\Sigma^{\mathrm w}_N\bigr)=\tr(QR(0))$,
+which is also $D_{\max}$.
 
-(b) The eigenvalues of $T_N(f)$ lie in $K=[\min f,\max f]$, and by
-Szeg\H{o}'s theorem \cite[Sec.~5.2]{grenander1958},
-\cite[Theorem~4.2]{gray2006}, $\mu_N$ converges weakly to the
+(b) By
+Szeg\H{o}'s theorem \cite[Sec.~5.2]{grenander1958}, $\mu_N$ converges weakly to the
 distribution $\mu$ of $f(\omega)$ under the normalized Lebesgue measure.
+% verify on final: the section number in Grenander--Szego and the theorem number and hypotheses in Gray were
+% written from memory and have not been checked against the books.
+The statement in \cite[Theorem~4.2]{gray2006} is for absolutely
+summable coefficients. It extends to continuous $f$ because
+trigonometric polynomials are uniformly dense and
+$\|T_N(f)-T_N(g)\|\le\max|f-g|$, so the eigenvalues move by at most
+that amount.
 The data are continuous on $K$. Lemma~\ref{lem:limit} gives
-$V_{\mu_N}\to V_\mu$, and $V_\mu(\alpha,D)=V(\alpha,D)$ because a field
-over $K$ composed with $f$ is a field over the circle with the same
-integrals, and the minimizer of \eqref{eq:spectralprogram} is a function
-of $f(\omega)$ by uniqueness.
+$V_{\mu_N}\to V_\mu$. Finally $V_\mu(\alpha,D)=V(\alpha,D)$. The data at
+$\omega$ depend on $\omega$ only through $f(\omega)$, so by the
+pointwise uniqueness of Lemma~\ref{lem:hermitian} the minimizers over
+the circle and over $K$ satisfy
+$X(\omega,\nu)=X\bigl(f(\omega),\nu\bigr)$ for every $\nu$. The
+distortion integrals at each level therefore coincide under the change
+of variable, and so do the levels, the values, the rates, and the
+leakages.
 
 (c) By Proposition~\ref{prop:window} the cost is at least
 $V^{\mathrm w}_N(\alpha,D_N)$. Each $V^{\mathrm w}_N(\alpha,\cdot)$ is
@@ -980,7 +1015,7 @@ $H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
 
 \begin{lemma}\label{lem:derand}
 Let a code of blocklength $N$ for the stationary source, with private
-randomness at the encoder, have rate $R_N$, finite distortion $D_N$, and
+randomness at the encoder, have rate $R_N$, distortion $D_N$, and
 leakage $L_N$. For every $\delta>0$ there are an integer $k$ and a code
 of blocklength $kN$ with a deterministic encoder, rate $R_N$, distortion
 at most $D_N+\delta$, and
@@ -1003,7 +1038,8 @@ $(T^N,S^N,M_z)$. Hence
 \[
 \E D_Z=D_N,\qquad \E L_Z=\tfrac1NH(M\mid S^N,Z)\le\tfrac1NH(M\mid S^N)=L_N .
 \]
-Here $D_z\ge0$ has a finite mean and $L_z\le R_N$. Draw seeds
+Here $D_z\ge0$ has a finite mean, since the decoder takes finitely
+many values and $D_N$ is finite, and $L_z\le R_N$. Draw seeds
 $z_1,z_2,\dots$ independently from the law of $Z$. By the strong law of
 large numbers the averages of $D_{z_i}$ and of $L_{z_i}$ over
 $i\le k$ converge almost surely to $\E D_Z$ and $\E L_Z$. So there are
