@@ -911,15 +911,24 @@ $\int\tr\tQ\,d\mu_N=\tfrac1N\tr\bigl((I_N\otimes Q)\Sigma^{\mathrm w}_N\bigr)=\t
 which is also $D_{\max}$.
 
 (b) By
-Szeg\H{o}'s theorem \cite[Sec.~5.2]{grenander1958}, $\mu_N$ converges weakly to the
+Szeg\H{o}'s theorem \cite[Ch.~5]{grenander1958}, $\mu_N$ converges weakly to the
 distribution $\mu$ of $f(\omega)$ under the normalized Lebesgue measure.
-% verify on final: the section number in Grenander--Szego and the theorem number and hypotheses in Gray were
-% written from memory and have not been checked against the books.
+% Checked 2026-11-14 against the text of Gray's monograph (author's posted PDF): Theorem 4.2 assumes f in the
+% Wiener class (absolutely summable t_k) and, for real f, gives the limit for every F continuous on [m_f, M_f];
+% Lemma 4.1 gives m_f <= eigenvalues <= M_f for Hermitian T_n(f).
+% verify on final: Grenander--Szego could not be opened. "Ch. 5" is inferred from the table of contents
+% (fifth chapter, "Eigenvalues of Toeplitz forms"); its hypotheses there (believed: real integrable f) are unchecked.
+% The argument below needs Gray's two statements only.
 The statement in \cite[Theorem~4.2]{gray2006} is for absolutely
-summable coefficients. It extends to continuous $f$ because
-trigonometric polynomials are uniformly dense and
-$\|T_N(f)-T_N(g)\|\le\max|f-g|$, so the eigenvalues move by at most
-that amount.
+summable coefficients, which a continuous $f$ need not have. It extends
+as follows. For $\eta>0$ let $g$ be an even real trigonometric
+polynomial with $\max|f-g|\le\eta$. Then $T_N(f)-T_N(g)=T_N(f-g)$ has
+norm at most $\eta$ \cite[Lemma~4.1]{gray2006}, so the ordered
+eigenvalues of $T_N(f)$ and $T_N(g)$ differ by at most $\eta$. For a
+continuous test function $F$, the averages of $F$ over the two sets of
+eigenvalues, and the integrals of $F(f)$ and $F(g)$, therefore differ
+by at most the modulus of continuity of $F$ at $\eta$, and the theorem
+for $g$ gives it for $f$.
 The data are continuous on $K$. Lemma~\ref{lem:limit} gives
 $V_{\mu_N}\to V_\mu$. Finally $V_\mu(\alpha,D)=V(\alpha,D)$. The data at
 $\omega$ depend on $\omega$ only through $f(\omega)$, so by the
@@ -1193,13 +1202,26 @@ frontier point belongs to it. So $\mathcal A(D)=\mathcal R(D)$.
 Three remarks. First, Lemma~\ref{lem:guard} and the coupling do not use
 the affine form. For any continuous positive definite spectral density
 matrix there are trigonometric polynomial densities
-$\Sigma-\epsilon I\preceq\Sigma'_\epsilon\preceq\Sigma$, and the same
-argument places in $\mathcal A(D)$ every limit point, as $n\to\infty$, of
-the window frontier points of these finite-memory sources. The affine
-form is used only to identify those limit points. If
+$\Sigma-\epsilon I\preceq\Sigma'_\epsilon\preceq\Sigma$. For a fixed
+$\epsilon$ the same argument gives perturbed guarantees only. If
+$(R',L')$ is a limit point, as $n\to\infty$, of the window frontier
+points of the finite-memory source $\Sigma'_\epsilon$ at distortion $D$,
+then for every $\delta>0$ there are codes for the original source with
+\[
+R_N\le R'+\delta,\qquad
+L_N\le L'+\delta+\frac{\epsilon\tr J}{2\ln2},\qquad
+D_N\le D+\delta+\epsilon\tr Q .
+\]
+Such a point need not be achievable at distortion $D$. A white source
+of variance $1-\epsilon$ has a smaller rate--distortion function than
+one of variance $1$. What the argument places in $\mathcal A(D)$ is
+every limit, as $\epsilon\to0$, of such points
+$(R'_\epsilon,L'_\epsilon)$. The affine form is used only to identify
+these limits. If
 Conjecture~\ref{conj:windows} below holds for trigonometric polynomial
-spectra, a limit point of the frontier points of weight $\alpha$ has
-weighted cost $V$ for $\Sigma'_\epsilon$, which tends to $V(\alpha,D)$
+spectra, then $(R'_\epsilon,L'_\epsilon)$ of weight $\alpha$ has the
+weighted cost $V$ of $\Sigma'_\epsilon$, which tends to $V(\alpha,D)$ as
+$\epsilon\to0$
 by Lemma~\ref{lem:limit}, so the support values of $\mathcal A(D)$ are at
 most $V(\alpha,D)$. The matching converse for a general spectrum needs
 the conjecture for $\Sigma$ itself. Second, the construction first uses private randomness, because the
