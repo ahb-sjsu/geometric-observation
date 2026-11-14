@@ -291,6 +291,30 @@ J(\omega)=H(\omega)^{\herm}\Sigma_U(\omega)^{-1}H(\omega),\qquad
 D_{\max}=\int_{-\pi}^{\pi}\tr\bigl(Q\Sigma(\omega)\bigr)\dw .
 \]
 
+Three parties appear, and it matters who sees what. The encoder sees
+the source $T$ and nothing else. The decoder sees the message $M$ and
+nothing else. It has no side information. The holder sees the message
+$M$ and its own observation $S$, and it does not reconstruct anything.
+The leakage is what the message tells the holder about the source
+beyond $S$. This is not the arrangement of Wyner and Ziv, in which the
+observation is at the decoder.
+
+The assumptions are used as follows. Positive definiteness of
+$\Sigma_U$ defines $J$ and keeps the leakage finite. A holder that sees
+some component of the source without noise at some frequency is
+excluded. Positive definiteness of $\Sigma$ is used to whiten at each
+frequency and, in Section~\ref{sec:windows}, to approximate the source
+by sources of finite memory. Band-limited sources are excluded. We do
+not claim that the results extend to these cases by continuity. The
+filter needs a continuous frequency response in the periodic and
+spectral results, Theorems~\ref{thm:periodic} and~\ref{thm:spectral},
+for which absolutely summable taps suffice, and it needs finite length
+in the coding theorem, Theorem~\ref{thm:filter}. The frontier
+statements are for $0<D<D_{\max}$. For $D\ge D_{\max}$ the frontier point
+has zero rate and zero leakage, and the level equations are not used.
+Theorem numbers of \cite{part1} are those of the submitted version
+archived at the address given in the references.
+
 \subsection{The source of period $n$}
 
 Let $\omega_k=2\pi k/n$ for $k=0,\dots,n-1$, and let
@@ -720,6 +744,12 @@ $D$ close enough to $D_{\max}$ the rate-optimal and the leakage-optimal
 descriptions describe disjoint sets of frequencies.
 \end{corollary}
 
+The condition is sufficient and not necessary, and the corollary does
+not say how close to $D_{\max}$ the distortion must be. For an instance,
+the distortion at which the two described sets first meet is computed
+from the two allocations of Theorem~\ref{thm:pair}, as in
+Section~\ref{sec:examples}. We have no formula for it.
+
 \begin{proof}
 The rate-optimal description describes $\{S_Y>\theta\}$ with
 $D=\int\min\{\theta,S_Y\}\,\dw$, so $\theta\to\max S_Y$ as $D\to D_{\max}$.
@@ -746,7 +776,9 @@ the holder's filter and noise only through $J(\omega)$. In particular
 they are unchanged when $H(\omega)$ is replaced by $A(\omega)H(\omega)$
 and $\Sigma_U(\omega)$ by $A(\omega)\Sigma_U(\omega)A(\omega)^{\herm}$ for a
 continuous invertible $A(\omega)$, and when $H(\omega)$ is replaced by
-$e^{-i\omega\Delta}H(\omega)$, a delay of $\Delta$ symbols.
+$e^{-i\omega\Delta}H(\omega)$, a delay of $\Delta$ symbols. In these
+models the holder has its whole observation, the whole block for the
+source of period $n$ and the whole process in the spectral limit.
 \end{proposition}
 
 \begin{proof}
@@ -784,7 +816,9 @@ $q_{\mathcal A}=\Var(V_t\mid S_{\mathcal A})$.
 For $0<D<1$ the region of the one-symbol problem with a holder that
 keeps $S_{\mathcal A}$ is the region of \cite[Corollary~17]{part1} for
 the scalar pair with correlation $\rho$ and holder noise
-$q_{\mathcal A}/(1-q_{\mathcal A})$. In particular
+$q_{\mathcal A}/(1-q_{\mathcal A})$, where
+$q_{\mathcal A}=\Var(V_t\mid S_{\mathcal A})$ is the conditional variance
+of the context at the epoch given what the holder keeps. In particular
 \[
 L_{\mathcal A}(D)=\tfrac12\log g^\star\Bigl(\rho^2,\frac1{1-q_{\mathcal A}},D\Bigr),
 \]
@@ -1373,7 +1407,8 @@ variance, no holder, and $D=0.95$, the window cost is $0.017278$ bits
 at $N=5$ and $0.017288$ at $N=6$. The first bound in (b) is close in the
 instance of Section~\ref{sec:examples}. The second is explicit in the
 data and in one regularity constant of the solution, and is far from
-tight. Part (b) bounds the error of the spectral optimization at a
+tight. It establishes the order $1/N$ and is not a tool for choosing a
+window size. Part (b) bounds the error of the spectral optimization at a
 finite window. It says nothing about codes of a finite blocklength.
 The lemma on order also bounds the effect of an error in the spectrum:
 if an estimate $\Sigma'$ satisfies
@@ -1444,6 +1479,47 @@ observations as well cannot increase the entropy, so
 $H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
 \end{proof}
 
+\begin{lemma}\label{lem:concat}
+Let codes $c_1,\dots,c_k$ for the stationary source have blocklengths
+$N_i$, rates $R_i$, distortions $D_i$, and leakages $L_i$, and
+independent private randomness, if any. Use $c_i$ on the $i$th of $k$
+consecutive windows of lengths $N_1,\dots,N_k$, with the message
+$M=(M_1,\dots,M_k)$ and each decoder on its own window, and let
+$N=\sum_iN_i$. The resulting code of blocklength $N$ has rate
+$\sum_i\tfrac{N_i}NR_i$, distortion $\sum_i\tfrac{N_i}ND_i$, and leakage
+\[
+\tfrac1NH\bigl(M\mid S^N\bigr)\le\sum_{i=1}^k\tfrac{N_i}NL_i .
+\]
+No guard intervals are needed, and the source may have any memory. If
+the encoders are deterministic, so is the resulting encoder, and the
+left side is $\tfrac1NI(T^N;M\mid S^N)$.
+\end{lemma}
+
+\begin{proof}
+The message set is the product of the message sets, which gives the
+rate. The source and the holder's noise are stationary and independent,
+so the $i$th window of the source, together with the holder's
+observations $S_i$ at its times, has the law of a window of length
+$N_i$ with its observations. This holds for the memoryless holder map
+of this section and for the filter of Section~\ref{sec:filter}. The
+private randomness is independent of everything else, so
+$(M_i,S_i)$ has the law it has when $c_i$ is used alone, which gives the
+distortion and $H(M_i\mid S_i)=N_iL_i$. For the leakage,
+\[
+H\bigl(M_1,\dots,M_k\mid S^N\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^N\bigr)
+\le\sum_{i=1}^kH\bigl(M_i\mid S_i\bigr),
+\]
+the first step by the subadditivity of entropy and the second because
+$S_i$ is part of $S^N$. Neither step uses any independence between
+the windows. The dependence between windows, in the source and through
+it in the messages and the observations, can only lower the entropy of
+the message given all the observations.
+\end{proof}
+
+This is the subadditivity of the leakage of codes. It is a different
+statement from Lemma~\ref{lem:subadd}, which is about the costs of test
+channels, although the two inequalities used are the same.
+
 \begin{lemma}\label{lem:derand}
 Let a code of blocklength $N$ for the stationary source, with private
 randomness at the encoder, have rate $R_N$, distortion $D_N$, and
@@ -1492,7 +1568,8 @@ distortion per symbol is therefore the average of the $D_{z_i}$, and
 H\bigl(M_1,\dots,M_k\mid S^{kN}\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^{kN}\bigr)
 \le\sum_{i=1}^kH\bigl(M_i\mid S_i^N\bigr)=N\sum_{i=1}^kL_{z_i}.
 \]
-No independence between the windows is used. The equality in the
+This is Lemma~\ref{lem:concat} for the $k$ deterministic codes
+$\phi(\cdot,z_i)$. The equality in the
 statement holds because $M$ is a function of $T^{kN}$.
 \end{proof}
 
@@ -1606,10 +1683,7 @@ $\lambda\in(0,1)$, use $a$ copies of the first and $b$ copies of the
 second on consecutive windows, with independent private randomness if
 any, and with $aN_1/(aN_1+bN_2)$ close to $\lambda$. Rate, distortion,
 and the bound on the leakage are then the averages with that weight,
-because each window has the law of the first one and, as in
-Lemma~\ref{lem:derand}, the entropy of the messages given all
-observations is at most the sum over the copies of the entropy of each
-message given the observations in its own window. A closed, convex,
+by Lemma~\ref{lem:concat}. A closed, convex,
 upward closed subset of the nonnegative quadrant is the intersection of
 its supporting half-planes with normals $(\alpha,1-\alpha)$,
 $0<\alpha<1$. Indeed a point outside it is separated from it by a
@@ -1647,7 +1721,7 @@ it and the codes of the theorem are deterministic. Third, the theorem
 gives a sequence of
 blocklengths. Every large blocklength is handled by repeating a
 deterministic code of blocklength $N_0$ on consecutive windows, which
-keeps its guarantees by the same subadditivity, and reproducing zero
+keeps its guarantees by Lemma~\ref{lem:concat}, and reproducing zero
 on the fewer than $N_0$ symbols that remain, at a vanishing cost in
 distortion. Fourth, the proof of Theorem~\ref{thm:windows} does not go
 through a comparison of block-Toeplitz and block-circulant matrices in
@@ -1953,10 +2027,11 @@ blocklength with $D_N\le D+3\delta$ and
 $\alpha R_N+(1-\alpha)L_N\le V(\alpha,D)+4\delta$.
 
 \emph{The region.} The rest is as in the proof of
-Theorem~\ref{thm:achieve}. Time sharing and Lemma~\ref{lem:derand} use
-only that the source and the holder's observation are jointly
-stationary, so that each of several consecutive windows, with the
-observations at its times, has the law of the first.
+Theorem~\ref{thm:achieve}. Time sharing and Lemma~\ref{lem:derand} rest
+on Lemma~\ref{lem:concat}, which uses only that the source and the
+holder's observation are jointly stationary, so that each of several
+consecutive windows, with the observations at its times, has the law
+of a window of its length.
 \end{proof}
 
 For a memoryless map and white noise this is Theorem~\ref{thm:achieve},
@@ -1983,7 +2058,7 @@ $\kappa(\omega)=0.02\cos^2(\omega/2)+0.90\sin^2(\omega/2)$ with a real
 nonnegative cross-spectrum, $H=1$, and $S_U=0.25$. The process $Y$ has
 most of its power at low frequencies, where it is nearly incoherent
 with the context, and less at high frequencies, where it is coherent
-with it. At $D=0.97D_{\max}=1.261$, on a grid of $512$ frequencies, the
+with it. At $D=0.97\,D_{\max}$, that is $D=1.261$, on a grid of $512$ frequencies, the
 rate-optimal description describes the $181$ frequencies nearest zero
 and the leakage-optimal description the $255$ nearest $\pi$, and no
 frequency is described by both (Fig.~\ref{fig:bands}). The rate-optimal description
@@ -2030,8 +2105,9 @@ $D/D_{\max}$ & rate & leakage & both & $R_{\min}$ & $L$ & $L$ factor & $R$ facto
 \includegraphics[width=0.72\linewidth]{fig_bands.pdf}
 \caption{Distortion allocations of the rate-optimal and the
 leakage-optimal descriptions for the disjoint-bands instance, with the
-spectrum $S_Y$. A frequency is described where the allocation lies
-below $S_Y$. The two descriptions describe disjoint bands.}
+spectrum $S_Y$. Where an allocation lies strictly below $S_Y$ the
+frequency is described, and where it equals $S_Y$ the frequency is not
+described at all. The two descriptions describe disjoint bands.}
 \label{fig:bands}
 \end{figure}
 
@@ -2058,7 +2134,9 @@ gap is $0.41$, $0.30$, and $0.21$ at $\alpha=0$, $\tfrac12$, and $1$ for
 $N=32$. The first bound of Theorem~\ref{thm:windows}(b) exceeds the gap
 by a factor between $2.4$ and $5.0$ over $N=4,\dots,32$ and the three
 weights. The second, explicit bound exceeds it by a factor of several
-thousand, because of the factor $b/a^3$, which is $314$ here.
+thousand, because of the factor $b/a^3$, which is $314$ here, with $a$
+and $b$ the smallest and the largest eigenvalue of the spectrum over
+all frequencies.
 
 \begin{table}[!htb]
 \centering

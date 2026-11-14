@@ -4,7 +4,7 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 
 **Status: draft, revised 2026-11-14 (general-spectrum theorems). Not reviewed by the author, not submitted.** The prose and the proofs were drafted by Claude (Fable 5.2) from the GO-12 material and paper one; the author has not yet read the proofs.
 
-**→ [manuscript (PDF, 24 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
+**→ [manuscript (PDF, 25 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
 
 ## What the paper proves
 
@@ -26,8 +26,9 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 | Lemma 14 | First Szego limit for matrix symbols, with the excess log-determinant bounded by (b/a^3) sum tau \|F_tau\|^2 | prediction errors, past-future information |
 | Theorem 15 | **Windows of a general spectrum** (was a conjecture until 2026-11-14): for every continuous positive definite spectrum and a memoryless holder, the window cost is at least the spectral cost at every N and converges to it (not monotonically in general); the gap is at most (s_N(Sigma) + (1-alpha) s_N(F*)) / (2 N ln 2); O(1/N) for Lipschitz spectra; every code obeys the spectral bound | Lemmas 11-14, Theorem 4 |
 | Theorem 16, Lemma 17 | **Coding theorem for the stationary source, every continuous positive definite spectrum, memoryless holder map and white noise**: the spectral region is the operational region, with deterministic encoders | [1, Thm. 3], guard intervals, coupling, Theorem 15, Lemma 18 |
-| Theorem 19, Lemma 20 | **Coding theorem for a holder with a filter of finite length and colored noise**: the spectral region is the operational region, deterministic encoders. Proof by operational comparison: more noise degrades the holder, the source is perturbed by the coupling in both directions, edge observations are dropped at a bounded cost; a stationary test channel gives the upper bound and the embedding with a filter the lower bound | Theorem 16's coupling, Lemmas 13, 14, 18, [1, Thm. 3] |
-| Lemma 18 | Derandomization: a code with private randomness is matched by a deterministic code on k consecutive windows with a fixed schedule of seeds | stationarity, H(M \| S, Z) <= H(M \| S), law of large numbers |
+| Theorem 20, Lemma 21 | **Coding theorem for a holder with a filter of finite length and colored noise**: the spectral region is the operational region, deterministic encoders. Proof by operational comparison: more noise degrades the holder, the source is perturbed by the coupling in both directions, edge observations are dropped at a bounded cost; a stationary test channel gives the upper bound and the embedding with a filter the lower bound | Theorem 16's coupling, Lemmas 13, 14, 18, 19, [1, Thm. 3] |
+| Lemma 18 | Concatenation: codes used on consecutive windows have the averaged rate and distortion and at most the averaged leakage, with no guard intervals and for any memory (the subadditivity of the leakage of codes) | subadditivity of entropy, conditioning, stationarity |
+| Lemma 19 | Derandomization: a code with private randomness is matched by a deterministic code on k consecutive windows with a fixed schedule of seeds | stationarity, H(M \| S, Z) <= H(M \| S), law of large numbers |
 
 Theorem numbers of [1] are those of the submitted version (`../tit-rate-leakage/tit-rate-leakage.tex` as of 2026-11-13). If paper one is revised, recheck every `\cite[...]{part1}`.
 
@@ -41,7 +42,7 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 
 | File | What it is |
 |---|---|
-| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 24 pp) |
+| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 25 pp) |
 | `supplement-ot.tex` / `.pdf` | Observation Theory companion, on the pattern of `../tit-rate-leakage/supplement-ot.tex` |
 | `spectral_core.py` | costs and one solver (the water-filling iteration of [1, Prop. 11] with a bisection on the level); numpy only |
 | `verify_spectral.py` | nine checks, fixed seed 20261113; writes `verify_spectral.json` |
@@ -83,7 +84,7 @@ Lean: in `lean/`, `lake update && lake exe cache get && lake build ObservationTh
 - The window gaps decay like 1/N from above in every case computed. That is consistent with Theorem 15, which gives the sign and an upper bound of that order, not an exact 1/N law. On the instance of `verify_windows.py` the first bound of Theorem 15(b) is within a factor 2.4 to 5.0 of the gap; the explicit bound is several thousand times the gap. A numerical check on instances does not verify the theorem.
 - The Lean module checks algebraic steps only (see the paper's appendix for the list of what is and is not formalized). The module was first built on its own on Atlas. On 2026-11-14 the library's root target was built there with the new import line in `lean/ObservationTheory.lean`, with no errors (`lean-library-2026-11-14.txt`). That was an incremental build: modules compiled earlier from identical sources were reused. `CRContext` and `RateLeakage` are not imported by the root file; they were built as separate targets and also pass.
 
-**Numbering.** The records below and the older open items use the theorem numbers of the draft they were written against. Theorem 11 and Lemmas 12 and 13 there are Theorem 16 and Lemmas 17 and 18 now; the conjecture (13, later 14) is Theorem 15.
+**Numbering.** The records below and the older open items use the theorem numbers of the draft they were written against. Since the fifth-round revision (2026-11-14) a concatenation lemma is Lemma 18, so the derandomization lemma is Lemma 19, the filtered-holder theorem is Theorem 20, and its window lemma is Lemma 21; sections written before that say Lemma 18, Theorem 19 and Lemma 20 for those three. Theorem 11 and Lemmas 12 and 13 there are Theorem 16 and Lemmas 17 and 18 now; the conjecture (13, later 14) is Theorem 15.
 
 ## Mock review, 2026-11-13
 
@@ -164,7 +165,30 @@ A wider literature search (by a search agent; its full report with access labels
 
 The reviewer read the Observation Theory companion and asked for three corrections, all made in `supplement-ot.tex`: the hypotheses are restored where the prose had become universal (continuous positive definite spectral densities for the signal and the noise; "one number" is for the scalar Gaussian context, and a vector context would need a conditional covariance matrix); the holder's observation horizon is stated beside the operational claim (observations at the times of the coded window; with the whole observation process the coding theorem holds and the converse is open), and kept apart from the one-moment retention result; the account of the proofs now names the arguments beyond the per-frequency optimization (order and subadditivity for windows, approximation, coupling, guard intervals, degradation, edge control, derandomization).
 
+## Fifth-round review, 2026-11-14
+
+A further review was checked point by point against the manuscript. Part of it refers to things that are not in these documents: quantities D-tilde, D_crit and D_b with values 0.99, 1.05 and 1.13; an "Appendix C"; a "Theorem 16" for the O(1/N) bound; and, in the supplement, numbered theorems, an optimal-transport dual with potentials, log-determinant formulas, and a lemma with a factor 2. The supplement here is an Observation Theory reading with no theorems or formulas. Those points could not be acted on. The points that do apply, and what was done:
+
+| Point | Status |
+|---|---|
+| Leakage of repeated codes needs a standalone lemma | Added as Lemma 18. The review's worry was that leakage does not add across blocks when the source has memory. For H(M \| S) it is subadditive whatever the memory, by subadditivity of entropy and conditioning, and no guard intervals are needed. The paper had this inside the derandomization proof and by reference elsewhere; it is now one lemma, cited by the derandomization lemma, the time-sharing step, the remark on blocklengths, and Theorem 20. The text also says this is a different statement from the subadditivity of test-channel costs (Lemma 12). |
+| State who sees what | Added to the Model section: encoder sees the source only, decoder the message only with no side information, holder the message and its own observation; not the Wyner-Ziv arrangement. |
+| State assumptions where used | Added to the Model section: what positive definiteness of the two spectra is used for and what it excludes (noiseless holder components, band-limited sources), with no claim of extension by continuity; continuous frequency response (absolutely summable taps suffice) for the periodic and spectral theorems and finite length for the coding theorem; the range 0 < D < D_max and what happens beyond it. |
+| Null sets and uniqueness | Already in Theorem 4 ("attained, uniquely up to a null set, by the continuous field"); the minimizing field is continuous. No change. |
+| Disjoint bands: sufficient, not necessary | A sentence after Corollary 6 says so, and that the distortion at which the described sets first meet is computed for an instance and has no formula here. |
+| The O(1/N) bound is not a dimensioning tool | Said after Theorem 15; a and b are defined where the factor 314 is quoted. Non-monotone convergence was already stated with an example. |
+| Proposition 8: define q in the statement | Done. The abstract already limits the statement to a one-symbol description. |
+| Proposition 7: observation model in the statement | Done: the holder has its whole observation in the period-n and spectral models. |
+| "At D = 0.97 D_max = 1.261" reads badly | Reworded. Coherence was already defined by its formula at the start of the section on the scalar pair. |
+| Figure 1 caption ambiguous | Reworded: strictly below the spectrum means described, equal to it means not described. |
+| Repository URL, scripts | The URL and the script names are in the appendix on numerical checks. A pinned commit or archived release is not cited yet; see open items. |
+| Reference [1] theorem numbers | The Model section now says the numbers are those of the submitted version at the archived address. |
+| Move proofs of Lemmas 11 to 14 to the supplement | Not done. It is a structural choice for the author; the supplement is currently an interpretive companion and would change character. |
+
 ## Open items before submission
+
+- [ ] Pin the code: cite a commit hash or an archived release (as paper one does with its DOI) in the appendix on numerical checks.
+- [ ] Decide whether to move the proofs of Lemmas 11 to 14 out of the body (25 pages now).
 
 - [x] Read Gutierrez-Gutierrez, Zarraga-Rodriguez, Insausti, Entropy 19(10):554 (2017), and compare with Theorem 15(b) at alpha = 1 (done 2026-11-14, see above).
 - [ ] Gallager 1968: attempted 2026-11-14, **not verified**. No accessible copy of the book was found. The citation is now at chapter level (Ch. 9), which is confirmed only at second hand as the chapter on rate distortion for sources with memory. That the subadditivity argument is there (recalled as Sec. 9.8) is still from memory. Needs a library copy, or a replacement source that has been read.

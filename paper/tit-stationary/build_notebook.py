@@ -62,7 +62,7 @@ nb.cells = [
          "for r in vw.OUT['toeplitz_point_and_bound']['table']:\n"
          "    print(f\"alpha={r['alpha']:.1f} N={r['N']:3d}  gap={r['gap_window']:.4e}  "
          "first bound={r['bound_s']:.4e}  explicit bound={r['bound']:.3e}\")"),
-    md("## 6d. Theorem 19 — steps of the proof for a holder with a filter\n\n"
+    md("## 6d. Theorem 20 — steps of the proof for a holder with a filter\n\n"
        "Interior, window and spectral costs in order; subadditivity; the embedding with a filter; "
        "the edge bound; the noise comparison. About three minutes. Colored noise is not exercised."),
     code("import verify_filter as vf\nassert vf.main() == 0\n"
