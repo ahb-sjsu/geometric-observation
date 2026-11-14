@@ -97,6 +97,41 @@ better *every* time yet is downstream-worse — the textbook dissociation), anti
 p-hacking: principled fixes to registered flaws, sealed, fresh cross-task data.
 Result: [GO-LOCATA-polarquant-rehab.json](../results/GO-LOCATA-polarquant-rehab.json).
 
+## Wideband recovered-operator confirm (`--confirm-wb`) — exploratory, no advantage shown (2026-11-13)
+A wideband version of the black-box protocol from the correction at the top of this file: pool
+the 39 STFT bins in 1200–3000 Hz (per-bin steering, rank-1 denoised SRP summed over bins) for a
+lower-variance consumer, recover its read operator on the calibration half by random ambient
+probes, and compare three shaping directions on the evaluation half. **Exploratory and
+unsealed** — no prereg, no ledger row; `dev/task1` only (3 recordings), no `eval` data.
+
+**Analytic baseline.** One direction is shared across all bins, but the manifold tangent rotates
+with frequency, so the fair analytic baseline is the leading eigenvector of the pooled tangent
+Gram `Σ_b g_b g_bᴴ` (`read_dir_analytic_wb`), not the tangent at one frequency. The first draft
+used the median-frequency tangent (`ĝmed`), which is biased low off broadside: on a synthetic
+5-mic array the pooled direction is ×1.13 (30°) and ×1.65 (50°) more angle-sensitive, equal at
+broadside. `ĝmed` is kept as a disclosed column. The three arms use identical compression draws.
+
+| rec | source est. | stab | gap | \|ĝ·ĝmed\| | flip ĝ (pooled) | flip ĝmed | flip rec-same | flip rec-xfer |
+|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| 1 | 57.2° | 0.58 | 2.0 | 0.21 | 2/8 | 0/8 | 0/8 | 8/8 |
+| 2 | −55.1° | 0.35 | 1.2 | 0.25 | 0/8 | 1/8 | 0/8 | 6/8 |
+| 3 | −20.1° | 0.47 | 1.4 | 0.96 | 7/8 | 0/8 | 7/8 | 0/8 |
+
+- **No recovered-operator advantage.** Recovered-same ≥ pooled ĝ on 2/3, both ties (0 vs 0,
+  7 vs 7); recording 1 is a loss (0 vs 2).
+- **The recovered operator is not stable:** bootstrap stability 0.35–0.58, eigengaps 1.2–2.0, and
+  the transferred operator scores opposite to the same-recording one on all three recordings.
+- **The tally is at noise level at n=3:** an earlier run differing only in the pooled baseline's
+  (then unpinned) complex phase gave 8/8 on recording 3 and a 1/3 tally.
+- **The old baseline was badly off for the two far-off-broadside recordings** (overlap with the
+  pooled direction 0.21–0.25), so any wideband comparison against `ĝmed` should not be quoted.
+
+Pooling bins does not rescue the recovered-operator claim; this agrees with the narrowband
+correction above. Caveat: the table was produced just before the loader/fit dedup refactor
+(checked bit-identical on loaders and recoveries); the full confirm was not rerun on the committed
+script. Logs + provenance:
+[results/locata-wideband-exploratory-2026-11-13/](../results/locata-wideband-exploratory-2026-11-13/).
+
 ## Status
 Real-data arc **resolved**: `GO-P-2026-031` (simulation) + `GO-P-2026-033` (real, held-out) both
 demonstrate the flip; `GO-P-2026-032` is the honest interim miss that diagnosed the
