@@ -4,7 +4,7 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 
 **Status: draft, revised 2026-11-14 (general-spectrum theorems). Not reviewed by the author, not submitted.** The prose and the proofs were drafted by Claude (Fable 5.2) from the GO-12 material and paper one; the author has not yet read the proofs.
 
-**→ [manuscript (PDF, 20 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
+**→ [manuscript (PDF, 23 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
 
 ## What the paper proves
 
@@ -26,11 +26,12 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 | Lemma 14 | First Szego limit for matrix symbols, with the excess log-determinant bounded by (b/a^3) sum tau \|F_tau\|^2 | prediction errors, past-future information |
 | Theorem 15 | **Windows of a general spectrum** (was a conjecture until 2026-11-14): for every continuous positive definite spectrum and a memoryless holder, the window cost is at least the spectral cost at every N and converges to it (not monotonically in general); the gap is at most (s_N(Sigma) + (1-alpha) s_N(F*)) / (2 N ln 2); O(1/N) for Lipschitz spectra; every code obeys the spectral bound | Lemmas 11-14, Theorem 4 |
 | Theorem 16, Lemma 17 | **Coding theorem for the stationary source, every continuous positive definite spectrum, memoryless holder map and white noise**: the spectral region is the operational region, with deterministic encoders | [1, Thm. 3], guard intervals, coupling, Theorem 15, Lemma 18 |
+| Theorem 19, Lemma 20 | **Coding theorem for a holder with a filter of finite length and colored noise**: the spectral region is the operational region, deterministic encoders. Proof by operational comparison: more noise degrades the holder, the source is perturbed by the coupling in both directions, edge observations are dropped at a bounded cost; a stationary test channel gives the upper bound and the embedding with a filter the lower bound | Theorem 16's coupling, Lemmas 13, 14, 18, [1, Thm. 3] |
 | Lemma 18 | Derandomization: a code with private randomness is matched by a deterministic code on k consecutive windows with a fixed schedule of seeds | stationarity, H(M \| S, Z) <= H(M \| S), law of large numbers |
 
 Theorem numbers of [1] are those of the submitted version (`../tit-rate-leakage/tit-rate-leakage.tex` as of 2026-11-13). If paper one is revised, recheck every `\cite[...]{part1}`.
 
-**Not proved, and said so in the paper:** the window theorem and the coding theorem for a holder whose filter has memory or whose noise is colored (the periodic and spectral results cover such a holder, the stationary-source results do not); whether the window gap is of exact order 1/N and with what constant (the theorem gives an upper bound, and the explicit form of it is far from the computed gap); block codes against a holder that keeps a causal prefix; finite-blocklength coding performance.
+**Not proved, and said so in the paper:** the coding theorem for a filter with an infinite impulse response (the periodic and spectral results cover it, the stationary-source results do not); the sign and the bound of the window gap (Theorem 15) for a filter or colored noise; whether the window gap is of exact order 1/N and with what constant (the theorem gives an upper bound, and the explicit form of it is far from the computed gap); block codes against a holder that keeps a causal prefix; finite-blocklength coding performance.
 
 ## Relation to the GO-12 records
 
@@ -40,7 +41,7 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 
 | File | What it is |
 |---|---|
-| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 20 pp) |
+| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 23 pp) |
 | `supplement-ot.tex` / `.pdf` | Observation Theory companion, on the pattern of `../tit-rate-leakage/supplement-ot.tex` |
 | `spectral_core.py` | costs and one solver (the water-filling iteration of [1, Prop. 11] with a bisection on the level); numpy only |
 | `verify_spectral.py` | nine checks, fixed seed 20261113; writes `verify_spectral.json` |
@@ -48,9 +49,10 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 | `plot_bands.py`, `fig_bands.pdf/.png` | Fig. 1 |
 | `sweep_bands.py`, `sweep_bands.json`, `sweep_bands-2026-11-13.txt` | Table II: the disjoint-bands instance across budgets (about 12 minutes) |
 | `verify_achievability.py`, `.json`, `verify_achievability-2026-11-13.txt` | covariance steps of the proof of Theorem 16 on Gaussian stand-ins (a few seconds); not a check of the coding theorem |
+| `verify_filter.py`, `.json`, `verify_filter-2026-11-14.txt` | five checks of steps of the proof of Theorem 19 for a causal two-tap filter in white noise, seed 20261116 (about three minutes); colored noise is not exercised |
 | `verify_windows.py`, `.json`, `verify_windows-2026-11-14.txt` | seven checks of the steps of the proof of Theorem 15 on a moving-average source of memory two, seed 20261115 (about a minute): 7 passed |
 | `build_notebook.py`, `reproduce.ipynb` | the reproduction notebook and its generator |
-| `reproduce-executed-2026-11-14.ipynb` | the notebook as executed on this machine (13 code cells, no errors); the 2026-11-13 run is kept beside it |
+| `reproduce-executed-2026-11-14.ipynb` | the notebook as executed on this machine (13 code cells, no errors; this run predates the cell for `verify_filter.py`, whose own recorded output is `verify_filter-2026-11-14.txt`. A re-run with that cell hit the one-hour cell timeout in the unchanged `verify_spectral` cell and produced no notebook; it is being repeated); the 2026-11-13 run is kept beside it |
 | `lean-spectral-2026-11-13.txt` | Lean build record and axiom audit |
 | `lean-library-2026-11-14.txt` | whole-library build with the new import |
 | `../../lean/ObservationTheory/SpectralRateLeakage.lean` | 21 theorems, no `sorry`, standard axioms only |
@@ -60,6 +62,7 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 ```
 python verify_spectral.py                      # about 8 minutes, numpy only
 python verify_windows.py                       # about 1 minute
+python verify_filter.py                        # about 3 minutes
 python plot_bands.py                           # Fig. 1 from verify_spectral.json
 python build_notebook.py
 jupyter nbconvert --to notebook --execute reproduce.ipynb --output reproduce-executed.ipynb
@@ -115,16 +118,27 @@ Checks so far:
 - An independent fresh-context referee pass by a model went through Lemmas 11 to 14 and Theorems 15 and 16 line by line and tested edge cases numerically (singular J, N at most the memory, p = 3, alpha = 0 and 1). It found no error that invalidates a statement. Its gaps, all fixed: the passage to spectral costs at and above D_max in Lemma 11(c); periodicity of the spectrum and a single statement of the Fejer sandwich; what "a test channel that attains the frontier" means; a duplicated equation label that made Corollary 6 point at the wrong equation; a stale appendix sentence about `verify_achievability.py`; an "explicit constant" overstatement in the abstract; attribution of subadditivity to the classical rate-distortion argument.
 - Not checked by that pass: paper one's proofs, Lemmas 1 and 2 and Theorems 3 and 4 beyond their statements, the Lean module. **No human has read these proofs.**
 
+## Filtered holder, 2026-11-14
+
+Theorem 19 extends the coding theorem to a holder that sees the source through a filter of finite length in noise of any continuous positive definite spectrum (real taps; the holder is given its observations at the times of the window). The window-level order argument of Lemma 11 is not available there, so the proof compares systems operationally: adding noise gives a degraded holder, the source is perturbed by the coupling of Theorem 16 in both directions, and the edge observations of a window are dropped at a cost bounded independently of the window. Lemma 20 gives the two window bounds (a stationary test channel for the upper bound, the embedding with a filter for the lower bound).
+
+- `verify_filter.py`: five checks on one instance with a causal two-tap filter in white noise, all pass. **Colored noise is not exercised by any recorded script.**
+- An independent fresh-context referee pass by a model checked every step by hand and probed numerically a two-sided filter with colored noise (the embedding to 6e-15, the noise comparison on 20000 random instances, the edge inequality and both leakage chains on Gaussian stand-ins). It could not break the theorem and found no error. Its gaps, all fixed: private randomness must be independent of the whole source process; the converse's leakage step now covers a randomized given code; the frontier costs are defined for a general linear Gaussian holder; real taps are stated; the monotonicity in the noise comparison is justified as addition of independent noise; ranges of D; the noise hypothesis in the abstract. It noted that its numerical tests of the two leakage chains are weak, because the bounds hold with a large margin. Its scripts are not in the repository.
+- Not covered: a filter with an infinite impulse response; a holder given observations outside the window (achievability holds, the converse is not proved); the sign and the bound of the window gap for a filter or colored noise.
+- **No human has read this proof.**
+
 Known weak points:
 
 - `verify_achievability.py` still tests the affine decomposition of the earlier draft, not the general one. The paper says so.
-- Novelty at alpha = 1: the referee recalls (unverified) finite-block upper bounds for Gaussian rate-distortion functions by Gutierrez-Gutierrez, Zarraga-Rodriguez and Insausti (Entropy 2017). The paper is cited from a search listing and **has not been read**; compare before claiming the bound of Theorem 15(b) as new in the rate-only case.
+- Novelty at alpha = 1, checked 2026-11-14: Gutierrez-Gutierrez, Zarraga-Rodriguez and Insausti (Entropy 19(10):554, 2017) was read in full. It treats a scalar source at small distortion only (D at most the minimum of the spectrum), bounds the finite-block rate-distortion function from above by the rates of schemes that code DFT coefficients separately (tighter than Pearl 1973), and shows those bounds converge. It states no rate in the block length and does not bound the distance of the window cost from its limit. It does not overlap Theorem 15(b). In its regime the window cost is explicit and the first bound of Theorem 15(b) holds with equality, which the paper now says (checked numerically to 10 digits). Not checked: other finite-block literature (a single paper was compared), and Pearl's paper itself.
 - Gallager 1968 is cited for the classical subadditivity argument from memory.
 
 ## Open items before submission
 
-- [ ] Read Gutierrez-Gutierrez, Zarraga-Rodriguez, Insausti, Entropy 19(10):554 (2017), and compare with Theorem 15(b) at alpha = 1. Check the Gallager citation.
-- [ ] Human referee pass on Lemmas 11 to 14 and Theorems 15 and 16.
+- [x] Read Gutierrez-Gutierrez, Zarraga-Rodriguez, Insausti, Entropy 19(10):554 (2017), and compare with Theorem 15(b) at alpha = 1 (done 2026-11-14, see above).
+- [ ] Check the Gallager citation, and open Pearl 1973 (its bound is described from the 2017 paper). A wider search for finite-block convergence-rate results in the rate-only case is still owed.
+- [ ] Human referee pass on Lemmas 11 to 14 and Theorems 15 and 16, and on Theorem 19 and Lemma 20.
+- [ ] A recorded numerical check of Theorem 19's steps with colored noise and a two-sided filter.
 - [ ] Rerun `verify_achievability.py` on the general decomposition.
 
 - [ ] **Author and a human referee read the achievability proof (Theorem 11, Lemma 12).** One independent fresh-context referee pass by a model was run on 2026-11-13: it found no error that invalidates the theorem and verified each step of the three bounds by hand. It found one real gap, that the closing claim (achievable region = spectral region) did not follow from supporting-line bounds as written, and smaller ones (no definition of achievable for the stationary source; a remark that overstated the reduction for general spectra; the holder is given the window only; small slips). All were fixed: the region is now defined as the intersection of half-planes (eq. for R(D)), the achievable set A(D) is defined, and the proof ends with a time-sharing and support-function argument. That argument was added after the referee pass and has **not** itself been refereed. Not checked by that pass: the cited external results, paper one's appendix proof of its coding theorem, and Lemma 1's proof. Points to attack: the independence claims in the coupling (T', E, U and the private randomness); the step H(M | S, E) = H(M | S'); the order of the limits (eta, eps, n, K); the use of Lemma 2 on the product space for continuity in eps; whether [1, Thm. 3] delivers rate, leakage, and distortion simultaneously at a frontier point as used.

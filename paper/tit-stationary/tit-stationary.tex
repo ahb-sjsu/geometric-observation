@@ -55,12 +55,14 @@ descriptions can occupy disjoint frequency bands. A delay in the second
 party's observation changes nothing when that party keeps its whole
 observation. When it keeps one sample or a causal prefix, the leakage
 of a one-symbol description depends on what is kept through a single
-conditional variance. For the stationary source itself, when the second
-party observes the process through a memoryless map in white noise, we
+conditional variance. For the stationary source itself we
 prove that the spectral region is the operational region, for every
-continuous positive definite spectral density matrix and with
-deterministic encoders. The costs of finite windows converge to the
-spectral cost from above. The gap at a window of $N$ symbols is
+continuous positive definite spectral density matrix, a second party
+that observes the process through a filter of finite length in
+stationary Gaussian noise with a continuous positive definite spectral
+density, and deterministic encoders. When that
+party's map is memoryless and its noise white, the costs of finite
+windows converge to the spectral cost from above. The gap at a window of $N$ symbols is
 bounded by excess log-determinants of block-Toeplitz matrices, and for
 Lipschitz spectra it is at most a constant over $N$.
 \end{abstract}
@@ -173,8 +175,17 @@ and the small remainder changes the
 leakage by an amount that vanishes with its power. The draw is then
 removed: a fixed schedule of seeds on consecutive windows gives a
 deterministic encoder with the same guarantees up to an arbitrarily
-small loss (Lemma~\ref{lem:derand}). A holder whose filter has memory
-is covered by the periodic and spectral results and not by the coding
+small loss (Lemma~\ref{lem:derand}).
+
+The coding theorem extends to a holder with a filter of finite length
+and colored noise (Theorem~\ref{thm:filter}). The order structure is
+then lost at the level of windows, because the holder's observations in
+a window depend on the source outside it, and the proof compares
+systems operationally. More noise makes a degraded holder, the source
+is perturbed by the same coupling in both directions, and the
+observations at the edges of a window are dropped at a cost that does
+not grow with the window. A filter with an infinite impulse response is
+covered by the periodic and spectral results and not by the coding
 theorem.
 
 \subsection*{Related work}
@@ -269,7 +280,7 @@ $T^{(n)}=(T_0,\dots,T_{n-1})\in\R^{pn}$ with covariance
 the block-circulant matrix whose block $(a,b)$ is
 $\tfrac1n\sum_k\Sigma(\omega_k)e^{i\omega_k(a-b)}$. It is real because
 $\Sigma(-\omega)=\overline{\Sigma(\omega)}$. The holder observes
-$S^{(n)}=H_nT^{(n)}+U^{(n)}$, where $H_n$ and $\Cov U^{(n)}$ are the
+$S^{(n)}=H_nT^{(n)}+U^{(n)}$, with $U^{(n)}$ independent of $T^{(n)}$, where $H_n$ and $\Cov U^{(n)}$ are the
 block-circulant matrices with symbols $H$ and $\Sigma_U$. This is the
 stationary source with time wrapped around a circle of $n$ symbols. Its
 blocks are independent, so it is a memoryless source with letters in
@@ -827,7 +838,7 @@ converse below holds for both. Private randomness does not enlarge the
 achievable set (Lemma~\ref{lem:derand}), and the coding theorem is
 stated for deterministic encoders. To
 keep $S^N$ a function of $T^N$ and noise we take the
-holder's map memoryless in this section, $S_t=HT_t+U_t$ with $U$ white of
+holder's map memoryless until Section~\ref{sec:filter}, $S_t=HT_t+U_t$ with $U$ white of
 covariance $\Sigma_U$. The holder is given its observations inside the
 window only. A pair $(R,L)$ is achievable at distortion $D$ for the
 stationary source when there are codes of blocklengths $N_j\to\infty$
@@ -1290,9 +1301,19 @@ $\mathsf K(F)\le\sum_{\tau\ge1}\tau^2\|\hat F(\tau)\|_{\mathrm F}^2=\tfrac12\int
 
 For $\alpha=1$ part (a) is the classical statement that the
 rate--distortion function of the window converges from above to that
-of the process \cite{gallager1968,berger1971}, and upper bounds on the
-rate--distortion function of finite blocks of Gaussian stationary
-sources are studied in \cite{gutierrez2017}. The convergence need not
+of the process \cite{gallager1968,berger1971}. For a scalar source and
+$0<D\le\min_\omega\Sigma(\omega)$, no eigenvalue of the window covariance
+is below the water level, the window cost is
+$\tfrac1{2N}\log\bigl(\det T_N(\Sigma)/D^N\bigr)$, and the gap is exactly
+$s_N(\Sigma)/(2N\ln2)$. So the first bound of (b) holds with equality
+there. Earlier finite-block results for $\alpha=1$ are of a different
+kind. Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
+\cite{gutierrez2017}, following Pearl \cite{pearl1973}, bound the window
+cost of a scalar source from above, in the same range of small
+distortions, by the rates of schemes that code the discrete Fourier
+coefficients of the window separately, and show that those bounds tend
+to the spectral cost. They do not bound the distance between the window
+cost and its limit. The convergence need not
 be monotone
 in $N$. For the scalar moving-average spectrum proportional to
 $|1-e^{-i\omega}+e^{-2i\omega}-e^{-3i\omega}+e^{-5i\omega}|^2+0.1$, with unit
@@ -1583,24 +1604,290 @@ that is itself block-Toeplitz, and the lower bound uses the exact
 embedding of Lemma~\ref{lem:embed} and the order of
 Lemma~\ref{lem:order}.
 
-One question is open in this setting. The results of this section are
-for a holder with a memoryless map and white noise. The two
-restrictions are of different kinds. With a memoryless map and colored
-noise, $S^N=(I_N\otimes H)T^N+U^N$ still holds with $U^N$ independent of
-$T^N$, the information matrix
-$(I_N\otimes H)^{\mathsf T}(\Cov U^N)^{-1}(I_N\otimes H)$ is the same for
-every source covariance, and Lemma~\ref{lem:order}(a) and (b) hold as
-stated, as do Lemma~\ref{lem:subadd} and Lemma~\ref{lem:derand}. White
-noise is used in three places: the block-Toeplitz point of
-Theorem~\ref{thm:windows}, which needs a block-diagonal information
-matrix, the embedding of Lemma~\ref{lem:embed}, where the noise of the
-window must be the noise of the periodic source, and the guard
-intervals of Lemma~\ref{lem:guard}. For a holder whose filter has memory, the
-window observation is not a function of the window source and noise,
-the effective observation channel of the window depends on the source
-spectrum, and the order structure is lost. We have neither the window
-theorem nor the coding theorem for a holder with colored noise or with
-a filter.
+\subsection{A holder with a filter and colored noise}
+\label{sec:filter}
+
+We now return to the holder of Section~\ref{sec:model} with a filter of
+finite length,
+\[
+S_t=\sum_{|k|\le m_H}H_kT_{t-k}+U_t ,
+\]
+where $(U_t)$ is a stationary Gaussian process independent of $(T_t)$
+with a continuous spectral density $\Sigma_U(\omega)\succeq a_UI$,
+$a_U>0$. The taps $H_k$ are real. A code is as before, with private
+randomness, if any, independent of the whole source process and of the
+noise process. The encoder sees $T^N$, and the holder is
+given $S^N=(S_1,\dots,S_N)$, its observations at the times of the
+window. They depend on $m_H$ source symbols on each side of the window.
+The leakage is $L_N=\tfrac1NH(M\mid S^N)$, and $\mathcal A(D)$ is defined
+as before. The spectral region $\mathcal R(D)$ is that of
+Section~\ref{sec:spectral} with
+$J(\omega)=H(\omega)^{\herm}\Sigma_U(\omega)^{-1}H(\omega)$.
+
+\begin{theorem}\label{thm:filter}
+Let $\Sigma$ and $\Sigma_U$ be continuous and positive definite, let
+the holder's filter have finite length, and let $0<D<D_{\max}$. Then
+$\mathcal A(D)=\mathcal R(D)$, and deterministic encoders suffice, in
+the sense of Theorem~\ref{thm:achieve}.
+\end{theorem}
+
+The order of Lemma~\ref{lem:order} in the source covariance is not
+available at the level of windows, because the window observation
+depends on the source outside the window. The proof compares systems
+operationally instead. A noise of larger power makes a degraded
+holder, the source is perturbed by the coupling of
+Theorem~\ref{thm:achieve} in both directions, and the observations at
+the edges of a window are dropped at a cost that does not grow with
+$N$. Two window problems enter. The window problem of size $N$ is the
+memoryless problem of \cite{part1} for $T^N$ with the holder observation
+$S^N$, which is a linear function of $T^N$ plus independent Gaussian
+noise, by regression of the source outside the window on $T^N$. Its
+cost is $V^{\mathrm w}_N$. The interior problem gives the holder only
+$S_t$ for $m_H<t\le N-m_H$, which are functions of $T^N$ and the noise.
+Its cost is $\tilde V_N$. Each is a problem with a linear Gaussian
+holder, whose observation is $AT^N$ plus independent noise of covariance
+$C$, and its cost is \eqref{eq:unwhitened} with $J_N$ replaced by
+$A^{\mathsf T}C^{-1}A$. In particular it is nonincreasing in the
+distortion and zero beyond the maximal distortion, and the same holds
+for the source of period $n$ with its block-circulant information
+matrix. We take $N>2m_H$ throughout. For every test channel with output $Z$,
+$I(T^N;Z\mid S)=I(T^N;Z)-I(S;Z)$ for either observation, so
+$\tilde V_N\ge V^{\mathrm w}_N$. Proposition~\ref{prop:window} holds for
+the window problem with the same proof, since the encoder's output
+depends on $T^N$ and private randomness only.
+
+\begin{lemma}\label{lem:filterwindows}
+Let $\alpha\in[0,1]$ and $0<D<D_{\max}$.
+\begin{enumerate}
+\item[(a)] For continuous positive definite $\Sigma$ and $\Sigma_U$,
+$\limsup_N\tilde V_N(\alpha,D)\le V(\alpha,D)$.
+\item[(b)] If $\Sigma$ and $\Sigma_U$ are trigonometric polynomials,
+$\liminf_NV^{\mathrm w}_N(\alpha,D)\ge V(\alpha,D)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $0<\eta<1$ and $\Delta=(1-\eta)\Delta^\ast$, with $\Delta^\ast$
+the error spectrum of the spectral frontier point at distortion $D$.
+Then $\delta I\preceq\Delta\preceq(1-\eta)\Sigma$ for some $\delta>0$, and
+$\mathsf N(\omega)=(\Delta^{-1}-\Sigma^{-1})^{-1}$ is continuous and
+positive definite. The taps and the autocovariances are real, so the
+data at $-\omega$ are the conjugates of the data at $\omega$,
+$X(-\omega)=\overline{X(\omega)}$ by uniqueness, and
+$\mathsf N(-\omega)=\overline{\mathsf N(\omega)}$.
+Let $(W_t)$ be a stationary Gaussian process with spectral density
+$\mathsf N$, independent of the source and the noise, and $Z_t=T_t+W_t$.
+The processes $T$, $S$, $Z$ are jointly stationary. At each frequency
+the error spectrum of $T$ given $Z$ is
+$(\Sigma^{-1}+\mathsf N^{-1})^{-1}=\Delta$. Use $Z^N$ as the output of a
+test channel for the interior problem of size $N$. Its rate is
+\[
+I(T^N;Z^N)=\tfrac12\log\det T_N(\Sigma+\mathsf N)-\tfrac12\log\det T_N(\mathsf N),
+\]
+and by Lemma~\ref{lem:szego} it is
+$N\int\tfrac12\log\det\bigl(\Sigma\Delta^{-1}\bigr)\dw+o(N)$, since
+$(\Sigma+\mathsf N)\mathsf N^{-1}=\Sigma\Delta^{-1}$. Let $S_{\mathrm{int}}$
+be the interior observations and $Z_{\mathrm{int}}$ the outputs at the
+same times. Then
+$I(S_{\mathrm{int}};Z^N)\ge I(S_{\mathrm{int}};Z_{\mathrm{int}})$, and the
+right side is a combination of three log-determinants of
+block-Toeplitz matrices of size $N-2m_H$, with the spectral densities
+of $S$, of $Z$, and of the pair, which are continuous and positive
+definite. By Lemma~\ref{lem:szego} it is $N$ times the integral of the
+information between $S$ and $Z$ at each frequency, plus $o(N)$. At a
+frequency that information is the rate minus the leakage of
+\eqref{eq:ell}. So the weighted cost of the test channel is at most
+$N$ times the spectral weighted cost of $\Delta$ plus $o(N)$, and the
+spectral cost of $\Delta$ exceeds $V(\alpha,D)$ by at most
+$\tfrac p2\log\tfrac1{1-\eta}$, as in the proof of
+Lemma~\ref{lem:order}(b). For the distortion, let $d_k$ be the weighted
+error in estimating $Y_t$ from $Z_{t-k},\dots,Z_{t+k}$. It does not
+depend on $t$, and it decreases to the weighted error given the whole
+process $Z$, which is $\int\tr(Q\Delta)\dw=(1-\eta)D$, because the
+projections on an increasing sequence of subspaces converge. The error spectrum given the whole process is the noncausal Wiener
+one, $\Sigma-\Sigma(\Sigma+\mathsf N)^{-1}\Sigma=\Delta$. Choose $k$
+with $d_k\le D$. The reproduction that uses this finite smoother at the
+times at least $k$ from the ends of the window, and zero at the other
+$2k$ times, is a function of $Z^N$. Its distortion is at most
+$\tfrac1N\bigl((N-2k)D+2kD_{\max}\bigr)\le D+\eta$ for large $N$. Hence
+$\limsup\tilde V_N(\alpha,D+\eta)\le V(\alpha,D)+\tfrac p2\log\tfrac1{1-\eta}$
+for every small $\eta$. Apply this with $D-\eta$ in place of $D$ and let
+$\eta\to0$, using the continuity of $V(\alpha,\cdot)$.
+
+(b) Let $m$ and $m_U$ be the degrees of $\Sigma$ and $\Sigma_U$, and
+$n=N+2m_H+\max\{m,m_U\}$. In a block of the source of period $n$ take
+$N+2m_H$ consecutive symbols. As in Lemma~\ref{lem:embed}, they have the
+law of a window of the source, the noise at the middle $N$ of those
+times has the law of a window of the noise, and the circular filter at
+those $N$ times involves only the chosen symbols. So the middle $N$
+symbols and the holder's observations at their times have the law of
+$(T^N,S^N)$. Apply a test channel that attains the window frontier at
+$D$ to the middle $N$ symbols and reproduce zero elsewhere. The
+argument of Lemma~\ref{lem:embed} gives
+\[
+n\,V_n\bigl(\alpha,D+\tfrac{n-N}n(D_{\max}-D)\bigr)\le N\,V^{\mathrm w}_N(\alpha,D),
+\]
+and the claim follows as in the proof of Theorem~\ref{thm:windows},
+since $n-N$ does not depend on $N$ and $V_n\to V$ by
+Theorem~\ref{thm:spectral}.
+\end{proof}
+
+Two comparisons of spectral costs are used. Write $V_{\Sigma,\Sigma_U}$
+for the spectral cost with source spectrum $\Sigma$ and noise spectrum
+$\Sigma_U$. If $\Sigma'\preceq\Sigma\preceq(1+\kappa)\Sigma'$, the
+inequalities of Lemma~\ref{lem:order}(b) hold for
+$V_{\Sigma,\Sigma_U}$ and $V_{\Sigma',\Sigma_U}$, because the proof of
+that lemma uses only that the information matrix is the same for both
+sources. That holds for the sources of period $n$ with any holder,
+with $J_N$ replaced by the block-circulant information matrix of the
+holder, and the spectral costs are the limits of the period-$n$ costs.
+If
+$\Sigma_U\preceq P\preceq(1+\kappa)\Sigma_U$, then
+\begin{equation}
+V_{\Sigma,\Sigma_U}(\alpha,D)\le V_{\Sigma,P}(\alpha,D)\le V_{\Sigma,\Sigma_U}(\alpha,D)+(1-\alpha)\tfrac p2\log(1+\kappa).
+\label{eq:noisecompare}
+\end{equation}
+Indeed at each frequency the leakage of a given error spectrum is its
+rate minus
+$\tfrac12\log\det(I+J^{1/2}\Sigma J^{1/2})-\tfrac12\log\det(I+J^{1/2}\Delta J^{1/2})$.
+Replacing $\Sigma_U$ by $P$ replaces $J$ by a matrix between
+$J/(1+\kappa)$ and $J$. The difference above is the information, at that frequency, between
+the holder's observation and a description with error spectrum
+$\Delta$. Both orderings are additions of independent noise, because
+$P-\Sigma_U$ and $(1+\kappa)\Sigma_U-P$ are positive semidefinite, and
+adding independent noise to an observation does not increase that
+information. So its value for $P$ lies between its values for
+$J/(1+\kappa)$ and for $J$, and replacing $J$ by $J/(1+\kappa)$ lowers
+the first term by at most $\tfrac p2\log(1+\kappa)$ and does not raise
+the second.
+
+\begin{proof}[Proof of Theorem~\ref{thm:filter}]
+Let $b_S$ bound the spectral density of $S$ in the system
+$(\Sigma,\Sigma_U)$ from above,
+$c_H=\sum_k\|H_k\|_{\mathrm F}^2$, and
+$e_H=m_Hr\log(2b_S/a_U)$. For any system of this
+form and any code,
+\begin{equation}
+H(M\mid S^N)\le H(M\mid S_{\mathrm{int}})\le H(M\mid S^N)+e_H ,
+\label{eq:edges}
+\end{equation}
+when the noise spectrum is at least $\tfrac12a_UI$ and the spectrum of
+the observation at most $b_S I$. The first inequality is conditioning.
+For the second, $H(M\mid S_{\mathrm{int}})-H(M\mid S^N)$ is the
+information between $M$ and the $2m_H$ edge observations given the
+interior ones. It is at most the information between the source on the extended
+window, $T_{1-m_H},\dots,T_{N+m_H}$, and the edge observations given the
+interior ones, since given that source the message depends on the
+private randomness only. That information is the difference
+of two differential entropies of the edge observations: one is at most
+that of a Gaussian vector of dimension $2m_Hr$ with covariance $b_SI$,
+and the other, given the source and the interior observations, is the
+entropy of the edge noise given the interior noise, at least that of a
+Gaussian vector with covariance $\tfrac12a_UI$.
+
+\emph{Converse.} Take a code for the system $(\Sigma,\Sigma_U)$ with
+rate $R_N$, distortion $D_N$, and leakage $L_N$, and let
+$0<\epsilon<\tfrac12a_U$. Let $P^-$ be a trigonometric polynomial with
+$\Sigma_U-\epsilon I\preceq P^-\preceq\Sigma_U$, and write the noise as
+$U=U^-+V$ with independent stationary Gaussian processes of spectral
+densities $P^-$ and $\Sigma_U-P^-$. The holder that observes
+$S^-=S-V$ has the holder of the code as a degraded version, so
+$H(M\mid S^{-N})\le H(M\mid S^N)$. Let $\Sigma''$ be a trigonometric
+polynomial with $\Sigma\preceq\Sigma''\preceq\Sigma+\epsilon I$, and
+consider the system $(\Sigma'',P^-)$ with source $T''$. Its encoder
+sees $T''^N$, draws $T^N$ from the conditional law of the first summand
+given the sum, for independent windows of processes with spectral
+densities $\Sigma$ and $\Sigma''-\Sigma$, and applies the given code to
+$T^N$. With $E^N=T''^N-T^N$, the rate is $R_N$ and, as in the proof of
+Theorem~\ref{thm:achieve}, the distortion is at most
+$D_N+\epsilon\tr Q$. The interior observations of the new system are
+those of the system $(\Sigma,P^-)$ for the drawn $T^N$, plus the
+filtered $E^N$. By the leakage argument of Theorem~\ref{thm:achieve}, applied
+with the pair of $T^N$ and the private randomness of the given code in
+the place of $T'^N$, and
+with $\tr\bigl(\mathsf H^{\mathsf T}(\Cov U^-_{\mathrm{int}})^{-1}\mathsf H\,\Cov E^N\bigr)\le2N\epsilon c_H/a_U$
+for the matrix $\mathsf H$ of the filter on the interior, and by
+both inequalities of \eqref{eq:edges}, the leakage of the new code is
+at most
+\[
+L_N+\frac{e_H}N+\frac{\epsilon c_H}{a_U\ln2}.
+\]
+The system $(\Sigma'',P^-)$ has trigonometric polynomial spectra. By
+Proposition~\ref{prop:window} for it,
+Lemma~\ref{lem:filterwindows}(b), and the monotonicity of the window
+cost in the distortion, a sequence of codes with $\limsup D_N\le D$
+satisfies, for every small $\eta>0$ and $\epsilon$, for which the
+distortion on the right is below the maximal distortion of that
+system,
+\[
+\liminf_N\bigl[\alpha R_N+(1-\alpha)L_N\bigr]+\frac{\epsilon c_H}{a_U\ln2}\ \ge\ V_{\Sigma'',P^-}\bigl(\alpha,D+\epsilon\tr Q+\eta\bigr).
+\]
+By the two comparisons, with $\kappa=\epsilon/a$ for the source, where
+$aI\preceq\Sigma$, and $\kappa_U=2\epsilon/a_U$ for the noise, the right
+side is at least
+$V_{\Sigma,\Sigma_U}(\alpha,D+\epsilon\tr Q+\eta)-\tfrac p2\log(1+\kappa)-\tfrac p2\log(1+\kappa_U)$.
+Letting $\eta$ and $\epsilon$ tend to zero,
+$\liminf[\alpha R_N+(1-\alpha)L_N]\ge V(\alpha,D)$.
+
+\emph{Achievability.} Let $0<\alpha<1$, $\delta>0$, and
+$0<\epsilon<a$. Let $\Sigma'$ be a trigonometric polynomial of degree
+$m$ with $\Sigma-\epsilon I\preceq\Sigma'\preceq\Sigma$, as in
+\eqref{eq:decomp}, and $P$ a trigonometric polynomial of degree $m_U$
+with $\Sigma_U\preceq P\preceq\Sigma_U+\epsilon I$. Consider the system
+$(\Sigma',P)$, with source $T'$ and noise $U+V$, where $V$ is a
+stationary Gaussian process with spectral density $P-\Sigma_U$,
+independent of everything else. For small $\epsilon$ the distortion $D$
+is below the maximal distortion of this system. Divide $\{1,\dots,N\}$ into $K$ blocks
+of length $n$ separated by guard intervals of length
+$g=\max\{m,m_U\}$. The blocks of $T'$ are independent, and so are the
+blocks of $U+V$, so the pairs formed by a block and the interior
+observations of that block are independent and identically distributed
+with the law of the interior problem of size $n$. As in
+Lemma~\ref{lem:guard}, \cite[Theorem~3]{part1} gives a code with a
+deterministic encoder on $T'^N$ whose rate and distortion are within
+$\delta$ of those of the frontier point of weight $\alpha$ of the
+interior problem at distortion $D$, up to $\tfrac g{n+g}D_{\max}$ in the
+distortion, and whose message has entropy at most $N$ times the
+leakage of that point plus $N\delta$ given the interior observations of
+the blocks. For the source $T$, the encoder draws $T'^N$ as in
+Theorem~\ref{thm:achieve} and applies this code. The rate is unchanged
+and the distortion grows by at most $\epsilon\tr Q$. For the leakage,
+the holder's observation $S^N$ contains the interior observations of
+the whole window. Those are the interior observations of the system
+with source $T'$ and noise $U$, plus the filtered $E^N$. Adding $V$ to
+them degrades them, and dropping the observations outside the
+interiors of the blocks degrades them further. So, by the leakage
+argument of Theorem~\ref{thm:achieve},
+\[
+\alpha R_N+(1-\alpha)L_N\le\tilde V'_n(\alpha,D)+\delta+\frac{\epsilon c_H}{2a_U\ln2},
+\]
+where $\tilde V'_n$ is the interior cost of the system $(\Sigma',P)$. By
+Lemma~\ref{lem:filterwindows}(a), $\limsup_n\tilde V'_n(\alpha,D)\le V_{\Sigma',P}(\alpha,D)$,
+and by the two comparisons
+$V_{\Sigma',P}(\alpha,D)\le V_{\Sigma,\Sigma_U}(\alpha,D)+\tfrac p2\log(1+\kappa)+\tfrac p2\log(1+\kappa_U)$
+with $\kappa=\epsilon/(a-\epsilon)$ and $\kappa_U=\epsilon/a_U$. Choosing
+$\epsilon$, then $n$, then $K$ gives codes of arbitrarily large
+blocklength with $D_N\le D+3\delta$ and
+$\alpha R_N+(1-\alpha)L_N\le V(\alpha,D)+4\delta$.
+
+\emph{The region.} The rest is as in the proof of
+Theorem~\ref{thm:achieve}. Time sharing and Lemma~\ref{lem:derand} use
+only that the source and the holder's observation are jointly
+stationary, so that each of several consecutive windows, with the
+observations at its times, has the law of the first.
+\end{proof}
+
+For a memoryless map and white noise this is Theorem~\ref{thm:achieve},
+by a proof that does not give the sign of the window gap or the bound
+of Theorem~\ref{thm:windows}(b). The filter is assumed of finite
+length. A filter with an infinite impulse response is not covered by
+this proof, because a change of the filter is not a degradation of the
+holder and is not an independent perturbation of the source. Whether
+the theorem holds for it is open. The holder is given its observations
+at the times of the window. Giving it observations outside the window
+as well keeps the achievability, since conditioning on more does not
+raise the entropy of the message, and we have not proved the converse
+in that case.
 
 \section{Instances}
 \label{sec:examples}
@@ -1734,12 +2021,15 @@ and operational, for any holder filter and noise spectrum
 (Theorem~\ref{thm:periodic}). The spectral program is
 the exact limit of those regions (Theorem~\ref{thm:spectral}). For the
 stationary source with a continuous positive definite spectrum and a
-holder with a memoryless map and white noise, the spectral region is
+holder with a filter of finite length and continuous positive definite
+noise spectrum, the spectral region is
 the operational region, with a converse through windows and a coding
 theorem with deterministic encoders
-(Theorems~\ref{thm:windows} and~\ref{thm:achieve}). For the stationary
-source and a holder whose filter has memory, the spectral region is
-the limit of periodic sources and its operational status is open.
+(Theorems~\ref{thm:achieve} and~\ref{thm:filter}). The sign of the
+window gap and the bound on it (Theorem~\ref{thm:windows}) are proved
+for a memoryless map and white noise only. For a filter with an
+infinite impulse response, the spectral region is the limit of periodic
+sources and its operational status is open.
 Within those scopes, the
 frontier of rate and leakage is reverse water-filling on a tilted
 weight at each frequency, under one level. The level is the only thing
@@ -1765,10 +2055,10 @@ covariances, and its three devices, the order in the unwhitened
 variable, subadditivity, and the embedding of finite-memory windows in
 periodic sources, do not use the form of the frontier.
 
-Several problems are open. The coding theorem and the window theorem
-are for a holder with a memoryless map and white noise, and the
-operational region for a holder with a filter or colored noise is
-open. The explicit bound on the window gap is far from the computed
+Several problems are open. The coding theorem is for a filter of
+finite length, and a filter with an infinite impulse response is open.
+The bound on the window gap is for a memoryless map and white noise.
+The explicit bound on the window gap is far from the computed
 gap, and whether the gap is of exact order $1/N$, and with what
 constant, is not settled.
 The holder that keeps a causal prefix is treated for
@@ -1825,6 +2115,16 @@ Lemma~\ref{lem:order}, the subadditivity of Lemma~\ref{lem:subadd}, the
 embedding of Lemma~\ref{lem:embed}, the sign of the gap, the feasible
 block-Toeplitz point, and both bounds of part (b), recorded in
 \texttt{verify\_windows-2026-11-14.txt}.
+\texttt{verify\_filter.py} checks steps of the proof of
+Theorem~\ref{thm:filter} for a causal filter with two taps in white
+noise: the order of the interior, window, and spectral costs, the
+subadditivity of the window cost, which holds for a filter by the proof
+of Lemma~\ref{lem:subadd} and is not used in the proof, the embedding
+with a filter, the edge bound
+\eqref{eq:edges} at the optimal description, and the comparison
+\eqref{eq:noisecompare}, recorded in
+\texttt{verify\_filter-2026-11-14.txt}. Colored noise is not
+exercised.
 \texttt{verify\_achievability.py} checks the steps of the proof of
 Theorem~\ref{thm:achieve} that are statements about covariances, on two
 instances in which the remainder has the form $e(\omega)A$ for a fixed
@@ -1865,7 +2165,8 @@ Lemma~\ref{lem:limit}(a) and (c), the determinant and spectral
 properties of $\varrho$, the block-circulant step of
 Theorem~\ref{thm:periodic}, Szeg\H{o}'s theorem,
 Lemmas~\ref{lem:order} to~\ref{lem:szego}, Theorem~\ref{thm:windows}, the
-proof of Theorem~\ref{thm:achieve}, and everything imported from \cite{part1}. The build and the axiom audit are recorded
+proofs of Theorem~\ref{thm:achieve} and Theorem~\ref{thm:filter}, and
+everything imported from \cite{part1}. The build and the axiom audit are recorded
 in \texttt{lean-spectral-2026-11-13.txt}.
 
 \section*{Acknowledgment}
@@ -1894,8 +2195,9 @@ Reliable Communication}. New York, NY: Wiley, 1968.
 M. Z\'arraga-Rodr\'iguez, and X. Insausti, ``Upper bounds for the rate
 distortion function of finite-length data blocks of Gaussian WSS
 sources,'' \emph{Entropy}, vol. 19, no. 10, Art. no. 554, 2017.
-% verify on final: title, volume and article number are from a search listing; the paper was NOT read
-% (publisher page returned 403). Compare its bounds with Theorem windows(b) at alpha = 1 before submission.
+% Read in full 2026-11-14 (publisher's open-access HTML). Title, authors, volume, issue, article number and
+% DOI 10.3390/e19100554 confirmed (Crossref). Scalar source, D in (0, min f] only; its Theorem 2 gives upper
+% bounds on the finite-block RDF by DFT coding schemes and their convergence; no rate in n is stated.
 \bibitem{villard2013} J. Villard and P. Piantanida, ``Secure multiterminal
 source coding with side information at the eavesdropper,'' \emph{IEEE
 Trans. Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.
@@ -1935,7 +2237,9 @@ vol. 59, no. 6, pp. 3607--3618, 2013.
 \bibitem{pearl1973} J. Pearl, ``On coding and filtering stationary signals
 by discrete Fourier transforms,'' \emph{IEEE Trans. Inf. Theory}, vol. 19,
 no. 2, pp. 229--232, 1973.
-% verify vol/pages on final
+% Volume, pages and year agree with the reference list of gutierrez2017 (checked 2026-11-14).
+% verify on final: the issue number, and the description of Pearl's bound, which is taken from gutierrez2017;
+% Pearl's paper itself was not opened.
 \bibitem{gray2006} R. M. Gray, ``Toeplitz and circulant matrices: A
 review,'' \emph{Found. Trends Commun. Inf. Theory}, vol. 2, no. 3,
 pp. 155--239, 2006.
