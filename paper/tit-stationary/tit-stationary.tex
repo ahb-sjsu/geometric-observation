@@ -1121,7 +1121,7 @@ subadditive sequence $N\,V^{\mathrm w}_N$.
 
 For $\alpha=1$ this is the classical subadditivity of the
 rate--distortion function of a block of a stationary source
-\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite[Sec.~10.6]{gray1990eit}; see also \cite[Ch.~9]{gallager1968} and
 \cite{berger1971}. The lemma says that the device survives the second
 cost.
 
@@ -1331,10 +1331,10 @@ For $\alpha=1$ much of the theorem is classical, and we say which part.
 Part (a) is the statement that the rate--distortion function of the
 window converges from above to that of the process, by the
 subadditivity of Lemma~\ref{lem:subadd}
-\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite[Sec.~10.6]{gray1990eit}; see also \cite[Ch.~9]{gallager1968} and
 \cite{berger1971}. The first bound of (b) at $\alpha=1$ is the bound of
-Wyner and Ziv \cite{wynerziv1971} applied to blocks. In the form given
-in \cite[Sec.~4.7.1]{gray1990sct}, the rate--distortion function of a
+Wyner and Ziv \cite{wynerziv1971} applied to blocks. We use it in the
+form given by Gray \cite[Sec.~4.7.1]{gray1990sct}: the rate--distortion function of a
 stationary source is at least that of its letters minus the entropy of
 a letter in excess of the entropy rate, whatever the distortion
 measure. Write $R_N(D)=V^{\mathrm w}_N(1,D)$ and $R(D)=V(1,D)$, and let
@@ -2309,14 +2309,21 @@ rate-distortion function for stationary sources with memory,''
 % the paper itself. The application to blocks of N symbols is a one-line consequence and was NOT seen printed.
 \bibitem{gray1990sct} R. M. Gray, \emph{Source Coding Theory}. Boston, MA:
 Kluwer, 1990.
-% Sec. 4.7.1 "The Wyner-Ziv lower bound", pp. 103--104, eqs. (4.7.3)-(4.7.4): read 2026-11-14 by a search
-% agent in the author's posted PDF, not by the author of this draft. It is stated there for scalar letters
-% with the remark that the results extend to finite-dimensional vectors. verify on final.
+% Sec. 4.7.1 "The Wyner-Ziv Lower Bound", pp. 103--104, READ AT FIRST HAND 2026-11-14 in the author's posted PDF
+% (ee.stanford.edu/~gray/sourcecodingtheory_rmg.pdf). For a stationary source with a pdf and an additive distortion:
+% k R_k(D) >= h(p_k) + k (R_1(D) - h(p_1)), hence (4.7.3), and in the limit (4.7.4):
+% R(D) >= R_1(D) - (h(X_0) - entropy rate). The text says the subtracted term "depends only on the source and not
+% on the distortion measure" and that "These bounds are originally due to Wyner and Ziv [83], but the proof is closer
+% to Berger's [5]." The section is written for scalar letters after a k-dimensional theorem (Theorem 4.7.1); its use
+% here with letters that are blocks of N vector symbols is this draft's step, not a statement of the book.
 \bibitem{gray1990eit} R. M. Gray, \emph{Entropy and Information Theory}.
 New York, NY: Springer, 1990.
-% Lemma 10.6.2 of the corrected first edition posted by the author (2023): the distortion-rate function of a
-% stationary source is the limit and the infimum of the block functions. Read 2026-11-14 by a search agent.
-% verify on final: section numbering in the printed editions.
+% Sec. 10.6, Lemma 10.6.2, pp. 210--211 of "First Edition, Corrected, June 26, 2023" posted by the author
+% (ee.stanford.edu/~gray/it.pdf), READ AT FIRST HAND 2026-11-14: for a stationary source and a subadditive fidelity
+% criterion the distortion-rate function is the limit and the infimum over N of the block functions, proved with a
+% block memoryless channel on two blocks, the construction of the subadditivity lemma here. It is stated for the
+% distortion-rate function, not the rate-distortion function.
+% verify on final: section and page numbering in the printed 1990 edition, which may differ from the posted one.
 \bibitem{tian2019} P. Tian and V. Kostina, ``The dispersion of the
 Gauss--Markov source,'' \emph{IEEE Trans. Inf. Theory}, vol. 65, no. 10,
 pp. 6355--6384, 2019.
