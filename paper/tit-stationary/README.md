@@ -137,12 +137,14 @@ Known weak points:
 
 - `verify_achievability.py` still tests the affine decomposition of the earlier draft, not the general one. The paper says so.
 - Novelty at alpha = 1, checked 2026-11-14: Gutierrez-Gutierrez, Zarraga-Rodriguez and Insausti (Entropy 19(10):554, 2017) was read in full. It treats a scalar source at small distortion only (D at most the minimum of the spectrum), bounds the finite-block rate-distortion function from above by the rates of schemes that code DFT coefficients separately (tighter than Pearl 1973), and shows those bounds converge. It states no rate in the block length and does not bound the distance of the window cost from its limit. It does not overlap Theorem 15(b). In its regime the window cost is explicit and the first bound of Theorem 15(b) holds with equality, which the paper now says (checked numerically to 10 digits). Not checked: other finite-block literature (a single paper was compared), and Pearl's paper itself.
-- Gallager 1968 is cited for the classical subadditivity argument from memory.
+- Gallager 1968 is cited for the classical subadditivity argument from memory (a check on 2026-11-14 could not reach the book).
 
 ## Open items before submission
 
 - [x] Read Gutierrez-Gutierrez, Zarraga-Rodriguez, Insausti, Entropy 19(10):554 (2017), and compare with Theorem 15(b) at alpha = 1 (done 2026-11-14, see above).
-- [ ] Check the Gallager citation, and open Pearl 1973 (its bound is described from the 2017 paper). A wider search for finite-block convergence-rate results in the rate-only case is still owed.
+- [ ] Gallager 1968: attempted 2026-11-14, **not verified**. No accessible copy of the book was found. The citation is now at chapter level (Ch. 9), which is confirmed only at second hand as the chapter on rate distortion for sources with memory. That the subadditivity argument is there (recalled as Sec. 9.8) is still from memory. Needs a library copy, or a replacement source that has been read.
+- [ ] Pearl 1973: attempted 2026-11-14, **partly verified**. Bibliographic details confirmed against an index record (vol. 19, no. 2, pp. 229-232, March 1973, DOI 10.1109/TIT.1973.1054985) and the abstract read. The full text is paywalled and was not read. From the abstract: the loss of DFT coding against the optimal transform is tied to a distance between the Toeplitz covariance and a circulant, which is O(1/N) for finite-order Markov processes. That is a comparison of schemes at one block length, not a bound on the distance of the block optimum from its limit, and the paper now says this. Read the full text before submission.
+- [ ] A wider search for finite-block convergence-rate results in the rate-only case is still owed.
 - [ ] Human referee pass on Lemmas 11 to 14 and Theorems 15 and 16, and on Theorem 19 and Lemma 20.
 - [x] A recorded numerical check of Theorem 19's steps with colored noise and a two-sided filter (`verify_filter_colored.py`, 2026-11-14).
 - [x] A recorded check of the two leakage chains in the proof of Theorem 19 (`verify_filter_chains.py`, 2026-11-14, Gaussian stand-ins).

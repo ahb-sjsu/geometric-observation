@@ -1094,7 +1094,7 @@ subadditive sequence $N\,V^{\mathrm w}_N$.
 
 For $\alpha=1$ this is the classical subadditivity of the
 rate--distortion function of a block of a stationary source
-\cite{gallager1968,berger1971}. The lemma says that the device survives
+\cite[Ch.~9]{gallager1968}, \cite{berger1971}. The lemma says that the device survives
 the second cost.
 
 \begin{lemma}\label{lem:embed}
@@ -1301,7 +1301,7 @@ $\mathsf K(F)\le\sum_{\tau\ge1}\tau^2\|\hat F(\tau)\|_{\mathrm F}^2=\tfrac12\int
 
 For $\alpha=1$ part (a) is the classical statement that the
 rate--distortion function of the window converges from above to that
-of the process \cite{gallager1968,berger1971}. For a scalar source and
+of the process \cite[Ch.~9]{gallager1968}, \cite{berger1971}. For a scalar source and
 $0<D\le\min_\omega\Sigma(\omega)$, no eigenvalue of the window covariance
 is below the water level, the window cost is
 $\tfrac1{2N}\log\bigl(\det T_N(\Sigma)/D^N\bigr)$, and the gap is exactly
@@ -1312,8 +1312,12 @@ kind. Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
 cost of a scalar source from above, in the same range of small
 distortions, by the rates of schemes that code the discrete Fourier
 coefficients of the window separately, and show that those bounds tend
-to the spectral cost. They do not bound the distance between the window
-cost and its limit. The convergence need not
+to the spectral cost. Pearl relates the loss of such a scheme, against
+the optimal code for the same window, to a distance between the
+covariance of the window and a circulant matrix, and shows that this
+distance is of order $1/N$ for Markov sources of finite order. These
+results compare schemes at one window size. They do not bound the
+distance between the window cost and its limit. The convergence need not
 be monotone
 in $N$. For the scalar moving-average spectrum proportional to
 $|1-e^{-i\omega}+e^{-2i\omega}-e^{-3i\omega}+e^{-5i\omega}|^2+0.1$, with unit
@@ -2204,7 +2208,10 @@ Trans. Inf. Theory}, vol. 2, no. 4, pp. 102--108, 1956.
 Basis for Data Compression}. Englewood Cliffs, NJ: Prentice-Hall, 1971.
 \bibitem{gallager1968} R. G. Gallager, \emph{Information Theory and
 Reliable Communication}. New York, NY: Wiley, 1968.
-% verify on final: the subadditivity argument is recalled to be in Sec. 9.8; the book was not opened.
+% Checked 2026-11-14: the book could NOT be opened (no accessible copy found). Chapter 9 is confirmed only at
+% second hand as the chapter on rate distortion for sources with memory and Gaussian processes (arXiv:1910.14228
+% describes it so). verify on final: that the subadditivity of the block rate-distortion function is proved there
+% (recalled as Sec. 9.8), or replace by a source that was read.
 \bibitem{gutierrez2017} J. Guti\'errez-Guti\'errez,
 M. Z\'arraga-Rodr\'iguez, and X. Insausti, ``Upper bounds for the rate
 distortion function of finite-length data blocks of Gaussian WSS
@@ -2251,9 +2258,11 @@ vol. 59, no. 6, pp. 3607--3618, 2013.
 \bibitem{pearl1973} J. Pearl, ``On coding and filtering stationary signals
 by discrete Fourier transforms,'' \emph{IEEE Trans. Inf. Theory}, vol. 19,
 no. 2, pp. 229--232, 1973.
-% Volume, pages and year agree with the reference list of gutierrez2017 (checked 2026-11-14).
-% verify on final: the issue number, and the description of Pearl's bound, which is taken from gutierrez2017;
-% Pearl's paper itself was not opened.
+% Checked 2026-11-14 against an index record of the IEEE entry: title "(Corresp.)", vol. 19, no. 2, pp. 229--232,
+% March 1973, DOI 10.1109/TIT.1973.1054985. The abstract was read (Toeplitz covariance asymptotically equivalent to a
+% DFT-derived circulant; distance bounded at finite N, O(1/N) for finite-order Markov processes; the loss of DFT
+% against Karhunen-Loeve coding and filtering is related to that distance). The FULL TEXT is paywalled and was NOT
+% read: the sentence about Pearl in the text rests on the abstract and on gutierrez2017. verify on final.
 \bibitem{gray2006} R. M. Gray, ``Toeplitz and circulant matrices: A
 review,'' \emph{Found. Trends Commun. Inf. Theory}, vol. 2, no. 3,
 pp. 155--239, 2006.
