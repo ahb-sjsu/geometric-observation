@@ -324,17 +324,24 @@ def recover_operator(Xcal, p, f, *, var=0.3, n_probes=180, n_reps=12, rank=1, rn
             D = np.outer(w, np.sqrt(var) * rng.standard_normal(Xcal.shape[1]))
             d += (_consumer(Xcal + (D[:M] + 1j * D[M:]), p, f, grid, rank) - th_ref) ** 2
         y[k] = d / n_reps / var
+    w_rec, gap = _fit_quadratic_top(W, y)
+    return w_rec, th_ref, gap
+
+
+def _fit_quadratic_top(W, y):
+    """Least-squares fit of the quadratic response y_k = w_k^T P w_k over unit probes W (n x M2),
+    P symmetric. Returns (unit top eigenvector of P, eigengap = rank-1-ness of P). Shared by the
+    narrowband (recover_operator) and wideband (recover_wb) recoveries."""
+    M2 = W.shape[1]
     idx = [(i, j) for i in range(M2) for j in range(i, M2)]
     Phi = np.array([[(2.0 if i != j else 1.0) * W[k, i] * W[k, j] for (i, j) in idx]
-                    for k in range(n_probes)])
+                    for k in range(len(W))])
     coef = np.linalg.lstsq(Phi, y, rcond=None)[0]
     P = np.zeros((M2, M2))
     for c, (i, j) in zip(coef, idx):
         P[i, j] = P[j, i] = c
     ew, ev = np.linalg.eigh(P)
-    w_rec = ev[:, -1]
-    gap = float(ew[-1] / (abs(ew[-2]) + 1e-12))                # eigen-gap: rank-1-ness of P
-    return w_rec / np.linalg.norm(w_rec), th_ref, gap
+    return ev[:, -1] / np.linalg.norm(ev[:, -1]), float(ew[-1] / (abs(ew[-2]) + 1e-12))
 
 
 def bootstrap_stability(Xcal, p, f, *, B=6, rng, **kw):
@@ -385,6 +392,172 @@ def run_confirm(rec_dirs, freq=2000.0, mode="ambient"):
     return D, agg
 
 
+# The DICIT array's 8 cm nested ULA (channels below; x = +-16/+-8/0 cm, y~0) is ~lambda/2 at 2 kHz.
+# Defined here, above both loaders, because each uses it as a default argument.
+DICIT_ULA_8CM = [3, 4, 6, 9, 10]      # 0-indexed channels, mics {4,5,7,10,11}
+
+
+# ── WIDEBAND power-check: pool many bins for a low-variance consumer ──────────
+def load_recording_wb(array_dir, mic_idx=DICIT_ULA_8CM, f_lo=1200.0, f_hi=3000.0, energy_pct=50):
+    """Like load_recording but returns a BAND of STFT bins: X3 = M x T x B (per-bin steering kept
+    via the returned freqs). Pooling bins gives many more snapshots -> a sharper, lower-variance
+    wideband consumer."""
+    Z, fb, p, theta0 = _load_dicit_stft(array_dir, mic_idx)  # Z: M, nfreq, nframes
+    bins = np.where((fb >= f_lo) & (fb <= f_hi))[0]
+    en = np.sum(np.abs(Z[:, bins, :]) ** 2, axis=(0, 1))
+    active = en >= np.percentile(en, energy_pct)
+    X3 = Z[:, bins, :][:, :, active].transpose(0, 2, 1)     # M, T, B
+    for b in range(X3.shape[2]):
+        X3[:, :, b] /= (np.sqrt(np.mean(np.abs(X3[:, :, b]) ** 2)) + 1e-30)
+    return X3, p, fb[bins], theta0
+
+
+def _consumer_wb(X3, p, freqs, grid, rank=1):
+    M, T, B = X3.shape
+    Pw = np.zeros(len(grid))
+    for b in range(B):
+        Xb = X3[:, :, b]
+        _w, V = np.linalg.eigh((Xb @ Xb.conj().T) / T)
+        U = V[:, -rank:]
+        Xc = U @ (U.conj().T @ Xb)
+        Rb = (Xc @ Xc.conj().T) / T
+        A = np.exp(-1j * 2 * np.pi * freqs[b] * np.outer(p, np.sin(grid)) / C)
+        Pw += np.real(np.einsum("mg,mn,ng->g", A.conj(), Rb, A))
+    k = int(np.argmax(Pw))
+    if 0 < k < len(grid) - 1:
+        y0, y1, y2 = Pw[k - 1], Pw[k], Pw[k + 1]
+        return grid[k] + 0.5 * (y0 - y2) / (y0 - 2 * y1 + y2 + 1e-30) * (grid[1] - grid[0])
+    return grid[k]
+
+
+def read_dir_analytic_wb(theta0, p, freqs):
+    """Band-consistent analytic read direction for the wideband consumer.
+
+    gateb_wb perturbs every bin along ONE shared direction w (complex M-vector, carried as
+    R^{2M}), but the manifold tangent g_b = P_a^perp a'(theta0; f_b) rotates with frequency.
+    To first order, a perturbation w d^T (d real, i.i.d. over frames and bins) moves bin b's
+    signal-subspace vector by gamma_b * P_a^perp w, where gamma_b = (d . conj(s)) / |s|^2 has
+    the source's (random) phase, and the pooled estimator's angle shift is
+    sum_b Re(gamma_b g_b^H w) / sum_b |g_b|^2 with the tangents UNNORMALISED (|g_b| grows with
+    f_b: higher bins carry more angle information). The angle variance along w is therefore
+    proportional to w^H (sum_b g_b g_b^H) w, and the single most angle-informative direction is
+    the leading eigenvector of that pooled Hermitian tangent Gram -- not the tangent at any one
+    frequency. (Its global phase is immaterial, for the same random-phase reason.)
+    Returns (w, share): share = fraction of the pooled tangent energy w captures (1.0 means the
+    per-bin tangents are all parallel, as at broadside).
+
+    Checked on a synthetic 5-mic 8 cm ULA, 1.2-3 kHz (2026-11-13): measured consumer sensitivity
+    relative to the median-frequency tangent is x1.13 at 30 deg and x1.65 at 50 deg off
+    broadside (first-order prediction x1.16, x1.50); identical at broadside."""
+    G = []
+    for f in freqs:
+        a, da = steer(theta0, p, f), dsteer(theta0, p, f)
+        G.append(da - a * (np.vdot(a, da) / np.vdot(a, a)))
+    G = np.array(G)                                          # B x M complex, unnormalised
+    ew, ev = np.linalg.eigh(G.T @ G.conj())                  # sum_b g_b g_b^H
+    v = ev[:, -1]
+    # eigh leaves the global phase arbitrary; pin it to the median-frequency tangent so the
+    # returned real vector is deterministic and comparable with read_dir_analytic.
+    ph = np.vdot(v, G[len(G) // 2])
+    v = v * (ph / abs(ph)).conj() if abs(ph) > 1e-12 else v
+    w = c2r(v)
+    return w / np.linalg.norm(w), float(ew[-1] / ew.sum())
+
+
+def _cabs(w1, w2):
+    """Phase-invariant overlap |<w1, w2>| of two unit R^{2M} directions read as complex M-vectors."""
+    return float(abs(np.vdot(r2c(w1), r2c(w2))))
+
+
+def recover_wb(X3, p, freqs, *, var=0.3, n_probes=180, n_reps=10, rank=1, rng):
+    grid = _grid(); M = X3.shape[0]; M2 = 2 * M
+    th_ref = _consumer_wb(X3, p, freqs, grid, rank)
+    W = rng.standard_normal((n_probes, M2)); W /= np.linalg.norm(W, axis=1, keepdims=True)
+    y = np.empty(n_probes)
+    for k in range(n_probes):
+        w = W[k]; acc = 0.0
+        for _ in range(n_reps):
+            D = np.sqrt(var) * rng.standard_normal((X3.shape[1], X3.shape[2]))
+            E = np.einsum("m,TB->mTB", w[:M] + 1j * w[M:], D)
+            acc += (_consumer_wb(X3 + E, p, freqs, grid, rank) - th_ref) ** 2
+        y[k] = acc / n_reps / var
+    w_rec, gap = _fit_quadratic_top(W, y)
+    return w_rec, th_ref, gap
+
+
+def gateb_wb(X3, p, freqs, theta0, w_read, *, kappa=4.0, s0sqs=None, n_reps=30, rank=1, rng=None):
+    rng = rng or np.random.default_rng(0)
+    M = X3.shape[0]
+    if s0sqs is None:
+        s0sqs = np.geomspace(1.0, 5e-3, 8)
+    Q = basis_with(w_read, np.random.default_rng(1)); dP = 2 * M - 1; grid = _grid()
+    flip = 0
+    for s0sq in s0sqs:
+        mse = []
+        for mode in ["invariant", "recon", "anti"]:
+            eR, eP = arm_vars(mode, s0sq, kappa, dP)
+            sd = np.sqrt(np.concatenate([[eR], np.full(dP, eP)]))
+            errs = np.empty(n_reps)
+            for r in range(n_reps):
+                coeff = sd[:, None, None] * rng.standard_normal((2 * M, X3.shape[1], X3.shape[2]))
+                D = np.einsum("ab,bTB->aTB", Q, coeff)
+                E = D[:M] + 1j * D[M:]
+                errs[r] = np.rad2deg(_consumer_wb(X3 + E, p, freqs, grid, rank) - theta0) ** 2
+            mse.append(errs.mean())
+        flip += (mse[0] <= mse[1] <= mse[2])
+    return flip, len(s0sqs)
+
+
+def run_confirm_wb(rec_dirs, f_lo=1200.0, f_hi=3000.0):
+    rng = np.random.default_rng(31)
+    D = []
+    for d in rec_dirs:
+        X3, p, freqs, theta0 = load_recording_wb(d, f_lo=f_lo, f_hi=f_hi)
+        if X3.shape[1] < 24:
+            print(f"  skip {d}: too few frames ({X3.shape[1]})"); continue
+        Tc = X3.shape[1] // 2
+        Xc, Xe = X3[:, :Tc], X3[:, Tc:]
+        w_rec, th_ref, gap = recover_wb(Xc, p, freqs, rng=rng)
+        wb = []
+        for _ in range(5):
+            idx = rng.integers(0, Xc.shape[1], Xc.shape[1])
+            w2, _t, _g = recover_wb(Xc[:, idx], p, freqs, rng=rng, n_probes=110, n_reps=6)
+            wb.append(w2)
+        stab = float(np.median([abs(wb[i] @ wb[j]) for i in range(5) for j in range(i + 1, 5)]))
+        w_an, share = read_dir_analytic_wb(th_ref, p, freqs)   # band-pooled tangent at OWN estimate
+        w_med = read_dir_analytic(th_ref, p, float(np.median(freqs)))  # old single-bin baseline
+        D.append(dict(share=share, w_med=w_med, cos_med=_cabs(w_an, w_med),
+                      cos_c=_cabs(w_rec, w_an),
+name=d.split("/dev/")[-1].split("/eval/")[-1], p=p, freqs=freqs,
+                      theta0=theta0, Xe=Xe, w_rec=w_rec, w_an=w_an, th_ref=th_ref,
+                      gap=gap, stab=stab, cos=abs(float(w_rec @ w_an)), B=X3.shape[2], T=X3.shape[1]))
+    # ĝ = band-pooled analytic direction (the baseline); ĝmed = the superseded single-bin
+    # (median-frequency) tangent, kept as a disclosed column so the size of its bias is visible.
+    print(f"\n{'recording':<26} {'B×T':>7} {'th_est':>7} {'GTΔ':>5} {'cos(rec,ĝ)':>10} {'stab':>5} {'gap':>5} "
+          f"{'|rec·ĝ|c':>8} {'share':>5} {'|ĝ·ĝmed|c':>9} | {'ĝ':>4} {'same':>5} {'xfer':>5} {'ĝmed':>5}")
+    # cos(rec,ĝ) = real-vector cosine (as in run_confirm); the |·|c columns are phase-invariant
+    # complex overlaps, the right measure given the consumer's phase symmetry.
+    ag = {"an": [], "same": [], "xfer": [], "med": []}
+    for i, di in enumerate(D):
+        j = (i + 1) % len(D)
+        # rng=None -> each arm reseeds to default_rng(0), as in run_confirm: the three operators
+        # see IDENTICAL compression draws (paired), and each recording is reproducible on its own.
+        fa, n = gateb_wb(di["Xe"], di["p"], di["freqs"], di["theta0"], di["w_an"])
+        fs, _ = gateb_wb(di["Xe"], di["p"], di["freqs"], di["theta0"], di["w_rec"])
+        ft, _ = gateb_wb(di["Xe"], di["p"], di["freqs"], di["theta0"], D[j]["w_rec"])
+        fm, _ = gateb_wb(di["Xe"], di["p"], di["freqs"], di["theta0"], di["w_med"])
+        ag["an"].append(fa); ag["same"].append(fs); ag["xfer"].append(ft); ag["med"].append(fm)
+        gd = abs(np.rad2deg(di["th_ref"] - di["theta0"]))
+        print(f"{di['name']:<26} {di['B']}×{di['T']:<4} {np.rad2deg(di['th_ref']):>6.1f}° {gd:>4.1f}° "
+              f"{di['cos']:>10.3f} {di['stab']:>5.2f} {di['gap']:>5.1f} {di['cos_c']:>8.3f} "
+              f"{di['share']:>5.2f} {di['cos_med']:>9.3f} | {fa:>2}/{n} {fs:>3}/{n} {ft:>3}/{n} {fm:>3}/{n}")
+    print(f"\naggregate median flip: ĝ={int(np.median(ag['an']))} same={int(np.median(ag['same']))} "
+          f"xfer={int(np.median(ag['xfer']))} ĝmed={int(np.median(ag['med']))} | recovered-same>=ĝ: "
+          f"{sum(s>=a for s,a in zip(ag['same'],ag['an']))}/{len(D)} | recovered-same>=ĝmed (old baseline): "
+          f"{sum(s>=a for s,a in zip(ag['same'],ag['med']))}/{len(D)}")
+    return D, ag
+
+
 # ── self-test: synthetic ULA, must reproduce the GO-P-2026-031 flip ──────────
 def selftest():
     rng = np.random.default_rng(20260718)
@@ -408,19 +581,20 @@ def selftest():
 
 
 # ── LOCATA DICIT loader (real recordings) ────────────────────────────────────
-# The DICIT array's 8 cm nested ULA (channels below; x = +-16/+-8/0 cm, y~0) is ~lambda/2 at 2 kHz.
-DICIT_ULA_8CM = [3, 4, 6, 9, 10]      # 0-indexed channels, mics {4,5,7,10,11}
-
+# (DICIT_ULA_8CM, the channel selection, is defined above the wideband block.)
 
 def _pos_row(path):
     L = open(path).read().splitlines()
     return dict(zip(L[0].split("\t"), np.array(L[1].split("\t"), float)))
 
 
-def load_recording(array_dir, mic_idx=DICIT_ULA_8CM, f_target=2000.0, energy_pct=60):
-    """Load a LOCATA DICIT recording as narrowband ULA snapshots. Returns (X, p, f, theta0):
-    X = M x T complex snapshots at the STFT bin nearest f_target during high-energy frames;
-    p = mic positions along the array axis (m); theta0 = GT azimuth from broadside (rad)."""
+def _load_dicit_stft(array_dir, mic_idx):
+    """Geometry + per-mic STFT of one LOCATA DICIT recording, shared by the narrowband and
+    wideband loaders so both use the SAME ground truth. Returns (Z, fb, p, theta0):
+    Z = M x nfreq x nframes complex STFT; fb = bin frequencies (Hz); p = mic positions along
+    the array axis (m); theta0 = GT azimuth from broadside (rad)."""
+    import glob
+
     import scipy.io.wavfile as wf
     from scipy.signal import stft
 
@@ -430,7 +604,6 @@ def load_recording(array_dir, mic_idx=DICIT_ULA_8CM, f_target=2000.0, energy_pct
     mics = np.array([[d["mic%d_%s" % (i, ax)] for ax in "xyz"] for i in range(1, 16)])
     p = ((mics - ref) @ Rot)[mic_idx, 0]                         # local x-positions (m)
 
-    import glob
     sd = _pos_row(glob.glob(array_dir + "/position_source_*.txt")[0])
     ls = (np.array([sd["x"], sd["y"], sd["z"]]) - ref) @ Rot
     theta0 = np.arctan2(ls[1], ls[0]) - np.pi / 2                # azimuth -> from broadside
@@ -441,7 +614,14 @@ def load_recording(array_dir, mic_idx=DICIT_ULA_8CM, f_target=2000.0, energy_pct
     for m in range(len(mic_idx)):
         fb, _t, z = stft(a[:, m], fs=rate, nperseg=1024, noverlap=512)
         Z.append(z)
-    Z = np.stack(Z, axis=0)                                      # (M, nfreq, nframes)
+    return np.stack(Z, axis=0), fb, p, theta0                    # Z: (M, nfreq, nframes)
+
+
+def load_recording(array_dir, mic_idx=DICIT_ULA_8CM, f_target=2000.0, energy_pct=60):
+    """Load a LOCATA DICIT recording as narrowband ULA snapshots. Returns (X, p, f, theta0):
+    X = M x T complex snapshots at the STFT bin nearest f_target during high-energy frames;
+    p = mic positions along the array axis (m); theta0 = GT azimuth from broadside (rad)."""
+    Z, fb, p, theta0 = _load_dicit_stft(array_dir, mic_idx)
     b = int(np.argmin(np.abs(fb - f_target)))
     Xf = Z[:, b, :]
     en = np.sum(np.abs(Xf) ** 2, axis=0)
@@ -495,9 +675,18 @@ if __name__ == "__main__":
     ap.add_argument("--sig", action="store_true", help="within-recording significance (sigmas)")
     ap.add_argument("--confirm", help="glob of .../dicit dirs for the black-box confirmatory protocol")
     ap.add_argument("--mode", default="ambient", choices=["ambient", "subspace"])
+    ap.add_argument("--confirm-wb", help="glob of .../dicit dirs for the WIDEBAND confirmatory protocol")
+    ap.add_argument("--f-lo", type=float, default=1200.0, help="wideband lower edge (Hz)")
+    ap.add_argument("--f-hi", type=float, default=3000.0, help="wideband upper edge (Hz)")
     a = ap.parse_args()
     if a.selftest:
         sys.exit(0 if selftest() else 1)
+    if a.confirm_wb:
+        import glob
+        recs = sorted(glob.glob(a.confirm_wb))
+        print(f"wideband confirmatory over {len(recs)} recordings, band {a.f_lo:.0f}-{a.f_hi:.0f} Hz")
+        run_confirm_wb(recs, f_lo=a.f_lo, f_hi=a.f_hi)
+        sys.exit(0)
     if a.confirm:
         import glob
         recs = sorted(glob.glob(a.confirm))
