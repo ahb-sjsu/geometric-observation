@@ -8,3 +8,4 @@ import ObservationTheory.AdversarialObserver
 import ObservationTheory.AdversarialObserverDiscrete
 import ObservationTheory.TiltedWaterFilling
 import ObservationTheory.TiltedExistence
+import ObservationTheory.SpectralRateLeakage

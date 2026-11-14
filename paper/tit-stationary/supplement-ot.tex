@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{xr}
+\externaldocument[P-]{tit-stationary}
+\usepackage[hidelinks]{hyperref}
+\def\UrlBreaks{\do\_\do\.\do\-\do\/}
+
+\newcommand{\Th}[1]{Theorem~\ref{P-#1}}
+\newcommand{\Pp}[1]{Proposition~\ref{P-#1}}
+\newcommand{\Co}[1]{Corollary~\ref{P-#1}}
+\newcommand{\Cj}[1]{Conjecture~\ref{P-#1}}
+\newcommand{\Se}[1]{Section~\ref{P-#1}}
+
+\title{What One Description Conveys to Observers of a Signal.\\[4pt]
+\large An Observation Theory Companion to ``Rate, Leakage, and Distortion for Stationary Gaussian Sources''}
+\author{Andrew H. Bond\\ San Jos\'e State University}
+\date{Draft, November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Observation Theory treats every party that holds a description as an
+observer with its own view of the source, its own geometry for weighing
+errors, and its own budget, and it asks what the same description
+conveys to each. A first companion read a paper on memoryless Gaussian
+sources in that language. This one reads its sequel on stationary
+sources. The sequel's theorems are stated and proved there in standard
+information theory, and nothing here adds to them. What time adds to
+the picture is that an observer of a signal has a view at every
+frequency and a history it may or may not keep. Four statements follow.
+Two observers of a stationary signal meet frequency by frequency and
+share one price. They can read disjoint bands of the same signal. A
+delay in an observer's view conveys nothing by itself. And for a
+description of one moment, everything an observer has kept enters
+through one number. The last two say that staleness is a matter of what
+an observer holds when it uses its view, whether it kept less or the
+rest has not yet arrived, and that a delay alone costs nothing.
+\end{abstract}
+
+\section{Observers of a signal}
+\label{sec:intro}
+
+In Observation Theory an observer is a triple $O=(C,G,B)$: what it reads
+of the source, the geometry in which it weighs errors, and its budget
+\cite{obsrep}. The first companion \cite{supp1} applied this to one
+description of a memoryless Gaussian vector held by two observers, the
+decoder it was written for and a holder it was not written for. The
+content conveyed to the holder is the conditional mutual information
+between the source and the description given the holder's view, which
+secure source coding calls leakage \cite{villard2013}.
+
+A signal adds time. The source is a stationary process, the decoder
+reconstructs part of it sample by sample, and the holder's view is a
+filtered and noisy copy of the process. Two things are new for an
+observer. Its view $C$ is now a filter, so it has a view at every
+frequency. And it has a history, of which it may keep all, a recent
+part, or one sample. The companion paper \cite{paper2} works out the
+rate and the leakage per symbol in this setting. The table records the
+correspondence.
+
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}p{7.2cm}}
+\hline
+Observation Theory & Companion paper \\
+\hline
+observer the description is written for & decoder, reading $Y_t=FT_t$ under weight $W$ \\
+observer the description is not written for & holder, seeing $S=h\ast T+U$ \\
+the second observer's view at a frequency & $H(\omega)$ and $\Sigma_U(\omega)$ \\
+the second observer's geometry at a frequency & $J(\omega)=H(\omega)^{\mathsf H}\Sigma_U(\omega)^{-1}H(\omega)$ \\
+content conveyed per symbol & leakage per symbol \\
+what the second observer keeps & the index set $\mathcal A$ of retained samples \\
+\hline
+\end{tabular}
+\end{center}
+
+Every entry on the right is standard, and renaming does not create a
+result. As in the first companion, the contribution of Observation
+Theory is that it asked the questions, here by treating the holder as an
+observer with a view over time, and that it gives the answers one
+reading.
+
+\section{Two observers meet frequency by frequency and share one price}
+\label{sec:price}
+
+\Th{thm:periodic} and \Th{thm:spectral} say that the frontier of rate
+and conveyed content is solved one frequency at a time. At each
+frequency the optimal description is reverse water-filling on the
+decoder's weight tilted by what the holder's view adds, exactly as for
+a memoryless source, and the frequencies are tied together by one
+number, the water level.
+
+Read as a statement about observers, the two geometries interact only
+within a frequency. What the holder sees at one frequency has no effect
+on how the description should treat another, except through the single
+price that the decoder's budget sets for distortion. The first
+companion found that the region splits along subspaces the two
+geometries share. Stationarity gives every pair of observers such
+subspaces without asking anything of their geometries. Time-invariance
+of the source and of both views is what the two observers have in
+common, and it is enough.
+
+\section{Two observers can read disjoint bands of one signal}
+\label{sec:bands}
+
+For a scalar signal with a scalar context, \Th{thm:pair} gives the order
+in which frequencies are described. The description written for the
+decoder alone starts where the signal's spectrum is largest. The
+description that conveys least to the holder starts where that spectrum
+times one plus the holder's coherent signal-to-noise ratio is largest.
+\Co{cor:bands} and the instance of \Se{sec:examples} show that the two
+can describe disjoint bands at the same budget. There the description
+written for the decoder occupies the low band and the one that conveys
+least to the holder occupies the high band, and each costs the other
+party a factor of $2.6$ in conveyed content or $1.7$ in rate.
+
+This is the frequency-domain form of the first companion's central
+finding, that the second observer's geometry changes what an optimal
+description reads. For memoryless sources the change was a direction
+that turns with the budget. For a signal it can be a different band.
+The reason is the same identity. The content conveyed to the holder is
+the rate minus what the description tells the holder about its own
+view. A band the holder already sees well is cheap to describe, however
+little of the signal's power it carries.
+
+\section{A delay conveys nothing by itself}
+\label{sec:delay}
+
+Suppose the holder's view of the context arrives late. One might expect
+a stale view to help the holder less, so that the same description
+conveys more to it. \Pp{prop:allpass} says that it does not. If the
+holder has its whole observation, a delay of any length, and more
+generally any invertible filtering of what it sees, leaves the region
+unchanged, for circular blocks of every length and in the spectral
+limit. An ordinary finite window of a stationary signal has edges, and
+there the statement holds only up to the samples a delay moves across
+them.
+
+The reason is plain once stated. An observer that has everything loses
+nothing when what it holds is passed through an invertible map. What
+the result rules out is a reading in which the age of a view is itself
+a cost. It does not say that timing never matters. An observer that
+must use its view before all of it has arrived holds less, and that is
+the next section.
+
+\section{For one moment, what an observer has kept is one number}
+\label{sec:kept}
+
+The cost appears when the observer keeps less. \Pp{prop:retention}
+treats a description of one moment of the signal, with a holder that
+keeps any set of its past and future samples. Everything it has kept
+enters through the conditional variance $q$ of the context at that
+moment given the kept samples, and the content conveyed is the scalar
+closed form of the memoryless theory at an effective noise $q/(1-q)$.
+
+Three cases show the range. An observer that keeps one sample of age
+$\Delta$ has a $q$ that rises with $\Delta$, and the content conveyed to
+it rises with the age in closed form. An observer that keeps its whole
+past, and is allowed to wait $\Delta$ steps beyond the moment
+described, has a $q$ that falls geometrically in $\Delta$ from the
+filtering variance to the smoothing variance. An observer that keeps
+everything has the smoothing variance, and $\Delta$ does not appear.
+For the instance of \Se{sec:examples} the three values of $q$ and the
+conveyed content are listed there.
+
+Together with Section~\ref{sec:delay}, this says that staleness is a
+matter of what an observer holds at the time it uses its view. It can
+hold less because it kept less, as with one sample, or because the rest
+has not arrived, as with a causal prefix. An observer that kept its
+entire past still lacks the future, and the fixed-lag case measures
+exactly that. The observer triple has a view, a
+geometry, and a budget. A signal makes the view a function of what is
+retained, and the one-moment result shows that, for Gaussian signals,
+retention acts on the content conveyed only by rescaling the observer's
+noise.
+
+\section{What does not need Observation Theory}
+\label{sec:standard}
+
+The method of the companion paper is classical. Splitting a circulant
+problem over Fourier frequencies and passing to a spectral limit is how
+the rate--distortion function of a Gaussian process is derived, and the
+limit over Toeplitz windows is Szeg\H{o}'s theorem. The paper's proofs
+rest on the memoryless theorems of \cite{paper1} applied at each
+frequency. The convergence statements (\Th{thm:spectral},
+\Th{thm:affine}), the window converse (\Pp{prop:window}), and the open
+convergence question (\Cj{conj:windows}) would be stated the same way
+by a reader who had never heard of observers. The fixed-lag formula in
+\Pp{prop:retention} is the smoothing recursion of estimation theory.
+
+\section{Open questions about observers over time}
+\label{sec:open}
+
+\emph{An observer with a causal view of a block.} The one-number result
+is for a description of one moment. For a block description against a
+holder that keeps only a causal prefix, the per-symbol content is not
+known. This is the natural place for a theory of observers that cannot
+wait.
+
+\emph{An observer written for under a delay constraint.} The decoder in
+the companion paper may wait for the whole block. A decoder that must
+reconstruct with bounded delay is a different first observer, and the
+frontier against a holder is open.
+
+\emph{The signal itself.} The spectral region is proved as the limit of
+periodic sources and, for spectra affine in one scalar spectrum, as the
+limit of windows of the stationary source, with a converse. A coding
+theorem that achieves it for the stationary source is not proved.
+
+\emph{Several observers.} With several holders the weighted objective
+has one tilt per holder at each frequency, by the same argument. Whether
+the resulting surface is achievable, and whether three observers can
+read three disjoint bands, is open.
+
+\section*{Where this fits}
+
+The observer triple and the rate--content region are defined in
+\cite{obsrep}. The memoryless two-observer theory is \cite{paper1}, read
+in \cite{supp1}. The scripts and the notebook that produce the numbers
+quoted here are listed in the companion paper's appendix on numerical
+checks.
+
+\begin{thebibliography}{9}
+\bibitem{paper2} A. H. Bond, ``Rate, leakage, and distortion for
+stationary Gaussian sources: Water-filling on a tilted spectrum,''
+draft, 2026.
+\bibitem{paper1} A. H. Bond, ``Rate, leakage, and distortion for Gaussian
+sources: Water-filling on a tilted weight,'' submitted to \emph{IEEE
+Trans. Inf. Theory}, 2026, archived at
+\url{https://doi.org/10.5281/zenodo.23127802}.
+\bibitem{supp1} A. H. Bond, ``What one description conveys to each
+observer: An Observation Theory companion to `Rate, leakage, and
+distortion for Gaussian sources','' draft, 2026,
+\texttt{paper/tit-rate-leakage/supplement-ot.tex} in
+\texttt{https://github.com/ahb-sjsu/geometric-observation}.
+\bibitem{obsrep} A. H. Bond, ``Observer representation,'' draft, 2026,
+\texttt{paper/observer-representation.tex} in the same repository.
+\bibitem{villard2013} J. Villard and P. Piantanida, ``Secure multiterminal
+source coding with side information at the eavesdropper,'' \emph{IEEE
+Trans. Inf. Theory}, vol. 59, no. 6, pp. 3668--3692, 2013.
+\end{thebibliography}
+
+\end{document}
