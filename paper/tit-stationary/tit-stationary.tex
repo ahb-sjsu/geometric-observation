@@ -2123,8 +2123,13 @@ of Lemma~\ref{lem:subadd} and is not used in the proof, the embedding
 with a filter, the edge bound
 \eqref{eq:edges} at the optimal description, and the comparison
 \eqref{eq:noisecompare}, recorded in
-\texttt{verify\_filter-2026-11-14.txt}. Colored noise is not
-exercised.
+\texttt{verify\_filter-2026-11-14.txt}.
+\texttt{verify\_filter\_colored.py} repeats these checks for a
+two-sided filter with three taps and a moving-average noise of memory
+one, with the embedding in the periodic source under the circular
+filter and the circular colored noise, and adds the degradation of the
+holder by added noise at the level of windows, recorded in
+\texttt{verify\_filter\_colored-2026-11-14.txt}.
 \texttt{verify\_achievability.py} checks the steps of the proof of
 Theorem~\ref{thm:achieve} that are statements about covariances, on two
 instances in which the remainder has the form $e(\omega)A$ for a fixed
