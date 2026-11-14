@@ -10,7 +10,8 @@ the proof that are statements about covariances:
   2. blocks of the finite-memory process separated by guard intervals of m
      symbols are exactly uncorrelated;
   3. the coupling: drawing T' from its conditional law given T = T' + E returns
-     the product law (checked on covariances);
+     the product law (checked on covariances); Cov(T', E) = 0 is also what makes
+     the distortion cross term vanish;
   4. the leakage perturbation: for a Gaussian description Z of T',
         I(T'; Z | S)  <=  I(T'; Z | S')  +  I(E; HE + U),
      and I(E; HE + U) <= N eps tr(J A) / (2 ln 2);

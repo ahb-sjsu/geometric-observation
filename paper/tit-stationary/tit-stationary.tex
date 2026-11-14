@@ -58,9 +58,11 @@ observation. When it keeps one sample or a causal prefix, the leakage
 of a one-symbol description depends on what is kept through a single
 conditional variance. For the stationary source itself we prove a
 converse through finite windows. When the spectral density matrix is
-affine in one scalar spectrum, the windows converge to the spectral
-region and we prove a matching coding theorem, so the spectral region
-is the operational region of the stationary source.
+affine in one scalar spectrum and the second party observes the process
+through a memoryless map in white noise, the windows converge to the
+spectral region and we prove a matching coding theorem with
+deterministic encoders. In that case the spectral region is the
+operational region of the stationary source.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -150,15 +152,21 @@ Szeg\H{o}'s theorem (Theorem~\ref{thm:affine}). For general spectra
 the convergence of the windows is a conjecture, supported by
 computation (Conjecture~\ref{conj:windows}).
 
-For the affine class we also prove achievability for the stationary
-source, so there the spectral region is the operational region
-(Theorem~\ref{thm:achieve}). The proof writes the source as a
+For the affine class with a memoryless holder map and white noise we
+also prove achievability for the stationary source, with deterministic
+encoders, so there the spectral region is the operational region
+(Theorem~\ref{thm:achieve}). This coding theorem is the main result
+that does not follow from \cite{part1} frequency by frequency. The
+proof writes the source as a
 finite-memory source plus an independent source of small power. Blocks
 of a finite-memory source separated by guard intervals are independent,
 so the memoryless theorem of \cite{part1} codes them. The encoder sees
 only the sum and draws the finite-memory part from its conditional law,
-which makes the encoder randomized, and the small remainder changes the
-leakage by an amount that vanishes with its power. For a general
+and the small remainder changes the
+leakage by an amount that vanishes with its power. The draw is then
+removed: a fixed schedule of seeds on consecutive windows gives a
+deterministic encoder with the same guarantees
+(Lemma~\ref{lem:derand}). For a general
 spectrum the same argument reduces achievability to the convergence of
 the windows.
 
@@ -186,8 +194,8 @@ frequency.
 % The T-SG 2013 journal text has NOT been read. A reviewer of this draft reports that the journal version states that
 % rate and leakage cannot in general be minimised together and develops an interference-aware spectral allocation.
 % An earlier draft of this paragraph said their rate-optimal solution is also leakage-optimal; that sentence was removed
-% until the journal text is read and the assumptions can be stated exactly. Liu,
-Cuff, and Verd\'u \cite{liu2016} obtain the key capacity of jointly
+% until the journal text is read and the assumptions can be stated exactly.
+Liu, Cuff, and Verd\'u \cite{liu2016} obtain the key capacity of jointly
 stationary Gaussian processes by treating frequencies as a product
 source with one water level. Their problem is key agreement and has no
 distortion. Dikshtein, Weinberger, and Shamai \cite{dikshtein2022}
@@ -797,7 +805,9 @@ $L_N=\tfrac1NH(M\mid S^N)$, where $S^N$ is what the holder observes
 in the window. For a deterministic encoder
 $H(M\mid S^N)=I(T^N;M\mid S^N)$, the leakage of \cite{part1}. With
 private randomness $H(M\mid S^N)$ is the larger of the two, so the
-achievability result below holds for both and so does the converse. To
+converse below holds for both. Private randomness does not enlarge the
+achievable set (Lemma~\ref{lem:derand}), and the coding theorem is
+stated for deterministic encoders. To
 keep $S^N$ a function of $T^N$ and noise we take the
 holder's map memoryless in this section, $S_t=HT_t+U_t$ with $U$ white of
 covariance $\Sigma_U$. The holder is given its observations inside the
@@ -911,7 +921,8 @@ Under the hypotheses of Theorem~\ref{thm:affine}, with the memoryless
 holder map and white noise of this section, let
 $\alpha\in[0,1]$, $0<D<D_{\max}$, and let $(R,L)$ be the spectral frontier
 point of weight $\alpha$ at distortion $D$. For every $\delta>0$ there
-are codes for the stationary source, of blocklengths $N\to\infty$, with
+are codes for the stationary source with deterministic encoders, of
+blocklengths $N\to\infty$, with
 \[
 D_N\le D+\delta,\qquad R_N\le R+\delta,\qquad L_N\le L+\delta .
 \]
@@ -919,13 +930,14 @@ Consequently $\mathcal A(D)=\mathcal R(D)$ for every $0<D<D_{\max}$: the
 spectral region is the operational region of the stationary source.
 \end{theorem}
 
-The proof has three steps. A source with finite memory is coded in
+The proof has four steps. A source with finite memory is coded in
 independent blocks separated by guard intervals, by the memoryless
 theorem of \cite{part1}. A source with an affine spectrum is the sum of
 a source with finite memory and an independent source of small power.
-And the encoder, which sees only the sum, samples the finite-memory
-part from its conditional law. The first step does not use the affine
-form.
+The encoder, which sees only the sum, samples the finite-memory
+part from its conditional law. And the private randomness of that draw
+is removed by Lemma~\ref{lem:derand}. The first and the last step do
+not use the affine form.
 
 \begin{lemma}\label{lem:guard}
 Let $(T'_t)$ be a centered stationary Gaussian process in $\R^p$ with
@@ -964,6 +976,54 @@ distortion summed over the blocks is at most $Kn(D'+\delta)$ and over
 the guard intervals it is $Km\tr(QR'(0))$. Conditioning on the guard
 observations as well cannot increase the entropy, so
 $H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
+\end{proof}
+
+\begin{lemma}\label{lem:derand}
+Let a code of blocklength $N$ for the stationary source, with private
+randomness at the encoder, have rate $R_N$, finite distortion $D_N$, and
+leakage $L_N$. For every $\delta>0$ there are an integer $k$ and a code
+of blocklength $kN$ with a deterministic encoder, rate $R_N$, distortion
+at most $D_N+\delta$, and
+\[
+\tfrac1{kN}H\bigl(M\mid S^{kN}\bigr)=\tfrac1{kN}I\bigl(T^{kN};M\mid S^{kN}\bigr)\le L_N+\delta .
+\]
+\end{lemma}
+
+\begin{proof}
+Let $Z$ be the private randomness, independent of the source and of the
+holder's noise, so that the message is $\phi(T^N,Z)$ for a measurable
+map $\phi$ and the decoder is a function of the message. For a value $z$
+of the seed, $\phi(\cdot,z)$ is a deterministic encoder. Let
+$M_z=\phi(T^N,z)$, let $D_z$ be its distortion under the same decoder,
+and let $L_z=\tfrac1NH(M_z\mid S^N)$. Because $Z$ is independent of
+$(T^N,S^N)$, the law of $(T^N,S^N,M)$ given $Z=z$ is the law of
+$(T^N,S^N,M_z)$. Hence
+\[
+\E D_Z=D_N,\qquad \E L_Z=\tfrac1NH(M\mid S^N,Z)\le\tfrac1NH(M\mid S^N)=L_N .
+\]
+Here $D_z\ge0$ has a finite mean and $L_z\le R_N$. Draw seeds
+$z_1,z_2,\dots$ independently from the law of $Z$. By the strong law of
+large numbers the averages of $D_{z_i}$ and of $L_{z_i}$ over
+$i\le k$ converge almost surely to $\E D_Z$ and $\E L_Z$. So there are
+$k$ and seeds $z_1,\dots,z_k$ with
+\[
+\frac1k\sum_{i=1}^kD_{z_i}\le D_N+\delta,\qquad
+\frac1k\sum_{i=1}^kL_{z_i}\le L_N+\delta .
+\]
+Divide a window of length $kN$ into $k$ consecutive windows of length
+$N$. On the $i$th use the encoder $\phi(\cdot,z_i)$ and the original
+decoder, with message $M_i$, and let $M=(M_1,\dots,M_k)$. The seeds are
+part of the code and are not transmitted, so the rate is $R_N$ and the
+encoder is deterministic. The source and the holder's noise are
+stationary, so the $i$th window of the source together with the
+holder's observations $S_i^N$ in it has the law of $(T^N,S^N)$. The
+distortion per symbol is therefore the average of the $D_{z_i}$, and
+\[
+H\bigl(M_1,\dots,M_k\mid S^{kN}\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^{kN}\bigr)
+\le\sum_{i=1}^kH\bigl(M_i\mid S_i^N\bigr)=N\sum_{i=1}^kL_{z_i}.
+\]
+No independence between the windows is used. The equality in the
+statement holds because $M$ is a function of $T^{kN}$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:achieve}]
@@ -1009,14 +1069,16 @@ S^N=S'^N+(I_N\otimes H)E^N,\qquad S'^N=(I_N\otimes H)T'^N+U^N .
 process with spectral density $\Sigma'_\epsilon$ and a frontier point
 $(R',L')$ of its window problem of size $n$ at distortion $D$, to the
 drawn $T'^N$. The message is a function of $T'^N$. The rate is at most
-$R'+\delta$. For the distortion, $Y_t=FT'_t+FE_t$, and for every
-$\eta>0$,
+$R'+\delta$. For the distortion, $Y_t-\hY_t=(FT'_t-\hY_t)+FE_t$. The
+encoder of Lemma~\ref{lem:guard} is deterministic, so $\hY^N$ is a
+function of $T'^N$, and $E^N$ is centered and independent of $T'^N$. The
+cross term therefore has mean zero, and
 \[
-\|Y_t-\hY_t\|_W^2\le(1+\eta)\|FT'_t-\hY_t\|_W^2+(1+1/\eta)\|FE_t\|_W^2 ,
+\E\|Y_t-\hY_t\|_W^2=\E\|FT'_t-\hY_t\|_W^2+\E\|FE_t\|_W^2 ,
 \]
 with $\E\|FE_t\|_W^2=\tr(QA)\int e_\epsilon\,\dw\le\epsilon\tr(QA)$. So
 \[
-D_N\le(1+\eta)\Bigl(D+\delta+\frac{m}{n+m}\tr\bigl(Q\Sigma'_0\bigr)\Bigr)+(1+1/\eta)\,\epsilon\tr(QA),
+D_N\le D+\delta+\frac{m}{n+m}\tr\bigl(Q\Sigma'_0\bigr)+\epsilon\tr(QA),
 \]
 where $\Sigma'_0$ is the variance of the finite-memory process, at most
 $R(0)$.
@@ -1054,11 +1116,18 @@ normalized Lebesgue measure on the $j$th copy. It gives
 $(R_\epsilon,L_\epsilon)\to(R,L)$. By Theorem~\ref{thm:affine}(b) for
 $\Sigma'_\epsilon$, the window frontier points of weight $\alpha$ at
 distortion $D$ converge to $(R_\epsilon,L_\epsilon)$ as $n\to\infty$. Given
-$\delta$, choose $\eta$, then $\epsilon$, then $n$, then $K$, so that
-each error term above is at most $\delta$. For $\delta\le D$ this gives
-$D_N\le D+6\delta$, $R_N\le R+3\delta$, and $L_N\le L+4\delta$, and
-$\delta$ is arbitrary. The guarantees of Lemma~\ref{lem:guard} depend
+$\delta$, choose $\epsilon$, then $n$, then $K$, so that
+each error term above is at most $\delta$. This gives
+$D_N\le D+3\delta$, $R_N\le R+3\delta$, and $L_N\le L+4\delta$. The
+guarantees of Lemma~\ref{lem:guard} depend
 only on the joint law of $(T'^N,S'^N)$, which the coupling reproduces.
+
+\emph{Removing the randomness.} The only private randomness is the draw
+of $T'^N$, which is a linear function of $T^N$ plus an independent
+Gaussian vector. By Lemma~\ref{lem:derand} there is a code with a
+deterministic encoder, of blocklength $kN$, with the same rate,
+distortion at most $D+4\delta$, and leakage at most $L+5\delta$, and
+$\delta$ is arbitrary.
 
 \emph{The region.} Taking $\delta\to0$ along a sequence and one code
 for each gives blocklengths $N_j\to\infty$, so the frontier point of
@@ -1090,12 +1159,13 @@ spectra, a limit point of the frontier points of weight $\alpha$ has
 weighted cost $V$ for $\Sigma'_\epsilon$, which tends to $V(\alpha,D)$
 by Lemma~\ref{lem:limit}, so the support values of $\mathcal A(D)$ are at
 most $V(\alpha,D)$. The matching converse for a general spectrum needs
-the conjecture for $\Sigma$ itself. Second, the encoder is
-randomized, because it must draw the finite-memory part of the source,
-which it does not observe separately. For memoryless sources private
-randomness does not change the region, since the converse of
-\cite{part1} covers it and the achievability needs none. Whether it can
-be removed here is open. Third, the theorem gives a sequence of
+the conjecture for $\Sigma$ itself. Second, the construction first uses private randomness, because the
+encoder must draw the finite-memory part of the source, which it does
+not observe separately, and Lemma~\ref{lem:derand} then removes it. The
+lemma holds for every spectrum, and it is where the choice of
+$H(M\mid S^N)$ as the leakage of a randomized code is used. So
+$\mathcal A(D)$ is the same with and without private randomness, and
+the encoder model is that of \cite{part1}. Third, the theorem gives a sequence of
 blocklengths. A blocklength between two multiples of $n+m$ is handled
 by reproducing zero on the remaining symbols, at a vanishing cost in
 distortion.
@@ -1114,10 +1184,8 @@ the circulant problems in the same whitened variable $X$ at a fixed
 level. The term $-\log\det X$ is common to both and cancels, the
 remaining terms are controlled by the positive noise and the bounded
 spectra, and a bound uniform over a bounded interval of levels would
-let the asymptotic equivalence pass through the minimization. Two
-further questions are open. The encoder of Theorem~\ref{thm:achieve} is
-randomized, and whether a deterministic encoder achieves the same
-region for a source with memory is not known. And for a
+let the asymptotic equivalence pass through the minimization. One
+further question is open in this setting. For a
 holder whose filter has memory, the window observation is not a
 function of the window source and noise, and the edge terms must be
 controlled.
@@ -1246,8 +1314,8 @@ and operational (Theorem~\ref{thm:periodic}). The spectral program is
 the exact limit of those regions (Theorem~\ref{thm:spectral}). For the
 stationary source with a spectrum affine in one scalar spectrum and a
 memoryless holder, the spectral region is the operational region, with
-a converse through windows and a coding theorem with a randomized
-encoder (Theorems~\ref{thm:affine} and~\ref{thm:achieve}). For a general
+a converse through windows and a coding theorem with deterministic
+encoders (Theorems~\ref{thm:affine} and~\ref{thm:achieve}). For a general
 stationary source the converse through windows holds
 (Proposition~\ref{prop:window}), convergence of the windows is
 conjectured, and achievability follows from that convergence for
@@ -1271,14 +1339,13 @@ arbitrary matrix geometry within each frequency, the spectral limit
 with a level that moves with the period, the window results and the
 coding theorem for the stationary source in the affine class, and the
 reduction of what the holder keeps to one variance. The coding theorem
-covers the affine class with a memoryless holder and a randomized
-encoder. Beyond that class it is conditional on the convergence of the
+covers the affine class with a memoryless holder. Beyond that class it is conditional on the convergence of the
 windows.
 
 Several problems are open. The convergence of the window regions to
 the spectral region is proved for affine spectra and conjectured in
 general, and with it the operational region outside the affine class.
-Whether the randomization at the encoder can be removed is open. The holder that keeps a causal prefix is treated for
+The holder that keeps a causal prefix is treated for
 one-symbol descriptions only, and block codes against such a holder are
 open, as is the decoder with a delay constraint. Side information at
 the decoder, which \cite{part1} leaves partly open for memoryless
