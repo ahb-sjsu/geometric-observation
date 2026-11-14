@@ -2203,18 +2203,23 @@ the information carried by the remainder, recorded in
 \texttt{verify\_filter\_chains-2026-11-14.txt}. The bounds are loose at
 the sizes computed.
 \texttt{verify\_achievability.py} checks the steps of the proof of
-Theorem~\ref{thm:achieve} that are statements about covariances, on two
-instances in which the remainder has the form $e(\omega)A$ for a fixed
-matrix $A$, written for an earlier draft that treated that class only.
-The general decomposition of the proof is not tested separately. The
-steps checked are the decomposition itself, the independence
+Theorem~\ref{thm:achieve} that are statements about covariances, on
+three instances. In two the remainder has the form $e(\omega)A$ for a
+fixed matrix $A$. The third is the decomposition \eqref{eq:decomp} as
+the proof states it, for a vector moving-average source whose spectrum
+is not affine in a scalar spectrum, with a Fej\'er mean of degree $14$
+and $\epsilon=0.49$ against a smallest eigenvalue of the spectrum of
+$1.13$. The steps checked are the decomposition itself, the independence
 of blocks separated by guard intervals, the coupling, and the two
-leakage inequalities on Gaussian stand-ins for the message. The
+leakage inequalities on Gaussian stand-ins for the message, and, in the
+third instance, the exact split of the distortion and the bound
+$\epsilon\tr Q$ on the part due to the remainder. The
 perturbation bound is loose at the sizes computed, where the measured
-change in leakage is $0.03$ bits against a bound of several bits, and
+change in leakage is $0.03$ to $0.04$ bits against a bound of several
+bits, and
 only its vanishing with the remainder's power is used. The coding
 theorem itself is not something a computation verifies. The output is
-recorded in \texttt{verify\_achievability-2026-11-13.txt}.
+recorded in \texttt{verify\_achievability-2026-11-14.txt}.
 \texttt{reproduce.ipynb} reruns the checks, shows the sweep, and draws
 the figure. A reviewer of a draft recomputed the instance at
 $D=0.97D_{\max}$ independently, including a direct optimization over the

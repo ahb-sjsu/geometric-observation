@@ -34,8 +34,8 @@ frequency and a history it may or may not keep. Four statements follow.
 Two observers of a stationary signal meet frequency by frequency and
 share one price. They can read disjoint bands of the same signal. A
 delay in an observer's view conveys nothing by itself. And for a
-description of one moment, everything an observer has kept enters
-through one number. The last two say that staleness is a matter of what
+description of one moment of a scalar Gaussian context, everything an
+observer has kept enters through one number. The last two say that staleness is a matter of what
 an observer holds when it uses its view, whether it kept less or the
 rest has not yet arrived, and that a delay alone costs nothing.
 \end{abstract}
@@ -150,10 +150,14 @@ the next section.
 
 The cost appears when the observer keeps less. \Pp{prop:retention}
 treats a description of one moment of the signal, with a holder that
-keeps any set of its past and future samples. Everything it has kept
+keeps any set of its past and future samples. The context there is a
+scalar Gaussian process. Everything the holder has kept
 enters through the conditional variance $q$ of the context at that
 moment given the kept samples, and the content conveyed is the scalar
 closed form of the memoryless theory at an effective noise $q/(1-q)$.
+The one number is a feature of the scalar context. For a vector context
+the same argument would leave a conditional covariance matrix in its
+place.
 
 Three cases show the range. An observer that keeps one sample of age
 $\Delta$ has a $q$ that rises with $\Delta$, and the content conveyed to
@@ -182,9 +186,16 @@ noise.
 The method of the companion paper is classical. Splitting a circulant
 problem over Fourier frequencies and passing to a spectral limit is how
 the rate--distortion function of a Gaussian process is derived, and the
-limit over Toeplitz windows is Szeg\H{o}'s theorem. The paper's proofs
-rest on the memoryless theorems of \cite{paper1} applied at each
-frequency. The convergence statements (\Th{thm:spectral},
+limit over Toeplitz windows is Szeg\H{o}'s theorem. The optimization
+at each frequency rests on the memoryless theorems of \cite{paper1}.
+The theorems for the stationary signal itself need more than that: an
+order structure and a subadditivity argument for finite windows, the
+approximation of the signal by one of finite memory, a coupling at the
+encoder, guard intervals between coded blocks, the degradation of the
+holder by added noise, control of the observations at the edges of a
+window, and the removal of the encoder's randomness. All of it is
+information theory and none of it is Observation Theory. The
+convergence statements (\Th{thm:spectral},
 \Th{thm:windows}), the window converse (\Pp{prop:window}), and the
 coding theorem (\Th{thm:achieve}) would be stated the same way
 by a reader who had never heard of observers. The fixed-lag formula in
@@ -205,11 +216,18 @@ reconstruct with bounded delay is a different first observer, and the
 frontier against a holder is open.
 
 \emph{An observer whose view has unbounded memory.} When the holder
-sees the signal through a filter of finite length, in noise of any
-continuous spectrum, the spectral region is the operational region of
-the stationary signal for every continuous spectrum, by a converse
+sees the signal through a filter of finite length, in noise with a
+continuous positive definite spectral density, the spectral region is
+the operational region of the stationary signal for every continuous
+positive definite spectral density of the signal, by a converse
 through windows and a coding theorem with deterministic encoders
-(\Th{thm:achieve}, \Th{thm:filter}). When the holder's filter has an
+(\Th{thm:achieve}, \Th{thm:filter}). In that statement the holder has
+its observations at the times of the coded window. If it has its whole
+observation process, before and after the window as well, the coding
+theorem still holds and the matching converse is open. This is a
+different matter from the one-moment result of
+Section~\ref{sec:kept}, where the holder may keep any of its past and
+future samples and the answer is complete. When the holder's filter has an
 infinite impulse response, the region is the limit of periodic sources,
 and its status for the signal itself is open.
 
