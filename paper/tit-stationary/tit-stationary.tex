@@ -57,9 +57,10 @@ party's observation changes nothing when that party keeps its whole
 observation. When it keeps one sample or a causal prefix, the leakage
 of a one-symbol description depends on what is kept through a single
 conditional variance. For the stationary source itself we prove a
-converse through finite windows, and we prove that the windows converge
-to the spectral region when the spectral density matrix is affine in
-one scalar spectrum.
+converse through finite windows. When the spectral density matrix is
+affine in one scalar spectrum, the windows converge to the spectral
+region and we prove a matching coding theorem, so the spectral region
+is the operational region of the stationary source.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -147,9 +148,19 @@ problem splits exactly in the eigenbasis of a Toeplitz matrix at every
 $N$, and the window regions converge to the spectral region by
 Szeg\H{o}'s theorem (Theorem~\ref{thm:affine}). For general spectra
 the convergence of the windows is a conjecture, supported by
-computation (Conjecture~\ref{conj:windows}). Achievability for the
-stationary source, as opposed to independent blocks, needs a coding
-theorem for sources with memory that we do not prove.
+computation (Conjecture~\ref{conj:windows}).
+
+For the affine class we also prove achievability for the stationary
+source, so there the spectral region is the operational region
+(Theorem~\ref{thm:achieve}). The proof writes the source as a
+finite-memory source plus an independent source of small power. Blocks
+of a finite-memory source separated by guard intervals are independent,
+so the memoryless theorem of \cite{part1} codes them. The encoder sees
+only the sum and draws the finite-memory part from its conditional law,
+which makes the encoder randomized, and the small remainder changes the
+leakage by an amount that vanishes with its power. For a general
+spectrum the same argument reduces achievability to the convergence of
+the windows.
 
 \subsection*{Related work}
 
@@ -523,9 +534,16 @@ Lebesgue measure. By Theorem~\ref{thm:periodic},
 $V_n(\alpha,D)=V_{\mu_n}(\alpha,D)$.
 \end{proof}
 
-We call the upward closure of the points $(R,L)$ over $\alpha\in[0,1]$
-the spectral region at distortion $D$, and write $R_{\min}(D)$ and $L(D)$
-for its least rate and least leakage. At $\alpha=1$ the tilt vanishes
+The spectral region at distortion $D$ is
+\begin{equation}
+\mathcal R(D)=\bigl\{(R,L):\ \alpha R+(1-\alpha)L\ge V(\alpha,D)\ \text{ for every }\alpha\in[0,1]\bigr\},
+\label{eq:region}
+\end{equation}
+a closed, convex, upward closed set. The frontier point of weight
+$\alpha$ lies on its boundary, since it meets the bound of weight $\alpha$
+with equality and satisfies the others because its field is feasible
+for every weight. Write $R_{\min}(D)=V(1,D)$ and $L(D)=V(0,D)$ for the
+least rate and least leakage. At $\alpha=1$ the tilt vanishes
 and \eqref{eq:spectral} is reverse water-filling of the spectrum of
 $\tQ(\omega)$ at the common level $1/(2\nu)$. For a scalar described
 process this is Kolmogorov's formula
@@ -770,20 +788,33 @@ with memory against a holder that keeps a causal prefix, which is open.
 
 A code of blocklength $N$ for the stationary source maps
 $T^N=(T_1,\dots,T_N)$ to a message $M$ in a finite set, and the decoder
-outputs $\hY^N$. Its rate, distortion, and leakage per symbol are
+outputs $\hY^N$ as a function of $M$. In this section the encoder may
+use private randomness, independent of the source and of the holder's
+noise. Its rate, distortion, and leakage per symbol are
 $R_N=\tfrac1N\log|\mathcal M|$,
 $D_N=\tfrac1N\sum_t\E[(Y_t-\hY_t)^{\mathsf T}W(Y_t-\hY_t)]$, and
-$L_N=\tfrac1NI(T^N;M\mid S^N)$, where $S^N$ is what the holder observes
-in the window. To keep $S^N$ a function of $T^N$ and noise we take the
+$L_N=\tfrac1NH(M\mid S^N)$, where $S^N$ is what the holder observes
+in the window. For a deterministic encoder
+$H(M\mid S^N)=I(T^N;M\mid S^N)$, the leakage of \cite{part1}. With
+private randomness $H(M\mid S^N)$ is the larger of the two, so the
+achievability result below holds for both and so does the converse. To
+keep $S^N$ a function of $T^N$ and noise we take the
 holder's map memoryless in this section, $S_t=HT_t+U_t$ with $U$ white of
-covariance $\Sigma_U$.
+covariance $\Sigma_U$. The holder is given its observations inside the
+window only. A pair $(R,L)$ is achievable at distortion $D$ for the
+stationary source when there are codes of blocklengths $N_j\to\infty$
+with $\limsup R_{N_j}\le R$, $\limsup L_{N_j}\le L$, and
+$\limsup D_{N_j}\le D$, and $\mathcal A(D)$ is the closure of the set of
+achievable pairs.
 
 Let $\Sigma^{\mathrm w}_N$ be the covariance of $T^N$, the block-Toeplitz
 matrix with blocks $R(a-b)$. The window problem of size $N$ is the
 memoryless problem of \cite{part1} for a source in $\R^{pN}$ with
 covariance $\Sigma^{\mathrm w}_N$, weight $\tfrac1NI_N\otimes Q$, and
 holder $I_N\otimes H$, $I_N\otimes\Sigma_U$. Write
-$V^{\mathrm w}_N(\alpha,D)$ for its weighted frontier cost per symbol.
+$V^{\mathrm w}_N(\alpha,D)$ for its weighted frontier cost per symbol,
+with $V^{\mathrm w}_N(\alpha,D)=0$ when $D$ is at least the maximal
+distortion $\tr(QR(0))$.
 
 \begin{proposition}\label{prop:window}
 Every code of blocklength $N$ for the stationary source satisfies
@@ -793,11 +824,12 @@ achievable for the source that emits independent copies of $T^N$.
 \end{proposition}
 
 \begin{proof}
-$R_N\ge\tfrac1NI(T^N;\hY^N)$ and
-$L_N\ge\tfrac1NI(T^N;\hY^N\mid S^N)$ because $\hY^N$ is a function of $M$,
-and $\hY^N-T^N-S^N$ is a Markov chain. The map from $T^N$ to $\hY^N$ is an
+$R_N\ge\tfrac1NH(M)\ge\tfrac1NI(T^N;\hY^N)$ and
+$L_N\ge\tfrac1NI(T^N;M\mid S^N)\ge\tfrac1NI(T^N;\hY^N\mid S^N)$ because
+$\hY^N$ is a function of $M$, and $\hY^N-T^N-S^N$ is a Markov chain
+because the encoder's randomness is independent of the holder's noise. The map from $T^N$ to $\hY^N$ is an
 admissible test channel for the Gaussian vector $T^N$ at distortion
-$ND_N$, so by \cite[Proposition~2]{part1} the pair of mutual
+$D_N$ under the weight $\tfrac1NI_N\otimes Q$, so by \cite[Proposition~2]{part1} the pair of mutual
 informations lies in the single-letter region of the window problem.
 The second statement is \cite[Theorem~3]{part1}.
 \end{proof}
@@ -871,6 +903,203 @@ $\Sigma^{\mathrm w}_N$ polynomials in one Toeplitz matrix, so that they
 commute. For a general spectral density matrix they do not, and the
 window problem does not split at finite $N$.
 
+For the affine class the spectral region is also achievable for the
+stationary source, so it is the operational region.
+
+\begin{theorem}\label{thm:achieve}
+Under the hypotheses of Theorem~\ref{thm:affine}, with the memoryless
+holder map and white noise of this section, let
+$\alpha\in[0,1]$, $0<D<D_{\max}$, and let $(R,L)$ be the spectral frontier
+point of weight $\alpha$ at distortion $D$. For every $\delta>0$ there
+are codes for the stationary source, of blocklengths $N\to\infty$, with
+\[
+D_N\le D+\delta,\qquad R_N\le R+\delta,\qquad L_N\le L+\delta .
+\]
+Consequently $\mathcal A(D)=\mathcal R(D)$ for every $0<D<D_{\max}$: the
+spectral region is the operational region of the stationary source.
+\end{theorem}
+
+The proof has three steps. A source with finite memory is coded in
+independent blocks separated by guard intervals, by the memoryless
+theorem of \cite{part1}. A source with an affine spectrum is the sum of
+a source with finite memory and an independent source of small power.
+And the encoder, which sees only the sum, samples the finite-memory
+part from its conditional law. The first step does not use the affine
+form.
+
+\begin{lemma}\label{lem:guard}
+Let $(T'_t)$ be a centered stationary Gaussian process in $\R^p$ with
+continuous spectral density $\Sigma'(\omega)\succ0$ and autocovariance
+$R'(\tau)=0$ for $|\tau|>m$, with holder observations
+$S'_t=HT'_t+U_t$, $U$ white. Let $(R',L')$ be a point of the frontier of
+its window problem of size $n$ at distortion $D'$, per symbol, with
+$0<D'<\tr(QR'(0))$. For every
+$\delta>0$ and every large enough $K$ there is a code with a
+deterministic encoder, of blocklength $N=K(n+m)$, with
+\[
+R_N\le R'+\delta,\qquad
+\tfrac1NH\bigl(M\mid S'^N\bigr)\le L'+\delta,\qquad
+D_N\le D'+\delta+\frac{m}{n+m}\tr\bigl(QR'(0)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Divide $\{1,\dots,N\}$ into $K$ consecutive segments of length $n+m$,
+each a block of $n$ symbols followed by a guard interval of $m$ symbols.
+Two symbols in different blocks are more than $m$ apart, so the blocks
+of $T'$ are uncorrelated, and being jointly Gaussian they are
+independent, each with the law of the window of size $n$. The noise is
+white, so the pairs formed by a block and the holder's observations in
+that block are independent and identically distributed. By
+\cite[Theorem~3]{part1} for this memoryless source with letters in
+$\R^{pn}$, weight $\tfrac1nI_n\otimes Q$, and holder
+$(I_n\otimes H,I_n\otimes\Sigma_U)$, for large $K$ there is a code on $K$
+blocks with rate at most $n(R'+\delta)$ per block, distortion at most
+$D'+\delta$ per block, and
+$\tfrac1KH(M\mid S'_{\mathrm{blocks}})\le n(L'+\delta)$, where
+$S'_{\mathrm{blocks}}$ are the holder's observations in the blocks. Use
+this code on the blocks and reproduce zero in the guard intervals. The
+rate per symbol is at most $Kn(R'+\delta)/N\le R'+\delta$. The
+distortion summed over the blocks is at most $Kn(D'+\delta)$ and over
+the guard intervals it is $Km\tr(QR'(0))$. Conditioning on the guard
+observations as well cannot increase the entropy, so
+$H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:achieve}]
+\emph{Decomposition.} For small $\epsilon>0$ there are a trigonometric
+polynomial $q_\epsilon\ge0$, a matrix $B_\epsilon\succeq0$, and a continuous
+function $e_\epsilon$ with $0\le e_\epsilon\le\epsilon$ such that
+\begin{equation}
+\Sigma(\omega)=\Sigma'_\epsilon(\omega)+e_\epsilon(\omega)A,
+\qquad
+\Sigma'_\epsilon(\omega)=B_\epsilon+q_\epsilon(\omega)A ,
+\label{eq:decomp}
+\end{equation}
+and $\Sigma'_\epsilon$ satisfies the hypotheses of
+Theorem~\ref{thm:affine}. If $\min f>0$, take $B_\epsilon=B$ and, by the
+Weierstrass theorem, an even trigonometric polynomial with
+$f-\epsilon\le q_\epsilon\le f$, which is positive for small $\epsilon$,
+and $e_\epsilon=f-q_\epsilon$. If $\min f=0$, then $B\succ0$ by the
+hypothesis of Theorem~\ref{thm:affine}. Take $B_\epsilon=B-\epsilon A$,
+which is positive definite for small $\epsilon$, an even trigonometric
+polynomial with $f\le q_\epsilon\le f+\epsilon$, and
+$e_\epsilon=f+\epsilon-q_\epsilon$. In both cases
+$\Sigma'_\epsilon\to\Sigma$ uniformly, and $B_\epsilon+\lambda A\succ0$ on
+the range of $q_\epsilon$ for small $\epsilon$ by compactness. A
+stationary Gaussian process whose spectral density is a trigonometric
+polynomial of degree $m$ has autocovariance zero beyond lag $m$.
+
+\emph{Coupling.} Let $\Sigma'^{\mathrm w}_N$ and $\Sigma^{E}_N$ be the
+covariances of windows of size $N$ of processes with spectral densities
+$\Sigma'_\epsilon$ and $e_\epsilon A$. By \eqref{eq:decomp},
+$\Sigma^{\mathrm w}_N=\Sigma'^{\mathrm w}_N+\Sigma^E_N$. Given $T^N$, let
+the encoder draw $T'^N$ from the Gaussian conditional law of the first
+summand given the sum, for independent
+$T'^N\sim\mathcal N(0,\Sigma'^{\mathrm w}_N)$ and
+$E^N\sim\mathcal N(0,\Sigma^E_N)$, and put $E^N=T^N-T'^N$. Then $T'^N$ and
+$E^N$ are independent with these laws, and both are independent of
+$U^N$, because the draw uses $T^N$ and private randomness only. The
+holder's observation is
+\[
+S^N=S'^N+(I_N\otimes H)E^N,\qquad S'^N=(I_N\otimes H)T'^N+U^N .
+\]
+
+\emph{The code.} Apply the code of Lemma~\ref{lem:guard}, for the
+process with spectral density $\Sigma'_\epsilon$ and a frontier point
+$(R',L')$ of its window problem of size $n$ at distortion $D$, to the
+drawn $T'^N$. The message is a function of $T'^N$. The rate is at most
+$R'+\delta$. For the distortion, $Y_t=FT'_t+FE_t$, and for every
+$\eta>0$,
+\[
+\|Y_t-\hY_t\|_W^2\le(1+\eta)\|FT'_t-\hY_t\|_W^2+(1+1/\eta)\|FE_t\|_W^2 ,
+\]
+with $\E\|FE_t\|_W^2=\tr(QA)\int e_\epsilon\,\dw\le\epsilon\tr(QA)$. So
+\[
+D_N\le(1+\eta)\Bigl(D+\delta+\frac{m}{n+m}\tr\bigl(Q\Sigma'_0\bigr)\Bigr)+(1+1/\eta)\,\epsilon\tr(QA),
+\]
+where $\Sigma'_0$ is the variance of the finite-memory process, at most
+$R(0)$.
+
+For the leakage,
+$H(M\mid S^N)=H(M\mid S^N,E^N)+I(M;E^N\mid S^N)$. Given $E^N$, the
+observation $S^N$ and $S'^N$ determine each other, and $(M,S'^N)$ is
+independent of $E^N$, so $H(M\mid S^N,E^N)=H(M\mid S'^N)$. Since $M$ is a
+function of $T'^N$,
+\begin{align*}
+I(M;E^N\mid S^N)&\le I(T'^N;E^N\mid S^N)\le I(E^N;T'^N,S^N)\\
+&=I(E^N;T'^N)+I(E^N;S^N\mid T'^N)=I\bigl(E^N;(I_N\otimes H)E^N+U^N\bigr),
+\end{align*}
+because $T'^N$ is independent of $(E^N,U^N)$. This is the information a
+Gaussian channel carries about an input of small power, and by
+$\ln\det(I+C)\le\tr C$ it is at most
+\[
+\frac1{2\ln2}\tr\bigl((I_N\otimes J)\Sigma^E_N\bigr)
+=\frac{N}{2\ln2}\tr(JA)\int e_\epsilon\,\dw\le\frac{N\epsilon\tr(JA)}{2\ln2}.
+\]
+With Lemma~\ref{lem:guard},
+\[
+L_N\le L'+\delta+\frac{\epsilon\tr(JA)}{2\ln2}.
+\]
+
+\emph{Limits.} Let $(R_\epsilon,L_\epsilon)$ be the spectral frontier point
+of weight $\alpha$ at distortion $D$ for $\Sigma'_\epsilon$, which exists
+for small $\epsilon$ because the maximal distortion is continuous in the
+spectrum. Apply Lemma~\ref{lem:limit} on the compact space
+$[-\pi,\pi]\times(\{\epsilon_j\}\cup\{0\})$ for a sequence
+$\epsilon_j\to0$, with the data of $\Sigma'_{\epsilon_j}$ on the $j$th
+copy of the circle and those of $\Sigma$ on the last, which are
+continuous there by uniform convergence, and with $\mu_j$ the
+normalized Lebesgue measure on the $j$th copy. It gives
+$(R_\epsilon,L_\epsilon)\to(R,L)$. By Theorem~\ref{thm:affine}(b) for
+$\Sigma'_\epsilon$, the window frontier points of weight $\alpha$ at
+distortion $D$ converge to $(R_\epsilon,L_\epsilon)$ as $n\to\infty$. Given
+$\delta$, choose $\eta$, then $\epsilon$, then $n$, then $K$, so that
+each error term above is at most $\delta$. For $\delta\le D$ this gives
+$D_N\le D+6\delta$, $R_N\le R+3\delta$, and $L_N\le L+4\delta$, and
+$\delta$ is arbitrary. The guarantees of Lemma~\ref{lem:guard} depend
+only on the joint law of $(T'^N,S'^N)$, which the coupling reproduces.
+
+\emph{The region.} Taking $\delta\to0$ along a sequence and one code
+for each gives blocklengths $N_j\to\infty$, so the frontier point of
+each weight is in $\mathcal A(D)$. By Theorem~\ref{thm:affine}(c) every
+achievable pair satisfies $\alpha R+(1-\alpha)L\ge V(\alpha,D)$ for every
+$\alpha$, so $\mathcal A(D)\subseteq\mathcal R(D)$. The set $\mathcal A(D)$
+is closed and upward closed by definition, and it is convex by time
+sharing: two codes used on consecutive windows of lengths $N_1$ and
+$N_2$ have the averaged rate and distortion, and
+$H(M_1,M_2\mid S^{N_1+N_2})\le H(M_1\mid S^{N_1})+H(M_2\mid S^{N_2})$,
+where each term on the right conditions on the observations in that
+code's own window, and the source is stationary. A closed, convex,
+upward closed set in the plane is the intersection of its supporting
+half-planes with normals $(\alpha,1-\alpha)$, $\alpha\in[0,1]$. The
+support value of $\mathcal A(D)$ in that direction is at least
+$V(\alpha,D)$ by the converse and at most $V(\alpha,D)$ because the
+frontier point belongs to it. So $\mathcal A(D)=\mathcal R(D)$.
+\end{proof}
+
+Three remarks. First, Lemma~\ref{lem:guard} and the coupling do not use
+the affine form. For any continuous positive definite spectral density
+matrix there are trigonometric polynomial densities
+$\Sigma-\epsilon I\preceq\Sigma'_\epsilon\preceq\Sigma$, and the same
+argument places in $\mathcal A(D)$ every limit point, as $n\to\infty$, of
+the window frontier points of these finite-memory sources. The affine
+form is used only to identify those limit points. If
+Conjecture~\ref{conj:windows} below holds for trigonometric polynomial
+spectra, a limit point of the frontier points of weight $\alpha$ has
+weighted cost $V$ for $\Sigma'_\epsilon$, which tends to $V(\alpha,D)$
+by Lemma~\ref{lem:limit}, so the support values of $\mathcal A(D)$ are at
+most $V(\alpha,D)$. The matching converse for a general spectrum needs
+the conjecture for $\Sigma$ itself. Second, the encoder is
+randomized, because it must draw the finite-memory part of the source,
+which it does not observe separately. For memoryless sources private
+randomness does not change the region, since the converse of
+\cite{part1} covers it and the achievability needs none. Whether it can
+be removed here is open. Third, the theorem gives a sequence of
+blocklengths. A blocklength between two multiples of $n+m$ is handled
+by reproducing zero on the remaining symbols, at a vanishing cost in
+distortion.
+
 \begin{conjecture}\label{conj:windows}
 For every continuous positive definite $\Sigma(\omega)$ and memoryless
 holder map, $V^{\mathrm w}_N(\alpha,D)\to V(\alpha,D)$.
@@ -886,9 +1115,9 @@ level. The term $-\log\det X$ is common to both and cancels, the
 remaining terms are controlled by the positive noise and the bounded
 spectra, and a bound uniform over a bounded interval of levels would
 let the asymptotic equivalence pass through the minimization. Two
-further questions are open. Achievability for the stationary source needs a
-secure source coding theorem for sources with memory, which
-Proposition~\ref{prop:window} replaces by independent blocks. And for a
+further questions are open. The encoder of Theorem~\ref{thm:achieve} is
+randomized, and whether a deterministic encoder achieves the same
+region for a source with memory is not known. And for a
 holder whose filter has memory, the window observation is not a
 function of the window source and noise, and the edge terms must be
 controlled.
@@ -1016,11 +1245,13 @@ For independent blocks with circulant covariance the region is exact
 and operational (Theorem~\ref{thm:periodic}). The spectral program is
 the exact limit of those regions (Theorem~\ref{thm:spectral}). For the
 stationary source with a spectrum affine in one scalar spectrum and a
-memoryless holder, the windows converge to the spectral region and the
-spectral region is a converse (Theorem~\ref{thm:affine}). For a general
+memoryless holder, the spectral region is the operational region, with
+a converse through windows and a coding theorem with a randomized
+encoder (Theorems~\ref{thm:affine} and~\ref{thm:achieve}). For a general
 stationary source the converse through windows holds
 (Proposition~\ref{prop:window}), convergence of the windows is
-conjectured, and achievability is open. Within those scopes, the
+conjectured, and achievability follows from that convergence for
+trigonometric polynomial spectra. Within those scopes, the
 frontier of rate and leakage is reverse water-filling on a tilted
 weight at each frequency, under one level. The level is the only thing
 the frequencies share. Which
@@ -1037,15 +1268,17 @@ possibility of disjoint supports are those of independent components in
 components. What this paper adds to \cite{part1} is the passage to
 sources with memory: the exact splitting for periodic sources with
 arbitrary matrix geometry within each frequency, the spectral limit
-with a level that moves with the period, the window results for the
-stationary source, and the reduction of what the holder keeps to one
-variance. It does not add a coding theorem for sources with memory, and
-that is the main thing missing.
+with a level that moves with the period, the window results and the
+coding theorem for the stationary source in the affine class, and the
+reduction of what the holder keeps to one variance. The coding theorem
+covers the affine class with a memoryless holder and a randomized
+encoder. Beyond that class it is conditional on the convergence of the
+windows.
 
 Several problems are open. The convergence of the window regions to
 the spectral region is proved for affine spectra and conjectured in
-general. Achievability is proved for independent blocks and not for the
-stationary source. The holder that keeps a causal prefix is treated for
+general, and with it the operational region outside the affine class.
+Whether the randomization at the encoder can be removed is open. The holder that keeps a causal prefix is treated for
 one-symbol descriptions only, and block codes against such a holder are
 open, as is the decoder with a delay constraint. Side information at
 the decoder, which \cite{part1} leaves partly open for memoryless
@@ -1092,6 +1325,16 @@ holder. The output is recorded in
 \texttt{verify\_spectral-2026-11-13.txt}. \texttt{sweep\_bands.py}
 computes Table~\ref{tab:sweep} and the budget at which the supports
 first overlap, recorded in \texttt{sweep\_bands-2026-11-13.txt}.
+\texttt{verify\_achievability.py} checks the steps of the proof of
+Theorem~\ref{thm:achieve} that are statements about covariances, in both
+cases of the decomposition: the decomposition itself, the independence
+of blocks separated by guard intervals, the coupling, and the two
+leakage inequalities on Gaussian stand-ins for the message. The
+perturbation bound is loose at the sizes computed, where the measured
+change in leakage is $0.03$ bits against a bound of several bits, and
+only its vanishing with the remainder's power is used. The coding
+theorem itself is not something a computation verifies. The output is
+recorded in \texttt{verify\_achievability-2026-11-13.txt}.
 \texttt{reproduce.ipynb} reruns the checks, shows the sweep, and draws
 the figure. A reviewer of a draft recomputed the instance at
 $D=0.97D_{\max}$ independently, including a direct optimization over the
@@ -1117,8 +1360,8 @@ symmetry forces a block-diagonal form; and that matrices affine in one
 matrix commute (Theorem~\ref{thm:affine}). Not formalized are
 Lemma~\ref{lem:limit}(a) and (c), the determinant and spectral
 properties of $\varrho$, the block-circulant step of
-Theorem~\ref{thm:periodic}, Szeg\H{o}'s theorem, and everything
-imported from \cite{part1}. The build and the axiom audit are recorded
+Theorem~\ref{thm:periodic}, Szeg\H{o}'s theorem, the proof of
+Theorem~\ref{thm:achieve}, and everything imported from \cite{part1}. The build and the axiom audit are recorded
 in \texttt{lean-spectral-2026-11-13.txt}.
 
 \section*{Acknowledgment}

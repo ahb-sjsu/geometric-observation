@@ -186,7 +186,8 @@ the rate--distortion function of a Gaussian process is derived, and the
 limit over Toeplitz windows is Szeg\H{o}'s theorem. The paper's proofs
 rest on the memoryless theorems of \cite{paper1} applied at each
 frequency. The convergence statements (\Th{thm:spectral},
-\Th{thm:affine}), the window converse (\Pp{prop:window}), and the open
+\Th{thm:affine}), the window converse (\Pp{prop:window}), the coding
+theorem (\Th{thm:achieve}), and the open
 convergence question (\Cj{conj:windows}) would be stated the same way
 by a reader who had never heard of observers. The fixed-lag formula in
 \Pp{prop:retention} is the smoothing recursion of estimation theory.
@@ -205,10 +206,13 @@ the companion paper may wait for the whole block. A decoder that must
 reconstruct with bounded delay is a different first observer, and the
 frontier against a holder is open.
 
-\emph{The signal itself.} The spectral region is proved as the limit of
-periodic sources and, for spectra affine in one scalar spectrum, as the
-limit of windows of the stationary source, with a converse. A coding
-theorem that achieves it for the stationary source is not proved.
+\emph{The signal itself.} For spectra affine in one scalar spectrum the
+spectral region is the operational region of the stationary signal, by a
+converse through windows and a coding theorem (\Th{thm:achieve}). The
+coding theorem uses an encoder that draws the finite-memory part of the
+signal at random, and whether a deterministic encoder suffices is open.
+For other spectra the region is the limit of periodic sources, and its
+status for the signal itself rests on a convergence conjecture.
 
 \emph{Several observers.} With several holders the weighted objective
 has one tilt per holder at each frequency, by the same argument. Whether

@@ -4,7 +4,7 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 
 **Status: first complete draft, 2026-11-13. Not reviewed by the author, not submitted.** The prose and the proofs were drafted by Claude (Fable 5.2) from the GO-12 material and paper one; the author has not yet read the proofs.
 
-**→ [manuscript (PDF, 12 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-13.ipynb)
+**→ [manuscript (PDF, 15 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-13.ipynb)
 
 ## What the paper proves
 
@@ -20,11 +20,12 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 | Proposition 8 | One-symbol description: what the holder keeps enters through one conditional variance; AR(1) closed forms | [1, Cor. 17], RTS smoother |
 | Proposition 9 | Stationary source: every blocklength-N code lies in the N-window region | [1, Prop. 2, Thm. 3] |
 | Theorem 10 | Affine spectra Sigma = B + f A: windows split exactly in the Toeplitz eigenbasis and converge (Szego); converse for the stationary source | [1, Thm. 12], Lemma 2 |
-| Conjecture 11 | Window convergence for general spectra | numerical evidence only |
+| Theorem 11, Lemma 12 | **Achievability for the stationary source, affine class**: the spectral region is the operational region (randomized encoder) | [1, Thm. 3], guard intervals, coupling |
+| Conjecture 13 | Window convergence for general spectra | numerical evidence only |
 
 Theorem numbers of [1] are those of the submitted version (`../tit-rate-leakage/tit-rate-leakage.tex` as of 2026-11-13). If paper one is revised, recheck every `\cite[...]{part1}`.
 
-**Not proved, and said so in the paper:** achievability for the stationary source itself (proved for independent blocks only); window convergence outside the affine class; block codes against a holder that keeps a causal prefix; holders whose filter has memory in the window setting.
+**Not proved, and said so in the paper:** achievability for the stationary source outside the affine class (it reduces to Conjecture 13 for trigonometric polynomial spectra); whether the randomized encoder of Theorem 11 can be made deterministic; window convergence outside the affine class; block codes against a holder that keeps a causal prefix; holders whose filter has memory in the window setting.
 
 ## Relation to the GO-12 records
 
@@ -34,13 +35,14 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 
 | File | What it is |
 |---|---|
-| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 12 pp) |
+| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 15 pp) |
 | `supplement-ot.tex` / `.pdf` | Observation Theory companion, on the pattern of `../tit-rate-leakage/supplement-ot.tex` |
 | `spectral_core.py` | costs and one solver (the water-filling iteration of [1, Prop. 11] with a bisection on the level); numpy only |
 | `verify_spectral.py` | nine checks, fixed seed 20261113; writes `verify_spectral.json` |
 | `verify_spectral-2026-11-13.txt` | recorded output: 9 passed, 0 failed, 499 s |
 | `plot_bands.py`, `fig_bands.pdf/.png` | Fig. 1 |
 | `sweep_bands.py`, `sweep_bands.json`, `sweep_bands-2026-11-13.txt` | Table II: the disjoint-bands instance across budgets (about 12 minutes) |
+| `verify_achievability.py`, `.json`, `verify_achievability-2026-11-13.txt` | covariance steps of the proof of Theorem 11 on Gaussian stand-ins (a few seconds); not a check of the coding theorem |
 | `build_notebook.py`, `reproduce.ipynb` | the reproduction notebook and its generator |
 | `reproduce-executed-2026-11-13.ipynb` | the notebook as executed on this machine |
 | `lean-spectral-2026-11-13.txt` | Lean build record and axiom audit |
@@ -62,7 +64,7 @@ Lean: in `lean/`, `lake update && lake exe cache get && lake build ObservationTh
 ## What the checks do and do not show
 
 - Theorem 3 is checked by solving the period-n problem as one real matrix program with no structure assumed and comparing with the per-frequency solution (48 instances, costs agree to 9e-14 bits).
-- The window gaps for Conjecture 11 decay like 1/N from above in every case computed. That is evidence, not a proof.
+- The window gaps for Conjecture 13 decay like 1/N from above in every case computed. That is evidence, not a proof.
 - The Lean module checks algebraic steps only (see the paper's appendix for the list of what is and is not formalized). The module was built on its own on Atlas; the whole library was **not** rebuilt with the new import line in `lean/ObservationTheory.lean`.
 
 ## Mock review, 2026-11-13
@@ -71,18 +73,19 @@ An external mock T-IT review of the first draft recommended **major revision**. 
 
 | Review point | Status |
 |---|---|
-| 1. No operational region for the stationary source: achievability is proved for independent blocks only | **Open, and the main gap.** The Discussion now lists the four scopes separately and says a coding theorem for sources with memory is missing. Not fixed by rewording. |
+| 1. No operational region for the stationary source: achievability is proved for independent blocks only | **Proved for the affine class (Theorem 11), 2026-11-13, after the review.** The source is written as a finite-memory source plus an independent source of small power; blocks separated by guard intervals are independent and are coded by [1, Thm. 3]; the encoder draws the finite-memory part from its conditional law; the remainder changes the leakage by at most eps tr(JA) / (2 ln 2) bits per symbol. The encoder is randomized. **The proof has not been read by the author or refereed.** Outside the affine class achievability is conditional on Conjecture 13. |
 | 2. Contribution beyond paper one needs sharpening | Introduction and Discussion now say the allocation, activation order, and disjoint supports are inherited from [1, Thm. 27, Cor. 28], and list what is new. Still weak without point 1. |
 | 3. Sankar et al. comparison was made against the 2011 conference version but cited the 2013 journal | The claim that their rate-optimal solution is also leakage-optimal was removed. Both versions are cited and only the model difference is stated. The journal text is still unread (see below). |
 | 4. Commuting formula omitted q_i = 0; activation threshold undefined at H = 0 | Fixed: x_i = 1 where q_i = 0; threshold written as 1 / (2 ln2 G) with G defined at H = 0. |
 | 5. Delay interpretation too broad | Narrowed in the paper and the supplement: the invariance is for circular blocks and the spectral limit, finite windows have edge terms, and a party that has not yet received observations also holds less. |
 | 6. Placeholders, missing figure, budget near the zero-rate end | The placeholders were an artifact of the draft the reviewer saw and are filled. Table II sweeps the budget and gives the disjointness range. |
 
-The reviewer's suggested route to Conjecture 11 (compare the window and circulant problems in the same whitened variable at a fixed level; the log det X terms cancel) is recorded after the conjecture as a route not carried out.
+The reviewer's suggested route to Conjecture 13 (compare the window and circulant problems in the same whitened variable at a fixed level; the log det X terms cancel) is recorded after the conjecture as a route not carried out.
 
 ## Open items before submission
 
-- [ ] **Stationary-source achievability**, at least for the affine class. This needs a secure source coding theorem for Gaussian sources with memory. Liu, Cuff, and Verdu (T-IT 2016) pass from a one-shot achievability argument to stationary Gaussian processes for key agreement and are the methodological model. Without it the headline result is a characterization of circular approximations plus a stationary converse.
+- [ ] **Author and a human referee read the achievability proof (Theorem 11, Lemma 12).** One independent fresh-context referee pass by a model was run on 2026-11-13: it found no error that invalidates the theorem and verified each step of the three bounds by hand. It found one real gap, that the closing claim (achievable region = spectral region) did not follow from supporting-line bounds as written, and smaller ones (no definition of achievable for the stationary source; a remark that overstated the reduction for general spectra; the holder is given the window only; small slips). All were fixed: the region is now defined as the intersection of half-planes (eq. for R(D)), the achievable set A(D) is defined, and the proof ends with a time-sharing and support-function argument. That argument was added after the referee pass and has **not** itself been refereed. Not checked by that pass: the cited external results, paper one's appendix proof of its coding theorem, and Lemma 1's proof. Points to attack: the independence claims in the coupling (T', E, U and the private randomness); the step H(M | S, E) = H(M | S'); the order of the limits (eta, eps, n, K); the use of Lemma 2 on the product space for continuity in eps; whether [1, Thm. 3] delivers rate, leakage, and distortion simultaneously at a frontier point as used.
+- [ ] Decide whether a randomized encoder is acceptable for the headline, or try to derandomize. Compare with Liu, Cuff, and Verdu (T-IT 2016), who pass from one-shot achievability to stationary Gaussian processes for key agreement.
 - [ ] Read the T-SG 2013 journal text of Sankar et al. and restore a precise comparison. The reviewer reports that it says rate and leakage cannot in general be minimized together and develops an interference-aware spectral allocation. Also verify the conference entry's author order, title, and pages.
 - [ ] Author reads every proof. Lemma 2 and Theorem 10(b) are the ones most worth a hostile read.
 - [ ] Independent referee pass on the proofs (fresh context), as was done for paper one.

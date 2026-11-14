@@ -51,6 +51,10 @@ nb.cells = [
          "print()\nprint('general spectrum: alpha  N   window cost    gap (bits)    N*gap')\n"
          "for row in out['conj1_general_toeplitz_evidence']['table']:\n"
          "    print(f\"{row['alpha']:22.1f} {row['n']:3d}   {row['cost']:.8f}   {row['gap']:+.3e}   {row['n_gap']:+.4f}\")"),
+    md("## 6b. Theorem 11 — covariance steps of the achievability proof\n\n"
+       "The coding theorem is not something a computation verifies. This checks the steps of its proof that are "
+       "statements about covariances: the decomposition, block independence, the coupling, and the two leakage inequalities."),
+    code("import verify_achievability as va\nassert va.main() == 0"),
     md("## 7. Proposition 6 — what the holder keeps"),
     code("r = out['prop_retention']\nfor k in r:\n    if k not in ('ok', 'seconds'):\n        print(f'{k:>22}: {r[k]:.10g}')\n"
          "rho2, Dn = 0.64, 0.4\nfor name in ('q_slice', 'q_prefix0', 'q_prefix3', 'q_path'):\n"
