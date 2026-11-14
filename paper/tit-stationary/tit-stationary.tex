@@ -150,7 +150,10 @@ memoryless map and white noise, and every continuous positive definite
 spectral density matrix, the window costs lie above the spectral cost
 at every $N$ and converge to it (Theorem~\ref{thm:windows}). The gap
 is bounded by two excess log-determinants of block-Toeplitz matrices,
-and for Lipschitz spectra by a constant over $N$. The proof
+and for Lipschitz spectra by a constant over $N$. With no holder the
+sign of the gap is classical and the bound is that of Wyner and Ziv
+\cite{wynerziv1971} applied to blocks. The second term, and the proof,
+are what the second cost requires. The proof
 does not compare Toeplitz and circulant matrices in norm. It uses three
 facts. In the unwhitened error covariance the objective does not depend
 on the source and is monotone, so the source enters only through an
@@ -187,6 +190,12 @@ observations at the edges of a window are dropped at a cost that does
 not grow with the window. A filter with an infinite impulse response is
 covered by the periodic and spectral results and not by the coding
 theorem.
+
+In both coding theorems the holder is given its observations at the
+times of the coded window. If it is given its whole observation
+process instead, the achievability still holds, since conditioning on
+more does not raise the entropy of the message, and the converse is
+open.
 
 \subsection*{Related work}
 
@@ -1094,8 +1103,9 @@ subadditive sequence $N\,V^{\mathrm w}_N$.
 
 For $\alpha=1$ this is the classical subadditivity of the
 rate--distortion function of a block of a stationary source
-\cite[Ch.~9]{gallager1968}, \cite{berger1971}. The lemma says that the device survives
-the second cost.
+\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite{berger1971}. The lemma says that the device survives the second
+cost.
 
 \begin{lemma}\label{lem:embed}
 Suppose $R(\tau)=0$ for $|\tau|>m$, and let $n=N+m$. Then
@@ -1299,25 +1309,44 @@ a Lipschitz $F$,
 $\mathsf K(F)\le\sum_{\tau\ge1}\tau^2\|\hat F(\tau)\|_{\mathrm F}^2=\tfrac12\int\|F'(\omega)\|_{\mathrm F}^2\dw<\infty$.
 \end{proof}
 
-For $\alpha=1$ part (a) is the classical statement that the
-rate--distortion function of the window converges from above to that
-of the process \cite[Ch.~9]{gallager1968}, \cite{berger1971}. For a scalar source and
+For $\alpha=1$ much of the theorem is classical, and we say which part.
+Part (a) is the statement that the rate--distortion function of the
+window converges from above to that of the process, by the
+subadditivity of Lemma~\ref{lem:subadd}
+\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite{berger1971}. The first bound of (b) at $\alpha=1$ is the bound of
+Wyner and Ziv \cite{wynerziv1971} applied to blocks. In the form given
+in \cite[Sec.~4.7.1]{gray1990sct}, the rate--distortion function of a
+stationary source is at least that of its letters minus the entropy of
+a letter in excess of the entropy rate, whatever the distortion
+measure. Write $R_N(D)=V^{\mathrm w}_N(1,D)$ and $R(D)=V(1,D)$, and let
+$h(T^N)$ be the differential entropy of the window and $\bar h$ the
+entropy rate of the source, in bits. For the source whose letters are
+blocks of $N$ symbols the bound reads
+\[
+R_N(D)-R(D)\le\tfrac1Nh(T^N)-\bar h ,
+\]
+and for a Gaussian source the right side is $s_N(\Sigma)/(2N\ln2)$.
+So at $\alpha=1$ the bound is known, with the same constant, at every
+distortion. What part (b) adds is the second cost, which brings the
+term $s_N(F^\ast)$, and a proof by a feasible point that is itself a
+block-Toeplitz matrix. For a scalar source and
 $0<D\le\min_\omega\Sigma(\omega)$, no eigenvalue of the window covariance
 is below the water level, the window cost is
 $\tfrac1{2N}\log\bigl(\det T_N(\Sigma)/D^N\bigr)$, and the gap is exactly
-$s_N(\Sigma)/(2N\ln2)$. So the first bound of (b) holds with equality
-there. Earlier finite-block results for $\alpha=1$ are of a different
-kind. Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
+$s_N(\Sigma)/(2N\ln2)$, so the bound holds with equality there. A gap
+of order $1/N$ at every distortion is also proved, with constants that
+are not explicit, for scalar autoregressive sources of finite order in
+the work on dispersion \cite{tian2019,tasci2026}. Other finite-block
+results for $\alpha=1$ are of a different kind.
+Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
 \cite{gutierrez2017}, following Pearl \cite{pearl1973}, bound the window
-cost of a scalar source from above, in the same range of small
-distortions, by the rates of schemes that code the discrete Fourier
-coefficients of the window separately, and show that those bounds tend
-to the spectral cost. Pearl relates the loss of such a scheme, against
-the optimal code for the same window, to a distance between the
-covariance of the window and a circulant matrix, and shows that this
-distance is of order $1/N$ for Markov sources of finite order. These
-results compare schemes at one window size. They do not bound the
-distance between the window cost and its limit. The convergence need not
+cost of a scalar source from above, at small distortions, by the rates
+of schemes that code the discrete Fourier coefficients of the window
+separately, and show that those bounds tend to the spectral cost.
+Subtracting the limit from them bounds the gap indirectly in that
+regime. We know of no finite-window result for a problem with a second
+party, with or without memory at that party. The convergence need not
 be monotone
 in $N$. For the scalar moving-average spectrum proportional to
 $|1-e^{-i\omega}+e^{-2i\omega}-e^{-3i\omega}+e^{-5i\omega}|^2+0.1$, with unit
@@ -1804,15 +1833,32 @@ given the sum, for independent windows of processes with spectral
 densities $\Sigma$ and $\Sigma''-\Sigma$, and applies the given code to
 $T^N$. With $E^N=T''^N-T^N$, the rate is $R_N$ and, as in the proof of
 Theorem~\ref{thm:achieve}, the distortion is at most
-$D_N+\epsilon\tr Q$. The interior observations of the new system are
-those of the system $(\Sigma,P^-)$ for the drawn $T^N$, plus the
-filtered $E^N$. By the leakage argument of Theorem~\ref{thm:achieve}, applied
-with the pair of $T^N$ and the private randomness of the given code in
-the place of $T'^N$, and
-with $\tr\bigl(\mathsf H^{\mathsf T}(\Cov U^-_{\mathrm{int}})^{-1}\mathsf H\,\Cov E^N\bigr)\le2N\epsilon c_H/a_U$
-for the matrix $\mathsf H$ of the filter on the interior, and by
-both inequalities of \eqref{eq:edges}, the leakage of the new code is
-at most
+$D_N+\epsilon\tr Q$. Let $A_{\mathrm{int}}$ be the matrix of the filter on the interior
+times, so that the interior observations of a source window $x^N$ under
+the noise $U^-$ are $A_{\mathrm{int}}x^N+U^-_{\mathrm{int}}$. In the new
+system the interior observations are
+$S^-_{\mathrm{int}}+A_{\mathrm{int}}E^N$ with
+$S^-_{\mathrm{int}}=A_{\mathrm{int}}T^N+U^-_{\mathrm{int}}$, and the drawn
+$T^N$, the private randomness of the given code, and
+$S^-_{\mathrm{int}}$ have the joint law they have in the system
+$(\Sigma,P^-)$. Dropping the edge observations, and then the leakage
+argument of Theorem~\ref{thm:achieve} with the pair of $T^N$ and the
+private randomness in the place of $T'^N$, give in the new system
+\begin{equation}
+H\bigl(M\mid S''^N\bigr)\le H\bigl(M\mid S^-_{\mathrm{int}}+A_{\mathrm{int}}E^N\bigr)
+\le H\bigl(M\mid S^-_{\mathrm{int}}\bigr)+I\bigl(E^N;A_{\mathrm{int}}E^N+U^-_{\mathrm{int}}\bigr).
+\label{eq:convchain}
+\end{equation}
+The last term is at most
+$\tfrac1{2\ln2}\tr\bigl(A_{\mathrm{int}}^{\mathsf T}(\Cov U^-_{\mathrm{int}})^{-1}A_{\mathrm{int}}\Cov E^N\bigr)\le N\epsilon c_H/(a_U\ln2)$,
+because $\Cov U^-_{\mathrm{int}}\succeq\tfrac12a_UI$ and
+$\Cov E^N\preceq\epsilon I$. In the given system, by the second
+inequality of \eqref{eq:edges} and the degradation,
+\begin{equation}
+H\bigl(M\mid S^-_{\mathrm{int}}\bigr)\le H\bigl(M\mid S^{-N}\bigr)+e_H\le H\bigl(M\mid S^N\bigr)+e_H=NL_N+e_H .
+\label{eq:convchain2}
+\end{equation}
+So the leakage of the new code is at most
 \[
 L_N+\frac{e_H}N+\frac{\epsilon c_H}{a_U\ln2}.
 \]
@@ -1856,12 +1902,25 @@ leakage of that point plus $N\delta$ given the interior observations of
 the blocks. For the source $T$, the encoder draws $T'^N$ as in
 Theorem~\ref{thm:achieve} and applies this code. The rate is unchanged
 and the distortion grows by at most $\epsilon\tr Q$. For the leakage,
-the holder's observation $S^N$ contains the interior observations of
-the whole window. Those are the interior observations of the system
-with source $T'$ and noise $U$, plus the filtered $E^N$. Adding $V$ to
-them degrades them, and dropping the observations outside the
-interiors of the blocks degrades them further. So, by the leakage
-argument of Theorem~\ref{thm:achieve},
+let $\mathcal B$ be the set of times in the interiors of the blocks,
+$A_{\mathcal B}$ the matrix of the filter on them,
+$U'_{\mathcal B}=U_{\mathcal B}+V_{\mathcal B}$, and
+$S'_{\mathcal B}=A_{\mathcal B}T'^N+U'_{\mathcal B}$, the block-interior
+observations of the system $(\Sigma',P)$ for the drawn $T'^N$. The
+holder's observations at the times in $\mathcal B$ are
+$A_{\mathcal B}T^N+U_{\mathcal B}$, and adding $V_{\mathcal B}$ to them
+gives $S'_{\mathcal B}+A_{\mathcal B}E^N$, which is therefore a degraded
+version of $S^N$. Hence
+\begin{equation}
+H\bigl(M\mid S^N\bigr)\le H\bigl(M\mid S'_{\mathcal B}+A_{\mathcal B}E^N\bigr)
+\le H\bigl(M\mid S'_{\mathcal B}\bigr)+I\bigl(E^N;A_{\mathcal B}E^N+U'_{\mathcal B}\bigr),
+\label{eq:achchain}
+\end{equation}
+the second step by the leakage argument of Theorem~\ref{thm:achieve}.
+The first term on the right is the one the code controls. The last is
+at most
+$\tfrac1{2\ln2}\tr\bigl(A_{\mathcal B}^{\mathsf T}(\Cov U'_{\mathcal B})^{-1}A_{\mathcal B}\Cov E^N\bigr)\le N\epsilon c_H/(2a_U\ln2)$,
+because $\Cov U'_{\mathcal B}\succeq a_UI$. So
 \[
 \alpha R_N+(1-\alpha)L_N\le\tilde V'_n(\alpha,D)+\delta+\frac{\epsilon c_H}{2a_U\ln2},
 \]
@@ -1920,7 +1979,7 @@ disjoint bands. At $D=0.8D_{\max}$, where most frequencies are described
 by both, the rate-optimal description still leaks $1.78$ times the
 minimum, and at $D=0.5D_{\max}$ it leaks $1.22$ times the minimum.
 
-\begin{table}[t]
+\begin{table}[!htb]
 \centering
 \caption{Distortion sweep for the disjoint-bands instance, on $512$
 frequencies. Columns two to four count the frequencies described by the
@@ -1947,7 +2006,7 @@ $D/D_{\max}$ & rate & leakage & both & $R_{\min}$ & $L$ & $L$ factor & $R$ facto
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.72\linewidth]{fig_bands.pdf}
 \caption{Distortion allocations of the rate-optimal and the
@@ -1982,7 +2041,7 @@ by a factor between $2.4$ and $5.0$ over $N=4,\dots,32$ and the three
 weights. The second, explicit bound exceeds it by a factor of several
 thousand, because of the factor $b/a^3$, which is $314$ here.
 
-\begin{table}[t]
+\begin{table}[!htb]
 \centering
 \caption{Distance from the spectral value, in bits per symbol. Left:
 the source of period $n$ (Theorem~\ref{thm:spectral}). Right: windows of
@@ -2211,7 +2270,37 @@ Reliable Communication}. New York, NY: Wiley, 1968.
 % Checked 2026-11-14: the book could NOT be opened (no accessible copy found). Chapter 9 is confirmed only at
 % second hand as the chapter on rate distortion for sources with memory and Gaussian processes (arXiv:1910.14228
 % describes it so). verify on final: that the subadditivity of the block rate-distortion function is proved there
-% (recalled as Sec. 9.8), or replace by a source that was read.
+% (recalled as Sec. 9.8), or replace by a source that was read. Second-hand confirmation 2026-11-14: Naiss and
+% Permuter, IEEE Trans. IT 59(2), 2013, App. A, cite Gallager's Theorem 9.8.1 with Lemma 4A.2 for subadditivity
+% of n R_n(D), for discrete stationary sources.
+\bibitem{wynerziv1971} A. D. Wyner and J. Ziv, ``Bounds on the
+rate-distortion function for stationary sources with memory,''
+\emph{IEEE Trans. Inf. Theory}, vol. 17, no. 5, pp. 508--513, 1971.
+% verify on final: only the abstract and second-hand descriptions were read (Gray 1990 Sec. 4.7.1; Gibson,
+% Entropy 19(11):604, 2017, eqs. (23)-(24); Dembo and Kontoyiannis 2002). DOI 10.1109/TIT.1971.1054699.
+% The application to blocks of N symbols is a one-line consequence and was NOT seen printed anywhere.
+\bibitem{gray1990sct} R. M. Gray, \emph{Source Coding Theory}. Boston, MA:
+Kluwer, 1990.
+% Sec. 4.7.1 "The Wyner-Ziv lower bound", pp. 103--104, eqs. (4.7.3)-(4.7.4): read 2026-11-14 by a search
+% agent in the author's posted PDF, not by the author of this draft. It is stated there for scalar letters
+% with the remark that the results extend to finite-dimensional vectors. verify on final.
+\bibitem{gray1990eit} R. M. Gray, \emph{Entropy and Information Theory}.
+New York, NY: Springer, 1990.
+% Lemma 10.6.2 of the corrected first edition posted by the author (2023): the distortion-rate function of a
+% stationary source is the limit and the infimum of the block functions. Read 2026-11-14 by a search agent.
+% verify on final: section numbering in the printed editions.
+\bibitem{tian2019} P. Tian and V. Kostina, ``The dispersion of the
+Gauss--Markov source,'' \emph{IEEE Trans. Inf. Theory}, vol. 65, no. 10,
+pp. 6355--6384, 2019.
+% verify on final: read by a search agent (arXiv:1804.09418). It gives O(1/n) eigenvalue-distribution and
+% distortion errors for the scalar AR(1) source; an explicit bound on R_n - R was not found in it.
+\bibitem{tasci2026} E. Tasci and V. Kostina, ``Dispersion of Gaussian
+sources with memory and an extension to abstract sources,''
+arXiv:2602.09176, 2026.
+% Title, authors (Eyyup Tasci, Victoria Kostina) and dates (v1 9 Feb 2026, v2 26 June 2026) confirmed on the arXiv
+% abstract page, whose abstract says the paper quantifies how fast the n-th order rate-distortion function approaches
+% its limit. verify on final: the statement itself (Lemma 1, eq. (53): |R_n(d) - R(d)| <= c/n for scalar
+% finite-order AR sources, every d, existential constant) is as reported by a search agent, not read here.
 \bibitem{gutierrez2017} J. Guti\'errez-Guti\'errez,
 M. Z\'arraga-Rodr\'iguez, and X. Insausti, ``Upper bounds for the rate
 distortion function of finite-length data blocks of Gaussian WSS

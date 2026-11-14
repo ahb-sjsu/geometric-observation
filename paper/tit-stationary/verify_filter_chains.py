@@ -184,6 +184,20 @@ def main():
     report("ach_leakage_chain", ok, h_S=h1, h_S_int=h2, h_Sp_int=h3, h_SpV_int=h4, h_SpV_blocks=h5,
            I_E=float(I_E), bound_I_E=float(bound_E), end_to_end_slack=float(h5 + I_E - h1))
 
+    # the chain in the order displayed in the paper (eq. achchain): degrade to the block interiors with the
+    # added noise first, then remove E:   h(Z | S^N) <= h(Z | S'_B + A_B E) <= h(Z | S'_B) + I(E; A_B E + U'_B)
+    Brows = np.concatenate(blk_Sint)
+    A_B = HE[np.ix_(Brows, win)]
+    assert np.abs(np.delete(HE[Brows], win, axis=1)).max() == 0
+    J.set("SV_blk", (HE @ T_ext + U + V)[Brows])            # = S'_B + A_B E
+    same = float(np.abs(J.rows["SV_blk"] - (J.rows["SpV_blk"] + A_B @ E)).max())
+    CUB = (CU + delta * Ir)[np.ix_(Brows, Brows)]
+    I_B = 0.5 * ld2(np.eye(len(Brows)) + np.linalg.solve(CUB, A_B @ (eps * np.eye(N * p)) @ A_B.T))
+    hB = J.h_cond("Z", ["SV_blk"])
+    ok = same < 1e-12 and h1 <= hB + TOL and hB <= h5 + I_B + TOL and I_B <= bound_E + TOL
+    report("ach_chain_as_displayed", ok, h_S=h1, h_SpB_plus_AE=hB, h_SpB=h5, I_E_B=float(I_B),
+           bound_I_E=float(bound_E), identity_err=same, end_to_end_slack=float(h5 + I_B - h1))
+
     # blocks: pairs (block of T', block-interior observations of S' + V) are independent and identically distributed
     pair = [np.vstack([Tp[b_t], SpV_full[b_s]]) for b_t, b_s in zip(blk_T, blk_Sint)]
     cross = float(np.abs(pair[0] @ pair[1].T).max())
