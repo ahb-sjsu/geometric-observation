@@ -165,8 +165,8 @@ only the sum and draws the finite-memory part from its conditional law,
 and the small remainder changes the
 leakage by an amount that vanishes with its power. The draw is then
 removed: a fixed schedule of seeds on consecutive windows gives a
-deterministic encoder with the same guarantees
-(Lemma~\ref{lem:derand}). For a general
+deterministic encoder with the same guarantees up to an arbitrarily
+small loss (Lemma~\ref{lem:derand}). For a general
 spectrum the same argument reduces achievability to the convergence of
 the windows.
 
@@ -991,8 +991,10 @@ at most $D_N+\delta$, and
 
 \begin{proof}
 Let $Z$ be the private randomness, independent of the source and of the
-holder's noise, so that the message is $\phi(T^N,Z)$ for a measurable
-map $\phi$ and the decoder is a function of the message. For a value $z$
+holder's noise, so that the message is $\phi(T^N,Z)$ and the decoder is
+a function of the message. We take $Z$ with values in a standard Borel
+space and $\phi$ jointly measurable, so that the quantities indexed by
+the seed below are measurable in it by Tonelli's theorem. For a value $z$
 of the seed, $\phi(\cdot,z)$ is a deterministic encoder. Let
 $M_z=\phi(T^N,z)$, let $D_z$ be its distortion under the same decoder,
 and let $L_z=\tfrac1NH(M_z\mid S^N)$. Because $Z$ is independent of
@@ -1015,7 +1017,8 @@ $N$. On the $i$th use the encoder $\phi(\cdot,z_i)$ and the original
 decoder, with message $M_i$, and let $M=(M_1,\dots,M_k)$. The seeds are
 part of the code and are not transmitted, so the rate is $R_N$ and the
 encoder is deterministic. The source and the holder's noise are
-stationary, so the $i$th window of the source together with the
+stationary and independent, and the holder's map is memoryless, so the
+$i$th window of the source together with the
 holder's observations $S_i^N$ in it has the law of $(T^N,S^N)$. The
 distortion per symbol is therefore the average of the $D_{z_i}$, and
 \[
@@ -1126,8 +1129,8 @@ only on the joint law of $(T'^N,S'^N)$, which the coupling reproduces.
 of $T'^N$, which is a linear function of $T^N$ plus an independent
 Gaussian vector. By Lemma~\ref{lem:derand} there is a code with a
 deterministic encoder, of blocklength $kN$, with the same rate,
-distortion at most $D+4\delta$, and leakage at most $L+5\delta$, and
-$\delta$ is arbitrary.
+distortion at most $D+4\delta$, and leakage at most $L+5\delta$.
+Replacing $\delta$ by $\delta/5$ gives the statement.
 
 \emph{The region.} Taking $\delta\to0$ along a sequence and one code
 for each gives blocklengths $N_j\to\infty$, so the frontier point of
@@ -1135,11 +1138,15 @@ each weight is in $\mathcal A(D)$. By Theorem~\ref{thm:affine}(c) every
 achievable pair satisfies $\alpha R+(1-\alpha)L\ge V(\alpha,D)$ for every
 $\alpha$, so $\mathcal A(D)\subseteq\mathcal R(D)$. The set $\mathcal A(D)$
 is closed and upward closed by definition, and it is convex by time
-sharing: two codes used on consecutive windows of lengths $N_1$ and
-$N_2$ have the averaged rate and distortion, and
-$H(M_1,M_2\mid S^{N_1+N_2})\le H(M_1\mid S^{N_1})+H(M_2\mid S^{N_2})$,
-where each term on the right conditions on the observations in that
-code's own window, and the source is stationary. A closed, convex,
+sharing. Given two codes of blocklengths $N_1$ and $N_2$ and a weight
+$\lambda\in(0,1)$, use $a$ copies of the first and $b$ copies of the
+second on consecutive windows, with independent private randomness if
+any, and with $aN_1/(aN_1+bN_2)$ close to $\lambda$. Rate, distortion,
+and the bound on the leakage are then the averages with that weight,
+because each window has the law of the first one and, as in
+Lemma~\ref{lem:derand}, the entropy of the messages given all
+observations is at most the sum over the copies of the entropy of each
+message given the observations in its own window. A closed, convex,
 upward closed set in the plane is the intersection of its supporting
 half-planes with normals $(\alpha,1-\alpha)$, $\alpha\in[0,1]$. The
 support value of $\mathcal A(D)$ in that direction is at least
@@ -1162,12 +1169,21 @@ most $V(\alpha,D)$. The matching converse for a general spectrum needs
 the conjecture for $\Sigma$ itself. Second, the construction first uses private randomness, because the
 encoder must draw the finite-memory part of the source, which it does
 not observe separately, and Lemma~\ref{lem:derand} then removes it. The
-lemma holds for every spectrum, and it is where the choice of
-$H(M\mid S^N)$ as the leakage of a randomized code is used. So
+lemma holds for every spectrum under the memoryless holder map of this
+section, and it is where the choice of
+$H(M\mid S^N)$ as the leakage of a randomized code is used. Applied
+with $\delta\to0$ along a sequence of codes, it shows that
 $\mathcal A(D)$ is the same with and without private randomness, and
-the encoder model is that of \cite{part1}. Third, the theorem gives a sequence of
-blocklengths. A blocklength between two multiples of $n+m$ is handled
-by reproducing zero on the remaining symbols, at a vanishing cost in
+the encoder model is that of \cite{part1}. If the leakage of a
+randomized code is taken to be $I(T^N;M\mid S^N)$ instead, the argument
+of the lemma fails, since conditioning on the seed can raise that
+quantity. For the affine class the region is still $\mathcal R(D)$
+under that definition, because Proposition~\ref{prop:window} holds for
+it and the codes of the theorem are deterministic. Third, the theorem gives a sequence of
+blocklengths. Every large blocklength is handled by repeating a
+deterministic code of blocklength $N_0$ on consecutive windows, which
+keeps its guarantees by the same subadditivity, and reproducing zero
+on the fewer than $N_0$ symbols that remain, at a vanishing cost in
 distortion.
 
 \begin{conjecture}\label{conj:windows}
