@@ -1,5 +1,6 @@
 """Numerical checks of the inequalities in the proof of the achievability theorem
-(Theorem 11 and Lemma 12 of the manuscript).
+(Theorem 16 and Lemma 17 of the manuscript; the two instances are in the affine
+class, which the general decomposition of the proof contains).
 
 The theorem is a coding theorem and is not something a computation can verify.
 What is checked here, on Gaussian stand-ins for the message, are the steps of
