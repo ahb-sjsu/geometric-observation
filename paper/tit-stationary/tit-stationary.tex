@@ -884,8 +884,8 @@ with memory against a holder that keeps a causal prefix, which is open.
 A code of blocklength $N$ for the stationary source maps
 $T^N=(T_1,\dots,T_N)$ to a message $M$ in a finite set, and the decoder
 outputs $\hY^N$ as a function of $M$. In this section the encoder may
-use private randomness, independent of the source and of the holder's
-noise. Its rate, distortion, and leakage per symbol are
+use private randomness, independent of the source process and of the
+holder's noise process. Its rate, distortion, and leakage per symbol are
 $R_N=\tfrac1N\log|\mathcal M|$,
 $D_N=\tfrac1N\sum_t\E[(Y_t-\hY_t)^{\mathsf T}W(Y_t-\hY_t)]$, and
 $L_N=\tfrac1NH(M\mid S^N)$, where $S^N$ is what the holder observes
@@ -1481,8 +1481,9 @@ $H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
 
 \begin{lemma}\label{lem:concat}
 Let codes $c_1,\dots,c_k$ for the stationary source have blocklengths
-$N_i$, rates $R_i$, distortions $D_i$, and leakages $L_i$, and
-independent private randomness, if any. Use $c_i$ on the $i$th of $k$
+$N_i$, rates $R_i$, distortions $D_i$, and leakages $L_i$, with private
+randomness $(Z_1,\dots,Z_k)$, if any, independent of the source process
+and the noise process. Use $c_i$ on the $i$th of $k$
 consecutive windows of lengths $N_1,\dots,N_k$, with the message
 $M=(M_1,\dots,M_k)$ and each decoder on its own window, and let
 $N=\sum_iN_i$. The resulting code of blocklength $N$ has rate
@@ -1502,23 +1503,28 @@ so the $i$th window of the source, together with the holder's
 observations $S_i$ at its times, has the law of a window of length
 $N_i$ with its observations. This holds for the memoryless holder map
 of this section and for the filter of Section~\ref{sec:filter}. The
-private randomness is independent of everything else, so
-$(M_i,S_i)$ has the law it has when $c_i$ is used alone, which gives the
-distortion and $H(M_i\mid S_i)=N_iL_i$. For the leakage,
+private randomness $Z_i$ is independent of both processes, so the
+triple of the $i$th source window, $M_i$, and $S_i$ has the law it has
+when $c_i$ is used alone, which gives the distortion and
+$H(M_i\mid S_i)=N_iL_i$. The $Z_i$ need not be independent of each other.
+For the leakage,
 \[
 H\bigl(M_1,\dots,M_k\mid S^N\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^N\bigr)
 \le\sum_{i=1}^kH\bigl(M_i\mid S_i\bigr),
 \]
 the first step by the subadditivity of entropy and the second because
 $S_i$ is part of $S^N$. Neither step uses any independence between
-the windows. The dependence between windows, in the source and through
-it in the messages and the observations, can only lower the entropy of
-the message given all the observations.
+the windows. Dependence between windows, whether it comes from the
+source, the filter, or the noise, can only make the left side smaller
+than the sum, which is its value when the windows are independent.
 \end{proof}
 
 This is the subadditivity of the leakage of codes. It is a different
 statement from Lemma~\ref{lem:subadd}, which is about the costs of test
-channels, although the two inequalities used are the same.
+channels, although the two steps are parallel: split over the windows,
+then drop the observations of the other windows. For test channels
+each step needs a conditional independence. For the entropies of
+messages neither does.
 
 \begin{lemma}\label{lem:derand}
 Let a code of blocklength $N$ for the stationary source, with private
@@ -1558,19 +1564,17 @@ $k$ and seeds $z_1,\dots,z_k$ with
 Divide a window of length $kN$ into $k$ consecutive windows of length
 $N$. On the $i$th use the encoder $\phi(\cdot,z_i)$ and the original
 decoder, with message $M_i$, and let $M=(M_1,\dots,M_k)$. The seeds are
-part of the code and are not transmitted, so the rate is $R_N$ and the
-encoder is deterministic. The source and the holder's noise are
-stationary and independent, and the holder's map is memoryless, so the
-$i$th window of the source together with the
-holder's observations $S_i^N$ in it has the law of $(T^N,S^N)$. The
-distortion per symbol is therefore the average of the $D_{z_i}$, and
+part of the code and are not transmitted. By Lemma~\ref{lem:concat}
+for the $k$ deterministic codes $\phi(\cdot,z_i)$, the resulting code has
+a deterministic encoder, rate $R_N$, distortion
+$\tfrac1k\sum_iD_{z_i}$, and
 \[
-H\bigl(M_1,\dots,M_k\mid S^{kN}\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^{kN}\bigr)
-\le\sum_{i=1}^kH\bigl(M_i\mid S_i^N\bigr)=N\sum_{i=1}^kL_{z_i}.
+\tfrac1{kN}H\bigl(M\mid S^{kN}\bigr)=\tfrac1{kN}I\bigl(T^{kN};M\mid S^{kN}\bigr)\le\tfrac1k\sum_{i=1}^kL_{z_i}.
 \]
-This is Lemma~\ref{lem:concat} for the $k$ deterministic codes
-$\phi(\cdot,z_i)$. The equality in the
-statement holds because $M$ is a function of $T^{kN}$.
+The argument uses the holder's map only through
+Lemma~\ref{lem:concat} and through the independence of $Z$ from
+$(T^N,S^N)$, so it holds for the filter of Section~\ref{sec:filter} as
+well.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:achieve}]
@@ -1683,7 +1687,11 @@ $\lambda\in(0,1)$, use $a$ copies of the first and $b$ copies of the
 second on consecutive windows, with independent private randomness if
 any, and with $aN_1/(aN_1+bN_2)$ close to $\lambda$. Rate, distortion,
 and the bound on the leakage are then the averages with that weight,
-by Lemma~\ref{lem:concat}. A closed, convex,
+by Lemma~\ref{lem:concat}. Applied along two sequences of codes that
+achieve two pairs, with $a=pN_2$ and $b=qN_1$ for integers $p$ and $q$,
+this gives the weight $p/(p+q)$ exactly and blocklengths that tend to
+infinity, so the set of achievable pairs is convex for rational
+weights, and its closure is convex. A closed, convex,
 upward closed subset of the nonnegative quadrant is the intersection of
 its supporting half-planes with normals $(\alpha,1-\alpha)$,
 $0<\alpha<1$. Indeed a point outside it is separated from it by a
@@ -1719,11 +1727,13 @@ quantity. The region is still $\mathcal R(D)$
 under that definition, because Proposition~\ref{prop:window} holds for
 it and the codes of the theorem are deterministic. Third, the theorem
 gives a sequence of
-blocklengths. Every large blocklength is handled by repeating a
-deterministic code of blocklength $N_0$ on consecutive windows, which
-keeps its guarantees by Lemma~\ref{lem:concat}, and reproducing zero
-on the fewer than $N_0$ symbols that remain, at a vanishing cost in
-distortion. Fourth, the proof of Theorem~\ref{thm:windows} does not go
+blocklengths. Every large blocklength is handled by Lemma~\ref{lem:concat}:
+repeat a deterministic code of blocklength $N_0$ on consecutive windows
+and, on the fewer than $N_0$ symbols that remain, use the code with one
+message that reproduces zero, which has rate and leakage zero and
+distortion $D_{\max}$. At blocklength $N$ the rate and the leakage are
+at most those of the repeated code, and the distortion exceeds its
+distortion by at most $\tfrac{N_0}ND_{\max}$. Fourth, the proof of Theorem~\ref{thm:windows} does not go
 through a comparison of block-Toeplitz and block-circulant matrices in
 a weak norm \cite{gutierrez2012}. The upper bound uses a feasible point
 that is itself block-Toeplitz, and the lower bound uses the exact
@@ -2027,11 +2037,13 @@ blocklength with $D_N\le D+3\delta$ and
 $\alpha R_N+(1-\alpha)L_N\le V(\alpha,D)+4\delta$.
 
 \emph{The region.} The rest is as in the proof of
-Theorem~\ref{thm:achieve}. Time sharing and Lemma~\ref{lem:derand} rest
-on Lemma~\ref{lem:concat}, which uses only that the source and the
-holder's observation are jointly stationary, so that each of several
-consecutive windows, with the observations at its times, has the law
-of a window of its length.
+Theorem~\ref{thm:achieve}, with the converse just proved in the place
+of Theorem~\ref{thm:windows}(d). Time sharing and
+Lemma~\ref{lem:derand} rest on Lemma~\ref{lem:concat}, which uses only
+that the source and the holder's observation are jointly stationary,
+so that each of several consecutive windows, with the observations at
+its times, has the law of a window of its length, and that the private
+randomness is independent of both processes.
 \end{proof}
 
 For a memoryless map and white noise this is Theorem~\ref{thm:achieve},
@@ -2238,7 +2250,10 @@ The statements were checked independently of the derivations. The
 scripts, their recorded outputs, and a notebook that reruns them are in
 the public repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
-\texttt{paper/tit-stationary}. No proof depends on them.
+\texttt{paper/tit-stationary}. The files that go with this version of
+the manuscript are fixed by the tag \texttt{tit-stationary-1.0}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.0/paper/tit-stationary}.
+No proof depends on them.
 
 \texttt{spectral\_core.py} implements the costs and one solver, the
 water-filling iteration of \cite[Proposition~11]{part1} with a bisection
