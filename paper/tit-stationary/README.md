@@ -109,5 +109,5 @@ The same reviewer read the revision with Theorem 11 and moved to "a plausible T-
 - [ ] Prior-art search for the delay statement (Proposition 7) was a single targeted search.
 - [x] Build the whole Lean library with the new import (2026-11-14, incremental, no errors; see `lean-library-2026-11-14.txt`). The root file does not import `CRContext` or `RateLeakage`; whether it should is a separate decision.
 - [ ] Decide whether to seal a registration for the new checks.
-- [ ] Add the two tex files to the CI compile list if they should be guarded.
+- [x] The two tex files are in the CI compile list (2026-11-14), with the same undefined-reference guard as paper one.
 - [ ] Venue, title, and authorship are the author's decisions; nothing here is submitted.
