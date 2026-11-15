@@ -94,6 +94,21 @@ quadratic distortion per symbol. The second party, called the holder as
 in \cite{part1}, observes a filtered copy of the process in stationary
 Gaussian noise. The costs are the rate and the leakage per symbol.
 
+Three distinctions place the problem. In the Wyner--Ziv problem the
+side information is at the decoder and lowers the rate. Here it is at a
+party that does not decode, and the leakage is what the message adds
+to what that party already has. The region is a different region, not
+the same one with other labels. In the privacy funnel and in the
+utility--privacy tradeoffs discussed below, the leakage is an
+unconditional mutual information. Here it is conditional on the second
+party's own observation, and that conditioning is what tilts the
+weight. And the stationary case is not the memoryless result applied
+at each frequency. The per-frequency statement is exact for a periodic
+source, which is a model. Making the spectral region operational for
+the stationary source takes the window theorem and the coding theorems
+of Section~\ref{sec:windows}, in which the holder's observation of a
+finite window and the memory across blocks have to be controlled.
+
 The results are as follows. For a source of period $n$, by which we
 mean independent blocks of length $n$ with a block-circulant
 covariance, the frontier splits exactly over the $n$ discrete Fourier
@@ -1204,6 +1219,9 @@ with $\|\cdot\|_{\mathrm F}$ the Frobenius norm. We use one approximation
 several times. If $F\succeq aI$ and $0<\epsilon<a$, the Fej\'er means of
 $F$ are Hermitian trigonometric polynomials with real coefficients,
 they have the symmetry of $F$, and they converge to $F$ uniformly.
+They are also at least $aI$, because a Fej\'er mean is an average of
+$F$ against a nonnegative kernel of unit mass, so positive
+definiteness is not lost in the approximation.
 Subtracting $\tfrac\epsilon2I$ from one that is within $\tfrac\epsilon2$
 of $F$ gives a trigonometric polynomial $F'$ with
 $F-\epsilon I\preceq F'\preceq F$, hence
@@ -1445,6 +1463,14 @@ of a source with finite memory and an independent source of small
 power. The encoder, which sees only the sum, samples the finite-memory
 part from its conditional law. And the private randomness of that draw
 is removed by Lemma~\ref{lem:derand}.
+
+The limits are taken in a fixed order. The power $\epsilon$ of the
+remainder is chosen first, which fixes the finite-memory source and its
+memory $m$. For that source the block length $n$ of the window grows,
+then the number $K$ of blocks. Only after that does $\epsilon$ tend to
+zero. The window limit is never taken for the original source in the
+achievability, and the memory $m$ is allowed to grow without bound as
+$\epsilon$ decreases.
 
 \begin{lemma}\label{lem:guard}
 Let $(T'_t)$ be a centered stationary Gaussian process in $\R^p$ with
