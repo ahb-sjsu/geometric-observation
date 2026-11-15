@@ -7,7 +7,7 @@ stationary and sources that are not Gaussian.
 
 **Status (2026-11-15): draft, not submitted, no venue chosen.** Title,
 venue and authorship are the owner's decisions. No human has read the
-proofs. The three referee passes recorded below were made by models.
+proofs. The four referee passes recorded below were made by models.
 
 ## Why it is a separate paper
 
@@ -15,24 +15,26 @@ Paper two's proofs use stationarity at every step (Fourier
 diagonalization, subadditivity of window costs, embedding in periodic
 sources, a Gaussian split into finite memory plus remainder). None of
 that is available here. The draft uses two other tools: a comparison of a
-long Gaussian vector with its blocks (Lemmas 10 and 11), and
+long Gaussian vector with its blocks (Lemmas 10 to 12), and
 maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 
 ## What the draft proves
 
 | Result | Statement | Rests on |
 |---|---|---|
-| **Theorem 12** | **Locally stationary Gaussian source: the region is water-filling over the time-frequency plane under one level** | Lemmas 10, 11; paper two's Lemma 2, Lemma 11, Theorems 15, 16 |
+| **Theorem 13** | **Locally stationary Gaussian source: the region is water-filling over the time-frequency plane under one level, with deterministic encoders** | Lemmas 10, 11, 12; paper two's Lemma 2, Lemma 11, Theorems 15, 16 |
 | Lemma 10 | Costs of a Gaussian vector are superadditive over blocks, up to the information between blocks | Paper one's Proposition 2 |
 | Lemma 11 | A code for a smaller covariance serves a larger one through a coupling | The coupling inside paper two's Theorem 16 |
-| Proposition 13 | A time-varying moving average with a white floor is locally stationary | Direct estimate |
-| Corollary 14 | The stationary source with the time-averaged spectrum has a region no larger | Corollary 6 |
-| Corollary 15 | A source that becomes stationary has the spectral region of its limit | Lemmas 10, 11 |
-| Theorem 16 | Cyclostationary Gaussian process: the region is the spectral region of the process stacked over one period | Paper two's Theorems 15, 22, 23 |
-| Proposition 17 | Harmonic form: frequencies couple within cosets of the cycle frequency | Direct computation |
-| Corollary 18 | For a stationary source the stacked region is paper two's region | Theorem 16 |
-| Theorem 20 | The stationary source with the phase-averaged spectrum has a region no larger (time-invariant parties) | Corollary 6 |
-| Proposition 21 | Independent stationary regimes share one water level | Lemma 10, paper two's Theorem 15 |
+| Lemma 12 | The coupling's randomness can be removed when one code is repeated on many blocks with nearly the same law | Chebyshev over independent seeds |
+| Proposition 14 | Converse with a rate: for Lipschitz covariances no code falls more than a constant times N^(-1/2) below the frontier | Three elementary facts about the program |
+| Proposition 15 | A time-varying moving average with a white floor is locally stationary | Direct estimate |
+| Corollary 16 | The stationary source with the time-averaged spectrum has a region no larger | Corollary 6 |
+| Corollary 17 | A source that becomes stationary has the spectral region of its limit, with deterministic encoders | Lemmas 10, 12 |
+| Theorem 18 | Cyclostationary Gaussian process: the region is the spectral region of the process stacked over one period | Paper two's Theorems 15, 22, 23 |
+| Proposition 19 | Harmonic form: frequencies couple within cosets of the cycle frequency | Direct computation |
+| Corollary 20 | For a stationary source the stacked region is paper two's region | Theorem 18 |
+| Theorem 22 | The stationary source with the phase-averaged spectrum has a region no larger (time-invariant parties) | Corollary 6 |
+| Proposition 23 | Independent stationary regimes share one water level | Lemma 10, paper two's Theorem 15 |
 | Proposition 1 | Coding theorem for any memoryless pair with finite second moments and finite I(T;S) | Proof of paper one's Theorem 3 |
 | Theorem 2 | The Gaussian region with the same second moments is achievable for a source that is not Gaussian | Gaussian test channel on the source as it is |
 | Theorem 3 | Every code is bounded below by the Gaussian frontier less two relative entropies | Maximum entropy, concavity of the linear-estimation error |
@@ -43,18 +45,21 @@ maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 
 Theorem numbers are those printed by the build of 2026-11-15. Check them
 against the PDF before quoting. At the weight that counts only the rate,
-Theorem 12 gives the rate-distortion function of a locally stationary
+Theorem 13 gives the rate-distortion function of a locally stationary
 Gaussian vector source; the search below did not find that statement for
 this class.
 
 ## What it does not prove
 
-- Theorem 12 and Corollary 15 need private randomness at the encoder.
-  Whether deterministic encoders suffice is open.
-- Theorem 12 is for a time-invariant weight and holder, with a memoryless
+- Theorem 13 is for a time-invariant weight and holder, with a memoryless
   holder map and white noise. Slowly varying parties are not covered.
-- No rate of convergence in the blocklength for Theorem 12.
-- Sources that vary fast without a period, and unstable sources.
+- Conditions (L1) to (L3) describe a stable source that varies slowly.
+  Sources that vary fast without a period, and unstable sources, are not
+  covered.
+- The achievability of Theorem 13 has no rate in the blocklength (none is
+  known for stationary sources either). Proposition 14 gives a rate for
+  the converse only, and the computed examples suggest it is not the true
+  order.
 - The upper bound for processes that are not Gaussian and have infinite
   dependence.
 - Tightness of the non-Gaussian lower bound at any positive distortion,
@@ -65,39 +70,40 @@ this class.
 
 | File | What it is |
 |---|---|
-| `tit-beyond-stationary.tex`, `.pdf` | The draft, 20 pages |
-| `example_ls.py`, `example_ls.json`, `fig_ls.pdf`, `fig_ls.png` | The worked example after Proposition 13 and its figure (needs matplotlib) |
+| `tit-beyond-stationary.tex`, `.pdf` | The draft, 23 pages |
+| `example_ls.py`, `example_ls.json`, `fig_ls.pdf`, `fig_ls.png` | The worked example after Proposition 15 and its figure (needs matplotlib) |
 | `verify_nongauss.py`, `.json` | Seven checks of Section III on a Gaussian-mixture source (about one minute) |
-| `verify_ls.py`, `.json` | Six checks of Sections V and VI on a time-varying moving average (about eleven minutes) |
+| `verify_ls.py`, `.json` | Seven checks of Sections V and VI on a time-varying moving average (about ten minutes) |
 | `verify_cyclo.py`, `.json` | Seven checks of Sections VII and VIII on periodic moving averages (about eleven minutes) |
 
 The scripts import `spectral_core.py` and `verify_spectral.py` from
 `../tit-stationary/`. Run them from this folder. numpy only (numpy 2.5.2,
-Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 6 of 6 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
+Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 7 of 7 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
 
 Build: `pdflatex tit-beyond-stationary.tex` three times.
 
 ## Referee passes (models, 2026-11-15)
 
-Three independent passes, each told to find errors and given the
+Four independent passes, each told to find errors and given the
 companion papers to check imported results against. None was a human.
 
 | Pass | Scope | Outcome |
 |---|---|---|
 | A | Sections II to IV (non-Gaussian) | No error. Four gaps, six minor points. All fixed: hypotheses of the moving-average example, the entropy-rate limit may be infinite, deterministic encoders in Theorem 8, a Markov chain stated in Theorem 3. |
-| B | Cyclostationary and regimes sections | No error. Four gaps, five minor points. All fixed: Theorem 16(b) for blocklengths that are not multiples of the period, convexity of the achievable set in Proposition 21, the stacked hypotheses in Corollary 18. |
-| C | Lemmas 9 to 11, Theorem 12 and its corollaries | One false sentence (which stationary processes satisfy the definition), one unproved remark (softened), nine minor points. All fixed. The pass also found that the constant in Lemma 10 does not depend on the holder. |
+| B | Cyclostationary and regimes sections | No error. Four gaps, five minor points. All fixed: Theorem 18(b) for blocklengths that are not multiples of the period, convexity of the achievable set in Proposition 23, the stacked hypotheses in Corollary 20. |
+| C | Lemmas 9 to 11, the main theorem and its corollaries | One false sentence (which stationary processes satisfy the definition), one unproved remark (softened), nine minor points. All fixed. The pass also found that the constant in Lemma 10 does not depend on the holder. |
+| D | Lemma 12, the deterministic achievability of Theorem 13, Proposition 14 | No error in the mathematics. Two small gaps and seven wording points, all fixed: a misleading sentence in the introduction about the rate, the order in which the proof's parameters are chosen, the definition of the program for fields that are not continuous. |
 
 Passes A and B were made before Sections V and VI existed, and before
-the fixes from pass C. No pass has read the final text end to end.
+the fixes from passes C and D. No pass has read the final text end to end.
 
 An outside reader's comments of 2026-11-15 were then applied: the
 abstract and introduction no longer say the two non-Gaussian bounds
 "meet" (only the lower bound is tight at high resolution); the scope of
-Theorem 12 is stated in the abstract, the introduction and the theorem;
+the main theorem is stated in the abstract, the introduction and the theorem;
 the subsection on the phase-averaged spectrum says at its start that it
 compares two Gaussian models and not the penalty of not knowing the
-phase; and a worked example with a figure follows Proposition 13.
+phase; and a worked example with a figure follows Proposition 15.
 
 ## Prior art (searched 2026-11-15)
 
@@ -120,7 +126,7 @@ found", not "does not exist".
 - Water-filling in the time-frequency plane for the rate-distortion
   function of a class of nonstationary sources in continuous time:
   Hammerich, IEEE Trans. Inf. Theory 2016 (arXiv:1509.05668). **This is
-  the closest prior result to Theorem 12 at the rate-only weight. Only
+  the closest prior result to Theorem 13 at the rate-only weight. Only
   its abstract was read. Read the paper before claiming the
   rate-distortion statement as new.**
 - Variance in the upper bound, entropy power in the lower: Shannon lower
@@ -170,7 +176,7 @@ of relative entropy was not looked up.
 
 ## Open items before submission
 
-- [ ] A human reads the proofs, Theorem 12 first.
+- [ ] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first.
 - [ ] Read Hammerich 2016 and Dahlhaus 1996 in full, and locate the
       Velloso and Santos Filho paper named above.
 - [ ] Forward-citation pass on Kipnis 2018, Gutiérrez-Gutiérrez 2018,

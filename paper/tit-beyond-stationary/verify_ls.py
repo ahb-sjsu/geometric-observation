@@ -20,6 +20,8 @@ The source is a time-varying moving average with a white floor
                     (the Gaussian content of Lemma "coupling")
   averaged          V_ls <= the spectral cost of the time-averaged spectrum
                     (Corollary "lsavg")
+  program_facts     the three facts (F1)-(F3) about the program used in the
+                    proof of Proposition "rate"
 
 Solver: spectral_core.py of the companion paper.  numpy only.
 """
@@ -285,6 +287,44 @@ def main():
                 cases += 1
     report("averaged", worst > -1e-9, min_saving=float(worst),
            max_saving=max(r["v_averaged"] - r["v_ls"] for r in rows), cases=cases, table=rows)
+
+    # ---------------------------------------------------------------- (F1)-(F3)
+    worst = np.inf
+    cases = 0
+    Gp, Wp = 6, 12
+    for src in (source_scalar(), source_vector()):
+        pdim = src.p
+        pts = [((j + 0.5) / Gp, 2 * np.pi * k / Wp) for j in range(Gp) for k in range(Wp)]
+        wts = np.full(len(pts), 1.0 / len(pts))
+
+        def cost(scale_fun, alpha, D):
+            blocks = []
+            for (u, w) in pts:
+                Sg = scale_fun(u, w) * src.sigma(u, w)
+                Rg = sc.psd_sqrt(Sg)
+                blocks.append((sc.herm(Rg @ src.Q @ Rg), src.H @ Rg, src.SU.astype(complex)))
+            return sc.solve(blocks, wts, alpha, D)["cost"]
+
+        one = lambda u, w: 1.0  # noqa: E731
+        dm = float(np.mean([np.real(np.trace(src.Q @ src.sigma(u, w))) for (u, w) in pts]))
+        beta = max(float(np.linalg.eigvalsh(src.sigma(u, w))[-1]) for (u, w) in pts)
+        qn = float(np.linalg.norm(src.Q, 2))
+        for alpha in (0.0, 0.5, 1.0):
+            for frac in (0.15, 0.5):
+                D = frac * dm
+                v = cost(one, alpha, D)
+                for x in (0.1, 0.5):
+                    # (F1)
+                    worst = min(worst, cost(one, alpha, (1 + x) * D) + 0.5 * pdim * np.log2(1 + x) - v)
+                # (F2)
+                worst = min(worst, 0.5 * pdim * max(0.0, np.log2(pdim * beta * qn / D)) - v)
+                # (F3): Sigma' = Sigma / s(u,w) with 1 <= s <= 1 + kappa
+                for kappa in (0.05, 0.3):
+                    sf = lambda u, w: 1.0 / (1.0 + kappa * (0.5 + 0.5 * np.sin(7 * u + w)))  # noqa: E731
+                    vp = cost(sf, alpha, D)
+                    worst = min(worst, 0.5 * pdim * np.log2(1 + kappa) - abs(v - vp))
+                cases += 1
+    report("program_facts", worst > -1e-8, min_margin=float(worst), cases=cases)
 
     OUT["_meta"] = dict(seed=SEED, numpy=np.__version__, failed=FAILED, seconds=round(time.time() - t0, 1))
     here = os.path.dirname(os.path.abspath(__file__))

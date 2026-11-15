@@ -54,7 +54,7 @@ determine the region for Gaussian sources whose covariance is locally
 that of a stationary process with a spectrum that varies slowly in
 time: it is water-filling over the time--frequency plane under one
 water level. This is proved for a fixed memoryless observation of the
-second party in white noise and for encoders with private randomness.
+second party in white noise, with deterministic encoders.
 The same holds for sources that become stationary, and
 for a cyclostationary source the frequencies that differ by a multiple
 of the cycle frequency are coupled and all share one level. The stationary source with the time-averaged spectrum never has a
@@ -110,7 +110,9 @@ or a transform. The first compares the problem for a long Gaussian
 vector with the problems for its blocks: the costs are superadditive
 over blocks up to the information between the blocks, and a code for
 a slightly smaller covariance serves a slightly larger one through a
-coupling (Lemmas~\ref{lem:blocks} and~\ref{lem:coupling}). The second
+coupling, whose randomness can be removed when the code is repeated on
+many blocks with nearly the same law (Lemmas~\ref{lem:blocks},
+\ref{lem:coupling}, and~\ref{lem:seeds}). The second
 is a pair of maximum-entropy arguments for the two costs together
 (Theorems~\ref{thm:inner} and~\ref{thm:outer}).
 
@@ -131,12 +133,18 @@ water-filling equation of \cite{part2} at every time and frequency
 with one common level (Theorem~\ref{thm:ls}). The theorem is an
 operational statement about codes for the pair of costs, for a class
 of sources given by their covariances. Its scope is narrower than that
-of \cite{part1,part2} in three ways, which we state here. The source
-must satisfy three conditions on its covariances, (L1) to (L3) of
-Section~\ref{sec:ls}. The holder observes each symbol through one
-fixed matrix in white Gaussian noise, and the decoder's weight is
-fixed. And the encoder may use private randomness: unlike in
-\cite{part1,part2}, we do not show that deterministic encoders suffice.
+of \cite{part2} in two ways, which we state here. The source must
+satisfy three conditions on its covariances, (L1) to (L3) of
+Section~\ref{sec:ls}, which describe a stable source that varies
+slowly. And the holder observes each symbol through one fixed matrix in
+white Gaussian noise, and the decoder's weight is fixed. As in
+\cite{part1,part2}, deterministic encoders suffice. This needs a new
+argument, because the removal of private randomness in \cite{part2}
+repeats a code on windows that all have the same law
+(Lemma~\ref{lem:seeds}). When the covariances and the local spectrum
+are Lipschitz in time, no code of blocklength $N$, at a distortion
+bounded away from zero, has a weighted cost more than a constant times
+$N^{-1/2}$ below the frontier cost (Proposition~\ref{prop:rate}).
 A source with more
 power, or a holder with a better view, at one time than at another
 draws rate at that time by the same rule that distributes rate over
@@ -871,7 +879,32 @@ independent.
 
 This section has no stationarity in it. It compares the problem of
 Section~\ref{sec:model} for a Gaussian vector of many symbols with the
-problems for its blocks, in both directions.
+problems for its blocks, in both directions. The three lemmas that
+matter can be read as follows.
+\begin{itemize}
+\item Lemma~\ref{lem:blocks} is the converse tool. Cut a long vector
+into blocks. Any code for the whole vector is, block by block, a
+description of that block, and the costs add up, except that
+correlation between the blocks lets one block's description serve
+another. The lemma says that this saving is at most the mutual
+information between the blocks, which Lemma~\ref{lem:cut} bounds by the
+size of their cross-covariance. For a source whose past and future are
+weakly correlated the saving stays bounded while the costs grow with
+the length.
+\item Lemma~\ref{lem:coupling} is the achievability tool. A vector with
+a slightly larger covariance is the sum of a vector with the smaller
+covariance and an independent small remainder. The encoder draws that
+decomposition, describes the first part with a code made for it, and
+ignores the remainder. The remainder adds its power to the distortion,
+and it tells the holder little because it is small.
+\item Lemma~\ref{lem:seeds} removes the randomness of that draw. One code
+is repeated on many consecutive blocks whose covariances are all
+slightly larger than the one it was made for. Each block gets a fixed
+seed, and the seeds are chosen so that the averages over the blocks of
+the distortion and of the leakage are close to their means.
+\end{itemize}
+The proofs use only the chain rule, maximum entropy for Gaussian
+vectors, and \cite[Proposition~2]{part1}.
 
 \begin{lemma}\label{lem:cut}
 Let $X$ and $Y$ be jointly Gaussian vectors whose joint covariance has
@@ -993,6 +1026,83 @@ $\tfrac1{2\ln2}\tr((I_n\otimes J)(\mathsf S-\mathsf S'))$ by
 $\ln\det(I+C)\le\tr C$.
 \end{proof}
 
+The draw can be written with an explicit seed. With
+$\mathsf A=\mathsf S'\mathsf S^{-1}$, a matrix $\mathsf C$ with
+$\mathsf C\mathsf C^{\mathsf T}=\mathsf S'-\mathsf S'\mathsf S^{-1}\mathsf S'$,
+which is positive semidefinite because $\mathsf S'\preceq\mathsf S$, and
+a seed $\zeta\sim\mathcal N(0,I)$ independent of everything else, the
+vector $T'=\mathsf AT+\mathsf C\zeta$ has covariance $\mathsf S'$ and is
+uncorrelated with $T-T'$, so the pair has the law required in the
+proof.
+
+\begin{lemma}\label{lem:seeds}
+Let a code with a deterministic encoder for the Gaussian vector of
+$n_0$ symbols with covariance $\mathsf S'\succ0$ have rate $R'$,
+distortion $D'$, and leakage $L'$. Let $T$ be a Gaussian vector of
+$kn_0$ symbols, with the memoryless holder of Section~\ref{sec:model},
+whose $k$ consecutive sub-vectors of $n_0$ symbols have covariances
+$\mathsf S_1,\dots,\mathsf S_k$ with
+$\mathsf S'\preceq\mathsf S_j\preceq b_0I$ and
+\[
+\tfrac1{n_0}\tr\bigl((I_{n_0}\otimes Q)(\mathsf S_j-\mathsf S')\bigr)\le\epsilon_Q,\qquad
+\tfrac1{2n_0\ln2}\tr\bigl((I_{n_0}\otimes J)(\mathsf S_j-\mathsf S')\bigr)\le\epsilon_J .
+\]
+The sub-vectors may be dependent. For every $\delta>0$ there is $k_0$,
+which depends only on the code, $b_0$, $Q$, and $\delta$, such that for
+$k\ge k_0$ there is a code for $T$ with a deterministic encoder, rate
+$R'$, distortion at most $D'+\epsilon_Q+\delta$, and leakage at most
+$L'+\epsilon_J+\delta$.
+\end{lemma}
+
+\begin{proof}
+For the $j$th sub-vector $T_j$ and a seed $z$ let
+$T'_j=\mathsf A_jT_j+\mathsf C_jz$ be the draw above for
+$\mathsf S_j$, let $M_j(z)$ be the message of the given code applied
+to $T'_j$, and let $D_j(z)$ and $L_j(z)=\tfrac1{n_0}H(M_j(z)\mid S_j)$ be
+the distortion and the leakage per symbol of the resulting
+deterministic code for $T_j$, where $S_j$ is the holder's observation
+of the sub-vector. Both are measurable in $z$ by Tonelli's theorem, as
+in the proof of \cite[Lemma~19]{part2}, the encoder being a measurable
+map. With a random seed
+$\zeta\sim\mathcal N(0,I)$ this is the code of
+Lemma~\ref{lem:coupling}, so
+$\E D_j(\zeta)\le D'+\epsilon_Q$, and
+$\E L_j(\zeta)=\tfrac1{n_0}H(M_j\mid S_j,\zeta)\le\tfrac1{n_0}H(M_j\mid S_j)\le L'+\epsilon_J$,
+because conditioning on the seed does not raise the entropy.
+
+The leakages $L_j(z)$ lie in $[0,R']$. For the distortions, the
+reproductions of the given code take finitely many values, so their
+norms $\|\cdot\|_W$ are at most some $\varrho$, and by Jensen's inequality
+$\E D_j(\zeta)^2$ is at most the second moment of
+$\tfrac1{n_0}\sum_t\|Y_t-\hY_t\|_W^2$, which is at most
+$\tfrac1{n_0}\sum_t\E(2\|Y_t\|_W^2+2\varrho^2)^2\le24(b_0\tr Q)^2+8\varrho^4$,
+since $\E\|Y_t\|_W^4\le3(\tr(Q\Cov T_t))^2$ for a Gaussian vector. Call
+this bound $v$. It does not depend on $j$ or on $k$.
+
+Take independent seeds $\zeta_1,\dots,\zeta_k$. The variables
+$D_j(\zeta_j)$ are independent with variances at most $v$, and the
+variables $L_j(\zeta_j)$ are independent with variances at most
+$R'^2$. By Chebyshev's inequality, for $k>3\max\{v,R'^2\}/\delta^2$ each
+of the events
+\[
+\tfrac1k\sum_jD_j(\zeta_j)>D'+\epsilon_Q+\delta,\qquad
+\tfrac1k\sum_jL_j(\zeta_j)>L'+\epsilon_J+\delta
+\]
+has probability less than $\tfrac13$. So there are seeds
+$z_1,\dots,z_k$ for which neither occurs. Use the deterministic code
+with seed $z_j$ on the $j$th sub-vector, with the tuple of messages.
+Its rate is $R'$, its distortion is the average of the $D_j(z_j)$, and
+its leakage is at most the average of the $L_j(z_j)$, because
+$H(M\mid S)\le\sum_jH(M_j\mid S)\le\sum_jH(M_j\mid S_j)$.
+\end{proof}
+
+In \cite[Lemma~19]{part2} the windows have the same law, the same
+randomized code is used on each, and the law of large numbers for
+identically distributed terms suffices. Here the sub-vectors have
+different laws. What they share is the code and a covariance that
+dominates the one it was made for, and the coupling, which differs
+from one sub-vector to the next, absorbs the differences.
+
 \section{Locally Stationary Gaussian Sources}
 \label{sec:ls}
 
@@ -1054,11 +1164,14 @@ let $D_{\max}=\int_0^1\!\int\tr(Q\Sigma(u,\omega))\,\dw\,du$.
 \begin{theorem}\label{thm:ls}
 Let the source be locally stationary, that is, let it satisfy (L1),
 (L2), and (L3), with a decoder's weight and a memoryless holder map in
-white Gaussian noise that do not depend on time, and with encoders
-that may use private randomness. Let $0<D<D_{\max}$. Then
+white Gaussian noise that do not depend on time. Let $0<D<D_{\max}$.
+Then
 \[
-\mathcal A(D)=\mathcal R_{\mathrm{ls}}(D).
+\mathcal A(D)=\mathcal R_{\mathrm{ls}}(D),
 \]
+and deterministic encoders suffice: every pair of the region is
+achievable at $D$ by codes with deterministic encoders, while the
+converse holds also for encoders with private randomness.
 The minimum in \eqref{eq:vls} is attained, uniquely up to a null set,
 by the continuous field that solves
 \[
@@ -1069,6 +1182,19 @@ reverse water-filling map of \cite{part2}.
 \end{theorem}
 
 \begin{proof}
+The proof has four parts. The first identifies the limit program and
+its approximation by $B$ frozen spectra. The second cuts the window
+into $B$ blocks and compares the covariance of each block with that of
+a stationary process. The converse then follows from
+Lemma~\ref{lem:blocks}, and the achievability from
+Lemmas~\ref{lem:coupling} and~\ref{lem:seeds} and the coding theorem
+for stationary sources. The parameters are chosen in this order:
+$\eta$, then the number of blocks $B$, then a tolerance $\delta'$, which
+fixes the codes for the frozen sources and their length $n_0$, and
+last $N\to\infty$. The number of repetitions that Lemma~\ref{lem:seeds}
+needs does not depend on $N$, and this is what lets the last limit be
+taken with the codes fixed.
+
 \emph{The program.} The data $(\tilde Q,H\Sigma^{1/2},\Sigma_U)$ are
 continuous on the compact space
 $K=[0,1]\times(\R/2\pi\mathbb Z)$, so item~(v) of
@@ -1157,27 +1283,45 @@ allocations, which by item~(iv) is at most
 $V_{\mu_B}(\alpha,D)+\tfrac p2\log(1+\kappa')$.
 
 Let $(R_b,L_b)\in\mathcal R'_b(D_b)$ with $\tfrac1B\sum_bD_b\le D$ and
-$\delta'>0$. By item~(i), for every large $n_b$ there is a code for
-the window of size $n_b$ of the stationary source with spectral
-density $\Sigma'_b$ with rate at most $R_b+\delta'$, leakage at most
-$L_b+\delta'$, and distortion at most $D_b+\delta'$. Its source vector
-has covariance $\mathsf S'_b\preceq\mathsf S_N[I_b]$. By
-Lemma~\ref{lem:coupling}, \eqref{eq:close}, and
-$\mathsf S_N[I_b]-\mathsf S'_b\preceq2\eta(1+\beta/a)I$, there is a code for
-the block $(T_t)_{t\in I_b}$ with the same rate, distortion at most
-$D_b+\delta'+\epsilon_2$, and leakage at most $L_b+\delta'+\epsilon_3$,
-measured against the holder's observations in the block, where
+$\delta'>0$. By item~(i) there are a length $n_0$ and, for each $b$, a
+code with a deterministic encoder for the window of size $n_0$ of the
+stationary source with spectral density $\Sigma'_b$, with rate at most
+$R_b+\delta'$, leakage at most $L_b+\delta'$, and distortion at most
+$D_b+\delta'$. Its source vector has covariance $T_{n_0}(\Sigma'_b)$.
+Divide the block $I_b$ into $k_b=\lfloor n_b/n_0\rfloor$ consecutive
+sub-blocks of $n_0$ times and a remainder of fewer than $n_0$ times.
+The covariance of a sub-block is a principal submatrix of
+$\mathsf S_N[I_b]$, and the matching principal submatrix of
+$T_{n_b}(\Sigma_b)$ is $T_{n_0}(\Sigma_b)$. So by \eqref{eq:close} the
+covariance $\mathsf S$ of every sub-block satisfies
+$T_{n_0}(\Sigma'_b)\preceq\mathsf S\preceq b_0I$ and
+$\mathsf S-T_{n_0}(\Sigma'_b)\preceq2\eta(1+\beta/a)I$, as in
+\eqref{eq:sandwich}. As $N\to\infty$, $k_b\to\infty$, and
+Lemma~\ref{lem:seeds} gives a code with a deterministic encoder for
+the $k_bn_0$ symbols of the sub-blocks with the same rate, distortion
+at most $D_b+2\delta'+\epsilon_2$, and leakage at most
+$L_b+2\delta'+\epsilon_3$, measured against the holder's observations
+of those symbols, where
 $\epsilon_2=2\eta(1+\beta/a)\tr Q$ and
-$\epsilon_3=2\eta(1+\beta/a)\tr J/(2\ln2)$. Use these codes on the blocks,
-with the tuple of messages and independent private randomness. The
-rate and the distortion per symbol are the averages with the weights
-$n_b/N$, and
+$\epsilon_3=2\eta(1+\beta/a)\tr J/(2\ln2)$. Reproduce zero on the
+remainder, which adds at most $n_0b_0\tr Q/n_b$ to the distortion per
+symbol of the block and nothing to the message. Use these codes on
+the blocks, with the tuple of messages. The encoder is deterministic.
+The rate and the distortion per symbol are at most the averages with
+the weights $n_b/N$, and
 \[
 H\bigl(M\mid S^N\bigr)\le\sum_bH\bigl(M_b\mid S^N\bigr)\le\sum_bH\bigl(M_b\mid S_{I_b}\bigr),
 \]
 by the subadditivity of entropy and because the observations in a
-block are part of $S^N$. No independence between the blocks is used.
-The weights $n_b/N$ tend to $1/B$. So the pair
+block are part of $S^N$. The observations of the sub-blocks are in
+turn part of those of the block, so $H(M_b\mid S_{I_b})$ is at most
+the bound of Lemma~\ref{lem:seeds}. No independence between the blocks
+is used. The weights $n_b/N$ tend to $1/B$. So for each $\delta'$ and
+all large $N$ the code has rate at most
+$\tfrac1B\sum_bR_b+2\delta'$, leakage at most
+$\tfrac1B\sum_bL_b+3\delta'+\epsilon_3$, and distortion at most
+$D+4\delta'+\epsilon_2$. Letting $\delta'\to0$ along a sequence, with
+$N\to\infty$ for each, the pair
 $\tfrac1B\sum_b(R_b,L_b)+(0,\epsilon_3)$ is achievable at
 $D+\epsilon_2$, and so is every pair of
 $\mathcal B(D)+(0,\epsilon_3)$.
@@ -1208,11 +1352,12 @@ R(D)=\int_0^1\!\!\int_{-\pi}^{\pi}\sum_i\max\Bigl\{0,\tfrac12\log\frac{\lambda_i
 D=\int_0^1\!\!\int_{-\pi}^{\pi}\sum_i\min\{\theta,\lambda_i(u,\omega)\}\dw\,du,
 \]
 with $\lambda_i$ the eigenvalues of $\tilde Q(u,\omega)$. Third, the
-encoder uses private randomness, in the coupling. For a stationary
-source \cite[Lemma~19]{part2} removes it by repeating a code on
-consecutive windows with different seeds. That argument needs the
-same source on every window, and we do not know whether deterministic
-encoders suffice here. The converse holds for both. Fourth, the
+encoders are deterministic although the coupling is not. Within a
+block the source is close to one stationary source, so one code for
+that source can be repeated on many sub-blocks, and
+Lemma~\ref{lem:seeds} then fixes the seeds. The number of sub-blocks in
+a block grows with $N$ because the block is a fixed fraction of the
+window. Fourth, the
 parties are time-invariant. A weight or a holder that varies slowly
 with time is not covered. We expect the converse to extend to it,
 since a small change of the weight or of the holder's information
@@ -1220,6 +1365,121 @@ matrix changes the distortion and the leakage of a Gaussian test
 channel by a small amount per symbol, whatever the block length. The
 achievability would need codes for one holder to be used against a
 nearby one, and we have not carried out either step.
+
+\subsection{A converse with a rate}
+
+Theorem~\ref{thm:ls} is a statement about limits. When the covariances
+are Lipschitz in time the converse can be made quantitative.
+
+\begin{proposition}\label{prop:rate}
+Let the source be locally stationary, and suppose that there are
+constants $c_{\mathrm L}$ and $c_\Sigma$ with
+\[
+\bigl\|\mathsf S_N[I]-T_{|I|}\bigl(\Sigma(t/N,\cdot)\bigr)\bigr\|\le c_{\mathrm L}\frac{|I|}{N},\qquad
+\bigl\|\Sigma(u,\omega)-\Sigma(u',\omega)\bigr\|\le c_\Sigma|u-u'|,
+\]
+for every $N$, every set $I$ of consecutive times, every $t\in I$, and
+all $u$, $u'$, $\omega$. Then for every $D_0>0$ there are $C$ and
+$N_1$ such that every code of blocklength $N\ge N_1$ with
+$D_N\ge D_0$, with or without private randomness, satisfies
+\[
+\alpha R_N+(1-\alpha)L_N\ \ge\ \Vls(\alpha,D_N)-\frac{C}{\sqrt N}
+\]
+for every $\alpha\in[0,1]$. The source of
+Proposition~\ref{prop:tvma} satisfies both conditions when the
+functions $A_k$ are Lipschitz.
+\end{proposition}
+
+\begin{proof}
+We use three facts about the program $V_\lambda$ of item~(v), for any
+probability measure $\lambda$ on $K$ and any measurable field $\Sigma$
+with $cI\preceq\Sigma\preceq\beta I$ for some $c>0$. For a field that is
+not continuous $V_\lambda$ denotes the infimum, and the three facts use
+only feasibility and inequalities at each point. In the variable
+$\Delta=\Sigma^{1/2}X\Sigma^{1/2}$ the weighted cost at a point is
+$G(\Delta)-G(\Sigma)$ with
+$G(\Delta)=\tfrac12[-\log\det\Delta+(1-\alpha)\log\det(I+J^{1/2}\Delta J^{1/2})]$,
+the constraint is $0\prec\Delta\preceq\Sigma$, and the distortion is
+$\tr(Q\Delta)$. This is the program stated before
+\cite[Lemma~11]{part2}, at each point.
+The function $G$ is nonincreasing, and
+$G(\Delta)-\tfrac p2\log(1+x)\le G((1+x)\Delta)\le G(\Delta)$ for
+$x\ge0$.
+\begin{itemize}
+\item[(F1)] $V_\lambda(\alpha,D)\le V_\lambda(\alpha,(1+x)D)+\tfrac p2\log(1+x)$:
+if $\Delta$ is feasible at $(1+x)D$, then $\Delta/(1+x)$ is feasible at
+$D$.
+\item[(F2)] $V_\lambda(\alpha,D)\le\tfrac p2\log^+(p\beta\|Q\|/D)$: the
+field $\Delta=c\Sigma$ with the constant $c\le1$ that meets the
+distortion is feasible, and $c\ge D/(p\beta\|Q\|)$.
+\item[(F3)] If $\Sigma'\preceq\Sigma\preceq(1+\kappa)\Sigma'$ at every
+point, the costs of the two fields at the same distortion differ by
+at most $\tfrac p2\log(1+\kappa)$. This is the proof of
+\cite[Lemma~11(b)]{part2} at each point, followed by the monotonicity
+in the distortion: the feasible set of $\Sigma'$ lies in that of
+$\Sigma$, a field feasible for $\Sigma$ at $D$ divided by $1+\kappa$ is
+feasible for $\Sigma'$ at $D/(1+\kappa)$, and $G(\Sigma)$ and
+$G(\Sigma')$ differ by at most $\tfrac p2\log(1+\kappa)$.
+\end{itemize}
+
+\emph{Frozen spectra.} Let $\Sigma_B(u,\cdot)=\Sigma(b/B,\cdot)$ for
+$(b-1)/B<u\le b/B$. The value of the program for $\Sigma_B$ on $K$
+with the measure of Theorem~\ref{thm:ls} is at most $V_{\mu_B}$,
+because a tuple of fields on the $B$ circles is a field on $K$ that is
+constant in $u$ on each strip. By the Lipschitz
+condition $\|\Sigma-\Sigma_B\|\le\varsigma=c_\Sigma/B$ at every point, so
+for $\varsigma<a$ the field $\Sigma'=(1-\varsigma/a)\Sigma_B$ satisfies
+$\Sigma'\preceq\Sigma\preceq(1+\kappa_B)\Sigma'$ and
+$\Sigma'\preceq\Sigma_B\preceq(1+\kappa'_B)\Sigma'$ with
+$1+\kappa_B=(1+\varsigma/a)/(1-\varsigma/a)$ and
+$1+\kappa'_B=1/(1-\varsigma/a)$. By (F3) twice,
+\[
+\Vls(\alpha,D)\le V_{\mu_B}(\alpha,D)+\epsilon_B,\qquad
+\epsilon_B=\tfrac p2\log\bigl((1+\kappa_B)(1+\kappa'_B)\bigr).
+\]
+
+\emph{The code.} In the proof of Theorem~\ref{thm:ls} take
+$B=\lceil\sqrt N\rceil$. The bound \eqref{eq:close} holds with
+$2\eta$ replaced by
+$\eta_N=c_{\mathrm L}(n+B)/N+c_\Sigma B/N$, where the first term bounds
+the distance in the block and the second the change of $\Sigma$ between
+the times $bn/N$ and $b/B$. In that proof the conditions on $B$ and
+$N$ served only to obtain \eqref{eq:close} from (L2), so the rest of
+the converse holds for every $B\le N$ once $\eta_N<a$. It gives, with
+$\epsilon_1$ computed from $\eta_N$ in place of $2\eta$,
+\[
+\alpha R_N+(1-\alpha)L_N\ge\frac{nB}{N}V_{\mu_B}\Bigl(\alpha,\frac{N}{nB}D_N\Bigr)-\epsilon_1-\frac{c_1B\chi}{N}.
+\]
+Since $nB\ge N-B$, we have $N/(nB)\le1/(1-B/N)$, and by the
+monotonicity in the distortion and (F1),
+$V_{\mu_B}(\alpha,\tfrac{N}{nB}D_N)\ge V_{\mu_B}(\alpha,D_N)-\tfrac p2\log\tfrac1{1-B/N}$.
+By (F2), $V_{\mu_B}(\alpha,D_N)\le v_0=\tfrac p2\log^+(p\beta\|Q\|/D_0)$,
+so the factor $nB/N\ge1-B/N$ costs at most $v_0B/N$. Together with the
+bound on $\Vls$,
+\[
+\alpha R_N+(1-\alpha)L_N\ge\Vls(\alpha,D_N)-\epsilon_B-\epsilon_1-\tfrac p2\log\tfrac1{1-B/N}-\frac{v_0B}{N}-\frac{c_1B\chi}{N}.
+\]
+With $B=\lceil\sqrt N\rceil$, the quantities $\varsigma$, $\eta_N$, and
+$B/N$ are at most constants times $N^{-1/2}$, and each of the five
+terms is at most a constant times $N^{-1/2}$ once $N$ is large enough
+that $\varsigma$ and $\eta_N$ are below $a/2$ and $B/N$ below
+$\tfrac12$.
+
+For the source of Proposition~\ref{prop:tvma} with Lipschitz
+coefficients, the modulus $w(\delta)$ in its proof is at most a
+constant times $\delta$, which gives the first condition, and
+$\Sigma$ is Lipschitz in $u$.
+\end{proof}
+
+The proposition bounds how far below the frontier a code of a given
+blocklength can be. It says nothing about how close to the frontier
+codes can come at that blocklength. A rate for the achievability would
+need one for the coding theorem of stationary sources, which
+\cite{part2} does not give. In the examples of
+Appendix~\ref{app:numver} the frontier cost of the window, which is the
+lower bound for codes of that blocklength, lies above $\Vls$, by an
+amount that halves when $N$ doubles, so the bound of the proposition
+is not attained there.
 
 \begin{proposition}\label{prop:tvma}
 Let $A_0,\dots,A_m$ be continuous functions from $[0,1]$ to
@@ -1347,8 +1607,8 @@ that for every $\eta>0$ there is $t_0$ with
 for every set $I$ of consecutive times after $t_0$, where
 $\mathsf S[I]$ is the covariance of $(T_t)_{t\in I}$. Let
 $D_{\max}=\int\tr(Q\Sigma)\,\dw$. Then for
-$0<D<D_{\max}$ the operational region, with private randomness at the
-encoder, is the spectral region $\mathcal R(D)$ of $\Sigma$.
+$0<D<D_{\max}$ the operational region is the spectral region
+$\mathcal R(D)$ of $\Sigma$, and deterministic encoders suffice.
 \end{corollary}
 
 \begin{proof}
@@ -1361,9 +1621,10 @@ of the cost of the first block give
 $N[\alpha R_N+(1-\alpha)L_N]\ge(N-t_0)\mathsf V_{\mathsf S[I_2]}(\alpha,D_2)-c_1\chi$
 with $(N-t_0)D_2\le ND_N$, and the comparison with $V$ is as there.
 For the achievability, reproduce zero on the first block, at a cost in
-distortion of at most $t_0\,b_0\tr Q/N$, and on the second block use a
-code for the stationary source with spectral density $\Sigma'$ through
-Lemma~\ref{lem:coupling}. The set $\mathcal B(D)$ is the spectral
+distortion of at most $t_0\,b_0\tr Q/N$, and on the second block
+repeat a code for the stationary source with spectral density
+$\Sigma'$ on sub-blocks, through Lemma~\ref{lem:seeds}, as in that
+proof. The set $\mathcal B(D)$ is the spectral
 region of $\Sigma'$, and the argument ends as before.
 \end{proof}
 
@@ -1807,14 +2068,20 @@ segments have the covariances of the regimes.
 \section{Open Problems}
 \label{sec:open}
 
-\textbf{Deterministic encoders and time-varying parties for locally
-stationary sources.} These are the two limits of Theorem~\ref{thm:ls}
-named after it.
+\textbf{Time-varying parties for locally stationary sources.}
+Theorem~\ref{thm:ls} is for a fixed weight and a fixed holder. This is
+the limit named after it.
 
-\textbf{Rates of convergence.} Theorem~\ref{thm:ls} gives no rate in
-$N$. The proof balances the number of blocks against the modulus of
-continuity of the local spectrum in time, and a Lipschitz spectrum
-should give an explicit rate.
+\textbf{Rates of convergence.} Proposition~\ref{prop:rate} gives the
+converse a rate $N^{-1/2}$ for Lipschitz covariances. The computed
+window costs lie above the limit and approach it at the rate $1/N$,
+and we do not know whether any code can fall below the limit at all. The achievability has no rate, and none is known for
+stationary sources either \cite{part2}.
+
+\textbf{Weaker conditions.} Conditions (L1) to (L3) describe a stable
+source that varies slowly. The lower bound on the covariances in (L3)
+is used only to bound the information across a cut, and a direct
+bound on that information would replace it.
 
 \textbf{Fast variation that is not periodic.} Between a spectrum that
 varies slowly, Theorem~\ref{thm:ls}, and one that varies with a fixed
@@ -1901,7 +2168,8 @@ it is met with equality to $10^{-14}$ in some, so it cannot be improved
 in general. The comparison of frontier costs that
 Lemma~\ref{lem:coupling} implies holds on $24$ cases. The inequality of
 Corollary~\ref{cor:lsavg} holds on $18$ cases, with savings between
-$0.005$ and $0.12$ bits. \texttt{example\_ls.py} computes the example
+$0.005$ and $0.12$ bits. Facts (F1) to (F3) in the proof of
+Proposition~\ref{prop:rate} hold on $12$ cases on a grid. \texttt{example\_ls.py} computes the example
 and the figure of Section~\ref{sec:ls}.
 
 \texttt{verify\_cyclo.py} uses periodic moving averages. The identity
@@ -1923,8 +2191,39 @@ up to four, and the smallest saving is $1.2\times10^{-3}$ bits.
 Not checked numerically: Proposition~\ref{prop:coding},
 Theorems~\ref{thm:procouter} and~\ref{thm:procinner}, and the
 operational statements of Theorems~\ref{thm:ls} and~\ref{thm:cyclo},
-which are coding theorems. The checks cover the single-letter and
-spectral quantities they rest on.
+which are coding theorems, and Lemma~\ref{lem:seeds}, which is an
+existence statement. The checks cover the single-letter and spectral
+quantities they rest on. Table~\ref{tab:checks} lists what each check
+covers.
+
+\begin{table}[!t]
+\centering
+\footnotesize
+\caption{What the numerical checks cover. A check of a quantity is not a
+check of the coding theorem that uses it.}
+\label{tab:checks}
+\begin{tabular}{lll}
+\hline
+Statement & Check & What is compared\\
+\hline
+Theorem~\ref{thm:inner} & \texttt{inner} & Gaussian channel on a mixture source\\
+Theorem~\ref{thm:outer} & \texttt{outer\_gauss\_ch}, \texttt{outer\_other\_ch} & two channels against the lower bound\\
+Theorem~\ref{thm:highres} & \texttt{high\_resolution} & gap to the lower bound as $D\to0$\\
+Corollary~\ref{cor:mixing} & \texttt{mixing} & frontier costs of random covariances\\
+Lemma~\ref{lem:blocks} & \texttt{blocks\_lemma} & joint cost against the blocks\\
+Lemma~\ref{lem:coupling} & \texttt{coupling\_lemma} & frontier costs of $\mathsf S'\preceq\mathsf S$\\
+Condition (L2) & \texttt{local\_closeness} & block covariance against local Toeplitz\\
+Theorem~\ref{thm:ls} & \texttt{window\_to\_ls}, \texttt{riemann} & window frontier cost against \eqref{eq:vls}\\
+Proposition~\ref{prop:rate} & \texttt{program\_facts} & facts (F1) to (F3) on a grid\\
+Corollary~\ref{cor:lsavg} & \texttt{averaged} & cost of the averaged spectrum\\
+Proposition~\ref{prop:harmonic} & \texttt{harmonic\_form} & the unitary identity\\
+Corollary~\ref{cor:blocking} & \texttt{blocking} & stacked cost of a stationary source\\
+Theorem~\ref{thm:cyclo}(c),(d) & \texttt{phase\_shift}, \texttt{window\_converse}, \texttt{window\_any\_N} & stacked, window costs\\
+Theorem~\ref{thm:averaged} & \texttt{averaged\_spectrum} & cost of the phase-averaged spectrum\\
+Proposition~\ref{prop:regimes} & \texttt{regimes} & joint window problem against the allocation\\
+\hline
+\end{tabular}
+\end{table}
 
 \section*{Acknowledgment}
 
