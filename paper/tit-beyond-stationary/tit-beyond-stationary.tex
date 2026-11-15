@@ -1409,9 +1409,12 @@ $x\ge0$.
 \item[(F1)] $V_\lambda(\alpha,D)\le V_\lambda(\alpha,(1+x)D)+\tfrac p2\log(1+x)$:
 if $\Delta$ is feasible at $(1+x)D$, then $\Delta/(1+x)$ is feasible at
 $D$.
-\item[(F2)] $V_\lambda(\alpha,D)\le\tfrac p2\log^+(p\beta\|Q\|/D)$: the
-field $\Delta=c\Sigma$ with the constant $c\le1$ that meets the
-distortion is feasible, and $c\ge D/(p\beta\|Q\|)$.
+\item[(F2)] $V_\lambda(\alpha,D)\le\tfrac p2\log^+(p\beta\|Q\|/D)$. Let
+$A_\lambda=\int\tr(Q\Sigma)\,d\lambda\le p\beta\|Q\|$ and
+$c=\min\{1,D/A_\lambda\}$. The field $\Delta=c\Sigma$ is feasible at $D$,
+and its cost $G(c\Sigma)-G(\Sigma)$ is at most $\tfrac p2\log(1/c)$. If
+$D\ge A_\lambda$ then $c=1$ and the cost is zero. Otherwise
+$c=D/A_\lambda\ge D/(p\beta\|Q\|)$.
 \item[(F3)] If $\Sigma'\preceq\Sigma\preceq(1+\kappa)\Sigma'$ at every
 point, the costs of the two fields at the same distortion differ by
 at most $\tfrac p2\log(1+\kappa)$. This is the proof of
