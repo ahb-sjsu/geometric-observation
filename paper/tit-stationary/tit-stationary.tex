@@ -209,10 +209,13 @@ power to the holder's observation, which carries little information
 through a small part of the holder's noise.
 
 In all the coding theorems the holder is given its observations at the
-times of the coded window. If it is given its whole observation
-process instead, the achievability still holds, since conditioning on
-more does not raise the entropy of the message, and the converse is
-open.
+times of the coded window. The region is the same if it is given its
+whole observation process instead (Theorem~\ref{thm:whole}). The
+achievability holds because conditioning on more does not raise the
+entropy of the message. For the converse, the observations outside the
+window lower the conditional entropy of the message of any code by at most the information that
+the past of the pair of the source and the observation carries about a
+window, which grows more slowly than the window.
 
 \subsection*{Related work}
 
@@ -2167,8 +2170,8 @@ Theorem~\ref{thm:iir} below does, by a comparison that uses the
 holder's noise. The holder is given its observations
 at the times of the window. Giving it observations outside the window
 as well keeps the achievability, since conditioning on more does not
-raise the entropy of the message, and we have not proved the converse
-in that case.
+raise the entropy of the message, and Theorem~\ref{thm:whole} gives the
+converse in that case.
 
 For a filter that is not of finite length, the sum that defines $S_t$
 is the limit in mean square of the sums over $|k|\le m$. It exists
@@ -2330,6 +2333,161 @@ the bound of Theorem~\ref{thm:windows}(b) are not obtained for a filter
 of any length. Theorem~\ref{thm:filter} is the case of a filter of
 finite length, and it is used in the proof.
 
+\subsection{A holder with its whole observation process}
+\label{sec:whole}
+
+In the coding theorems above the holder is given $S^N$, its
+observations at the times of the window. Suppose instead that it is
+given $S_{\mathcal T}=(S_t)_{t\in\mathcal T}$ for a finite set of times
+$\mathcal T$ that contains the window. Conditioning on more does not
+raise the entropy of the message, so $H(M\mid S_{\mathcal T})\le H(M\mid S^N)$.
+The next theorem bounds the difference by a quantity that does not
+depend on the code or on $\mathcal T$ and that grows more slowly than
+$N$. For a holder that has its observations on an infinite set of
+times that contains the window, in particular its whole observation
+process, we take the conditional entropy of the message to be the
+infimum of $H(M\mid S_{\mathcal T})$ over the finite sets $\mathcal T$
+that contain the window and lie in that set, and we write $H(M\mid S)$
+for the whole process. This infimum is the conditional entropy given
+the observations, because the conditional probabilities of the message
+along increasing finite sets form a bounded martingale. Only the
+infimum is used below. Let
+\[
+\Phi(\omega)=\begin{bmatrix}\Sigma&\Sigma H^{\herm}\\ H\Sigma&H\Sigma H^{\herm}+\Sigma_U\end{bmatrix}
+\]
+be the spectral density of the pair process $(T_t,S_t)$. It is
+continuous, it has the symmetry of the data, and it is positive
+definite, because $\Sigma\succ0$ and its Schur complement in $\Phi$ is
+$\Sigma_U\succ0$. So Lemma~\ref{lem:szego} applies to it, and $T_N(\Phi)$
+is the covariance of $(T^N,S^N)$ up to the order of the coordinates.
+
+\begin{theorem}\label{thm:whole}
+Let $\Sigma$, $\Sigma_U$, and the holder's filter be as in
+Theorem~\ref{thm:iir}. For every code of blocklength $N$, with or
+without private randomness, and every finite set of times
+$\mathcal T\supseteq\{1,\dots,N\}$,
+\begin{equation}
+0\le H\bigl(M\mid S^N\bigr)-H\bigl(M\mid S_{\mathcal T}\bigr)\le\frac{s_N(\Phi)}{2\ln2}
+\label{eq:wholebound}
+\end{equation}
+in bits, and the same holds for an infinite set of times that contains
+the window, in particular with $H(M\mid S)$ for the whole process. The
+right side divided by $N$ tends to zero, and it is bounded in $N$ when
+$\mathsf K(\Phi)<\infty$. Consequently a pair is achievable at
+distortion $D$ against a holder with its whole observation process, or
+with its observations on any sets of times that contain the windows, if
+and only if it is achievable against the holder of
+Theorem~\ref{thm:iir}. For $0<D<D_{\max}$ the operational region is
+$\mathcal R(D)$ in each case, and deterministic encoders suffice.
+\end{theorem}
+
+\begin{proof}
+The left inequality is conditioning. For the right one, let $Z$ be the
+private randomness, which is independent of the pair of the source and
+the noise processes, and write $S_{\mathrm o}$ for the observations at
+the times of $\mathcal T$ outside the window. The difference in
+\eqref{eq:wholebound} is $I(M;S_{\mathrm o}\mid S^N)$. The message is a
+function of $(T^N,Z)$, so
+\[
+I\bigl(M;S_{\mathrm o}\mid S^N\bigr)\le I\bigl(T^N,Z;S_{\mathrm o}\mid S^N\bigr)
+=I\bigl(T^N;S_{\mathrm o}\mid S^N\bigr)=I\bigl(T^N;S_{\mathcal T}\bigr)-I\bigl(T^N;S^N\bigr),
+\]
+where the first equality holds because $Z$ is independent of
+$(T^N,S_{\mathcal T})$. We bound the first information from above and
+the second from below. Entropies are in bits and the excesses $s_N$ in
+nats, as in Theorem~\ref{thm:windows}.
+
+\emph{The error process.} Let $\Sigma_S=H\Sigma H^{\herm}+\Sigma_U$, which
+is continuous and at least $a_UI$, and let
+$G=\Sigma H^{\herm}\Sigma_S^{-1}$, a continuous response with the
+symmetry of the data. Let $\tilde T_t$ be the output at time $t$ of the
+filter with response $G$ applied to the process $S$, defined in mean
+square by the argument before Theorem~\ref{thm:iir}, since $\Sigma_S$ is
+bounded, and $E_t=T_t-\tilde T_t$. The
+cross-spectral density of $E$ and $S$ is
+$\Sigma H^{\herm}-G\Sigma_S=0$, so every $E_t$ is uncorrelated with every
+$S_s$, and the two processes are independent because they are jointly
+Gaussian. The process $E$ is stationary with spectral density
+\[
+\mathsf E=\Sigma-G\Sigma_SG^{\herm}=\Sigma-\Sigma H^{\herm}\Sigma_S^{-1}H\Sigma=(\Sigma^{-1}+J)^{-1},
+\]
+which is continuous and positive definite. This is the noncausal Wiener
+filter, and $\det\Phi=\det\Sigma_S\det\mathsf E$ by the Schur complement
+of $\Sigma_S$ in $\Phi$.
+
+\emph{Upper bound.} Let $n$ be such that $\mathcal T$ lies within $n$
+of the window, and $k\ge N+n$. By the chain rule, and because
+conditioning on more does not raise a differential entropy,
+\[
+h\bigl(T^N\mid S_{\mathcal T}\bigr)=\sum_{i=1}^Nh\bigl(T_i\mid T_1^{i-1},S_{\mathcal T}\bigr)
+\ge\sum_{i=1}^Nh\bigl(T_i\mid T_{i-k}^{i-1},S_{i-k}^{i+k}\bigr)=N\,g_k,
+\qquad g_k=h\bigl(T_0\mid T_{-k}^{-1},S_{-k}^{k}\bigr),
+\]
+the last step by stationarity. The conditional covariance in $g_k$ is
+the error covariance of the projection of $T_0$ on the span of
+$T_{-k}^{-1}$ and $S_{-k}^{k}$. These spans increase with $k$, so the
+error covariances decrease to that of the projection on the closed
+span $\mathcal H$ of all $T_t$ with $t<0$ and all $S_s$. Since
+$T_t-E_t$ lies in the closed span of $S$, the space $\mathcal H$ is the
+orthogonal sum of the closed span of $S$ and that of the $E_t$ with
+$t<0$. So the projection of $T_0=\tilde T_0+E_0$ on $\mathcal H$ is
+$\tilde T_0$ plus the projection of $E_0$ on its own past, and the
+error is the one-step prediction error of the process $E$ from its
+whole past. Its covariance is the limit of the covariances of the
+prediction errors from finite pasts. The logarithms of their
+determinants are the numbers $a_k$ of the proof of
+Lemma~\ref{lem:szego} for $\mathsf E$, which tend to
+$\int\ln\det\mathsf E\dw$, and these covariances are bounded below by a
+positive multiple of the identity, because the eigenvalues of
+$T_k(\mathsf E)$ are. So the logarithm of the determinant of the limit
+is $\int\ln\det\mathsf E\dw$. Hence
+$h(T^N\mid S_{\mathcal T})\ge\tfrac N2\log\bigl((2\pi e)^p\bigr)+\tfrac N{2\ln2}\int\ln\det\mathsf E\dw$,
+and with $h(T^N)=\tfrac N2\log\bigl((2\pi e)^p\bigr)+\tfrac1{2\ln2}\ln\det T_N(\Sigma)$,
+\[
+I\bigl(T^N;S_{\mathcal T}\bigr)\le\frac1{2\ln2}\Bigl[N\int_{-\pi}^{\pi}\ln\frac{\det\Sigma}{\det\mathsf E}\dw+s_N(\Sigma)\Bigr].
+\]
+
+\emph{Lower bound.} The information between two jointly Gaussian
+vectors is a combination of three log-determinants, so
+\begin{align*}
+I\bigl(T^N;S^N\bigr)&=\frac1{2\ln2}\bigl[\ln\det T_N(\Sigma)+\ln\det T_N(\Sigma_S)-\ln\det T_N(\Phi)\bigr]\\
+&\ge\frac1{2\ln2}\Bigl[N\int_{-\pi}^{\pi}\ln\frac{\det\Sigma\,\det\Sigma_S}{\det\Phi}\dw+s_N(\Sigma)-s_N(\Phi)\Bigr],
+\end{align*}
+because $s_N(\Sigma_S)\ge0$. The two integrands agree by
+$\det\Phi=\det\Sigma_S\det\mathsf E$, and subtracting gives
+\eqref{eq:wholebound}. The bound does not depend on $\mathcal T$, so it
+holds for the infimum over $\mathcal T$. The statements on $s_N(\Phi)$
+are Lemma~\ref{lem:szego}.
+
+\emph{The region.} Let $L_N$ and $L'_N$ be the leakages of a code against
+the holder of Theorem~\ref{thm:iir} and against a holder with more
+observations. Then $L'_N\le L_N\le L'_N+s_N(\Phi)/(2N\ln2)$, and the last
+term tends to zero. So a sequence of codes has the same upper limits of
+rate, leakage, and distortion against both holders, the two sets of
+achievable pairs coincide, and Theorem~\ref{thm:iir} gives the rest.
+\end{proof}
+
+The theorem covers the holders of Theorems~\ref{thm:achieve}
+and~\ref{thm:filter}, which are special cases. The bound
+\eqref{eq:wholebound} is the information, in bits, that the past of
+the pair process carries about a window of it, since
+$s_N(\Phi)$ is twice that information in nats, by the proof of
+Lemma~\ref{lem:szego}. It is finite at every $N$, and the lemma gives
+no bound in $N$ when $\mathsf K(\Phi)=\infty$. The bound is not the
+largest possible gain. The proof drops $s_N(\Sigma_S)\ge0$, and its
+chain-rule step loses $s_N(\mathsf E)\ge0$: since a window of the
+source is its estimate from the whole observation process plus an
+independent window of the error process, with covariance
+$T_N(\mathsf E)$, the information that the whole observation process
+carries about $T^N$ beyond $S^N$ is
+$\bigl[s_N(\Phi)-s_N(\Sigma_S)-s_N(\mathsf E)\bigr]/(2\ln2)$ bits, which
+bounds the left side of \eqref{eq:wholebound} as well. For the
+memoryless map and white noise of Theorem~\ref{thm:windows}, part (d)
+of that theorem then reads
+$\alpha R_N+(1-\alpha)L'_N\ge V(\alpha,D_N)-(1-\alpha)s_N(\Phi)/(2N\ln2)$
+for a holder with observations on a set of times that contains the
+window, with leakage $L'_N$.
+
 \section{Instances}
 \label{sec:examples}
 
@@ -2469,7 +2627,10 @@ holder with a filter of real taps and continuous frequency response
 and a continuous positive definite noise spectrum, the spectral region
 is
 the operational region, with deterministic encoders
-(Theorems~\ref{thm:achieve}, \ref{thm:filter}, and~\ref{thm:iir}). The
+(Theorems~\ref{thm:achieve}, \ref{thm:filter}, and~\ref{thm:iir}), and
+it is the same whether the holder has its observations at the times of
+the coded window or its whole observation process
+(Theorem~\ref{thm:whole}). The
 sign of the window gap and the bound on it (Theorem~\ref{thm:windows})
 are proved for a memoryless map and white noise only.
 Within those scopes, the
@@ -2607,6 +2768,25 @@ margin at the sizes computed, and the script is not part of the
 notebook. Its taps are absolutely summable. No recorded check covers
 taps that are not, and none covers the convergence of the costs of the
 two comparison holders.
+\texttt{verify\_whole.py} checks steps of the proof of
+Theorem~\ref{thm:whole} on two instances, a two-sided filter with three
+taps in moving-average noise and a causal filter with geometrically
+decaying taps in white noise. For windows of $2$ to $16$ symbols and
+observations extended by up to $32$ times on each side, it computes the
+information $I(T^N;S_{\mathcal T})-I(T^N;S^N)$ exactly, and checks that
+it does not decrease as the observations are extended, that it is at
+most the bound \eqref{eq:wholebound}, and that the two intermediate
+bounds of the proof hold. With a Gaussian vector in the place of the
+message, the drop of the conditional entropy is at most that
+information. In the first instance the information levels off at
+$2.03$ bits against a bound of $3.41$, and in the second at $1.03$
+against $1.83$. In both it agrees to four decimals with the sharper
+value given after the theorem, so the distance from the bound is the
+two terms that the proof drops. The output is recorded in
+\texttt{verify\_whole-2026-11-14.txt}. The script is not part of the
+notebook. Its second filter is cut at $60$ taps, and the source has
+memory one in both instances. No recorded check covers a filter that
+is not cut, a source of infinite memory, or a discrete message.
 \texttt{verify\_achievability.py} checks the steps of the proof of
 Theorem~\ref{thm:achieve} that are statements about covariances, on
 four instances. In two the remainder has the form $e(\omega)A$ for a
@@ -2660,7 +2840,7 @@ properties of $\varrho$, the block-circulant step of
 Theorem~\ref{thm:periodic}, Szeg\H{o}'s theorem,
 Lemmas~\ref{lem:order} to~\ref{lem:szego}, Theorem~\ref{thm:windows}, the
 proofs of Theorems~\ref{thm:achieve}, \ref{thm:filter},
-and~\ref{thm:iir}, and
+\ref{thm:iir}, and~\ref{thm:whole}, and
 everything imported from \cite{part1}. The build and the axiom audit are recorded
 in \texttt{lean-spectral-2026-11-13.txt}.
 
