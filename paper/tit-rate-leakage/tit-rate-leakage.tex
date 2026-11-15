@@ -292,8 +292,7 @@ Q:=F^{\mathsf T}WF\succeq0,
 D_{\max}:=\tr(Q\Sigma_T).
 \]
 The second party, which we call the holder, observes $S=HT+U\in\R^r$
-with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$
-and of all coding randomness. Write
+with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$. Write
 \[
 J:=H^{\mathsf T}\Sigma_U^{-1}H\succeq0,
 \qquad
@@ -357,15 +356,21 @@ Given an admissible channel, centering $\hY$ changes neither coordinate
 and does not raise the distortion. If $\Cov N'$ is singular, either a
 noiseless linear functional of $T$ is revealed and both coordinates are
 infinite, or a nonzero combination of the components of $\hY$ vanishes
-and may be dropped after an invertible linear map. So assume
-$\Cov N'\succ0$. The residual is uncorrelated with $T$ by construction
+and may be dropped after an invertible linear map. Neither step
+changes the two coordinates or the best linear estimates of $T$, so
+$\Sez$ and $\Se$ are those of the original channel. If no component is
+left, $\Sez=\Sigma_T$ and both coordinates are zero. Otherwise the
+reduced vector, which need not have the dimension of $Y$, has
+$\Cov N'\succ0$. Its residual is uncorrelated with $T$ by construction
 and with $U$ by independence, hence with $S$, and Lemma~\ref{lem:gauss}
-replaces the channel by $\hY=AT+N$ with the same distortion and no
-larger coordinates. For it,
+replaces it by a Gaussian channel $AT+N$ with the same $\Sez$ and $\Se$
+and no larger coordinates. For it,
 $\Sez^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
-$0\prec\Sez\preceq\Sigma_T$. The pair $(\hY,S)$ is a linear observation
-of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
-distortion is at least that of $\E[Y\mid\hY]$, which is $\tr(Q\Sez)$.
+$0\prec\Sez\preceq\Sigma_T$, and the pair formed with $S$ is a linear
+observation of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
+distortion of the original channel is at least $\tr(Q\Sez)$, because
+the reproduction is itself a linear estimate of $Y$ from $\hY$ and the
+best one has error covariance $F\Sez F^{\mathsf T}$. So $\Sez\in\mathcal P(D)$.
 Conversely, given $\Sez\in\mathcal P(D)$, factor
 $\Sez^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $Z=GT+N$ with
 $N\sim\mathcal N(0,I)$ independent of $(T,U)$, and reproduce
@@ -2029,13 +2034,16 @@ most $\E d(X,\hX)+2\epsilon$ once $n\ge n_0d_{\max}/\epsilon$.
 by the chain rule and the independence of the pairs $(T_i,S_i)$. Every
 term is finite, being at most $I(T_i;S_i)+\log|\mathcal M_n|$ with
 $I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
-The mixture of the per-letter channels satisfies the Markov chain, has
-distortion $D_n$, and by convexity of both coordinates in the channel
-(for general alphabets the conditional coordinate is an integral over
-$s$ of relative entropies between measures that depend affinely on the
-channel, and relative entropy is jointly convex in its two arguments
-\cite{csiszar1967,wyner1978})
-lies below $(R_n,L_n)$, so $(R_n,L_n)$ is in the union at $D_n$.
+Let $\tau$ be uniform on $\{1,\dots,n\}$ and independent of everything
+else, and write $T=T_\tau$, $S=S_\tau$, $\hY=\hY_\tau$. The pair $(T,S)$ has
+the law of one letter and is independent of $\tau$. Each $\hY_i$ is a
+function of $T^n$ and $U_i$ is independent of $T^n$, so
+$(\tau,\hY)-T-S$ is a Markov chain. Hence
+$\tfrac1n\sum_iI(T_i;\hY_i)=I(T;\hY\mid\tau)=I(T;\hY,\tau)\ge I(T;\hY)$,
+and in the same way
+$\tfrac1n\sum_iI(T_i;\hY_i\mid S_i)=I(T;\hY,\tau\mid S)\ge I(T;\hY\mid S)$.
+The channel from $T$ to $\hY$ satisfies the Markov chain and has
+distortion $D_n$, so $(R_n,L_n)$ is in the union at $D_n$.
 
 \emph{Closedness.} Let $(R_j,L_j)\to(R,L)$ lie in the union at levels
 $D_j$ with $\limsup D_j\le D$, with $\Sigma_j\in\mathcal P(D_j)$ below them
@@ -2074,13 +2082,20 @@ Its true distortion equals
 its surrogate distortion, because given $T_k^n$ the law of $Y_i$ depends
 on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
 $\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
-$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. The surrogate
-law of $(\hY_k,S_\eta)$ converges weakly to the true law of
-$(\hY,S_\eta)$, by the bounded-convergence and martingale argument
-applied to test functions bounded on $\R^m\times q_\eta(\R^r)$ and
-continuous in the first argument, and the Markov chain $\hY-T-S$. Mutual
-information is lower semicontinuous under weak convergence
-\cite{posner1975}, so
+$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. Write $I_k$ for
+mutual information under the surrogate law, in which
+$\hY_k-T_k-S_\eta$. Fix $j$ with
+$I(q_j(\hY);S_\eta)\ge I(\hY;S_\eta)-\epsilon/2$, which exists because
+the $\sigma$-fields of $q_j(\hY)$ increase to that of $\hY$
+\cite[Ch.~2]{pinsker1964}. For $k\ge j$ the partitions are nested, so
+$q_j(\hY_k)=q_j(\hY)$, and the surrogate probability of
+$\{q_j(\hY_k)=a,\ S_\eta=s\}$ is
+$\E[\Pr(q_j(\hY)=a\mid T_k)\Pr(S_\eta=s\mid T_k)]$. By martingale
+convergence and bounded convergence it tends to
+$\E[\Pr(q_j(\hY)=a\mid T)\Pr(S_\eta=s\mid T)]$, which is the true
+probability by the Markov chain $\hY-T-S$. Both variables take finitely
+many values, so $I_k(q_j(\hY_k);S_\eta)\to I(q_j(\hY);S_\eta)$, and
+$I_k(\hY_k;S_\eta)\ge I_k(q_j(\hY_k);S_\eta)$ by data processing. So
 $I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
 for large $k$, and the code has
 $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+3\epsilon)$ and distortion at most
@@ -2746,18 +2761,12 @@ communications, and machine learning,'' \emph{IEEE Trans. Signal
 Process.}, vol. 65, no. 3, pp. 794--816, 2017.
 \bibitem{kato1995} T. Kato, \emph{Perturbation Theory for Linear Operators},
 reprint of the 1980 ed. Berlin, Germany: Springer, 1995.
-\bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
-of probability distributions and indirect observations,'' \emph{Studia Sci.
-Math. Hungar.}, vol. 2, pp. 299--318, 1967.
 \bibitem{wyner1978} A. D. Wyner, ``A definition of conditional mutual
 information for arbitrary ensembles,'' \emph{Inf. Control}, vol. 38, no. 1,
 pp. 51--59, 1978.
 \bibitem{pinsker1964} M. S. Pinsker, \emph{Information and Information
 Stability of Random Variables and Processes}. San Francisco, CA:
 Holden-Day, 1964.
-\bibitem{posner1975} E. C. Posner, ``Random coding strategies for minimum
-entropy,'' \emph{IEEE Trans. Inf. Theory}, vol. 21, no. 4, pp. 388--391,
-1975.
 \bibitem{lloyd1982} S. P. Lloyd, ``Least squares quantization in PCM,''
 \emph{IEEE Trans. Inf. Theory}, vol. 28, no. 2, pp. 129--137, 1982.
 \bibitem{max1960} J. Max, ``Quantizing for minimum distortion,'' \emph{IRE
