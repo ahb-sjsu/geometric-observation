@@ -33,7 +33,7 @@ State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
 The manuscript sources, the check scripts, and the notebook of
 Appendix~\ref{app:numver} are in the public repository named there.}}
 
-\markboth{Draft, November 2026}{Bond: Rate, Leakage, and Distortion for Stationary Gaussian Sources}
+\markboth{IEEE Transactions on Information Theory}{Bond: Rate, Leakage, and Distortion for Stationary Gaussian Sources}
 
 \maketitle
 
@@ -2682,8 +2682,8 @@ scripts, their recorded outputs, and a notebook that reruns them are in
 the public repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
 \texttt{paper/tit-stationary}. The files that go with this version of
-the manuscript are fixed by the tag \texttt{tit-stationary-1.0}, at
-\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.0/paper/tit-stationary}.
+the manuscript are fixed by the tag \texttt{tit-stationary-1.1}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.1/paper/tit-stationary}.
 No proof depends on them.
 
 \texttt{spectral\_core.py} implements the costs and one solver, the
@@ -2764,8 +2764,7 @@ bounds by it, and the comparisons \eqref{eq:iirdown} and
 $20000$ random instances, where the largest ratio of the change to the
 bound is $0.95$. The output is recorded in
 \texttt{verify\_iir-2026-11-14.txt}. The comparisons hold with a large
-margin at the sizes computed, and the script is not part of the
-notebook. Its taps are absolutely summable. No recorded check covers
+margin at the sizes computed. Its taps are absolutely summable. No recorded check covers
 taps that are not, and none covers the convergence of the costs of the
 two comparison holders.
 \texttt{verify\_whole.py} checks steps of the proof of
@@ -2783,8 +2782,7 @@ $2.03$ bits against a bound of $3.41$, and in the second at $1.03$
 against $1.83$. In both it agrees to four decimals with the sharper
 value given after the theorem, so the distance from the bound is the
 two terms that the proof drops. The output is recorded in
-\texttt{verify\_whole-2026-11-14.txt}. The script is not part of the
-notebook. Its second filter is cut at $60$ taps, and the source has
+\texttt{verify\_whole-2026-11-14.txt}. Its second filter is cut at $60$ taps, and the source has
 memory one in both instances. No recorded check covers a filter that
 is not cut, a source of infinite memory, or a discrete message.
 \texttt{verify\_achievability.py} checks the steps of the proof of

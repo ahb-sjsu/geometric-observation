@@ -83,6 +83,15 @@ nb.cells = [
          "for k, v in vfl.OUT.items():\n"
          "    if 'a2' in k:\n"
          "        print(k, [(x['N'], round(x['excess'], 4)) for x in v['table']])"),
+    md("## 6e. Theorem 22 — steps of the proof for a filter that is not of finite length\n\n"
+       "The two leakage comparisons with holders of finite filter length and the tail bound, on Gaussian stand-ins, "
+       "and the Lipschitz bound of the cost in the holder's information matrix. A few seconds. "
+       "The taps are geometric, so absolutely summable."),
+    code("import verify_iir as vi\nassert vi.main() == 0"),
+    md("## 6f. Theorem 23 — a holder with its whole observation process\n\n"
+       "The information that observations outside the window add about the source window, computed exactly, "
+       "against the bound of the theorem and the sharper value of the remark after it. A few seconds."),
+    code("import verify_whole as vwh\nassert vwh.main() == 0"),
     md("## 7. Proposition 8 — what the holder keeps"),
     code("r = out['prop_retention']\nfor k in r:\n    if k not in ('ok', 'seconds'):\n        print(f'{k:>22}: {r[k]:.10g}')\n"
          "rho2, Dn = 0.64, 0.4\nfor name in ('q_slice', 'q_prefix0', 'q_prefix3', 'q_path'):\n"
