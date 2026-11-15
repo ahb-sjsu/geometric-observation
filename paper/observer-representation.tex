@@ -269,11 +269,12 @@ The content endpoint $\min I(X;\hat{X}\mid S)$ is Steinberg's common-reconstruct
 
 \begin{corollary}[The coding region is a consumer-relative region]
 \label{cor:coding}
-Take $\M=\R^{d}$ with $\mu$ a centered Gaussian law, the consumer the linear functional $C(x)=w^{\top}x=Y$ with $\Y=\R$ and $G=1$, the context $V=\gamma^{\top}x/\sigma_{\gamma}$ a second linear functional with $\E[YV]=\rho$, and the retained copy $S=V+U$ with $U\sim\mathcal{N}(0,\tau^{2})$ independent of $X$. Then $D_{C}(x,\hat{x})=(w^{\top}x-w^{\top}\hat{x})^{2}$, the read operator is the constant rank-one form $\PC=ww^{\top}$ whose kernel $w^{\perp}$ contains the context direction unless $\gamma$ is parallel to $w$, and the region of Definition~\ref{def:region} at distortion $D$ equals the operational region \eqref{eq:titregion} of the coding paper for $0<D<1$.
+Take $\M=\R^{d}$ with $\mu$ a centered Gaussian law, the consumer the linear functional $C(x)=w^{\top}x=Y$ with $\Y=\R$ and $G=1$, the context $V=\gamma^{\top}x/\sigma_{\gamma}$ a second linear functional with $\E[YV]=\rho$, and the retained copy $S=V+U$ with $U\sim\mathcal{N}(0,\tau^{2})$ independent of $X$. Then $D_{C}(x,\hat{x})=(w^{\top}x-w^{\top}\hat{x})^{2}$, and the read operator is the constant rank-one form $\PC=ww^{\top}$ with kernel $w^{\perp}$. If $\gamma$ is not parallel to $w$, there is a direction $v$ in that kernel, $w^{\top}v=0$, along which the context changes, $\gamma^{\top}v\ne0$. The region of Definition~\ref{def:region} at distortion $D$ equals the operational region \eqref{eq:titregion} of the coding paper for $0<D<1$.
 \end{corollary}
 
 \begin{proof}
 With $C$ linear, $J_{C}=w^{\top}$ and \eqref{eq:PC} gives $ww^{\top}$ exactly, with no remainder in \eqref{eq:local}, and $\ker\PC=w^{\perp}$.
+If $\gamma$ is not parallel to $w$, take $v=\gamma-(w^{\top}\gamma/\|w\|^{2})\,w$. Then $w^{\top}v=0$ and $\gamma^{\top}v=\|\gamma\|^{2}-(w^{\top}\gamma)^{2}/\|w\|^{2}>0$ by the strict Cauchy--Schwarz inequality. The context direction itself lies in $w^{\perp}$ only when $w^{\top}\gamma=0$.
 Definition~\ref{def:region} imposes $W$ conditionally independent of $S$ given $X$, which is the Markov chain $\hat{X}-X-S$ of the coding paper, and its two information inequalities are those of \eqref{eq:titregion}.
 Its distortion is $\E[(w^{\top}X-w^{\top}\hat{X})^{2}]\le D$, and by Lemma~\ref{lem:outputrep} with the surjective $C=w^{\top}$ this is the coding paper's constraint $\E[(Y-\hat{Y})^{2}]\le D$ on an output-space reproduction.
 The coding paper's pair-sufficiency theorem shows that the test channel may depend on $x$ only through $T=(Y,V)$ without loss, and its Gaussian operational theorem identifies the single-letter union with the closure of the achievable triples for $0<D<1$.
@@ -292,7 +293,7 @@ Two hypotheses of the coding theorems are not in Definition~\ref{def:region} and
 The corollary is an identification of definitions, now verified.
 The theorems of the coding paper, the closed form for $L(D)$, the coupled two-water-level frontier, and non-determination under reduction of $(Y,V)$ to $(Y,S)$, are theorems about this instance and are not re-derived here.
 What the corollary adds is the reading.
-The kernel of the read operator is everything orthogonal to the read direction $w$, the context direction $\gamma$ lies in that kernel except when it is parallel to $w$, the content $L$ is an information quantity about a variable the consumer never reads, and the non-determination corollary of that paper says that $L$ is not a functional of the law of $(C(X),S)$ alone.
+The kernel of the read operator is everything orthogonal to the read direction $w$, the context changes along a direction of that kernel whenever $\gamma$ is not parallel to $w$, the content $L$ is an information quantity about a variable the consumer never reads, and the non-determination corollary of that paper says that $L$ is not a functional of the law of $(C(X),S)$ alone.
 That last point is the strongest evidence in the program that the quotient of Theorem~\ref{thm:rep}(a) is not the whole story once a third party retains context, because the encoder's access to the unread direction $V$ enters the answer.
 \end{remark}
 
