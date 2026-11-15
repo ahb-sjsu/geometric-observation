@@ -334,7 +334,7 @@ $\Cov(N',S)=0$ and $\Cov N'\succ0$. Then
 $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$ and
 $I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the jointly
 Gaussian channel $AT+N$, $N\sim\mathcal N(0,\Cov N')$ independent of
-$(T,U)$, has the same second moments and meets both bounds with
+$(T,U)$, has the same second moments jointly with $(T,S)$ and meets both bounds with
 equality.
 \end{lemma}
 
@@ -1074,8 +1074,11 @@ conditions \eqref{eq:kkt} at this point read $\Gamma(\varpi)\succeq0$ and
 $\Gamma(\varpi)b=0$, and Theorem~\ref{thm:convex}(c) makes them necessary
 and sufficient. Taking $b^{\mathsf T}\Gamma(\varpi)b=0$ gives $\varpi$.
 
-(c) By Lemma~\ref{lem:gauss} the optimum is attained by a jointly
-Gaussian channel $\hY=a^{\mathsf T}T+N$. If $\Cov(Y,\hY)=0$ its
+(c) By the reduction in the proof of Proposition~\ref{prop:posterior}
+and Lemma~\ref{lem:gauss}, every admissible channel with finite leakage
+is matched by a jointly Gaussian channel $\hY=a^{\mathsf T}T+N$ with the
+same distortion and no larger leakage, so the optimum may be taken of
+that form. If $\Cov(Y,\hY)=0$ its
 distortion is at least $D_{\max}>D$. Otherwise $\E[Y\mid\hY]$ is a
 nonzero multiple of $\hY$, which leaves the leakage unchanged and does
 not raise the distortion, so the optimum is a one-dimensional
@@ -2299,20 +2302,20 @@ expected divergence of the conditional law of $T$ given $(\hY,S)$ from
 the conditional law given $S$ \cite{wyner1978,pinsker1964}. Fix a
 realization, let $P$ be the conditional law with mean $\mu$ and
 covariance $C$, $P_G=\mathcal N(\mu,C)$, and
-$Q_S=\mathcal N(\mu_S,\Kc)$. If $P$ has no density the divergence is
+$Q_S=\mathcal N(\mu_S,\Kc)$ with $\mu_S=\E[T\mid S]$. If $P$ has no density the divergence is
 infinite. Otherwise $\log(dP_G/dQ_S)$ is quadratic in $t$ and $P$, $P_G$
 share two moments, so $D(P\|Q_S)=D(P\|P_G)+D(P_G\|Q_S)\ge D(P_G\|Q_S)$.
 Averaging $D(P_G\|Q_S)$, the trace term plus the mean term,
 $\E[\tr(\Kc^{-1}C)+(\mu-\mu_S)^{\mathsf T}\Kc^{-1}(\mu-\mu_S)]$, averages to
 $p$ by the law of total covariance. Jensen's inequality for the concave
-function $\ln\det$ on positive definite matrices (formalized in
-Appendix~\ref{app:numver}) gives $\E[-\ln\det C]\ge-\ln\det\E C$, and
+function $\ln\det$ on positive definite matrices (the concavity is
+formalized in Appendix~\ref{app:numver}) gives $\E[-\ln\det C]\ge-\ln\det\E C$, and
 $-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
 has error covariance no larger than any linear estimator. Hence
 $I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the same argument
 without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
 
-\emph{The determinant identity.} With $\hY=AT+N'$, $\Cov(N',T)=0$, and
+\emph{The determinant identity.} Write $\Sigma_N=\Cov N'$. With $\hY=AT+N'$, $\Cov(N',T)=0$, and
 $\Cov(N',S)=0$, the change of variables $(T,S,\hY)\mapsto(T,S,N')$ is
 block triangular with unit diagonal, so
 $\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$. The Schur factorization
@@ -2324,7 +2327,8 @@ positive.
 \emph{Equality.} For the jointly Gaussian channel $AT+N$ the conditional
 law of $T$ given $(\hY,S)$ is Gaussian with the linear estimate as mean
 and $\Se$ as covariance, so every inequality is an equality. Its second
-moments match the given channel's.
+moments jointly with $(T,S)$ match the given channel's. For the
+covariance with $S$ this is where $\Cov(N',S)=0$ is used.
 \end{proof}
 
 \section{Practical Quantizers}
