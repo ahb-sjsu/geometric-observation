@@ -1663,6 +1663,9 @@ for every $w$ and the conditional mean of $T$ given $(w,O)$ is this affine
 estimate, so equality holds.
 \end{proof}
 
+At $D\ge\tr(Q\Sigma_{T\mid C})$ the decoder's own estimate
+$\E[Y\mid C]$ meets the distortion, and the pair $(0,0)$ is achievable.
+
 \begin{theorem}\label{thm:decsi}
 Let $0<D<\tr(Q\Sigma_{T\mid C})$.
 \begin{enumerate}
@@ -1704,8 +1707,9 @@ of any reconstruction from $(V,C)$ is at least $\tr(QM_C)$.
 $(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for every $\epsilon>0$.
 For any feasible $(V_0,V)$, $I(V_0;C)\ge I(V_0;S)$ because $J_S\preceq J_C$,
 so both $R+\epsilon$ and $L+\epsilon$ are at least
-$I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is continuous on
-$(0,\tr(Q\Sigma_{T\mid C}))$, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
+$I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is the value of a convex
+program whose constraint is linear in $D$, so it is convex and finite on
+$(0,\tr(Q\Sigma_{T\mid C}))$ and hence continuous there, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
 and a jointly Gaussian $V$ with $\Cov(T\mid V,C)$ equal to the minimizer
 $M$ of $R_C(D)$, with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
 the region is increasing in $D$. The minimizer exists because the
@@ -1757,7 +1761,8 @@ So a decoder that knows more than the holder removes the tradeoff, and
 a holder that knows more than the decoder leaves exactly the problem of
 the preceding sections for the source as the decoder already knows it,
 with the holder's excess information in place of its total. When
-neither dominates, the auxiliary $V_0$ can matter, and this paper gives
+neither dominates, the auxiliary $V_0$ can matter, at least among
+jointly Gaussian descriptions, and this paper gives
 the region only through bounds. Proposition~\ref{prop:decbounds} below
 brackets it between a Gaussian inner bound and two outer bounds that are
 tight in the degraded cases.
@@ -1791,8 +1796,9 @@ is achievable at distortion $D$. Each term is a ratio of Gaussian
 determinants. With $V_b$ constant, $L=R=\tfrac12\log\bigl(\det\Sigma_{T\mid C}\det(\Sez^{-1}+J_C)\bigr)$,
 and with $V_b=V$,
 $L=I(T;V\mid S)=\tfrac12\log\bigl(\det\Sigma_{T\mid S}\det(\Sez^{-1}+J_S)\bigr)$.
-Time sharing between achievable pairs, at distortions averaging to $D$,
-is achievable at $D$.
+Time sharing between two achievable pairs with weights $\lambda$ and
+$1-\lambda$, at distortions whose weighted average is $D$, is achievable
+at $D$.
 \item[(b)] (Outer bound, enhanced decoder.) Every achievable pair has
 $R\ge R_C(D)$ and $L\ge R_{C'}(D)$ for every $J'$ with $J'\succeq J_C$ and
 $J'\succeq J_S$.
@@ -1813,9 +1819,13 @@ $\tr\bigl(Q\Cov(T\mid V,C)\bigr)$, and the pair meets the theorem's two
 inequalities. With $V_b=V$ the leakage term is
 $I(T;V\mid C)+I(V;C)-I(V;S)=I(T;V)-I(V;S)=I(T;V\mid S)$. Every
 conditional mutual information of jointly Gaussian variables is a ratio
-of determinants of conditional covariances. Time sharing between two
-codes of the same blocklength averages their rates, distortions, and
-leakages.
+of determinants of conditional covariances. For time sharing with weights $\lambda$ and
+$1-\lambda$, use a code of the first sequence on the first $n_1$ letters
+and a code of the second on the remaining $n-n_1$, with $n_1/n\to\lambda$.
+The source is memoryless, so the pairs formed by the message of a
+segment and that segment of $S^n$ are independent, and the rate, the
+distortion, and the leakage are the weighted averages of those of the
+two codes.
 
 (b) The bound on $R$ is the rate bound in the proof of
 Theorem~\ref{thm:decsi}, together with the continuity of $R_C$. For the
@@ -1857,8 +1867,8 @@ $(\cdot)_+$ the positive part of a symmetric matrix, dominates both $J_C$
 and $J_S$, and it returns $J_C$ when $J_S\preceq J_C$ and $J_S$ when
 $J_C\preceq J_S$.
 
-The bounds can meet where neither side information dominates, and the
-second auxiliary is what makes them meet. Take $\Sigma_T=I_2$, a decoder
+The bounds can meet where neither side information dominates, and in
+the Gaussian inner bound the second auxiliary is what makes them meet. Take $\Sigma_T=I_2$, a decoder
 that reproduces both coordinates ($Q=I_2$), decoder side information
 $J_C=\mathrm{diag}(4,0)$ on the first coordinate and holder information
 $J_S=\mathrm{diag}(0,4)$ on the second, and $J'=\mathrm{diag}(4,4)$,
@@ -1876,12 +1886,15 @@ $(T_1,V_a,C)$ is independent of $(T_2,V_b,S)$ and the leakage of (a) is
 $I(T_1;V_a\mid C)+I(T_2;V_b\mid S)$. In the decoder's error variances
 $m_1,m_2$ this is the same function as in (c), and so is the rate. So the inner and outer bounds
 coincide at every budget, and the least leakage of this problem is known
-exactly. For $0.331\le D<1.2$ the optimum leaves the first coordinate to the
+exactly. For $0.332\le D<1.2$ the optimum leaves the first coordinate to the
 decoder's side information and spends the whole budget on the second,
 with $L=\tfrac12\log_2(0.8+0.2/(D-0.2))$. The choices $V_b$ constant and
 $V_b=V$ do not reach this value at small budgets. At $D=0.1$ the least
 leakage is $2.13$ bits, and the better of those two choices gives
-$3.10$ bits.
+$3.10$ bits. The choice $V_b$ constant fails for every description,
+Gaussian or not, because then $L\ge R_C(D)$. The figure for $V_b=V$ is a
+minimum over jointly Gaussian descriptions only. Whether a description
+that is not Gaussian does better with $V_0=V$ is not settled here.
 
 \section{Instances}
 \label{sec:examples}
@@ -1953,7 +1966,8 @@ holder of any rank the fixed point is the limit of a monotone iteration
 of water-filling steps. A closed form for a holder of higher rank and a
 described variable of higher dimension, or for the boundaries between these cases,
 is not known. The general case with side information at both receivers,
-where the second auxiliary of Villard and Piantanida can matter, under
+where the second auxiliary of Villard and Piantanida matters at least
+for jointly Gaussian descriptions, under
 a trace-type distortion and a rank-deficient holder, is where the main
 open question lies. Stationary
 sources and finite blocklengths are not treated.
@@ -2165,7 +2179,11 @@ So for every point
 $(I(X;V\mid C),\E d(X,\hat x(V,C)),I(X;V\mid C)+I(V_0;C)-I(V_0;E))$ of
 finite auxiliaries and every $\epsilon>0$, some deterministic code has
 rate, distortion, and leakage each within $\epsilon$ of that point or
-below it.
+below it. When the third coordinate exceeds $H(X\mid E)$ the
+equivocation expression is negative and the point is not in their set.
+Every code has leakage at most $H(X\mid E)$, and the rate and the
+distortion do not depend on $V_0$, so the code obtained for $V_0=V$,
+whose expression $H(X\mid V,E)$ is nonnegative, serves.
 
 \begin{proof}[Proof of Theorem~\ref{thm:decregion}]
 \emph{Converse.} Fix a code, so $M=f_n(T^n)$ and $\hY^n=g_n(M,C^n)$. For
@@ -2287,7 +2305,8 @@ is a function of $S^{n_0}$. For a general blocklength $n=kn_0+r$ with
 $0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce the
 last $r$ letters by zero. The message is the tuple of block messages, so
 the rate does not increase. The pairs of block message and block of
-$S^n$ are independent across blocks, so the leakage is the sum of the
+$S^n$ are independent across blocks and of the last $r$ letters of
+$S^n$, so the leakage is the sum of the
 block leakages divided by $n$ and does not exceed that of one block. The
 distortion is at most $(kn_0(D+5\epsilon)+rD_{\max})/n$, whose limsup is
 at most $D+5\epsilon$.
