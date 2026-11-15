@@ -1529,8 +1529,9 @@ H\bigl(M_1,\dots,M_k\mid S^N\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^N\bigr)
 the first step by the subadditivity of entropy and the second because
 $S_i$ is part of $S^N$. Neither step uses any independence between
 the windows. Dependence between windows, whether it comes from the
-source, the filter, or the noise, can only make the left side smaller
-than the sum, which is its value when the windows are independent.
+source, the filter, the noise, or private randomness shared between
+the encoders, can only make the left side smaller than the sum.
+Equality holds when the pairs $(M_i,S_i)$ are mutually independent.
 \end{proof}
 
 This is the subadditivity of the leakage of codes. It is a different

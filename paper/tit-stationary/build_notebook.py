@@ -75,6 +75,14 @@ nb.cells = [
        "why the converse needs the given code's private randomness to be independent of the encoder's draw."),
     code("import verify_filter_colored as vfc\nassert vfc.main() == 0"),
     code("import verify_filter_chains as vch\nassert vch.main() == 0"),
+    md("## 6f. Lemma 21 — the two constructions behind the window bounds for a filtered holder\n\n"
+       "Part (a): the stationary test channel on finite windows, whose cost exceeds the spectral cost by an "
+       "amount that halves each time the window doubles. Part (b): the window embedded in the periodic source "
+       "has exactly the stationary law. About a minute."),
+    code("import verify_filter_lemma as vfl\nassert vfl.main() == 0\n"
+         "for k, v in vfl.OUT.items():\n"
+         "    if 'a2' in k:\n"
+         "        print(k, [(x['N'], round(x['excess'], 4)) for x in v['table']])"),
     md("## 7. Proposition 8 — what the holder keeps"),
     code("r = out['prop_retention']\nfor k in r:\n    if k not in ('ok', 'seconds'):\n        print(f'{k:>22}: {r[k]:.10g}')\n"
          "rho2, Dn = 0.64, 0.4\nfor name in ('q_slice', 'q_prefix0', 'q_prefix3', 'q_path'):\n"
