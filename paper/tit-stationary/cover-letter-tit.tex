@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+% DRAFT, 2026-11-14. Not sent. Items marked OWNER are for the author to
+% fill in or decide before this letter is used.
+
+\begin{document}
+
+\begin{flushright}
+Andrew H. Bond\\
+Department of Computer Engineering\\
+San Jos\'e State University\\
+San Jos\'e, CA 95192 USA\\
+andrew.bond@sjsu.edu\\[0.8em]
+% OWNER: date of submission.
+November 2026
+\end{flushright}
+
+To the Editor-in-Chief and Associate Editor\\
+IEEE Transactions on Information Theory
+
+Dear Editor:
+
+Please consider the enclosed manuscript, ``Rate, Leakage, and Distortion
+for Stationary Gaussian Sources: Water-Filling on a Tilted Spectrum,''
+for publication in the IEEE Transactions on Information Theory. I am the
+sole author. The review manuscript is in single-column format.
+
+% OWNER: fill in the manuscript number of paper one.
+This is the second of two manuscripts. The first, ``Rate, Leakage, and
+Distortion for Gaussian Sources: Water-Filling on a Tilted Weight''
+(reference [1] of the enclosed manuscript, manuscript number IT-26-XXXX),
+is under review at this Transactions. It treats memoryless Gaussian
+vector sources. The enclosed manuscript treats stationary Gaussian
+vector processes, that is, sources with memory, and a second party
+whose observation is filtered, delayed, or incomplete. It uses the
+theorems of [1] by number and does not reprove them, so its results
+depend on [1].
+% OWNER: keep or drop the request in the next sentence.
+For that reason the Editor may wish to assign it to the Associate
+Editor who handles [1]. The theorem numbers of [1] that it cites are
+those of the submitted version, and I will update them if [1] is
+revised.
+
+An encoder describes part of a stationary Gaussian vector process to a
+decoder under a weighted quadratic distortion, while a second party
+holds a noisy filtered observation of the process and never decodes. The
+description has two costs per symbol, its rate and its conditional
+leakage to the second party. With no second party this is reverse
+water-filling for Gaussian processes (Kolmogorov [2], Berger [3]). I
+found no rate--distortion--equivocation result for a Gaussian source
+with memory and side information at the second party. The closest work
+is that of Sankar, Rajagopalan, Mohajer, and Poor [14], [15], who
+minimize an unconditional leakage for a scalar load in a circular block
+model and note that the rate-optimal and leakage-optimal allocations
+over frequency differ. The enclosed manuscript treats the two costs
+jointly, with a leakage conditional on the second party's own
+observation, for vector sources, and proves that the resulting region is
+operational for the stationary source.
+
+The main results are in three groups. First, the spectral region. For a
+source of period $n$ the region splits exactly over the $n$ Fourier
+frequencies under one common water level (Theorem~3), and as the period
+grows it converges to a spectral region in which the tilted
+water-filling equation of [1] holds at every frequency under one level
+(Theorem~4). Second, explicit consequences. For a scalar process with a
+scalar context the minimum leakage is an integral of the closed form of
+[1], and the rate-optimal and leakage-optimal descriptions can occupy
+disjoint frequency bands (Theorem~5 and Corollary~6). A delay or any
+invertible filter at the second party changes nothing when it keeps its
+whole observation (Proposition~7), and when it keeps less, the leakage
+of a one-symbol description depends on what is kept through one
+conditional variance (Proposition~8). Third, the stationary source,
+which is the part that does not follow from [1] frequency by frequency.
+For every continuous positive definite spectral density matrix and a
+second party with a memoryless map and white noise, the finite-window
+cost is at least the spectral cost at every window length and converges
+to it, with a gap of at most a constant over the window length for
+Lipschitz spectra (Theorem~15). The spectral region is the operational
+region, with deterministic encoders, for that second party
+(Theorem~16) and for one that observes the process through a filter of
+finite length in noise of continuous positive definite spectrum
+(Theorem~20).
+
+The manuscript states what it does not prove. The coding theorem for a
+filter with an infinite impulse response is open. The sign and the bound
+of the window gap are proved only for a memoryless map and white noise.
+The allocation over frequency in the scalar case is the allocation
+among independent components of [1], with frequencies as the components,
+and the manuscript says so.
+
+Three points of disclosure. First, the dependence on [1] described
+above. The memoryless coding theorem of [1], on which Theorems~16 and~20
+rest, is itself under review.
+% OWNER: this sentence refers to manuscript IT-26-0996, as the cover
+% letter of paper one did. Keep or drop.
+Second, this Transactions declined a different manuscript of mine,
+IT-26-0996, on 27 July 2026 without review, on scope and presentation.
+That manuscript was a broad synthesis. The enclosed manuscript shares no
+theorem with it. Third, no part of the enclosed manuscript has been
+presented at a conference.
+
+The manuscript's sources, check scripts, recorded outputs, and a
+notebook that reruns every check are in a public repository, fixed for
+this version by the tag \texttt{tit-stationary-1.0}
+(\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.0/paper/tit-stationary}).
+% OWNER: add the Zenodo DOI here if a deposit is made.
+The statements are checked numerically on instances, independently of
+the derivations, and the executed notebook records 53 passing checks and
+no failure. The algebraic steps are machine-checked in a Lean~4 module
+of twenty-one theorems. The appendix lists what is and is not
+formalized. The limit theorems and the coding theorems are not
+formalized, and no proof depends on the numerical checks.
+
+One supplementary document is submitted as optional reading. It is a
+short note that relates the results to a broader programme on
+observer-dependent descriptions. The manuscript does not depend on it.
+
+The use of AI tools in preparing the manuscript is disclosed in its
+Acknowledgment, as IEEE policy requires. This manuscript is not under
+review elsewhere, and I have no conflicts of interest to declare.
+
+Sincerely,
+
+Andrew H. Bond\\
+Senior Member, IEEE
+
+\end{document}
