@@ -51,14 +51,14 @@ converges to a spectral region as the period grows. For a scalar process with a 
 context the minimum leakage is an integral of a closed form, and the
 two optimal descriptions can occupy disjoint bands. A delay
 in the second party's observation changes nothing when it keeps its
-whole observation. When it keeps less, the leakage of a
-one-symbol description depends on what is kept through a single
-conditional variance. For the stationary source we prove that
+whole observation. For the stationary source we prove that
 the spectral region is the operational region, with deterministic
 encoders, for every continuous positive definite spectral density
 matrix and a second party that observes the process through a filter
 with a continuous frequency response in noise of continuous positive
-definite spectrum.
+definite spectrum. The region is unchanged when that party has
+its whole observation process, not only the part during the coded
+block.
 When that party's map is memoryless and its noise white,
 finite-window costs converge to the spectral cost from above, with a
 gap at most a constant over the window length for Lipschitz spectra.
@@ -387,7 +387,10 @@ $\tilde J=\Sigma^{1/2}J\Sigma^{1/2}$. The matrix
 $\Sigma(\omega)^{1/2}X\Sigma(\omega)^{1/2}$ is the spectral density of the
 error in estimating $T$ from the description, and $X$ is that error
 spectrum in whitened coordinates. The two forms of $\ell_\omega$ agree by
-the determinant identity of \cite[eq.~(11)]{part1}. For
+the determinant identity
+$\det(\tH X\tH^{\herm}+\Sigma_U)=\det\Sigma_U\,\det(I+\tilde JX)$, which
+holds for every Hermitian $X$ because
+$\tilde J=\tH^{\herm}\Sigma_U^{-1}\tH$. For
 $\alpha\in[0,1]$ write
 $f_{\alpha,\omega}=\alpha r+(1-\alpha)\ell_\omega$ and
 \begin{equation}
@@ -2682,8 +2685,8 @@ scripts, their recorded outputs, and a notebook that reruns them are in
 the public repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
 \texttt{paper/tit-stationary}. The files that go with this version of
-the manuscript are fixed by the tag \texttt{tit-stationary-1.1}, at
-\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.1/paper/tit-stationary}.
+the manuscript are fixed by the tag \texttt{tit-stationary-1.2}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.2/paper/tit-stationary}.
 No proof depends on them.
 
 \texttt{spectral\_core.py} implements the costs and one solver, the
