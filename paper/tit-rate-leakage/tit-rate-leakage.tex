@@ -11,7 +11,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{definition}[theorem]{Definition}
-
+\newtheorem*{lemmaA}{Lemma~A}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\tr}{\operatorname{tr}}
@@ -292,8 +292,9 @@ Q:=F^{\mathsf T}WF\succeq0,
 D_{\max}:=\tr(Q\Sigma_T).
 \]
 The second party, which we call the holder, observes $S=HT+U\in\R^r$
-with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$
-and of all coding randomness. Write
+with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$. The holder's
+observations of the successive letters use independent copies of $U$,
+so the pairs $(T_i,S_i)$ are i.i.d.\ copies of $(T,S)$. Write
 \[
 J:=H^{\mathsf T}\Sigma_U^{-1}H\succeq0,
 \qquad
@@ -310,7 +311,8 @@ R_n=\tfrac1n\log|\mathcal M_n|,\quad
 D_n=\tfrac1n\sum_{i=1}^n\E\bigl[(Y_i-\hY_i)^{\mathsf T}W(Y_i-\hY_i)\bigr],\quad
 L_n=\tfrac1nH(M\mid S^n)=\tfrac1nI(T^n;M\mid S^n).
 \]
-A pair $(R,L)$ is achievable at distortion $D$ when a sequence of codes
+A pair $(R,L)$ is achievable at distortion $D$ when a sequence of codes,
+one for each blocklength $n$,
 has $\limsup R_n\le R$, $\limsup L_n\le L$, and $\limsup D_n\le D$. The
 closure of the achievable set is $\RW(D)$. Throughout $0<D<D_{\max}$. At
 $D\ge D_{\max}$ the zero reproduction gives $R=L=0$. Write $R_{\min}(D)$
@@ -321,7 +323,7 @@ of them.
 A test channel $p(\hy\mid t)$ is admissible when its distortion is at
 most $D$. The Markov chain $\hY-T-S$ holds because the description is
 formed without $S$. For a channel, let $\Sez$ and $\Se$ be the error
-covariances of the best linear estimates of $T$ from $\hY$ and from
+covariances of the best affine estimates of $T$ from $\hY$ and from
 $(\hY,S)$. Appendix~\ref{app:exhaust} proves the following Gaussian
 exhaustion lemma.
 
@@ -332,7 +334,7 @@ $\Cov(N',S)=0$ and $\Cov N'\succ0$. Then
 $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$ and
 $I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the jointly
 Gaussian channel $AT+N$, $N\sim\mathcal N(0,\Cov N')$ independent of
-$(T,U)$, has the same second moments and meets both bounds with
+$(T,U)$, has the same second moments jointly with $(T,S)$ and meets both bounds with
 equality.
 \end{lemma}
 
@@ -352,19 +354,27 @@ where $\mathcal P(D)=\{\Sez:\ 0\prec\Sez\preceq\Sigma_T,\ \tr(Q\Sez)\le D\}$.
 \end{proposition}
 
 \begin{proof}
-Given an admissible channel, centering $\hY$ changes neither coordinate
-and does not raise the distortion. If $\Cov N'$ is singular, either a
+Given an admissible channel, $\hY$ has finite second moments because
+its distortion is finite and $W\succ0$. Centering $\hY$ changes neither
+coordinate and does not raise the distortion. If $\Cov N'$ is singular, either a
 noiseless linear functional of $T$ is revealed and both coordinates are
 infinite, or a nonzero combination of the components of $\hY$ vanishes
-and may be dropped after an invertible linear map. So assume
-$\Cov N'\succ0$. The residual is uncorrelated with $T$ by construction
-and with $U$ by independence, hence with $S$, and Lemma~\ref{lem:gauss}
-replaces the channel by $\hY=AT+N$ with the same distortion and no
-larger coordinates. For it,
+and may be dropped after an invertible linear map. Neither step
+changes the two coordinates or the best affine estimates of $T$, so
+$\Sez$ and $\Se$ are those of the original channel. If no component is
+left, $\Sez=\Sigma_T$ and both coordinates are zero. Otherwise the
+reduced vector, which need not have the dimension of $Y$, has
+$\Cov N'\succ0$. Its residual is uncorrelated with $T$ by construction
+and with $U$ by the Markov chain $\hY-T-S$ and the independence of $U$
+and $T$, hence with $S$, and Lemma~\ref{lem:gauss}
+replaces it by a Gaussian channel $AT+N$ with the same $\Sez$ and $\Se$
+and no larger coordinates. For it,
 $\Sez^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
-$0\prec\Sez\preceq\Sigma_T$. The pair $(\hY,S)$ is a linear observation
-of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
-distortion is at least that of $\E[Y\mid\hY]$, which is $\tr(Q\Sez)$.
+$0\prec\Sez\preceq\Sigma_T$, and the pair formed with $S$ is a linear
+observation of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
+distortion of the original channel is at least $\tr(Q\Sez)$, because
+the reproduction is itself an affine estimate of $Y$ from $\hY$ and the
+best one has error covariance $F\Sez F^{\mathsf T}$. So $\Sez\in\mathcal P(D)$.
 Conversely, given $\Sez\in\mathcal P(D)$, factor
 $\Sez^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $Z=GT+N$ with
 $N\sim\mathcal N(0,I)$ independent of $(T,U)$, and reproduce
@@ -1064,8 +1074,11 @@ conditions \eqref{eq:kkt} at this point read $\Gamma(\varpi)\succeq0$ and
 $\Gamma(\varpi)b=0$, and Theorem~\ref{thm:convex}(c) makes them necessary
 and sufficient. Taking $b^{\mathsf T}\Gamma(\varpi)b=0$ gives $\varpi$.
 
-(c) By Lemma~\ref{lem:gauss} the optimum is attained by a jointly
-Gaussian channel $\hY=a^{\mathsf T}T+N$. If $\Cov(Y,\hY)=0$ its
+(c) By the reduction in the proof of Proposition~\ref{prop:posterior}
+and Lemma~\ref{lem:gauss}, every admissible channel with finite leakage
+is matched by a jointly Gaussian channel $\hY=a^{\mathsf T}T+N$ with the
+same distortion and no larger leakage, so the optimum may be taken of
+that form. If $\Cov(Y,\hY)=0$ its
 distortion is at least $D_{\max}>D$. Otherwise $\E[Y\mid\hY]$ is a
 nonzero multiple of $\hY$, which leaves the leakage unchanged and does
 not raise the distortion, so the optimum is a one-dimensional
@@ -1559,8 +1572,8 @@ that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \label{sec:decsi}
 
 Suppose the decoder also observes $C=H_CT+N_C$, with
-$N_C\sim\mathcal N(0,\Sigma_{N_C})$, $\Sigma_{N_C}\succ0$, independent of $T$,
-$U$, and all coding randomness, and reconstructs $\hY^n=g_n(M,C^n)$. The
+$N_C\sim\mathcal N(0,\Sigma_{N_C})$, $\Sigma_{N_C}\succ0$, independent of $T$
+and $U$, and reconstructs $\hY^n=g_n(M,C^n)$. The
 encoder does not see $C$. Rate, distortion, and leakage
 $L_n=\tfrac1nH(M\mid S^n)$ are as in Section~\ref{sec:model}. Write
 $J_S:=J$ for the holder's information, $J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$,
@@ -1650,6 +1663,9 @@ for every $w$ and the conditional mean of $T$ given $(w,O)$ is this affine
 estimate, so equality holds.
 \end{proof}
 
+At $D\ge\tr(Q\Sigma_{T\mid C})$ the decoder's own estimate
+$\E[Y\mid C]$ meets the distortion, and the pair $(0,0)$ is achievable.
+
 \begin{theorem}\label{thm:decsi}
 Let $0<D<\tr(Q\Sigma_{T\mid C})$.
 \begin{enumerate}
@@ -1691,8 +1707,9 @@ of any reconstruction from $(V,C)$ is at least $\tr(QM_C)$.
 $(R+\epsilon,L+\epsilon)\in\mathcal R_C(D+\epsilon)$ for every $\epsilon>0$.
 For any feasible $(V_0,V)$, $I(V_0;C)\ge I(V_0;S)$ because $J_S\preceq J_C$,
 so both $R+\epsilon$ and $L+\epsilon$ are at least
-$I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is continuous on
-$(0,\tr(Q\Sigma_{T\mid C}))$, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
+$I(T;V\mid C)\ge R_C(D+\epsilon)$. The function $R_C$ is the value of a convex
+program whose constraint is linear in $D$, so it is convex and finite on
+$(0,\tr(Q\Sigma_{T\mid C}))$ and hence continuous there, so $R,L\ge R_C(D)$. Conversely, $V_0$ constant
 and a jointly Gaussian $V$ with $\Cov(T\mid V,C)$ equal to the minimizer
 $M$ of $R_C(D)$, with $\hat y=\E[Y\mid V,C]$, put $(R_C(D),R_C(D))$ in $\mathcal R_C(D)$, and
 the region is increasing in $D$. The minimizer exists because the
@@ -1744,7 +1761,8 @@ So a decoder that knows more than the holder removes the tradeoff, and
 a holder that knows more than the decoder leaves exactly the problem of
 the preceding sections for the source as the decoder already knows it,
 with the holder's excess information in place of its total. When
-neither dominates, the auxiliary $V_0$ can matter, and this paper gives
+neither dominates, the auxiliary $V_0$ can matter, at least among
+jointly Gaussian descriptions, and this paper gives
 the region only through bounds. Proposition~\ref{prop:decbounds} below
 brackets it between a Gaussian inner bound and two outer bounds that are
 tight in the degraded cases.
@@ -1778,8 +1796,9 @@ is achievable at distortion $D$. Each term is a ratio of Gaussian
 determinants. With $V_b$ constant, $L=R=\tfrac12\log\bigl(\det\Sigma_{T\mid C}\det(\Sez^{-1}+J_C)\bigr)$,
 and with $V_b=V$,
 $L=I(T;V\mid S)=\tfrac12\log\bigl(\det\Sigma_{T\mid S}\det(\Sez^{-1}+J_S)\bigr)$.
-Time sharing between achievable pairs, at distortions averaging to $D$,
-is achievable at $D$.
+Time sharing between two achievable pairs with weights $\lambda$ and
+$1-\lambda$, at distortions whose weighted average is $D$, is achievable
+at $D$.
 \item[(b)] (Outer bound, enhanced decoder.) Every achievable pair has
 $R\ge R_C(D)$ and $L\ge R_{C'}(D)$ for every $J'$ with $J'\succeq J_C$ and
 $J'\succeq J_S$.
@@ -1800,9 +1819,13 @@ $\tr\bigl(Q\Cov(T\mid V,C)\bigr)$, and the pair meets the theorem's two
 inequalities. With $V_b=V$ the leakage term is
 $I(T;V\mid C)+I(V;C)-I(V;S)=I(T;V)-I(V;S)=I(T;V\mid S)$. Every
 conditional mutual information of jointly Gaussian variables is a ratio
-of determinants of conditional covariances. Time sharing between two
-codes of the same blocklength averages their rates, distortions, and
-leakages.
+of determinants of conditional covariances. For time sharing with weights $\lambda$ and
+$1-\lambda$, use a code of the first sequence on the first $n_1$ letters
+and a code of the second on the remaining $n-n_1$, with $n_1/n\to\lambda$.
+The source is memoryless, so the pairs formed by the message of a
+segment and that segment of $S^n$ are independent, and the rate, the
+distortion, and the leakage are the weighted averages of those of the
+two codes.
 
 (b) The bound on $R$ is the rate bound in the proof of
 Theorem~\ref{thm:decsi}, together with the continuity of $R_C$. For the
@@ -1837,6 +1860,16 @@ $(\Sigma_{T\mid C}^{-1}+J_S-J_C)^{-1}=\Sigma_{T\mid S}$, and (c) at $J'=J_S$
 is the same region.
 \end{proof}
 
+The bound (c) implies (b) at the same $J'$. A point of $\RW_{J'}(D)$
+lies above the coordinates of some $M$ with
+$0\prec M\preceq\Sigma_{T\mid C}$ and $\tr(QM)\le D$. That $M$ is feasible
+for $R_C(D)$, which gives the bound on $R$. The leakage coordinate is
+$\tfrac12\log(\det\Sigma_{T\mid C'}/\det M')$ with
+$M'=(M^{-1}+J'-J_C)^{-1}$, and $M'\preceq M$ and
+$M'\preceq\Sigma_{T\mid C'}$, so $M'$ is feasible for $R_{C'}(D)$ and the
+coordinate is nonnegative. Part (b) is kept because it has a closed form
+by reverse water-filling.
+
 The enhanced information matrices need not be found by search. When
 $J_C\succ0$, the matrix
 $J'=J_C^{1/2}\bigl(I+(J_C^{-1/2}J_SJ_C^{-1/2}-I)_+\bigr)J_C^{1/2}$, with
@@ -1844,8 +1877,8 @@ $(\cdot)_+$ the positive part of a symmetric matrix, dominates both $J_C$
 and $J_S$, and it returns $J_C$ when $J_S\preceq J_C$ and $J_S$ when
 $J_C\preceq J_S$.
 
-The bounds can meet where neither side information dominates, and the
-second auxiliary is what makes them meet. Take $\Sigma_T=I_2$, a decoder
+The bounds can meet where neither side information dominates, and in
+the Gaussian inner bound the second auxiliary is what makes them meet. Take $\Sigma_T=I_2$, a decoder
 that reproduces both coordinates ($Q=I_2$), decoder side information
 $J_C=\mathrm{diag}(4,0)$ on the first coordinate and holder information
 $J_S=\mathrm{diag}(0,4)$ on the second, and $J'=\mathrm{diag}(4,4)$,
@@ -1863,12 +1896,15 @@ $(T_1,V_a,C)$ is independent of $(T_2,V_b,S)$ and the leakage of (a) is
 $I(T_1;V_a\mid C)+I(T_2;V_b\mid S)$. In the decoder's error variances
 $m_1,m_2$ this is the same function as in (c), and so is the rate. So the inner and outer bounds
 coincide at every budget, and the least leakage of this problem is known
-exactly. For $0.331\le D<1.2$ the optimum leaves the first coordinate to the
+exactly. For $0.332\le D<1.2$ the optimum leaves the first coordinate to the
 decoder's side information and spends the whole budget on the second,
 with $L=\tfrac12\log_2(0.8+0.2/(D-0.2))$. The choices $V_b$ constant and
 $V_b=V$ do not reach this value at small budgets. At $D=0.1$ the least
 leakage is $2.13$ bits, and the better of those two choices gives
-$3.10$ bits.
+$3.10$ bits. The choice $V_b$ constant fails for every description,
+Gaussian or not, because then $L\ge R_C(D)$. The figure for $V_b=V$ is a
+minimum over jointly Gaussian descriptions only. Whether a description
+that is not Gaussian does better with $V_0=V$ is not settled here.
 
 \section{Instances}
 \label{sec:examples}
@@ -1940,7 +1976,8 @@ holder of any rank the fixed point is the limit of a monotone iteration
 of water-filling steps. A closed form for a holder of higher rank and a
 described variable of higher dimension, or for the boundaries between these cases,
 is not known. The general case with side information at both receivers,
-where the second auxiliary of Villard and Piantanida can matter, under
+where the second auxiliary of Villard and Piantanida matters at least
+for jointly Gaussian descriptions, under
 a trace-type distortion and a rank-deficient holder, is where the main
 open question lies. Stationary
 sources and finite blocklengths are not treated.
@@ -1970,20 +2007,63 @@ information. Taking $U=V$ is optimal, because
 $I(X;S\mid U)=I(V;S\mid U)+I(X;S\mid V)\ge I(X;S\mid V)$, and
 $\Upsilon=H(X\mid S)-L$ for a deterministic encoder, which gives the
 displayed form with $V$ in place of $\hX$, and a reproduction that is a
-function of $V$ only lowers both coordinates. For the Gaussian extension
-we use the following finite-blocklength form of the achievability,
-obtained by covering at rate $I(X;\hX)+2\epsilon$, a random binning of the
-codeword index into $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins used only as a
-proof device, Fano's inequality for a hypothetical decoder holding the
-bin index and $S^n$, and selection of one deterministic code. For every
-channel with finite reproduction alphabet and every $\epsilon>0$ there
-are $\epsilon_n\to0$ and, for all large $n$, a deterministic code with
-$|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion at most
-$\E d(X,\hX)+\epsilon+2\epsilon_nd_{\max}$, and
-$H(M\mid S^n)\le n(I(X;\hX\mid S)+3\epsilon)+1+2\epsilon_nn(I(X;\hX)+2\epsilon)$.
+function of $V$ only lowers both coordinates. Their reproduction
+alphabet is the source alphabet, and a separate finite reproduction
+alphabet is covered by the enlargement of the source alphabet described
+in Appendix~\ref{app:decsi}. Their notion of achievability asks, for
+every tolerance, for one code of some blocklength. It gives the same
+closure as the notion of Section~\ref{sec:model} by
+Lemma~A below.
 Convexity of both coordinates in the channel, for the conditional one by
 the decomposition $I(X;\hX\mid S)=\sum_sp(s)I_{p(x\mid s)}(q)$, makes the
 union convex without time sharing.
+\end{proof}
+
+The Gaussian extension uses the achievability in the following form.
+It is the published theorem at one blocklength, extended to every large
+blocklength by using one code on consecutive blocks.
+
+\begin{lemmaA}
+For every channel $p(\hat x\mid x)$ with a finite reproduction alphabet
+and every $\epsilon>0$ there is, for every large $n$, a deterministic
+code of blocklength $n$ with the following bounds, in which the
+information quantities are computed under the law
+$p(x,s)p(\hat x\mid x)$, so that $\hX-X-S$.
+\[
+R_n\le I(X;\hX)+\epsilon,\qquad
+D_n\le\E d(X,\hX)+2\epsilon,\qquad
+\tfrac1nH(M\mid S^n)\le I(X;\hX\mid S)+\epsilon .
+\]
+\end{lemmaA}
+
+\begin{proof}
+The theorem of Villard and Piantanida is applied to the problem with
+the enlarged source alphabet of Appendix~\ref{app:decsi}, in which the
+reproduction alphabet is the source alphabet. A code for that problem
+is a code for the original one after every reproduced source letter is
+replaced by a fixed reproduction letter. That does not change the
+message and, by the choice of the distortion made there, does not
+raise the distortion. With $V=U=\hX$ and no decoder side information, the triple of the rate
+$I(X;\hX)$, the distortion $\E d(X,\hX)$, and the equivocation
+$H(X\mid\hX)-I(X;S\mid\hX)=H(X\mid S)-I(X;\hX\mid S)$ lies in the region
+of \cite[Theorem~3]{villard2013}. So there are a blocklength $n_0$ and a
+deterministic code of that length with rate at most
+$I(X;\hX)+\epsilon$, in the sense that its message set has at most
+$2^{n_0(I(X;\hX)+\epsilon)}$ elements, distortion at most $\E d(X,\hX)+\epsilon$, and
+equivocation at least $H(X\mid S)-I(X;\hX\mid S)-\epsilon$, that is,
+$\tfrac1{n_0}H(M\mid S^{n_0})\le I(X;\hX\mid S)+\epsilon$, because
+$\tfrac1{n_0}H(X^{n_0}\mid M,S^{n_0})=H(X\mid S)-\tfrac1{n_0}H(M\mid S^{n_0})$
+for a deterministic encoder. For a blocklength $n=kn_0+r$ with
+$0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce
+the last $r$ letters by a fixed letter. The message is the tuple of the
+block messages, so the rate is at most $\tfrac{kn_0}n(I(X;\hX)+\epsilon)$.
+The source is memoryless, so the pairs formed by a block message and
+the block of $S^n$ are independent across blocks and of the last $r$
+letters of $S^n$, and
+$H(M\mid S^n)$ is the sum of the $k$ block terms, at most
+$kn_0(I(X;\hX\mid S)+\epsilon)$. The distortion is at most
+$\tfrac1n\bigl(kn_0(\E d(X,\hX)+\epsilon)+rd_{\max}\bigr)$, which is at
+most $\E d(X,\hX)+2\epsilon$ once $n\ge n_0d_{\max}/\epsilon$.
 \end{proof}
 
 \subsection{The Gaussian source}
@@ -1995,13 +2075,16 @@ union convex without time sharing.
 by the chain rule and the independence of the pairs $(T_i,S_i)$. Every
 term is finite, being at most $I(T_i;S_i)+\log|\mathcal M_n|$ with
 $I(T_i;S_i)=\tfrac12\log\det(H\Sigma_TH^{\mathsf T}+\Sigma_U)/\det\Sigma_U$.
-The mixture of the per-letter channels satisfies the Markov chain, has
-distortion $D_n$, and by convexity of both coordinates in the channel
-(for general alphabets the conditional coordinate is an integral over
-$s$ of relative entropies between measures that depend affinely on the
-channel, and relative entropy is jointly convex in its two arguments
-\cite{csiszar1967,wyner1978})
-lies below $(R_n,L_n)$, so $(R_n,L_n)$ is in the union at $D_n$.
+Let $\tau$ be uniform on $\{1,\dots,n\}$ and independent of everything
+else, and write $T=T_\tau$, $S=S_\tau$, $\hY=\hY_\tau$. The pair $(T,S)$ has
+the law of one letter and is independent of $\tau$. Each $\hY_i$ is a
+function of $T^n$ and $U_i$ is independent of $T^n$, so
+$(\tau,\hY)-T-S$ is a Markov chain. Hence
+$\tfrac1n\sum_iI(T_i;\hY_i)=I(T;\hY\mid\tau)=I(T;\hY,\tau)\ge I(T;\hY)$,
+and in the same way
+$\tfrac1n\sum_iI(T_i;\hY_i\mid S_i)=I(T;\hY,\tau\mid S)\ge I(T;\hY\mid S)$.
+The channel from $T$ to $\hY$ satisfies the Markov chain and has
+distortion $D_n$, so $(R_n,L_n)$ is in the union at $D_n$.
 
 \emph{Closedness.} Let $(R_j,L_j)\to(R,L)$ lie in the union at levels
 $D_j$ with $\limsup D_j\le D$, with $\Sigma_j\in\mathcal P(D_j)$ below them
@@ -2016,8 +2099,9 @@ $(r(\Sigma^\star),\ell(\Sigma^\star))$.
 Then $\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
 level $k$ applied coordinatewise. Its bounded cells
 $[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, map to their left endpoints and
-the two tail cells to $\pm2^k$. The partitions are nested and generate
-the Borel $\sigma$-field.
+the two tail cells to $\pm2^k$, so that the lower tail is merged with
+the first bounded cell. The partitions induced are interval partitions,
+they are nested, and they generate the Borel $\sigma$-field.
 
 \emph{Step A.} The $\sigma$-fields of $S_\eta:=q_\eta(S)$ increase to
 $\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964}.
@@ -2029,27 +2113,50 @@ source $(T_k,S_\eta)$ is discrete memoryless, the surrogate channel is
 $p(\hy\mid t_k)=\Pr(\hY_k=\hy\mid T_k=t_k)$, and the surrogate distortion
 $d_k(t_k,\hy)=\E[(Y-\hy)^{\mathsf T}W(Y-\hy)\mid T_k=t_k]$ is bounded for
 each $k$, every cell having positive probability since
-$\Sigma_T\succ0$. The finite-blocklength achievability of
-Theorem~\ref{thm:dmc} gives a code of rate at most
-$I(T_k;\hY_k)+2\epsilon\le I(T;\hY)+2\epsilon$. Its true distortion equals
+$\Sigma_T\succ0$. Lemma~A for the surrogate problem
+gives, for every large $n$, a code of rate at most
+$I(T_k;\hY_k)+\epsilon\le I(T;\hY)+\epsilon$ whose encoder acts on
+$T_k^n=q_k(T^n)$, so it is a deterministic code for the Gaussian source.
+Its leakage in the surrogate problem is its $H(M\mid S_\eta^n)$ in the
+Gaussian problem, because $(T_k^n,S_\eta^n)$ has the same law in both.
+Its true distortion equals
 its surrogate distortion, because given $T_k^n$ the law of $Y_i$ depends
 on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
 $\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
-$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. The surrogate
-law of $(\hY_k,S_\eta)$ converges weakly to the true law of
-$(\hY,S_\eta)$, by the bounded-convergence and martingale argument
-applied to test functions bounded on $\R^m\times q_\eta(\R^r)$ and
-continuous in the first argument, and the Markov chain $\hY-T-S$. Mutual
-information is lower semicontinuous under weak convergence
-\cite{posner1975}, so
+$L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. Write $I_k$ for
+mutual information under the surrogate law, in which
+$\hY_k-T_k-S_\eta$. Fix a level $\kappa$ with
+$I(q_\kappa(\hY);S_\eta)\ge I(\hY;S_\eta)-\epsilon/2$, which exists because
+the $\sigma$-fields of $q_\kappa(\hY)$ increase to that of $\hY$
+\cite[Ch.~2]{pinsker1964}. For $k\ge\kappa$ the partitions are nested, so
+$q_\kappa(\hY_k)=q_\kappa(\hY)$, and the surrogate probability of
+$\{q_\kappa(\hY_k)=a,\ S_\eta=s\}$ is
+$\E[\Pr(q_\kappa(\hY)=a\mid T_k)\Pr(S_\eta=s\mid T_k)]$. By martingale
+convergence and bounded convergence it tends to
+$\E[\Pr(q_\kappa(\hY)=a\mid T)\Pr(S_\eta=s\mid T)]$, which is the true
+probability by the Markov chain $\hY-T-S$. Both variables take finitely
+many values, so $I_k(q_\kappa(\hY_k);S_\eta)\to I(q_\kappa(\hY);S_\eta)$, and
+$I_k(\hY_k;S_\eta)\ge I_k(q_\kappa(\hY_k);S_\eta)$ by data processing. So
 $I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
-for large $k$, and the code has $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+5\epsilon+o(1))$.
+for large $k$, and the code has
+$H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+3\epsilon)$ and distortion at most
+$D+3\epsilon$ for large $k$ and $n$. The parameters are chosen in this
+order: $\eta$ in Step~A, then the level $\kappa$, then $k\ge\kappa$,
+each depending on $\epsilon$ and $\eta$, then $n$, which depends on $k$ and $\eta$ through the
+blocklength $n_0$ of the surrogate problem and through the bound on the
+surrogate distortion.
 
 \emph{Step C.} $S_\eta^n$ is a function of $S^n$, so
 $H(M\mid S^n)\le H(M\mid S_\eta^n)$. A diagonal sequence
 $\epsilon\downarrow0$ achieves the corner
-$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, and with the converse,
-closedness, and Proposition~\ref{prop:posterior} the region is as stated.
+$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, so every point of the
+union is achievable. Conversely, if $(R,L)$ is achievable at $D$, a
+subsequence of the pairs $(R_n,L_n)$ of its codes converges to some
+$(R',L')$ with $R'\le R$ and $L'\le L$, each $(R_n,L_n)$ lies in the union
+at $D_n$ by the converse, and $\limsup D_n\le D$, so $(R',L')$, and with
+it $(R,L)$, lies in the union at $D$ by closedness. The union at $D$ is
+closed, so the closure adds nothing, and with
+Proposition~\ref{prop:posterior} the region is as stated.
 \end{proof}
 
 \subsection{Side information at the decoder}
@@ -2082,7 +2189,11 @@ So for every point
 $(I(X;V\mid C),\E d(X,\hat x(V,C)),I(X;V\mid C)+I(V_0;C)-I(V_0;E))$ of
 finite auxiliaries and every $\epsilon>0$, some deterministic code has
 rate, distortion, and leakage each within $\epsilon$ of that point or
-below it.
+below it. When the third coordinate exceeds $H(X\mid E)$ the
+equivocation expression is negative and the point is not in their set.
+Every code has leakage at most $H(X\mid E)$, and the rate and the
+distortion do not depend on $V_0$, so the code obtained for $V_0=V$,
+whose expression $H(X\mid V,E)$ is nonnegative, serves.
 
 \begin{proof}[Proof of Theorem~\ref{thm:decregion}]
 \emph{Converse.} Fix a code, so $M=f_n(T^n)$ and $\hY^n=g_n(M,C^n)$. For
@@ -2204,7 +2315,8 @@ is a function of $S^{n_0}$. For a general blocklength $n=kn_0+r$ with
 $0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce the
 last $r$ letters by zero. The message is the tuple of block messages, so
 the rate does not increase. The pairs of block message and block of
-$S^n$ are independent across blocks, so the leakage is the sum of the
+$S^n$ are independent across blocks and of the last $r$ letters of
+$S^n$, so the leakage is the sum of the
 block leakages divided by $n$ and does not exceed that of one block. The
 distortion is at most $(kn_0(D+5\epsilon)+rD_{\max})/n$, whose limsup is
 at most $D+5\epsilon$.
@@ -2219,20 +2331,20 @@ expected divergence of the conditional law of $T$ given $(\hY,S)$ from
 the conditional law given $S$ \cite{wyner1978,pinsker1964}. Fix a
 realization, let $P$ be the conditional law with mean $\mu$ and
 covariance $C$, $P_G=\mathcal N(\mu,C)$, and
-$Q_S=\mathcal N(\mu_S,\Kc)$. If $P$ has no density the divergence is
+$Q_S=\mathcal N(\mu_S,\Kc)$ with $\mu_S=\E[T\mid S]$. If $P$ has no density the divergence is
 infinite. Otherwise $\log(dP_G/dQ_S)$ is quadratic in $t$ and $P$, $P_G$
 share two moments, so $D(P\|Q_S)=D(P\|P_G)+D(P_G\|Q_S)\ge D(P_G\|Q_S)$.
 Averaging $D(P_G\|Q_S)$, the trace term plus the mean term,
 $\E[\tr(\Kc^{-1}C)+(\mu-\mu_S)^{\mathsf T}\Kc^{-1}(\mu-\mu_S)]$, averages to
 $p$ by the law of total covariance. Jensen's inequality for the concave
-function $\ln\det$ on positive definite matrices (formalized in
-Appendix~\ref{app:numver}) gives $\E[-\ln\det C]\ge-\ln\det\E C$, and
+function $\ln\det$ on positive definite matrices (the concavity is
+formalized in Appendix~\ref{app:numver}) gives $\E[-\ln\det C]\ge-\ln\det\E C$, and
 $-\ln\det\E C\ge-\ln\det\Se$, since the conditional mean
 has error covariance no larger than any linear estimator. Hence
 $I(T;\hY\mid S)\ge\tfrac12\log(\det\Kc/\det\Se)$, and the same argument
 without $S$ gives $I(T;\hY)\ge\tfrac12\log(\det\Sigma_T/\det\Sez)$.
 
-\emph{The determinant identity.} With $\hY=AT+N'$, $\Cov(N',T)=0$, and
+\emph{The determinant identity.} Write $\Sigma_N=\Cov N'$. With $\hY=AT+N'$, $\Cov(N',T)=0$, and
 $\Cov(N',S)=0$, the change of variables $(T,S,\hY)\mapsto(T,S,N')$ is
 block triangular with unit diagonal, so
 $\det\Cov(T,S,\hY)=\det\Sigma_S\det\Kc\det\Sigma_N$. The Schur factorization
@@ -2244,7 +2356,8 @@ positive.
 \emph{Equality.} For the jointly Gaussian channel $AT+N$ the conditional
 law of $T$ given $(\hY,S)$ is Gaussian with the linear estimate as mean
 and $\Se$ as covariance, so every inequality is an equality. Its second
-moments match the given channel's.
+moments jointly with $(T,S)$ match the given channel's. For the
+covariance with $S$ this is where $\Cov(N',S)=0$ is used.
 \end{proof}
 
 \section{Practical Quantizers}
@@ -2696,18 +2809,12 @@ communications, and machine learning,'' \emph{IEEE Trans. Signal
 Process.}, vol. 65, no. 3, pp. 794--816, 2017.
 \bibitem{kato1995} T. Kato, \emph{Perturbation Theory for Linear Operators},
 reprint of the 1980 ed. Berlin, Germany: Springer, 1995.
-\bibitem{csiszar1967} I. Csisz\'ar, ``Information-type measures of difference
-of probability distributions and indirect observations,'' \emph{Studia Sci.
-Math. Hungar.}, vol. 2, pp. 299--318, 1967.
 \bibitem{wyner1978} A. D. Wyner, ``A definition of conditional mutual
 information for arbitrary ensembles,'' \emph{Inf. Control}, vol. 38, no. 1,
 pp. 51--59, 1978.
 \bibitem{pinsker1964} M. S. Pinsker, \emph{Information and Information
 Stability of Random Variables and Processes}. San Francisco, CA:
 Holden-Day, 1964.
-\bibitem{posner1975} E. C. Posner, ``Random coding strategies for minimum
-entropy,'' \emph{IEEE Trans. Inf. Theory}, vol. 21, no. 4, pp. 388--391,
-1975.
 \bibitem{lloyd1982} S. P. Lloyd, ``Least squares quantization in PCM,''
 \emph{IEEE Trans. Inf. Theory}, vol. 28, no. 2, pp. 129--137, 1982.
 \bibitem{max1960} J. Max, ``Quantizing for minimum distortion,'' \emph{IRE
