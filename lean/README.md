@@ -187,3 +187,32 @@ exist by a problem-specific route:
 Every audited theorem depends only on `propext`, `Classical.choice` and
 `Quot.sound`. See `paper/tit-rate-leakage/lean-tilted-2026-10-07.txt` and
 `paper/tit-rate-leakage/lean-tilted-complete-2026-10-07.txt`.
+
+## T-IT stationary sources: the algebraic steps of the spectral paper
+
+`ObservationTheory/SpectralRateLeakage.lean` (added 2026-11-13) machine-checks
+algebraic steps of `paper/tit-stationary/tit-stationary.tex`: twenty-one
+theorems, no `sorry`, standard axioms only. It is imported by the root file
+`ObservationTheory.lean`.
+
+What it covers, for the per-direction costs `(1/2) ln(1/x)` and
+`(1/2) ln((1 + j x) / (x (1 + j)))`: the leakage is nonnegative, at most the
+rate, and nonincreasing in the holder's information `j`; the slope of the
+weighted cost and its equivalence with the quadratic of the spectral section;
+that the quadratic has exactly one positive root; the activation threshold; the
+optimality of a common-slope allocation in its finite form and in the integral
+form; the invariance of `H* M H` under a unit-modulus factor (the delay
+proposition); that a real block matrix commuting with the complex structure is
+the image of a complex matrix, and conversely; that invariance under a sign
+symmetry forces a block-diagonal form; and that matrices affine in one matrix
+commute.
+
+Not formalized: the compactness lemma, the block-circulant step of the periodic
+theorem, Szego's theorem, the window lemmas and the window theorem, and the
+proofs of the four coding theorems (Theorems 16, 20, 22 and 23 of that paper),
+and everything that paper imports from the memoryless paper. The paper's
+appendix has the same list.
+
+Build records: `paper/tit-stationary/lean-spectral-2026-11-13.txt` (the module
+and its axiom audit) and `paper/tit-stationary/lean-library-2026-11-14.txt`
+(the root target with the import, an incremental build).
