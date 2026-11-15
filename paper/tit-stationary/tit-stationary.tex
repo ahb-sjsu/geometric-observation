@@ -45,26 +45,22 @@ description has two costs per symbol, its rate and its conditional
 leakage to the second party. For memoryless sources the frontier is
 reverse water-filling on the decoder's weight tilted by the second
 party's information. We show that for sources with memory the same
-statement holds frequency by frequency, with one water level shared by
-all frequencies. For a source with a finite period the region splits
-exactly over the discrete Fourier frequencies, and as the period grows
-it converges to a spectral region. Kolmogorov's reverse water-filling is the case of no
-second party. For a scalar process with a scalar context the minimum
-leakage is an integral of a closed form, and the two optimal
-descriptions can occupy disjoint frequency bands. A delay in the second
-party's observation changes nothing when that party keeps its whole
-observation. When it keeps one sample or a causal prefix, the leakage
-of a one-symbol description depends on what is kept through a single
-conditional variance. For the stationary source itself we
-prove that the spectral region is the operational region, for every
-continuous positive definite spectral density matrix, a second party
-that observes the process through a filter of finite length in
-stationary Gaussian noise with a continuous positive definite spectral
-density, and deterministic encoders. When that
-party's map is memoryless and its noise white, the costs of finite
-windows converge to the spectral cost from above. The gap at a window of $N$ symbols is
-bounded by excess log-determinants of block-Toeplitz matrices, and for
-Lipschitz spectra it is at most a constant over $N$.
+holds frequency by frequency, under one water level. For a periodic
+source the region splits exactly over the Fourier frequencies, and it
+converges to a spectral region as the period grows. For a scalar process with a scalar
+context the minimum leakage is an integral of a closed form, and the
+two optimal descriptions can occupy disjoint bands. A delay
+in the second party's observation changes nothing when it keeps its
+whole observation. When it keeps less, the leakage of a
+one-symbol description depends on what is kept through a single
+conditional variance. For the stationary source we prove that
+the spectral region is the operational region, with deterministic
+encoders, for every continuous positive definite spectral density
+matrix and a second party that observes the process through a filter
+of finite length in noise of continuous positive definite spectrum.
+When that party's map is memoryless and its noise white,
+finite-window costs converge to the spectral cost from above, with a
+gap at most a constant over the window length for Lipschitz spectra.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -98,6 +94,21 @@ quadratic distortion per symbol. The second party, called the holder as
 in \cite{part1}, observes a filtered copy of the process in stationary
 Gaussian noise. The costs are the rate and the leakage per symbol.
 
+Three distinctions place the problem. In the Wyner--Ziv problem the
+side information is at the decoder and lowers the rate. Here it is at a
+party that does not decode, and the leakage is what the message adds
+to what that party already has. The region is a different region, not
+the same one with other labels. In the privacy funnel and in the
+utility--privacy tradeoffs discussed below, the leakage is an
+unconditional mutual information. Here it is conditional on the second
+party's own observation, and that conditioning is what tilts the
+weight. And the stationary case is not the memoryless result applied
+at each frequency. The per-frequency statement is exact for a periodic
+source, which is a model. Making the spectral region operational for
+the stationary source takes the window theorem and the coding theorems
+of Section~\ref{sec:windows}, in which the holder's observation of a
+finite window and the memory across blocks have to be controlled.
+
 The results are as follows. For a source of period $n$, by which we
 mean independent blocks of length $n$ with a block-circulant
 covariance, the frontier splits exactly over the $n$ discrete Fourier
@@ -125,7 +136,10 @@ descriptions occupy disjoint bands (Corollary~\ref{cor:bands}). This is
 the allocation among independent components of
 \cite[Theorem~27]{part1} with frequencies as the components. The
 mechanism is inherited. What a signal adds is that the components need
-not be supplied by the model, since stationarity supplies them.
+not be supplied by the model, since stationarity supplies them. That
+the rate-optimal and the leakage-optimal allocations over frequency
+differ was observed by Sankar et al.\ \cite{sankar2013} for a leakage
+with no side information at the second party.
 
 The holder's filter enters every result only through
 $J(\omega)=H(\omega)^{\herm}\Sigma_U(\omega)^{-1}H(\omega)$. A delay, or
@@ -209,19 +223,28 @@ rests. We found no rate--distortion--equivocation result for a Gaussian
 source with memory and side information at the second party. The
 closest results are these. Sankar, Rajagopalan, Mohajer, and Poor
 \cite{sankar2011,sankar2013} study the tradeoff between utility and
-privacy for a scalar stationary Gaussian source whose private part is a
-noisy scaling of the source, and obtain spectral allocations by
-filtering frequency components. Their leakage is the unconditional
-mutual information between the private sequence and the
-reconstruction, and the adversary has no side information. Here the
-leakage is conditional on a second party's own observation of the
-source, and that observation is what tilts the weight at each
-frequency.
-% verify on final: this comparison was written from the conference version (arXiv:1108.2234 = SmartGridComm 2011).
-% The T-SG 2013 journal text has NOT been read. A reviewer of this draft reports that the journal version states that
-% rate and leakage cannot in general be minimised together and develops an interference-aware spectral allocation.
-% An earlier draft of this paragraph said their rate-optimal solution is also leakage-optimal; that sentence was removed
-% until the journal text is read and the assumptions can be stated exactly.
+privacy for a scalar stationary Gaussian load that is the sum of a
+component to be hidden, a second component, and white noise, in a
+circular block model. Their leakage is the mutual information per
+symbol between the hidden component and the revealed sequence, and the
+party that receives that sequence has no side information. They
+minimize this leakage at a given mean-square distortion by a reverse
+water-filling in which the second component and the noise count as
+distortion already present. They note that the rate-optimal
+allocation, ordinary reverse water-filling on the total spectrum,
+differs from the leakage-optimal one, and that rate and leakage should
+be treated jointly, which they do not do
+\cite[Remarks~10 and~11]{sankar2013}. That the two optimal
+allocations over frequency differ is therefore known for their
+unconditional leakage. Here the two costs are treated jointly and the
+whole frontier is determined, the leakage is conditional on a second
+party's own observation of the source, which is what tilts the weight
+at each frequency, the source and the observation are vectors, and the
+region is shown to be operational for the stationary source.
+% Read in full 2026-11-14 from the authors' version in Princeton's repository (file SM_privacy8.pdf): model (3),
+% leakage (12)-(13), minimal leakage (25) with distortion spectrum (24), (26), Remarks 10-11, and the sentence in
+% Sec. III-E that minimizing both rate and leakage "may, in general, not be feasible except for specific cases".
+% Their Remark 9: for Y = X the minimal leakage and the rate-distortion function coincide.
 Liu, Cuff, and Verd\'u \cite{liu2016} obtain the key capacity of jointly
 stationary Gaussian processes by treating frequencies as a product
 source with one water level. Their problem is key agreement and has no
@@ -229,9 +252,12 @@ distortion. Dikshtein, Weinberger, and Shamai \cite{dikshtein2022}
 solve the information bottleneck for Gaussian processes by spectral
 water-filling and define, without solving, the privacy funnel for
 them. Conditional rate--distortion theory for sources with memory goes
-back to Gray \cite{gray1973} and Leiner and Gray \cite{leiner1974}, and
-spectral formulas for remote sources to Dobrushin and Tsybakov
-\cite{dobrushin1962}. Simeone and Permuter \cite{simeone2013} show that
+back to Gray \cite{gray1973} and Leiner and Gray \cite{leiner1974}. Gao
+and Soleymani \cite{gao2010} give the rate--distortion function of a
+stationary Gaussian source with side information at the decoder, in
+parametric form, by the Toeplitz distribution theorem. There is no
+second party in their problem. Spectral formulas for remote sources
+go back to Dobrushin and Tsybakov \cite{dobrushin1962}. Simeone and Permuter \cite{simeone2013} show that
 delayed side information at a decoder changes the rate when the
 decoder is causally constrained. Proposition~\ref{prop:allpass} is the
 complementary statement for a party that is not constrained.
@@ -275,6 +301,38 @@ $H(\omega)=\sum_kH_ke^{-i\omega k}$. Write
 J(\omega)=H(\omega)^{\herm}\Sigma_U(\omega)^{-1}H(\omega),\qquad
 D_{\max}=\int_{-\pi}^{\pi}\tr\bigl(Q\Sigma(\omega)\bigr)\dw .
 \]
+
+Three parties appear, and it matters who sees what. The encoder sees
+the source $T$ and nothing else. The decoder sees the message $M$ and
+nothing else. It has no side information. The holder sees the message
+$M$ and its own observation $S$, and it does not reconstruct anything.
+The leakage is what the message tells the holder about the source
+beyond $S$. This is not the arrangement of Wyner and Ziv, in which the
+observation is at the decoder.
+
+The assumptions are used as follows. Positive definiteness of
+$\Sigma_U$ defines $J$ and keeps the leakage finite. A holder that sees
+some component of the source without noise at some frequency is
+excluded. Positive definiteness of $\Sigma$ is used to whiten at each
+frequency and, in Section~\ref{sec:windows}, to approximate the source
+by sources of finite memory. Band-limited sources are excluded. We do
+not claim that the results extend to these cases by continuity. The
+assumptions on the holder come in three layers. The periodic and
+spectral results, Theorems~\ref{thm:periodic} and~\ref{thm:spectral},
+need only a continuous frequency response, for which absolutely
+summable taps suffice, and a continuous positive definite noise
+spectrum. The window theorem and the first coding theorem,
+Theorems~\ref{thm:windows} and~\ref{thm:achieve}, are for a memoryless
+map, $S_t=HT_t+U_t$ with one matrix $H$ acting on each symbol
+separately, and white noise. So is the exact solution of the affine
+class, Theorem~\ref{thm:affine}. The second coding theorem,
+Theorem~\ref{thm:filter}, is for a filter of finite length and a
+continuous positive definite noise spectrum. No result for the
+stationary source covers a filter with an infinite impulse response. The frontier
+statements are for $0<D<D_{\max}$. For $D\ge D_{\max}$ the frontier point
+has zero rate and zero leakage, and the level equations are not used.
+Theorem numbers of \cite{part1} are those of the submitted version
+archived at the address given in the references.
 
 \subsection{The source of period $n$}
 
@@ -705,6 +763,13 @@ $D$ close enough to $D_{\max}$ the rate-optimal and the leakage-optimal
 descriptions describe disjoint sets of frequencies.
 \end{corollary}
 
+The condition is sufficient and not necessary, and the corollary does
+not say how close to $D_{\max}$ the distortion must be. For an instance,
+the threshold above which the two described sets are disjoint, that is
+the supremum of the distortions at which they overlap, is computed
+from the two allocations of Theorem~\ref{thm:pair}, as in
+Section~\ref{sec:examples}. We have no formula for it.
+
 \begin{proof}
 The rate-optimal description describes $\{S_Y>\theta\}$ with
 $D=\int\min\{\theta,S_Y\}\,\dw$, so $\theta\to\max S_Y$ as $D\to D_{\max}$.
@@ -731,7 +796,9 @@ the holder's filter and noise only through $J(\omega)$. In particular
 they are unchanged when $H(\omega)$ is replaced by $A(\omega)H(\omega)$
 and $\Sigma_U(\omega)$ by $A(\omega)\Sigma_U(\omega)A(\omega)^{\herm}$ for a
 continuous invertible $A(\omega)$, and when $H(\omega)$ is replaced by
-$e^{-i\omega\Delta}H(\omega)$, a delay of $\Delta$ symbols.
+$e^{-i\omega\Delta}H(\omega)$, a delay of $\Delta$ symbols. In these
+models the holder has its whole observation, the whole block for the
+source of period $n$ and the whole process in the spectral limit.
 \end{proposition}
 
 \begin{proof}
@@ -769,7 +836,9 @@ $q_{\mathcal A}=\Var(V_t\mid S_{\mathcal A})$.
 For $0<D<1$ the region of the one-symbol problem with a holder that
 keeps $S_{\mathcal A}$ is the region of \cite[Corollary~17]{part1} for
 the scalar pair with correlation $\rho$ and holder noise
-$q_{\mathcal A}/(1-q_{\mathcal A})$. In particular
+$q_{\mathcal A}/(1-q_{\mathcal A})$, where
+$q_{\mathcal A}=\Var(V_t\mid S_{\mathcal A})$ is the conditional variance
+of the context at the epoch given what the holder keeps. In particular
 \[
 L_{\mathcal A}(D)=\tfrac12\log g^\star\Bigl(\rho^2,\frac1{1-q_{\mathcal A}},D\Bigr),
 \]
@@ -835,8 +904,8 @@ with memory against a holder that keeps a causal prefix, which is open.
 A code of blocklength $N$ for the stationary source maps
 $T^N=(T_1,\dots,T_N)$ to a message $M$ in a finite set, and the decoder
 outputs $\hY^N$ as a function of $M$. In this section the encoder may
-use private randomness, independent of the source and of the holder's
-noise. Its rate, distortion, and leakage per symbol are
+use private randomness, independent of the pair formed by the source
+process and the holder's noise process. Its rate, distortion, and leakage per symbol are
 $R_N=\tfrac1N\log|\mathcal M|$,
 $D_N=\tfrac1N\sum_t\E[(Y_t-\hY_t)^{\mathsf T}W(Y_t-\hY_t)]$, and
 $L_N=\tfrac1NH(M\mid S^N)$, where $S^N$ is what the holder observes
@@ -944,6 +1013,8 @@ distribution $\mu$ of $f(\omega)$ under the normalized Lebesgue measure.
 % Lemma 4.1 gives m_f <= eigenvalues <= M_f for Hermitian T_n(f).
 % verify on final: Grenander--Szego could not be opened. "Ch. 5" is inferred from the table of contents
 % (fifth chapter, "Eigenvalues of Toeplitz forms"); its hypotheses there (believed: real integrable f) are unchecked.
+% Second-hand support for "Ch. 5" (2026-11-14): Tian and Kostina, arXiv:1804.09418v4, cite Szego's theorem as
+% "[32, Chap. 5] for Toeplitz forms", their [32] being Grenander and Szego.
 % The argument below needs Gray's two statements only.
 The statement in \cite[Theorem~4.2]{gray2006} is for absolutely
 summable coefficients, which a continuous $f$ need not have. It extends
@@ -1021,8 +1092,9 @@ nonincreasing on $(0,\infty)$, hence continuous.
 
 By a test channel that attains a frontier at distortion $D$ we mean a
 Gaussian channel from the source to an output $Z$ whose error
-covariance is a minimizer of \eqref{eq:unwhitened}, which exists for
-every $0\prec\Delta\preceq S$ \cite[Lemma~1]{part1}, with the
+covariance is a minimizer of \eqref{eq:unwhitened}. Such a channel
+exists for every $0\prec\Delta\preceq S$ by the construction in the
+proof of \cite[Proposition~2]{part1}. We take it with the
 reproduction $\E[Y\mid Z]$. Its rate and leakage are those of $Z$. A
 test channel in the sense of \cite[Proposition~2]{part1} is a
 reproduction, and the rate and leakage of a reproduction computed from
@@ -1103,7 +1175,7 @@ subadditive sequence $N\,V^{\mathrm w}_N$.
 
 For $\alpha=1$ this is the classical subadditivity of the
 rate--distortion function of a block of a stationary source
-\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite[Sec.~10.6]{gray1990eit}; see also \cite[Ch.~9]{gallager1968} and
 \cite{berger1971}. The lemma says that the device survives the second
 cost.
 
@@ -1147,6 +1219,9 @@ with $\|\cdot\|_{\mathrm F}$ the Frobenius norm. We use one approximation
 several times. If $F\succeq aI$ and $0<\epsilon<a$, the Fej\'er means of
 $F$ are Hermitian trigonometric polynomials with real coefficients,
 they have the symmetry of $F$, and they converge to $F$ uniformly.
+They are also at least $aI$, because a Fej\'er mean is an average of
+$F$ against a nonnegative kernel of unit mass, so positive
+definiteness is not lost in the approximation.
 Subtracting $\tfrac\epsilon2I$ from one that is within $\tfrac\epsilon2$
 of $F$ gives a trigonometric polynomial $F'$ with
 $F-\epsilon I\preceq F'\preceq F$, hence
@@ -1313,10 +1388,10 @@ For $\alpha=1$ much of the theorem is classical, and we say which part.
 Part (a) is the statement that the rate--distortion function of the
 window converges from above to that of the process, by the
 subadditivity of Lemma~\ref{lem:subadd}
-\cite[Sec.~10.6]{gray1990eit}, \cite[Ch.~9]{gallager1968},
+\cite[Sec.~10.6]{gray1990eit}; see also \cite[Ch.~9]{gallager1968} and
 \cite{berger1971}. The first bound of (b) at $\alpha=1$ is the bound of
-Wyner and Ziv \cite{wynerziv1971} applied to blocks. In the form given
-in \cite[Sec.~4.7.1]{gray1990sct}, the rate--distortion function of a
+Wyner and Ziv \cite{wynerziv1971} applied to blocks. We use it in the
+form given by Gray \cite[Sec.~4.7.1]{gray1990sct}: the rate--distortion function of a
 stationary source is at least that of its letters minus the entropy of
 a letter in excess of the entropy rate, whatever the distortion
 measure. Write $R_N(D)=V^{\mathrm w}_N(1,D)$ and $R(D)=V(1,D)$, and let
@@ -1336,8 +1411,10 @@ is below the water level, the window cost is
 $\tfrac1{2N}\log\bigl(\det T_N(\Sigma)/D^N\bigr)$, and the gap is exactly
 $s_N(\Sigma)/(2N\ln2)$, so the bound holds with equality there. A gap
 of order $1/N$ at every distortion is also proved, with constants that
-are not explicit, for scalar autoregressive sources of finite order in
-the work on dispersion \cite{tian2019,tasci2026}. Other finite-block
+are not explicit, for scalar autoregressive sources of finite order
+started at zero, in the work on dispersion of Tasci and Kostina
+\cite{tasci2026}; see also \cite{tian2019} for the first-order case.
+Other finite-block
 results for $\alpha=1$ are of a different kind.
 Guti\'errez-Guti\'errez, Z\'arraga-Rodr\'iguez, and Insausti
 \cite{gutierrez2017}, following Pearl \cite{pearl1973}, bound the window
@@ -1354,7 +1431,8 @@ variance, no holder, and $D=0.95$, the window cost is $0.017278$ bits
 at $N=5$ and $0.017288$ at $N=6$. The first bound in (b) is close in the
 instance of Section~\ref{sec:examples}. The second is explicit in the
 data and in one regularity constant of the solution, and is far from
-tight. Part (b) bounds the error of the spectral optimization at a
+tight. It establishes the order $1/N$ and is not a tool for choosing a
+window size. Part (b) bounds the error of the spectral optimization at a
 finite window. It says nothing about codes of a finite blocklength.
 The lemma on order also bounds the effect of an error in the spectrum:
 if an estimate $\Sigma'$ satisfies
@@ -1386,12 +1464,21 @@ power. The encoder, which sees only the sum, samples the finite-memory
 part from its conditional law. And the private randomness of that draw
 is removed by Lemma~\ref{lem:derand}.
 
+The limits are taken in a fixed order. The power $\epsilon$ of the
+remainder is chosen first, which fixes the finite-memory source and its
+memory $m$. For that source the block length $n$ of the window grows,
+then the number $K$ of blocks. Only after that does $\epsilon$ tend to
+zero. The window limit is never taken for the original source in the
+achievability, and the memory $m$ is allowed to grow without bound as
+$\epsilon$ decreases.
+
 \begin{lemma}\label{lem:guard}
 Let $(T'_t)$ be a centered stationary Gaussian process in $\R^p$ with
 continuous spectral density $\Sigma'(\omega)\succ0$ and autocovariance
 $R'(\tau)=0$ for $|\tau|>m$, with holder observations
-$S'_t=HT'_t+U_t$, $U$ white. Let $(R',L')$ be a point of the frontier of
-its window problem of size $n$ at distortion $D'$, per symbol, with
+$S'_t=HT'_t+U_t$, $U$ white. Let $(R',L')$ be a point of the region of
+its window problem of size $n$ at distortion $D'$, per symbol, for
+instance the frontier point of some weight, with
 $0<D'<\tr(QR'(0))$. For every
 $\delta>0$ and every large enough $K$ there is a code with a
 deterministic encoder, of blocklength $N=K(n+m)$, with
@@ -1409,12 +1496,19 @@ Two symbols in different blocks are more than $m$ apart, so the blocks
 of $T'$ are uncorrelated, and being jointly Gaussian they are
 independent, each with the law of the window of size $n$. The noise is
 white, so the pairs formed by a block and the holder's observations in
-that block are independent and identically distributed. By
-\cite[Theorem~3]{part1} for this memoryless source with letters in
-$\R^{pn}$, weight $\tfrac1nI_n\otimes Q$, and holder
-$(I_n\otimes H,I_n\otimes\Sigma_U)$, for large $K$ there is a code on $K$
+that block are independent and identically distributed. This is a
+memoryless source with letters in $\R^{pn}$ in the sense of
+\cite{part1}. Its letter covariance $T_n(\Sigma')$ is positive definite
+because $\Sigma'\succ0$, its weight $\tfrac1nI_n\otimes Q$ is that of the
+map $I_n\otimes F$ and the weight $\tfrac1nI_n\otimes W$, its holder is
+$(I_n\otimes H,I_n\otimes\Sigma_U)$, and its maximal distortion is
+$\tr(QR'(0))$. The point $(nR',nL')$ lies in the region of
+\cite[Theorem~3]{part1} at $D'$, which is the closure of the set of
+achievable pairs, and achievability there means one sequence of codes
+with deterministic encoders that meets the three limits together. So
+for all large $K$ there is a code on $K$
 blocks with rate at most $n(R'+\delta)$ per block, distortion at most
-$D'+\delta$ per block, and
+$D'+\delta$ per symbol of the blocks, and
 $\tfrac1KH(M\mid S'_{\mathrm{blocks}})\le n(L'+\delta)$, where
 $S'_{\mathrm{blocks}}$ are the holder's observations in the blocks. Use
 this code on the blocks and reproduce zero in the guard intervals. The
@@ -1424,6 +1518,54 @@ the guard intervals it is $Km\tr(QR'(0))$. Conditioning on the guard
 observations as well cannot increase the entropy, so
 $H(M\mid S'^N)\le H(M\mid S'_{\mathrm{blocks}})\le Kn(L'+\delta)$.
 \end{proof}
+
+\begin{lemma}\label{lem:concat}
+Let codes $c_1,\dots,c_k$ for the stationary source have blocklengths
+$N_i$, rates $R_i$, distortions $D_i$, and leakages $L_i$, with private
+randomness $(Z_1,\dots,Z_k)$, if any, independent of the source process
+and the noise process. Use $c_i$ on the $i$th of $k$
+consecutive windows of lengths $N_1,\dots,N_k$, with the message
+$M=(M_1,\dots,M_k)$ and each decoder on its own window, and let
+$N=\sum_iN_i$. The resulting code of blocklength $N$ has rate
+$\sum_i\tfrac{N_i}NR_i$, distortion $\sum_i\tfrac{N_i}ND_i$, and leakage
+\[
+\tfrac1NH\bigl(M\mid S^N\bigr)\le\sum_{i=1}^k\tfrac{N_i}NL_i .
+\]
+No guard intervals are needed, and the source may have any memory. If
+the encoders are deterministic, so is the resulting encoder, and the
+left side is $\tfrac1NI(T^N;M\mid S^N)$.
+\end{lemma}
+
+\begin{proof}
+The message set is the product of the message sets, which gives the
+rate. The source and the holder's noise are stationary and independent,
+so the $i$th window of the source, together with the holder's
+observations $S_i$ at its times, has the law of a window of length
+$N_i$ with its observations. This holds for the memoryless holder map
+of this section and for the filter of Section~\ref{sec:filter}. The
+private randomness $Z_i$ is independent of both processes, so the
+triple of the $i$th source window, $M_i$, and $S_i$ has the law it has
+when $c_i$ is used alone, which gives the distortion and
+$H(M_i\mid S_i)=N_iL_i$. The $Z_i$ need not be independent of each other.
+For the leakage,
+\[
+H\bigl(M_1,\dots,M_k\mid S^N\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^N\bigr)
+\le\sum_{i=1}^kH\bigl(M_i\mid S_i\bigr),
+\]
+the first step by the subadditivity of entropy and the second because
+$S_i$ is part of $S^N$. Neither step uses any independence between
+the windows. Dependence between windows, whether it comes from the
+source, the filter, the noise, or private randomness shared between
+the encoders, can only make the left side smaller than the sum.
+Equality holds when the pairs $(M_i,S_i)$ are mutually independent.
+\end{proof}
+
+This is the subadditivity of the leakage of codes. It is a different
+statement from Lemma~\ref{lem:subadd}, which is about the costs of test
+channels, although the two steps are parallel: split over the windows,
+then drop the observations of the other windows. For test channels
+each step needs a conditional independence. For the entropies of
+messages neither does.
 
 \begin{lemma}\label{lem:derand}
 Let a code of blocklength $N$ for the stationary source, with private
@@ -1454,7 +1596,11 @@ Here $D_z\ge0$ has a finite mean, since the decoder takes finitely
 many values and $D_N$ is finite, and $L_z\le R_N$. Draw seeds
 $z_1,z_2,\dots$ independently from the law of $Z$. By the strong law of
 large numbers the averages of $D_{z_i}$ and of $L_{z_i}$ over
-$i\le k$ converge almost surely to $\E D_Z$ and $\E L_Z$. So there are
+$i\le k$ converge almost surely to $\E D_Z$ and $\E L_Z$, both along the
+same sequence of seeds. A single seed need not meet both bounds, since
+one seed may have a small distortion and a large leakage and another
+the reverse. That is why several seeds are used and only their
+averages are controlled. So there are
 $k$ and seeds $z_1,\dots,z_k$ with
 \[
 \frac1k\sum_{i=1}^kD_{z_i}\le D_N+\delta,\qquad
@@ -1463,18 +1609,17 @@ $k$ and seeds $z_1,\dots,z_k$ with
 Divide a window of length $kN$ into $k$ consecutive windows of length
 $N$. On the $i$th use the encoder $\phi(\cdot,z_i)$ and the original
 decoder, with message $M_i$, and let $M=(M_1,\dots,M_k)$. The seeds are
-part of the code and are not transmitted, so the rate is $R_N$ and the
-encoder is deterministic. The source and the holder's noise are
-stationary and independent, and the holder's map is memoryless, so the
-$i$th window of the source together with the
-holder's observations $S_i^N$ in it has the law of $(T^N,S^N)$. The
-distortion per symbol is therefore the average of the $D_{z_i}$, and
+part of the code and are not transmitted. By Lemma~\ref{lem:concat}
+for the $k$ deterministic codes $\phi(\cdot,z_i)$, the resulting code has
+a deterministic encoder, rate $R_N$, distortion
+$\tfrac1k\sum_iD_{z_i}$, and
 \[
-H\bigl(M_1,\dots,M_k\mid S^{kN}\bigr)\le\sum_{i=1}^kH\bigl(M_i\mid S^{kN}\bigr)
-\le\sum_{i=1}^kH\bigl(M_i\mid S_i^N\bigr)=N\sum_{i=1}^kL_{z_i}.
+\tfrac1{kN}H\bigl(M\mid S^{kN}\bigr)=\tfrac1{kN}I\bigl(T^{kN};M\mid S^{kN}\bigr)\le\tfrac1k\sum_{i=1}^kL_{z_i}.
 \]
-No independence between the windows is used. The equality in the
-statement holds because $M$ is a function of $T^{kN}$.
+The argument uses the holder's map only through
+Lemma~\ref{lem:concat} and through the independence of $Z$ from
+$(T^N,S^N)$, so it holds for the filter of Section~\ref{sec:filter} as
+well.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:achieve}]
@@ -1504,20 +1649,29 @@ $\Sigma^{\mathrm w}_N=\Sigma'^{\mathrm w}_N+\Sigma^E_N$. Given $T^N$, let
 the encoder draw $T'^N$ from the Gaussian conditional law of the first
 summand given the sum, for independent
 $T'^N\sim\mathcal N(0,\Sigma'^{\mathrm w}_N)$ and
-$E^N\sim\mathcal N(0,\Sigma^E_N)$, and put $E^N=T^N-T'^N$. Then $T'^N$ and
-$E^N$ are independent with these laws, and both are independent of
-$U^N$, because the draw uses $T^N$ and private randomness only. The
+$E^N\sim\mathcal N(0,\Sigma^E_N)$, and put $E^N=T^N-T'^N$. The
+conditional law is well defined because $\Sigma^{\mathrm w}_N\succ0$,
+although its covariance may be singular. Then $T'^N$ and
+$E^N$ are independent with these laws, and the pair $(T'^N,E^N)$ is
+independent of $U^N$, because the draw uses $T^N$ and private randomness
+only. So $T'^N$, $E^N$, and $U^N$ are mutually independent. The
 holder's observation is
 \[
 S^N=S'^N+(I_N\otimes H)E^N,\qquad S'^N=(I_N\otimes H)T'^N+U^N .
 \]
 
-\emph{The code.} Let $0<\alpha<1$. Apply the code of
+\emph{The code.} Let $0<\alpha<1$. The integral of
+$\Sigma^E_\epsilon$ is at most $\epsilon I$, so the variance of the
+finite-memory process is at least $R(0)-\epsilon I$ and at most $R(0)$,
+and for $\epsilon<(D_{\max}-D)/\tr Q$ the distortion $D$ is below the
+maximal distortion of that process. Apply the code of
 Lemma~\ref{lem:guard}, for the process with spectral density
 $\Sigma'_\epsilon$ and the frontier point $(R',L')$ of weight $\alpha$ of
 its window problem of size $n$ at distortion $D$, to the drawn $T'^N$.
-For small $\epsilon$ the distortion $D$ is below the maximal distortion
-of that process. The message is a function of $T'^N$. The rate is at
+The guarantees of the lemma depend only on the joint law of the window
+of the source and the holder's observations of it, and
+$(T'^N,S'^N)$ has that law, with the holder's real noise $U^N$. The
+message is a function of $T'^N$. The rate is at
 most $R'+\delta$. For the distortion,
 $Y_t-\hY_t=(FT'_t-\hY_t)+FE_t$. The encoder of Lemma~\ref{lem:guard} is
 deterministic, so $\hY^N$ is a function of $T'^N$, and $E^N$ is centered
@@ -1554,8 +1708,6 @@ L_N\le L'+\delta+\frac{\epsilon\tr J}{2\ln2},
 \alpha R_N+(1-\alpha)L_N\le V'^{\mathrm w}_n(\alpha,D)+\delta+\frac{\epsilon\tr J}{2\ln2},
 \]
 where $V'^{\mathrm w}_n$ is the window cost of the finite-memory process.
-The guarantees of Lemma~\ref{lem:guard} depend only on the joint law of
-$(T'^N,S'^N)$, which the coupling reproduces.
 
 \emph{Limits.} As $n\to\infty$, $V'^{\mathrm w}_n(\alpha,D)$ tends to the
 spectral cost $V'(\alpha,D)$ of $\Sigma'_\epsilon$ by
@@ -1564,8 +1716,12 @@ distortion $(1+\kappa)D$,
 \[
 V'(\alpha,D)\le V\bigl(\alpha,(1+\kappa)D\bigr)+\tfrac p2\log(1+\kappa)\le V(\alpha,D)+\tfrac p2\log(1+\kappa).
 \]
-Given $\delta>0$, choose $\epsilon$, then $n$, then $K$, so that each
-error term is at most $\delta$. The resulting code has
+Given $\delta>0$, choose $\epsilon$ so that $\epsilon\tr Q$,
+$\epsilon\tr J/(2\ln2)$, and $\tfrac p2\log(1+\kappa)$ are at most
+$\delta$, which fixes $m$. Then choose $n$ so that
+$\tfrac m{n+m}\tr(QR(0))$ and $V'^{\mathrm w}_n(\alpha,D)-V'(\alpha,D)$ are
+at most $\delta$, and then $K$ for the $\delta$ of the lemma. The
+resulting code has
 \[
 D_N\le D+3\delta,\qquad \alpha R_N+(1-\alpha)L_N\le V(\alpha,D)+4\delta ,
 \]
@@ -1587,10 +1743,11 @@ $\lambda\in(0,1)$, use $a$ copies of the first and $b$ copies of the
 second on consecutive windows, with independent private randomness if
 any, and with $aN_1/(aN_1+bN_2)$ close to $\lambda$. Rate, distortion,
 and the bound on the leakage are then the averages with that weight,
-because each window has the law of the first one and, as in
-Lemma~\ref{lem:derand}, the entropy of the messages given all
-observations is at most the sum over the copies of the entropy of each
-message given the observations in its own window. A closed, convex,
+by Lemma~\ref{lem:concat}. Applied along two sequences of codes that
+achieve two pairs, with $a=pN_2$ and $b=qN_1$ for integers $p$ and $q$,
+this gives the weight $p/(p+q)$ exactly and blocklengths that tend to
+infinity, so the set of achievable pairs is convex for rational
+weights, and its closure is convex. A closed, convex,
 upward closed subset of the nonnegative quadrant is the intersection of
 its supporting half-planes with normals $(\alpha,1-\alpha)$,
 $0<\alpha<1$. Indeed a point outside it is separated from it by a
@@ -1626,11 +1783,13 @@ quantity. The region is still $\mathcal R(D)$
 under that definition, because Proposition~\ref{prop:window} holds for
 it and the codes of the theorem are deterministic. Third, the theorem
 gives a sequence of
-blocklengths. Every large blocklength is handled by repeating a
-deterministic code of blocklength $N_0$ on consecutive windows, which
-keeps its guarantees by the same subadditivity, and reproducing zero
-on the fewer than $N_0$ symbols that remain, at a vanishing cost in
-distortion. Fourth, the proof of Theorem~\ref{thm:windows} does not go
+blocklengths. Every large blocklength is handled by Lemma~\ref{lem:concat}:
+repeat a deterministic code of blocklength $N_0$ on consecutive windows
+and, on the fewer than $N_0$ symbols that remain, use the code with one
+message that reproduces zero, which has rate and leakage zero and
+distortion $D_{\max}$. At blocklength $N$ the rate and the leakage are
+at most those of the repeated code, and the distortion exceeds its
+distortion by at most $\tfrac{N_0}ND_{\max}$. Fourth, the proof of Theorem~\ref{thm:windows} does not go
 through a comparison of block-Toeplitz and block-circulant matrices in
 a weak norm \cite{gutierrez2012}. The upper bound uses a feasible point
 that is itself block-Toeplitz, and the lower bound uses the exact
@@ -1683,9 +1842,16 @@ $C$, and its cost is \eqref{eq:unwhitened} with $J_N$ replaced by
 $A^{\mathsf T}C^{-1}A$. In particular it is nonincreasing in the
 distortion and zero beyond the maximal distortion, and the same holds
 for the source of period $n$ with its block-circulant information
-matrix. We take $N>2m_H$ throughout. For every test channel with output $Z$,
-$I(T^N;Z\mid S)=I(T^N;Z)-I(S;Z)$ for either observation, so
-$\tilde V_N\ge V^{\mathrm w}_N$. Proposition~\ref{prop:window} holds for
+matrix. In both problems $C\succeq a_UI$, since the noise of the
+window is part of the independent noise in each. We take $N>2m_H$
+throughout. For every test channel with output $Z$, the chain
+$Z-T^N-S$ is a Markov chain for either observation, although the
+observations depend on source symbols outside the window that are
+correlated with $T^N$, because the randomness of the channel is
+independent of the source outside the window and of the noise. So
+$I(T^N;Z\mid S)=I(T^N;Z)-I(S;Z)$. The interior observations are part of
+the window observations and the two problems have the same test
+channels, so $\tilde V_N\ge V^{\mathrm w}_N$. Proposition~\ref{prop:window} holds for
 the window problem with the same proof, since the encoder's output
 depends on $T^N$ and private randomness only.
 
@@ -1694,7 +1860,8 @@ Let $\alpha\in[0,1]$ and $0<D<D_{\max}$.
 \begin{enumerate}
 \item[(a)] For continuous positive definite $\Sigma$ and $\Sigma_U$,
 $\limsup_N\tilde V_N(\alpha,D)\le V(\alpha,D)$.
-\item[(b)] If $\Sigma$ and $\Sigma_U$ are trigonometric polynomials,
+\item[(b)] If $\Sigma$ and $\Sigma_U$ are positive definite
+trigonometric polynomials,
 $\liminf_NV^{\mathrm w}_N(\alpha,D)\ge V(\alpha,D)$.
 \end{enumerate}
 \end{lemma}
@@ -1704,7 +1871,8 @@ $\liminf_NV^{\mathrm w}_N(\alpha,D)\ge V(\alpha,D)$.
 the error spectrum of the spectral frontier point at distortion $D$.
 Then $\delta I\preceq\Delta\preceq(1-\eta)\Sigma$ for some $\delta>0$, and
 $\mathsf N(\omega)=(\Delta^{-1}-\Sigma^{-1})^{-1}$ is continuous and
-positive definite. The taps and the autocovariances are real, so the
+positive definite. The taps and the autocovariances of the source and
+of the noise are real, so the
 data at $-\omega$ are the conjugates of the data at $\omega$,
 $X(-\omega)=\overline{X(\omega)}$ by uniqueness, and
 $\mathsf N(-\omega)=\overline{\mathsf N(\omega)}$.
@@ -1725,11 +1893,21 @@ same times. Then
 $I(S_{\mathrm{int}};Z^N)\ge I(S_{\mathrm{int}};Z_{\mathrm{int}})$, and the
 right side is a combination of three log-determinants of
 block-Toeplitz matrices of size $N-2m_H$, with the spectral densities
-of $S$, of $Z$, and of the pair, which are continuous and positive
-definite. By Lemma~\ref{lem:szego} it is $N$ times the integral of the
-information between $S$ and $Z$ at each frequency, plus $o(N)$. At a
-frequency that information is the rate minus the leakage of
-\eqref{eq:ell}. So the weighted cost of the test channel is at most
+of $S$, of $Z$, and of the pair. The pair has the spectral density
+\[
+\begin{bmatrix}H\\I\end{bmatrix}\Sigma\begin{bmatrix}H\\I\end{bmatrix}^{\herm}
++\begin{bmatrix}\Sigma_U&0\\0&\mathsf N\end{bmatrix}\succeq\min\{a_U,\delta\}I ,
+\]
+which is continuous and has the symmetry of the data, whatever the rank
+of $H(\omega)$, and the other two are its diagonal blocks. By
+Lemma~\ref{lem:szego} the information is $N$ times the integral of the
+information between $S$ and $Z$ at each frequency, plus $o(N)$. By the
+Schur complement, the determinant of the density of the pair is
+$\det(\Sigma+\mathsf N)\det(H\Delta H^{\herm}+\Sigma_U)$, so the
+information at a frequency is
+$\tfrac12\log\bigl[\det(H\Sigma H^{\herm}+\Sigma_U)/\det(H\Delta H^{\herm}+\Sigma_U)\bigr]$,
+which is the rate minus the leakage of
+\eqref{eq:ell} at $X=\Sigma^{-1/2}\Delta\Sigma^{-1/2}$. So the weighted cost of the test channel is at most
 $N$ times the spectral weighted cost of $\Delta$ plus $o(N)$, and the
 spectral cost of $\Delta$ exceeds $V(\alpha,D)$ by at most
 $\tfrac p2\log\tfrac1{1-\eta}$, as in the proof of
@@ -1742,9 +1920,12 @@ one, $\Sigma-\Sigma(\Sigma+\mathsf N)^{-1}\Sigma=\Delta$. Choose $k$
 with $d_k\le D$. The reproduction that uses this finite smoother at the
 times at least $k$ from the ends of the window, and zero at the other
 $2k$ times, is a function of $Z^N$. Its distortion is at most
-$\tfrac1N\bigl((N-2k)D+2kD_{\max}\bigr)\le D+\eta$ for large $N$. Hence
+$\tfrac1N\bigl((N-2k)D+2kD_{\max}\bigr)\le D+\eta$ for large $N$, the
+distortion of $\E[Y^N\mid Z^N]$ is no larger, and $\tilde V_N$ is
+nonincreasing in the distortion. Hence
 $\limsup\tilde V_N(\alpha,D+\eta)\le V(\alpha,D)+\tfrac p2\log\tfrac1{1-\eta}$
-for every small $\eta$. Apply this with $D-\eta$ in place of $D$ and let
+for every $0<\eta<\min\{1,D\}$, with $k$ chosen after $\eta$ and $N$ after
+$k$. Apply this with $D-\eta$ in place of $D$ and let
 $\eta\to0$, using the continuity of $V(\alpha,\cdot)$.
 
 (b) Let $m$ and $m_U$ be the degrees of $\Sigma$ and $\Sigma_U$, and
@@ -1754,7 +1935,12 @@ law of a window of the source, the noise at the middle $N$ of those
 times has the law of a window of the noise, and the circular filter at
 those $N$ times involves only the chosen symbols. So the middle $N$
 symbols and the holder's observations at their times have the law of
-$(T^N,S^N)$. Apply a test channel that attains the window frontier at
+$(T^N,S^N)$. In detail, the chosen symbols have the law of a window
+because $n-(N+2m_H-1)>m$, the noise at the middle times has the law of
+a window of the noise because $n-(N-1)>m_U$, the taps of the circular
+filter do not overlap because $n>2m_H$, and the source and the noise
+of the periodic model are independent. Since $n>m$, the maximal
+distortion of the source of period $n$ is $D_{\max}$. Apply a test channel that attains the window frontier at
 $D$ to the middle $N$ symbols and reproduce zero elsewhere. The
 argument of Lemma~\ref{lem:embed} gives
 \[
@@ -1773,7 +1959,8 @@ $V_{\Sigma,\Sigma_U}$ and $V_{\Sigma',\Sigma_U}$, because the proof of
 that lemma uses only that the information matrix is the same for both
 sources. That holds for the sources of period $n$ with any holder,
 with $J_N$ replaced by the block-circulant information matrix of the
-holder, and the spectral costs are the limits of the period-$n$ costs.
+holder, and the spectral costs are the limits of the period-$n$ costs
+at every $D>0$, as in the proof of Lemma~\ref{lem:order}(c).
 If
 $\Sigma_U\preceq P\preceq(1+\kappa)\Sigma_U$, then
 \begin{equation}
@@ -1786,10 +1973,13 @@ $\tfrac12\log\det(I+J^{1/2}\Sigma J^{1/2})-\tfrac12\log\det(I+J^{1/2}\Delta J^{1
 Replacing $\Sigma_U$ by $P$ replaces $J$ by a matrix between
 $J/(1+\kappa)$ and $J$. The difference above is the information, at that frequency, between
 the holder's observation and a description with error spectrum
-$\Delta$. Both orderings are additions of independent noise, because
-$P-\Sigma_U$ and $(1+\kappa)\Sigma_U-P$ are positive semidefinite, and
-adding independent noise to an observation does not increase that
-information. So its value for $P$ lies between its values for
+$\Delta$. For $0\prec\Delta\preceq\Sigma$ it is nondecreasing in $J$ in the
+L\"owner order, because its derivative in a direction $E\succeq0$ is
+$\tfrac1{2\ln2}\tr\bigl[\bigl((\Sigma^{-1}+J)^{-1}-(\Delta^{-1}+J)^{-1}\bigr)E\bigr]\ge0$.
+The inverse of $P$ lies between $\Sigma_U^{-1}/(1+\kappa)$ and
+$\Sigma_U^{-1}$, so the information matrix for $P$ lies between
+$J/(1+\kappa)$ and $J$. So the value of the difference for $P$ lies
+between its values for
 $J/(1+\kappa)$ and for $J$, and replacing $J$ by $J/(1+\kappa)$ lowers
 the first term by at most $\tfrac p2\log(1+\kappa)$ and does not raise
 the second.
@@ -1798,7 +1988,7 @@ the second.
 Let $b_S$ bound the spectral density of $S$ in the system
 $(\Sigma,\Sigma_U)$ from above,
 $c_H=\sum_k\|H_k\|_{\mathrm F}^2$, and
-$e_H=m_Hr\log(2b_S/a_U)$. For any system of this
+$e_H=m_Hr\log(2b_S/a_U)$, in bits. For any system of this
 form and any code,
 \begin{equation}
 H(M\mid S^N)\le H(M\mid S_{\mathrm{int}})\le H(M\mid S^N)+e_H ,
@@ -1823,7 +2013,10 @@ rate $R_N$, distortion $D_N$, and leakage $L_N$, and let
 $0<\epsilon<\tfrac12a_U$. Let $P^-$ be a trigonometric polynomial with
 $\Sigma_U-\epsilon I\preceq P^-\preceq\Sigma_U$, and write the noise as
 $U=U^-+V$ with independent stationary Gaussian processes of spectral
-densities $P^-$ and $\Sigma_U-P^-$. The holder that observes
+densities $P^-$ and $\Sigma_U-P^-$, independent of the source and of the
+private randomness of the code. The leakage of the code depends only
+on the joint law of the source, the private randomness, and $U$, so
+the split may be assumed. The holder that observes
 $S^-=S-V$ has the holder of the code as a degraded version, so
 $H(M\mid S^{-N})\le H(M\mid S^N)$. Let $\Sigma''$ be a trigonometric
 polynomial with $\Sigma\preceq\Sigma''\preceq\Sigma+\epsilon I$, and
@@ -1831,8 +2024,14 @@ consider the system $(\Sigma'',P^-)$ with source $T''$. Its encoder
 sees $T''^N$, draws $T^N$ from the conditional law of the first summand
 given the sum, for independent windows of processes with spectral
 densities $\Sigma$ and $\Sigma''-\Sigma$, and applies the given code to
-$T^N$. With $E^N=T''^N-T^N$, the rate is $R_N$ and, as in the proof of
-Theorem~\ref{thm:achieve}, the distortion is at most
+$T^N$, with the private randomness $Z$ of the given code drawn
+independently of the draw of $T^N$. Let $E^N=T''^N-T^N$. Then the pair
+$(T^N,Z)$, the remainder $E^N$, and the noise $U^-$ are mutually
+independent. This independence is needed: without it the second step
+of \eqref{eq:convchain} below can fail. The rate is $R_N$. The
+reconstruction is a function of $(T^N,Z)$, which is independent of the
+centered $E^N$, so the cross term in the distortion vanishes as in the
+proof of Theorem~\ref{thm:achieve}, and the distortion is at most
 $D_N+\epsilon\tr Q$. Let $A_{\mathrm{int}}$ be the matrix of the filter on the interior
 times, so that the interior observations of a source window $x^N$ under
 the noise $U^-$ are $A_{\mathrm{int}}x^N+U^-_{\mathrm{int}}$. In the new
@@ -1852,8 +2051,12 @@ H\bigl(M\mid S''^N\bigr)\le H\bigl(M\mid S^-_{\mathrm{int}}+A_{\mathrm{int}}E^N\
 The last term is at most
 $\tfrac1{2\ln2}\tr\bigl(A_{\mathrm{int}}^{\mathsf T}(\Cov U^-_{\mathrm{int}})^{-1}A_{\mathrm{int}}\Cov E^N\bigr)\le N\epsilon c_H/(a_U\ln2)$,
 because $\Cov U^-_{\mathrm{int}}\succeq\tfrac12a_UI$ and
-$\Cov E^N\preceq\epsilon I$. In the given system, by the second
-inequality of \eqref{eq:edges} and the degradation,
+$\Cov E^N\preceq\epsilon I$. The term $H(M\mid S^-_{\mathrm{int}})$ has
+the same value in the given system with the split noise, for the given
+code, by the equality of laws above. In that system the second
+inequality of \eqref{eq:edges} applies to the holder with noise $U^-$,
+whose noise spectrum is at least $\tfrac12a_UI$ and whose observation
+spectrum is at most that of $S$. With the degradation,
 \begin{equation}
 H\bigl(M\mid S^-_{\mathrm{int}}\bigr)\le H\bigl(M\mid S^{-N}\bigr)+e_H\le H\bigl(M\mid S^N\bigr)+e_H=NL_N+e_H .
 \label{eq:convchain2}
@@ -1934,10 +2137,13 @@ blocklength with $D_N\le D+3\delta$ and
 $\alpha R_N+(1-\alpha)L_N\le V(\alpha,D)+4\delta$.
 
 \emph{The region.} The rest is as in the proof of
-Theorem~\ref{thm:achieve}. Time sharing and Lemma~\ref{lem:derand} use
-only that the source and the holder's observation are jointly
-stationary, so that each of several consecutive windows, with the
-observations at its times, has the law of the first.
+Theorem~\ref{thm:achieve}, with the converse just proved in the place
+of Theorem~\ref{thm:windows}(d). Time sharing and
+Lemma~\ref{lem:derand} rest on Lemma~\ref{lem:concat}, which uses only
+that the source and the holder's observation are jointly stationary,
+so that each of several consecutive windows, with the observations at
+its times, has the law of a window of its length, and that the private
+randomness is independent of both processes.
 \end{proof}
 
 For a memoryless map and white noise this is Theorem~\ref{thm:achieve},
@@ -1964,7 +2170,7 @@ $\kappa(\omega)=0.02\cos^2(\omega/2)+0.90\sin^2(\omega/2)$ with a real
 nonnegative cross-spectrum, $H=1$, and $S_U=0.25$. The process $Y$ has
 most of its power at low frequencies, where it is nearly incoherent
 with the context, and less at high frequencies, where it is coherent
-with it. At $D=0.97D_{\max}=1.261$, on a grid of $512$ frequencies, the
+with it. At $D=0.97\,D_{\max}$, that is $D=1.261$, on a grid of $512$ frequencies, the
 rate-optimal description describes the $181$ frequencies nearest zero
 and the leakage-optimal description the $255$ nearest $\pi$, and no
 frequency is described by both (Fig.~\ref{fig:bands}). The rate-optimal description
@@ -2011,8 +2217,9 @@ $D/D_{\max}$ & rate & leakage & both & $R_{\min}$ & $L$ & $L$ factor & $R$ facto
 \includegraphics[width=0.72\linewidth]{fig_bands.pdf}
 \caption{Distortion allocations of the rate-optimal and the
 leakage-optimal descriptions for the disjoint-bands instance, with the
-spectrum $S_Y$. A frequency is described where the allocation lies
-below $S_Y$. The two descriptions describe disjoint bands.}
+spectrum $S_Y$. Where an allocation lies strictly below $S_Y$ the
+frequency is described, and where it equals $S_Y$ the frequency is not
+described at all. The two descriptions describe disjoint bands.}
 \label{fig:bands}
 \end{figure}
 
@@ -2039,7 +2246,9 @@ gap is $0.41$, $0.30$, and $0.21$ at $\alpha=0$, $\tfrac12$, and $1$ for
 $N=32$. The first bound of Theorem~\ref{thm:windows}(b) exceeds the gap
 by a factor between $2.4$ and $5.0$ over $N=4,\dots,32$ and the three
 weights. The second, explicit bound exceeds it by a factor of several
-thousand, because of the factor $b/a^3$, which is $314$ here.
+thousand, because of the factor $b/a^3$, which is $314$ here, with $a$
+and $b$ the smallest and the largest eigenvalue of the spectrum over
+all frequencies.
 
 \begin{table}[!htb]
 \centering
@@ -2141,7 +2350,10 @@ The statements were checked independently of the derivations. The
 scripts, their recorded outputs, and a notebook that reruns them are in
 the public repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
-\texttt{paper/tit-stationary}. No proof depends on them.
+\texttt{paper/tit-stationary}. The files that go with this version of
+the manuscript are fixed by the tag \texttt{tit-stationary-1.0}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.0/paper/tit-stationary}.
+No proof depends on them.
 
 \texttt{spectral\_core.py} implements the costs and one solver, the
 water-filling iteration of \cite[Proposition~11]{part1} with a bisection
@@ -2193,6 +2405,15 @@ one, with the embedding in the periodic source under the circular
 filter and the circular colored noise, and adds the degradation of the
 holder by added noise at the level of windows, recorded in
 \texttt{verify\_filter\_colored-2026-11-14.txt}.
+\texttt{verify\_filter\_lemma.py} checks the two constructions of
+Lemma~\ref{lem:filterwindows} on two instances, one with a filter of
+rank one whose response vanishes at one frequency: the lower bound on
+the spectral density of the pair and the identity for the information
+at a frequency, the cost of the stationary test channel on windows of
+$6$ to $48$ symbols, whose excess over the spectral cost halves each
+time the window doubles, the finite smoother, and the equality of laws
+behind the embedding, recorded in
+\texttt{verify\_filter\_lemma-2026-11-14.txt}.
 \texttt{verify\_filter\_chains.py} checks the two leakage chains of the
 proof on the same kind of instance, with a Gaussian vector in the place
 of the message and conditional differential entropies in the place of
@@ -2204,16 +2425,23 @@ the information carried by the remainder, recorded in
 the sizes computed.
 \texttt{verify\_achievability.py} checks the steps of the proof of
 Theorem~\ref{thm:achieve} that are statements about covariances, on
-three instances. In two the remainder has the form $e(\omega)A$ for a
+four instances. In two the remainder has the form $e(\omega)A$ for a
 fixed matrix $A$. The third is the decomposition \eqref{eq:decomp} as
 the proof states it, for a vector moving-average source whose spectrum
 is not affine in a scalar spectrum, with a Fej\'er mean of degree $14$
 and $\epsilon=0.49$ against a smallest eigenvalue of the spectrum of
-$1.13$. The steps checked are the decomposition itself, the independence
+$1.13$. The fourth is a vector autoregressive source, which has
+infinite memory, with a Fej\'er mean of degree $30$ and
+$\epsilon=0.05$ against a smallest eigenvalue of $0.67$, where
+$\epsilon$ is twice an analytic bound on the distance from the Fej\'er
+mean to the spectrum. The steps checked are the decomposition itself, the independence
 of blocks separated by guard intervals, the coupling, and the two
 leakage inequalities on Gaussian stand-ins for the message, and, in the
-third instance, the exact split of the distortion and the bound
-$\epsilon\tr Q$ on the part due to the remainder. The
+last two instances, the exact split of the distortion and the bound
+$\epsilon\tr Q$ on the part due to the remainder. The fourth instance
+also checks the inequalities of Lemma~\ref{lem:order}(c) for the
+spectral costs of $\Sigma$ and $\Sigma'_\epsilon$, in the form used in the
+limits of the proof. The
 perturbation bound is loose at the sizes computed, where the measured
 change in leakage is $0.03$ to $0.04$ bits against a bound of several
 bits, and
@@ -2281,31 +2509,54 @@ Reliable Communication}. New York, NY: Wiley, 1968.
 \bibitem{wynerziv1971} A. D. Wyner and J. Ziv, ``Bounds on the
 rate-distortion function for stationary sources with memory,''
 \emph{IEEE Trans. Inf. Theory}, vol. 17, no. 5, pp. 508--513, 1971.
-% verify on final: only the abstract and second-hand descriptions were read (Gray 1990 Sec. 4.7.1; Gibson,
-% Entropy 19(11):604, 2017, eqs. (23)-(24); Dembo and Kontoyiannis 2002). DOI 10.1109/TIT.1971.1054699.
-% The application to blocks of N symbols is a one-line consequence and was NOT seen printed anywhere.
+% Checked 2026-11-14 on the publisher's page (IEEE Xplore, DOI 10.1109/TIT.1971.1054699): vol. 17, issue 5,
+% September 1971, pp. 508-513, and the abstract, which states R*(beta) - Delta <= R(beta) <= R*(beta) with R* the
+% rate of the memoryless source with the same marginal and Delta "a measure of the memory of the source".
+% The FULL TEXT requires a subscription and was NOT read. The bound with the Gaussian value of Delta was read at
+% first hand in Gibson, Entropy 19(11):604, 2017, Sec. 4.6, eqs. (23)-(25): Delta_infinity = (1/2) log of the mean of
+% the spectrum minus (1/4 pi) times the integral of its log, which is the N = 1 case of s_N / 2 here.
+% verify on final: the form in Gray 1990 Sec. 4.7.1 (read by a search agent only), and the definition of Delta in
+% the paper itself. The application to blocks of N symbols is a one-line consequence and was NOT seen printed.
 \bibitem{gray1990sct} R. M. Gray, \emph{Source Coding Theory}. Boston, MA:
 Kluwer, 1990.
-% Sec. 4.7.1 "The Wyner-Ziv lower bound", pp. 103--104, eqs. (4.7.3)-(4.7.4): read 2026-11-14 by a search
-% agent in the author's posted PDF, not by the author of this draft. It is stated there for scalar letters
-% with the remark that the results extend to finite-dimensional vectors. verify on final.
+% Sec. 4.7.1 "The Wyner-Ziv Lower Bound", pp. 103--104, READ AT FIRST HAND 2026-11-14 in the author's posted PDF
+% (ee.stanford.edu/~gray/sourcecodingtheory_rmg.pdf). For a stationary source with a pdf and an additive distortion:
+% k R_k(D) >= h(p_k) + k (R_1(D) - h(p_1)), hence (4.7.3), and in the limit (4.7.4):
+% R(D) >= R_1(D) - (h(X_0) - entropy rate). The text says the subtracted term "depends only on the source and not
+% on the distortion measure" and that "These bounds are originally due to Wyner and Ziv [83], but the proof is closer
+% to Berger's [5]." The section is written for scalar letters after a k-dimensional theorem (Theorem 4.7.1); its use
+% here with letters that are blocks of N vector symbols is this draft's step, not a statement of the book.
 \bibitem{gray1990eit} R. M. Gray, \emph{Entropy and Information Theory}.
 New York, NY: Springer, 1990.
-% Lemma 10.6.2 of the corrected first edition posted by the author (2023): the distortion-rate function of a
-% stationary source is the limit and the infimum of the block functions. Read 2026-11-14 by a search agent.
-% verify on final: section numbering in the printed editions.
+% Sec. 10.6, Lemma 10.6.2, pp. 210--211 of "First Edition, Corrected, June 26, 2023" posted by the author
+% (ee.stanford.edu/~gray/it.pdf), READ AT FIRST HAND 2026-11-14: for a stationary source and a subadditive fidelity
+% criterion the distortion-rate function is the limit and the infimum over N of the block functions, proved with a
+% block memoryless channel on two blocks, the construction of the subadditivity lemma here. It is stated for the
+% distortion-rate function, not the rate-distortion function.
+% verify on final: section and page numbering in the printed 1990 edition, which may differ from the posted one.
 \bibitem{tian2019} P. Tian and V. Kostina, ``The dispersion of the
 Gauss--Markov source,'' \emph{IEEE Trans. Inf. Theory}, vol. 65, no. 10,
 pp. 6355--6384, 2019.
-% verify on final: read by a search agent (arXiv:1804.09418). It gives O(1/n) eigenvalue-distribution and
-% distortion errors for the scalar AR(1) source; an explicit bound on R_n - R was not found in it.
+% READ AT FIRST HAND 2026-11-14 (arXiv:1804.09418v4, 24 Sep 2019). Source: U_i = a U_{i-1} + Z_i, U_0 = 0, |a| < 1,
+% squared error. Theorem 4: for bounded, L-Lipschitz, nondecreasing F and every n >= 1, the average of F over the
+% eigenvalues of the covariance is within C_L / n of the integral of F(S(w)), eq. (68). In the proof of Theorem 7:
+% |d - d_n| <= C_d / n, eq. (89). A bound on the n-th order rate-distortion function minus its limit is NOT stated
+% as such (searched the text); it is cited here as "see also" only.
+% Journal details verified 2026-11-14 against Crossref: IEEE Trans. Inf. Theory, vol. 65, no. 10, pp. 6355-6384,
+% October 2019, DOI 10.1109/TIT.2019.2919718. (The ISIT 2018 paper of the same title is a different record.)
 \bibitem{tasci2026} E. Tasci and V. Kostina, ``Dispersion of Gaussian
 sources with memory and an extension to abstract sources,''
 arXiv:2602.09176, 2026.
 % Title, authors (Eyyup Tasci, Victoria Kostina) and dates (v1 9 Feb 2026, v2 26 June 2026) confirmed on the arXiv
 % abstract page, whose abstract says the paper quantifies how fast the n-th order rate-distortion function approaches
-% its limit. verify on final: the statement itself (Lemma 1, eq. (53): |R_n(d) - R(d)| <= c/n for scalar
-% finite-order AR sources, every d, existential constant) is as reported by a search agent, not read here.
+% its limit. READ AT FIRST HAND 2026-11-14 (arXiv PDF, v2): Corollary 3 treats a scalar Gaussian autoregressive
+% source of finite order m with zero initial condition (X_i = 0 for i <= 0) and the zeros of A(z) inside the unit
+% circle, under mean-squared error. Its proof states that there are constants c_r, c_v > 0 with
+% |R_n(d) - R(d)| <= c_r / n and |V_n(d) - V(d)| <= c_v / n, eq. (53), for d in (0, d_max). Lemma 1 is the
+% eigenvalue estimate behind it, eq. (52), "for all sufficiently large n", with a constant depending on the
+% Lipschitz constant, the bound of the test function, and the coefficients; the constants are not explicit.
+% So the 1/n statement is eq. (53) in the proof of Corollary 3, not Lemma 1 itself, and the source is the
+% zero-start (asymptotically stationary) one, not the stationary process.
 \bibitem{gutierrez2017} J. Guti\'errez-Guti\'errez,
 M. Z\'arraga-Rodr\'iguez, and X. Insausti, ``Upper bounds for the rate
 distortion function of finite-length data blocks of Gaussian WSS
@@ -2326,11 +2577,14 @@ Inf. Theory}, vol. 70, no. 5, pp. 3082--3099, May 2024.
 H. V. Poor, ``Smart meter privacy: A utility-privacy framework,'' in
 \emph{Proc. IEEE Int. Conf. Smart Grid Commun. (SmartGridComm)}, 2011,
 pp. 190--195, arXiv:1108.2234.
-% verify authors' order, title, and pages on final (arXiv record confirms the venue and DOI 10.1109/SmartGridComm.2011.6102315 only).
+% Verified 2026-11-14 against the Crossref record for DOI 10.1109/SmartGridComm.2011.6102315 (title, author order
+% Rajagopalan, Sankar, Mohajer, Poor, proceedings title, pp. 190-195, October 2011) and the arXiv abstract page for
+% 1108.2234 (same title and author order; one version; comment "Accepted ... IEEE SmartGridComm. 2011").
 \bibitem{sankar2013} L. Sankar, S. R. Rajagopalan, S. Mohajer, and
 H. V. Poor, ``Smart meter privacy: A theoretical framework,'' \emph{IEEE
 Trans. Smart Grid}, vol. 4, no. 2, pp. 837--846, 2013.
-% verify on final: the journal text was not read.
+% Journal text read 2026-11-14 (authors' version). Volume, issue, pages and DOI 10.1109/TSG.2012.2211046 are from
+% an index record; the authors' version carries the title and the author order given here.
 \bibitem{liu2016} J. Liu, P. Cuff, and S. Verd\'u, ``Key capacity for
 product sources with application to stationary Gaussian processes,''
 \emph{IEEE Trans. Inf. Theory}, vol. 62, no. 2, pp. 984--1005, 2016.
@@ -2343,6 +2597,15 @@ rates of stationary sources via conditional rate-distortion functions,''
 \bibitem{leiner1974} B. M. Leiner and R. M. Gray, ``Rate-distortion theory
 for ergodic sources with side information (Corresp.),'' \emph{IEEE Trans.
 Inf. Theory}, vol. 20, no. 5, pp. 672--675, 1974.
+\bibitem{gao2010} Y. Gao and M. R. Soleymani, ``Rate-distortion function
+for Gauss-Markov source with side information at the decoder,'' in
+\emph{Proc. 25th Biennial Symp. Commun.}, Kingston, ON, Canada, 2010,
+pp. 44--48.
+% verify on final: ABSTRACT ONLY was read (2026-11-14, via an index listing; DOI 10.1109/BSC.2010.5473007). The full
+% text is paywalled. From the abstract: parametric Wyner-Ziv rate-distortion function for a general stationary
+% Gaussian source by the Toeplitz distribution theorem; closed forms for first- and second-order Gauss-Markov
+% sources at small distortion; achievable asymptotically by a conditional Karhunen-Loeve transform with
+% Wyner-Ziv coding. Pages and the symposium number are from an earlier search and unconfirmed.
 \bibitem{dobrushin1962} R. L. Dobrushin and B. S. Tsybakov, ``Information
 transmission with additional noise,'' \emph{IRE Trans. Inf. Theory},
 vol. 8, no. 5, pp. 293--304, 1962.
