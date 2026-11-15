@@ -11,7 +11,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{definition}[theorem]{Definition}
-
+\newtheorem*{lemmaA}{Lemma~A}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\tr}{\operatorname{tr}}
@@ -310,7 +310,8 @@ R_n=\tfrac1n\log|\mathcal M_n|,\quad
 D_n=\tfrac1n\sum_{i=1}^n\E\bigl[(Y_i-\hY_i)^{\mathsf T}W(Y_i-\hY_i)\bigr],\quad
 L_n=\tfrac1nH(M\mid S^n)=\tfrac1nI(T^n;M\mid S^n).
 \]
-A pair $(R,L)$ is achievable at distortion $D$ when a sequence of codes
+A pair $(R,L)$ is achievable at distortion $D$ when a sequence of codes,
+one for each blocklength $n$,
 has $\limsup R_n\le R$, $\limsup L_n\le L$, and $\limsup D_n\le D$. The
 closure of the achievable set is $\RW(D)$. Throughout $0<D<D_{\max}$. At
 $D\ge D_{\max}$ the zero reproduction gives $R=L=0$. Write $R_{\min}(D)$
@@ -1970,20 +1971,53 @@ information. Taking $U=V$ is optimal, because
 $I(X;S\mid U)=I(V;S\mid U)+I(X;S\mid V)\ge I(X;S\mid V)$, and
 $\Upsilon=H(X\mid S)-L$ for a deterministic encoder, which gives the
 displayed form with $V$ in place of $\hX$, and a reproduction that is a
-function of $V$ only lowers both coordinates. For the Gaussian extension
-we use the following finite-blocklength form of the achievability,
-obtained by covering at rate $I(X;\hX)+2\epsilon$, a random binning of the
-codeword index into $2^{n(I(X;\hX\mid S)+3\epsilon)}$ bins used only as a
-proof device, Fano's inequality for a hypothetical decoder holding the
-bin index and $S^n$, and selection of one deterministic code. For every
-channel with finite reproduction alphabet and every $\epsilon>0$ there
-are $\epsilon_n\to0$ and, for all large $n$, a deterministic code with
-$|\mathcal M_n|\le2^{n(I(X;\hX)+2\epsilon)}$, distortion at most
-$\E d(X,\hX)+\epsilon+2\epsilon_nd_{\max}$, and
-$H(M\mid S^n)\le n(I(X;\hX\mid S)+3\epsilon)+1+2\epsilon_nn(I(X;\hX)+2\epsilon)$.
+function of $V$ only lowers both coordinates. Their reproduction
+alphabet is the source alphabet, and a separate finite reproduction
+alphabet is covered by the enlargement of the source alphabet described
+in Appendix~\ref{app:decsi}. Their notion of achievability asks, for
+every tolerance, for one code of some blocklength. It gives the same
+closure as the notion of Section~\ref{sec:model} by
+Lemma~A below.
 Convexity of both coordinates in the channel, for the conditional one by
 the decomposition $I(X;\hX\mid S)=\sum_sp(s)I_{p(x\mid s)}(q)$, makes the
 union convex without time sharing.
+\end{proof}
+
+The Gaussian extension uses the achievability in the following form.
+It is the published theorem at one blocklength, extended to every large
+blocklength by using one code on consecutive blocks.
+
+\begin{lemmaA}
+For every channel $p(\hat x\mid x)$ with a finite reproduction alphabet
+and every $\epsilon>0$ there is, for every large $n$, a deterministic
+code of blocklength $n$ with
+\[
+R_n\le I(X;\hX)+\epsilon,\qquad
+D_n\le\E d(X,\hX)+2\epsilon,\qquad
+\tfrac1nH(M\mid S^n)\le I(X;\hX\mid S)+\epsilon .
+\]
+\end{lemmaA}
+
+\begin{proof}
+With $V=U=\hX$ and no decoder side information, the triple of the rate
+$I(X;\hX)$, the distortion $\E d(X,\hX)$, and the equivocation
+$H(X\mid\hX)-I(X;S\mid\hX)=H(X\mid S)-I(X;\hX\mid S)$ lies in the region
+of \cite[Theorem~3]{villard2013}. So there are a blocklength $n_0$ and a
+deterministic code of that length with rate at most
+$I(X;\hX)+\epsilon$, distortion at most $\E d(X,\hX)+\epsilon$, and
+equivocation at least $H(X\mid S)-I(X;\hX\mid S)-\epsilon$, that is,
+$\tfrac1{n_0}H(M\mid S^{n_0})\le I(X;\hX\mid S)+\epsilon$, because
+$\tfrac1{n_0}H(X^{n_0}\mid M,S^{n_0})=H(X\mid S)-\tfrac1{n_0}H(M\mid S^{n_0})$
+for a deterministic encoder. For a blocklength $n=kn_0+r$ with
+$0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce
+the last $r$ letters by a fixed letter. The message is the tuple of the
+block messages, so the rate is at most $\tfrac{kn_0}n(I(X;\hX)+\epsilon)$.
+The source is memoryless, so the pairs formed by a block message and
+the block of $S^n$ are independent across blocks, and
+$H(M\mid S^n)$ is the sum of the $k$ block terms, at most
+$kn_0(I(X;\hX\mid S)+\epsilon)$. The distortion is at most
+$\tfrac1n\bigl(kn_0(\E d(X,\hX)+\epsilon)+rd_{\max}\bigr)$, which is at
+most $\E d(X,\hX)+2\epsilon$ once $n\ge n_0d_{\max}/\epsilon$.
 \end{proof}
 
 \subsection{The Gaussian source}
@@ -2016,8 +2050,9 @@ $(r(\Sigma^\star),\ell(\Sigma^\star))$.
 Then $\E\|\hY\|^2<\infty$ because its distortion is finite and $W\succ0$. Let $q_k$ be the saturating dyadic quantizer of
 level $k$ applied coordinatewise. Its bounded cells
 $[j2^{-k},(j+1)2^{-k})$, $-4^k\le j<4^k$, map to their left endpoints and
-the two tail cells to $\pm2^k$. The partitions are nested and generate
-the Borel $\sigma$-field.
+the two tail cells to $\pm2^k$, so that the lower tail is merged with
+the first bounded cell. The partitions induced are interval partitions,
+they are nested, and they generate the Borel $\sigma$-field.
 
 \emph{Step A.} The $\sigma$-fields of $S_\eta:=q_\eta(S)$ increase to
 $\sigma(S)$, so $I(\hY;S_\eta)\uparrow I(\hY;S)$ \cite[Ch.~2]{pinsker1964}.
@@ -2029,9 +2064,13 @@ source $(T_k,S_\eta)$ is discrete memoryless, the surrogate channel is
 $p(\hy\mid t_k)=\Pr(\hY_k=\hy\mid T_k=t_k)$, and the surrogate distortion
 $d_k(t_k,\hy)=\E[(Y-\hy)^{\mathsf T}W(Y-\hy)\mid T_k=t_k]$ is bounded for
 each $k$, every cell having positive probability since
-$\Sigma_T\succ0$. The finite-blocklength achievability of
-Theorem~\ref{thm:dmc} gives a code of rate at most
-$I(T_k;\hY_k)+2\epsilon\le I(T;\hY)+2\epsilon$. Its true distortion equals
+$\Sigma_T\succ0$. Lemma~A for the surrogate problem
+gives, for every large $n$, a code of rate at most
+$I(T_k;\hY_k)+\epsilon\le I(T;\hY)+\epsilon$ whose encoder acts on
+$T_k^n=q_k(T^n)$, so it is a deterministic code for the Gaussian source.
+Its leakage in the surrogate problem is its $H(M\mid S_\eta^n)$ in the
+Gaussian problem, because $(T_k^n,S_\eta^n)$ has the same law in both.
+Its true distortion equals
 its surrogate distortion, because given $T_k^n$ the law of $Y_i$ depends
 on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
 $\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
@@ -2043,13 +2082,24 @@ continuous in the first argument, and the Markov chain $\hY-T-S$. Mutual
 information is lower semicontinuous under weak convergence
 \cite{posner1975}, so
 $I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
-for large $k$, and the code has $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+5\epsilon+o(1))$.
+for large $k$, and the code has
+$H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+3\epsilon)$ and distortion at most
+$D+3\epsilon$ for large $k$ and $n$. The parameters are chosen in this
+order: $\eta$ in Step~A, then $k$, which depends on $\epsilon$ and
+$\eta$, then $n$, which depends on $k$ through the bound on the
+surrogate distortion.
 
 \emph{Step C.} $S_\eta^n$ is a function of $S^n$, so
 $H(M\mid S^n)\le H(M\mid S_\eta^n)$. A diagonal sequence
 $\epsilon\downarrow0$ achieves the corner
-$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, and with the converse,
-closedness, and Proposition~\ref{prop:posterior} the region is as stated.
+$(I(T;\hY),I(T;\hY\mid S))$ at distortion $D$, so every point of the
+union is achievable. Conversely, if $(R,L)$ is achievable at $D$, a
+subsequence of the pairs $(R_n,L_n)$ of its codes converges to some
+$(R',L')$ with $R'\le R$ and $L'\le L$, each $(R_n,L_n)$ lies in the union
+at $D_n$ by the converse, and $\limsup D_n\le D$, so $(R',L')$, and with
+it $(R,L)$, lies in the union at $D$ by closedness. The union at $D$ is
+closed, so the closure adds nothing, and with
+Proposition~\ref{prop:posterior} the region is as stated.
 \end{proof}
 
 \subsection{Side information at the decoder}
