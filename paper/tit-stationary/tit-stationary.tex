@@ -57,7 +57,8 @@ conditional variance. For the stationary source we prove that
 the spectral region is the operational region, with deterministic
 encoders, for every continuous positive definite spectral density
 matrix and a second party that observes the process through a filter
-of finite length in noise of continuous positive definite spectrum.
+with a continuous frequency response in noise of continuous positive
+definite spectrum.
 When that party's map is memoryless and its noise white,
 finite-window costs converge to the spectral cost from above, with a
 gap at most a constant over the window length for Lipschitz spectra.
@@ -201,11 +202,13 @@ a window depend on the source outside it, and the proof compares
 systems operationally. More noise makes a degraded holder, the source
 is perturbed by the same coupling in both directions, and the
 observations at the edges of a window are dropped at a cost that does
-not grow with the window. A filter with an infinite impulse response is
-covered by the periodic and spectral results and not by the coding
-theorem.
+not grow with the window. Every filter of the model, with an infinite
+impulse response or not, then follows by a comparison
+(Theorem~\ref{thm:iir}). The tail of the filter adds a signal of small
+power to the holder's observation, which carries little information
+through a small part of the holder's noise.
 
-In both coding theorems the holder is given its observations at the
+In all the coding theorems the holder is given its observations at the
 times of the coded window. If it is given its whole observation
 process instead, the achievability still holds, since conditioning on
 more does not raise the entropy of the message, and the converse is
@@ -294,9 +297,13 @@ holder observes
 S_t=\sum_k H_kT_{t-k}+U_t\in\R^r ,
 \]
 where $(U_t)$ is a centered stationary Gaussian process independent of
-$(T_t)$ with continuous spectral density $\Sigma_U(\omega)\succ0$, and the
-filter has a continuous frequency response
-$H(\omega)=\sum_kH_ke^{-i\omega k}$. Write
+$(T_t)$ with continuous spectral density $\Sigma_U(\omega)\succ0$. The
+taps $H_k$ are real, and they are the Fourier coefficients,
+$H_k=\int_{-\pi}^{\pi}H(\omega)e^{i\omega k}\dw$, of a continuous function
+$H$, the frequency response of the filter. We write
+$H(\omega)=\sum_kH_ke^{-i\omega k}$. The series converges in mean square
+over frequency, and uniformly when the taps are absolutely summable.
+Write
 \[
 J(\omega)=H(\omega)^{\herm}\Sigma_U(\omega)^{-1}H(\omega),\qquad
 D_{\max}=\int_{-\pi}^{\pi}\tr\bigl(Q\Sigma(\omega)\bigr)\dw .
@@ -327,8 +334,10 @@ map, $S_t=HT_t+U_t$ with one matrix $H$ acting on each symbol
 separately, and white noise. So is the exact solution of the affine
 class, Theorem~\ref{thm:affine}. The second coding theorem,
 Theorem~\ref{thm:filter}, is for a filter of finite length and a
-continuous positive definite noise spectrum. No result for the
-stationary source covers a filter with an infinite impulse response. The frontier
+continuous positive definite noise spectrum, and
+Theorem~\ref{thm:iir} extends it to every filter with real taps and a
+continuous frequency response. The window theorem is not extended to a
+filter. The frontier
 statements are for $0<D<D_{\max}$. For $D\ge D_{\max}$ the frontier point
 has zero rate and zero leakage, and the level equations are not used.
 Theorem numbers of \cite{part1} are those of the submitted version
@@ -1542,7 +1551,9 @@ rate. The source and the holder's noise are stationary and independent,
 so the $i$th window of the source, together with the holder's
 observations $S_i$ at its times, has the law of a window of length
 $N_i$ with its observations. This holds for the memoryless holder map
-of this section and for the filter of Section~\ref{sec:filter}. The
+of this section and for every filter for which the source and the
+holder's observation are jointly stationary, in particular those of
+Section~\ref{sec:filter}. The
 private randomness $Z_i$ is independent of both processes, so the
 triple of the $i$th source window, $M_i$, and $S_i$ has the law it has
 when $c_i$ is used alone, which gives the distortion and
@@ -1618,7 +1629,7 @@ $\tfrac1k\sum_iD_{z_i}$, and
 \]
 The argument uses the holder's map only through
 Lemma~\ref{lem:concat} and through the independence of $Z$ from
-$(T^N,S^N)$, so it holds for the filter of Section~\ref{sec:filter} as
+$(T^N,S^N)$, so it holds for the filters of Section~\ref{sec:filter} as
 well.
 \end{proof}
 
@@ -2148,15 +2159,176 @@ randomness is independent of both processes.
 
 For a memoryless map and white noise this is Theorem~\ref{thm:achieve},
 by a proof that does not give the sign of the window gap or the bound
-of Theorem~\ref{thm:windows}(b). The filter is assumed of finite
-length. A filter with an infinite impulse response is not covered by
-this proof, because a change of the filter is not a degradation of the
-holder and is not an independent perturbation of the source. Whether
-the theorem holds for it is open. The holder is given its observations
+of Theorem~\ref{thm:windows}(b). The filter is of finite length in this
+proof. A change of the filter is not a degradation of the holder and is
+not an independent perturbation of the source, so the proof does not
+pass to a filter with an infinite impulse response directly.
+Theorem~\ref{thm:iir} below does, by a comparison that uses the
+holder's noise. The holder is given its observations
 at the times of the window. Giving it observations outside the window
 as well keeps the achievability, since conditioning on more does not
 raise the entropy of the message, and we have not proved the converse
 in that case.
+
+For a filter that is not of finite length, the sum that defines $S_t$
+is the limit in mean square of the sums over $|k|\le m$. It exists
+because the taps of a bounded response are square summable and
+$\Sigma$ is bounded. The source and the holder's observation are then
+jointly stationary and Gaussian. Codes, the leakage
+$L_N=\tfrac1NH(M\mid S^N)$ with $S^N$ the observations at the times of
+the window, and $\mathcal A(D)$ are as above.
+
+\begin{theorem}\label{thm:iir}
+Let $\Sigma$ and $\Sigma_U$ be continuous and positive definite, let the
+holder's filter have real taps and a continuous frequency response, as
+in Section~\ref{sec:model}, and let
+$0<D<D_{\max}$. Then $\mathcal A(D)=\mathcal R(D)$, and deterministic
+encoders suffice, in the sense of Theorem~\ref{thm:achieve}.
+\end{theorem}
+
+A stable rational filter is of this kind, and so is every filter with
+absolutely summable taps. The idea is that the tail of
+the filter contributes a signal of small power to the holder's
+observation. Seen through a small white part of the holder's noise,
+that signal carries little information. And adding or removing a small
+white part of the noise, together with the tail of the filter, changes
+the spectral cost by little.
+
+\begin{proof}
+Let $\Sigma\preceq bI$ and $\Sigma_U\succeq a_UI$. For an integer $m$
+write $H^{(m)}(\omega)=\sum_{|k|\le m}H_ke^{-i\omega k}$ for the truncated
+response, $\Gamma_t=\sum_{|k|>m}H_kT_{t-k}$ for the tail of the holder's
+signal, and $t_m=\sum_{|k|>m}\|H_k\|_{\mathrm F}^2$. Norms without a
+subscript are operator norms. The response is bounded, so the taps are
+square summable and $t_m\to0$. The sum that defines
+$\Gamma_t$ converges in mean square, the process $(\Gamma_t)$ has the
+spectral density $(H-H^{(m)})\Sigma(H-H^{(m)})^{\herm}$, and by
+Parseval's identity
+\[
+\E\|\Gamma_t\|^2=\int_{-\pi}^{\pi}\tr\bigl((H-H^{(m)})\Sigma(H-H^{(m)})^{\herm}\bigr)\dw\le b\,t_m .
+\]
+Let $\Gamma^N=(\Gamma_1,\dots,\Gamma_N)$, let $0<\epsilon\le\tfrac12a_U$,
+and let $W^N$ be a Gaussian vector with covariance $\epsilon I$ that is
+independent of the source process. Then
+\begin{equation}
+I\bigl(\Gamma^N;\Gamma^N+W^N\bigr)=\tfrac12\log\det\bigl(I+\tfrac1\epsilon\Cov\Gamma^N\bigr)
+\le\frac{\tr\Cov\Gamma^N}{2\epsilon\ln2}\le N\,c,\qquad c=\frac{b\,t_m}{2\epsilon\ln2},
+\label{eq:tailinfo}
+\end{equation}
+and the same holds for $W^N-\Gamma^N$.
+
+\emph{Two holders with filters of finite length.} Take a code with
+message $M$ and private randomness $Z$. For the first holder, write the
+noise as $U=U^-+W$ with independent stationary Gaussian processes of
+spectral densities $\Sigma_U-\epsilon I$ and $\epsilon I$, independent
+of the source and of $Z$. The leakage depends only on the joint law of
+the source, $Z$, and $U$, so the split may be assumed. Let
+$S^-_t=\sum_{|k|\le m}H_kT_{t-k}+U^-_t$. This is the observation of a
+holder with a filter of finite length and noise spectrum
+$\Sigma_U-\epsilon I\succeq\tfrac12a_UI$, and
+$S^N=S^{-N}+\Gamma^N+W^N$. Conditioning, and the fact that
+$(S^N,S^{-N})$ and $(S^{-N},\Gamma^N+W^N)$ determine each other, give
+\[
+H\bigl(M\mid S^N\bigr)\ge H\bigl(M\mid S^N,S^{-N}\bigr)
+=H\bigl(M\mid S^{-N}\bigr)-I\bigl(M;\Gamma^N+W^N\mid S^{-N}\bigr).
+\]
+The message is a function of $(T^N,Z)$, so the last term is at most
+\[
+I\bigl(T^N,Z,S^{-N},\Gamma^N;\Gamma^N+W^N\bigr)
+=I\bigl(\Gamma^N;\Gamma^N+W^N\bigr)+I\bigl(T^N,Z,S^{-N};\Gamma^N+W^N\mid\Gamma^N\bigr),
+\]
+and the second term on the right is zero, because $W^N$ is independent
+of the triple formed by the source process, $Z$, and $U^-$. With \eqref{eq:tailinfo},
+\begin{equation}
+H\bigl(M\mid S^{-N}\bigr)\le H\bigl(M\mid S^N\bigr)+N\,c .
+\label{eq:iirdown}
+\end{equation}
+For the second holder, let $(W'_t)$ be white Gaussian noise of
+covariance $\epsilon I$, independent of the source, of $Z$, and of $U$,
+and let $S^+_t=\sum_{|k|\le m}H_kT_{t-k}+U_t+W'_t$. This is the
+observation of a holder with a filter of finite length and noise
+spectrum $\Sigma_U+\epsilon I$, and $S^{+N}=S^N-\Gamma^N+W'^N$. The same
+steps with the two observations exchanged give
+$H(M\mid S^{+N})\ge H(M\mid S^N)-I(M;W'^N-\Gamma^N\mid S^N)$, and the
+last term is at most $I(\Gamma^N;W'^N-\Gamma^N)$, because $W'^N$ is
+independent of the triple formed by the source process, $Z$, and $U$. So
+\begin{equation}
+H\bigl(M\mid S^N\bigr)\le H\bigl(M\mid S^{+N}\bigr)+N\,c .
+\label{eq:iirup}
+\end{equation}
+
+\emph{The spectral costs.} Fix a frequency, an error spectrum
+$0\prec\Delta\preceq\Sigma$, and two positive semidefinite matrices $J$
+and $J'$. The leakage of $\Delta$ is its rate minus
+$\tfrac12\log\det(I+J^{1/2}\Sigma J^{1/2})-\tfrac12\log\det(I+J^{1/2}\Delta J^{1/2})$,
+as in the proof of \eqref{eq:noisecompare}, and the derivative of this
+difference in a Hermitian direction $E$ is
+$\tfrac1{2\ln2}\tr\bigl[\bigl((\Sigma^{-1}+J)^{-1}-(\Delta^{-1}+J)^{-1}\bigr)E\bigr]$.
+The matrix in round brackets lies between $0$ and $bI$, so the
+derivative is at most $\tfrac{pb}{2\ln2}\|E\|$ in absolute value.
+Integrating along the segment from $J$ to $J'$, the leakages of $\Delta$
+under $J$ and under $J'$ differ by at most $\tfrac{pb}{2\ln2}\|J-J'\|$.
+The spectral programs \eqref{eq:spectralprogram} of two holders with the
+same source have the same feasible fields, and the rate and the
+distortion of a field do not depend on the holder. So their costs
+differ by at most
+\begin{equation}
+(1-\alpha)\,\frac{pb}{2\ln2}\int_{-\pi}^{\pi}\bigl\|J(\omega)-J'(\omega)\bigr\|\dw .
+\label{eq:Jlip}
+\end{equation}
+Let $V^-$ and $V^+$ be the spectral costs of the two holders above, with
+$J^{\mp}=H^{(m)\herm}A_\epsilon H^{(m)}$ and
+$A_\epsilon=(\Sigma_U\mp\epsilon I)^{-1}$, and write
+$A=\Sigma_U^{-1}$. Then
+\[
+J^{\mp}-J=(H^{(m)}-H)^{\herm}A_\epsilon H^{(m)}+H^{\herm}(A_\epsilon-A)H^{(m)}+H^{\herm}A(H^{(m)}-H) .
+\]
+Here $\|A_\epsilon\|\le2/a_U$, $\|A_\epsilon-A\|\le2\epsilon/a_U^2$,
+$\|H\|$ is bounded, $\int\|H-H^{(m)}\|_{\mathrm F}^2\dw=t_m$, and
+$\int\|H^{(m)}\|_{\mathrm F}^2\dw\le\int\|H\|_{\mathrm F}^2\dw$. By the
+Cauchy--Schwarz inequality, $\int\|J^{\mp}-J\|\dw\to0$ as $m\to\infty$
+and $\epsilon\to0$. Choose $m_j\to\infty$ and
+$\epsilon_j=\min\{\tfrac12a_U,t_{m_j}^{1/2}\}$, or any $\epsilon_j\to0$
+with $\epsilon_j\le\tfrac12a_U$ if the filter has finite length. Along
+this sequence $\epsilon\to0$ and $c\to0$, and
+$V^-(\alpha,D)$ and $V^+(\alpha,D)$ tend to $V(\alpha,D)$ for every
+$\alpha$, by \eqref{eq:Jlip}. No uniform convergence of the truncated
+responses is needed.
+
+\emph{Converse.} Let $(R,L)$ be achievable at distortion $D$. Its codes
+are codes for the first holder, with the same rates and distortions,
+since the encoder and the decoder do not involve the holder, and with
+leakages larger by at most $c$, by \eqref{eq:iirdown}. So $(R,L+c)$ is
+achievable at $D$ for the first holder, and Theorem~\ref{thm:filter}
+gives $\alpha R+(1-\alpha)(L+c)\ge V^-(\alpha,D)$ for every
+$\alpha\in[0,1]$. Along the sequence,
+$\alpha R+(1-\alpha)L\ge V(\alpha,D)$. The inequality passes to the
+closure, so $\mathcal A(D)\subseteq\mathcal R(D)$.
+
+\emph{Achievability.} Fix $0<\alpha<1$ and $\delta>0$. The region of the
+second holder contains a point of weighted cost $V^+(\alpha,D)$, the
+frontier point of weight $\alpha$. By Theorem~\ref{thm:filter} there are
+codes with deterministic encoders, of blocklengths tending to infinity,
+with $D_N\le D+\delta$ and with weighted cost at most
+$V^+(\alpha,D)+\delta$ when the leakage is measured against $S^+$,
+whose joint law with the source is that of the second holder. They
+are codes for the given holder with the same rates and distortions, and
+by \eqref{eq:iirup} their leakages against $S$ are larger by at most
+$c$. Along the sequence, and with $\delta\to0$, this gives codes of
+blocklengths tending to infinity with $\limsup D_N\le D$ and
+$\limsup[\alpha R_N+(1-\alpha)L_N]\le V(\alpha,D)$. The rest is the part
+of the proof of Theorem~\ref{thm:achieve} headed ``The region'', with
+the converse just proved, and its last part on deterministic encoders.
+Both rest on Lemmas~\ref{lem:concat} and~\ref{lem:derand}, which use
+only that the source and the holder's observation are jointly
+stationary and that the private randomness is independent of both.
+\end{proof}
+
+The proof uses the holder's noise in both directions, and it gives no
+rate of convergence in the blocklength. The sign of the window gap and
+the bound of Theorem~\ref{thm:windows}(b) are not obtained for a filter
+of any length. Theorem~\ref{thm:filter} is the case of a filter of
+finite length, and it is used in the proof.
 
 \section{Instances}
 \label{sec:examples}
@@ -2293,15 +2465,13 @@ and operational, for any holder filter and noise spectrum
 (Theorem~\ref{thm:periodic}). The spectral program is
 the exact limit of those regions (Theorem~\ref{thm:spectral}). For the
 stationary source with a continuous positive definite spectrum and a
-holder with a filter of finite length and continuous positive definite
-noise spectrum, the spectral region is
-the operational region, with a converse through windows and a coding
-theorem with deterministic encoders
-(Theorems~\ref{thm:achieve} and~\ref{thm:filter}). The sign of the
-window gap and the bound on it (Theorem~\ref{thm:windows}) are proved
-for a memoryless map and white noise only. For a filter with an
-infinite impulse response, the spectral region is the limit of periodic
-sources and its operational status is open.
+holder with a filter of real taps and continuous frequency response
+and a continuous positive definite noise spectrum, the spectral region
+is
+the operational region, with deterministic encoders
+(Theorems~\ref{thm:achieve}, \ref{thm:filter}, and~\ref{thm:iir}). The
+sign of the window gap and the bound on it (Theorem~\ref{thm:windows})
+are proved for a memoryless map and white noise only.
 Within those scopes, the
 frontier of rate and leakage is reverse water-filling on a tilted
 weight at each frequency, under one level. The level is the only thing
@@ -2327,9 +2497,9 @@ covariances, and its three devices, the order in the unwhitened
 variable, subadditivity, and the embedding of finite-memory windows in
 periodic sources, do not use the form of the frontier.
 
-Several problems are open. The coding theorem is for a filter of
-finite length, and a filter with an infinite impulse response is open.
-The bound on the window gap is for a memoryless map and white noise.
+Several problems are open. The coding theorem for a filter gives no
+rate of convergence in the blocklength, and the bound on the window gap
+is for a memoryless map and white noise.
 The explicit bound on the window gap is far from the computed
 gap, and whether the gap is of exact order $1/N$, and with what
 constant, is not settled.
@@ -2423,6 +2593,20 @@ the independence of the blocks, the edge bound, and the two bounds on
 the information carried by the remainder, recorded in
 \texttt{verify\_filter\_chains-2026-11-14.txt}. The bounds are loose at
 the sizes computed.
+\texttt{verify\_iir.py} checks steps of the proof of
+Theorem~\ref{thm:iir} for a causal filter with geometrically decaying
+taps, on four instances with a Gaussian vector in the place of the
+message: the bound on the power of the tail, the bound
+\eqref{eq:tailinfo}, the two conditional informations that the proof
+bounds by it, and the comparisons \eqref{eq:iirdown} and
+\eqref{eq:iirup}. It also checks the bound behind \eqref{eq:Jlip} on
+$20000$ random instances, where the largest ratio of the change to the
+bound is $0.95$. The output is recorded in
+\texttt{verify\_iir-2026-11-14.txt}. The comparisons hold with a large
+margin at the sizes computed, and the script is not part of the
+notebook. Its taps are absolutely summable. No recorded check covers
+taps that are not, and none covers the convergence of the costs of the
+two comparison holders.
 \texttt{verify\_achievability.py} checks the steps of the proof of
 Theorem~\ref{thm:achieve} that are statements about covariances, on
 four instances. In two the remainder has the form $e(\omega)A$ for a
@@ -2475,7 +2659,8 @@ Lemma~\ref{lem:limit}(a) and (c), the determinant and spectral
 properties of $\varrho$, the block-circulant step of
 Theorem~\ref{thm:periodic}, Szeg\H{o}'s theorem,
 Lemmas~\ref{lem:order} to~\ref{lem:szego}, Theorem~\ref{thm:windows}, the
-proofs of Theorem~\ref{thm:achieve} and Theorem~\ref{thm:filter}, and
+proofs of Theorems~\ref{thm:achieve}, \ref{thm:filter},
+and~\ref{thm:iir}, and
 everything imported from \cite{part1}. The build and the axiom audit are recorded
 in \texttt{lean-spectral-2026-11-13.txt}.
 
