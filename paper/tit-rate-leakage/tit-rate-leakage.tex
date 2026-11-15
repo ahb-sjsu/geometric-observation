@@ -292,7 +292,9 @@ Q:=F^{\mathsf T}WF\succeq0,
 D_{\max}:=\tr(Q\Sigma_T).
 \]
 The second party, which we call the holder, observes $S=HT+U\in\R^r$
-with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$. Write
+with $U\sim\mathcal N(0,\Sigma_U)$, $\Sigma_U\succ0$, independent of $T$. The holder's
+observations of the successive letters use independent copies of $U$,
+so the pairs $(T_i,S_i)$ are i.i.d.\ copies of $(T,S)$. Write
 \[
 J:=H^{\mathsf T}\Sigma_U^{-1}H\succeq0,
 \qquad
@@ -321,7 +323,7 @@ of them.
 A test channel $p(\hy\mid t)$ is admissible when its distortion is at
 most $D$. The Markov chain $\hY-T-S$ holds because the description is
 formed without $S$. For a channel, let $\Sez$ and $\Se$ be the error
-covariances of the best linear estimates of $T$ from $\hY$ and from
+covariances of the best affine estimates of $T$ from $\hY$ and from
 $(\hY,S)$. Appendix~\ref{app:exhaust} proves the following Gaussian
 exhaustion lemma.
 
@@ -352,24 +354,26 @@ where $\mathcal P(D)=\{\Sez:\ 0\prec\Sez\preceq\Sigma_T,\ \tr(Q\Sez)\le D\}$.
 \end{proposition}
 
 \begin{proof}
-Given an admissible channel, centering $\hY$ changes neither coordinate
-and does not raise the distortion. If $\Cov N'$ is singular, either a
+Given an admissible channel, $\hY$ has finite second moments because
+its distortion is finite and $W\succ0$. Centering $\hY$ changes neither
+coordinate and does not raise the distortion. If $\Cov N'$ is singular, either a
 noiseless linear functional of $T$ is revealed and both coordinates are
 infinite, or a nonzero combination of the components of $\hY$ vanishes
 and may be dropped after an invertible linear map. Neither step
-changes the two coordinates or the best linear estimates of $T$, so
+changes the two coordinates or the best affine estimates of $T$, so
 $\Sez$ and $\Se$ are those of the original channel. If no component is
 left, $\Sez=\Sigma_T$ and both coordinates are zero. Otherwise the
 reduced vector, which need not have the dimension of $Y$, has
 $\Cov N'\succ0$. Its residual is uncorrelated with $T$ by construction
-and with $U$ by independence, hence with $S$, and Lemma~\ref{lem:gauss}
+and with $U$ by the Markov chain $\hY-T-S$ and the independence of $U$
+and $T$, hence with $S$, and Lemma~\ref{lem:gauss}
 replaces it by a Gaussian channel $AT+N$ with the same $\Sez$ and $\Se$
 and no larger coordinates. For it,
 $\Sez^{-1}=\Sigma_T^{-1}+A^{\mathsf T}\Sigma_N^{-1}A$, so
 $0\prec\Sez\preceq\Sigma_T$, and the pair formed with $S$ is a linear
 observation of $T$ with independent noises, so $\Se^{-1}=\Sez^{-1}+J$. The
 distortion of the original channel is at least $\tr(Q\Sez)$, because
-the reproduction is itself a linear estimate of $Y$ from $\hY$ and the
+the reproduction is itself an affine estimate of $Y$ from $\hY$ and the
 best one has error covariance $F\Sez F^{\mathsf T}$. So $\Sez\in\mathcal P(D)$.
 Conversely, given $\Sez\in\mathcal P(D)$, factor
 $\Sez^{-1}-\Sigma_T^{-1}=G^{\mathsf T}G$, let $Z=GT+N$ with
@@ -1565,8 +1569,8 @@ that is, for $\sigma_1^2+D_2(\kappa_1)\le D<\sigma_1^2+\sigma_2^2$.
 \label{sec:decsi}
 
 Suppose the decoder also observes $C=H_CT+N_C$, with
-$N_C\sim\mathcal N(0,\Sigma_{N_C})$, $\Sigma_{N_C}\succ0$, independent of $T$,
-$U$, and all coding randomness, and reconstructs $\hY^n=g_n(M,C^n)$. The
+$N_C\sim\mathcal N(0,\Sigma_{N_C})$, $\Sigma_{N_C}\succ0$, independent of $T$
+and $U$, and reconstructs $\hY^n=g_n(M,C^n)$. The
 encoder does not see $C$. Rate, distortion, and leakage
 $L_n=\tfrac1nH(M\mid S^n)$ are as in Section~\ref{sec:model}. Write
 $J_S:=J$ for the holder's information, $J_C:=H_C^{\mathsf T}\Sigma_{N_C}^{-1}H_C$,
@@ -2094,24 +2098,24 @@ on $T_{k,i}$ alone. The surrogate distortion of the channel converges to
 $\E[(Y-\hY)^{\mathsf T}W(Y-\hY)]\le D$, because $\E[Y\mid T_k]\to Y$ in
 $L^2$ by martingale convergence and $\hY_k\to\hY$ in $L^2$. Write $I_k$ for
 mutual information under the surrogate law, in which
-$\hY_k-T_k-S_\eta$. Fix $j$ with
-$I(q_j(\hY);S_\eta)\ge I(\hY;S_\eta)-\epsilon/2$, which exists because
-the $\sigma$-fields of $q_j(\hY)$ increase to that of $\hY$
-\cite[Ch.~2]{pinsker1964}. For $k\ge j$ the partitions are nested, so
-$q_j(\hY_k)=q_j(\hY)$, and the surrogate probability of
-$\{q_j(\hY_k)=a,\ S_\eta=s\}$ is
-$\E[\Pr(q_j(\hY)=a\mid T_k)\Pr(S_\eta=s\mid T_k)]$. By martingale
+$\hY_k-T_k-S_\eta$. Fix a level $\kappa$ with
+$I(q_\kappa(\hY);S_\eta)\ge I(\hY;S_\eta)-\epsilon/2$, which exists because
+the $\sigma$-fields of $q_\kappa(\hY)$ increase to that of $\hY$
+\cite[Ch.~2]{pinsker1964}. For $k\ge\kappa$ the partitions are nested, so
+$q_\kappa(\hY_k)=q_\kappa(\hY)$, and the surrogate probability of
+$\{q_\kappa(\hY_k)=a,\ S_\eta=s\}$ is
+$\E[\Pr(q_\kappa(\hY)=a\mid T_k)\Pr(S_\eta=s\mid T_k)]$. By martingale
 convergence and bounded convergence it tends to
-$\E[\Pr(q_j(\hY)=a\mid T)\Pr(S_\eta=s\mid T)]$, which is the true
+$\E[\Pr(q_\kappa(\hY)=a\mid T)\Pr(S_\eta=s\mid T)]$, which is the true
 probability by the Markov chain $\hY-T-S$. Both variables take finitely
-many values, so $I_k(q_j(\hY_k);S_\eta)\to I(q_j(\hY);S_\eta)$, and
-$I_k(\hY_k;S_\eta)\ge I_k(q_j(\hY_k);S_\eta)$ by data processing. So
+many values, so $I_k(q_\kappa(\hY_k);S_\eta)\to I(q_\kappa(\hY);S_\eta)$, and
+$I_k(\hY_k;S_\eta)\ge I_k(q_\kappa(\hY_k);S_\eta)$ by data processing. So
 $I_k(T_k;\hY_k\mid S_\eta)=I(T_k;\hY_k)-I_k(\hY_k;S_\eta)\le I(T;\hY\mid S)+2\epsilon$
 for large $k$, and the code has
 $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+3\epsilon)$ and distortion at most
 $D+3\epsilon$ for large $k$ and $n$. The parameters are chosen in this
-order: $\eta$ in Step~A, then $k$, which depends on $\epsilon$ and
-$\eta$, then $n$, which depends on $k$ and $\eta$ through the
+order: $\eta$ in Step~A, then the level $\kappa$, then $k\ge\kappa$,
+each depending on $\epsilon$ and $\eta$, then $n$, which depends on $k$ and $\eta$ through the
 blocklength $n_0$ of the surrogate problem and through the bound on the
 surrogate distortion.
 
