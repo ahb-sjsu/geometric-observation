@@ -27,6 +27,9 @@ U = U^- + V'):
    h(Z | S''^N) <= h(Z | S''_int) <= h(Z | S^-_int) + I'      (system '')
    h(Z | S^-_int) <= h(Z | S^{-N}) + e_H <= h(Z | S^N) + e_H   (given system)
    I' <= N eps c_H / (a_U ln 2).
+The converse needs the private randomness of the given code to be drawn
+independently of the encoder's draw of T^N; a scalar counterexample at the
+end of the converse checks shows the second step failing without it.
 
 Run:  python verify_filter_chains.py    (a few seconds; writes verify_filter_chains.json)
 """
@@ -238,6 +241,29 @@ def main():
     coupling = max(float(np.abs(J2.cov("Td", "E2")).max()), float(np.abs(J2.cov("Td", "Td") - SigN).max()),
                    float(np.abs(J2.cov("E2", "E2") - eps * np.eye(N * p)).max()))
     report("conv_coupling", coupling < 1e-9, max_err=coupling)
+
+    # the interior observations of the new system are S^-_int + A_int E exactly, and the triple
+    # (drawn T^N, message stand-in, S^-_int) has the same joint covariance in the two systems
+    ident = float(np.abs(J2.rows["S2_int"] - (J2.rows["Sm_int"] + Hint @ E2)).max())
+    trip2 = np.vstack([J2.rows["Td"], J2.rows["Z"], J2.rows["Sm_int"]])
+    tripg = np.vstack([T, Zg, Jg.rows["Sm_int"]])
+    joint_law = float(np.abs(trip2 @ trip2.T - tripg @ tripg.T).max())
+    report("conv_identity_and_joint_law", ident < 1e-12 and joint_law < 1e-9, identity_err=ident, joint_cov_err=joint_law)
+
+    # why the proof requires the given code's private randomness Z to be independent of the draw.
+    # Scalar counterexample: T, U ~ N(0,1), E ~ N(0, v), message stand-in M = T + Z.
+    # With Z = -E (independent of T and U, so the law of (T, Z, S^-) is as in the given system) the second
+    # step of the converse chain,  h(M | S^- + E) <= h(M | S^-) + I(E; E + U),  fails; with Z an independent
+    # copy of -E it holds.
+    def scalar_gap(v, correlated):
+        var_M = 1 + v
+        cov_M_obs = 1 - v if correlated else 1.0             # Cov(T + Z, T + U + E)
+        lhs = 0.5 * np.log2(var_M - cov_M_obs ** 2 / (2 + v))  # h(M | T + U + E)
+        rhs = 0.5 * np.log2(var_M - 1 / 2) + 0.5 * np.log2(1 + v)
+        return float(lhs - rhs)
+    g_ind, g_cor = scalar_gap(0.01, False), scalar_gap(0.01, True)
+    report("conv_independence_is_needed", g_ind <= TOL and g_cor > 1e-6,
+           step_gap_independent=g_ind, step_gap_correlated=g_cor)
 
     k1, k2, k3 = J2.h_cond("Z", ["S2"]), J2.h_cond("Z", ["S2_int"]), J2.h_cond("Z", ["Sm_int"])
     CUmi = CUm[np.ix_(int_rows, int_rows)]

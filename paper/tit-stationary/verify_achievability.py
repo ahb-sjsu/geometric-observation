@@ -1,31 +1,55 @@
-"""Numerical checks of the inequalities in the proof of the achievability theorem
-(Theorem 16 and Lemma 17 of the manuscript; the two instances are in the affine
-class, which the general decomposition of the proof contains).
+"""Numerical checks of covariance-level steps in the proof of the coding theorem
+for the stationary source (the theorem labelled thm:achieve and the guard-interval
+lemma labelled lem:guard in the manuscript).
 
 The theorem is a coding theorem and is not something a computation can verify.
-What is checked here, on Gaussian stand-ins for the message, are the steps of
-the proof that are statements about covariances:
+What is checked here, on Gaussian stand-ins for the message, are steps of the
+proof that are statements about covariances.  There are four instances.
 
-  1. decomposition  Sigma = Sigma' + e A  with Sigma' a trigonometric polynomial
-     density, 0 <= e <= eps, both cases of the proof (min f > 0, and min f = 0);
+Instances 1 and 2 were written for an earlier draft that treated spectra affine
+in one scalar spectrum, Sigma = B + f A.  They use a Fourier partial sum (not a
+Fejer mean) and a remainder of the form e(w) A, in two cases (min f > 0 and
+min f = 0) that the present proof no longer distinguishes.  They check:
+  1. the decomposition Sigma = Sigma' + e A with 0 <= e <= eps;
   2. blocks of the finite-memory process separated by guard intervals of m
      symbols are exactly uncorrelated;
   3. the coupling: drawing T' from its conditional law given T = T' + E returns
-     the product law (checked on covariances); Cov(T', E) = 0 is also what makes
-     the distortion cross term vanish;
-  4. the leakage perturbation: for a Gaussian description Z of T',
+     the product law (Cov(T', E) = 0, which also makes the distortion cross
+     term vanish);
+  4. the leakage perturbation as one composite inequality,
         I(T'; Z | S)  <=  I(T'; Z | S')  +  I(E; HE + U),
      and I(E; HE + U) <= N eps tr(J A) / (2 ln 2);
-  5. dropping the guard observations cannot lower the leakage bound:
-        I(T'; Z | S'_all) <= I(T'; Z | S'_blocks).
+  5. dropping the guard observations cannot lower the leakage bound.
 
-The first two instances have a spectrum affine in one scalar spectrum (the
-class an earlier draft treated).  The third, added 2026-11-14, runs the
-decomposition as the proof now states it for a general spectrum: a random
-vector moving average whose spectrum is not affine, Sigma' a Fejer mean of
-Sigma minus (eps/2) I, the remainder between 0 and eps I, the encoder's draw
-built as it is performed, the leakage steps with the constant eps tr J, and
-the exact split of the distortion with the bound eps tr Q.
+Instance 3 (added 2026-11-14) runs the decomposition as the proof now states it:
+Sigma' is a Fejer mean of Sigma minus (eps/2) I, the remainder lies between 0
+and eps I, the encoder's draw is built as it is performed, and the leakage steps
+use the constant eps tr J and the distortion split the bound eps tr Q.
+
+Instance 4 (added 2026-11-14 after a referee pass) uses a source of INFINITE
+memory, a vector autoregression T_t = Phi T_{t-1} + W_t with ||Phi|| = 0.25, so
+the Fejer mean (degree 30) truncates it.  eps is twice an analytic bound on the
+distance from the Fejer mean to the spectrum (the sum of the norms of the
+coefficients the mean changes or drops), not a value measured on the grid, and
+eps is 0.05 against a smallest eigenvalue 0.67 (kappa = 0.08).  It also checks
+the order inequality for spectral costs in the form used in the limits of the
+proof:  V(alpha, D) - c <= V'(alpha, D) <= V(alpha, (1 + kappa) D) + c  with
+c = (p/2) log2(1 + kappa), by solving the two spectral programs on 256
+frequencies (it imports spectral_core for this).
+
+Limits of these checks (from a referee pass, 2026-11-14):
+  - the stand-in Z is a randomized Gaussian description, while the paper's
+    message is a deterministic function of T';
+  - the leakage step is tested as a composite, not link by link;
+  - the distortion split in instance 3 uses the best linear reproduction of T'
+    from Z, not a reproduction that is zero in the guard intervals;
+  - the source of instance 3 is a moving average, so its spectrum is already a
+    trigonometric polynomial; its eps is set from the measured deviation on the
+    same grid on which the remainder is then checked, so that check is true by
+    construction; eps / (min eigenvalue) is about 0.44, not the small-eps
+    regime.  Instance 4 answers these three points;
+  - the per-symbol bookkeeping of the guard-interval lemma is not checked here;
+  - one seed, small sizes (N = 70 symbols in instance 4), loose bounds.
 
 Run:  python verify_achievability.py     (a few seconds; writes verify_achievability.json)
 """
@@ -35,6 +59,7 @@ import sys
 import numpy as np
 
 SEED = 20261114
+AR_C, AR_M = 0.25, 30            # instance 4: ||Phi|| and the degree of the Fejer mean
 LOG2 = np.log(2.0)
 
 
@@ -158,11 +183,16 @@ def run_case(name, f, B, A, H, SU, Q, eps, m, n, K, rng, out):
     return ok
 
 
-def run_general(name, p, r, taps, decay, mprime, n, K, rng, out):
+def run_general(name, p, r, taps, decay, mprime, n, K, rng, out, ar=None):
     """The decomposition of the proof as written for a general spectrum: Sigma is a matrix spectral density
     that is NOT affine in a scalar spectrum (a random vector moving average), Sigma' is a Fejer mean of Sigma
     minus (eps/2) I, of degree mprime, and the remainder Sigma^E = Sigma - Sigma' satisfies 0 <= Sigma^E <= eps I.
-    The encoder's draw is built as it is performed: T' = G T + xi with private xi."""
+    The encoder's draw is built as it is performed: T' = G T + xi with private xi.
+
+    With ar = c the source is instead a vector autoregression T_t = Phi T_{t-1} + W_t with ||Phi|| = c, which has
+    INFINITE memory, so the Fejer mean truncates it.  Then eps is twice an analytic bound on the distance between
+    the Fejer mean and the spectrum (not a value measured on the grid), and the spectral-cost form of the order
+    inequality used in the limits of the proof is checked as well."""
     Gk = [rng.standard_normal((p, p)) * (decay ** k) for k in range(taps)]
     B0 = 0.3 * np.eye(p)
     H = rng.standard_normal((r, p))
@@ -179,24 +209,44 @@ def run_general(name, p, r, taps, decay, mprime, n, K, rng, out):
             M = M + B0
         return M if tau >= 0 else M.T
 
+    deg_src, src_mem = taps - 1, taps - 1
+    if ar is not None:
+        LAGS = 160                                 # ||Phi||^160 is below 1e-60 for the values used
+        Phi = rng.standard_normal((p, p))
+        Phi = ar * Phi / np.linalg.norm(Phi, 2)
+        Pk = [np.linalg.matrix_power(Phi, k) for k in range(LAGS + 1)]
+        R0 = sum(P_ @ P_.T for P_ in Pk)           # innovations of covariance I
+
+        def R(tau):                                # E[T_{t+tau} T_t^T] = Phi^tau R(0)
+            t = abs(tau)
+            M = Pk[t] @ R0 if t <= LAGS else np.zeros((p, p))
+            return M if tau >= 0 else M.T
+
+        deg_src, src_mem = LAGS, "infinite"
+
     def spec(Rf, deg, w):
         return sum(Rf(t) * np.exp(-1j * w * t) for t in range(-deg, deg + 1))
 
     fej = lambda tau: (1 - abs(tau) / (mprime + 1)) * R(tau) if abs(tau) <= mprime else np.zeros((p, p))
     ws = 2 * np.pi * np.arange(2048) / 2048
-    dev = max(np.linalg.norm(spec(R, taps - 1, w) - spec(fej, mprime, w), 2) for w in ws)
+    dev = max(np.linalg.norm(spec(R, deg_src, w) - spec(fej, mprime, w), 2) for w in ws)
     eps = 2 * dev * (1 + 1e-9)                     # the Fejer mean is within eps / 2 of Sigma
+    if ar is not None:                             # analytic: sum of the norms of the coefficients that the mean changes
+        bound = (2 * sum(t / (mprime + 1) * np.linalg.norm(R(t), 2) for t in range(1, mprime + 1))
+                 + 2 * sum(np.linalg.norm(R(t), 2) for t in range(mprime + 1, deg_src + 1)))
+        assert dev <= bound + 1e-12, (dev, bound)
+        eps = 2 * bound
 
     def Rp(tau):                                   # autocovariance of Sigma' = Fejer mean - (eps / 2) I
         M = fej(tau)
         return M - 0.5 * eps * np.eye(p) if tau == 0 else M
 
-    eE = np.array([np.linalg.eigvalsh(spec(R, taps - 1, w) - spec(Rp, mprime, w)) for w in ws])
+    eE = np.array([np.linalg.eigvalsh(spec(R, deg_src, w) - spec(Rp, mprime, w)) for w in ws])
     eP = np.array([np.linalg.eigvalsh(spec(Rp, mprime, w)) for w in ws])
-    a_S = min(np.linalg.eigvalsh(spec(R, taps - 1, w)).min() for w in ws)
+    a_S = min(np.linalg.eigvalsh(spec(R, deg_src, w)).min() for w in ws)
     # is the spectrum outside the affine class?  Sigma(w) - Sigma(0) would then be multiples of one matrix
-    D1 = np.real(spec(R, taps - 1, 1.0) - spec(R, taps - 1, 0.0)).ravel()
-    D2 = np.real(spec(R, taps - 1, 2.0) - spec(R, taps - 1, 0.0)).ravel()
+    D1 = np.real(spec(R, deg_src, 1.0) - spec(R, deg_src, 0.0)).ravel()
+    D2 = np.real(spec(R, deg_src, 2.0) - spec(R, deg_src, 0.0)).ravel()
     non_affine = 1 - abs(D1 @ D2) / (np.linalg.norm(D1) * np.linalg.norm(D2))
     ok1 = eE.min() >= -1e-10 and eE.max() <= eps + 1e-10 and eP.min() >= a_S - eps - 1e-10 > 0 and non_affine > 1e-3
 
@@ -258,7 +308,38 @@ def run_general(name, p, r, taps, decay, mprime, n, K, rng, out):
     ok = (ok1 and lamE.min() >= -1e-9 and lamE.max() <= eps + 1e-9 and cross < 1e-12 and coup < 1e-9
           and h_S <= h_Sp + I_E + 1e-8 and I_E <= bound_E + 1e-9 and h_Sp <= h_blk + 1e-8
           and dist_split < 1e-9 and dist_E <= eps * np.trace(Q) + 1e-10)
-    out[name] = dict(ok=bool(ok), p=p, r=r, source_memory=taps - 1, m=mprime, n=n, K=K, N=N, eps=float(eps),
+    order = None
+    if ar is not None:
+        # the order inequality for spectral costs, as used in the limits of the proof, with
+        # Sigma' <= Sigma <= (1 + kappa) Sigma', kappa = eps / (a - eps):
+        #     V(alpha, D) - c  <=  V'(alpha, D)  <=  V(alpha, (1 + kappa) D) + c,   c = (p/2) log2(1 + kappa)
+        import spectral_core as sc
+        kappa = eps / (a_S - eps)
+        c = 0.5 * p * np.log2(1 + kappa)
+        ng = 256
+        wg = 2 * np.pi * np.arange(ng) / ng
+
+        def blocks(Rf, deg):
+            out_ = []
+            for w in wg:
+                Rs = sc.psd_sqrt(sc.herm(spec(Rf, deg, w)))
+                out_.append((sc.herm(Rs @ Q @ Rs), H @ Rs, SU.astype(complex)))
+            return out_
+
+        bS, bP = blocks(R, deg_src), blocks(Rp, mprime)
+        wts = np.full(ng, 1.0 / ng)
+        Dm = float(np.trace(Q @ R(0)))
+        D = 0.4 * Dm
+        lo_slack, hi_slack = np.inf, np.inf
+        for al in (0.0, 0.5, 1.0):
+            Vp = sc.solve(bP, wts, al, D)["cost"]
+            V_D = sc.solve(bS, wts, al, D)["cost"]
+            V_kD = sc.solve(bS, wts, al, (1 + kappa) * D)["cost"]
+            lo_slack = min(lo_slack, Vp - (V_D - c))
+            hi_slack = min(hi_slack, V_kD + c - Vp)
+        order = dict(kappa=float(kappa), c=float(c), slack_lower=float(lo_slack), slack_upper=float(hi_slack))
+        ok = ok and lo_slack > -1e-8 and hi_slack > -1e-8
+    out[name] = dict(ok=bool(ok), p=p, r=r, source_memory=src_mem, m=mprime, n=n, K=K, N=N, eps=float(eps), order=order,
                      min_eig_Sigma=float(a_S), non_affine_measure=float(non_affine),
                      remainder_eig_min=float(eE.min()), remainder_eig_max=float(eE.max()), min_eig_Sigma_prime=float(eP.min()),
                      window_remainder_eig_max=float(lamE.max()), block_cross_cov=cross, coupling_err=coup,
@@ -271,6 +352,9 @@ def run_general(name, p, r, taps, decay, mprime, n, K, rng, out):
           f"        h(Z|S)={h_S:.6f} <= h(Z|S')={h_Sp:.6f} + I(E;HE+U)={I_E:.6f} <= bound {bound_E:.6f};  "
           f"h(Z|S') <= h(Z|S'_blocks)={h_blk:.6f}\n"
           f"        distortion: exact split error {dist_split:.1e}; from E {dist_E:.6f} <= eps tr Q = {eps * np.trace(Q):.6f}")
+    if order is not None:
+        print(f"        order inequality for spectral costs: kappa={order['kappa']:.3f}, c={order['c']:.4f}, "
+              f"slack lower {order['slack_lower']:.4f}, slack upper {order['slack_upper']:.4f}")
     return ok
 
 
@@ -291,6 +375,8 @@ def main():
     # the general decomposition of the proof (a spectrum outside the affine class, Fejer mean)
     # the Fejer mean converges slowly, so the degree (and the guard) must be large for eps to be below min eig Sigma
     ok &= run_general("general_spectrum_fejer", p=2, r=2, taps=4, decay=0.4, mprime=14, n=6, K=2, rng=rng, out=out)
+    # a source of infinite memory: vector autoregression, truncated by the Fejer mean
+    ok &= run_general("infinite_memory_ar", p=2, r=2, taps=1, decay=0.0, mprime=AR_M, n=5, K=2, rng=rng, out=out, ar=AR_C)
     out["_meta"] = dict(seed=SEED, numpy=np.__version__, all_ok=bool(ok))
     json.dump(out, open("verify_achievability.json", "w"), indent=1)
     print("all passed" if ok else "FAILED")

@@ -62,12 +62,27 @@ nb.cells = [
          "for r in vw.OUT['toeplitz_point_and_bound']['table']:\n"
          "    print(f\"alpha={r['alpha']:.1f} N={r['N']:3d}  gap={r['gap_window']:.4e}  "
          "first bound={r['bound_s']:.4e}  explicit bound={r['bound']:.3e}\")"),
-    md("## 6d. Theorem 19 — steps of the proof for a holder with a filter\n\n"
+    md("## 6d. Theorem 20 — steps of the proof for a holder with a filter\n\n"
        "Interior, window and spectral costs in order; subadditivity; the embedding with a filter; "
        "the edge bound; the noise comparison. About three minutes. Colored noise is not exercised."),
     code("import verify_filter as vf\nassert vf.main() == 0\n"
          "for r in vf.OUT['ordering_and_convergence']['table']:\n"
          "    print(f\"alpha={r['alpha']:.1f} N={r['N']:3d}  window gap={r['gap_window']:.4e}  interior gap={r['gap_interior']:.4e}\")"),
+    md("## 6e. Theorem 20 — a two-sided filter with colored noise, and the two leakage chains\n\n"
+       "`verify_filter_colored.py` repeats the checks of 6d for a two-sided three-tap filter and moving-average "
+       "noise (about three minutes). `verify_filter_chains.py` checks every step of the achievability chain and "
+       "of the converse chain on Gaussian stand-ins for the message, and reproduces the scalar example that shows "
+       "why the converse needs the given code's private randomness to be independent of the encoder's draw."),
+    code("import verify_filter_colored as vfc\nassert vfc.main() == 0"),
+    code("import verify_filter_chains as vch\nassert vch.main() == 0"),
+    md("## 6f. Lemma 21 — the two constructions behind the window bounds for a filtered holder\n\n"
+       "Part (a): the stationary test channel on finite windows, whose cost exceeds the spectral cost by an "
+       "amount that halves each time the window doubles. Part (b): the window embedded in the periodic source "
+       "has exactly the stationary law. About a minute."),
+    code("import verify_filter_lemma as vfl\nassert vfl.main() == 0\n"
+         "for k, v in vfl.OUT.items():\n"
+         "    if 'a2' in k:\n"
+         "        print(k, [(x['N'], round(x['excess'], 4)) for x in v['table']])"),
     md("## 7. Proposition 8 — what the holder keeps"),
     code("r = out['prop_retention']\nfor k in r:\n    if k not in ('ok', 'seconds'):\n        print(f'{k:>22}: {r[k]:.10g}')\n"
          "rho2, Dn = 0.64, 0.4\nfor name in ('q_slice', 'q_prefix0', 'q_prefix3', 'q_path'):\n"
