@@ -4,7 +4,7 @@ Second paper of the series that begins with `../tit-rate-leakage/` (in review at
 
 **Status: draft, revised 2026-11-14 (general-spectrum theorems). Not reviewed by the author, not submitted.** The prose and the proofs were drafted by Claude (Fable 5.2) from the GO-12 material and paper one; the author has not yet read the proofs.
 
-**→ [manuscript (PDF, 25 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
+**→ [manuscript (PDF, 26 pp)](tit-stationary.pdf)** · [Observation Theory companion (PDF, 4 pp)](supplement-ot.pdf) · [executed notebook](reproduce-executed-2026-11-14.ipynb)
 
 ## What the paper proves
 
@@ -42,21 +42,22 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 
 | File | What it is |
 |---|---|
-| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 25 pp) |
+| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 26 pp) |
 | `supplement-ot.tex` / `.pdf` | Observation Theory companion, on the pattern of `../tit-rate-leakage/supplement-ot.tex` |
 | `spectral_core.py` | costs and one solver (the water-filling iteration of [1, Prop. 11] with a bisection on the level); numpy only |
 | `verify_spectral.py` | nine checks, fixed seed 20261113; writes `verify_spectral.json` |
 | `verify_spectral-2026-11-13.txt` | recorded output: 9 passed, 0 failed, 499 s |
 | `plot_bands.py`, `fig_bands.pdf/.png` | Fig. 1 |
 | `sweep_bands.py`, `sweep_bands.json`, `sweep_bands-2026-11-13.txt` | Table II: the disjoint-bands instance across budgets (about 12 minutes) |
-| `verify_achievability.py`, `.json`, `verify_achievability-2026-11-14.txt` | covariance steps of the proof of Theorem 16 on Gaussian stand-ins, three instances including the general decomposition (a few seconds); not a check of the coding theorem. The 2026-11-13 record of the first two instances is kept |
+| `verify_achievability.py`, `.json`, `verify_achievability-2026-11-14.txt` | covariance steps of the proof of Theorem 16 on Gaussian stand-ins, four instances including the general decomposition and a source of infinite memory (about a minute; the fourth instance imports `spectral_core`); not a check of the coding theorem. The 2026-11-13 record of the first two instances is kept |
 | `verify_filter.py`, `.json`, `verify_filter-2026-11-14.txt` | five checks of steps of the proof of Theorem 19 for a causal two-tap filter in white noise, seed 20261116 (about three minutes); colored noise is not exercised |
 | `verify_filter_colored.py`, `.json`, `verify_filter_colored-2026-11-14.txt` | six checks of steps of the proof of Theorem 19 for a two-sided three-tap filter and moving-average noise, seed 20261117 (about three minutes, run on Atlas): 6 passed. Standalone, not a notebook cell |
-| `verify_filter_chains.py`, `.json`, `verify_filter_chains-2026-11-14.txt` | the two leakage chains of the proof of Theorem 19 on Gaussian stand-ins, seed 20261118 (under a second): 6 passed. Standalone, not a notebook cell |
+| `verify_filter_chains.py`, `.json`, `verify_filter_chains-2026-11-14.txt` | the two leakage chains of the proof of Theorem 19 on Gaussian stand-ins, seed 20261118 (under a second): 8 passed. Standalone, not a notebook cell |
 | `prior-art-window-rate-2026-11-14.md` | the search agent's report on finite-block results in the rate-only case, with what was read and what was not |
+| `verify_filter_lemma.py`, `.json`, `verify_filter_lemma-2026-11-14.txt` | the two constructions of Lemma 21 (stationary test channel on finite windows; equality of laws in the embedding) on two instances, seed 20261119 (about a minute): 14 passed. Standalone, not a notebook cell |
 | `verify_windows.py`, `.json`, `verify_windows-2026-11-14.txt` | seven checks of the steps of the proof of Theorem 15 on a moving-average source of memory two, seed 20261115 (about a minute): 7 passed |
 | `build_notebook.py`, `reproduce.ipynb` | the reproduction notebook and its generator |
-| `reproduce-executed-2026-11-14.ipynb` | the notebook as executed (14 code cells, all executed, no errors, 24 PASS lines and no FAIL; run on Atlas, Linux, python 3.12.3, numpy 2.4.6, because two local re-runs did not complete: one hit a one-hour cell timeout and one was stopped when this machine ran low on memory. It was re-run there after the third, general-decomposition instance of `verify_achievability.py` was added, and its output includes that instance); the 2026-11-13 run is kept beside it |
+| `reproduce-executed-2026-11-14.ipynb` | the notebook as executed (16 code cells, all executed, no errors, 39 PASS lines and no FAIL; run on Atlas, Linux, python 3.12.3, numpy 2.4.6, on 2026-11-15 UTC, after two local runs failed to complete for machine reasons. It includes the fourth instance of `verify_achievability.py`, `verify_filter_colored.py` and `verify_filter_chains.py`. It does not include `verify_filter_lemma.py`, which was written while it ran and has its own recorded output); the 2026-11-13 run is kept beside it |
 | `lean-spectral-2026-11-13.txt` | Lean build record and axiom audit |
 | `lean-library-2026-11-14.txt` | whole-library build with the new import |
 | `../../lean/ObservationTheory/SpectralRateLeakage.lean` | 21 theorems, no `sorry`, standard axioms only |
@@ -69,6 +70,7 @@ python verify_windows.py                       # about 1 minute
 python verify_filter.py                        # about 3 minutes
 python verify_filter_colored.py                # about 3 minutes
 python verify_filter_chains.py                 # under a second
+python verify_filter_lemma.py                  # about a minute
 python plot_bands.py                           # Fig. 1 from verify_spectral.json
 python build_notebook.py
 jupyter nbconvert --to notebook --execute reproduce.ipynb --output reproduce-executed.ipynb
@@ -187,6 +189,53 @@ A further review was checked point by point against the manuscript. Part of it r
 
 Lemma 18 was then refereed by an independent fresh-context pass (a model, 2026-11-14), which also tested it by exact enumeration in a discrete analogue with a filter, colored noise, unequal windows and shared seeds (18 runs). It could not break the lemma and found no error in the statement, the proof, or its five uses. Gaps fixed: the proof of the derandomization lemma still said the holder's map is memoryless although the filtered-holder theorem relies on it, and it repeated the concatenation argument, so it now calls Lemma 18 and says it holds for the filter; the private randomness must be independent of the whole source and noise processes (not of each other), now stated in the definition of a code and in the lemma; the region paragraph of Theorem 20 now names its own converse; time sharing is spelled out along sequences of codes with exact rational weights. Wording fixed: which triple gives the distortion; the closing sentence of the proof; the comparison with Lemma 12 (the steps are parallel, not the same inequalities); the leftover symbols in the blocklength remark are now a named code with stated guarantees. Not checked by that pass: Lemma 17, the coupling and limits of Theorem 16, the chains of Theorem 20, and citations to paper one.
 
+## Referee pass on the leakage chains of Theorem 20, 2026-11-14
+
+An independent fresh-context pass (a model) audited every step of the edge inequality and of the three displayed chains: which variables, in which system, and why each step holds. It found no error and confirmed the constants. It found **one real gap**: the converse needs the private randomness of the given code to be drawn independently of the new encoder's draw of the source window. The text never said so, and the requirement is necessary: with a scalar Gaussian stand-in whose private randomness is the negative of the remainder, the second step of the converse chain fails (gap +0.0101 bits) although the stated "same joint law" still holds. The same independence is what makes the distortion cross term vanish in the converse. Fixed: the proof now states that the two are drawn independently, that the pair of the drawn window and the private randomness, the remainder, and the noise are then mutually independent, and that this is needed. Smaller fixes: independence in the noise split; the hypotheses of the edge inequality checked where it is applied; which system each term is evaluated in; units of the edge constant.
+
+It also ran the chain script 400 times over seeds and parameter settings with no failure, and listed what the script cannot show. Two of those are now covered: `verify_filter_chains.py` asserts that the new system's interior observations equal the old ones plus the filtered remainder, compares the joint covariance of the triple across the two systems, and reproduces the scalar counterexample (8 of 8 checks pass). Still true of the script: Gaussian stand-ins only, one instance, white remainder, and bounds too loose to detect a wrong constant; the constants rest on the hand proof. Not checked by that pass: Lemma 21, the noise comparison, Lemma 11, the companion's proof of its coding theorem.
+
+## Referee pass on Lemma 17 and the coupling of Theorem 16, 2026-11-14
+
+An independent fresh-context pass (a model) checked Lemma 17 and the Decomposition, Coupling, Code and Limits paragraphs of the proof of Theorem 16, and, unlike earlier passes, read what paper one's coding theorem actually states. No error found; every inequality and normalisation checks by hand.
+
+What paper one's Theorem 3 delivers, as read by that pass: for an i.i.d. Gaussian vector source with positive definite covariance, a holder S = HT + U with positive definite noise and no rank condition on H, a possibly singular weight Q, deterministic encoders, leakage H(M | S^n)/n, and 0 < D < D_max, the closure of the achievable set equals the single-letter region, frontier points included, with rate, leakage and distortion guaranteed by one sequence of codes. That is what Lemma 17 needs. **The pass did not referee the proof of that theorem**, nor the Villard-Piantanida theorem it rests on.
+
+Fixed: Lemma 17's proof now says how the region statement of paper one yields one code with the three guarantees and checks its hypotheses for the block letters; the lemma is stated for a point of the region (a frontier point is an instance); the coupling paragraph says the three vectors are mutually independent and why the conditional law is well defined when the remainder's covariance is singular; the condition on eps comes before the code is applied; the error terms in the limits are listed; the definition of a code asks for private randomness independent of the pair of processes; a citation to paper one's Lemma 1 for the existence of a test channel is corrected to the construction in its Proposition 2.
+
+The pass also listed what `verify_achievability.py` does not show; the script's docstring now carries that list. Its own numerical test used a vector autoregressive source of infinite memory with a Fejer mean of degree 30 (eps 0.097 against a smallest eigenvalue 0.372) and a singular remainder; all covariance identities held. That test is not in the repository.
+
+## Referee pass on Lemma 21 and the noise comparison, 2026-11-14
+
+An independent fresh-context pass (a model) refereed Lemma 21 (both parts), the two comparisons of spectral costs, and the definitions of the window and interior problems for a filtered holder. It could not break any of them and found no error; the theorem uses them within their hypotheses. It tested the construction of Lemma 21(a) directly on an instance with a rank-one filter that vanishes at one frequency and colored noise (the excess of the stationary test channel's cost over the spectral cost halves each time N doubles), the noise comparison on 4000 random complex instances including rank-deficient filters, and the equality of laws behind Lemma 21(b). Those scripts are not in the repository.
+
+Gaps fixed, a sentence each: the noise comparison's monotonicity in the information matrix is now proved by a derivative instead of an appeal to data processing for a per-frequency quantity; the spectral density of the pair (holder's observation, test-channel output) is written out, with its lower bound and the Schur-complement identity that gives the per-frequency information as rate minus leakage; the distortion step names the reproduction the convention requires; the definitions state that the effective noise is at least a_U I, which Markov chain gives the identity, and why the interior cost dominates; the embedding of Lemma 21(b) lists the four facts it uses. Wording: positive definiteness in the statement of part (b), the range of eta, real autocovariances of the noise.
+
+What the two repository scripts for the filtered holder do not test, per that pass: the construction of Lemma 21(a) itself (only its conclusion, as a trend up to N = 24), the equality of laws in Lemma 21(b) (only the resulting inequality), the source comparison with a filter, alpha = 1, distortions near 0 or D_max, a filter that vanishes at some frequency, and more than one seed.
+
+## Format check against the journal's rules, 2026-11-14
+
+Checked against the IEEE Transactions on Information Theory "Information for Authors" page (itsoc.org, read 2026-11-14) and the society's 2016 guide for final versions.
+
+- Class: `\documentclass[11pt,onecolumn]{IEEEtran}`, IEEEtran V1.8b (the current version). The journal requires a single-column version for review. This is the same setup as paper one, which is in review there. OK.
+- Length: 25 pages single column against a limit of 50 for submission. A test compile in the two-column journal layout gives 18 pages against the limit of 25 for the final version; 36 lines overflow in that layout, so displayed equations will need re-breaking for a final version. OK for submission.
+- Abstract: the rule is at most 250 words, one paragraph, no abbreviations, footnotes, references, or displayed equations. **The abstract was 295 words and has been cut to under 250** (the sentence on Kolmogorov's formula and some qualifiers were removed; no result was dropped). One paragraph, no citations. Fixed.
+- Index terms: eight terms. The page says "a total of five to ten words in length"; read as terms this is fine, read literally as words it is not (about fourteen). Left as is; the author may want to trim.
+- Required at submission and not in the manuscript: an ORCID for each author; a statement in the first-page footnote if any part was presented at a conference (none was).
+- For the final version only: the two-column class option, biographies, and figure originals.
+
+## Sixth-round review, 2026-11-14
+
+Checked point by point against the manuscript.
+
+| Point | Status |
+|---|---|
+| Lemma 19 picks one seed that meets two bounds at once, which averaging does not give | The proof does not do that. It draws many seeds, uses the law of large numbers for the two averages along the same sequence, and runs the seeds on consecutive windows (Lemma 18), so only averages are needed. A sentence now says that a single seed need not meet both bounds and that this is why several are used. |
+| D_b: "first" versus "last" | There is no D_b in the paper, but the sentence after Corollary 6 said "first meet", which had the same ambiguity. It now says: the threshold above which the described sets are disjoint, the supremum of the distortions at which they overlap. |
+| Theorem 10: "memoryless holder map" should mean one super-symbol | Not adopted, because it is not what the theorem assumes. In Theorem 10 (and Theorems 15 and 16) the holder's map is memoryless per symbol, S_t = H T_t + U_t with one matrix H; the window map is then block diagonal, not block Toeplitz, and the proof of Theorem 10 uses that. A filter with memory is covered only by Theorem 20. The Model section now states this layering explicitly. |
+| Check cross references after renumbering | All references in both tex files are symbolic; a search for hardcoded theorem numbers found none. The README and notebook titles were updated by hand when the numbering shifted. |
+| Layer the assumptions in one place | Done in the Model section: three layers for the holder (continuous response for the periodic and spectral theorems; memoryless map and white noise for Theorems 10, 15, 16; finite-length filter and continuous positive definite noise for Theorem 20), and no stationary-source result for an infinite impulse response. |
+
 ## Open items before submission
 
 - [ ] Pin the code. In progress 2026-11-14: the appendix on numerical checks cites the tag `tit-stationary-1.0` and its tree path, on the pattern of `tit-cr-context-1.x`. The tag and a GitHub release are created on the merge commit that contains that text. **A Zenodo deposit is not made**: the earlier Zenodo records of this repository were deposited by the owner (release 1.6 of the other paper has no deposit, so they are not automatic), and depositing needs the owner's Zenodo account. When a DOI exists, add it to the appendix beside the tag.
@@ -201,6 +250,8 @@ Lemma 18 was then refereed by an independent fresh-context pass (a model, 2026-1
 - [x] Tasci and Kostina, arXiv:2602.09176v2: **read at first hand 2026-11-14.** Confirmed, with two corrections to the search agent's description. The source is a scalar Gaussian autoregressive source of finite order started at zero (asymptotically stationary), under mean-squared error. The 1/n statement, |R_n(d) - R(d)| <= c_r / n for d in (0, d_max), is eq. (53) in the proof of Corollary 3, not Lemma 1 itself; Lemma 1 is the eigenvalue estimate behind it, for all sufficiently large n. The constants are not explicit. The paper's sentence now says "started at zero" and cites this paper for the statement, with Tian and Kostina 2019 as "see also".
 - [x] Tian and Kostina 2019 (arXiv:1804.09418v4): **read at first hand 2026-11-14.** The search agent's description is confirmed. Source: the scalar Gauss-Markov source started at zero, squared error. Theorem 4 bounds the error of the eigenvalue distribution by C_L / n for bounded Lipschitz nondecreasing test functions and every n; the proof of Theorem 7 gives |d - d_n| <= C_d / n. A bound on the n-th order rate-distortion function minus its limit is not stated as such, so the paper cites it as "see also" only. It also cites Grenander and Szego "Chap. 5" for Szego's theorem, which supports the chapter-level citation here at second hand. The journal details were then verified against Crossref: IEEE Trans. Inf. Theory, vol. 65, no. 10, pp. 6355-6384, October 2019, DOI 10.1109/TIT.2019.2919718; the entry in the paper was already correct.
 - [ ] Human referee pass on Lemmas 11 to 14 and Theorems 15 and 16, and on Theorem 19 and Lemma 20.
+- [x] Recorded check of the two constructions of Lemma 21 (`verify_filter_lemma.py`, 2026-11-14, 14 of 14 pass). Part (a), three settings including a rank-one filter that vanishes at frequency pi: the spectral density of the pair is bounded below as the proof says and the per-frequency identity holds to 4e-15; the cost bound of the proof exceeds the spectral cost of the scaled spectrum by an amount that halves exactly each time the window doubles (N times the excess is constant: 1.555, 0.527, 0.615 bits over N = 6 to 48); the exact interior cost of the channel is below that bound; the finite smoother's error decreases to (1 - eta) D. Part (b): the covariance of the middle symbols with their observations in the periodic source equals the stationary one exactly, and with a period shorter by one it does not when all taps are nonzero. A first version of the script required that failure in every instance, which the lemma does not claim; with one tap zero the shorter period still works, and the script now reports that case without requiring it.
+- [x] `verify_achievability.py` has a fourth instance with a source of infinite memory (2026-11-14): a vector autoregression with ||Phi|| = 0.25, Fejer mean of degree 30, eps = 0.051 from an analytic bound against a smallest eigenvalue 0.669 (kappa = 0.083), N = 70. All covariance steps pass (coupling 4e-15; measured leakage change 0.03 bits, bound 6.9), and the order inequality for spectral costs in the form used in the limits holds with slack 0.10 and 0.08 bits. The first three instances are unchanged.
 - [x] A recorded numerical check of Theorem 19's steps with colored noise and a two-sided filter (`verify_filter_colored.py`, 2026-11-14).
 - [x] A recorded check of the two leakage chains in the proof of Theorem 19 (`verify_filter_chains.py`, 2026-11-14, Gaussian stand-ins).
 - [x] Rerun `verify_achievability.py` on the general decomposition (2026-11-14, third instance, passes).

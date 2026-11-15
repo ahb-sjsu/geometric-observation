@@ -68,6 +68,13 @@ nb.cells = [
     code("import verify_filter as vf\nassert vf.main() == 0\n"
          "for r in vf.OUT['ordering_and_convergence']['table']:\n"
          "    print(f\"alpha={r['alpha']:.1f} N={r['N']:3d}  window gap={r['gap_window']:.4e}  interior gap={r['gap_interior']:.4e}\")"),
+    md("## 6e. Theorem 20 — a two-sided filter with colored noise, and the two leakage chains\n\n"
+       "`verify_filter_colored.py` repeats the checks of 6d for a two-sided three-tap filter and moving-average "
+       "noise (about three minutes). `verify_filter_chains.py` checks every step of the achievability chain and "
+       "of the converse chain on Gaussian stand-ins for the message, and reproduces the scalar example that shows "
+       "why the converse needs the given code's private randomness to be independent of the encoder's draw."),
+    code("import verify_filter_colored as vfc\nassert vfc.main() == 0"),
+    code("import verify_filter_chains as vch\nassert vch.main() == 0"),
     md("## 7. Proposition 8 — what the holder keeps"),
     code("r = out['prop_retention']\nfor k in r:\n    if k not in ('ok', 'seconds'):\n        print(f'{k:>22}: {r[k]:.10g}')\n"
          "rho2, Dn = 0.64, 0.4\nfor name in ('q_slice', 'q_prefix0', 'q_prefix3', 'q_path'):\n"
