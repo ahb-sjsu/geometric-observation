@@ -1,6 +1,7 @@
 \documentclass[11pt,onecolumn]{IEEEtran}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage[hidelinks]{hyperref}
 
 \newtheorem{theorem}{Theorem}
@@ -1253,7 +1254,18 @@ each of Frobenius norm at most $\sqrt p\,(m+1)\bar a^2$.
 
 \subsection{An example}
 
-\begin{figure}[t]
+Take the source of Proposition~\ref{prop:tvma} in $\R^2$ with $m=1$,
+$B_0=0.25I$, and
+\[
+A_0(u)=\begin{bmatrix}1&0.3u\\0.2&0.6+0.7u\end{bmatrix},\qquad
+A_1(u)=\begin{bmatrix}0.7\sin\pi u&0\\0.4&-0.5u\end{bmatrix}.
+\]
+The decoder reproduces $Y_t=T_{t,1}+0.4T_{t,2}$ with unit weight, and
+the holder observes $0.3T_{t,1}+0.9T_{t,2}$ in white noise of variance
+$0.4$. The described combination is strongest at low frequencies in the
+middle of the time axis (Fig.~\ref{fig:ls}(a)).
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig_ls.pdf}
 \caption{A locally stationary source in $\R^2$ at $D=0.35D_{\max}$. (a) The
@@ -1266,16 +1278,7 @@ time. Darker is larger in all three panels.}
 \label{fig:ls}
 \end{figure}
 
-Take the source of Proposition~\ref{prop:tvma} in $\R^2$ with $m=1$,
-$B_0=0.25I$, and
-\[
-A_0(u)=\begin{bmatrix}1&0.3u\\0.2&0.6+0.7u\end{bmatrix},\qquad
-A_1(u)=\begin{bmatrix}0.7\sin\pi u&0\\0.4&-0.5u\end{bmatrix}.
-\]
-The decoder reproduces $Y_t=T_{t,1}+0.4T_{t,2}$ with unit weight, and
-the holder observes $0.3T_{t,1}+0.9T_{t,2}$ in white noise of variance
-$0.4$. The described combination is strongest at low frequencies in the
-middle of the time axis (Fig.~\ref{fig:ls}(a)). At $D=0.35D_{\max}$ the
+\noindent At $D=0.35D_{\max}$ the
 description of least rate has rate $0.681$ and leakage $0.379$ bits per
 symbol. It leaves $4\%$ of the time--frequency plane undescribed, the
 high frequencies early in time, where the power of the described
@@ -1292,6 +1295,8 @@ stationary source with the time-averaged spectrum has least rate
 $0.698$ and least leakage $0.323$, both larger, as the next corollary
 shows in general. The numbers are computed by
 \texttt{example\_ls.py} (Appendix~\ref{app:numver}).
+
+
 
 \begin{corollary}\label{cor:lsavg}
 Let the source be locally stationary and let
