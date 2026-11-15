@@ -1995,7 +1995,9 @@ blocklength by using one code on consecutive blocks.
 \begin{lemmaA}
 For every channel $p(\hat x\mid x)$ with a finite reproduction alphabet
 and every $\epsilon>0$ there is, for every large $n$, a deterministic
-code of blocklength $n$ with
+code of blocklength $n$ with the following bounds, in which the
+information quantities are computed under the law
+$p(x,s)p(\hat x\mid x)$, so that $\hX-X-S$.
 \[
 R_n\le I(X;\hX)+\epsilon,\qquad
 D_n\le\E d(X,\hX)+2\epsilon,\qquad
@@ -2004,12 +2006,19 @@ D_n\le\E d(X,\hX)+2\epsilon,\qquad
 \end{lemmaA}
 
 \begin{proof}
-With $V=U=\hX$ and no decoder side information, the triple of the rate
+The theorem of Villard and Piantanida is applied to the problem with
+the enlarged source alphabet of Appendix~\ref{app:decsi}, in which the
+reproduction alphabet is the source alphabet. A code for that problem
+is a code for the original one after every reproduced source letter is
+replaced by a fixed reproduction letter. That does not change the
+message and, by the choice of the distortion made there, does not
+raise the distortion. With $V=U=\hX$ and no decoder side information, the triple of the rate
 $I(X;\hX)$, the distortion $\E d(X,\hX)$, and the equivocation
 $H(X\mid\hX)-I(X;S\mid\hX)=H(X\mid S)-I(X;\hX\mid S)$ lies in the region
 of \cite[Theorem~3]{villard2013}. So there are a blocklength $n_0$ and a
 deterministic code of that length with rate at most
-$I(X;\hX)+\epsilon$, distortion at most $\E d(X,\hX)+\epsilon$, and
+$I(X;\hX)+\epsilon$, in the sense that its message set has at most
+$2^{n_0(I(X;\hX)+\epsilon)}$ elements, distortion at most $\E d(X,\hX)+\epsilon$, and
 equivocation at least $H(X\mid S)-I(X;\hX\mid S)-\epsilon$, that is,
 $\tfrac1{n_0}H(M\mid S^{n_0})\le I(X;\hX\mid S)+\epsilon$, because
 $\tfrac1{n_0}H(X^{n_0}\mid M,S^{n_0})=H(X\mid S)-\tfrac1{n_0}H(M\mid S^{n_0})$
@@ -2018,7 +2027,8 @@ $0\le r<n_0$, apply this code to each of the $k$ blocks and reproduce
 the last $r$ letters by a fixed letter. The message is the tuple of the
 block messages, so the rate is at most $\tfrac{kn_0}n(I(X;\hX)+\epsilon)$.
 The source is memoryless, so the pairs formed by a block message and
-the block of $S^n$ are independent across blocks, and
+the block of $S^n$ are independent across blocks and of the last $r$
+letters of $S^n$, and
 $H(M\mid S^n)$ is the sum of the $k$ block terms, at most
 $kn_0(I(X;\hX\mid S)+\epsilon)$. The distortion is at most
 $\tfrac1n\bigl(kn_0(\E d(X,\hX)+\epsilon)+rd_{\max}\bigr)$, which is at
@@ -2101,7 +2111,8 @@ for large $k$, and the code has
 $H(M\mid S_\eta^n)\le n(I(T;\hY\mid S)+3\epsilon)$ and distortion at most
 $D+3\epsilon$ for large $k$ and $n$. The parameters are chosen in this
 order: $\eta$ in Step~A, then $k$, which depends on $\epsilon$ and
-$\eta$, then $n$, which depends on $k$ through the bound on the
+$\eta$, then $n$, which depends on $k$ and $\eta$ through the
+blocklength $n_0$ of the surrogate problem and through the bound on the
 surrogate distortion.
 
 \emph{Step C.} $S_\eta^n$ is a function of $S^n$, so
