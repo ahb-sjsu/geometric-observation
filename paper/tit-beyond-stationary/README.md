@@ -6,10 +6,12 @@ Gaussian process. This draft treats Gaussian sources that are not
 stationary and sources that are not Gaussian.
 
 **Status (2026-11-16): draft, not submitted, no venue chosen.** The
-manuscript cites the tag `tit-beyond-stationary-1.2`
-(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.2/paper/tit-beyond-stationary),
-which is to be cut on the commit that adds Section IX (unstable
-autoregressive sources); until then the link does not resolve. Tag
+manuscript cites the tag `tit-beyond-stationary-1.3`
+(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.3/paper/tit-beyond-stationary),
+cut on the merge commit of the change that set this citation. Tag
+`tit-beyond-stationary-1.2` has the same manuscript, Section IX
+(unstable autoregressive sources) included, except that it cites
+itself; its notebook does not run the Section IX checks. Tag
 `tit-beyond-stationary-1.1` is the previous version, without Section IX. Title,
 venue and authorship are the owner's decisions. No human has read the
 proofs. The four referee passes recorded below were made by models.
