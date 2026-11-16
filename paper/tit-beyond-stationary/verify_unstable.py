@@ -5,30 +5,40 @@ N(0, s2). Holder S_t = h T_t + U_t, U_t iid N(0, su2); weight q on T itself.
 With a(z) = 1 - sum a_k z^k = prod_k (1 - rho_k z), f(w) = s2/|a(e^{iw})|^2
 and rbar = sum_{|rho_k|>1} log2 |rho_k|.
 
-Checks
-  1. eigen_split: Gamma_N = s2 (A^T A)^{-1}. At most p eigenvalues of Gamma_N lie
-     above s2/min|a|^2, the others lie in [s2/max|a|^2, s2/min|a|^2], and every
-     eigenvalue is at least s2/max|a|^2. (Lemma: interlacing.)
-  2. outlier_logsum: (1/2N) sum of log2 of the p largest eigenvalues -> rbar.
-  3. bulk_law: (1/N) sum over the bulk of phi(lambda) -> (1/2pi) int phi(f) for
-     two test functions.
-  4. cost_limit: the window cost V_N(alpha, D) of the vector problem, computed
-     from the separable program by duality, -> alpha*rbar + (1-alpha)*rbar*[h=0]
-     + V_f(alpha, D), the spectral cost of the stationary source with density f.
-  5. separable_vs_matrix: for small N the separable eigenvalue program equals the
-     matrix program of the Gaussian vector problem (projected-gradient solve),
-     which is the reduction the proof uses.
+Checks, for each of the four sources in CASES, at N = 40, 80, 160, 320
+(Gamma_N = s2 (A^T A)^{-1}, Lemma 25):
+  eigen_split: the eigenvalues of A^T A with index > p lie in [min|a|^2, max|a|^2],
+     and all lie below max|a|^2.
+  exploding_count: for N >= 80, the m smallest eigenvalues of A^T A, one per
+     unstable pole, are below 1e-3 times the next one.
+  outlier_logsum: (1/2N) log2 of the product of the m exploding eigenvalues of
+     Gamma_N -> rbar.
+  bulk_law: the averages of log(lambda) and 1/lambda over the N - p bulk
+     eigenvalues -> the same averages of f.
+  cost_limit: the window cost of the separable program (Lemma 24), computed by
+     duality, -> alpha*rbar + (1-alpha)*rbar*[h=0] + V_f(alpha, D) (Theorem 26).
+  The criterion for the last three is the O(1/N) rate of the proofs: N times the
+  error at N = 320 is at most twice N times the error at N = 40, or the error is
+  below 1e-6.
+And once:
+  feasible_spectra_dominated: sampled error covariances in the feasible set have
+     sorted eigenvalues below those of Gamma_8 (the fact behind Lemma 24).
+  common_optimizer: for every alpha the dual optimum equals the cost of
+     delta = min(lambda, theta), in the window and in the spectral program
+     (Lemma 24, Corollary 27); tolerance 1e-6 bits.
+  mp_check: the log-sum of the exploding eigenvalues from the det identity, in
+     double precision, against an 80-digit computation.
 
-Numerics: the p exploding eigenvalues of Gamma_N are taken from Gamma_N itself
-(relative accuracy is good at the top of the spectrum), the bulk from A^T A
-(absolute accuracy is good where its eigenvalues are of order one). Their
-product is checked against det Gamma_N = s2^N.
+Numerics: see spectrum(). The bulk comes from A^T A; the exploding eigenvalues
+enter only through their log-sum, taken from det Gamma_N = s2^N.
 
-Usage: python verify_unstable.py [out.json]
+Usage: python verify_unstable.py [out.json]   (default: verify_unstable.json
+next to this file). From Python: main() fills OUT and returns 0 when all pass.
 """
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 
@@ -169,8 +179,13 @@ CASES = {
 }
 
 
-def main():
-    out = {"cases": {}, "_meta": {}}
+OUT = {}
+
+
+def main(path=None):
+    OUT.clear()
+    out = OUT
+    out.update({"cases": {}, "_meta": {}})
     t0 = time.time()
     s2, q, su2 = 1.0, 1.0, 0.5
     wgrid = (np.arange(20000) + 0.5) / 20000 * 2 * np.pi - np.pi
@@ -294,10 +309,13 @@ def main():
 
     out["_meta"] = {"failed": int(fails), "seconds": round(time.time() - t0, 1),
                     "numpy": np.__version__}
-    json.dump(out, open(sys.argv[1] if len(sys.argv) > 1 else "verify_unstable.json", "w"), indent=1)
+    if path is None:
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "verify_unstable.json")
+    with open(path, "w") as fh:
+        json.dump(out, fh, indent=1)
     print("FAILED CHECKS:", fails)
     return 0 if fails == 0 else 1
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else None))
