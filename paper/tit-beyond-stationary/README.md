@@ -5,12 +5,12 @@ Gaussian vector source, paper two (`../tit-stationary/`) a stationary
 Gaussian process. This draft treats Gaussian sources that are not
 stationary and sources that are not Gaussian.
 
-**Status (2026-11-15): draft, not submitted, no venue chosen.** The
-manuscript cites the tag `tit-beyond-stationary-1.1`
-(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.1/paper/tit-beyond-stationary),
-which is cut on the commit that adds this citation. Tag
-`tit-beyond-stationary-1.0` is the same draft without it; the scripts
-and recorded outputs are identical at both. Title,
+**Status (2026-11-16): draft, not submitted, no venue chosen.** The
+manuscript cites the tag `tit-beyond-stationary-1.2`
+(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.2/paper/tit-beyond-stationary),
+which is to be cut on the commit that adds Section IX (unstable
+autoregressive sources); until then the link does not resolve. Tag
+`tit-beyond-stationary-1.1` is the previous version, without Section IX. Title,
 venue and authorship are the owner's decisions. No human has read the
 proofs. The four referee passes recorded below were made by models.
 
@@ -40,6 +40,10 @@ maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 | Corollary 20 | For a stationary source the stacked region is paper two's region | Theorem 18 |
 | Theorem 22 | The stationary source with the phase-averaged spectrum has a region no larger (time-invariant parties) | Corollary 6 |
 | Proposition 23 | Independent stationary regimes share one water level | Lemma 10, paper two's Theorem 15 |
+| **Theorem 26** | **Unstable scalar autoregressive source: the region is the spectral region of the reflected stationary source moved by the sum of log moduli of the unstable poles in rate, and in leakage only when the holder does not observe the source; deterministic encoders** | Lemmas 24, 25, 12; paper two's Lemma 2 and Theorem 16 |
+| Lemma 24 | For a scalar source with a scalar holder gain and white noise, the vector cost separates over the eigenvalues of the covariance, and one allocation, delta = min(lambda, theta), is optimal at every weight, so the region is a single quadrant | Courant-Fischer, an exchange argument |
+| Lemma 25 | The window covariance of an unstable AR source has at most d exceptional eigenvalues, whose log-sum is 2N times the instability rate (not all of them need grow), and a bulk with the law of the reflected spectrum | Rank-d interlacing, Szego, Jensen's formula |
+| Corollary 27 | In the setting of Theorem 26 the region is the quadrant above (instability rate + r_f(D), instability rate x [H=0] + l_f(D)), with r_f the rate-distortion function by reverse water-filling; there is no rate-leakage trade-off in this scalar model | Lemma 24 |
 | Proposition 1 | Coding theorem for any memoryless pair with finite second moments and finite I(T;S) | Proof of paper one's Theorem 3 |
 | Theorem 2 | The Gaussian region with the same second moments is achievable for a source that is not Gaussian | Gaussian test channel on the source as it is |
 | Theorem 3 | Every code is bounded below by the Gaussian frontier less two relative entropies | Maximum entropy, concavity of the linear-estimation error |
@@ -48,7 +52,7 @@ maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 | Theorem 7 | Lower bound for stationary processes that are not Gaussian, with the relative entropy rate | Theorem 3 on windows, paper two's Theorem 15 |
 | Theorem 8 | The spectral region is achievable for processes of finite dependence | Theorem 2, guard intervals |
 
-Theorem numbers are those printed by the build of 2026-11-15. Check them
+Theorem numbers are those printed by the build of 2026-11-16. Check them
 against the PDF before quoting. At the weight that counts only the rate,
 Theorem 13 gives the rate-distortion function of a locally stationary
 Gaussian vector source; the search below did not find that statement for
@@ -59,8 +63,14 @@ this class.
 - Theorem 13 is for a time-invariant weight and holder, with a memoryless
   holder map and white noise. Slowly varying parties are not covered.
 - Conditions (L1) to (L3) describe a stable source that varies slowly.
-  Sources that vary fast without a period, and unstable sources, are not
-  covered.
+  Sources that vary fast without a period are not covered. Unstable
+  sources are covered only for a scalar autoregressive source with a
+  scalar holder gain in white noise (Theorem 26); unstable vector sources,
+  holders with memory, poles on the unit circle, and unstable sources
+  whose spectrum varies in time are not.
+- Theorem 26's rate term is classical (Gray 1970; Hashimoto and Arimoto
+  1980; Gray and Hashimoto 2008; Tian and Kostina for coding theorems in
+  the first-order case). What is new is the leakage.
 - The achievability of Theorem 13 has no rate in the blocklength (none is
   known for stationary sources either). Proposition 14 gives a rate for
   the converse only, and the computed examples suggest it is not the true
@@ -75,17 +85,20 @@ this class.
 
 | File | What it is |
 |---|---|
-| `tit-beyond-stationary.tex`, `.pdf` | The draft, 23 pages |
+| `tit-beyond-stationary.tex`, `.pdf` | The draft, 28 pages |
 | `example_ls.py`, `example_ls.json`, `fig_ls.pdf`, `fig_ls.png` | The worked example after Proposition 15 and its figure (needs matplotlib) |
 | `verify_nongauss.py`, `.json` | Seven checks of Section III on a Gaussian-mixture source (about one minute) |
 | `verify_ls.py`, `.json` | Seven checks of Sections V and VI on a time-varying moving average (about ten minutes) |
 | `build_notebook.py`, `reproduce.ipynb`, `reproduce-executed-2026-11-16.ipynb` | The notebook that reruns everything, and one executed copy |
 | `lean-beyond-2026-11-16.txt`, `lean-library-2026-11-16.txt` | Lean build records and axiom audit |
 | `verify_cyclo.py`, `.json` | Seven checks of Sections VII and VIII on periodic moving averages (about eleven minutes) |
+| `verify_unstable.py`, `.json` | Checks of Section IX on four unstable AR sources: eigenvalue split, log-sum of the growing eigenvalues, bulk law, window cost against the theorem's limit, the common optimizer of Lemma 24 and Corollary 27, and a high-precision check of the determinant identity (about twenty seconds; needs scipy and mpmath) |
 
 The scripts import `spectral_core.py` and `verify_spectral.py` from
 `../tit-stationary/`. Run them from this folder. numpy only (numpy 2.5.2,
 Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 7 of 7 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
+
+On 2026-11-16 `verify_unstable.py` passed every check, run on the Atlas workstation (numpy 2.4.4, scipy, mpmath). Its first full run failed on the two sources with poles of different moduli, for a numerical reason: it took the growing eigenvalues from the covariance in double precision, which cannot resolve two eigenvalues that grow at different rates (at N = 320 their ratio is about 10^43). It now takes their log-sum from det(Gamma_N) = sigma^(2N), the identity the proof uses, and checks that identity against an 80-digit computation. Its pass criteria were also changed after that first run had been seen, from fixed tolerances to the rate the proofs predict (N times the error must not grow from N = 40 to N = 320). One failure of the first run, the bulk-law check on the complex-pole source, came from a bug in the check: it averaged the bulk eigenvalues over N instead of N - d. With the average over N - d the error is 0.016 at N = 320 and halves with each doubling of N. The recorded errors are in `verify_unstable.json`. A later check, `common_optimizer`, was added with its tolerance (10^-6 bits) written before it ran; the largest difference was 4e-16 bits. `reproduce.ipynb` does not yet run this script.
 
 Build: `pdflatex tit-beyond-stationary.tex` three times.
 
@@ -204,6 +217,9 @@ of relative entropy was not looked up.
 ## Open items before submission
 
 - [ ] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first.
+- [ ] A human reads Section IX (Lemmas 24, 25, Theorem 26 and Corollary 27), new on 2026-11-16.
+- [x] Model audit of Theorems 13 and 26 and their lemmas (2026-11-16, a fresh-context model, not a human): no error that breaks a result; two gaps (the duality step of Corollary 27, and the converse's uniformity as the distortion tends to zero, now scoped in Section VI) and six imprecisions (zero codes beyond the maximal distortion, the grid bound on v_B, a repeated-eigenvalue case in Lemma 25(b), uniform mass on the circles, monotonicity in the achievability of Theorem 13, the setting and symbols of Section IX), all fixed. It checked the companion-paper citations against the local copies of papers one and two, not against their tagged versions.
+- [ ] Verify the published venue of Tian and Kostina (cited by arXiv number), and read Gray 1970 and Hashimoto-Arimoto 1980 to confirm the form of the rate term quoted after Theorem 26.
 - [ ] Read Hammerich 2016 and Dahlhaus 1996 in full, and locate the
       Velloso and Santos Filho paper named above.
 - [ ] Forward-citation pass on Kipnis 2018, Gutiérrez-Gutiérrez 2018,
