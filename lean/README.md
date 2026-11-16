@@ -216,3 +216,34 @@ appendix has the same list.
 Build records: `paper/tit-stationary/lean-spectral-2026-11-13.txt` (the module
 and its axiom audit) and `paper/tit-stationary/lean-library-2026-11-14.txt`
 (the root target with the import, an incremental build).
+
+## Beyond stationary Gaussian sources (`paper/tit-beyond-stationary/`)
+
+`ObservationTheory/BeyondStationary.lean` (added 2026-11-16) machine-checks
+algebraic steps of the third paper of the series. Fifteen theorems, no
+`sorry`, standard axioms only. It is imported by the root file
+`ObservationTheory.lean`.
+
+What it covers: the inequality `-log(1 - x) <= (b/a) x` on `[0, 1 - a/b]`
+behind the bound on the information across a cut; for matrices, the three
+covariance identities of the draw `T' = S' S^-1 T + C zeta` used to couple a
+source with one of smaller covariance; for matrices, the determinant identity
+`det(I + G M G^T) = det(I + M G^T G)` of the Gaussian test channel, and its
+two evaluations in one direction; the scalar bound on the error of a linear
+estimate; an entropy bookkeeping identity for the conditional deficit; the
+scaling of the point cost `G(d) = (1/2)(-log d + (1 - alpha) log(1 + j d))`
+under `d -> (1 + x) d` and under shrinking; the bound `ceil(sqrt N)/N <=
+2/sqrt N`; and two arithmetic steps of the derandomization lemma.
+
+The matrix concavity of the linear-estimation error, which that paper's lower
+bound for sources that are not Gaussian uses, is `Fw_concave` in `LogDet.lean`.
+
+Not formalized: every coding theorem of that paper, every statement about
+entropy or mutual information, the limit arguments, the block comparison
+lemma, the probabilistic step of the derandomization lemma, and the harmonic
+identity for cyclostationary sources. The paper's appendix has the same list.
+
+Build records: `paper/tit-beyond-stationary/lean-beyond-2026-11-16.txt` (the
+module and its axiom audit) and
+`paper/tit-beyond-stationary/lean-library-2026-11-16.txt` (the root target
+with the import, an incremental build).
