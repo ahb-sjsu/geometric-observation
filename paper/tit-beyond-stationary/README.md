@@ -43,7 +43,7 @@ maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 | **Theorem 26** | **Unstable scalar autoregressive source: the region is the spectral region of the reflected stationary source moved by the sum of log moduli of the unstable poles in rate, and in leakage only when the holder does not observe the source; deterministic encoders** | Lemmas 24, 25, 12; paper two's Lemma 2 and Theorem 16 |
 | Lemma 24 | For a scalar source with a scalar holder gain and white noise, the vector cost separates over the eigenvalues of the covariance, and one allocation, delta = min(lambda, theta), is optimal at every weight, so the region is a single quadrant | Courant-Fischer, an exchange argument |
 | Lemma 25 | The window covariance of an unstable AR source has at most d exceptional eigenvalues, whose log-sum is 2N times the instability rate (not all of them need grow), and a bulk with the law of the reflected spectrum | Rank-d interlacing, Szego, Jensen's formula |
-| Corollary 27 | In the setting of Theorem 26 the region is the quadrant above (instability rate + R_f(D), instability rate x [H=0] + L_f(D)), with R_f the rate-distortion function by reverse water-filling; there is no rate-leakage trade-off in this scalar model | Lemma 24 |
+| Corollary 27 | In the setting of Theorem 26 the region is the quadrant above (instability rate + r_f(D), instability rate x [H=0] + l_f(D)), with r_f the rate-distortion function by reverse water-filling; there is no rate-leakage trade-off in this scalar model | Lemma 24 |
 | Proposition 1 | Coding theorem for any memoryless pair with finite second moments and finite I(T;S) | Proof of paper one's Theorem 3 |
 | Theorem 2 | The Gaussian region with the same second moments is achievable for a source that is not Gaussian | Gaussian test channel on the source as it is |
 | Theorem 3 | Every code is bounded below by the Gaussian frontier less two relative entropies | Maximum entropy, concavity of the linear-estimation error |
@@ -218,6 +218,7 @@ of relative entropy was not looked up.
 
 - [ ] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first.
 - [ ] A human reads Section IX (Lemmas 24, 25, Theorem 26 and Corollary 27), new on 2026-11-16.
+- [x] Model audit of Theorems 13 and 26 and their lemmas (2026-11-16, a fresh-context model, not a human): no error that breaks a result; two gaps (the duality step of Corollary 27, and the converse's uniformity as the distortion tends to zero, now scoped in Section VI) and six imprecisions (zero codes beyond the maximal distortion, the grid bound on v_B, a repeated-eigenvalue case in Lemma 25(b), uniform mass on the circles, monotonicity in the achievability of Theorem 13, the setting and symbols of Section IX), all fixed. It checked the companion-paper citations against the local copies of papers one and two, not against their tagged versions.
 - [ ] Verify the published venue of Tian and Kostina (cited by arXiv number), and read Gray 1970 and Hashimoto-Arimoto 1980 to confirm the form of the rate term quoted after Theorem 26.
 - [ ] Read Hammerich 2016 and Dahlhaus 1996 in full, and locate the
       Velloso and Santos Filho paper named above.

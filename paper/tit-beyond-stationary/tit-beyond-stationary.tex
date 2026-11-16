@@ -1137,8 +1137,9 @@ converse of Theorem~\ref{thm:ls} covers such codes; the codes that
 achieve the region have deterministic encoders. A pair is
 achievable at $D$ when codes of blocklengths $N_j\to\infty$ meet the
 three limits of Section~\ref{sec:model}, and $\mathcal A(D)$ is the
-closure of the set of such pairs. The proofs below give the converse
-for every large $N$ and codes at every large $N$. For a set $I$ of consecutive times, $\mathsf S_N[I]$ is
+closure of the set of such pairs. The proofs below give codes at every
+large $N$, and the converse for every large $N$ at distortions bounded
+away from zero. For a set $I$ of consecutive times, $\mathsf S_N[I]$ is
 the covariance of $(T_t)_{t\in I}$, and $T_n(F)$ is the block-Toeplitz
 matrix of size $n$ of a matrix function $F$ on the circle, as in
 \cite{part2}.
@@ -1223,7 +1224,8 @@ $K=[0,1]\times(\R/2\pi\mathbb Z)$, so item~(v) of
 Section~\ref{sec:model} applies with $\mu$ the product of the Lebesgue
 measure on $[0,1]$ and the normalized Lebesgue measure on the circle.
 It gives the minimizer, the level, and, for the measures $\mu_B$ that
-put mass $1/B$ on each of the circles $u=b/B$, $b=1,\dots,B$, the
+put mass $1/B$, spread uniformly, on each of the circles $u=b/B$,
+$b=1,\dots,B$, the
 convergence $V_{\mu_B}(\alpha,D)\to\Vls(\alpha,D)$ as $B\to\infty$. A
 field on $B$ circles is a tuple of fields, so
 \begin{equation}
@@ -1301,15 +1303,19 @@ with $(R,L)\in\mathcal R'_b(D')$ is convex, because $V'_b(\alpha,\cdot)$
 is convex. So $\mathcal B(D)$ is closed, convex, and upward closed in
 the nonnegative quadrant, and its support value at $(\alpha,1-\alpha)$
 is at most $\min\{\tfrac1B\sum_bV'_b(\alpha,D_b)\}$ over the same
-allocations, which by item~(iv) is at most
-$V_{\mu_B}(\alpha,D)+\tfrac p2\log(1+\kappa')$.
+allocations, which by item~(iv), and because $V'_b(\alpha,\cdot)$ is
+nonincreasing, is at most $V_{\mu_B}(\alpha,D)+\tfrac p2\log(1+\kappa')$.
 
 Let $(R_b,L_b)\in\mathcal R'_b(D_b)$ with $\tfrac1B\sum_bD_b\le D$ and
 $\delta'>0$. By item~(i) there are a length $n_0$ and, for each $b$, a
 code with a deterministic encoder for the window of size $n_0$ of the
 stationary source with spectral density $\Sigma'_b$, with rate at most
 $R_b+\delta'$, leakage at most $L_b+\delta'$, and distortion at most
-$D_b+\delta'$. Its source vector has covariance $T_{n_0}(\Sigma'_b)$.
+$D_b+\delta'$. When $D_b$ is at or beyond the maximal distortion of
+$\Sigma'_b$, item~(i) does not apply, and the code with one message that
+reproduces zero is used; it has a deterministic encoder, and the steps
+below apply to it unchanged. Its source vector has covariance
+$T_{n_0}(\Sigma'_b)$.
 Divide the block $I_b$ into $k_b=\lfloor n_b/n_0\rfloor$ consecutive
 sub-blocks of $n_0$ times and a remainder of fewer than $n_0$ times.
 The covariance of a sub-block is a principal submatrix of
@@ -2112,7 +2118,9 @@ unit circle. The source is scalar, $Y_t=FT_t$ with $F\ne0$, the weight
 is $W>0$, and $Q=F^2W$. The holder observes $S_t=HT_t+U_t$ with $H\in\R$
 and $U_t$ independent $\mathcal N(0,\sigma_U^2)$, $\sigma_U^2>0$, and
 $J=H^2/\sigma_U^2$. A code of blocklength $N$ acts on $T^N$ as in
-Section~\ref{sec:model}. Let
+Section~\ref{sec:model}, with private randomness allowed, and
+achievable pairs and $\mathcal A(D)$ are defined as in
+Section~\ref{sec:ls}. Let
 \[
 \rho_\star=\sum_{i:\,|\rho_i|>1}\log|\rho_i|,\qquad
 f(\omega)=\frac{\sigma^2}{|\phi(e^{i\omega})|^2},
@@ -2227,10 +2235,12 @@ of $R$ with a subspace of dimension $N-k+d+1$ that attains
 $\tilde s_{k-d}$. This proves (a).
 
 For (b) let $\psi$ be a bounded Lipschitz function on
-$K=[\sigma^2/M_\phi,\sigma^2/m_\phi]$. Then $x\mapsto\psi(\sigma^2/x)$ is
+$\mathcal I_\phi=[\sigma^2/M_\phi,\sigma^2/m_\phi]$. Then $x\mapsto\psi(\sigma^2/x)$ is
 Lipschitz on $[m_\phi,M_\phi]$, so it has bounded variation, say $v$,
-and sup norm, say $w$. Each point lies in at most $d$ of the intervals
-$[\tilde s_{k-d},\tilde s_k]$, so
+and sup norm, say $w$. Each point outside the finite set
+$\{\tilde s_k\}$ lies in at most $d$ of the intervals
+$[\tilde s_{k-d},\tilde s_k]$, and the variation of a Lipschitz function
+puts no mass on a finite set, so
 \[
 \Bigl|\sum_{k>d}\psi(\lambda_k)-\sum_{k=1}^N\psi(\sigma^2/\tilde s_k)\Bigr|\le d\,(v+w).
 \]
@@ -2265,7 +2275,7 @@ At every distortion the rate is at least $\rho_\star$, because the
 variance of the source grows without bound.
 
 With no holder, or at the weight that counts only the rate, the theorem
-gives the rate--distortion function $\rho_\star+R_f(D)$ of an unstable
+gives the rate--distortion function $\rho_\star+r_f(D)$ of an unstable
 Gaussian autoregressive source. This is the form found by Hashimoto
 and Arimoto \cite{hashimoto1980}. Gray \cite{gray1970} gave the
 function in another form, and Gray and Hashimoto
@@ -2290,7 +2300,7 @@ and $\delta_k\le ND_N/Q$, so
 Replace the ratios $\delta_k/\lambda_k$, $k>d$, by their averages over
 equal eigenvalues, which keeps the distortion and, by convexity, does
 not raise the cost. The terms with $k>d$ are then those of a field on
-$K$ for the measure $\mu_N$ in the program of item~(v) of
+$\mathcal I_\phi$ for the measure $\mu_N$ in the program of item~(v) of
 Section~\ref{sec:model}, with the data $\tilde Q=Q\lambda$,
 $\tilde H=H\lambda^{1/2}$, and $\sigma_U^2$, whose point costs are $r$
 and $\ell$. So these terms are at least
@@ -2305,7 +2315,7 @@ so by Lemma~\ref{lem:arspec}(c)
 \]
 If $D'<D_{\max}^f=\int\tilde Q\,d\mu$, item~(v) and
 Lemma~\ref{lem:arspec}(b) give $V_{\mu_N}(\alpha,D')\to V_\mu(\alpha,D')$.
-And $V_\mu=V_f$: a field on $K$ gives the field $X(f(\omega))$ on the
+And $V_\mu=V_f$: a field on $\mathcal I_\phi$ gives the field $X(f(\omega))$ on the
 frequencies with the same cost, and the minimizing field of the
 spectral program solves the tilted water-filling equation at every
 frequency with one level (item~(v) on the circle), so it is a function
@@ -2359,22 +2369,24 @@ $H(|E|)\le\log(1+m)+m\log(1+1/m)$. So the leakage of the first $d$
 components is $O(1)$ bits in all.
 
 \emph{The other components.} There are $N-d$ of them, their variances
-lie in $K$, and their law $\mu_N$ tends to $\mu$
+lie in $\mathcal I_\phi$, and their law $\mu_N$ tends to $\mu$
 (Lemma~\ref{lem:arspec}). Fix $\kappa>0$ and points
-$v_0<v_1<\dots<v_B$ with $v_0=\sigma^2/M_\phi$, $v_B>\sigma^2/m_\phi$,
+$v_0<v_1<\dots<v_B$ with $v_0=\sigma^2/M_\phi$,
+$\sigma^2/m_\phi<v_B\le(1+\kappa)\sigma^2/m_\phi$,
 $v_i\le(1+\kappa)v_{i-1}$, and $\mu(\{v_i\})=0$ for $0<i<B$, which is
 possible because $\mu$ has at most countably many atoms. No condition is
 needed at $v_0$, which may carry an atom (when $f$ is constant, $\mu$ is
 a point mass there). Bin $i$ holds the components with
 $\lambda_k\in[v_{i-1},v_i)$, and its share of the $N$ symbols tends to
 $w_i=\mu([v_{i-1},v_i))$ by the weak convergence: $\mu_N$ and $\mu$ live
-on $K$, which begins at $v_0$ and ends before $v_B$, so on $K$ the bins
+on $\mathcal I_\phi$, which begins at $v_0$ and ends before $v_B$, so on $\mathcal I_\phi$ the bins
 are intervals whose only boundary points are interior points $v_i$,
 which carry no mass. For each $i$ with $w_i>0$ take a code of
 blocklength $n_0$ with a deterministic encoder for the white Gaussian
 source of variance $v_{i-1}$ with the holder, near a point of its
 region $\mathcal R_{v_{i-1}}(D_i)$, by item~(i) of
-Section~\ref{sec:model} for a constant spectrum, and apply
+Section~\ref{sec:model} for a constant spectrum, or the code with one
+message that reproduces zero when $D_i\ge Qv_{i-1}$, and apply
 Lemma~\ref{lem:seeds} to the groups of $n_0$ consecutive components of
 the bin, with $\mathsf S'=v_{i-1}I$ and $\mathsf S_j$ diagonal with
 entries in $[v_{i-1},(1+\kappa)v_{i-1})$. The number of groups tends to
@@ -2408,7 +2420,8 @@ nonincreasing, and $V_\mu(\alpha,D/2)\le V_\mu(1,D/2)$ because
 $\ell\le r$, so its slopes on $[\tfrac34D,D]$ are bounded uniformly in
 $\alpha$. Choose $D''<D$ with $V_\mu(\alpha,D'')\le V_\mu(\alpha,D)+\gamma/2$
 for every $\alpha$, then $\kappa$ with $\tfrac12\log(1+\kappa)\le\gamma/2$
-and $\epsilon_Q+2\delta<D-D''$. Then
+and $Q\kappa(1+\kappa)\sigma^2/m_\phi+2\delta<D-D''$, which bounds
+$\epsilon_Q+2\delta$ since $v_B\le(1+\kappa)\sigma^2/m_\phi$. Then
 $\alpha(R+\gamma)+(1-\alpha)(L+\gamma)\ge V_\mu(\alpha,D)+\gamma\ge V_{\mu_\kappa}(\alpha,D'')$
 for every $\alpha$, so $(R+\gamma,L+\gamma)\in\mathcal B_\kappa(D'')$, by
 the description of such sets through their supporting half-planes
@@ -2440,25 +2453,39 @@ stationary autoregressive source, approached from a zero initial state.
 For $0<D<D_{\max}^f$ let $\theta>0$ solve $Q\int\min\{f,\theta\}\,\dw=D$,
 and let
 \[
-R_f(D)=\int\frac12\log\frac f{\min\{f,\theta\}}\,\dw,\qquad
-L_f(D)=\int\frac12\log\frac{1/\min\{f,\theta\}+J}{1/f+J}\,\dw,
+r_f(D)=\int\frac12\log\frac f{\min\{f,\theta\}}\,\dw,\qquad
+\ell_f(D)=\int\frac12\log\frac{1/\min\{f,\theta\}+J}{1/f+J}\,\dw,
 \]
-with $R_f(D)=L_f(D)=0$ for $D\ge D_{\max}^f$. Then $\mathcal A(D)$ is the
+with $r_f(D)=\ell_f(D)=0$ for $D\ge D_{\max}^f$. Then $\mathcal A(D)$ is the
 quadrant above
-$\bigl(\rho_\star+R_f(D),\ \rho_\star\mathbf 1_{\{H=0\}}+L_f(D)\bigr)$.
+$\bigl(\rho_\star+r_f(D),\ \rho_\star\mathbf 1_{\{H=0\}}+\ell_f(D)\bigr)$.
 \end{corollary}
 
 \begin{proof}
-In the program for $V_f=V_\mu$, the argument at the end of the proof of
-Lemma~\ref{lem:separable}, with integrals in place of sums, shows that
-for every $\alpha$ the minimizing field is $\delta(\lambda)=\min\{\lambda,\theta\}$.
-So $V_f(\alpha,D)=\alpha R_f(D)+(1-\alpha)L_f(D)$, $\mathcal R_f(D)$ is the
-quadrant above $(R_f(D),L_f(D))$, and Theorem~\ref{thm:unstable} moves it
-by $(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})$.
+Let $0<D<D_{\max}^f$ and $\alpha\in[0,1]$. The program for $V_f=V_\mu$
+minimizes $\int c_\alpha(\lambda,\delta(\lambda))\,d\mu$ over measurable
+$0<\delta(\lambda)\le\lambda$ with $Q\int\delta\,d\mu\le D$. Its cost is
+convex by Lemma~\ref{lem:separable}, its constraint is linear, and a
+strictly feasible field exists, so by Lagrange duality there is
+$\nu\ge0$ such that a minimizing field minimizes
+$\int[c_\alpha(\lambda,\delta(\lambda))+\nu Q\delta(\lambda)]\,d\mu$, and
+hence minimizes the integrand at $\mu$-almost every $\lambda$. Up to a
+term free of $\delta$ the integrand is $\varphi_\alpha(\delta)+\nu Q\delta$,
+with $\varphi_\alpha$ the strictly convex and strictly decreasing function
+of the proof of Lemma~\ref{lem:separable}. So $\nu>0$, and the pointwise
+minimizer is $\min\{\lambda,\theta_\alpha\}$, where $\theta_\alpha$ solves
+$\varphi_\alpha'(\theta_\alpha)=-\nu Q$ and is the same at every point. The
+constraint holds with equality, since $\varphi_\alpha$ is decreasing, so
+$Q\int\min\{f,\theta_\alpha\}\,\dw=D$, which fixes $\theta_\alpha=\theta$ for
+every $\alpha$. Hence $V_f(\alpha,D)=\alpha r_f(D)+(1-\alpha)\ell_f(D)$, so
+$\mathcal R_f(D)$ is the quadrant above $(r_f(D),\ell_f(D))$, and
+Theorem~\ref{thm:unstable} moves it by
+$(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})$. For $D\ge D_{\max}^f$ both
+sides are the shifted nonnegative quadrant.
 \end{proof}
 
-$R_f$ is the rate--distortion function of the stationary source with
-spectral density $f$, by reverse water-filling, and $\rho_\star+R_f(D)$
+$r_f$ is the rate--distortion function of the stationary source with
+spectral density $f$, by reverse water-filling, and $\rho_\star+r_f(D)$
 is that of the unstable source. In this scalar model there is no
 trade-off between rate and leakage. The tilted water-filling of
 \cite{part1,part2}, with its frontier of pairs, needs components that
