@@ -98,14 +98,20 @@ The scripts import `spectral_core.py` and `verify_spectral.py` from
 `../tit-stationary/`. Run them from this folder. numpy only (numpy 2.5.2,
 Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 7 of 7 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
 
-On 2026-11-16 `verify_unstable.py` passed every check, run on the Atlas workstation (numpy 2.4.4, scipy, mpmath). Its first full run failed on the two sources with poles of different moduli, for a numerical reason: it took the growing eigenvalues from the covariance in double precision, which cannot resolve two eigenvalues that grow at different rates (at N = 320 their ratio is about 10^43). It now takes their log-sum from det(Gamma_N) = sigma^(2N), the identity the proof uses, and checks that identity against an 80-digit computation. Its pass criteria were also changed after that first run had been seen, from fixed tolerances to the rate the proofs predict (N times the error must not grow from N = 40 to N = 320). One failure of the first run, the bulk-law check on the complex-pole source, came from a bug in the check: it averaged the bulk eigenvalues over N instead of N - d. With the average over N - d the error is 0.016 at N = 320 and halves with each doubling of N. The recorded errors are in `verify_unstable.json`. A later check, `common_optimizer`, was added with its tolerance (10^-6 bits) written before it ran; the largest difference was 4e-16 bits. `reproduce.ipynb` does not yet run this script.
+On 2026-11-16 `verify_unstable.py` passed every check, run on the Atlas workstation (numpy 2.4.4, scipy, mpmath). Its first full run failed on the two sources with poles of different moduli, for a numerical reason: it took the growing eigenvalues from the covariance in double precision, which cannot resolve two eigenvalues that grow at different rates (at N = 320 their ratio is about 10^43). It now takes their log-sum from det(Gamma_N) = sigma^(2N), the identity the proof uses, and checks that identity against an 80-digit computation. Its pass criteria were also changed after that first run had been seen, from fixed tolerances to the rate the proofs predict (N times the error must not grow from N = 40 to N = 320). One failure of the first run, the bulk-law check on the complex-pole source, came from a bug in the check: it averaged the bulk eigenvalues over N instead of N - d. With the average over N - d the error is 0.016 at N = 320 and halves with each doubling of N. The recorded errors are in `verify_unstable.json`. A later check, `common_optimizer`, was added with its tolerance (10^-6 bits) written before it ran; the largest difference was 4e-16 bits. `reproduce.ipynb` runs it as Section 5.
 
 Build: `pdflatex tit-beyond-stationary.tex` three times.
 
 **Notebook.** `build_notebook.py` writes `reproduce.ipynb`, which reruns
-the three check scripts and the example and prints the numbers of the
-appendix. `reproduce-executed-2026-11-16.ipynb` is one executed copy.
-Running it takes about forty minutes.
+the four check scripts and the example and prints the numbers of the
+appendix and of Section IX. `reproduce-executed-2026-11-16.ipynb` is one
+executed copy, run on the Atlas workstation (Linux, Python 3.12.3,
+numpy 2.4.6) in thirty-two minutes; all 45 entries pass (7, 7, 8 and 23).
+It replaces an earlier executed copy of the same day, run on Windows,
+which did not include Section IX. A first run on Atlas also passed every
+entry; it was repeated only so that the printed lists show plain numbers.
+Executing the notebook needs nbformat, nbclient and ipykernel besides the
+packages the scripts use.
 
 **Lean.** `lean/ObservationTheory/BeyondStationary.lean` has fifteen
 theorems, no `sorry`, standard axioms only. It checks algebraic steps:
