@@ -53,13 +53,14 @@ signals are neither exactly stationary nor exactly Gaussian. We
 determine the region for Gaussian sources whose covariance is locally
 that of a stationary process with a spectrum that varies slowly in
 time: it is water-filling over the time--frequency plane under one
-water level. This is proved for a fixed memoryless observation of the
-second party in white noise, with deterministic encoders.
-The same holds for sources that become stationary, and
-for a cyclostationary source the frequencies that differ by a multiple
-of the cycle frequency are coupled and all share one level. The stationary source with the time-averaged spectrum never has a
-lower cost than a time-varying or cyclostationary source, at any
-weight. For a source that is
+water level. This holds for a fixed memoryless observation in white
+noise, with deterministic encoders. For a cyclostationary source,
+frequencies that differ by a multiple of the cycle frequency are
+coupled and share one level. Averaging the spectrum over time never
+lowers the cost. For a Gaussian autoregressive source with unstable
+poles, each pole costs the logarithm of its modulus in rate, and
+nothing in leakage when the second party observes the source. For a
+source that is
 not Gaussian, the Gaussian region with the same second moments is
 achievable, so the Gaussian source is the worst case for both costs.
 Every code is bounded below by the Gaussian frontier less two
@@ -172,6 +173,17 @@ share one water level. The stationary source with the time-averaged
 spectrum again has a region no larger
 (Theorem~\ref{thm:averaged}).
 
+An autoregressive source with unstable poles varies neither slowly nor
+periodically: its variance grows without bound, and (L3) excludes it.
+For a scalar source of this kind with the memoryless holder, the region
+is the spectral region of a stationary source moved by
+$\sum\log|\rho_i|$ over the unstable poles $\rho_i$ in rate, and in
+leakage only when the holder does not observe the source
+(Theorem~\ref{thm:unstable}). The growth is carried by as many
+eigenvalues of the covariance as the order of the source, the holder
+sees those components with bounded error, and so their description
+costs rate but tells the holder little.
+
 \textbf{Results for sources that are not Gaussian.} For a memoryless
 source the Gaussian region with the same second moments is achievable
 (Theorem~\ref{thm:inner}). The argument applies the Gaussian test
@@ -216,7 +228,12 @@ function of a class of nonstationary sources in continuous time, those
 generated from white noise by a linear time-varying filter whose
 symbol varies slowly. Theorem~\ref{thm:ls} is in discrete time, for
 vector sources specified by their covariances, and has the second
-party. None of the works above has one. For sources that are not
+party. The rate--distortion function of an unstable Gaussian
+autoregressive source is due to Gray \cite{gray1970} and to Hashimoto
+and Arimoto \cite{hashimoto1980}, whose two forms Gray and Hashimoto
+\cite{grayhashimoto2008} showed to agree, and Tian and Kostina
+\cite{tian2019} give coding theorems with second-order terms for the
+first-order case. None of the works above has the second party. For sources that are not
 Gaussian, the pattern of Theorems~\ref{thm:inner}
 and~\ref{thm:outer}, variance in the upper bound and entropy power in
 the lower, is that of the Shannon lower bound
@@ -1112,7 +1129,9 @@ different $N$ need not be related. The decoder's weight $Q$ and the
 holder's memoryless map $S_t=HT_t+U_t$, with white Gaussian noise of
 covariance $\Sigma_U\succ0$, do not depend on time. A code of
 blocklength $N$ is a code for the vector $T^{(N)}$ in the sense of
-Section~\ref{sec:model}, with private randomness allowed. A pair is
+Section~\ref{sec:model}, with private randomness allowed, so that the
+converse of Theorem~\ref{thm:ls} covers such codes; the codes that
+achieve the region have deterministic encoders. A pair is
 achievable at $D$ when codes of blocklengths $N_j\to\infty$ meet the
 three limits of Section~\ref{sec:model}, and $\mathcal A(D)$ is the
 closure of the set of such pairs. The proofs below give the converse
@@ -2068,6 +2087,318 @@ bounded number of times, with common parties and bounded correlation
 across every cut, has the region $\mathcal R_{\mathrm{mix}}(D)$ when its
 segments have the covariances of the regimes.
 
+\section{Unstable Autoregressive Sources}
+\label{sec:unstable}
+
+Condition (L3) bounds the covariance, and so excludes every source whose
+variance grows without bound. The simplest such sources are
+autoregressive sources with unstable poles. For a scalar source of this
+kind with the memoryless holder in white noise, the region is the
+spectral region of a stationary source moved by a constant: each
+unstable pole costs the logarithm of its modulus in rate, and it costs
+nothing in leakage when the holder observes the source.
+
+Let $d\ge1$, let $\phi_1,\dots,\phi_d$ be real, and let
+\[
+T_t=\sum_{i=1}^d\phi_iT_{t-i}+\xi_t\quad(t\ge1),\qquad T_t=0\quad(t\le0),
+\]
+with $\xi_t$ independent $\mathcal N(0,\sigma^2)$, $\sigma^2>0$. Write
+$\phi(z)=1-\sum_i\phi_iz^i=\prod_{i=1}^d(1-\rho_iz)$, so that
+$\rho_1,\dots,\rho_d$ are the poles, and assume that no pole lies on the
+unit circle. The source is scalar, $Y_t=FT_t$ with $F\ne0$, the weight
+is $W>0$, and $Q=F^2W$. The holder observes $S_t=HT_t+U_t$ with $H\in\R$
+and $U_t$ independent $\mathcal N(0,\sigma_U^2)$, $\sigma_U^2>0$, and
+$J=H^2/\sigma_U^2$. A code of blocklength $N$ acts on $T^N$ as in
+Section~\ref{sec:model}. Let
+\[
+\rho_\star=\sum_{i:\,|\rho_i|>1}\log|\rho_i|,\qquad
+f(\omega)=\frac{\sigma^2}{|\phi(e^{i\omega})|^2},
+\]
+and let $V_f$ and $\mathcal R_f(D)$ be the spectral cost and region of
+Section~\ref{sec:model} for the stationary scalar source with spectral
+density $f$, the weight $Q$, and the holder $(H,\sigma_U^2)$, with
+$\mathcal R_f(D)$ the nonnegative quadrant for
+$D\ge D_{\max}^f=Q\int f\,\dw$. Since
+$|1-\rho e^{i\omega}|=|\rho|\,|1-\overline{\rho}^{\,-1}e^{i\omega}|$, the
+function $f$ is the spectral density of the stable autoregressive process
+whose poles are $\rho_i$ when $|\rho_i|<1$ and $1/\overline{\rho_i}$ when
+$|\rho_i|>1$, driven by noise of variance $\sigma^24^{-\rho_\star}$.
+
+\begin{lemma}\label{lem:separable}
+Let $T$ be a centered Gaussian vector of $n$ scalar symbols with
+covariance $\mathsf S\succ0$ and eigenvalues
+$\lambda_1\ge\dots\ge\lambda_n$, with the weight $Q$ and the holder
+$(H,\sigma_U^2)$ above. For $0<D<\tfrac Qn\tr\mathsf S$,
+\[
+\mathsf V_{\mathsf S}(\alpha,D)=\frac1n\min\Bigl\{\sum_{k=1}^nc_\alpha(\lambda_k,\delta_k):\ 0<\delta_k\le\lambda_k,\ \frac Qn\sum_{k=1}^n\delta_k\le D\Bigr\},
+\qquad
+c_\alpha(\lambda,\delta)=\frac12\log\frac\lambda\delta+\frac{1-\alpha}2\log\frac{1+J\delta}{1+J\lambda}.
+\]
+Here $c_\alpha=\alpha r+(1-\alpha)\ell$ with $r=\tfrac12\log(\lambda/\delta)$
+and $\ell=\tfrac12\log\frac{1/\delta+J}{1/\lambda+J}$, and $0\le\ell\le r$,
+with $\ell=r$ when $H=0$. Both $r$ and $\ell$ are convex in the ratio
+$\delta/\lambda$.
+\end{lemma}
+
+\begin{proof}
+In \eqref{eq:costs}, with $K=\mathsf S$ and the information matrix
+$JI_n$, $\det g(\Delta)=\det\Delta/\det(I+J\Delta)$, so
+\[
+\alpha r(\Delta)+(1-\alpha)\ell(\Delta)=\tfrac12\bigl(\log\det\mathsf S-\log\det\Delta\bigr)+\tfrac{1-\alpha}2\bigl(\log\det(I+J\Delta)-\log\det(I+J\mathsf S)\bigr).
+\]
+This and the constraint $\tfrac Qn\tr\Delta\le D$ depend on $\Delta$ only
+through its eigenvalues $\delta_1\ge\dots\ge\delta_n$. If
+$\Delta\preceq\mathsf S$ then $\delta_k\le\lambda_k$ for every $k$, by the
+Courant--Fischer theorem, and conversely every such sequence is the
+spectrum of $\Psi\,\mathrm{diag}(\delta)\Psi^{\mathsf T}\preceq\mathsf S$,
+where $\Psi$ is orthogonal and $\Psi^{\mathsf T}\mathsf S\Psi$ is
+diagonal. The bounds on $\ell$ follow from $\delta\le\lambda$ and
+$\ell=r+\tfrac12\log\frac{1+J\delta}{1+J\lambda}$. With $x=\delta/\lambda$,
+$r=-\tfrac12\log x$ and $\ell=\tfrac12\log(1/(\lambda x)+J)$ up to a
+constant, and $x\mapsto\ln(a/x+J)$ has second derivative
+$1/x^2-J^2/(a+Jx)^2\ge0$ for $a>0$.
+\end{proof}
+
+\begin{lemma}\label{lem:arspec}
+Let $\lambda_1\ge\dots\ge\lambda_N$ be the eigenvalues of the covariance
+$\Gamma_N$ of $T^N$, and let $m_\phi$ and $M_\phi$ be the minimum and the
+maximum of $|\phi(e^{i\omega})|^2$, so that $0<m_\phi\le M_\phi$.
+\begin{enumerate}
+\item[(a)] $\lambda_k\ge\sigma^2/M_\phi$ for every $k$, and
+$\lambda_k\le\sigma^2/m_\phi$ for $k>d$.
+\item[(b)] The probability measures $\mu_N$ that put mass $1/(N-d)$ on
+each $\lambda_k$ with $k>d$ converge weakly to the law $\mu$ of
+$f(\omega)$ for $\omega$ uniform on $[-\pi,\pi)$.
+\item[(c)] $\frac1{2N}\sum_{k\le d}\log\lambda_k\to\rho_\star$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $A_N$ be the lower triangular $N\times N$ matrix with ones on the
+diagonal and $-\phi_i$ on the $i$th subdiagonal. Then $A_NT^N=\xi^N$, so
+$\Gamma_N=\sigma^2(A_N^{\mathsf T}A_N)^{-1}$ and $\lambda_k=\sigma^2/s_k$,
+where $s_1\le\dots\le s_N$ are the eigenvalues of
+$A_N^{\mathsf T}A_N$. Let $C$ be the $(N+d)\times N$ matrix of the full
+convolution with $(1,-\phi_1,\dots,-\phi_d)$. Its first $N$ rows are
+$A_N$; call its last $d$ rows $R$. Every column of $C$ contains all the
+coefficients, so $C^{\mathsf T}C$ is the Toeplitz matrix
+$T_N(|\phi|^2)$ of the symbol $|\phi(e^{i\omega})|^2$, and
+\[
+A_N^{\mathsf T}A_N=T_N(|\phi|^2)-R^{\mathsf T}R .
+\]
+Let $\tilde s_1\le\dots\le\tilde s_N$ be the eigenvalues of
+$T_N(|\phi|^2)$. They lie in $[m_\phi,M_\phi]$, because
+\[
+x^{\mathsf T}T_N(|\phi|^2)x=\int\Bigl|\sum_tx_te^{it\omega}\Bigr|^2|\phi(e^{i\omega})|^2\,\dw .
+\]
+Since $R^{\mathsf T}R\succeq0$, $s_k\le\tilde s_k$ for every $k$. Since
+its rank is at most $d$, $s_k\ge\tilde s_{k-d}$ for $k>d$: in the
+max-min characterization of $s_k$, take the intersection of the kernel
+of $R$ with a subspace of dimension $N-k+d+1$ that attains
+$\tilde s_{k-d}$. This proves (a).
+
+For (b) let $\psi$ be a bounded Lipschitz function on
+$K=[\sigma^2/M_\phi,\sigma^2/m_\phi]$. Then $x\mapsto\psi(\sigma^2/x)$ is
+Lipschitz on $[m_\phi,M_\phi]$, so it has bounded variation, say $v$,
+and sup norm, say $w$. Each point lies in at most $d$ of the intervals
+$[\tilde s_{k-d},\tilde s_k]$, so
+\[
+\Bigl|\sum_{k>d}\psi(\lambda_k)-\sum_{k=1}^N\psi(\sigma^2/\tilde s_k)\Bigr|\le d\,(v+w).
+\]
+By Szeg\H{o}'s theorem \cite{grenander1958},
+$\tfrac1N\sum_k\psi(\sigma^2/\tilde s_k)\to\int\psi(f)\,\dw$. Hence
+$\int\psi\,d\mu_N\to\int\psi\,d\mu$ for every bounded Lipschitz $\psi$,
+which is weak convergence.
+
+For (c), $\det A_N=1$, so $\sum_k\log s_k=0$. The bound above with
+$\log$ in place of $\psi(\sigma^2/\cdot)$, and Szeg\H{o}'s theorem, give
+$\tfrac1N\sum_{k>d}\log s_k\to\int\log|\phi(e^{i\omega})|^2\dw$, which is
+$2\rho_\star$ by Jensen's formula
+$\int\log|1-\rho e^{i\omega}|\dw=\log\max\{1,|\rho|\}$. So
+$\tfrac1N\sum_{k\le d}\log s_k\to-2\rho_\star$, and $\lambda_k=\sigma^2/s_k$
+gives (c).
+\end{proof}
+
+\begin{theorem}\label{thm:unstable}
+For every $D>0$,
+\[
+\mathcal A(D)=\bigl(\rho_\star,\ \rho_\star\mathbf 1_{\{H=0\}}\bigr)+\mathcal R_f(D),
+\]
+deterministic encoders suffice, and the converse holds also for
+encoders with private randomness.
+\end{theorem}
+
+When the holder observes the source, the region of the unstable source
+is the region of the stationary source with spectral density $f$ moved
+by $\rho_\star$ in rate: every unstable pole is paid for in rate, and
+none in leakage. When $H=0$ the leakage equals the rate and both move.
+At every distortion the rate is at least $\rho_\star$, because the
+variance of the source grows without bound.
+
+With no holder, or at the weight that counts only the rate, the theorem
+gives the rate--distortion function $\rho_\star+R_f(D)$ of an unstable
+Gaussian autoregressive source. This is the form found by Hashimoto
+and Arimoto \cite{hashimoto1980}. Gray \cite{gray1970} gave the
+function in another form, and Gray and Hashimoto
+\cite{grayhashimoto2008} showed that the two agree. For first-order
+sources Tian and Kostina \cite{tian2019} prove coding theorems with
+second-order terms. What is new here is the second cost.
+
+\begin{proof}
+\emph{Converse.} Let a code of blocklength $N$, with or without private
+randomness, have distortion $D_N$. Section~\ref{sec:model} and
+Lemma~\ref{lem:separable} give
+$\alpha R_N+(1-\alpha)L_N\ge\tfrac1N\sum_kc_\alpha(\lambda_k,\delta_k)$
+for some $\delta$ with $0<\delta_k\le\lambda_k$ and
+$\tfrac QN\sum_k\delta_k\le D_N$; when $D_N\ge\tfrac QN\tr\Gamma_N$ take
+$\delta=\lambda$, for which the sum is zero. Let
+$\bar\alpha=\alpha+(1-\alpha)\mathbf 1_{\{H=0\}}$. For $k\le d$,
+$c_\alpha(\lambda_k,\delta_k)\ge\bar\alpha\,r$ by Lemma~\ref{lem:separable},
+and $\delta_k\le ND_N/Q$, so
+\[
+\frac1N\sum_{k\le d}c_\alpha(\lambda_k,\delta_k)\ \ge\ \bar\alpha\Bigl[\frac1{2N}\sum_{k\le d}\log\lambda_k-\frac d{2N}\log\frac{ND_N}Q\Bigr].
+\]
+Replace the ratios $\delta_k/\lambda_k$, $k>d$, by their averages over
+equal eigenvalues, which keeps the distortion and, by convexity, does
+not raise the cost. The terms with $k>d$ are then those of a field on
+$K$ for the measure $\mu_N$ in the program of item~(v) of
+Section~\ref{sec:model}, with the data $\tilde Q=Q\lambda$,
+$\tilde H=H\lambda^{1/2}$, and $\sigma_U^2$, whose point costs are $r$
+and $\ell$. So these terms are at least
+$\tfrac{N-d}NV_{\mu_N}(\alpha,\tfrac N{N-d}D_N)$.
+
+Let $(R,L)$ be achievable at $D$, and let $D'>D$, with
+$D'<D_{\max}^f$ if $D<D_{\max}^f$. For large $N$ the codes have
+$\tfrac N{N-d}D_N\le D'$, and $V_{\mu_N}(\alpha,\cdot)$ is nonincreasing,
+so by Lemma~\ref{lem:arspec}(c)
+\[
+\alpha R+(1-\alpha)L\ \ge\ \bar\alpha\rho_\star+\liminf_NV_{\mu_N}(\alpha,D').
+\]
+If $D'<D_{\max}^f=\int\tilde Q\,d\mu$, item~(v) and
+Lemma~\ref{lem:arspec}(b) give $V_{\mu_N}(\alpha,D')\to V_\mu(\alpha,D')$.
+And $V_\mu=V_f$: a field on $K$ gives the field $X(f(\omega))$ on the
+frequencies with the same cost, and the minimizing field of the
+spectral program solves the tilted water-filling equation at every
+frequency with one level (item~(v) on the circle), so it is a function
+of $f(\omega)$. Letting $D'\downarrow D$ and using the continuity of
+$V_f(\alpha,\cdot)$, $\alpha R+(1-\alpha)L\ge\bar\alpha\rho_\star+V_f(\alpha,D)$
+for every $\alpha$, which is the statement, since $\bar\alpha\rho_\star$ is
+the support value of the point $(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})$.
+If $D\ge D_{\max}^f$ the same holds with $V_f=0$, because
+$V_{\mu_N}\ge0$.
+
+\emph{Achievability.} Let $\Psi_N$ be orthogonal with
+$\Psi_N^{\mathsf T}\Gamma_N\Psi_N=\mathrm{diag}(\lambda_1,\dots,\lambda_N)$,
+and $Z=\Psi_N^{\mathsf T}T^N$. The components $Z_k$ are independent
+$\mathcal N(0,\lambda_k)$, and $\Psi_N^{\mathsf T}S^N=HZ+\tilde U$, where
+$\tilde U=\Psi_N^{\mathsf T}U^N$ has independent $\mathcal N(0,\sigma_U^2)$
+components. A code that maps $Z$ to a message and reproduces $\hat Z$
+gives the reproduction $F\Psi_N\hat Z$, with distortion
+$\tfrac QN\E\|Z-\hat Z\|^2$ and leakage
+$\tfrac1NH(M\mid HZ+\tilde U)$. So it suffices to code independent
+components, each seen by the holder through $H$ in independent noise.
+The codes below are combined by the tuple of their messages: the rate
+and the distortion add, and the leakage is at most the sum, because
+$H(M\mid S)\le\sum_jH(M_j\mid S)\le\sum_jH(M_j\mid S_j)$ when $S_j$ is
+the part of the holder's view that concerns the components of the
+$j$th code. All encoders are deterministic.
+
+\emph{The first $d$ components.} For $k\le d$ let
+$c_k=(2\ln(2+N\lambda_k))^{1/2}\ge1$, quantize $Z_k$ with cells of width
+one on $[-c_k\sqrt{\lambda_k},c_k\sqrt{\lambda_k}]$, send values outside
+to the end cells, and reproduce the midpoint of the cell. Inside the
+range the error is at most $\tfrac12$, and outside it is at most $|Z_k|$.
+For a standard Gaussian $G$ and $c\ge1$,
+$\E[G^2\mathbf 1_{\{|G|>c\}}]\le(c+1)e^{-c^2/2}$, so
+$\E(Z_k-\hat Z_k)^2\le\tfrac14+(c_k+1)/N$. By
+Lemma~\ref{lem:arspec}(a) and~(c), each $\log\lambda_k$ is $O(N)$, so
+$c_k=O(\sqrt N)$, and these components add $o(1)$ to the distortion per
+symbol. They use at most $2c_k\sqrt{\lambda_k}+2$ cells, so their rate
+per symbol is at most
+$\tfrac1N\sum_{k\le d}\bigl[\tfrac12\log\lambda_k+\log(2c_k+2/\sqrt{\lambda_k})\bigr]$,
+which tends to $\rho_\star$ by Lemma~\ref{lem:arspec}. Their leakage is
+at most their rate. When $H\ne0$ it is $o(1)$. Let $I_k$ be the index
+of $Z_k$ and $I'_k$ the index that the same quantizer gives to
+$\check Z_k=\E[Z_k\mid HZ_k+\tilde U_k]$. Then
+$H(I_k\mid HZ_k+\tilde U_k)\le H(I_k-I'_k)$ and
+$|I_k-I'_k|\le|Z_k-\check Z_k|+1$, whose mean is at most
+$m=\sigma_U/|H|+1$, because the conditional variance of $Z_k$ is at most
+$\sigma_U^2/H^2$. An integer $E$ with $\E|E|\le m$ has
+$H(E)\le1+\log(1+m)+\log e$: the sign costs one bit, and Gibbs'
+inequality against the geometric law with mean $m$ gives
+$H(|E|)\le\log(1+m)+m\log(1+1/m)$. So the leakage of the first $d$
+components is $O(1)$ bits in all.
+
+\emph{The other components.} There are $N-d$ of them, their variances
+lie in $K$, and their law $\mu_N$ tends to $\mu$
+(Lemma~\ref{lem:arspec}). Fix $\kappa>0$ and points
+$v_0<v_1<\dots<v_B$ with $v_0=\sigma^2/M_\phi$, $v_B>\sigma^2/m_\phi$,
+$v_i\le(1+\kappa)v_{i-1}$, and $\mu(\{v_i\})=0$, which is possible because
+$\mu$ has at most countably many atoms. Bin $i$ holds the components with
+$\lambda_k\in[v_{i-1},v_i)$, and its share of the $N$ symbols tends to
+$w_i=\mu([v_{i-1},v_i))$. For each $i$ with $w_i>0$ take a code of
+blocklength $n_0$ with a deterministic encoder for the white Gaussian
+source of variance $v_{i-1}$ with the holder, near a point of its
+region $\mathcal R_{v_{i-1}}(D_i)$, by item~(i) of
+Section~\ref{sec:model} for a constant spectrum, and apply
+Lemma~\ref{lem:seeds} to the groups of $n_0$ consecutive components of
+the bin, with $\mathsf S'=v_{i-1}I$ and $\mathsf S_j$ diagonal with
+entries in $[v_{i-1},(1+\kappa)v_{i-1})$. The number of groups tends to
+infinity, and the lemma adds at most $\epsilon_Q=Q\kappa v_B$ to the
+distortion and $\epsilon_J=J\kappa v_B/(2\ln2)$ to the leakage, besides
+an arbitrary $\delta>0$. The remainders of fewer than $n_0$ components,
+and the bins with $w_i=0$, are reproduced as zero, which costs
+distortion at most $Qv_B$ times their share, a share that tends to
+zero. As in the proof of Proposition~\ref{prop:regimes}, every pair of
+\[
+\mathcal B_\kappa(D'')=\text{closure of }\bigcup\Bigl\{\sum_iw_i\mathcal R_{v_{i-1}}(D_i):\ \sum_iw_iD_i\le D''\Bigr\}
+\]
+is achievable by these components at distortion
+$D''+\epsilon_Q+2\delta$, with the rate raised by $\delta$ and the
+leakage by $\epsilon_J+2\delta$.
+The set $\mathcal B_\kappa(D'')$ is closed, convex, and upward closed,
+and its support value at $(\alpha,1-\alpha)$ is $V_{\mu_\kappa}(\alpha,D'')$
+for the measure $\mu_\kappa$ with mass $w_i$ at $v_{i-1}$. For
+$v\le\lambda<(1+\kappa)v$ and a fixed ratio $x=\delta/\lambda$, the rate
+$r$ does not depend on $\lambda$, the distortion $Qvx$ is smaller, and
+the leakage satisfies $\ell(v,x)\le\ell(\lambda,x)+\tfrac12\log(1+\kappa)$,
+because its derivative in $\lambda$ lies in $[-1/(2\lambda\ln2),0]$.
+Moving each variance to the left end of its bin, and then replacing
+the ratios in a bin by their $\mu$-average, which by convexity does not
+raise the cost, gives
+$V_{\mu_\kappa}(\alpha,D'')\le V_\mu(\alpha,D'')+\tfrac12\log(1+\kappa)$.
+
+Now let $0<D<D_{\max}^f$, $(R,L)\in\mathcal R_f(D)$, and $\gamma>0$. The
+function $V_\mu(\alpha,\cdot)=V_f(\alpha,\cdot)$ is convex and
+nonincreasing, and $V_\mu(\alpha,D/2)\le V_\mu(1,D/2)$ because
+$\ell\le r$, so its slopes on $[\tfrac34D,D]$ are bounded uniformly in
+$\alpha$. Choose $D''<D$ with $V_\mu(\alpha,D'')\le V_\mu(\alpha,D)+\gamma/2$
+for every $\alpha$, then $\kappa$ with $\tfrac12\log(1+\kappa)\le\gamma/2$
+and $\epsilon_Q+2\delta<D-D''$. Then
+$\alpha(R+\gamma)+(1-\alpha)(L+\gamma)\ge V_\mu(\alpha,D)+\gamma\ge V_{\mu_\kappa}(\alpha,D'')$
+for every $\alpha$, so $(R+\gamma,L+\gamma)\in\mathcal B_\kappa(D'')$, by
+the description of such sets through their supporting half-planes
+\cite[proof of Theorem~16]{part2}. Together with the first $d$
+components, the pair
+$(\rho_\star+R+\gamma+\delta+o(1),\ \rho_\star\mathbf 1_{\{H=0\}}+L+\gamma+\epsilon_J+2\delta+o(1))$
+is achieved at a distortion that is eventually below $D$. Since
+$\gamma$, $\kappa$, and $\delta$ are arbitrary,
+$(\rho_\star+R,\rho_\star\mathbf 1_{\{H=0\}}+L)\in\mathcal A(D)$. For
+$D\ge D_{\max}^f$, reproduce all the other components as zero. Their
+distortion per symbol is $\tfrac{N-d}N\int\tilde Q\,d\mu_N\to D_{\max}^f$,
+and the rate and the leakage tend to $(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})$.
+\end{proof}
+
+The proof codes one window in the eigenbasis of its covariance. That is
+possible because Lemma~\ref{lem:arspec} separates the growth of the
+source into $d$ eigenvalues, which are described one at a time, from a
+bulk whose law is that of a stationary source. The holder sees each of
+the $d$ growing components with an error of bounded variance, so their
+descriptions tell it $O(1)$ bits per window. When the poles are inside
+the unit circle the theorem gives the spectral region of the stationary
+source with density $f$, which is the region of item~(i) for the
+stationary autoregressive source, approached from a zero initial state.
+
 \section{Open Problems}
 \label{sec:open}
 
@@ -2093,8 +2424,15 @@ the scale of single symbols without a period, such as a
 cyclostationary process sampled at a rate incommensurate with its
 cycle \cite{abakasanga2020}. Neither proof applies to them.
 
-\textbf{Unstable sources.} Condition (L3) bounds the covariance.
-Autoregressive sources with unstable poles are excluded.
+\textbf{Unstable vector sources.} Theorem~\ref{thm:unstable} is for a
+scalar autoregressive source and a holder that observes each symbol
+through one gain in white noise. Then the covariance, the weight, and
+the holder's information commute, and the problem separates over the
+eigenvalues of the covariance. For a vector source, or a holder with
+memory, they do not commute, and the components that carry the growth
+need not separate from the rest. Poles on the unit circle, as for a
+random walk, are also excluded, and so are unstable sources whose
+spectrum varies in time.
 
 \textbf{Processes that are not Gaussian and have infinite
 dependence.} Theorem~\ref{thm:procinner} is for finite dependence. A
@@ -2125,8 +2463,8 @@ repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
 \texttt{paper/tit-beyond-stationary}. The files that go with this
 version of the manuscript are fixed by the tag
-\texttt{tit-beyond-stationary-1.1}, at
-\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.1/paper/tit-beyond-stationary}.
+\texttt{tit-beyond-stationary-1.2}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.2/paper/tit-beyond-stationary}.
 They use the solver \texttt{spectral\_core.py} of \cite{part2}. No proof
 depends on them. The notebook \texttt{reproduce.ipynb} reruns all of
 them and the example, and its executed copy
@@ -2151,8 +2489,9 @@ Theorem~\ref{thm:outer}, is formalized for matrices in
 \cite{part1}. Not formalized: every coding theorem, every statement
 about entropy or mutual information, the limit arguments, the block
 comparison of Lemma~\ref{lem:blocks}, the probabilistic step of
-Lemma~\ref{lem:seeds}, and the harmonic identity of
-Proposition~\ref{prop:harmonic}. The build and the axiom audit are
+Lemma~\ref{lem:seeds}, the harmonic identity of
+Proposition~\ref{prop:harmonic}, and Lemmas~\ref{lem:separable}
+and~\ref{lem:arspec}. The build and the axiom audit are
 recorded in \texttt{lean-beyond-2026-11-16.txt} and
 \texttt{lean-library-2026-11-16.txt}.
 
@@ -2221,9 +2560,31 @@ under one level to $10^{-15}$ (Proposition~\ref{prop:regimes}). The
 inequality of Theorem~\ref{thm:averaged} holds on $60$ cases with $q$
 up to four, and the smallest saving is $1.2\times10^{-3}$ bits.
 
+\texttt{verify\_unstable.py} takes four autoregressive sources: one
+unstable pole of modulus $1.5$; an unstable pole of modulus $1.3$ with a
+stable one; two unstable real poles of moduli $1.2$ and $1.4$; and an
+unstable complex pair of modulus $1.15$. At $N=40$, $80$, $160$, and
+$320$ the eigenvalues of $A_N^{\mathsf T}A_N$ with index above $d$ lie in
+$[m_\phi,M_\phi]$ (Lemma~\ref{lem:arspec}(a)), and from $N=80$ on the
+smallest ones, one for each unstable pole, are below $10^{-3}$ times the
+next. The log-sum of the growing eigenvalues, divided by $2N$, differs
+from $\rho_\star$ by amounts that halve when $N$ doubles, down to at most
+$9\times10^{-3}$ bits at $N=320$ (Lemma~\ref{lem:arspec}(c)). That log-sum
+is taken from $\det\Gamma_N=\sigma^{2N}$, as in the proof, because the
+growing eigenvalues can differ by more than double precision resolves;
+at $N=60$ it agrees with a computation at $80$ digits to
+$5\times10^{-15}$. The window cost of the vector problem differs from
+$\bar\alpha\rho_\star+V_f(\alpha,D)$, at three weights, two distortions,
+and $H\in\{0,1\}$, by amounts that halve when $N$ doubles, down to at
+most $3\times10^{-3}$ bits at $N=320$ (Theorem~\ref{thm:unstable}).
+Error covariances sampled in the feasible set have sorted eigenvalues
+below those of the source covariance, the fact behind
+Lemma~\ref{lem:separable}.
+
 Not checked numerically: Proposition~\ref{prop:coding},
 Theorems~\ref{thm:procouter} and~\ref{thm:procinner}, and the
-operational statements of Theorems~\ref{thm:ls} and~\ref{thm:cyclo},
+operational statements of Theorems~\ref{thm:ls}, \ref{thm:cyclo},
+and~\ref{thm:unstable},
 which are coding theorems, and Lemma~\ref{lem:seeds}, which is an
 existence statement. The checks cover the single-letter and spectral
 quantities they rest on. Table~\ref{tab:checks} lists what each check
@@ -2254,6 +2615,9 @@ Corollary~\ref{cor:blocking} & \texttt{blocking} & stacked cost of a stationary 
 Theorem~\ref{thm:cyclo}(c),(d) & \texttt{phase\_shift}, \texttt{window\_converse}, \texttt{window\_any\_N} & stacked, window costs\\
 Theorem~\ref{thm:averaged} & \texttt{averaged\_spectrum} & cost of the phase-averaged spectrum\\
 Proposition~\ref{prop:regimes} & \texttt{regimes} & joint window problem against the allocation\\
+Lemma~\ref{lem:separable} & \texttt{feasible\_spectra\_dominated} & spectra of feasible error covariances\\
+Lemma~\ref{lem:arspec} & \texttt{eigen\_split}, \texttt{outlier\_logsum}, \texttt{bulk\_law}, \texttt{mp\_check} & eigenvalues of the window covariance\\
+Theorem~\ref{thm:unstable} & \texttt{cost\_limit} & window cost against $\bar\alpha\rho_\star+V_f$\\
 \hline
 \end{tabular}
 \end{table}
@@ -2330,6 +2694,27 @@ T. Weissman, ``Worst-case source for distributed compression with
 quadratic distortion,'' in \emph{Proc. IEEE Inf. Theory Workshop (ITW)},
 2012, arXiv:1208.1784.
 % arXiv abstract page read. verify pages on final.
+\bibitem{gray1970} R. M. Gray, ``Information rates of autoregressive
+processes,'' \emph{IEEE Trans. Inf. Theory}, vol.~16, no.~4,
+pp.~412--421, Jul. 1970.
+% IEEE metadata and Gray's publication list agree. Full text not read.
+\bibitem{hashimoto1980} T. Hashimoto and S. Arimoto, ``On the
+rate-distortion function for the nonstationary Gaussian autoregressive
+process,'' \emph{IEEE Trans. Inf. Theory}, vol.~26, no.~4,
+pp.~478--480, Jul. 1980.
+% IEEE metadata read. Full text not read.
+\bibitem{grayhashimoto2008} R. M. Gray and T. Hashimoto, ``A note on
+rate-distortion functions for nonstationary Gaussian autoregressive
+processes,'' \emph{IEEE Trans. Inf. Theory}, vol.~54, no.~3,
+pp.~1319--1322, Mar. 2008.
+% IEEE metadata and arXiv cs/0702150 abstract read. Full text not read.
+\bibitem{tian2019} P. Tian and V. Kostina, ``From parameter estimation
+to dispersion of nonstationary Gauss--Markov processes,''
+arXiv:1907.00304, 2019.
+% arXiv listing read. verify the published venue on final.
+\bibitem{grenander1958} U. Grenander and G. Szeg\H{o}, \emph{Toeplitz
+Forms and Their Applications}. Berkeley, CA: Univ. of California Press,
+1958.
 \end{thebibliography}
 
 \end{document}
