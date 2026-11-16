@@ -41,8 +41,9 @@ maximum-entropy bounds for the two costs together (Theorems 2 and 3).
 | Theorem 22 | The stationary source with the phase-averaged spectrum has a region no larger (time-invariant parties) | Corollary 6 |
 | Proposition 23 | Independent stationary regimes share one water level | Lemma 10, paper two's Theorem 15 |
 | **Theorem 26** | **Unstable scalar autoregressive source: the region is the spectral region of the reflected stationary source moved by the sum of log moduli of the unstable poles in rate, and in leakage only when the holder does not observe the source; deterministic encoders** | Lemmas 24, 25, 12; paper two's Lemma 2 and Theorem 16 |
-| Lemma 24 | For a scalar source with a scalar holder gain and white noise, the vector cost separates over the eigenvalues of the covariance | Courant-Fischer |
-| Lemma 25 | The window covariance of an unstable AR source has d eigenvalues that carry the growth (log-sum 2N times the instability rate) and a bulk with the law of the reflected spectrum | Rank-d interlacing, Szego, Jensen's formula |
+| Lemma 24 | For a scalar source with a scalar holder gain and white noise, the vector cost separates over the eigenvalues of the covariance, and one allocation, delta = min(lambda, theta), is optimal at every weight, so the region is a single quadrant | Courant-Fischer, an exchange argument |
+| Lemma 25 | The window covariance of an unstable AR source has at most d exceptional eigenvalues, whose log-sum is 2N times the instability rate (not all of them need grow), and a bulk with the law of the reflected spectrum | Rank-d interlacing, Szego, Jensen's formula |
+| Corollary 27 | In the setting of Theorem 26 the region is the quadrant above (instability rate + R_f(D), instability rate x [H=0] + L_f(D)), with R_f the rate-distortion function by reverse water-filling; there is no rate-leakage trade-off in this scalar model | Lemma 24 |
 | Proposition 1 | Coding theorem for any memoryless pair with finite second moments and finite I(T;S) | Proof of paper one's Theorem 3 |
 | Theorem 2 | The Gaussian region with the same second moments is achievable for a source that is not Gaussian | Gaussian test channel on the source as it is |
 | Theorem 3 | Every code is bounded below by the Gaussian frontier less two relative entropies | Maximum entropy, concavity of the linear-estimation error |
@@ -84,20 +85,20 @@ this class.
 
 | File | What it is |
 |---|---|
-| `tit-beyond-stationary.tex`, `.pdf` | The draft, 27 pages |
+| `tit-beyond-stationary.tex`, `.pdf` | The draft, 28 pages |
 | `example_ls.py`, `example_ls.json`, `fig_ls.pdf`, `fig_ls.png` | The worked example after Proposition 15 and its figure (needs matplotlib) |
 | `verify_nongauss.py`, `.json` | Seven checks of Section III on a Gaussian-mixture source (about one minute) |
 | `verify_ls.py`, `.json` | Seven checks of Sections V and VI on a time-varying moving average (about ten minutes) |
 | `build_notebook.py`, `reproduce.ipynb`, `reproduce-executed-2026-11-16.ipynb` | The notebook that reruns everything, and one executed copy |
 | `lean-beyond-2026-11-16.txt`, `lean-library-2026-11-16.txt` | Lean build records and axiom audit |
 | `verify_cyclo.py`, `.json` | Seven checks of Sections VII and VIII on periodic moving averages (about eleven minutes) |
-| `verify_unstable.py`, `.json` | Checks of Section IX on four unstable AR sources: eigenvalue split, log-sum of the growing eigenvalues, bulk law, window cost against the theorem's limit, and a high-precision check of the determinant identity (about twenty seconds; needs scipy and mpmath) |
+| `verify_unstable.py`, `.json` | Checks of Section IX on four unstable AR sources: eigenvalue split, log-sum of the growing eigenvalues, bulk law, window cost against the theorem's limit, the common optimizer of Lemma 24 and Corollary 27, and a high-precision check of the determinant identity (about twenty seconds; needs scipy and mpmath) |
 
 The scripts import `spectral_core.py` and `verify_spectral.py` from
 `../tit-stationary/`. Run them from this folder. numpy only (numpy 2.5.2,
 Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 7 of 7 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
 
-On 2026-11-16 `verify_unstable.py` passed every check, run on the Atlas workstation (numpy 2.4.4, scipy, mpmath). Its first full run failed on the two sources with poles of different moduli, for a numerical reason: it took the growing eigenvalues from the covariance in double precision, which cannot resolve two eigenvalues that grow at different rates (at N = 320 their ratio is about 10^43). It now takes their log-sum from det(Gamma_N) = sigma^(2N), the identity the proof uses, and checks that identity against an 80-digit computation. Its pass criteria were also changed after that first run had been seen, from fixed tolerances to the rate the proofs predict (N times the error must not grow from N = 40 to N = 320). One failure of the first run, the bulk-law check on the complex-pole source, came from a bug in the check: it averaged the bulk eigenvalues over N instead of N - d. With the average over N - d the error is 0.016 at N = 320 and halves with each doubling of N. The recorded errors are in `verify_unstable.json`. `reproduce.ipynb` does not yet run this script.
+On 2026-11-16 `verify_unstable.py` passed every check, run on the Atlas workstation (numpy 2.4.4, scipy, mpmath). Its first full run failed on the two sources with poles of different moduli, for a numerical reason: it took the growing eigenvalues from the covariance in double precision, which cannot resolve two eigenvalues that grow at different rates (at N = 320 their ratio is about 10^43). It now takes their log-sum from det(Gamma_N) = sigma^(2N), the identity the proof uses, and checks that identity against an 80-digit computation. Its pass criteria were also changed after that first run had been seen, from fixed tolerances to the rate the proofs predict (N times the error must not grow from N = 40 to N = 320). One failure of the first run, the bulk-law check on the complex-pole source, came from a bug in the check: it averaged the bulk eigenvalues over N instead of N - d. With the average over N - d the error is 0.016 at N = 320 and halves with each doubling of N. The recorded errors are in `verify_unstable.json`. A later check, `common_optimizer`, was added with its tolerance (10^-6 bits) written before it ran; the largest difference was 4e-16 bits. `reproduce.ipynb` does not yet run this script.
 
 Build: `pdflatex tit-beyond-stationary.tex` three times.
 
@@ -216,7 +217,7 @@ of relative entropy was not looked up.
 ## Open items before submission
 
 - [ ] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first.
-- [ ] A human reads Section IX (Lemmas 24, 25 and Theorem 26), new on 2026-11-16.
+- [ ] A human reads Section IX (Lemmas 24, 25, Theorem 26 and Corollary 27), new on 2026-11-16.
 - [ ] Verify the published venue of Tian and Kostina (cited by arXiv number), and read Gray 1970 and Hashimoto-Arimoto 1980 to confirm the form of the rate term quoted after Theorem 26.
 - [ ] Read Hammerich 2016 and Dahlhaus 1996 in full, and locate the
       Velloso and Santos Filho paper named above.

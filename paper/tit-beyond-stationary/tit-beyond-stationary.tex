@@ -55,13 +55,13 @@ that of a stationary process with a spectrum that varies slowly in
 time: it is water-filling over the time--frequency plane under one
 water level. This holds for a fixed memoryless observation in white
 noise, with deterministic encoders. For a cyclostationary source,
-frequencies that differ by a multiple of the cycle frequency are
-coupled and share one level. Averaging the spectrum over time never
-lowers the cost. For a Gaussian autoregressive source with unstable
-poles, each pole costs the logarithm of its modulus in rate, and
-nothing in leakage when the second party observes the source. For a
-source that is
-not Gaussian, the Gaussian region with the same second moments is
+frequencies a multiple of the cycle frequency apart are coupled and
+share one level. Averaging the spectrum over time never
+lowers the cost. For a scalar Gaussian autoregressive source with
+unstable poles, observed by the second party through a fixed nonzero
+gain in white noise, each unstable pole costs the logarithm of its
+modulus in rate and nothing in leakage. For a memoryless source that
+is not Gaussian, the Gaussian region with the same second moments is
 achievable, so the Gaussian source is the worst case for both costs.
 Every code is bounded below by the Gaussian frontier less two
 relative entropies, and this lower bound is asymptotically tight as
@@ -179,10 +179,13 @@ For a scalar source of this kind with the memoryless holder, the region
 is the spectral region of a stationary source moved by
 $\sum\log|\rho_i|$ over the unstable poles $\rho_i$ in rate, and in
 leakage only when the holder does not observe the source
-(Theorem~\ref{thm:unstable}). The growth is carried by as many
-eigenvalues of the covariance as the order of the source, the holder
-sees those components with bounded error, and so their description
-costs rate but tells the holder little.
+(Theorem~\ref{thm:unstable}). At most as many eigenvalues of the
+covariance as the order of the source are exceptional, and their
+log-sum carries the growth. The holder sees those components with
+bounded error, so their description costs rate but tells the holder
+little. In this scalar model one allocation of the distortion is
+optimal for both costs, and the region is a single quadrant
+(Corollary~\ref{cor:quadrant}).
 
 \textbf{Results for sources that are not Gaussian.} For a memoryless
 source the Gaussian region with the same second moments is achievable
@@ -2137,7 +2140,13 @@ c_\alpha(\lambda,\delta)=\frac12\log\frac\lambda\delta+\frac{1-\alpha}2\log\frac
 Here $c_\alpha=\alpha r+(1-\alpha)\ell$ with $r=\tfrac12\log(\lambda/\delta)$
 and $\ell=\tfrac12\log\frac{1/\delta+J}{1/\lambda+J}$, and $0\le\ell\le r$,
 with $\ell=r$ when $H=0$. Both $r$ and $\ell$ are convex in the ratio
-$\delta/\lambda$.
+$\delta/\lambda$. For every $\alpha$ the minimum is attained at the same
+allocation
+\[
+\delta_k=\min\{\lambda_k,\theta\},\qquad\text{where }\theta>0\text{ solves }\ \frac Qn\sum_k\min\{\lambda_k,\theta\}=D,
+\]
+so the region of the vector problem is the quadrant above the rate and
+the leakage per symbol of this allocation.
 \end{lemma}
 
 \begin{proof}
@@ -2157,6 +2166,26 @@ $\ell=r+\tfrac12\log\frac{1+J\delta}{1+J\lambda}$. With $x=\delta/\lambda$,
 $r=-\tfrac12\log x$ and $\ell=\tfrac12\log(1/(\lambda x)+J)$ up to a
 constant, and $x\mapsto\ln(a/x+J)$ has second derivative
 $1/x^2-J^2/(a+Jx)^2\ge0$ for $a>0$.
+
+For the common minimizer: up to terms that do not depend on $\delta$, the
+objective is $\sum_k\varphi_\alpha(\delta_k)$ with
+$\varphi_\alpha(\delta)=-\tfrac12\log\delta+\tfrac{1-\alpha}2\log(1+J\delta)$,
+the same function for every $k$. It is strictly decreasing and strictly
+convex: $2\ln2\,\varphi_\alpha'(\delta)=-1/\delta+(1-\alpha)J/(1+J\delta)<0$
+and $2\ln2\,\varphi_\alpha''(\delta)=1/\delta^2-(1-\alpha)J^2/(1+J\delta)^2>0$.
+A minimizer exists, because $\varphi_\alpha\to\infty$ as $\delta\to0$. It
+uses the whole budget, since otherwise some $\delta_k<\lambda_k$ could be
+raised. If $\delta_i<\min\{\lambda_i,\theta\}$ for some $i$, then, the
+budgets being equal, $\delta_j>\min\{\lambda_j,\theta\}$ for some $j$, so
+$\delta_j>\theta$ because $\delta_j\le\lambda_j$. Moving a small amount
+from $\delta_j$ to $\delta_i$ keeps the allocation feasible and lowers the
+objective, because $\varphi_\alpha'(\delta_i)<\varphi_\alpha'(\delta_j)$.
+So $\delta_k\ge\min\{\lambda_k,\theta\}$ for every $k$, with equal sums,
+and equality holds throughout. The allocation does not depend on
+$\alpha$, so $\mathsf V_{\mathsf S}(\alpha,D)=\alpha\bar r+(1-\alpha)\bar\ell$
+for the rate $\bar r$ and the leakage $\bar\ell$ per symbol of this
+allocation, and the region, the set of pairs above every such line, is
+the quadrant above $(\bar r,\bar\ell)$.
 \end{proof}
 
 \begin{lemma}\label{lem:arspec}
@@ -2333,10 +2362,15 @@ components is $O(1)$ bits in all.
 lie in $K$, and their law $\mu_N$ tends to $\mu$
 (Lemma~\ref{lem:arspec}). Fix $\kappa>0$ and points
 $v_0<v_1<\dots<v_B$ with $v_0=\sigma^2/M_\phi$, $v_B>\sigma^2/m_\phi$,
-$v_i\le(1+\kappa)v_{i-1}$, and $\mu(\{v_i\})=0$, which is possible because
-$\mu$ has at most countably many atoms. Bin $i$ holds the components with
+$v_i\le(1+\kappa)v_{i-1}$, and $\mu(\{v_i\})=0$ for $0<i<B$, which is
+possible because $\mu$ has at most countably many atoms. No condition is
+needed at $v_0$, which may carry an atom (when $f$ is constant, $\mu$ is
+a point mass there). Bin $i$ holds the components with
 $\lambda_k\in[v_{i-1},v_i)$, and its share of the $N$ symbols tends to
-$w_i=\mu([v_{i-1},v_i))$. For each $i$ with $w_i>0$ take a code of
+$w_i=\mu([v_{i-1},v_i))$ by the weak convergence: $\mu_N$ and $\mu$ live
+on $K$, which begins at $v_0$ and ends before $v_B$, so on $K$ the bins
+are intervals whose only boundary points are interior points $v_i$,
+which carry no mass. For each $i$ with $w_i>0$ take a code of
 blocklength $n_0$ with a deterministic encoder for the white Gaussian
 source of variance $v_{i-1}$ with the holder, near a point of its
 region $\mathcal R_{v_{i-1}}(D_i)$, by item~(i) of
@@ -2390,14 +2424,50 @@ and the rate and the leakage tend to $(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})
 \end{proof}
 
 The proof codes one window in the eigenbasis of its covariance. That is
-possible because Lemma~\ref{lem:arspec} separates the growth of the
-source into $d$ eigenvalues, which are described one at a time, from a
-bulk whose law is that of a stationary source. The holder sees each of
-the $d$ growing components with an error of bounded variance, so their
-descriptions tell it $O(1)$ bits per window. When the poles are inside
+possible because Lemma~\ref{lem:arspec} separates at most $d$
+exceptional eigenvalues, whose log-sum carries the growth of the source
+and which are described one at a time, from a bulk whose law is that
+of a stationary source. Not every exceptional eigenvalue need grow: in
+the check of Appendix~\ref{app:numver} with one stable and one unstable
+pole, only one of the two does. The
+holder sees each exceptional component with an error of bounded
+variance, so their descriptions tell it $O(1)$ bits per window. When the poles are inside
 the unit circle the theorem gives the spectral region of the stationary
 source with density $f$, which is the region of item~(i) for the
 stationary autoregressive source, approached from a zero initial state.
+
+\begin{corollary}\label{cor:quadrant}
+For $0<D<D_{\max}^f$ let $\theta>0$ solve $Q\int\min\{f,\theta\}\,\dw=D$,
+and let
+\[
+R_f(D)=\int\frac12\log\frac f{\min\{f,\theta\}}\,\dw,\qquad
+L_f(D)=\int\frac12\log\frac{1/\min\{f,\theta\}+J}{1/f+J}\,\dw,
+\]
+with $R_f(D)=L_f(D)=0$ for $D\ge D_{\max}^f$. Then $\mathcal A(D)$ is the
+quadrant above
+$\bigl(\rho_\star+R_f(D),\ \rho_\star\mathbf 1_{\{H=0\}}+L_f(D)\bigr)$.
+\end{corollary}
+
+\begin{proof}
+In the program for $V_f=V_\mu$, the argument at the end of the proof of
+Lemma~\ref{lem:separable}, with integrals in place of sums, shows that
+for every $\alpha$ the minimizing field is $\delta(\lambda)=\min\{\lambda,\theta\}$.
+So $V_f(\alpha,D)=\alpha R_f(D)+(1-\alpha)L_f(D)$, $\mathcal R_f(D)$ is the
+quadrant above $(R_f(D),L_f(D))$, and Theorem~\ref{thm:unstable} moves it
+by $(\rho_\star,\rho_\star\mathbf 1_{\{H=0\}})$.
+\end{proof}
+
+$R_f$ is the rate--distortion function of the stationary source with
+spectral density $f$, by reverse water-filling, and $\rho_\star+R_f(D)$
+is that of the unstable source. In this scalar model there is no
+trade-off between rate and leakage. The tilted water-filling of
+\cite{part1,part2}, with its frontier of pairs, needs components that
+differ in how the holder sees them or in how the decoder weighs them:
+across frequencies for a holder with memory, or across directions for a
+vector source. Here every component is seen through the same gain in
+the same noise and weighed by the same $Q$, so the cost of each
+component is the same function of its error variance, and one
+allocation minimizes both costs.
 
 \section{Open Problems}
 \label{sec:open}
@@ -2579,7 +2649,11 @@ and $H\in\{0,1\}$, by amounts that halve when $N$ doubles, down to at
 most $3\times10^{-3}$ bits at $N=320$ (Theorem~\ref{thm:unstable}).
 Error covariances sampled in the feasible set have sorted eigenvalues
 below those of the source covariance, the fact behind
-Lemma~\ref{lem:separable}.
+Lemma~\ref{lem:separable}. On $64$ combinations of source, holder,
+weight, and distortion, the optimum computed by duality equals the cost
+of the allocation $\delta=\min\{\lambda,\theta\}$ to $4\times10^{-16}$ bits,
+for the window and for the spectral program (Lemma~\ref{lem:separable}
+and Corollary~\ref{cor:quadrant}).
 
 Not checked numerically: Proposition~\ref{prop:coding},
 Theorems~\ref{thm:procouter} and~\ref{thm:procinner}, and the
@@ -2618,6 +2692,7 @@ Proposition~\ref{prop:regimes} & \texttt{regimes} & joint window problem against
 Lemma~\ref{lem:separable} & \texttt{feasible\_spectra\_dominated} & spectra of feasible error covariances\\
 Lemma~\ref{lem:arspec} & \texttt{eigen\_split}, \texttt{outlier\_logsum}, \texttt{bulk\_law}, \texttt{mp\_check} & eigenvalues of the window covariance\\
 Theorem~\ref{thm:unstable} & \texttt{cost\_limit} & window cost against $\bar\alpha\rho_\star+V_f$\\
+Corollary~\ref{cor:quadrant} & \texttt{common\_optimizer} & dual optimum against $\delta=\min\{\lambda,\theta\}$\\
 \hline
 \end{tabular}
 \end{table}

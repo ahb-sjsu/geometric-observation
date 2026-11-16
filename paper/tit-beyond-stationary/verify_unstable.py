@@ -120,6 +120,24 @@ def spectral_cost(f_grid, alpha, q, j, D):
     return dual_cost([(w, f_grid)], alpha, q, j, D)
 
 
+def water_level_cost(lams, w, alpha, q, j, D):
+    """Closed form of Lemma 24 / Corollary 27: delta = min(lambda, theta) with
+    q * sum w min(lambda, theta) = D, for every alpha. Returns alpha*rbar + (1-alpha)*lbar in bits."""
+    lams = np.concatenate([np.asarray(l, float) for l in lams])
+    w = np.concatenate([np.asarray(x, float) for x in w])
+    lo, hi = np.log(lams.min()) - 40, np.log(lams.max())
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if q * np.sum(w * np.minimum(lams, np.exp(mid))) > D:
+            hi = mid
+        else:
+            lo = mid
+    d = np.minimum(lams, np.exp(0.5 * (lo + hi)))
+    r = np.sum(w * 0.5 * np.log(lams / d))
+    l = np.sum(w * 0.5 * np.log((1 / d + j) / (1 / lams + j)))
+    return (alpha * r + (1 - alpha) * l) / LN2
+
+
 def window_cost(top, bulk, N, alpha, q, j, D):
     return dual_cost([(np.full(top.shape, 1.0 / N), top), (np.full(bulk.shape, 1.0 / N), bulk)],
                      alpha, q, j, D)
@@ -237,6 +255,35 @@ def main():
     out["feasible_spectra_dominated"] = {"rows": sep, "ok": bool(sep_ok)}
     fails += (not sep_ok)
     print("feasible_spectra_dominated", sep_ok, [s["worst_relative_violation"] for s in sep], flush=True)
+
+    # 7. common optimizer (Lemma 24, Corollary 27): for every alpha the dual
+    # optimum equals the cost of delta = min(lambda, theta), in the window and in
+    # the spectral program
+    co = []
+    for name, poles in CASES.items():
+        a = ar_coeffs(poles)
+        m = sum(abs(r) > 1 for r in poles)
+        f = s2 / np.abs(a_on_circle(a, wgrid)) ** 2
+        Dmax = q * f.mean()
+        N = 160
+        top, bounded, _, _ = spectrum(a, s2, N, m)
+        for h in (1.0, 0.0):
+            j = h * h / su2
+            for alpha in (0.0, 0.3, 0.7, 1.0):
+                for frac in (0.2, 0.6):
+                    D = frac * Dmax
+                    Vw = window_cost(top, bounded, N, alpha, q, j, D)
+                    Cw = water_level_cost([top, bounded], [np.full(m, 1 / N), np.full(N - m, 1 / N)],
+                                          alpha, q, j, D)
+                    Vs = spectral_cost(f, alpha, q, j, D)
+                    Cs = water_level_cost([f], [np.full(f.shape, 1 / len(f))], alpha, q, j, D)
+                    co.append({"case": name, "h": h, "alpha": alpha, "D_frac": frac,
+                               "window_dual": Vw, "window_closed": Cw, "spectral_dual": Vs,
+                               "spectral_closed": Cs, "diff": max(abs(Vw - Cw), abs(Vs - Cs))})
+    co_ok = max(c["diff"] for c in co) < 1e-6
+    out["common_optimizer"] = {"rows": co, "max_diff": max(c["diff"] for c in co), "ok": bool(co_ok)}
+    fails += (not co_ok)
+    print("common_optimizer", co_ok, "max diff %.2e" % max(c["diff"] for c in co), flush=True)
 
     # 6. the det identity for the exploding log-sum, against high precision
     mpc = [mp_check(CASES[name], s2, 60, 80) for name in ("AR2_rho1.2_-1.4", "AR2_rho1.3_0.5")]
