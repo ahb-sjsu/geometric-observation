@@ -5,7 +5,12 @@ Gaussian vector source, paper two (`../tit-stationary/`) a stationary
 Gaussian process. This draft treats Gaussian sources that are not
 stationary and sources that are not Gaussian.
 
-**Status (2026-11-15): draft, not submitted, no venue chosen.** Title,
+**Status (2026-11-15): draft, not submitted, no venue chosen.** The
+manuscript cites the tag `tit-beyond-stationary-1.1`
+(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.1/paper/tit-beyond-stationary),
+which is cut on the commit that adds this citation. Tag
+`tit-beyond-stationary-1.0` is the same draft without it; the scripts
+and recorded outputs are identical at both. Title,
 venue and authorship are the owner's decisions. No human has read the
 proofs. The four referee passes recorded below were made by models.
 
@@ -74,6 +79,8 @@ this class.
 | `example_ls.py`, `example_ls.json`, `fig_ls.pdf`, `fig_ls.png` | The worked example after Proposition 15 and its figure (needs matplotlib) |
 | `verify_nongauss.py`, `.json` | Seven checks of Section III on a Gaussian-mixture source (about one minute) |
 | `verify_ls.py`, `.json` | Seven checks of Sections V and VI on a time-varying moving average (about ten minutes) |
+| `build_notebook.py`, `reproduce.ipynb`, `reproduce-executed-2026-11-16.ipynb` | The notebook that reruns everything, and one executed copy |
+| `lean-beyond-2026-11-16.txt`, `lean-library-2026-11-16.txt` | Lean build records and axiom audit |
 | `verify_cyclo.py`, `.json` | Seven checks of Sections VII and VIII on periodic moving averages (about eleven minutes) |
 
 The scripts import `spectral_core.py` and `verify_spectral.py` from
@@ -81,6 +88,26 @@ The scripts import `spectral_core.py` and `verify_spectral.py` from
 Python 3.12.2 on 2026-11-15). On 2026-11-15 `verify_nongauss.py` and `verify_cyclo.py` passed 7 of 7, and `verify_ls.py` passed 7 of 7 after one pass criterion was changed: the first run failed a fixed threshold on the local-closeness distance that had been set too tight, and the criterion now asks for what (L2) says, that the distance shrink in proportion to the block length. The measured distances did not change.
 
 Build: `pdflatex tit-beyond-stationary.tex` three times.
+
+**Notebook.** `build_notebook.py` writes `reproduce.ipynb`, which reruns
+the three check scripts and the example and prints the numbers of the
+appendix. `reproduce-executed-2026-11-16.ipynb` is one executed copy.
+Running it takes about forty minutes.
+
+**Lean.** `lean/ObservationTheory/BeyondStationary.lean` has fifteen
+theorems, no `sorry`, standard axioms only. It checks algebraic steps:
+the scalar inequality of Lemma 9, the covariance identities of the
+explicit-seed draw (matrices), the determinant identity of Theorem 2
+(matrices) and its evaluations in one direction, the scalar bound on a
+linear estimate's error, the scaling of the point cost behind facts (F1)
+to (F3), and the arithmetic of Lemma 12. The matrix concavity used in
+Theorem 3 is in `LogDet.lean`, paper one's module. **Not formalized:**
+every coding theorem, every statement about entropy or mutual
+information, the limit arguments, Lemma 10, the probabilistic step of
+Lemma 12, and the harmonic identity of Proposition 19. Build records:
+`lean-beyond-2026-11-16.txt` (module and axiom audit) and
+`lean-library-2026-11-16.txt` (the whole library with the new import).
+Both builds ran on the Atlas workstation; CI does not build Lean.
 
 ## Referee passes (models, 2026-11-15)
 

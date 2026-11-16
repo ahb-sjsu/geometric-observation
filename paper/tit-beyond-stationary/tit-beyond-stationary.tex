@@ -2115,7 +2115,7 @@ additive noise independent of the source. The upper bound does not.
 
 \appendices
 
-\section{Numerical Checks}
+\section{Numerical Checks and Formal Verification}
 \label{app:numver}
 \sloppy
 
@@ -2123,8 +2123,38 @@ The statements were checked numerically, independently of the
 derivations. The scripts and their recorded outputs are in the public
 repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
-\texttt{paper/tit-beyond-stationary}. They use the solver
-\texttt{spectral\_core.py} of \cite{part2}. No proof depends on them.
+\texttt{paper/tit-beyond-stationary}. The files that go with this
+version of the manuscript are fixed by the tag
+\texttt{tit-beyond-stationary-1.1}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.1/paper/tit-beyond-stationary}.
+They use the solver \texttt{spectral\_core.py} of \cite{part2}. No proof
+depends on them. The notebook \texttt{reproduce.ipynb} reruns all of
+them and the example, and its executed copy
+\texttt{reproduce-executed-2026-11-16.ipynb} records the output.
+
+\textbf{Formal verification.} The Lean~4 module
+\texttt{lean/ObservationTheory/BeyondStationary.lean} (Mathlib, fifteen
+theorems, no \texttt{sorry}, standard axioms only) checks algebraic
+steps of the proofs: the scalar inequality of Lemma~\ref{lem:cut}; the
+three covariance identities of the draw with an explicit seed before
+Lemma~\ref{lem:seeds}, for matrices; the determinant identity
+$\det(I+GMG^{\mathsf T})=\det(I+MG^{\mathsf T}G)$ of
+Theorem~\ref{thm:inner}, for matrices, and its two evaluations in one
+direction; the bound on the error of a linear estimate in
+Theorem~\ref{thm:outer}, in one direction; the scaling of the point
+cost behind facts (F1) to (F3) of Proposition~\ref{prop:rate}, in one
+direction, and the bound on $\lceil\sqrt N\rceil/N$; and the two
+arithmetic steps of Lemma~\ref{lem:seeds}. The concavity of the
+linear-estimation error in the L\"owner order, used in
+Theorem~\ref{thm:outer}, is formalized for matrices in
+\texttt{lean/ObservationTheory/LogDet.lean}, the module of
+\cite{part1}. Not formalized: every coding theorem, every statement
+about entropy or mutual information, the limit arguments, the block
+comparison of Lemma~\ref{lem:blocks}, the probabilistic step of
+Lemma~\ref{lem:seeds}, and the harmonic identity of
+Proposition~\ref{prop:harmonic}. The build and the axiom audit are
+recorded in \texttt{lean-beyond-2026-11-16.txt} and
+\texttt{lean-library-2026-11-16.txt}.
 
 \texttt{verify\_nongauss.py} takes a source in $\R^2$ that is a mixture
 of four Gaussian components, with a scalar holder observation in
