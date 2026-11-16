@@ -1,0 +1,1348 @@
+\documentclass[11pt,onecolumn]{IEEEtran}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\hY}{\hat{\mathbf Y}}
+\newcommand{\dw}{\tfrac{d\omega}{2\pi}}
+\newcommand{\VG}{V_{\mathrm G}}
+\newcommand{\bA}{\mathbf A}
+\newcommand{\bC}{\mathbf C}
+\newcommand{\bE}{\mathbf E}
+\newcommand{\rhid}{\rho_{\mathrm{hid}}}
+
+\emergencystretch=1.5em
+\begin{document}
+
+\title{Rate, Leakage, and Distortion for Unstable and Rapidly Varying Gaussian Sources}
+
+\author{Andrew~H.~Bond,~\IEEEmembership{Senior Member,~IEEE}%
+\thanks{A. H. Bond is with the Department of Computer Engineering, San Jos\'e
+State University, San Jos\'e, CA 95192 USA (e-mail: andrew.bond@sjsu.edu).
+This is a working draft; the title is provisional.}}
+
+\markboth{}{Bond: Rate, Leakage, and Distortion for Unstable and Rapidly Varying Gaussian Sources}
+
+\maketitle
+
+\begin{abstract}
+An encoder describes a Gaussian source to a decoder under a weighted
+quadratic distortion, while a second party holds a noisy observation of
+the source. The description has two costs, its rate
+and its conditional leakage to the second party. The region of
+achievable pairs is known for stationary sources, for sources whose
+spectrum varies slowly or periodically, and for scalar unstable
+autoregressive sources. We treat two open cases. For a vector
+autoregressive source with unstable poles, observed by the second party
+through a linear filter of finite memory in white noise, the region is that of a
+stationary source moved by two amounts. In rate it moves by the sum of
+the logarithms of the moduli of all unstable poles, and in leakage by
+the same sum over only the poles that the second party cannot observe.
+Instability is therefore free in leakage exactly when every unstable
+pole is observable. The proof writes a window of the source as a
+stationary bridge together with its final state. For a scalar source
+whose window covariances have a limiting eigenvalue distribution,
+observed through a scalar gain in white noise, the region is a single
+quadrant given by reverse water-filling on that distribution. This
+covers statistics that vary from symbol to symbol without a period.
+For a cyclostationary process sampled at a rate incommensurate
+with its period, the limit exists and does not depend on the sampling
+phase, which settles a published conjecture.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Rate--distortion, information leakage, side information, unstable
+sources, Kalman filtering, almost periodic processes, cyclostationary
+processes.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:intro}
+
+This paper continues \cite{part1,part2,part3}. An encoder sees a source
+and sends a message to a decoder, which reproduces the source under a
+weighted quadratic distortion. A third party, the holder, observes the
+source through a linear map in Gaussian noise. It does not decode, but
+the message tells it something, and the leakage is the information the
+message gives about the source beyond what the holder already has. The
+operational region of pairs of rate and leakage was found in
+\cite{part1} for Gaussian vectors, in \cite{part2} for stationary
+Gaussian processes, and in \cite{part3} for sources whose spectrum varies
+slowly in time, for cyclostationary sources, and for scalar unstable
+autoregressive sources. The last paper ended with a list of open
+problems. This one solves two of them.
+
+The first is the unstable vector source. A scalar autoregressive source
+with poles outside the unit circle costs, in rate, the logarithms of the
+moduli of those poles on top of the stationary cost, and in leakage it
+costs the same amount only when the holder does not observe the source
+at all \cite[Theorem~26]{part3}. That proof separated the problem over
+the eigenvalues of the window covariance, which works only because a
+scalar source, a scalar weight, and a scalar holder commute. For a
+vector source they do not. We show that the region is still a translate
+of a stationary region (Theorem~\ref{thm:vector}). The rate moves by
+$\rho_\star$, the sum of $\log|\rho|$ over the unstable poles $\rho$,
+and the leakage moves by $\rhid$, the same sum over the unstable poles
+that are hidden from the holder in the sense of Kalman: their modes do
+not reach its observation. The holder may observe the source through
+any filter of finite memory, and the filter can hide a pole by
+cancelling it; a holder that sees every innovation, in noise, learns
+nothing about the growth. An unstable pole is paid for once, in rate,
+when the holder can see it, and twice when it cannot. The amount $\rhid$
+jumps when the holder's filter is perturbed so that a hidden mode
+becomes visible, however weakly, because the visible part of a growing
+mode eventually rises above any noise.
+
+The proof rests on a structural fact that does not need the eigenvalues
+to separate. The inverse covariance of a window of the source differs
+from a block Toeplitz matrix only in its last few blocks
+(Lemma~\ref{lem:bridge}). So the source in the window, given its final
+state, has the law of a stationary bridge, and all of the growth is
+carried by the final state. The cost of describing that state is its
+growth in volume, $\rho_\star$ per symbol, and the information it leaks
+is its growth in volume as seen by the holder, $\rhid$ per symbol
+(Lemma~\ref{lem:endpoint}). The second number comes from an identity
+for the innovations of the Kalman filter (Lemma~\ref{lem:innovations}).
+The window cost itself is compared with that of a block circulant
+problem, in which the source and the holder commute with a cyclic
+shift and the problem splits over frequencies
+(Lemmas~\ref{lem:perturb} and~\ref{lem:circulant}); the two differ by
+the two growth rates times $N$, up to $o(N)$.
+
+The second problem is fast variation without a period. Between a
+spectrum that drifts slowly and one that repeats are sources whose
+statistics change from one symbol to the next and never repeat. A
+cyclostationary signal sampled at a rate incommensurate with its period
+is the standard example \cite{abakasanga2020,tan2024}. For a scalar
+source and a scalar holder in white noise we show that the region
+depends only on the limiting distribution of the eigenvalues of the
+window covariances, when it exists, and is a single quadrant
+(Theorem~\ref{thm:law}). For sources driven by a uniquely ergodic map,
+such as the rotation that incommensurate sampling produces, that limit
+exists and does not depend on the starting point
+(Proposition~\ref{prop:ergodic}). For the sampled cyclostationary
+sources of \cite{tan2024}, this proves the conjecture stated there that
+the rate--distortion function does not depend on the sampling phase,
+and it gives the function in closed form (Corollary~\ref{cor:sampled}).
+
+\textbf{Related work.} The rate--distortion function of a scalar
+Gaussian autoregressive source with unstable poles is due to Gray
+\cite{gray1970} and to Hashimoto and Arimoto \cite{hashimoto1980}, and
+Gray and Hashimoto showed that their two forms agree
+\cite{grayhashimoto2008}. Sahai and Mitter gave an upper bound for
+first-order sources and sketched the vector case
+\cite{sahai2007}. Derpich, M\"uller, and \O stergaard extended the scalar
+result to other driving noises through the entropy gain of linear
+systems \cite{derpich2021}. Guti\'errez-Guti\'errez and coauthors found
+the rate--distortion function of vector sources that are asymptotically
+wide-sense stationary \cite{gutierrez2018}, a class that excludes
+unstable poles, and computed it for nonstationary vector ARMA sources
+whose companion matrix has spectral radius below one
+\cite[Theorem~4]{gutierrez2024}, which excludes them as well. Toms and
+Berger gave the rate--distortion function of linear, finite-memory
+Gaussian dynamic systems and showed that at small distortions it equals
+that of the driving noise \cite{toms1971}. We have read only the
+abstract of that correspondence and do not know whether its systems may
+be unstable; at small distortions the rate of Theorem~\ref{thm:vector}
+agrees with that statement. We did not find the rate--distortion
+function of an unstable vector autoregressive source at every
+distortion stated elsewhere, and we know of no result on leakage to an
+observer for any unstable source. The identity of
+Lemma~\ref{lem:innovations} is a discrete-time relative of the limits
+of Braslavsky, Seron, Mayne, and Kokotovi\'c for continuous-time
+Kalman--Bucy filters \cite{braslavsky1999}. For sampled cyclostationary
+sources, Abakasanga, Shlezinger, and Dabora found the rate--distortion
+function of memoryless samples at small distortions as a limit
+superior of synchronous approximations \cite{abakasanga2020}, and Tan,
+Dabora, and Poor extended it to sources with memory as an average over
+the sampling phase of limits superior of finite programs, conjecturing
+that the phase does not matter \cite{tan2024}.
+
+Section~\ref{sec:model} fixes the setting and lists the results used.
+Section~\ref{sec:vector} treats unstable vector sources and
+Section~\ref{sec:law} sources with a limiting eigenvalue distribution.
+Section~\ref{sec:open} lists what remains open.
+
+\section{Setting and Imported Results}
+\label{sec:model}
+
+Logarithms are base two unless written $\ln$, and entropies are in
+bits. Norms of matrices are operator norms. Notation follows
+\cite{part1,part2,part3}. The decoder reproduces the source itself with
+a weight $Q\succ0$, and $q>0$ denotes its smallest eigenvalue.
+
+\subsection{Gaussian vectors of several symbols}
+
+Let $T=(T_1,\dots,T_n)\in\R^{pn}$ be a centered Gaussian vector with
+covariance $\mathsf S\succ0$, and let the holder observe $S=\mathsf GT+U$,
+where $\mathsf G$ is any real matrix and $U\sim\mathcal N(0,I\otimes\Sigma_U)$,
+$\Sigma_U\succ0$, is independent of $T$. Its information matrix is
+$\mathsf J=\mathsf G^{\mathsf T}(I\otimes\Sigma_U^{-1})\mathsf G$. A code for
+the vector has an encoder that maps $T$, and private randomness
+independent of $T$ and of the noise, to a message $M$ in a finite set,
+and a decoder that maps $M$ to reproductions $\hat T_t$. Its rate,
+distortion, and leakage per symbol are $\tfrac1n\log|\mathcal M|$,
+$\tfrac1n\sum_t\E\|T_t-\hat T_t\|_Q^2$, and $\tfrac1nH(M\mid S)$. For a
+symmetric $\Delta$ with $0\prec\Delta\preceq\mathsf S$ the two costs are
+\begin{equation}
+r(\Delta)=\tfrac12\log\frac{\det\mathsf S}{\det\Delta},\qquad
+\ell(\Delta)=\tfrac12\log\frac{\det(\Delta^{-1}+\mathsf J)}{\det(\mathsf S^{-1}+\mathsf J)},
+\label{eq:costs}
+\end{equation}
+and for $D>0$ the frontier cost is
+\[
+\VG(\alpha,nD;\mathsf S,\mathsf J)=\min\bigl\{\alpha r(\Delta)+(1-\alpha)\ell(\Delta):\ 0\prec\Delta\preceq\mathsf S,\ \tr\bigl((I_n\otimes Q)\Delta\bigr)\le nD\bigr\}.
+\]
+This is the Gaussian vector problem of \cite{part1} with the holder
+matrix $\mathsf G$ and the noise covariance $I\otimes\Sigma_U$. For a code,
+$M-T-S$ is a Markov chain because the private randomness is independent
+of the noise, and $n R\ge H(M)\ge I(T;M)$ and $nL=H(M\mid S)\ge I(T;M\mid S)$.
+By \cite[Proposition~2]{part1}, applied to the variable $M$ from which
+the reproductions are computed, every code for the vector, with or
+without private randomness, therefore has
+$\alpha R+(1-\alpha)L\ge\tfrac1n\VG(\alpha,nD;\mathsf S,\mathsf J)$ at its
+distortion $D$, and by \cite[Theorem~5]{part1} both costs are convex
+in $\Delta$ for any $\mathsf J\succeq0$.
+
+\subsection{Stationary sources and a holder of finite memory}
+
+The holder observes
+\[
+S_t=\sum_{j=0}^mH_jT_{t-j}+U_t,
+\]
+with $m\ge0$, real $r\times p$ matrices $H_j$, and $U_t$ independent
+$\mathcal N(0,\Sigma_U)$; the case $m=0$ is a memoryless map. Write
+$G(z)=\sum_jH_jz^j$ and $j(\omega)=G(e^{i\omega})^*\Sigma_U^{-1}G(e^{i\omega})$.
+For a continuous spectral density $f$ on the circle with positive
+definite $p\times p$ values, let $V_f(\alpha,D)$ and $\mathcal R_f(D)$ be
+the spectral cost and spectral region of \cite{part2} for the
+stationary Gaussian source with density $f$, the weight $Q$, and this
+holder, with $D_{\max}^f=\int\tr(Qf)\,\dw$. The spectral cost is the
+minimum of the integral over frequency of the costs \eqref{eq:costs} of
+the Gaussian problem with covariance $f(\omega)$ and information
+matrix $j(\omega)$, under a common distortion budget. It depends on
+$(f,j)$ only through the joint distribution of their values, so the
+orientation of the frequency axis does not matter. The function
+$V_f(\alpha,\cdot)$ is convex, nonincreasing, continuous, and zero from
+$D_{\max}^f$ on. We use the following results of \cite{part2}.
+\begin{itemize}
+\item[(i)] For $0<D<D_{\max}^f$ every point of $\mathcal R_f(D)$ is
+approached by codes for the stationary source with deterministic
+encoders and blocklengths tending to infinity, the holder observing
+$S_t$ at the times of the window: \cite[Theorem~16]{part2} for a
+memoryless map and \cite[Theorem~20]{part2} for a filter of finite
+length. For $t\le m$ these observations involve symbols before the
+window.
+\item[(ii)] For probability measures $\mu_n\to\mu$ weakly on a compact
+set carrying continuous data, the costs of the programs over $\mu_n$
+converge to that over $\mu$ for $0<D<\int\tr(Qf)\,d\mu$
+\cite[Lemma~2]{part2}. In particular, the program over the uniform
+measure on the $N$ Fourier frequencies tends to $V_f$.
+\item[(iii)] If $f'\preceq f\preceq(1+\kappa)f'$ at every frequency,
+then
+$V_{f'}(\alpha,\tfrac D{1+\kappa})-\tfrac p2\log(1+\kappa)\le V_f(\alpha,D)\le V_{f'}(\alpha,D)+\tfrac p2\log(1+\kappa)$.
+This is the inequality of \cite[Lemma~11(c)]{part2}, and its proof is
+two lines with the costs \eqref{eq:costs} at each frequency, for any
+$j$. For the right inequality, the optimal field $\Delta$ for $f'$ is
+feasible for $f$, and since $f^{-1}\preceq f'^{-1}\preceq(1+\kappa)f^{-1}$,
+its rate and leakage for $f$ exceed those for $f'$ by at most
+$\tfrac12\log\det(f'^{-1}f)\le\tfrac p2\log(1+\kappa)$ and
+$\tfrac12\log\det\bigl((f'^{-1}+j)(f^{-1}+j)^{-1}\bigr)\le\tfrac p2\log(1+\kappa)$.
+For the left one, the optimal field $\Delta$ for $f$ divided by
+$1+\kappa$ is feasible for $f'$ at the distortion $D/(1+\kappa)$, and
+its costs for $f'$ exceed those of $\Delta$ for $f$ by at most
+$\tfrac p2\log(1+\kappa)$, because $f'\preceq f$ and
+$(1+\kappa)\Delta^{-1}+j\preceq(1+\kappa)(\Delta^{-1}+j)$.
+\end{itemize}
+Achievable pairs and the closure $\mathcal A(D)$ of the achievable set
+are defined as in \cite[Sec.~VI]{part3}, with codes of blocklengths
+tending to infinity and private randomness allowed.
+
+\section{Unstable Vector Autoregressive Sources}
+\label{sec:vector}
+
+\subsection{The result}
+
+Let $p,d\ge1$, let $A_1,\dots,A_d$ be real $p\times p$ matrices, and let
+\[
+T_t=\sum_{k=1}^dA_kT_{t-k}+\xi_t\quad(t\ge1),\qquad T_t=0\quad(t\le0),
+\]
+with $\xi_t$ independent $\mathcal N(0,\Sigma_\xi)$, $\Sigma_\xi\succ0$.
+Write $\Phi(z)=I-\sum_kA_kz^k$ and assume that $\det\Phi(z)\ne0$ on the
+unit circle. The holder is that of Section~\ref{sec:model}. Let
+$\varsigma=\max\{d,m+1\}$, set $A_k=0$ for $d<k\le\varsigma$, and let $\bA$
+be the companion matrix of size $p\varsigma$ with first block row
+$(A_1,\dots,A_\varsigma)$ and the identity below it. The state
+$x_t=(T_t,\dots,T_{t-\varsigma+1})$ satisfies $x_{t+1}=\bA x_t+\bE\xi_{t+1}$
+with $\bE=(I,0,\dots,0)^{\mathsf T}$, and $S_t=\bC x_t+U_t$ with
+$\bC=(H_0,\dots,H_m,0,\dots,0)$. Since
+$\det(\lambda I-\bA)=\lambda^{p\varsigma}\det\Phi(1/\lambda)$, the nonzero
+eigenvalues of $\bA$ are the reciprocals of the zeros of $\det\Phi$; we
+call them the poles. Let
+\[
+\mathcal N=\bigcap_{k\ge0}\ker(\bC\bA^k)
+\]
+be the unobservable subspace of the pair $(\bA,\bC)$, which is
+invariant under $\bA$, and let
+\[
+\rho_\star=\sum_{|\rho|>1}\log|\rho|,\qquad
+\rhid=\sum_{|\rho|>1,\ \rho\in\operatorname{spec}(\bA|_{\mathcal N})}\log|\rho|,
+\]
+the sums over eigenvalues with multiplicity, the first of $\bA$ and the
+second of its restriction to $\mathcal N$. A pole of multiplicity one
+has the eigenvector $(v,v/\rho,\dots,v/\rho^{\varsigma-1})$, up to a
+factor, with $\Phi(1/\rho)v=0$, and $\bC$ maps it to $G(1/\rho)v$. By the test of
+Popov, Belevitch, and Hautus such a pole is hidden, that is, an
+eigenvalue of $\bA|_{\mathcal N}$, exactly when $G(1/\rho)v=0$: when the
+holder's filter cancels it. Finally let
+\[
+f(\omega)=\Phi(e^{i\omega})^{-1}\Sigma_\xi\Phi(e^{i\omega})^{-*},
+\]
+which is continuous and positive definite, and let $V_f$ and
+$\mathcal R_f(D)$ be as in Section~\ref{sec:model}, with
+$\mathcal R_f(D)$ the nonnegative quadrant for $D\ge D_{\max}^f$.
+
+\begin{theorem}\label{thm:vector}
+For every $D>0$,
+\[
+\mathcal A(D)=\bigl(\rho_\star,\ \rhid\bigr)+\mathcal R_f(D).
+\]
+Deterministic encoders suffice, the converse holds with private
+randomness, and for every $\alpha$ the window cost
+$\tfrac1N\VG(\alpha,ND;\Gamma_N,\mathsf J_N)$ of $T^N$ and its holder
+tends to $\alpha\rho_\star+(1-\alpha)\rhid+V_f(\alpha,D)$ for
+$0<D<D_{\max}^f$, where $\mathsf J_N$ is the information matrix of the
+holder's observations of the window, defined before
+Lemma~\ref{lem:endpoint}.
+\end{theorem}
+
+For a scalar source and a memoryless holder with $H_0\ne0$, every pole
+is observable: $\mathcal N$ contains at most eigenvectors of the
+eigenvalue $0$ of the companion form, which exist when $A_d=0$. When
+$H_0=0$, $\mathcal N=\R^{p\varsigma}$. So
+$\rhid=\rho_\star\mathbf 1_{\{H_0=0\}}$ and Theorem~\ref{thm:vector} is
+\cite[Theorem~26]{part3}. With the holder absent, the rate--distortion
+function of the unstable vector source is $\rho_\star$ plus the
+rate--distortion function of the stationary source with density $f$,
+the vector form of \cite{hashimoto1980,grayhashimoto2008}. At
+distortions small enough that reverse water-filling leaves every
+frequency and every direction active, it equals
+$\tfrac12\log\det(Q\Sigma_\xi)-\tfrac p2\log(D/p)$, because
+$\int\log\det f\,\dw=\log\det\Sigma_\xi-2\rho_\star$. This is the
+rate--distortion function of a single innovation vector, as Toms and
+Berger found for the systems they treat \cite{toms1971}.
+
+Instability is free in leakage exactly when $\rhid=0$, that is, when
+every unstable mode is observable, which is the condition that the pair
+$(\bA,\bC)$ be detectable. Three examples show what decides it. Let
+$p=2$, $d=1$, $A_1=\operatorname{diag}(1.5,0.5)$, $\Sigma_\xi=I$, and a
+memoryless holder. With $H_0=(1,0)$ the holder sees the unstable
+coordinate, and the shift is $(\log1.5,0)$. With $H_0=(0,1)$ it sees
+only the stable one, and the shift is $(\log1.5,\log1.5)$. With
+$H_0=(\epsilon,1)$ the shift is $(\log1.5,0)$ for every $\epsilon\ne0$,
+so $\rhid$ is not continuous in the holder: a mode seen with gain
+$\epsilon$ grows like $1.5^t$ and rises above the noise after a time of
+order $\log(1/\epsilon)$, which is negligible per symbol. Finally, for
+the scalar source $T_t=\rho T_{t-1}+\xi_t$ with $|\rho|>1$, the holder
+$S_t=T_t-\rho T_{t-1}+U_t=\xi_t+U_t$ observes the innovations. Its
+filter $G(z)=1-\rho z$ vanishes at $1/\rho$, the pole is hidden, and
+the shift is $(\log|\rho|,\log|\rho|)$: a holder that sees every
+innovation, with noise, learns nothing about the growth.
+
+\subsection{The window as a bridge and its final state}
+
+Let $\Gamma_N=\Cov(T^N)$, let $\mathsf A_N$ be the block lower
+triangular Toeplitz matrix with diagonal blocks $I$ and $k$th
+subdiagonal blocks $-A_k$, so that $\mathsf A_NT^N=\xi^N$ and
+$\Gamma_N=\mathsf A_N^{-1}(I_N\otimes\Sigma_\xi)\mathsf A_N^{-\mathsf T}$,
+and let $\mathsf C_N$ be the full convolution matrix of $\Phi$, with
+$N+d$ block rows: its first $N$ block rows are $\mathsf A_N$ and its
+last $d$ block rows $\mathsf R_N$ give the terms
+$(\Phi\ast T)_{N+j}$, $j=1,\dots,d$, which involve only
+$T_{N-d+1},\dots,T_N$. For a trigonometric polynomial $g$ with
+$p\times p$ coefficients, $T_N(g)$ is the block Toeplitz matrix whose
+$(s,t)$ block is the coefficient of $e^{i(s-t)\omega}$ in $g$.
+
+\begin{lemma}\label{lem:bridge}
+Let $P_N=\mathsf C_N^{\mathsf T}(I_{N+d}\otimes\Sigma_\xi^{-1})\mathsf C_N$
+and $B_N=\mathsf R_N^{\mathsf T}(I_d\otimes\Sigma_\xi^{-1})\mathsf R_N$.
+Then $\Gamma_N^{-1}=P_N-B_N$, $B_N\succeq0$ has rank at most $pd$ and
+is supported on the last $d$ blocks, and $P_N=T_N(f^{-1})$ with
+$f^{-1}=\Phi(e^{i\omega})^*\Sigma_\xi^{-1}\Phi(e^{i\omega})$.
+Let $X\sim\mathcal N(0,P_N^{-1})$, and split $T^N=(Y,Z)$ and $X=(Y_X,Z_X)$
+into the first $N-d$ symbols and the last $d$. The conditional law of
+$Y$ given $Z=z$ equals that of $Y_X$ given $Z_X=z$ for every $z$. It is
+Gaussian with mean $m_Nz$, $m_N=-(P_N)_{YY}^{-1}(P_N)_{YZ}$, and
+covariance $K_N=(P_N)_{YY}^{-1}=T_{N-d}(f^{-1})^{-1}$.
+\end{lemma}
+
+\begin{proof}
+$\Gamma_N^{-1}=\mathsf A_N^{\mathsf T}(I_N\otimes\Sigma_\xi^{-1})\mathsf A_N=P_N-B_N$
+by splitting the rows of $\mathsf C_N$. The $(s,t)$ block of $P_N$ is
+$\sum_u\Phi_{u-s}^{\mathsf T}\Sigma_\xi^{-1}\Phi_{u-t}$, with
+$\Phi_0=I$ and $\Phi_k=-A_k$, summed over the $u$ for which both factors
+are nonzero; all such $u$ lie in $1,\dots,N+d$, so the block depends on
+$s-t$ only and is the coefficient of $f^{-1}$ of that order.
+Since $B_N$ vanishes outside the block of $Z$, the precision matrices
+$\Gamma_N^{-1}$ and $P_N$ have the same blocks $YY$ and $YZ$, and the
+conditional law of the first part of a Gaussian vector given the second
+depends only on those blocks. The block $YY$ of $P_N$ is
+$T_{N-d}(f^{-1})$.
+\end{proof}
+
+The density of $T^N$ times the density of the next $d$ innovations
+evaluated at $T_{N+1}=\dots=T_{N+d}=0$ is proportional to
+$\exp(-\tfrac12x^{\mathsf T}P_Nx)$, so $X$ is the source conditioned to
+return to zero after the window: a Gaussian bridge. In the window the
+source is this bridge together with its final state $Z$, and all of the
+instability sits in the law of $Z$.
+
+The bridge is close to a window of the stationary process with density
+$f$. Since $f^{-1}$ is a positive definite trigonometric polynomial of
+degree $d$, by the matrix form of the Fej\'er--Riesz theorem
+\cite{rosenblum1985}, $f^{-1}=\tilde\Phi^*\tilde\Sigma^{-1}\tilde\Phi$ with
+$\tilde\Phi(z)=I-\sum_{k\le d}\tilde A_kz^k$, $\det\tilde\Phi\ne0$ on the
+closed unit disk, and $\tilde\Sigma\succ0$, and the stationary Gaussian
+process $W$ with density $f$ is the causal autoregression with these
+coefficients. On any window of times its density factors as the
+density of its first $d$ values times the conditional densities of each
+later value given the $d$ before. So its precision matrix on the window
+is banded, and the block row of a time at distance at least $d$ from
+both ends of the window collects all $d+1$ innovation terms and equals
+the corresponding block row of the block Toeplitz matrix of $f^{-1}$.
+
+\begin{lemma}\label{lem:stationary}
+$K_N=\Cov(W_1,\dots,W_{N-d}\mid W_{-d+1},\dots,W_0,W_{N-d+1},\dots,W_N)$.
+Consequently, for a group $\mathcal G$ of $n_0$ consecutive times in
+$1,\dots,N-d$, the principal submatrix $\mathsf S_{\mathcal G}$ of $K_N$
+on those times satisfies
+$T_{n_0}(f)-c_W\,n_0\,\varrho^{2\operatorname{dist}(\mathcal G)}I\preceq\mathsf S_{\mathcal G}\preceq T_{n_0}(f)$,
+where $T_{n_0}(f)=\Cov(W_1,\dots,W_{n_0})$, $\operatorname{dist}(\mathcal G)$
+is the distance from $\mathcal G$ to $\{0,N-d+1\}$, and $c_W$ and
+$\varrho<1$ depend only on $f$, $p$, and $d$.
+\end{lemma}
+
+\begin{proof}
+On the window $-d+1,\dots,N$ the precision matrix of $W$ restricted to
+the times $1,\dots,N-d$, all at distance at least $d$ from the ends, is
+$T_{N-d}(f^{-1})$, and the inverse of a block of a precision matrix is
+the conditional covariance given the rest. For the group,
+$T_{n_0}(f)-\mathsf S_{\mathcal G}=\Cov(\E[W_{\mathcal G}\mid W_\partial])$,
+with $W_\partial$ the $2d$ boundary values, which is positive
+semidefinite with norm at most
+$\|\Cov(W_{\mathcal G},W_\partial)\|^2\,\|\Cov(W_\partial)^{-1}\|$. The
+covariances of a stationary process with a rational spectral density
+and no poles on the circle decay geometrically,
+$\|\Cov(W_s,W_t)\|\le c_0\varrho^{|s-t|}$, and
+$\Cov(W_\partial)\succeq(\min_\omega\lambda_{\min}f(\omega))I$.
+\end{proof}
+
+\subsection{The holder's view of the growth}
+
+\begin{lemma}\label{lem:innovations}
+Let $R_t=\Cov(S_t\mid S^{t-1})$ be the innovation covariance of the
+holder's observations. Then $R_t$ converges to a matrix $R_\infty$ with
+\[
+\log\det R_\infty=\int\log\det\bigl(\Sigma_U+G(e^{i\omega})f(\omega)G(e^{i\omega})^*\bigr)\dw+2(\rho_\star-\rhid).
+\]
+\end{lemma}
+
+\begin{proof}
+Choose coordinates in which the last ones span $\mathcal N$. Since
+$\mathcal N$ is invariant and lies in $\ker\bC$,
+\[
+\bA=\begin{pmatrix}A_o&0\\A_{ho}&A_h\end{pmatrix},\qquad
+\bC=(C_o,0),\qquad\bE=\begin{pmatrix}E_o\\E_h\end{pmatrix},
+\]
+with $(A_o,C_o)$ observable, and the spectrum of $\bA$ is that of $A_o$
+together with that of $A_h=\bA|_{\mathcal N}$. The pair $(\bA,\bE)$ is
+controllable, because the blocks of
+$(\bE,\bA\bE,\dots,\bA^{\varsigma-1}\bE)$ form a block triangular matrix
+with identity blocks on the diagonal, and the quotient pair
+$(A_o,E_o)$ is controllable too. The observations
+$S_t=C_ox_{o,t}+U_t$ depend only on the observable part, whose
+dynamics $x_{o,t+1}=A_ox_{o,t}+E_o\xi_{t+1}$ do not involve the rest. So
+$R_t=C_oP_tC_o^{\mathsf T}+\Sigma_U$, where $P_t=\Cov(x_{o,t}\mid S^{t-1})$
+follows the Riccati recursion of the Kalman predictor of the observable
+subsystem,
+\[
+P_{t+1}=A_oP_tA_o^{\mathsf T}+\bar Q-A_oP_tC_o^{\mathsf T}R_t^{-1}C_oP_tA_o^{\mathsf T},\qquad
+\bar Q=E_o\Sigma_\xi E_o^{\mathsf T}.
+\]
+
+\emph{Convergence.} For $(A_o,C_o)$ detectable and $(A_o,\bar Q^{1/2})$
+stabilizable, which hold here because the pairs are observable and
+controllable, the recursion converges from every initial
+$P_1\succeq0$ to the unique stabilizing solution $\bar P\succeq0$ of the
+algebraic Riccati equation
+$\bar P=A_o\bar PA_o^{\mathsf T}+\bar Q-KR_\infty K^{\mathsf T}$, with
+$R_\infty=C_o\bar PC_o^{\mathsf T}+\Sigma_U$ and
+$K=A_o\bar PC_o^{\mathsf T}R_\infty^{-1}$, and $A_o-KC_o$ has all
+eigenvalues inside the unit circle
+\cite[Ch.~4]{andersonmoore1979}, \cite{kailath2000}. This does not need
+$A_o$ to be stable. Hence $R_t\to R_\infty$.
+
+\emph{Factorization.} Let $\Psi(z)=(zI-A_o)^{-1}$ and
+$\mathsf W(z)=I+C_o\Psi(z)K$. For $|z|=1$, $\bar z=1/z$, and
+\[
+\bar P-A_o\bar PA_o^{\mathsf T}=(zI-A_o)\bar P(\bar zI-A_o)^{\mathsf T}+(zI-A_o)\bar PA_o^{\mathsf T}+A_o\bar P(\bar zI-A_o)^{\mathsf T},
+\]
+as one sees by expanding the right side. Multiply the Riccati equation,
+written as $\bar Q=\bar P-A_o\bar PA_o^{\mathsf T}+KR_\infty K^{\mathsf T}$,
+on the left by $C_o\Psi(z)$ and on the right by its conjugate transpose,
+and use $A_o\bar PC_o^{\mathsf T}=KR_\infty$:
+\[
+\Sigma_U+C_o\Psi\bar Q\Psi^*C_o^{\mathsf T}
+=\Sigma_U+C_o\bar PC_o^{\mathsf T}+C_o\Psi KR_\infty+R_\infty K^{\mathsf T}\Psi^*C_o^{\mathsf T}+C_o\Psi KR_\infty K^{\mathsf T}\Psi^*C_o^{\mathsf T}
+=\mathsf W R_\infty\mathsf W^*.
+\]
+This is an identity of rational functions on the circle, and it holds
+whether or not $A_o$ is stable; when $A_o$ is stable its left side is
+the spectral density of the holder's observation, and otherwise only
+the identity is used. The transfer function from $\xi$ to
+$\sum_jH_jT_{t-j}$ is $\bC(zI-\bA)^{-1}\bE z=C_o(zI-A_o)^{-1}E_oz$,
+because the modes in $\mathcal N$ do not reach the output, so the left
+side is $\Sigma_U+G(e^{i\omega})f(\omega)G(e^{i\omega})^*$ up to the
+conjugation $\omega\mapsto-\omega$, which does not change its integral.
+
+\emph{Determinant and Jensen.} By the identity
+$\det(I+XY)=\det(I+YX)$,
+$\det\mathsf W(z)=\det(I+\Psi(z)KC_o)=\det(zI-A_o+KC_o)/\det(zI-A_o)$.
+For a square matrix $M$ with eigenvalues $\lambda_i$,
+$\det(e^{i\omega}I-M)=\prod_i(e^{i\omega}-\lambda_i)$, and
+$\int\log|e^{i\omega}-\lambda|\dw=\log\max\{1,|\lambda|\}$ by Jensen's
+formula, so
+$\int\log|\det(e^{i\omega}I-M)|\dw=\sum_{|\lambda_i|>1}\log|\lambda_i|$.
+Neither $A_o$ nor $A_o-KC_o$ has eigenvalues on the circle, the latter
+has none outside it, and the eigenvalues of $A_o$ outside the circle
+are those of $\bA$ outside it that do not belong to $\bA|_{\mathcal N}$.
+Hence $\int\log|\det\mathsf W|\dw=-(\rho_\star-\rhid)$. Taking $\log\det$
+of the factorization and integrating gives the claim.
+\end{proof}
+
+The next lemma uses block circulant matrices. For a trigonometric
+polynomial $g$ of degree $L<N/2$, $C_N(g)$ is the block circulant matrix
+whose $(s,t)$ block is the sum of the coefficients of $g$ of the orders
+congruent to $s-t$ modulo $N$. It differs from $T_N(g)$ only in the
+blocks with $|s-t|\ge N-L$, a matrix of rank at most $2pL$ whose norm is
+bounded by the sum of the norms of the coefficients, and the discrete
+Fourier transform makes it block diagonal with the blocks $g$ at the
+$N$ Fourier frequencies. In particular
+$\log\det C_N(g)=N\int\log\det g\,\dw+o(N)$ for a positive definite $g$,
+a Riemann sum of a continuous function. Let $\mathsf G_N$ be the matrix
+of the holder on the window, with the blocks $H_{s-t}$ for
+$0\le s-t\le m$, and
+$\mathsf J_N=\mathsf G_N^{\mathsf T}(I_N\otimes\Sigma_U^{-1})\mathsf G_N$.
+As for $P_N$, $\mathsf J_N=T_N(j)$ minus a positive semidefinite matrix
+of rank at most $rm$ on the last $m$ blocks, so
+$\mathsf J_N-C_N(j)$ has rank at most $rm+2pm$ and bounded norm.
+
+\begin{lemma}\label{lem:endpoint}
+\begin{enumerate}
+\item[(a)] $\log\det\Cov(Z)=2N\rho_\star+o(N)$.
+\item[(b)] $\log\det\Cov(Z\mid S^N)=2N\rhid+o(N)$.
+\item[(c)] Let $m_f>0$ and $M_f$ be the smallest and the largest
+eigenvalue of $f(\omega)$ over $\omega$,
+$\bar J=(\sum_j\|H_j\|)^2\|\Sigma_U^{-1}\|$, and
+$c=\min\{(1/m_f+\bar J)^{-1},1/M_f\}$, which does not depend on $N$.
+With $S_X=\mathsf G_NX+U$, the four matrices $\Cov(Z_X)$,
+$\Cov(Z_X\mid S_X)$, $\Cov(Z)$, and $\Cov(Z\mid S^N)$ are all at least
+$cI$, and the first two are at most $c^{-1}I$.
+\end{enumerate}
+By (a) and (b) the volumes of the last two grow at the rates $\rho_\star$
+and $\rhid$, so they have no upper bound independent of $N$ when these
+rates are positive.
+\end{lemma}
+
+\begin{proof}
+(c) For a block Toeplitz matrix with a Hermitian symbol $g$,
+$x^*T_N(g)x=\int\hat x(\omega)^*g(\omega)\hat x(\omega)\dw$ with
+$\int\|\hat x\|^2\dw=\|x\|^2$, so its eigenvalues lie between the extreme
+eigenvalues of $g$. Hence $P_N=T_N(f^{-1})$ has eigenvalues in
+$[1/M_f,1/m_f]$ and $P_N^{-1}$ in $[m_f,M_f]$. The matrix $\Cov(Z_X)$ is
+a principal submatrix of $P_N^{-1}$, so its eigenvalues lie in
+$[m_f,M_f]$ by interlacing, and $\Cov(Z_X\mid S_X)\preceq\Cov(Z_X)$.
+For the lower bounds, conditioning on more lowers the covariance.
+Given $Y$ and $S^N$, the conditional precision of $Z$ is the block $ZZ$
+of the posterior precision $\Gamma_N^{-1}+\mathsf J_N$ of $T^N$, so
+\[
+\Cov(Z)\succeq\Cov(Z\mid S^N)\succeq\Cov(Z\mid Y,S^N)=\bigl((\Gamma_N^{-1})_{ZZ}+(\mathsf J_N)_{ZZ}\bigr)^{-1}.
+\]
+By Lemma~\ref{lem:bridge}, $(\Gamma_N^{-1})_{ZZ}=(P_N)_{ZZ}-B_N$, and
+$B_N\succeq0$, so $(\Gamma_N^{-1})_{ZZ}\preceq(P_N)_{ZZ}\preceq(1/m_f)I$;
+and $\|\mathsf J_N\|\le\|\mathsf G_N\|^2\|\Sigma_U^{-1}\|\le\bar J$. So
+the right side is at least $(1/m_f+\bar J)^{-1}I$. This bound does not
+depend on $N$, however fast the hidden modes grow: growth makes
+$(\Gamma_N^{-1})_{ZZ}$ smaller, never larger. The same argument with
+$P_N$ in place of $\Gamma_N^{-1}$ gives the bounds for $Z_X$.
+
+(a) By Lemma~\ref{lem:bridge} the conditional laws given the final
+blocks agree, so
+$\log\det\Gamma_N-\log\det\Cov(Z)=\log\det K_N=\log\det P_N^{-1}-\log\det\Cov(Z_X)$.
+Since $\det\mathsf A_N=1$, $\log\det\Gamma_N=N\log\det\Sigma_\xi$. The
+matrices $P_N=T_N(f^{-1})$ and $C_N(f^{-1})$ have eigenvalues in
+$[1/M_f,1/m_f]$ and differ by a matrix of rank at most $2pd$ and bounded
+norm, so their log-determinants differ by $O(1)$, and
+$\log\det C_N(f^{-1})=N\int\log\det f^{-1}\dw+o(N)$. Finally
+$\int\log\det f\,\dw=\log\det\Sigma_\xi-2\int\log|\det\Phi(e^{i\omega})|\dw$,
+and Jensen's formula for the polynomial $\det\Phi$, with
+$\det\Phi(0)=1$, gives $\int\log|\det\Phi|\dw=\sum\log(1/|z_j|)$ over its
+zeros in the unit disk, which is $\rho_\star$. With (c),
+$\log\det\Cov(Z)=2N\rho_\star+o(N)$.
+
+(b) In bits,
+$\log\det\Cov(Z\mid S^N)=\log\det\Cov(Z)-2I(Z;S^N)$. Write
+$I(T^N;S^N)=I(Z;S^N)+I(Y;S^N\mid Z)$ and the same for $X$. Given $Z=z$
+the pair $(Y,S^N)$ is Gaussian with a mean that depends on $z$ and a
+covariance that does not, and by Lemma~\ref{lem:bridge} that covariance
+is the same for $X$ given $Z_X=z$, so the two conditional informations
+are equal. Hence
+\[
+I(Z;S^N)=I(Z_X;S_X)+I(T^N;S^N)-I(X;S_X).
+\]
+By (c), $I(Z_X;S_X)=O(1)$. Next,
+$I(X;S_X)=\tfrac12[\log\det(P_N+\mathsf J_N)-\log\det P_N]$, and
+$P_N+\mathsf J_N$ differs from $C_N(f^{-1}+j)$ by a matrix of rank at
+most $2pd+rm+2pm$ and bounded norm, both having eigenvalues in a fixed
+interval, so
+$\tfrac1NI(X;S_X)\to\tfrac12\int\log\det(I+fj)\dw$. Finally
+$I(T^N;S^N)=\sum_t[h(S_t\mid S^{t-1})-h(U_t)]=\tfrac12\sum_t\log\det(R_t\Sigma_U^{-1})$,
+and by Lemma~\ref{lem:innovations} and the identity
+$\det(I+\Sigma_U^{-1}GfG^*)=\det(I+fj)$,
+\[
+\tfrac1NI(T^N;S^N)\to\tfrac12\int\log\det(I+fj)\dw+\rho_\star-\rhid.
+\]
+Hence $I(Z;S^N)=N(\rho_\star-\rhid)+o(N)$, and (a) gives (b).
+\end{proof}
+
+\subsection{The window cost}
+
+\begin{lemma}\label{lem:perturb}
+For $\Pi\succ0$ and $\mathsf J\succeq0$ of size $pn$ let
+$\mathsf c(\Pi,\mathsf J)=\tfrac\alpha2\log\det\Pi+\tfrac{1-\alpha}2\log\det(\Pi+\mathsf J)$.
+Let $\Pi,\Pi'\succ0$ and $\mathsf J,\mathsf J'\succeq0$, with $\Pi'-\Pi$ and
+$\mathsf J'-\mathsf J$ of rank at most $\bar k$ and norm at most $b$.
+Then for every $D>0$
+\[
+\Bigl|\bigl[\VG(\alpha,nD;\Pi^{-1},\mathsf J)+\mathsf c(\Pi,\mathsf J)\bigr]-\bigl[\VG(\alpha,nD;\Pi'^{-1},\mathsf J')+\mathsf c(\Pi',\mathsf J')\bigr]\Bigr|
+\le\bar k\log\Bigl(1+\frac{bnD}q\Bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Write $P=\Delta^{-1}$ and $\Lambda=\log(1+bnD/q)$. In \eqref{eq:costs},
+$\alpha r+(1-\alpha)\ell=g_{\mathsf J}(P)-\mathsf c(\mathsf S^{-1},\mathsf J)$
+with
+$g_{\mathsf J}(P)=\tfrac\alpha2\log\det P+\tfrac{1-\alpha}2\log\det(P+\mathsf J)$,
+and the constraints are $P\in\mathcal F(\mathsf S^{-1})$, where
+$\mathcal F(\Pi)=\{P\succeq\Pi:\ \tr((I_n\otimes Q)P^{-1})\le nD\}$. So the
+bracket for $(\Pi,\mathsf J)$ is $\min_{\mathcal F(\Pi)}g_{\mathsf J}$. On
+$\mathcal F(\Pi)$, $q\,\lambda_{\max}(P^{-1})\le nD$, so
+$\lambda_{\min}(P)\ge q/(nD)$, and for a positive semidefinite $B$ of
+rank $k'$ and norm at most $b$,
+$0\le\log\det(P+B)-\log\det P\le k'\Lambda$, and the same with
+$P+\mathsf J$ in place of $P$. For a symmetric $X$ of rank at most
+$\bar k$, its positive and negative parts $X_\pm\succeq0$ have norms at
+most $\|X\|$ and ranks with $\operatorname{rank}X_++\operatorname{rank}X_-\le\bar k$.
+
+\emph{The information matrix.} Let $\mathsf J'-\mathsf J=B_+-B_-$ be that
+decomposition, so that $\mathsf J+B_+=\mathsf J'+B_-$. Then
+$g_{\mathsf J}\le g_{\mathsf J+B_+}\le g_{\mathsf J}+\tfrac{\bar k}2\Lambda$ and
+$g_{\mathsf J'}\le g_{\mathsf J'+B_-}\le g_{\mathsf J'}+\tfrac{\bar k}2\Lambda$
+on every $\mathcal F(\Pi)$. Both $g_{\mathsf J}$ and $g_{\mathsf J'}$ lie
+within $\tfrac{\bar k}2\Lambda$ below the same function, so
+$|g_{\mathsf J}-g_{\mathsf J'}|\le\tfrac{\bar k}2\Lambda$.
+
+\emph{The precision.} Let $\Pi''=\Pi+(\Pi'-\Pi)_+=\Pi'+(\Pi'-\Pi)_-$,
+which dominates $\Pi$ and $\Pi'$, so
+$\mathcal F(\Pi'')\subseteq\mathcal F(\Pi)\cap\mathcal F(\Pi')$ and
+$\min_{\mathcal F(\Pi'')}g$ is at least each of $\min_{\mathcal F(\Pi)}g$
+and $\min_{\mathcal F(\Pi')}g$. Conversely, for $P\in\mathcal F(\Pi)$ the
+matrix $P+(\Pi'-\Pi)_+$ dominates $\Pi''$, its inverse is at most
+$P^{-1}$, so it lies in $\mathcal F(\Pi'')$, and its cost is at most
+$g(P)+\tfrac{\bar k}2\Lambda$; the same holds with $\Pi'$ and
+$(\Pi'-\Pi)_-$. So $\min_{\mathcal F(\Pi)}g$ and $\min_{\mathcal F(\Pi')}g$
+both lie within $\tfrac{\bar k}2\Lambda$ below $\min_{\mathcal F(\Pi'')}g$,
+and they differ by at most $\tfrac{\bar k}2\Lambda$.
+
+The two steps, applied one after the other, give the claim.
+\end{proof}
+
+\begin{lemma}\label{lem:circulant}
+For $0<D<D_{\max}^f$,
+$\tfrac1N\VG\bigl(\alpha,ND;C_N(f^{-1})^{-1},C_N(j)\bigr)\to V_f(\alpha,D)$.
+\end{lemma}
+
+\begin{proof}
+The cyclic shift of the window by one symbol commutes with
+$C_N(f^{-1})$, $C_N(j)$, and $I_N\otimes Q$, so it maps the feasible set
+to itself and preserves the cost. The cost is convex by
+\cite[Theorem~5]{part1}, so the average of a minimizer over the $N$
+shifts is a block circulant minimizer. The discrete Fourier transform
+makes every block circulant matrix block diagonal, and the problem
+becomes the program of Section~\ref{sec:model} over the uniform measure
+on the $N$ Fourier frequencies, with the covariances
+$f(2\pi k/N)$ and the information matrices $j(2\pi k/N)$; a minimizer
+may be taken conjugate symmetric across $k$ and $N-k$, hence real
+after the transform. By (ii) of Section~\ref{sec:model} its cost tends
+to $V_f(\alpha,D)$.
+\end{proof}
+
+\subsection{Codes for groups of symbols}
+
+\begin{lemma}\label{lem:groups}
+Let $n_0>m$, and let $\mathsf G'$ be the map from $n_0$ symbols to the
+holder's observations at their times $m+1,\dots,n_0$, which involve only
+those symbols, with information matrix $\mathsf J'$. Let a code with a
+deterministic encoder for the Gaussian vector $T'$ of $n_0$ symbols with
+covariance $\mathsf S'\succ0$ have rate $R'$, distortion $D'$, and
+leakage $L'=\tfrac1{n_0}H(M'\mid\mathsf G'T'+U')$, with $U'$ white noise of
+covariance $I\otimes\Sigma_U$ independent of $T'$. Let $T$ be a Gaussian
+vector whose $k$ consecutive groups $T_1,\dots,T_k$ of $n_0$ symbols,
+possibly dependent, have covariances $\mathsf S_j$ with
+$\mathsf S'\preceq\mathsf S_j\preceq b_0I$. Let $S$ be any observation that
+contains, for each $j$, the vector $S_j=\mathsf G'T_j+U_j$, where the $U_j$
+are white noises of covariance $I\otimes\Sigma_U$, independent of each
+other, of $T$, and of the rest of $S$ given $T$. Then for every
+$\delta>0$ and every $k\ge k_0$, with $k_0$ depending only on the code,
+$b_0$, $Q$, and $\delta$, there is a code for $T$ with a deterministic
+encoder, rate $R'$, distortion at most $D'+\epsilon_Q+\delta$, and
+$\tfrac1{kn_0}H(M\mid S)\le L'+\epsilon_J+\delta$, where
+$\epsilon_Q=\max_j\tfrac1{n_0}\tr((I\otimes Q)(\mathsf S_j-\mathsf S'))$ and
+$\epsilon_J=\max_j\tfrac1{2n_0\ln2}\tr(\mathsf J'(\mathsf S_j-\mathsf S'))$.
+\end{lemma}
+
+\begin{proof}
+This is \cite[Lemma~12]{part3}, whose proof uses the holder in three
+places. First, the coupling of \cite[Lemma~11]{part3} draws $T'_j$ from
+$T_j$ so that $(T'_j,\mathsf G'T'_j+U_j)$ has the law under which $L'$ was
+measured; this holds here because $S_j$ is $\mathsf G'T_j$ plus white
+noise of the right covariance. Second, the leakage the coupling adds is
+at most $I(E_j;\mathsf G'E_j+U_j)\le\tr(\mathsf J'\Cov E_j)/(2\ln2)$, which
+holds for any linear map $\mathsf G'$. Third, the leakage of the tuple of
+messages is bounded by
+$H(M\mid S)\le\sum_jH(M_j\mid S)\le\sum_jH(M_j\mid S_j)$, which holds
+because each $S_j$ is part of $S$.
+\end{proof}
+
+A code from (i) of Section~\ref{sec:model} for the stationary source
+with density $f'$ has its leakage measured against the holder's
+observations at all the times of its window, $A=(S_1,\dots,S_m)$ and
+$B=(S_{m+1},\dots,S_{n_0})$, and $A$ involves up to $m$ symbols before the
+window. Its leakage against $B$ alone is larger by
+$\tfrac1{n_0}I(M;A\mid B)$. Since $M$ is a function of the window and
+$A$ and $B$ are independent given the source on the times
+$1-m,\dots,n_0$, $I(M;A\mid B)\le I(W_{1-m..n_0};A\mid B)\le I(W_{1-m..n_0};A)$,
+the information through a channel of dimension $rm$ with white noise.
+By Fischer's inequality applied to the covariance of $A$ it is at most
+$\tfrac{rm}2\log(1+\kappa_0)$, with $\kappa_0$ the largest eigenvalue of
+$\Sigma_U^{-1/2}\Cov(\sum_jH_jW_{t-j})\Sigma_U^{-1/2}$, which is at most
+$\bar JM_f$. So against the observations of Lemma~\ref{lem:groups} the
+code's leakage per symbol is larger by at most
+$\tfrac{rm}{2n_0}\log(1+\bar JM_f)$, which tends to zero as $n_0$ grows.
+
+\subsection{A finite quantizer for the final state}
+
+The rate of a code is the logarithm of the size of its message set, so
+the final state, whose variance grows exponentially, must be described
+with finitely many messages.
+
+\begin{lemma}\label{lem:quantizer}
+Let $Z_N\in\R^k$ be centered and jointly Gaussian with $S^N$, with
+covariance $\Xi_N$, and let $c,\beta>0$ be such that $\Xi_N\succeq cI$,
+$\Cov(Z_N\mid S^N)\succeq cI$, and $\ln\lambda_{\max}(\Xi_N)\le\beta N$ for
+every $N$. For every $\epsilon>0$ there are deterministic quantizers
+$M_{Z,N}=\mathsf q_N(Z_N)$ with finite index sets $\mathcal M_{Z,N}$ and
+reproductions $\hat Z_N$ such that
+\begin{enumerate}
+\item[(a)] $\log|\mathcal M_{Z,N}|\le\tfrac12\log\det\Xi_N+O(\log N)$;
+\item[(b)] $H(M_{Z,N}\mid S^N)\le\tfrac12\log\det\Cov(Z_N\mid S^N)+O(1)$;
+\item[(c)] $\E\|Z_N-\hat Z_N\|^2\le k\epsilon^2/4+o(1)$,
+\end{enumerate}
+with constants that depend on $k$, $c$, $\beta$, and $\epsilon$ only.
+\end{lemma}
+
+\begin{proof}
+Let $u_1,\dots,u_k$ be orthonormal eigenvectors of $\Xi_N$ with
+eigenvalues $\lambda_i$, let $V_i=u_i^{\mathsf T}Z_N$, and let
+$s_N=(2\beta N+4\ln N)^{1/2}$. Let $j_i=\lfloor V_i/\epsilon\rfloor$ be
+the index of the lattice cell of $V_i$ and $J_i=\lceil s_N\sqrt{\lambda_i}/\epsilon\rceil$.
+The quantizer sends $j_i$ when $|j_i|\le J_i$ and an overflow symbol
+otherwise, and the reproduction is the midpoint $(j_i+\tfrac12)\epsilon$
+of the cell, or $0$ after an overflow, in each coordinate.
+
+(a) The index set has $\prod_i(2J_i+2)$ elements, and
+$2J_i+2\le2s_N\sqrt{\lambda_i}/\epsilon+4\le\sqrt{\lambda_i}\,(2s_N/\epsilon+4/\sqrt c)$
+because $\lambda_i\ge c$. So
+$\log|\mathcal M_{Z,N}|\le\tfrac12\log\det\Xi_N+k\log(2s_N/\epsilon+4/\sqrt c)$,
+and $s_N=O(\sqrt N)$.
+
+(b) The index is a function of the vector $\mathbf j=(j_1,\dots,j_k)$ of
+lattice indices, so $H(M_{Z,N}\mid S^N)\le H(\mathbf j\mid S^N)$. Let
+$\mathsf w$ be uniform on $[0,\epsilon)^k$ and independent of
+$(Z_N,S^N)$. Given $S^N$, the vector $\epsilon\mathbf j+\mathsf w$ has the
+conditional density of $\mathbf j$ spread evenly over the cells, so
+$h(\epsilon\mathbf j+\mathsf w\mid S^N)=H(\mathbf j\mid S^N)+k\log\epsilon$.
+It equals $V+\Delta$ with $V=(V_i)$ and $\Delta\in(-\epsilon,\epsilon)^k$,
+so its conditional covariance is at most $2\Cov(V\mid S^N)+2k\epsilon^2I$.
+By the maximum of entropy at a given covariance and the concavity of
+$\log\det$,
+\begin{equation}
+H(\mathbf j\mid S^N)\le\tfrac12\log\det\bigl(2\pi e\cdot2(\Cov(Z_N\mid S^N)+k\epsilon^2I)\bigr)-k\log\epsilon,
+\label{eq:quant}
+\end{equation}
+since $\Cov(V\mid S^N)$ is $\Cov(Z_N\mid S^N)$ in the basis $(u_i)$. With
+$\Cov(Z_N\mid S^N)\succeq cI$ the right side is
+$\tfrac12\log\det\Cov(Z_N\mid S^N)+\tfrac k2\log(4\pi e(1+k\epsilon^2/c))-k\log\epsilon$.
+
+(c) Without overflow the error in each coordinate is at most
+$\epsilon/2$. Overflow in coordinate $i$ requires
+$|V_i|\ge s_N\sqrt{\lambda_i}$, and for a standard Gaussian variable
+$\mathsf g$,
+$\E[\mathsf g^2\mathbf 1_{\{|\mathsf g|\ge s\}}]=2s\varphi(s)+2\bar\Phi(s)\le(s+1)e^{-s^2/2}$.
+So the error from overflow is at most
+$\sum_i\lambda_i(s_N+1)e^{-s_N^2/2}\le k(s_N+1)/N^2$, because
+$\lambda_i\le e^{\beta N}$.
+\end{proof}
+
+For the source of Theorem~\ref{thm:vector}, with $Z=Z_N$ the final state
+and $k=pd$, the hypotheses hold: the two lower bounds by
+Lemma~\ref{lem:endpoint}(c), and the upper one because
+$T_t=\sum_{j<t}\Psi_j\xi_{t-j}$ with impulse response
+$\|\Psi_j\|\le c'(1+j)^{p\varsigma}\bar\rho^{\,j}$, where $\bar\rho$ is the
+largest modulus of a pole, so that $\ln\lambda_{\max}(\Xi_N)\le\beta N$ for
+every $N\ge1$ with $\beta$ large enough.
+
+\subsection{Proof of Theorem~\ref{thm:vector}}
+
+\emph{The window cost.} Let $D>0$. Apply Lemma~\ref{lem:perturb} with
+$\Pi=\Gamma_N^{-1}=P_N-B_N$, $\mathsf J=\mathsf J_N$, $\Pi'=C_N(f^{-1})$,
+and $\mathsf J'=C_N(j)$. The differences have ranks at most $3pd$ and
+$rm+2pm$, so $\bar k=\max\{3pd,rm+2pm\}$, and norms bounded in $N$, so
+\[
+\VG(\alpha,ND;\Gamma_N,\mathsf J_N)=\VG\bigl(\alpha,ND;C_N(f^{-1})^{-1},C_N(j)\bigr)+\mathsf c\bigl(C_N(f^{-1}),C_N(j)\bigr)-\mathsf c(\Gamma_N^{-1},\mathsf J_N)+O(\log N)
+\]
+for every $D>0$. For the constants, $\log\det\Gamma_N^{-1}=-N\log\det\Sigma_\xi$
+and
+$\log\det C_N(f^{-1})=N\int\log\det f^{-1}\dw+o(N)=N(2\rho_\star-\log\det\Sigma_\xi)+o(N)$,
+by the computation in the proof of Lemma~\ref{lem:endpoint}(a), so the
+first difference of log-determinants is $2N\rho_\star+o(N)$. For the
+second,
+$\log\det(\Gamma_N^{-1}+\mathsf J_N)=\log\det\Gamma_N^{-1}+2I(T^N;S^N)$,
+which by the proof of Lemma~\ref{lem:endpoint}(b) is
+$N[-\log\det\Sigma_\xi+\int\log\det(I+fj)\dw+2(\rho_\star-\rhid)]+o(N)$,
+while
+$\log\det(C_N(f^{-1})+C_N(j))=N\int\log\det(f^{-1}+j)\dw+o(N)=N[2\rho_\star-\log\det\Sigma_\xi+\int\log\det(I+fj)\dw]+o(N)$.
+The second difference is therefore $2N\rhid+o(N)$, and
+\[
+\mathsf c\bigl(C_N(f^{-1}),C_N(j)\bigr)-\mathsf c(\Gamma_N^{-1},\mathsf J_N)=N[\alpha\rho_\star+(1-\alpha)\rhid]+o(N).
+\]
+For $0<D<D_{\max}^f$, Lemma~\ref{lem:circulant} gives the limit of the
+window cost. For every $D>0$ the display and $\VG\ge0$ give
+$\liminf\tfrac1N\VG(\alpha,ND;\Gamma_N,\mathsf J_N)\ge\alpha\rho_\star+(1-\alpha)\rhid$.
+
+\emph{Converse.} Let $(R,L)$ be achievable at $D$ with codes of
+blocklengths $N_j$, and let $D'>D$. Eventually $D_{N_j}\le D'$, so by
+Section~\ref{sec:model}
+$\alpha R_{N_j}+(1-\alpha)L_{N_j}\ge\tfrac1{N_j}\VG(\alpha,N_jD';\Gamma_{N_j},\mathsf J_{N_j})$.
+In the limit,
+$\alpha R+(1-\alpha)L\ge\alpha\rho_\star+(1-\alpha)\rhid+V_f(\alpha,D')$,
+by the limit of the window cost for $D'<D_{\max}^f$ and by its lower
+bound, with $V_f=0$, for $D'\ge D_{\max}^f$. Letting $D'\downarrow D$ and
+using the continuity of $V_f$, $(R,L)$ lies in every half-plane that
+defines the translate of $\mathcal R_f(D)$.
+
+\emph{Achievability: the code.} Let $0<\eta<m_f$, $f'=f-\eta I$, and let
+$(R',L')\in\mathcal R_{f'}(D')$ with $0<D'<D_{\max}^{f'}=D_{\max}^f-\eta\tr Q$.
+By (i) of Section~\ref{sec:model} and the remark after
+Lemma~\ref{lem:groups}, there is, for every $\delta>0$ and some large
+$n_0>m$, a code of blocklength $n_0$ for the stationary source with
+density $f'$ and the holder, with a deterministic encoder, rate at most
+$R'+\delta$, distortion at most $D'+\delta$, and leakage at most
+$L'+\delta$ against the observations at its times after the first $m$.
+For a blocklength $N$ the encoder does three things.
+\begin{enumerate}
+\item It quantizes $Z$ with the quantizer of Lemma~\ref{lem:quantizer},
+for a fixed $\epsilon>0$, and sends the index $M_Z$; the decoder takes
+its reproduction $\hat Z$.
+\item It computes $Y''=Y-m_NZ$, which by Lemma~\ref{lem:bridge} is
+$\mathcal N(0,K_N)$ and independent of $Z$. Let $L_\eta$, which depends
+on $\eta$ and $n_0$, be such that
+$c_W\,n_0\,\varrho^{2L_\eta}\le\eta$ in Lemma~\ref{lem:stationary}. The
+times of $Y''$ at distance at least $L_\eta$ from both ends are cut into
+$k_N$ groups of $n_0$, with $k_N\to\infty$; by Lemma~\ref{lem:stationary} each group has
+covariance $\mathsf S_{\mathcal G}$ with
+$T_{n_0}(f')\preceq\mathsf S_{\mathcal G}\preceq T_{n_0}(f)$, and the code
+for $f'$ is applied to the groups by Lemma~\ref{lem:groups}, which adds
+at most $\eta\tr Q$ in distortion and $\eta\bar Jp/(2\ln2)$ in leakage per
+symbol, plus $\delta$. The other times of $Y''$, at most $2L_\eta+n_0$ of
+them, are reproduced as zero.
+\item The decoder reproduces $\hat Y=\hat Y''+m_N\hat Z$.
+\end{enumerate}
+The encoder is deterministic and the message set is the product of
+$\mathcal M_{Z,N}$ and the message sets of the group codes, all finite.
+
+\emph{Distortion.} The error on $Y$ is $(Y''-\hat Y'')+m_N(Z-\hat Z)$,
+and $\|m_N\|$ is bounded in $N$ because $P_N$ has eigenvalues in a
+fixed interval. So for any $\zeta>0$ the distortion per symbol is at
+most
+$(1+\zeta)\tfrac1N\E\|Y''-\hat Y''\|_Q^2+(2+1/\zeta)\|Q\|(1+\|m_N\|^2)\,\E\|Z-\hat Z\|^2/N$.
+The second term is $O(1/N)$ by Lemma~\ref{lem:quantizer}(c), and the
+first tends to at most $(1+\zeta)(D'+2\delta+\eta\tr Q)$, the share of
+the zero-coded times tending to zero.
+
+\emph{Rate.} By Lemma~\ref{lem:quantizer}(a) and
+Lemma~\ref{lem:endpoint}(a), $\tfrac1N\log|\mathcal M_{Z,N}|\to\rho_\star$,
+and the groups add at most $R'+\delta$ per symbol.
+
+\emph{Leakage.} With $M=(M_Z,M_Y)$,
+$H(M\mid S^N)\le H(M_Z\mid S^N)+H(M_Y\mid S^N)$. By
+Lemma~\ref{lem:quantizer}(b) and Lemma~\ref{lem:endpoint}(b),
+$\limsup\tfrac1NH(M_Z\mid S^N)\le\rhid$. For the other term, whiten the
+noise, multiplying the observations by $I_N\otimes\Sigma_U^{-1/2}$, and
+write the whitened observations as $\tilde S''+\tilde{\mathsf G}_ZZ$,
+where $\tilde S''$ is the whitened $\mathsf G_N(Y'',0)+U^N$ and
+$\tilde{\mathsf G}_Z$, of rank at most $pd$, gives the contribution of
+$Z$ through $m_NZ$ and through $Z$ itself. Let $\Pi_Z$ be the orthogonal
+projection onto the complement of the range of $\tilde{\mathsf G}_Z$, and
+$A=(I-\Pi_Z)\tilde S''$, $B=\Pi_Z\tilde S''$. The whitened noise is white,
+so its two projections are independent, and $A$ and $B$ are independent
+given $Y''$. Since $M_Y$ is a function of $Y''$ and $Y''$, $Z$, and the
+noise are independent,
+\[
+H(M_Y\mid S^N)\le H(M_Y\mid B)=H(M_Y\mid A,B)+I(M_Y;A\mid B)\le H(M_Y\mid\tilde S'')+I(Y'';A),
+\]
+using $I(M_Y;A\mid B)\le I(Y'';A\mid B)\le I(Y'';A)$, the last because
+$A$ and $B$ are independent given $Y''$. The term $I(Y'';A)$ is the
+information through a channel of dimension at most $pd$ with bounded
+signal and white noise, which is $O(1)$. Finally
+Lemma~\ref{lem:groups} bounds $H(M_Y\mid\tilde S'')$, which equals the
+same quantity without whitening. So the leakage per symbol is at most
+$\rhid+L'+\eta\bar Jp/(2\ln2)+2\delta+o(1)$.
+
+\emph{Closing the argument.} Let $0<D<D_{\max}^f$, $(R,L)\in\mathcal R_f(D)$,
+and $\gamma>0$. The function $V_f(\alpha,\cdot)$ is convex and
+nonincreasing, and $V_f(\alpha,D/2)\le V_f(1,D/2)$ because $\ell\le r$,
+so its slopes on $[D/2,D]$ are bounded uniformly in $\alpha$; choose
+$D''\in[D/2,D)$ with $V_f(\alpha,D'')\le V_f(\alpha,D)+\gamma$ for every
+$\alpha$. Then choose $\eta>0$ so small that, with
+$\kappa_\eta=\eta/(m_f-\eta)$, $\tfrac p2\log(1+\kappa_\eta)\le\gamma$, and
+$\zeta,\delta>0$ so small that $(1+\zeta)(D'+2\delta+\eta\tr Q)<D$ for
+$D'=D''/(1+\kappa_\eta)$; this is possible because $D'<D''<D$. Since
+$f'\preceq f\preceq(1+\kappa_\eta)f'$, the left inequality of (iii),
+evaluated at $(1+\kappa_\eta)D'=D''$, gives
+$V_{f'}(\alpha,D')\le V_f(\alpha,D'')+\gamma\le V_f(\alpha,D)+2\gamma$ for
+every $\alpha$, and $D'<D<D_{\max}^f-\eta\tr Q$ once $\eta$ is small. As
+$\alpha R+(1-\alpha)L\ge V_f(\alpha,D)$ for every $\alpha$, the pair
+$(R+2\gamma,L+2\gamma)$ lies in every half-plane that defines
+$\mathcal R_{f'}(D')$, hence in it. The code above with
+$(R',L')=(R+2\gamma,L+2\gamma)$ has, for large $N$, distortion below $D$,
+rate at most $\rho_\star+R+2\gamma+2\delta$, and leakage at most
+$\rhid+L+2\gamma+\eta\bar Jp/(2\ln2)+3\delta$. Letting $\gamma$, $\eta$,
+and $\delta$ tend to zero puts $(\rho_\star+R,\rhid+L)$ in the closure
+$\mathcal A(D)$. For $D\ge D_{\max}^f$ only the index of
+Lemma~\ref{lem:quantizer} is sent and $Y$ is reproduced as $m_N\hat Z$,
+whose distortion tends to at most $D_{\max}^f$ because
+$K_N\preceq T_{N-d}(f)$, which gives $(\rho_\star,\rhid)$ and every pair
+above it.
+\hfill$\blacksquare$
+
+\section{Sources with a Limiting Eigenvalue Distribution}
+\label{sec:law}
+
+\subsection{The result}
+
+Let $(T_t)_{t\ge1}$ be a centered scalar Gaussian process, with any
+covariance, observed by the holder through $S_t=HT_t+U_t$, $H\in\R$, with
+$U_t$ independent $\mathcal N(0,\sigma_U^2)$, and $J=H^2/\sigma_U^2$. The
+decoder reproduces $T$ with weight $Q>0$. Let $\Gamma_N=\Cov(T^N)$ and
+let $\mu_N$ be the distribution of its eigenvalues, the probability
+measure that puts mass $1/N$ on each.
+
+\begin{theorem}\label{thm:law}
+Assume that $\|\Gamma_N\|\le b$ for every $N$ and that $\mu_N$ converges
+weakly to a probability measure $\mu$. Let $D_{\max}^\mu=Q\int\lambda\,d\mu$,
+and for $0<D<D_{\max}^\mu$ let $\theta>0$ solve
+$Q\int\min\{\lambda,\theta\}\,d\mu=D$ and
+\[
+r_\mu(D)=\int\tfrac12\log^+\frac\lambda\theta\,d\mu,\qquad
+\ell_\mu(D)=\int_{\lambda>\theta}\tfrac12\log\frac{1/\theta+J}{1/\lambda+J}\,d\mu .
+\]
+Then $\mathcal A(D)$ is the quadrant above $(r_\mu(D),\ell_\mu(D))$, with
+deterministic encoders and codes at every large blocklength, and it is
+the nonnegative quadrant for $D\ge D_{\max}^\mu$. In particular the
+rate--distortion function is $r_\mu(D)$.
+\end{theorem}
+
+The quantity $\theta$ is unique because
+$\theta\mapsto Q\int\min\{\lambda,\theta\}\,d\mu$ is continuous and
+strictly increasing until it reaches $D_{\max}^\mu$. The theorem applies
+to stationary scalar sources, where $\mu$ is the distribution of the
+values of the spectral density by Szeg\H{o}'s theorem
+\cite{grenander1958}, and to the scalar locally stationary and
+cyclostationary sources of \cite{part3}. Its interest is for sources
+whose statistics vary too fast for a local spectrum and never repeat.
+
+\begin{proof}
+If $\Gamma_N$ is singular, $T^N$ lies in its range, the part of the
+holder's observation orthogonal to the range is independent noise, and
+the problem is that of the vector of coordinates in an orthonormal
+basis of the range; the formulas below hold with the convention that a
+zero eigenvalue costs nothing. \emph{Converse.} By
+\cite[Lemma~24]{part3}, for every $\alpha$,
+$\tfrac1N\VG(\alpha,ND;\Gamma_N,JI_N)=\alpha r_N+(1-\alpha)\ell_N$ with
+$r_N=\int\tfrac12\log^+(\lambda/\theta_N)\,d\mu_N$, $\ell_N$ the
+analogous integral, and $\theta_N$ the solution of
+$Q\int\min\{\lambda,\theta_N\}\,d\mu_N=D$. The functions
+$\theta\mapsto Q\int\min\{\lambda,\theta\}\,d\mu_N$ converge to the one
+for $\mu$ uniformly on compact sets, because $\min\{\lambda,\theta\}$ is
+bounded and Lipschitz on $[0,b]$, uniformly in $\theta$; with strict
+monotonicity at $\theta$, $\theta_N\to\theta$. The integrands of $r$
+and $\ell$ are bounded and jointly continuous in $(\lambda,\theta)$ on
+$[0,b]\times[\theta/2,2\theta]$, so $r_N\to r_\mu(D)$ and
+$\ell_N\to\ell_\mu(D)$. Every code of blocklength $N$ has
+$\alpha R_N+(1-\alpha)L_N\ge\tfrac1N\VG(\alpha,ND_N;\Gamma_N,JI_N)$, and the
+continuity of $r_\mu$ and $\ell_\mu$ in $D$ gives the converse as in the
+proof of Theorem~\ref{thm:vector}.
+
+\emph{Achievability.} The proof of \cite[Theorem~26]{part3} for the
+bulk applies with two changes. The window is rotated into the
+eigenbasis of $\Gamma_N$, which keeps the holder's noise white because
+its gain is scalar, and the components are independent with variances
+the eigenvalues. The bins are $[v_{i-1},v_i)$ with
+$v_0=\epsilon_0\in(0,\theta)$, $v_i\le(1+\kappa)v_{i-1}$, $v_B>b$, and
+$\mu(\{v_i\})=0$ for $0\le i<B$, and the components with eigenvalues
+below $\epsilon_0$ are reproduced as zero. In the minimizing allocation
+those components have $\delta=\lambda$, so they cost nothing there
+either, and their distortion is the same in both. Each other bin is
+coded with codes for white sources of variance $v_{i-1}$ and
+\cite[Lemma~12]{part3}. Since $\mu_N\to\mu$ and the boundaries carry no
+mass, the share of each bin tends to its $\mu$-mass, and the rest of
+that proof gives every point of the quadrant. By
+\cite[Lemma~24]{part3} the same allocation
+$\delta=\min\{\lambda,\theta\}$ minimizes every weighted cost, so the
+region is a quadrant. The construction works at every large $N$.
+\end{proof}
+
+\subsection{Sources driven by a uniquely ergodic map}
+
+\begin{proposition}\label{prop:ergodic}
+Let $\Theta$ be a compact metric space and $\tau:\Theta\to\Theta$ a
+homeomorphism with exactly one invariant probability measure $\nu$.
+Let $c:\Theta\times\{0,1,\dots,m\}\to\R$ be continuous in its first
+argument, set $c(\vartheta,\Delta)=0$ for $\Delta>m$, and
+for $\vartheta_0\in\Theta$ let $\Gamma_N(\vartheta_0)$ be the matrix with
+entries $c(\tau^s\vartheta_0,t-s)$, $1\le s\le t\le N$, extended
+symmetrically. If every $\Gamma_N(\vartheta_0)$ is positive semidefinite,
+then $\|\Gamma_N(\vartheta_0)\|\le(2m+1)\max|c|$, and the eigenvalue
+distributions $\mu_N(\vartheta_0)$ converge weakly to one probability
+measure $\mu$, the same for every $\vartheta_0$, whose moments are
+\[
+\int\lambda^k\,d\mu=\int_\Theta g_k\,d\nu,\qquad
+g_k(\vartheta)=\bigl(\Gamma(\vartheta)^k\bigr)_{00},
+\]
+with $\Gamma(\vartheta)$ the symmetric bi-infinite banded matrix with
+entries $c(\tau^s\vartheta,t-s)$, $s\le t$, indexed by $\Z$. The moments of
+$\mu_N(\vartheta_0)$ converge uniformly in $\vartheta_0$.
+\end{proposition}
+
+\begin{proof}
+The bound on the norm is the Schur test. For $k\ge1$,
+$\int\lambda^kd\mu_N=\tfrac1N\tr\Gamma_N^k=\tfrac1N\sum_s(\Gamma_N^k)_{ss}$,
+and for $s$ at distance more than $km$ from both ends the diagonal
+entry is a sum over paths of $k$ steps of length at most $m$, so it
+equals $g_k(\tau^s\vartheta_0)$. The function $g_k$ is a finite sum of
+products of continuous functions of $\vartheta$, hence continuous, and
+each of the $2km$ other diagonal entries is bounded by
+$((2m+1)\max|c|)^k$. By the uniform ergodic theorem for uniquely ergodic
+maps \cite{oxtoby1952},
+$\tfrac1N\sum_{s\le N}g_k(\tau^s\vartheta_0)\to\int g_kd\nu$ uniformly in
+$\vartheta_0$. The measures $\mu_N$ live on a fixed compact interval,
+where moments determine a measure and convergence of all moments
+implies weak convergence.
+\end{proof}
+
+\begin{corollary}\label{cor:sampled}
+Let $X_c(t)$, $t\in\R$, be a centered Gaussian process whose correlation
+$c_c(t,\lambda)=\E[X_c(t)X_c(t+\lambda)]$ is continuous, periodic in $t$
+with period $T_c$, and zero for $|\lambda|>\lambda_c$. Let $T_s>0$ with
+$T_s/T_c$ irrational, let $\phi\in[0,T_c)$, and let
+$T_i=X_c(iT_s+\phi)$, $i\ge1$. Then the eigenvalue distributions of the
+window covariances converge to a measure $\mu$ that does not depend on
+$\phi$, and with a scalar holder in white noise the region of
+Theorem~\ref{thm:law} is the same for every sampling phase. In
+particular the rate--distortion function of the sampled process exists
+as a limit at every $D>0$, equals
+$\int\tfrac12\log^+(\lambda/\theta)\,d\mu$, and does not depend on $\phi$.
+\end{corollary}
+
+\begin{proof}
+Take $\Theta=\R/T_c\Z$, $\tau(\vartheta)=\vartheta+T_s$, which is uniquely
+ergodic with Lebesgue measure because $T_s/T_c$ is irrational, and
+$c(\vartheta,\Delta)=c_c(\vartheta,\Delta T_s)$, which vanishes for
+$|\Delta|>\lambda_c/T_s$. Covariance matrices are positive semidefinite,
+so Proposition~\ref{prop:ergodic} and Theorem~\ref{thm:law} apply.
+\end{proof}
+
+Tan, Dabora, and Poor \cite[Theorem~1]{tan2024} express the
+rate--distortion function of this source, with a continuous correlation
+and a finite correlation length, as an average over $\phi$ of limits
+superior of the window programs, which by \cite[Lemma~24]{part3} are
+$r_N$ in the notation of the proof of Theorem~\ref{thm:law}, and they
+conjecture that each limit superior does not depend on $\phi$
+\cite[Remark~1]{tan2024}. Corollary~\ref{cor:sampled} proves this, shows
+that the limits exist, and gives their common value in closed form,
+together with the leakage. Their average over the phase and their
+maximum over it \cite[Corollary~1]{tan2024} are both equal to
+$r_\mu(D)$. When $T_s/T_c$ is rational the map $\tau$ has finite orbits,
+the moments of $\mu$ are averages of $g_k$ over the orbit of $\phi$
+rather than over the circle, and they can depend on the orbit. For
+example, let $X_c(t)=\sigma(t)Z(t)$ with $Z$ stationary, so that
+$\Gamma_N=D_\sigma\Gamma^Z_ND_\sigma$ with $D_\sigma$ the diagonal matrix of
+the sampled $\sigma$, and let $\sigma(t)^2=5+4\sin(2\pi t/T_c)$ and
+$T_s=T_c/2$. The phase $\phi=0$ gives samples of variance $5$, and
+$\phi=T_c/4$ gives variances alternating between $9$ and $1$, so
+$\tfrac1N\log\det\Gamma_N$ differs between the two by $\log(5/3)$. At a
+distortion small enough that every eigenvalue exceeds the water level,
+the rate is $\tfrac1{2N}\log\det\Gamma_N-\tfrac12\log(D/Q)$, so the two
+rate--distortion functions differ by $\tfrac12\log(5/3)$ bits there.
+
+\section{Open Problems}
+\label{sec:open}
+
+\textbf{Holders with infinite memory.} Theorem~\ref{thm:vector} is for a
+holder whose filter has finitely many taps. Truncating a filter with
+infinitely many, as in \cite[Theorem~22]{part2}, does not work directly
+for an unstable source, because the tail of the filter acts on a signal
+that grows. For a stable rational filter a joint state-space
+realization of the source and the filter is the natural route, with the
+hidden poles those cancelled by the filter's zeros; its information
+matrix on a window is no longer a finite-rank perturbation of a block
+Toeplitz one.
+
+\textbf{Vector sources and holders with memory under fast variation.}
+Theorem~\ref{thm:law} uses that a scalar source, a scalar weight, and a
+scalar holder commute, so that the cost depends only on the eigenvalues.
+For a vector source driven by a uniquely ergodic map we expect the
+region to be given by a limit of block programs, independent of the
+starting point, by the methods of \cite[Section~VI]{part3}.
+
+\textbf{Poles on the unit circle.} A random walk is excluded, because
+$f$ is then unbounded.
+
+\textbf{Processes that are not Gaussian.} Linear processes with
+infinite dependence and innovations that are not Gaussian remain open,
+as in \cite{part3}.
+
+\appendices
+
+\section{Numerical Checks}
+\label{app:numver}
+\sloppy
+
+The statements were checked numerically, independently of the proofs.
+The scripts and their recorded outputs are in the public repository
+\texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
+\texttt{paper/tit-unstable-ergodic}; a tag will fix the version that goes
+with this draft. They use the solver \texttt{spectral\_core.py} of
+\cite{part2}. No proof depends on them. The pass criteria of the checks
+of Section~\ref{sec:law} were written into the script before its first
+run. Those of Section~\ref{sec:vector} were written after exploratory
+runs of the same computations on the same sources, and are therefore a
+record of agreement, not a test fixed in advance.
+
+\texttt{verify\_unstable\_vector.py} uses twelve sources: first-order
+sources in $\R^2$ with a diagonal matrix, a rotation (a complex pair of
+modulus $1.2$), and a Jordan block (eigenvalue $1.3$), each with a
+memoryless holder that sees the unstable mode and one that does not,
+and with a triangular matrix with unstable eigenvalues $1.4$ and $1.2$
+and a holder from which only the first is hidden; a
+second-order source in $\R^2$ with a pole at $2$ hidden from the holder
+next to a visible pole at $-1.19$, built with dyadic coefficients so that
+the pole is hidden exactly, and the same source with a holder that sees
+both; the scalar source with pole $1.5$ and the holder filters
+$1-1.5z$, which hides the pole, and $1-0.5z$, which does not; and one
+source described below. The covariances of the final state are
+computed with $320$-digit arithmetic, because at $N=400$ they span more
+than $160$ decimal orders. The difference in Lemma~\ref{lem:bridge}
+vanishes outside the last $d$ blocks exactly and has rank at most $pd$,
+in every case at $N=12$. The precision of a stationary window used in
+Lemma~\ref{lem:stationary} differs from $T_N(f^{-1})$ by a positive
+semidefinite matrix of rank at most $2pd$ on the first and last $d$
+blocks, to $10^{-12}$, at $N=16$. In every source but the twelfth, the
+identity of Lemma~\ref{lem:innovations} holds to $2\times10^{-14}$, and the
+growth rates $\tfrac1{2N}\ln\det\Cov(Z)$ and
+$\tfrac1{2N}\ln\det\Cov(Z\mid S^N)$ approach $\rho_\star\ln2$ and $\rhid\ln2$
+with $N$ times the error below $2$ at $N=400$
+(Lemma~\ref{lem:endpoint}(a),(b)), and the smallest eigenvalue of the
+posterior covariance stays above the bound of
+Lemma~\ref{lem:endpoint}(c), by a factor of at least $1.7$, at every $N$.
+For the window cost of Theorem~\ref{thm:vector}, on the first-order
+source with a visible and with a hidden pole and on the second-order
+source with the hidden pole, at three weights and $D=0.3D_{\max}^f$, the
+cost minus its predicted limit shrinks by a factor of $8$ from $N=40$ to
+$N=320$, where it is at most $2\times10^{-3}$ bits. The same holds for the
+scalar source with the holder that sees the innovations, at most
+$9\times10^{-4}$ bits at $N=320$; that run was made before
+Theorem~\ref{thm:vector} covered holders with memory and has no pass
+criterion. The window cost is computed by capping the exploding part of
+$\Gamma_N$ at a level $M$, which gives an upper bound that decreases to
+the cost as $M$ grows. The criterion that the cost change by at most
+$10^{-6}$ bits between $M=10^3$ and $M=10^5$ failed for the second-order
+source at $N=40$ and $80$, by up to $1.9\times10^{-6}$ bits. A follow-up
+with $M=10^7$ changed those costs by at most $2\times10^{-8}$ bits more,
+so the values are settled to that accuracy, three orders of magnitude
+below the gaps they measure. The first run is recorded with its
+failure.
+
+The twelfth source shows the discontinuity of $\rhid$. Built in double
+precision with a pole at $1.6$ meant to be hidden, its mode reaches the
+holder with gain about $6\times10^{-17}$. The posterior growth rate
+$\tfrac1{2N}\ln\det\Cov(Z\mid S^N)$ is $0.40$ and $0.44$ at $N=25$ and
+$50$, as for a hidden pole, and then falls to $0.40$, $0.20$, and $0.10$
+at $N=100$, $200$, and $400$, as the holder begins to see the mode; the
+innovation identity computed with the pole counted as hidden fails by
+$0.94=2\ln1.6$, the amount of one visible pole.
+
+\texttt{verify\_spectral\_law.py} checks Corollary~\ref{cor:sampled} on
+the process $\sigma(t)Z(t)$ with $\sigma(t)^2=5+\tfrac13\sin2\pi t$, the
+variance profile of the example of \cite{tan2024}, and $Z$ stationary
+with a triangular correlation of length $2.5$ samples, sampled at
+$T_s=1/(3+\varepsilon)$ with $\varepsilon=(\sqrt5-1)/2$. Over four sampling
+phases, the largest difference in the rate or the leakage of
+Theorem~\ref{thm:law}, at two distortions, falls from
+$1.5\times10^{-4}$ bits at $N=500$ to $7.3\times10^{-6}$ bits at $N=8000$.
+The first six moments of the eigenvalue distribution at $N=8000$ agree
+with the formula of Proposition~\ref{prop:ergodic} to
+$2.4\times10^{-4}$ relative. Two rational sampling rates, with periods of
+$7$ and $3$ samples, also show no measurable phase dependence for this
+source, whose modulation is weak; the second was added after the first
+run. The exact example after Corollary~\ref{cor:sampled} shows phase
+dependence at a rational rate.
+
+Not checked numerically: the coding theorems, Lemmas~\ref{lem:perturb},
+\ref{lem:circulant}, \ref{lem:groups}, and~\ref{lem:quantizer}, which
+the window-cost check exercises only through its result, and
+Proposition~\ref{prop:ergodic} for maps other than a rotation.
+Table~\ref{tab:checks} lists what each check covers.
+
+\begin{table}[!t]
+\centering
+\footnotesize
+\caption{What the numerical checks cover. A check of a quantity is not a
+check of the coding theorem that uses it.}
+\label{tab:checks}
+\begin{tabular}{lll}
+\hline
+Statement & Check & What is compared\\
+\hline
+Lemma~\ref{lem:bridge} & \texttt{bridge} & window precision against $T_N(f^{-1})$\\
+Lemma~\ref{lem:stationary} & \texttt{stationary} & stationary window precision against $T_N(f^{-1})$\\
+Lemma~\ref{lem:innovations} & \texttt{innovations} & Kalman innovations against the spectral integral\\
+Lemma~\ref{lem:endpoint} & \texttt{prior\_growth}, \texttt{posterior\_growth}, \texttt{posterior\_floor} & covariances of the final state\\
+Theorem~\ref{thm:vector} & \texttt{window\_cost} & window cost against $\alpha\rho_\star+(1-\alpha)\rhid+V_f$\\
+Proposition~\ref{prop:ergodic} & \texttt{moments} & eigenvalue moments against the ergodic average\\
+Corollary~\ref{cor:sampled} & \texttt{phase\_independence} & rate and leakage over sampling phases\\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{Acknowledgment}
+
+In accordance with the IEEE policy on AI-generated text, the author
+discloses the use of Anthropic's Claude models (Claude Fable 5.2 and
+Claude Opus 5.5) through the Claude Code environment in 2026, for
+drafting prose and proofs, for the prior-art search, for the check
+scripts, and for checking the proofs. The author is responsible for the
+content.
+
+\begin{thebibliography}{99}
+\bibitem{part1} A. H. Bond, ``Rate, leakage, and distortion for Gaussian
+sources: Water-filling on a tilted weight,'' submitted to \emph{IEEE
+Trans. Inf. Theory}, 2026, archived at
+\url{https://doi.org/10.5281/zenodo.23127802}.
+\bibitem{part2} A. H. Bond, ``Rate, leakage, and distortion for
+stationary Gaussian sources: Water-filling on a tilted spectrum,''
+manuscript, 2026, version \texttt{tit-stationary-1.2} at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.2/paper/tit-stationary}.
+\bibitem{part3} A. H. Bond, ``Rate, leakage, and distortion beyond
+stationary Gaussian sources: Water-filling over time and frequency,''
+manuscript, 2026, version \texttt{tit-beyond-stationary-1.3} at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.3/paper/tit-beyond-stationary}.
+\bibitem{gray1970} R. M. Gray, ``Information rates of autoregressive
+processes,'' \emph{IEEE Trans. Inf. Theory}, vol.~16, no.~4,
+pp.~412--421, Jul. 1970.
+% abstract and metadata read; full text not read.
+\bibitem{hashimoto1980} T. Hashimoto and S. Arimoto, ``On the
+rate-distortion function for the nonstationary Gaussian autoregressive
+process,'' \emph{IEEE Trans. Inf. Theory}, vol.~26, no.~4,
+pp.~478--480, Jul. 1980.
+% metadata and its restatement in grayhashimoto2008 read; full text not read.
+\bibitem{grayhashimoto2008} R. M. Gray and T. Hashimoto, ``A note on
+rate-distortion functions for nonstationary Gaussian autoregressive
+processes,'' \emph{IEEE Trans. Inf. Theory}, vol.~54, no.~3,
+pp.~1319--1322, Mar. 2008.
+% preprint (arXiv cs/0702150) read by the literature agent.
+\bibitem{sahai2007} A. Sahai and S. Mitter, ``Source coding and channel
+requirements for unstable processes,'' arXiv:cs/0610143, 2007.
+% arXiv v2 read by the literature agent; journal publication not verified.
+\bibitem{derpich2021} M. S. Derpich, M. M\"uller, and J. \O stergaard,
+``The entropy gain of linear systems and some of its implications,''
+\emph{Entropy}, vol.~23, no.~8, Art. no.~947, 2021.
+% read through a summary by the literature agent. verify on final.
+\bibitem{gutierrez2018} J. Guti\'errez-Guti\'errez,
+M. Z\'arraga-Rodr\'iguez, P. M. Crespo, and X. Insausti, ``Rate
+distortion function of Gaussian asymptotically WSS vector processes,''
+\emph{Entropy}, vol.~20, no.~9, Art. no.~719, 2018.
+\bibitem{gutierrez2024} J. Guti\'errez-Guti\'errez,
+J. Barasoain-Echepare, M. Z\'arraga-Rodr\'iguez, and X. Insausti,
+``Computation of the fundamental limits of data compression for certain
+nonstationary ARMA vector sources,'' \emph{Probl. Inf. Transm.},
+vol.~60, no.~1, pp.~1--11, 2024.
+% not read here. Its Theorem 4 assumes companion spectral radius below one: reported on 2026-11-16 by a reader who accessed the article. verify on final.
+\bibitem{toms1971} W. Toms and T. Berger, ``Information rates of
+stochastically driven dynamic systems,'' \emph{IEEE Trans. Inf.
+Theory}, vol.~17, no.~1, pp.~113--114, Jan. 1971.
+% correspondence item, DOI 10.1109/TIT.1971.1054569. Abstract and index records only; full text not read. Author list differs between records; verify on IEEE Xplore. Whether unstable systems are allowed is unknown.
+\bibitem{braslavsky1999} J. H. Braslavsky, M. M. Seron, D. Q. Mayne,
+and P. V. Kokotovi\'c, ``Limiting performance of optimal linear
+filters,'' \emph{Automatica}, vol.~35, no.~2, pp.~189--199, 1999.
+% technical report version read by the literature agent.
+\bibitem{abakasanga2020} E. Abakasanga, N. Shlezinger, and R. Dabora,
+``On the rate-distortion function of sampled cyclostationary Gaussian
+processes,'' \emph{Entropy}, vol.~22, no.~3, Art. no.~345, 2020.
+% arXiv 2003.00262 read by the literature agent.
+\bibitem{tan2024} Z. Tan, R. Dabora, and H. V. Poor, ``On the
+rate-distortion function for sampled cyclostationary Gaussian processes
+with memory,'' in \emph{Proc. IEEE Int. Symp. Inf. Theory (ISIT)}, 2024;
+extended version arXiv:2405.11405.
+% arXiv v2 pages 1-6 read (Theorem 1, Corollary 1, Remark 1). verify the ISIT pages on final.
+\bibitem{andersonmoore1979} B. D. O. Anderson and J. B. Moore,
+\emph{Optimal Filtering}. Englewood Cliffs, NJ: Prentice-Hall, 1979.
+% verify the chapter cited for convergence of the Riccati recursion to the stabilizing solution under detectability and stabilizability, on final.
+\bibitem{kailath2000} T. Kailath, A. H. Sayed, and B. Hassibi,
+\emph{Linear Estimation}. Upper Saddle River, NJ: Prentice Hall, 2000.
+% cited for the same convergence result; chapter not checked. verify on final.
+\bibitem{rosenblum1985} M. Rosenblum and J. Rovnyak, \emph{Hardy
+Classes and Operator Theory}. New York, NY: Oxford Univ. Press, 1985.
+% cited for the matrix Fejer-Riesz theorem. verify on final.
+\bibitem{oxtoby1952} J. C. Oxtoby, ``Ergodic sets,'' \emph{Bull. Amer.
+Math. Soc.}, vol.~58, pp.~116--136, 1952.
+% citation verified by the literature agent; text not read.
+\bibitem{grenander1958} U. Grenander and G. Szeg\H{o}, \emph{Toeplitz
+Forms and Their Applications}. Berkeley, CA: Univ. of California Press,
+1958.
+\end{thebibliography}
+
+\end{document}
