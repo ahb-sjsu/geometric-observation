@@ -36,6 +36,8 @@ art).
 | Theorem 10 | Scalar source whose window covariances have a limiting eigenvalue distribution mu, scalar holder in white noise: the region is one quadrant, reverse water-filling on mu | Paper three's Lemma 24 and Theorem 26 |
 | Proposition 11 | Sources driven by a uniquely ergodic homeomorphism with continuous, finite-range correlations have a limiting eigenvalue distribution, the same for every starting point | Moments, Oxtoby's uniform ergodic theorem |
 | Corollary 12 | Cyclostationary process sampled at an incommensurate rate: the limit exists, does not depend on the sampling phase, and is given in closed form, with the leakage. This proves the conjecture of Tan, Dabora and Poor (ISIT 2024, arXiv 2405.11405, Remark 1) | Theorem 10, Proposition 11 |
+| Lemma 13 | The frozen-block program V_n over a phase law: convex and continuous in the distortion, continuous under weak convergence, convex in the law (by duality), Lipschitz in the weight | Paper two's Lemma 2 |
+| Theorem 14 | Vector source driven by a totally uniquely ergodic map, finite-range correlations, a white floor, memoryless matrix holder: the region is given by the limit of the frozen-block programs, error O(1/n), the same for every starting phase; the window cost converges to it uniformly in the phase. Added after pull request 26 was opened; not in it. | Paper three's Lemmas 10 and 12, paper one's Theorem 3, Oxtoby |
 
 Imports from paper two: codes for stationary sources with a holder filter
 (Theorems 16 and 22), continuity of the spectral program in the measure
@@ -108,6 +110,35 @@ criteria fixed before the first run.
   dependence for this weakly modulated source. The draft gives an exact
   example of phase dependence instead.
 
+## Vector sources under fast variation (added after pull request 26)
+
+Theorem 14 and Lemma 13 close the open problem on vector sources under fast
+variation for a memoryless holder, with a floor on the covariances.
+
+- Check `verify_vector_ergodic.py`: its first run, with criteria fixed before
+  it (record `verify_vector_ergodic.json`), **failed all six checks**: the
+  absolute tolerances (phase spread 2e-3 bits at N = 200; frozen-block gap
+  5e-3 at n = 16) were too tight for those sizes, though the relative parts
+  passed and both sequences decreased with halving differences. A follow-up
+  (`--followup`, record `verify_vector_ergodic_followup.json`, criteria written
+  before it ran) passed all nine: monotone sequences, extrapolated limits that
+  agree to 1.6e-5 bits or better, and the phase spread at N = 400 at most a
+  quarter of that at N = 100.
+- A fresh-context model audit of Lemma 13 and Theorem 14 found no error that
+  breaks a result and three gaps, fixed: the averaging over block offsets
+  with budgets and weights that depend on the offset (monotonicity and
+  nonnegativity before the convexity in the law); the identification of the
+  region from bounds uniform in the weight, without assuming convexity of the
+  achievable set (Lemma 13(d) gives the Lipschitz constant); and uniformity in
+  the starting phase (an argument by contradiction, and the sandwich for cell
+  indicators). Also fixed: the maximal distortion of a non-invariant phase law,
+  the equality of the frozen program with paper two's program, the slope
+  bound, the leftover symbols, and the closing paragraph's wording (no closed
+  form is known, rather than none exists).
+- The audit also checked a scalar case numerically: the frozen-block error
+  halved with n from 0.0096 at n = 2 to 0.0003 at n = 64, and two phases agreed
+  to 5e-6.
+
 ## Readings by a reader (pasted into the session, 2026-11-16)
 
 First reading:
@@ -169,8 +200,9 @@ sf c, rank bar k, Xi_N, sf q_N, sf w, sf g, bar rho, k_N, zeta).
 - [ ] Read Toms and Berger 1971 in full (two pages; needs library access).
 - [ ] Holders with infinite memory (stable rational filters), by truncation
       as in paper two's Theorem 22.
-- [ ] Vector sources and holders with memory under fast variation.
-- [ ] Poles on the unit circle.
+- [x] Vector sources under fast variation, memoryless holder (Theorem 14).
+- [ ] Holders with memory, and closed forms for vector sources, under fast variation.
+- [ ] Poles on the unit circle: the bridge is then a Brownian bridge of growing variance, so Theorem 1's proof does not apply; the draft states the conjecture of no shift.
 - [ ] Decide on the non-Gaussian part.
 - [ ] Verify the references marked in the source, and the reading of
       paper two's Lemma 11(b) per frequency.

@@ -135,6 +135,11 @@ exists and does not depend on the starting point
 sources of \cite{tan2024}, this proves the conjecture stated there that
 the rate--distortion function does not depend on the sampling phase,
 and it gives the function in closed form (Corollary~\ref{cor:sampled}).
+For a vector source and a matrix holder the cost no longer depends on
+eigenvalues alone. There the region is the limit of the costs of
+independent blocks whose phases follow the invariant measure, again the
+same for every starting phase (Theorem~\ref{thm:ergodic}); the error of
+blocks of length $n$ is $O(1/n)$.
 
 \textbf{Related work.} The rate--distortion function of a scalar
 Gaussian autoregressive source with unstable poles is due to Gray
@@ -1118,6 +1123,231 @@ distortion small enough that every eigenvalue exceeds the water level,
 the rate is $\tfrac1{2N}\log\det\Gamma_N-\tfrac12\log(D/Q)$, so the two
 rate--distortion functions differ by $\tfrac12\log(5/3)$ bits there.
 
+\subsection{Vector sources}
+
+Theorem~\ref{thm:law} uses that a scalar source, a scalar weight, and a
+scalar holder commute, so that the cost depends only on the
+eigenvalues. Without that, the cost of a window is no longer a function
+of its eigenvalues, but the region is still determined by averages of
+block problems over the phase.
+
+Let $\Theta$ be a compact metric space and $\tau$ a homeomorphism of
+$\Theta$ such that every power $\tau^n$, $n\ge1$, has exactly one
+invariant probability measure, the same $\nu$ for all $n$; an irrational
+rotation of the circle is such a map. Let
+$c:\Theta\times\{0,\dots,m\}\to\R^{p\times p}$ be continuous, with
+$c(\vartheta,0)$ symmetric, and for $\vartheta_0\in\Theta$ let
+$\Gamma_N(\vartheta_0)$ be the block matrix with the blocks
+$c(\tau^s\vartheta_0,t-s)$ for $s\le t\le s+m$, their transposes below the
+diagonal, and zero blocks otherwise. Assume a floor: there is $a>0$ with
+$\Gamma_N(\vartheta_0)\succeq aI$ for every $N$ and $\vartheta_0$. Each
+$\Gamma_N(\vartheta_0)$ is the leading principal submatrix of the next, so
+they are the covariances of the windows of one centered Gaussian
+process. The holder is memoryless, $S_t=HT_t+U_t$ with $U_t$ independent
+$\mathcal N(0,\Sigma_U)$, and $J=H^{\mathsf T}\Sigma_U^{-1}H$. Write
+$F_n(\vartheta)=\Gamma_n(\vartheta)$, let $b$ bound the norms of all
+$\Gamma_N(\vartheta_0)$, which is finite by the Schur test, and let
+$D_{\max}=\int\tr(Q\,c(\vartheta,0))\,d\nu$. For a probability measure
+$\lambda$ on $\Theta$ let
+\[
+V_n(\lambda;\alpha,D)=\inf\Bigl\{\int\tfrac1n\VG\bigl(\alpha,nD(\vartheta);F_n(\vartheta),I_n\otimes J\bigr)\,d\lambda(\vartheta):\ D(\cdot)>0,\ \int D\,d\lambda\le D\Bigr\},
+\]
+the cost of describing independent blocks of $n$ symbols whose phases
+have the law $\lambda$, under one budget, and let
+$D_{\max}(\lambda)=\int\tfrac1n\tr((I_n\otimes Q)F_n(\vartheta))\,d\lambda$, the
+distortion at which it vanishes. For $\lambda=\nu$, $D_{\max}(\nu)=D_{\max}$.
+
+\begin{lemma}\label{lem:frozen}
+For every $n$, $\alpha$, and $D>0$: (a) $V_n(\lambda;\alpha,\cdot)$ is
+convex, nonincreasing, and continuous on $(0,\infty)$, and zero from
+$D_{\max}(\lambda)$ on; (b) if $\lambda_k\to\lambda$ weakly then
+$V_n(\lambda_k;\alpha,D)\to V_n(\lambda;\alpha,D)$; (c) $\lambda\mapsto V_n(\lambda;\alpha,D)$
+is convex; (d) $|V_n(\lambda;\alpha,D)-V_n(\lambda;\alpha',D)|\le|\alpha-\alpha'|\,\tfrac p2\log(1+b\|J\|)$.
+\end{lemma}
+
+\begin{proof}
+The floor makes $F_n$ invertible, so with $X=F_n^{-1/2}\Delta F_n^{-1/2}$
+the frontier cost of each block is the program of \cite[Lemma~2]{part2}
+at one point of the compact space $\Theta$, with the continuous data
+$F_n^{1/2}(I_n\otimes Q)F_n^{1/2}$, $(I_n\otimes H)F_n^{1/2}$, and
+$I_n\otimes\Sigma_U$. A field $X(\cdot)$ gives the allocation
+$D(\vartheta)=\tfrac1n\tr(F_n^{1/2}(I_n\otimes Q)F_n^{1/2}X(\vartheta))$ with no
+larger cost, and the continuous field of that lemma with one level
+$\varpi_\lambda$ gives an allocation attaining its value, so $V_n(\lambda;\cdot)$
+is the program of that lemma, up to the factor $1/n$. For
+$D<D_{\max}(\lambda)$ that lemma gives (b) and the field with one level;
+(a) holds because each frontier cost is convex in its budget and the
+budget constraint is linear. For $D\ge D_{\max}(\lambda)$ the cost is zero,
+and for $D=D_{\max}(\lambda)$, (b) follows from the continuity in (a) and
+monotonicity, since $D_{\max}(\lambda_k)\to D_{\max}(\lambda)$. For (c), let
+$g_\varpi(\vartheta)=\inf_{d>0}[\tfrac1n\VG(\alpha,nd;F_n(\vartheta),I_n\otimes J)+\varpi d]$.
+For every feasible allocation and every $\varpi\ge0$,
+$\int\tfrac1n\VG\,d\lambda\ge\int g_\varpi\,d\lambda-\varpi D$, and the field with
+the level $\varpi_\lambda$ attains equality, with $\varpi_\lambda=0$ when
+$D\ge D_{\max}(\lambda)$. So
+$V_n(\lambda;\alpha,D)=\max_{\varpi\ge0}[\int g_\varpi\,d\lambda-\varpi D]$, a maximum
+of affine functions of $\lambda$. For (d), each frontier cost is a minimum
+over $\Delta$ of $\alpha r+(1-\alpha)\ell$, which is affine in $\alpha$ with
+slope
+$r-\ell=\tfrac12\log\det(I+F_n(I_n\otimes J))-\tfrac12\log\det(I+\Delta(I_n\otimes J))$,
+which lies in $[0,\tfrac{pn}2\log(1+b\|J\|)]$ because
+$0\prec\Delta\preceq F_n\preceq bI$; divided by $n$ this gives (d).
+\end{proof}
+
+\begin{theorem}\label{thm:ergodic}
+For $0<D<D_{\max}$, $V_n(\nu;\alpha,D)$ converges as $n\to\infty$, uniformly
+in $\alpha$, to a limit $V_\nu(\alpha,D)$, with
+$|V_n(\nu;\alpha,D)-V_\nu(\alpha,D)|=O(1/n)$. For every $\vartheta_0$, $\mathcal A(D)$
+is the set of pairs with $\alpha R+(1-\alpha)L\ge V_\nu(\alpha,D)$ for every
+$\alpha$, the same for every starting phase, with deterministic
+encoders, and the window cost
+$\tfrac1N\VG(\alpha,ND;\Gamma_N(\vartheta_0),I_N\otimes J)$ tends to
+$V_\nu(\alpha,D)$, uniformly in $\vartheta_0$.
+\end{theorem}
+
+The codes of the proof are built knowing $\vartheta_0$, as the codes of
+\cite{tan2024} know the sampling phase; the region they achieve does not
+depend on it.
+
+\begin{proof}
+Fix $\alpha$, $n$, and $D'$ with $D<D'<D_{\max}$.
+
+\emph{Lower bound.} For an offset $s\in\{0,\dots,n-1\}$ split the window
+into the first $s$ symbols, $k_s$ blocks of $n$, and a remainder of
+fewer than $n$. Consecutive blocks are correlated only through the $m$
+symbols on each side of the cut, so the quantity $\chi_b$ of
+\cite[Lemma~10]{part3} is at most
+$\chi=m^2\max_{\vartheta,\Delta}\|c(\vartheta,\Delta)\|_{\mathrm F}^2$. That lemma
+applies with $a_0=a$ and $b_0=b$, to codes and also to the window
+program, because its proof needs only the two informations, the Markov
+chains of the description through the source, and finite conditional
+entropies, which the optimal Gaussian test channel has
+\cite[Sec.~II]{part3}. Dropping the first and the last pieces, whose
+costs are nonnegative, it gives, for every code with distortion at most
+$D'$,
+\[
+N[\alpha R+(1-\alpha)L]\ge\sum_{b}n\,\mathsf V_b(D_b)-c_1(k_s+2)\chi,
+\]
+where $b$ runs over the $k_s$ blocks, $\mathsf V_b(D_b)$ is the frontier
+cost per symbol of block $b$ at its distortion $D_b$, and
+$\sum_bnD_b\le ND'$. With the allocation that gives each block's phase
+its $D_b$, and the average of the $D_b$ where two blocks share a phase,
+which by convexity of the frontier cost in the budget does not raise the
+sum, the right side is at least
+$k_sn\,V_n(\mu_s;\alpha,ND'/(k_sn))-c_1(k_s+2)\chi$, with $\mu_s$ the uniform
+measure on the phases of the blocks. Let $\underline k=\min_sk_s$,
+$\omega_N=\underline kn/N$, and $D''_N=ND'/(\underline kn)$; both $\omega_N$
+and $D''_N/D'$ tend to $1$. Since $V_n$ is nonincreasing in $D$ and
+nonnegative, every offset gives
+$\alpha R+(1-\alpha)L\ge\omega_NV_n(\mu_s;\alpha,D''_N)-c_1(N/n+2)\chi/N$.
+Averaging over $s$ and using Lemma~\ref{lem:frozen}(c),
+\[
+\alpha R+(1-\alpha)L\ge\omega_NV_n(\bar\mu_N;\alpha,D''_N)-c_1(N/n+2)\chi/N,\qquad
+\bar\mu_N=\tfrac1n\sum_s\mu_s .
+\]
+The measure $\bar\mu_N=\bar\mu_N(\vartheta_0)$ differs by $O(n/N)$ in total
+variation from the empirical measure of $\tau^t\vartheta_0$, $t<N$, and by
+the uniform ergodic theorem \cite{oxtoby1952} the integral of every
+continuous function against it converges to its integral against $\nu$,
+uniformly in $\vartheta_0$. We claim that
+$V_n(\bar\mu_N(\vartheta_0);\alpha,D''_N)\to V_n(\nu;\alpha,D')$ uniformly in
+$\vartheta_0$. If not, there are $N_k\to\infty$, $\vartheta_0^k$, and
+$\epsilon>0$ with the two at least $\epsilon$ apart; but
+$\bar\mu_{N_k}(\vartheta_0^k)\to\nu$ weakly, and for every $\eta>0$, eventually
+$D'-\eta\le D''_{N_k}\le D'+\eta$, so by monotonicity and
+Lemma~\ref{lem:frozen}(a),(b) the limit points lie between
+$V_n(\nu;\alpha,D'+\eta)$ and $V_n(\nu;\alpha,D'-\eta)$, which tend to
+$V_n(\nu;\alpha,D')$ as $\eta\to0$, a contradiction. Hence every pair
+achievable at $D$ satisfies
+$\alpha R+(1-\alpha)L\ge V_n(\nu;\alpha,D')-c_1\chi/n$, and so, letting
+$D'\downarrow D$, $\alpha R+(1-\alpha)L\ge V_n(\nu;\alpha,D)-c_1\chi/n$. The
+window cost satisfies the same bound, uniformly in $\vartheta_0$.
+
+\emph{Upper bound.} Fix $\kappa\in(0,1)$. By uniform continuity and the
+floor there is a finite partition of $\Theta$ into cells $E_i$ with
+$\nu(\partial E_i)=0$ and points $\vartheta_i\in E_i$ such that
+$\|F_n(\vartheta)-F_n(\vartheta_i)\|\le\kappa a$, hence
+$(1-\kappa)F_n(\vartheta_i)\preceq F_n(\vartheta)$, for $\vartheta\in E_i$. Arrange
+the window as blocks of $n$ symbols separated by guards of $m$ symbols.
+Correlations have range $m$, so the blocks are independent, and block
+$j$ has covariance $F_n$ at its phase. Because $\tau^{n+m}$ is uniquely
+ergodic, the empirical measure of the phases of the blocks converges
+weakly to $\nu$, uniformly in $\vartheta_0$, and since $\nu(\partial E_i)=0$,
+the indicator of $E_i$ can be squeezed between continuous functions
+whose integrals against $\nu$ differ by little, so the fraction of
+blocks in $E_i$ tends to $\nu(E_i)$, uniformly in $\vartheta_0$. For each
+cell with $\nu(E_i)>0$ take a code with a deterministic encoder for
+independent copies of the Gaussian vector of $n$ symbols with
+covariance $\mathsf S'_i=(1-\kappa)F_n(\vartheta_i)$, near a point of its
+frontier at a distortion $d_i$ \cite[Theorem~3]{part1}, and apply it to
+the blocks of that cell by \cite[Lemma~12]{part3}, whose proof does not
+use that the groups are consecutive in time. Since
+$F_n(\vartheta)-\mathsf S'_i\preceq\kappa(a+b)I$, the added distortion and
+leakage per symbol are at most $\|Q\|p\kappa(a+b)$ and
+$\|J\|p\kappa(a+b)/(2\ln2)$. The guards are reproduced as zero, at a
+distortion of at most $c_gm/(n+m)$ per symbol with
+$c_g=\max_\vartheta\tr(Qc(\vartheta,0))$, and so are the final partial
+period, the blocks of cells of measure zero, and the fewer than one
+group of blocks left over in each cell, whose share of the window tends
+to zero. By \cite[Lemma~11(b)]{part2}, used with $\mathsf S'_i\preceq F_n(\vartheta_i)\preceq\mathsf S'_i/(1-\kappa)$,
+the frontier cost of $\mathsf S'_i$ at the distortion $(1-\kappa)d$ is at
+most that of $F_n(\vartheta_i)$ at $d$ plus $\tfrac p2\log\tfrac1{1-\kappa}$.
+Let $\mathcal B$ be the set of pairs these codes achieve, over all
+allocations $(d_i)$ with block budget $D-c_gm/(n+m)$. Each Gaussian-vector
+region is jointly convex in the rate, the leakage, and the distortion
+\cite[Theorem~5]{part1}, so, as in \cite[proof of Theorem~13]{part3},
+$\mathcal B$ is closed, convex, and upward closed, and its support value
+at $(\alpha,1-\alpha)$ is the program over the measure with masses
+$\nu(E_i)$ at the points $\vartheta_i$ and the covariances $\mathsf S'_i$.
+By the bounds above and Lemma~\ref{lem:frozen}(b),(d), as the cells
+shrink and $\kappa\to0$ that value tends to
+$V_n(\nu;\alpha,D-c_gm/(n+m))$ uniformly in $\alpha$. So every pair with
+$\alpha R+(1-\alpha)L>V_n(\nu;\alpha,D-c_gm/(n+m))+\gamma$ for every $\alpha$, for
+some $\gamma>0$, is achievable at $D$, with codes at every large $N$,
+uniformly in $\vartheta_0$, and the window cost is at most
+$V_n(\nu;\alpha,D-c_gm/(n+m))+o(1)$.
+
+\emph{The limit and the region.} The functions $V_n(\nu;\alpha,\cdot)$ are
+convex and nonincreasing, and at $D/4$ they are at most
+$V_n(\nu;1,D/4)$, because $\ell\le r$, which is at most the rate of a
+Gaussian vector with covariance at most $bI$ at that distortion,
+bounded in $n$. So on $[D/2,D]$ their slopes are bounded by a constant
+$L_D$ that depends on neither $n$ nor $\alpha$. With $\epsilon_n=c_gm/(n+m)$,
+the two bounds give, for every achievable pair and for every
+$\alpha$,
+\[
+V_n(\nu;\alpha,D)-\frac{c_1\chi}n\le\alpha R+(1-\alpha)L,
+\]
+while every pair above $V_n(\nu;\alpha,D)+L_D\epsilon_n$ for every $\alpha$ is
+in $\mathcal A(D)$. The set of pairs above
+$V_{n'}(\nu;\alpha,D)+L_D\epsilon_{n'}$ for every $\alpha$ has, at
+$(\alpha,1-\alpha)$, the support value $V_{n'}(\nu;\alpha,D)+L_D\epsilon_{n'}$,
+attained by the pair of rates and leakages of an optimal allocation of
+the program at $\alpha$, which lies in the set because that program is a
+minimum at every other $\alpha$. Since that set lies in $\mathcal A(D)$,
+the first bound gives
+$V_n(\nu;\alpha,D)-c_1\chi/n\le V_{n'}(\nu;\alpha,D)+L_D\epsilon_{n'}$ for all $n$
+and $n'$, so the sequence $V_n(\nu;\alpha,D)$ is Cauchy uniformly in
+$\alpha$, with limit $V_\nu(\alpha,D)$ and error at most
+$\max\{c_1\chi/n,L_D\epsilon_n\}$. The first bound shows
+that every achievable pair satisfies $\alpha R+(1-\alpha)L\ge V_\nu(\alpha,D)$.
+Conversely, if $(R,L)$ satisfies this for every $\alpha$, then for every
+$\gamma>0$ the pair $(R+\gamma,L+\gamma)$ lies above $V_n(\nu;\alpha,D)+L_D\epsilon_n$
+for every $\alpha$ once $n$ is large, so it is achievable, and $(R,L)$ is
+in the closure $\mathcal A(D)$. The window cost lies between the two
+bounds, uniformly in $\vartheta_0$. None of the bounds involves
+$\vartheta_0$.
+\end{proof}
+
+For a scalar source and a scalar holder, Theorems~\ref{thm:law}
+and~\ref{thm:ergodic} describe the same region where both apply, so
+$V_\nu$ is the closed form of Theorem~\ref{thm:law}, which needs neither
+the floor nor total unique ergodicity. For a vector source we do not
+have a closed form; $V_n(\nu;\cdot)$ is a program over fields on $\Theta$
+with one level, and the proof bounds its error by $O(1/n)$, with
+constants that depend on the floor $a$ and on $D$. No rate is claimed
+for the window cost, whose ergodic averages can converge slowly.
+
 \section{Open Problems}
 \label{sec:open}
 
@@ -1131,15 +1361,21 @@ hidden poles those cancelled by the filter's zeros; its information
 matrix on a window is no longer a finite-rank perturbation of a block
 Toeplitz one.
 
-\textbf{Vector sources and holders with memory under fast variation.}
-Theorem~\ref{thm:law} uses that a scalar source, a scalar weight, and a
-scalar holder commute, so that the cost depends only on the eigenvalues.
-For a vector source driven by a uniquely ergodic map we expect the
-region to be given by a limit of block programs, independent of the
-starting point, by the methods of \cite[Section~VI]{part3}.
+\textbf{Holders with memory, and closed forms, under fast variation.}
+Theorem~\ref{thm:ergodic} is for a memoryless holder and needs a floor
+on the covariances, which Theorem~\ref{thm:law} does not. For a vector
+source its limit is a limit of block programs, not a closed form. For a
+rotation it should equal the limit of the regions of the
+cyclostationary sources with rational rotation numbers, which
+\cite[Theorem~18]{part3} computes.
 
-\textbf{Poles on the unit circle.} A random walk is excluded, because
-$f$ is then unbounded.
+\textbf{Poles on the unit circle.} For a random walk the bridge of
+Lemma~\ref{lem:bridge} is a discrete Brownian bridge, whose variance
+grows with $N$, so the growth is no longer carried by the final state
+alone. A pole of modulus one contributes $\log1=0$ to $\rho_\star$, and we
+expect the region to be $\mathcal R_f(D)$ without a shift, with $f$ now
+unbounded and $D_{\max}^f=\infty$; the rate part is classical
+\cite{gray1970,grayhashimoto2008}.
 
 \textbf{Processes that are not Gaussian.} Linear processes with
 infinite dependence and innovations that are not Gaussian remain open,
@@ -1231,8 +1467,27 @@ source, whose modulation is weak; the second was added after the first
 run. The exact example after Corollary~\ref{cor:sampled} shows phase
 dependence at a rational rate.
 
+\texttt{verify\_vector\_ergodic.py} checks Theorem~\ref{thm:ergodic} on a
+source in $\R^2$ driven by the same rotation: a stationary vector
+moving average of order one, multiplied by a continuous matrix of the
+phase, plus a white floor of variance $0.2$, with the holder
+$H=(1,0.5)$, at three weights and $D=0.3D_{\max}$. Its first run, with
+criteria fixed before it, failed all six checks: the spread of the
+window cost over four phases at $N=200$ was $3.9\times10^{-3}$ bits
+against a limit of $2\times10^{-3}$, and the frozen-block cost at $n=16$
+was $1.1\times10^{-2}$ bits above the window cost at $N=200$ against a
+limit of $5\times10^{-3}$. The relative parts of both criteria passed, and
+both sequences were decreasing with differences that halved, as the
+proof predicts; the absolute tolerances were too tight for those sizes.
+The record of that run is kept. A follow-up to $n=64$ and $N=400$, with
+criteria written before it ran, passed all nine checks: both sequences
+decrease, their extrapolations $2V_{64}-V_{32}$ and $2W_{400}-W_{200}$ agree
+to $1.6\times10^{-5}$ bits or better (at $\alpha=0$, $0.84456$ and $0.84457$),
+and the phase spread at $N=400$ is at most a quarter of that at $N=100$.
+
 Not checked numerically: the coding theorems, Lemmas~\ref{lem:perturb},
-\ref{lem:circulant}, \ref{lem:groups}, and~\ref{lem:quantizer}, which
+\ref{lem:circulant}, \ref{lem:groups}, \ref{lem:quantizer},
+and~\ref{lem:frozen}, which
 the window-cost check exercises only through its result, and
 Proposition~\ref{prop:ergodic} for maps other than a rotation.
 Table~\ref{tab:checks} lists what each check covers.
@@ -1254,6 +1509,7 @@ Lemma~\ref{lem:endpoint} & \texttt{prior\_growth}, \texttt{posterior\_growth}, \
 Theorem~\ref{thm:vector} & \texttt{window\_cost} & window cost against $\alpha\rho_\star+(1-\alpha)\rhid+V_f$\\
 Proposition~\ref{prop:ergodic} & \texttt{moments} & eigenvalue moments against the ergodic average\\
 Corollary~\ref{cor:sampled} & \texttt{phase\_independence} & rate and leakage over sampling phases\\
+Theorem~\ref{thm:ergodic} & \texttt{monotone}, \texttt{common\_limit}, \texttt{phase\_spread} & frozen blocks against window costs\\
 \hline
 \end{tabular}
 \end{table}
