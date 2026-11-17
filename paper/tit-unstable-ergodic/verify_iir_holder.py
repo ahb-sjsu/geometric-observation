@@ -45,6 +45,11 @@ Checks and pass criteria, written before the first run (2026-11-16):
 The posterior and Kalman computations use 320 digits (mpmath).
 
 Usage: python verify_iir_holder.py [out.json]
+
+Record of the first run (2026-11-16 21:10 to 2026-11-17 02:22, local Windows machine,
+python 3.12.2, numpy 2.5.2, mpmath at 320 digits, 18711 s): verify_iir_holder.json, all
+checks passed (innovations, growth, and floor in all six cases; the window cost in A1, A2,
+A3, A6 at three weights). After that run only this docstring changed.
 """
 from __future__ import annotations
 

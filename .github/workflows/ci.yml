@@ -245,6 +245,27 @@ jobs:
             echo "No undefined references or citations in the beyond-stationary manuscript or the T1 note."
           fi
           exit $rc
+      # Paper four of the rate-leakage series (added 2026-11-17 on its branch, PR 26).
+      - name: Compile the unstable-and-ergodic manuscript (tit-unstable-ergodic.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: tit-unstable-ergodic.tex
+          working_directory: paper/tit-unstable-ergodic
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (unstable-and-ergodic manuscript)
+        run: |
+          f=paper/tit-unstable-ergodic/tit-unstable-ergodic
+          if [ ! -f "$f.log" ]; then
+            echo "::error::$f.log is missing -- the document did not compile"
+            exit 1
+          fi
+          if grep -qiE "there were undefined (references|citations)" "$f.log"; then
+            echo "::error::Undefined references or citations in $f.log"
+            grep -iE "warning:.*undefined|there were undefined" "$f.log" || true
+            exit 1
+          fi
+          echo "No undefined references or citations in the unstable-and-ergodic manuscript."
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:

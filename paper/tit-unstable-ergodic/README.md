@@ -156,14 +156,18 @@ case definitions only).
 
 - Lemma 4 with the joint realization holds to 4e-15 in all six; the growth
   rates of Lemma 5 and its floor pass in all six.
-- Window cost (A1, A2, A3, A6 at three weights): **still running when
-  this version was committed** (started 2026-11-16 21:10 local; the
-  window stage is slow on this machine). Finished so far: A1 (hiding
-  filter) at alpha = 0, gaps -7.6e-3, -3.8e-3, -1.9e-3, -9.6e-4 bits at
-  N = 40, 80, 160, 320, a factor of 7.9 (criterion: 4). The record
-  `verify_iir_holder.json` is written at the end of the run and will be
-  committed with the appendix sentence updated. The log of the run so
-  far is not tracked.
+- Window cost (A1, A2, A3, A6 at three weights, D = 0.3 Dmax^f,
+  N = 40, 80, 160, 320): **passed** — every gap to the predicted limit
+  halves with each doubling of N (a factor of about 8 from 40 to 320,
+  criterion: 4); at N = 320 the gaps are at most 9.6e-4 (A1), 1.7e-3
+  (A2), 3.1e-4 (A3), and 2.3e-3 (A6) bits; the cap change between
+  M = 1e5 and 1e7 is at most 4.8e-8 bits (criterion: 1e-6).
+- **All checks passed on the first run** (2026-11-16 21:10 to 2026-11-17
+  02:22 local, 18 711 s; record `verify_iir_holder.json`). The window
+  stage was slow here because each spectral cost solves 512 frequency
+  blocks with a pure-Python fixed point. An earlier version of this
+  README and of the appendix reported only the first window line, while
+  the run was still going.
 
 `verify_unit_circle.py` (Theorem 11, Lemma 12; local, 261 s), record
 `verify_unit_circle.json`: six scalar sources (random walk with and
