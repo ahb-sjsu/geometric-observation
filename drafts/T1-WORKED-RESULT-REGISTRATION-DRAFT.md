@@ -59,9 +59,9 @@ prediction is exact by construction. So:
   prediction to test; the run applies the same recipe and records the outcome.
 - **Arm R — real consumer, optional, report-only.** The per-key attention-score
   consumer of the GO-P-2026-027 harness on held-out layers, keys as symbols, with the
-  true operator P = QᵀQ/n from that harness. It needs the owner's compute go-ahead for
-  Atlas GPU 1 (not given at drafting); without it the arm is dropped at sealing and
-  nothing else changes. If run: report the recovery error of P from black-box score
+  true operator P = QᵀQ/n from that harness. The owner gave the compute go-ahead for
+  Atlas GPU 1 on 2026-11-17, and its instrument is `experiments/t1_arm_r_llama.py` (see
+  "The instrument", item 3). Report the recovery error of P from black-box score
   queries in bfloat16 (with the paired finite-difference estimator), the probing
   count, and, at matched rate, the softmax divergence of the learned design against
   the reconstruction design. The keys are not Gaussian; by RLD-III.3 the Gaussian
@@ -83,9 +83,11 @@ the same run. Arm R, if run, uses a fixed random 8×d_head Gaussian H drawn with
 id: GO-P-2026-NNN            # assigned at sealing
 date: YYYY-MM-DD             # must predate the first governed measurement
 status: DRAFT                # set to "SEALED <date>" before seal.py, never after
-governs: experiments/t1_worked_result.py   # v1.0, written 2026-11-17 BEFORE sealing;
-    # smoke-tested only on a different instance (p = 3, Sigma = diag(1, 1, 1), beta = 0.1),
-    # so no governed number has been seen; see "The instrument" below
+governs: experiments/t1_worked_result.py, experiments/t1_arm_r_llama.py   # both v1.0,
+    # written 2026-11-17 BEFORE sealing. The synthetic arms were smoke-tested only on a
+    # different instance (p = 3, Sigma = diag(1, 1, 1), beta = 0.1). Arm R was smoke-tested
+    # on layer 12 with its own text: an EXPLORATORY run on the same model, DISCLOSED in
+    # "The instrument", item 3. No governed number has been seen.
 instance:
   representation: T ~ N(0, Sigma), Sigma = diag(2, 0.5), p = 2      # [decided]
       # anisotropic, so that the consumer's weight and the source disagree in their
@@ -213,8 +215,60 @@ should adopt them into the registration or change the script before sealing:
    - At 2 bits it is compared with the reconstruction design by the Monte Carlo consumer
      loss.
    - It has no bars.
-3. **Arm R** is not implemented. Drop it at sealing unless the owner gives the GPU
-   go-ahead first; in that case write a separate instrument and amend `governs:`.
+3. **Arm R** has its own instrument, `experiments/t1_arm_r_llama.py` (v1.0), which runs
+   in two stages. The owner gave the go-ahead on 2026-11-17.
+   - **`capture`, on Atlas GPU 1.** It requires `CUDA_VISIBLE_DEVICES=1`, runs under
+     the batch-probe thermal controller, and is pinned off CPU 0. It captures post-RoPE
+     q and k with the GO-027 patch, frees the model, and then probes the black-box
+     consumer.
+   - **`analyze`, local.** For the governed instance it refuses unless all of these
+     hold:
+     - the prereg passes the same seal guard, naming both scripts;
+     - the capture recorded the prereg's sha256;
+     - the capture was made by the committed script;
+     - the capture postdates the prereg commit.
+
+   Details it fixes:
+   - **Model and data:** `unsloth/Llama-3.2-3B`, in bfloat16. Governed layers are
+     {6, 24}, held out from 026's {8, 16}, 027's {4, 20} and the smoke's {12}. The
+     corpus is GO-027's text, as 8 rows × 256 tokens.
+   - **Symbols:** all 8 KV heads per layer. The symbols are the head's 2048 keys.
+   - **Consumer:** the group's 768 row-0 queries,
+     C(k) = Qk/√d in bfloat16, with G = (d/n)I, so P = QᵀQ/n.
+   - **Probing:** probe points are keys drawn with replacement. Each Jacobian uses a
+     random orthonormal basis and the step h = √(tr Σ/d).
+   - **Estimators:** plain, at 2d queries per point; paired, with a second independent
+     basis, at 4d queries per point. m ∈ {1, 8, 32, 128}, with 5 seeds, from
+     `default_rng([20261117, layer, head, seed])`.
+   - **Source law:** Σ = Cov + 10⁻⁶I, the GO-027 convention. The holder H is 8 × 128
+     from `default_rng(20261117)`, with noise s² = tr Σ/d.
+   - **Designs:** at α = 1, at the matched rates R ∈ {32, 64, 128, 256} bits per key:
+     - reconstruction;
+     - oracle P;
+     - learned: paired and plain at m = 128, and paired at m = 1.
+   - **Serving:** each design is applied to the real keys through the forward Gaussian
+     test channel.
+   - **Reported for each design:**
+     - tr(PΔ), and the realized read error;
+     - the Gaussian-bound leakage;
+     - the softmax KL over the row-0 queries and keys, from 4 common-random-number
+       draws.
+
+   **Disclosure: an exploratory smoke run of arm R was seen.** It ran on 2026-11-17 on
+   layer 12 only, with its own text and seeds (base seed 7; m ∈ {1, 8, 32}; 3 seeds;
+   R ∈ {64, 128}). Its record is `results/t1-arm-r-smoke-2026-11-17.json`. Medians over
+   the 8 heads:
+   - **Error in Frobenius norm:** plain 5.9% at m = 1 and 1.0% at m = 32; paired 4.2%
+     and 0.78%.
+   - **Error in the whitened metric:** much larger (paired 0.13 at m = 32), because P is
+     badly conditioned (condition number about 1700, effective rank about 5 for head 0).
+   - **Trace bias:** plain +0.36%; paired −0.03%.
+   - **Softmax KL against the reconstruction design:** about 0.28 at R = 64 and 0.26 at
+     R = 128. This holds for the oracle and for every learned design, including m = 1:
+     every learned ratio is within 0.001 of the oracle's.
+
+   Arm R has no bars, so nothing was tuned on this run. The reread should still weigh
+   that the governed run will most likely repeat this pattern on layers 6 and 24.
 4. **Seeds:**
    - Every draw comes from `default_rng([20261117, arm code, round(10⁴β), m, seed,
      purpose, …])`.

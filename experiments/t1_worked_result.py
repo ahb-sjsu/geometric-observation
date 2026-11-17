@@ -439,7 +439,9 @@ def _git(*args):
     return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True)
 
 
-def check_governed(prereg):
+def check_governed(prereg, scripts=(SCRIPT_REL,)):
+    """Refuse unless `prereg` is a committed, unmodified, SEALED prereg whose hash verifies and whose
+    `governs:` line (before any comment) names every script in `scripts`, each committed and unmodified."""
     pr = Path(prereg).resolve()
     if not pr.is_file() or ROOT not in pr.parents:
         raise SystemExit(f"refusing the governed run: {prereg} is not a file inside {ROOT}")
@@ -448,13 +450,15 @@ def check_governed(prereg):
     problems = []
     if not re.search(r"^status:\s*SEALED", text, re.M):
         problems.append("status is not SEALED")
-    if not re.search(r"^governs:.*" + re.escape(SCRIPT_REL), text, re.M):
-        problems.append(f"`governs:` does not name {SCRIPT_REL}")
+    gl = re.search(r"^governs:([^\n#]*)", text, re.M)
+    for script in scripts:
+        if not gl or script not in gl.group(1):
+            problems.append(f"`governs:` does not name {script}")
     mh = re.search(r"hash:\s*sha256:(\S*)", text)
     digest = hashlib.sha256(re.sub(r"hash:\s*sha256:\S*", "hash: sha256:", text).encode("utf-8")).hexdigest()
     if not mh or mh.group(1) != digest:
         problems.append("sha256 does not verify")
-    for path in (rel, SCRIPT_REL):
+    for path in (rel, *scripts):
         if _git("ls-files", "--error-unmatch", path).returncode != 0:
             problems.append(f"{path} is not tracked by git")
         elif _git("diff", "--quiet", "HEAD", "--", path).returncode != 0:
