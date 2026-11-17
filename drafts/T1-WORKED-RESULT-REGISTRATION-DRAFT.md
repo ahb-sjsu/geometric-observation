@@ -83,9 +83,9 @@ the same run. Arm R, if run, uses a fixed random 8×d_head Gaussian H drawn with
 id: GO-P-2026-NNN            # assigned at sealing
 date: YYYY-MM-DD             # must predate the first governed measurement
 status: DRAFT                # set to "SEALED <date>" before seal.py, never after
-governs: experiments/t1_worked_result.py   # [decided] to be written and committed BEFORE
-    # sealing; smoke-tested only on a different instance (p = 3, Sigma = diag(1, 1, 1),
-    # beta = 0.1) so that no governed number is seen before the seal
+governs: experiments/t1_worked_result.py   # v1.0, written 2026-11-17 BEFORE sealing;
+    # smoke-tested only on a different instance (p = 3, Sigma = diag(1, 1, 1), beta = 0.1),
+    # so no governed number has been seen; see "The instrument" below
 instance:
   representation: T ~ N(0, Sigma), Sigma = diag(2, 0.5), p = 2      # [decided]
       # anisotropic, so that the consumer's weight and the source disagree in their
@@ -177,6 +177,62 @@ Read honestly: at β = 0.05 the bound is within half a bit per symbol once m ≥
 most of it is the sandwich's looseness, not learning; at β = 0.2 the looseness alone is
 1.4 bits, which is the sketch's stated weakness made concrete. The registration tests
 the bound where it is supposed to hold and reports how loose it is there.
+
+## The instrument (v1.0, written 2026-11-17, for the cold reread)
+
+`experiments/t1_worked_result.py` has two modes.
+
+- `--smoke` runs only the smoke instance: p = 3, Σ = I, G = diag(3, 2, 1), β = 0.1,
+  H = (1, 0.5, 0.25), 5 seeds, base seed 7, m ∈ {8, 32}.
+- `--governed --prereg <file>` runs the registered instance. It refuses unless all of
+  these hold:
+  - the prereg file is committed and unmodified against HEAD;
+  - its status is SEALED;
+  - its sha256 verifies by the rule of `scripts/seal.py`;
+  - its `governs:` line names the script;
+  - the script itself is committed and unmodified.
+
+  Adding `--verify-only` runs those checks and exits without measuring. Run it right
+  after sealing.
+
+The guard was tested in a throwaway repository. It accepts a sealed, committed file. It
+refuses a draft, a prereg edited after sealing, and a modified script.
+
+The smoke run gave ALL PASS in about 2 s, and two runs were bit-identical apart from
+wall time. No governed instance has been run.
+
+The instrument fixes these details, which the text above does not state. The reread
+should adopt them into the registration or change the script before sealing:
+
+1. **Held-out pairs for ν̂:** 10⁴ pairs of independent draws from π. ν̂₋ = 1 − min r and
+   ν̂₊ = max r − 1, where r is the loss divided by (x̂ − x)ᵀQ(x̂ − x).
+2. **Arm B:**
+   - Q is a Monte Carlo average of the analytic JᵀJ over 10⁶ draws, and its standard
+     error is recorded.
+   - The design uses the plug-in D̂ = D, because there is no ν.
+   - At 2 bits it is compared with the reconstruction design by the Monte Carlo consumer
+     loss.
+   - It has no bars.
+3. **Arm R** is not implemented. Drop it at sealing unless the owner gives the GPU
+   go-ahead first; in that case write a separate instrument and amend `governs:`.
+4. **Seeds:**
+   - Every draw comes from `default_rng([20261117, arm code, round(10⁴β), m, seed,
+     purpose, …])`.
+   - Probe sets are independent across m.
+   - W for arm B comes from `default_rng(20261117)`, as registered.
+5. **Shuffled control:** the design for PQ̂Pᵀ, where P reverses the coordinates. It must
+   miss the H4 criterion (fewer than 18 of 20 seeds at the floor) in every cell.
+6. **H2 and H3** are evaluated only on seeds where the H1 event holds. The other seeds
+   are recorded as null.
+7. **Self-checks:**
+   - SC1: the rate-2 water-filling matches the series' solver.
+   - SC2: the held-out ratios lie inside the a priori (ν₋, ν₊).
+   - SC3: the closed form of Q for arm S matches a Monte Carlo average of the analytic
+     JᵀGJ.
+
+   Any self-check failure makes the verdict "INSTRUMENT ERROR", not a pass or a miss.
+8. **Verdict:** ALL PASS needs H1–H4, the shuffled control, arm L's exact recovery, and
+   all three self-checks.
 
 ## What a miss would mean
 
