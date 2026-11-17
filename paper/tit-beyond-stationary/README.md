@@ -16,6 +16,25 @@ itself; its notebook does not run the Section IX checks. Tag
 venue and authorship are the owner's decisions. No human has read the
 proofs. The four referee passes recorded below were made by models.
 
+**Changed after tag 1.3 (2026-11-16, branch `paper/beyond-stationary-identity`),
+on an outside reviewer's notes on the series.** Text only; no statement,
+proof, script, or record changed, and the appendix still cites tag 1.3
+for the scripts, which are unchanged. (1) The introduction opens with
+what the paper is about: one inequality, the covariance-mixture
+inequality of Corollary 6, proved through the bound for sources that are
+not Gaussian (Theorem 2), is also what shows that averaging a spectrum
+over time or over a cycle never lowers the cost (Corollary 16, Theorem
+22); so both branches say that the model that forgets structure is
+conservative, and the rest of the paper measures by how much. The old
+paragraph "The two halves of the paper meet in one place" is shortened
+to a pointer. The abstract ends with the same inequality and drops the
+sentence on time averaging that it subsumes (254 words). (2) The Open
+Problems section opens with a paragraph on what the companion paper four
+(`../tit-unstable-ergodic/`, cited as a manuscript in preparation, by
+directory, since it has no tag) treats, and each affected problem says
+what is treated there and what remains open. A tag 1.4 would fix this
+text; none is cut.
+
 ## Why it is a separate paper
 
 Paper two's proofs use stationarity at every step (Fourier
