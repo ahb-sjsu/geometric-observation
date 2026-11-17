@@ -3,54 +3,79 @@
 **Status: DRAFT, NOT SEALED, NO REGISTRATION NUMBER.** Drafted 2026-11-17 by
 Claude (Opus 5.5) at the owner's request, from the T1 proof sketch
 (`paper/t1-learn-then-serve`) and an outside reader's recommendation that the next
-synthesis centre on one worked result. Under PE-CLS-1.0 (procedure 1b) it must be
-reread cold in a later session, and rewritten as needed, before it is sealed; it then
-takes the next free `GO-P-2026-NNN` (092 at the time of writing) and moves to
-`prereg/`. Every item marked **OWNER** is the owner's decision. No governed
+synthesis centre on one worked result. **The items formerly marked OWNER were
+filled the same day by Claude at the owner's instruction**; each is marked
+*[decided]* with its reason, and the owner may override any of them at the cold
+reread. Under PE-CLS-1.0 (procedure 1b) the draft must be reread cold in a later
+session, and rewritten as needed, before it is sealed; it then takes the next free
+`GO-P-2026-NNN` (092 at the time of writing) and moves to `prereg/`. No governed
 measurement may be run before the sealing commit exists.
 
 ## What it would show
 
-The complete chain from an observer to an achievable resource limit, on one real
-consumer: (1) recover the consumer's read operator from queries alone, (2) charge the
-queries, (3) build the description for the recovered operator, and (4) measure its
-downstream loss and its rate and leakage against the frontier of the
-rate–leakage–distortion (RLD) series computed with the true operator. The T1 sketch
-predicts all four quantities under its assumption (A1); the run tests whether a real
-consumer meets (A1) closely enough for the predictions to hold, and reports by how
-much they miss if it does not.
+The complete chain from an observer to an achievable resource limit: (1) recover the
+consumer's read operator from queries alone, (2) charge the queries, (3) build the
+description for the recovered operator with the coding theorems of the
+rate–leakage–distortion (RLD) series, and (4) measure its downstream loss and its rate
+and leakage against the frontier computed with the true operator. The T1 sketch
+predicts all four under its assumption (A1); the run tests the predictions where (A1)
+holds with constants known in advance, measures the looseness the sketch admits, and
+records how far the same recipe lands for a consumer that fails (A1).
 
-## The consumer — OWNER
+## The consumer — [decided]
 
-The sketch covers a consumer that (a) acts on each symbol separately, (b) has a
-read metric of full rank on the symbols' space, or of lower rank with a kernel that
-does not move (then only in the settings of RLD I–III), and (c) has a loss between
-1 − ν₋ and 1 + ν₊ times a quadratic form, with constants well below one, known in
-advance, for all pairs of points in the source's support. A fresh-context audit of
+The sketch covers a consumer that (a) acts on each symbol separately, (b) has a read
+metric of full rank on the symbols' space, or of lower rank with a kernel that does
+not move (then only in the settings of RLD I–III), and (c) has a loss between 1 − ν₋
+and 1 + ν₊ times a quadratic form, with constants well below one, **known in
+advance**, for all pairs of points in the source's support. A fresh-context audit of
 the sketch (ledger VI-22) found that for a Gaussian source (c) forces a globally
-bi-Lipschitz consumer, so the sketch speaks only near linearity: a leaky ReLU of slope
-a already pays p·log₂(1/a) bits per symbol of looseness. A softmax fails (c) outright.
-Consumers the ledger already instruments, with what is known against those three
-conditions (to be checked, not assumed):
+bi-Lipschitz consumer, so the sketch speaks only near linearity. Consumers the ledger
+already instruments:
 
 | Candidate | Existing instrument | (a) per symbol | (b) full rank | (c) near-quadratic |
 |---|---|---|---|---|
-| attention heads of a trained language model, keys as symbols | GO-P-2026-027 (Llama-3.2-3B read operators) | the softmax reads across tokens and fails (c); the scores before it, for a fixed set of queries, are a per-key linear consumer | full rank iff the queries span the key space (to be measured) | the scores: ν = 0 exactly; the softmax: fails |
-| MUSIC direction-of-arrival on radar snapshots | DOA rows 031/033/034 | to be checked | to be measured | to be measured |
-| a citation-ranking consumer | legal rows 035/036/039 | to be checked | to be measured | to be measured |
-| a linear read-out with a known output metric | none (a control) | yes | by construction | ν = 0 exactly |
+| attention heads of a trained language model, keys as symbols | GO-P-2026-027 harness `experiments/gateB_llama_asymptotic_floor.py` (Llama-3.2-3B, Atlas GPU 1) | the softmax reads across tokens and fails (c); the scores before it, for a fixed set of queries, are a per-key linear consumer with read operator P = QᵀQ/n, as that harness computes it | full rank iff the queries span the key space | the scores: ν = 0 exactly; the softmax: fails |
+| MUSIC direction-of-arrival on radar snapshots | DOA rows 031/033/034 | not checked | not checked | not checked |
+| a citation-ranking consumer | legal rows 035/036/039 | not checked | not checked | not checked |
 
-A linear consumer is the positive control: (A1) holds with ν = 0, so the prediction
-is exact up to the coding theorems' finite-blocklength effects. **OWNER:** choose the
-primary consumer, and whether to run the linear control first.
+*[decided]* **Three arms gate the verdict, all synthetic, on CPU; one real arm is
+optional and report-only.** Reason: the theorem can be tested only where (c) holds
+with constants known in advance, and no trained consumer in the ledger is known to
+satisfy (c) except through a linear layer, where (c) holds with ν = 0 and the
+prediction is exact by construction. So:
 
-## The holder — OWNER
+- **Arm L — linear control.** C(x) = x, output metric G = diag(4, 1). Then ν₋ = ν₊ = 0,
+  Q = G, and the prediction is exact.
+- **Arm S — smooth monotone consumer, the theorem's regime.**
+  C(x) = x + β sin x componentwise, G = diag(4, 1), β ∈ {0.05, 0.2}. The constants are
+  known in advance exactly: by the mean value theorem each coordinate's difference
+  quotient lies in [1 − β, 1 + β], so with q(s²) = E(1 + β cos X)² for X ~ N(0, s²),
+  q(s²) = 1 + 2β e^{−s²/2} + (β²/2)(1 + e^{−2s²}), and Q = G·diag(q(σ₁²), q(σ₂²)),
+  1 − ν₋ = minᵢ (1 − β)²/qᵢ and 1 + ν₊ = maxᵢ (1 + β)²/qᵢ.
+- **Arm B — boundary, report-only.** A softmax read-out C(x) = softmax(Wx), W a fixed
+  3×2 matrix drawn with seed 20261117 and scaled to unit spectral norm, G = I₃. (c)
+  fails (its read metric is not bounded below and has a kernel), so there is no
+  prediction to test; the run applies the same recipe and records the outcome.
+- **Arm R — real consumer, optional, report-only.** The per-key attention-score
+  consumer of the GO-P-2026-027 harness on held-out layers, keys as symbols, with the
+  true operator P = QᵀQ/n from that harness. It needs the owner's compute go-ahead for
+  Atlas GPU 1 (not given at drafting); without it the arm is dropped at sealing and
+  nothing else changes. If run: report the recovery error of P from black-box score
+  queries in bfloat16 (with the paired finite-difference estimator), the probing
+  count, and, at matched rate, the softmax divergence of the learned design against
+  the reconstruction design. The keys are not Gaussian; by RLD-III.3 the Gaussian
+  frontier with the keys' covariance is achievable for them, so the computed rate and
+  leakage are upper bounds there.
 
-The RLD series charges leakage to a holder with a stated observation model. A real
-consumer comes with no holder, so the run must declare one: for instance a noisy
-linear observation S = H T + U of the source symbols, with H and the noise level
-fixed at sealing. **OWNER:** the holder model, or the decision to run the rate-only
-slice (α = 1) first, where the holder plays no part.
+## The holder — [decided]
+
+S = H T + U with H = (1, 0.5) and U ~ N(0, 1), as in the series' existing checks
+(`verify_vector_ergodic.py`, `verify_ergodic_memory.py`); all three weights
+α ∈ {0, 0.5, 1}. Reason: the holder is what distinguishes the RLD frontier from a
+rate–distortion function, and the slice α = 1, where it plays no part, comes free in
+the same run. Arm R, if run, uses a fixed random 8×d_head Gaussian H drawn with seed
+20261117 and noise variance equal to the mean per-coordinate key variance.
 
 ## Instance
 
@@ -58,67 +83,117 @@ slice (α = 1) first, where the holder plays no part.
 id: GO-P-2026-NNN            # assigned at sealing
 date: YYYY-MM-DD             # must predate the first governed measurement
 status: DRAFT                # set to "SEALED <date>" before seal.py, never after
+governs: experiments/t1_worked_result.py   # [decided] to be written and committed BEFORE
+    # sealing; smoke-tested only on a different instance (p = 3, Sigma = diag(1, 1, 1),
+    # beta = 0.1) so that no governed number is seen before the seal
 instance:
-  representation: OWNER       # the symbols T_t in R^p the consumer reads
-  consumer: OWNER             # the functional C, its output metric G, and how its loss is measured
-  holder: OWNER               # S = H T + U, or rate-only
-  probe_distribution: OWNER   # pi; the sketch needs it inside the source's support
+  representation: T ~ N(0, Sigma), Sigma = diag(2, 0.5), p = 2      # [decided]
+      # anisotropic, so that the consumer's weight and the source disagree in their
+      # ordering of the two coordinates' value per bit at moderate rate
+  consumer: arms L, S (beta in {0.05, 0.2}), B, and optional R, as above   # [decided]
+      # loss: ||C(x_hat) - C(x)||_G^2, measured by Monte Carlo
+  holder: S = H T + U, H = (1, 0.5), U ~ N(0, 1); alpha in {0, 0.5, 1}   # [decided]
+  probe_distribution: pi = N(0, Sigma), the source law                    # [decided]
+  distortion: D = 0.3 * tr(Q Sigma)                                        # [decided]
+      # the series' check convention (0.3 D_max)
 probe_output:
   read_operator: Q_hat = mean of J(x_i)^T G J(x_i) over m probe points
-  nu_bounds: nu_minus, nu_plus -- the theorem needs them KNOWN IN ADVANCE (no finite probe
-      set certifies them; e.g. from Lipschitz/monotonicity constants of the consumer, OWNER).
-      The run also measures nu_hat on a held-out probe set, and reports both; whether
-      nu_hat can stand in for the a-priori bounds in practice is itself a finding.
-  queries: 2 p m by central differences; with output noise, two independent difference
-      Jacobians per point and the symmetrized cross product (the plain estimator has a
-      bias of order sigma^2/h^2 that does not shrink with m), or the consumer's own
-      Jacobian if exposed (OWNER)
-prediction:               # all bars OWNER, set at sealing
-  H1_estimation: relative error of Q_hat against a high-sample reference Q_ref is at most
-      the Lemma-1 bound eps_m = nu (sqrt(2L/m) + 2L/(3m)), nu = max(nu_minus, nu_plus),
-      L = ln(2p/delta), at m in {OWNER}, in at least {OWNER} of {OWNER} seeds
-  H2_loss: the code built for Q_hat at distortion D(1 - eps_m)/(1 + nu_plus) has measured
-      downstream consumer loss at most D (+ a tolerance OWNER)
-  H3_price: its rate (and, with a holder, its leakage) exceeds the frontier computed with
-      Q_ref at distortion D/(1 - nu_minus) by at most
-      tau = (p/2) log[(1+nu_plus)(1+eps_m)/((1-nu_minus)(1-eps_m))] bits per symbol; also
-      report the gap to a code designed for Q_ref at the full budget D, since the
-      looseness part of tau is an upper bound, not a price shown to be paid
-  H4_benefit: at matched rate it beats the reconstruction-optimal code on consumer loss
-      (the flip direction), with effect floor OWNER
-  effect_floor: OWNER
-  power: OWNER               # §5.1: how each gated bar was sized
-  pilot: OWNER               # §5.1: a logged pilot, or "NO pilot was run"
+  jacobians: central differences, step h = 1e-4, noiseless outputs (arms L, S, B):
+      # [decided] truncation bias O(h^2) ~ 1e-8 relative, negligible against eps_m;
+      # arm R: the paired estimator, two independent difference Jacobians per point
+  nu_bounds: arms L, S: the closed forms above, computed before the run and written into
+      the sealed document; arm B: none (fails (c)). nu_hat is also measured on 10^4
+      held-out pairs and reported, never used for a bar.
+  queries: 2 p m consumer evaluations per probe set (4 m for p = 2)
+prediction:               # [decided] bars set from closed forms; see power
+  H1_estimation: per arm in {L, S(0.05), S(0.2)} and m in {8, 32, 128, 512}: the relative
+      error ||Q^{-1/2} Q_hat Q^{-1/2} - I|| is at most eps_m = nu (sqrt(2L/m) + 2L/(3m)),
+      L = ln(2p/delta) = ln 40, delta = 0.1, in at least 14 of 20 seeds per cell
+      (arm L: nu = 0, so the bar is an exact recovery to 1e-6)
+  H2_loss: on the seeds where the H1 event holds, the Gaussian test channel built for
+      Q_hat at D_hat = D (1 - eps_m)/(1 + nu_plus) (the frontier point at weight alpha)
+      has Monte Carlo consumer loss at most D (1 + 0.005) + 4 SE, n_mc = 2e5, for every
+      alpha and seed
+  H3_price: on the same seeds, its weighted cost alpha R + (1 - alpha) L is at most
+      V_Q(alpha, D/(1 - nu_minus)) + tau + 1e-6 bits, tau = (p/2) log2[(1+nu_plus)(1+eps_m)
+      /((1-nu_minus)(1-eps_m))], for every alpha and seed (a theorem consequence; any
+      violation is an error in the theorem or the instrument). Also reported, with no
+      bar: the gap to the code designed for the true Q at the full budget D, and the
+      looseness part of tau, which is an upper bound and not a price shown to be paid.
+  H4_benefit: rate-only slice (alpha = 1), matched rate R = 2 bits per symbol: the
+      consumer quadratic distortion tr(Q Delta) of the design for Q_hat is lower than
+      that of the reconstruction design (water-filling on Sigma) by at least half the
+      closed-form reduction for the true Q, in at least 18 of 20 seeds per cell, for
+      m in {32, 128, 512}
+  effect_floor:   # [decided] half the closed-form reductions at R = 2 bits, computed
+      # from the instance before any run (design calculation of 2026-11-17, no data):
+      # arm L 20.0% -> 10.0%; S(0.05) 19.1% -> 9.5%; S(0.2) 16.8% -> 8.4%.
+      # At R = 1 bit the two designs coincide (one active component), which is why
+      # the slice is taken at 2 bits.
+  power:          # [decided]
+      # H1: if Lemma 1 holds, each seed fails with probability at most 0.1, so
+      #   P(>= 7 failures of 20) <= 0.0024 per cell; 12 cells give a family-wise
+      #   false-fail rate <= 0.03 (alpha family-corrected, per the V6 lesson). The
+      #   audit's Monte Carlo found Lemma 1's coverage near 0.999, far above 0.9.
+      # H2: 4 SE + 0.5% per test, about 3e-5 per test, over at most 3 x 4 x 3 x 20 = 720
+      #   tests: family-wise <= 0.03.
+      # H3: deterministic given Q_hat; tolerance = solver tolerance 1e-6 bits.
+      # H4: deterministic given Q_hat. Checked by closed forms (drafts/t1-design/h4robust.py,
+      #   20 000 random symmetric perturbations): for every Q_hat within relative error
+      #   0.3 of Q, the reduction stays at least 16.2% (L), 15.2% (S, 0.05), 12.8% (S, 0.2),
+      #   above the floors 10.0 / 9.5 / 8.4%; and eps_m <= 0.3 in every H4 cell (m >= 32:
+      #   at most 0.291, at beta = 0.2, m = 32). A random search, not a proof.
+  pilot: "NO pilot was run." The bars rest on closed forms; the design calculation of
+      2026-11-17 used the instance's parameters only and no simulated data.
 design:
-  m_probes: OWNER
-  seeds: OWNER
-  clusters: OWNER            # the independent unit
+  m_probes: [8, 32, 128, 512]                 # [decided] eps_m spans 0.2 to 0.02 at beta = 0.05
+  seeds: 20 per (arm, beta, m), base seed 20261117   # [decided]
+  clusters: the seed (an independent probe set)       # [decided]
   stopping: fixed-n
-  codes: Gaussian test-channel allocation (water-filling for Q_hat) and a practical
-      quantizer realizing it at matched rate (OWNER: which); the RLD frontier is computed
-      by the series' solver (`paper/tit-stationary/spectral_core.py`) for memoryless
-      symbols, or its process version
-  bits_matched_via: OWNER
-controls: [linear-consumer (nu = 0), shuffled-consumer, noise-floor, reconstruction-optimal code]
+  codes: Gaussian test channels at the frontier points of the RLD-I setting (memoryless
+      Gaussian vector), computed by the series' solver (`paper/tit-stationary/spectral_core.py`,
+      one block). [decided] No practical quantizer in this registration: the leakage of
+      an operational code cannot be measured at these sizes, and the series' coding
+      theorems already supply achievability; a rate-only entropy-coded dithered
+      quantizer arm is named as a follow-on, not run here.
+  bits_matched_via: the closed-form rate of the Gaussian test channel   # [decided]
+  serving_horizon: K = 1e6 symbols for the per-symbol probing overhead 2pm/K  # [decided]
+controls: [arm L (nu = 0, exact), arm B (fails (A1), report-only),
+           shuffled-consumer (Q_hat from a consumer with permuted coordinates; H4 must fail),
+           reconstruction-optimal code (the H4 comparator)]
 amendments: []
 hash: sha256:...             # written by scripts/seal.py
 ```
 
+### The design calculation (2026-11-17, closed forms only, no data)
+
+| Arm | ν₋ | ν₊ | looseness part of τ (p = 2) | τ at m = 8 / 32 / 128 / 512 (bits per symbol) | H4 closed-form reduction at R = 2 |
+|---|---|---|---|---|---|
+| L (β = 0) | 0 | 0 | 0 | 0 / 0 / 0 / 0 | 20.0% |
+| S, β = 0.05 | 0.164 | 0.062 | 0.345 | 0.954 / 0.610 / 0.468 / 0.404 | 19.1% |
+| S, β = 0.2 | 0.522 | 0.233 | 1.368 | 3.664 / 2.231 / 1.760 / 1.556 | 16.8% |
+
+Read honestly: at β = 0.05 the bound is within half a bit per symbol once m ≥ 128, and
+most of it is the sandwich's looseness, not learning; at β = 0.2 the looseness alone is
+1.4 bits, which is the sketch's stated weakness made concrete. The registration tests
+the bound where it is supposed to hold and reports how loose it is there.
+
 ## What a miss would mean
 
-- **H1 misses:** the matrix-Bernstein bound fails on this consumer, or ν̂ was
-  mis-measured; the sketch's Lemma 1 hypotheses (bounded relative read metrics,
-  independent probes) are then the first thing to check.
-- **H1 holds, H2 or H3 misses:** (A1) is too strong an idealization for this consumer
-  — most likely a loss that saturates or cross-symbol structure — and the size of the
-  miss measures the gap the sketch's remarks name as open.
-- **H4 misses with H1–H3 holding:** the consumer is nearly isotropic, so serving it
-  buys little; that is a boundary of the flip, not of T1.
+- **H1 misses** (arms L or S): the matrix-Bernstein bound fails on a consumer that meets
+  its hypotheses, or the instrument is wrong. Either is a finding against Lemma 1 or
+  against the harness, and the instrument is checked first.
+- **H1 holds, H2 or H3 misses:** a theorem consequence failed for Gaussian test
+  channels; an error in the sketch's Theorem 2 or in the instrument. It would be logged
+  as a verification incident and the sketch downgraded.
+- **H4 misses with H1–H3 holding:** at this instance the consumer's anisotropy buys less
+  than half its closed-form value; a boundary of the flip, not of T1.
+- **Arm B and arm R** carry no bars; whatever they show is reported at the class
+  `[exploratory]`, with the sentence that the sketch makes no prediction for them.
 
 ## Not in scope
 
-The low-rank case (the read subspace of rank below p, priced through principal
-angles, the commission tax, and the omission floor), consumers that read across
-symbols, and any monitor or false-clear-rate claim. Probing cost is reported as a
-count of queries and their compute; turning it into a per-symbol cost needs a serving
-horizon K (**OWNER**).
+The low-rank case with a kernel that moves or a range estimated with error (priced
+through principal angles, the commission tax, and the omission floor), consumers that
+read across dependent symbols, practical quantizers, and any monitor or
+false-clear-rate claim.
