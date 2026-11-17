@@ -88,6 +88,21 @@ Ranked by (reachability × operational closure):
   finite-rate visibility scales with the omitted direction's weight, so ε(n, π)
   must carry the rate-regime dependence, not principal angles alone. Completes
   §V → Appendix-mismatch into a pipeline theorem; ISIT-sized on its own.
+  *Status 2026-11-17:* proof sketch in the relative-sandwich regime
+  (`paper/t1-learn-then-serve`, `[exploratory]`, audited VI-22): matrix
+  Bernstein on exact read metrics at m probes gives relative error
+  ε_m ∝ ν√(ln p/m), and the RLD series' coding theorems (with leakage, not only
+  rate) carry it to a gap τ = (p/2)log[(1+ν₊)(1+ε_m)/((1−ν₋)(1−ε_m))]
+  bits/symbol in each cost. The sandwich constants must be known a priori, and
+  the regime is near-linear consumers only (globally bi-Lipschitz for Gaussian
+  sources). Low rank with a fixed kernel extends in RLD I–III. Not yet done: a
+  moving kernel and an estimated range (Davis–Kahan + principal angles +
+  leakage), saturating losses and read metrics not bounded below (softmax),
+  finite-difference noise constants (the noise bias needs a paired estimator),
+  consumers that read across dependent symbols. The
+  end-to-end worked result is drafted for registration
+  ([`drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md`](drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md)),
+  unsealed and unnumbered.
 - **T2 — Consumer-relative channel coding (the §VI dual).** Define the
   observation channel and prove the capacity theorem that turns the
   extreme-value vacuity threshold into an operational limit — the missing

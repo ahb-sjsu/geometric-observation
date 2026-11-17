@@ -12,6 +12,17 @@ return an answer that *was* right and no longer is. The entry is well-chosen; it
 simply **stale**. No amount of the earlier theory sees this failure, because the
 earlier theory has no clock.
 
+Three kinds of change should be kept apart. A **changing source** — statistics that
+drift, cycle, grow, or vary without a period — is the subject of the RLD series
+(Chapter 7), which holds the consumer's weight and the holder's map fixed and asks
+what the description costs. A **drifting observer** — a read operator that changes,
+so that a description tuned to yesterday's consumer misreads today's — and a
+**reliable monitor** — a certificate whose claims are witnessed and whose false-clear
+rate is calibrated — are this Part's subjects, and they need assumptions and results
+of their own. The coding theorems supply limits and benchmarks for expected
+distortion; a monitor's false-clear rate is a further statistical claim, which needs
+its own argument and its own measurement.
+
 ## The certificate
 
 Almost every operational decision rests not on a measurement but on a **certificate**
