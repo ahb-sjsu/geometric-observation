@@ -130,6 +130,61 @@ logged, and the claim was resolved not by relaxing the sealed bar but by a fresh
 held-out test that passed. The floor is real; the first instrument for seeing it was
 too shallow, and the ledger says both.
 
+## A second party: the rate–leakage–distortion series
+
+The theorems above price one consumer and no one else. A companion series of four
+papers for the *IEEE Transactions on Information Theory* (the RLD series: paper I in
+review, II–IV in preparation) adds a second party, a **holder** that observes the
+source through its own noisy map and learns from the description without decoding
+it, and charges a second cost beside the rate: the **leakage**, the conditional
+information $I(X;\hat X\mid S)$ the description gives the holder beyond its own
+observation. For a fixed per-symbol weight $Q$ the series finds the region of pairs
+of rate and leakage:
+
+- **I** — Gaussian vectors: every frontier point is reverse water-filling on the
+  weight *tilted* by the holder's information, and the optimal directions turn with
+  the budget.
+- **II** — stationary Gaussian processes: the same frequency by frequency under one
+  level, and the spectral region is the operational one, for holders whose
+  observation is filtered (with finite or infinite memory), delayed, or the whole
+  observation process.
+- **III** — slowly varying sources (water-filling over time and frequency),
+  cyclostationary sources, scalar unstable sources, and sources that are not
+  Gaussian (the Gaussian region is achievable; every code is bounded below by the
+  Gaussian frontier less two relative entropies). One inequality joins the
+  branches: averaging a covariance, or a spectrum over time or a cycle, never lowers
+  the cost.
+- **IV** — unstable vector sources: an unstable pole costs the logarithm of its
+  modulus in rate, and again in leakage only if the holder cannot observe it
+  ($\rho_\star$ against $\rho_{\mathrm{hid}}$), for holders with finite or rational
+  memory; poles on the unit circle (scalar) cost nothing; sources whose statistics
+  vary without a period, including the proof that incommensurate sampling removes
+  the dependence on the sampling phase, a conjecture of Tan, Dabora, and Poor; and
+  ergodically driven vector sources.
+
+Each result has a written proof, fresh-context model audits, and numerical checks
+whose criteria were fixed before they ran but were not sealed; in this book's grammar
+they are `[exploratory]` until promoted (ledger section RLD).
+
+The series takes two things as given, and they are the business of other chapters.
+**The weight.** The consumer's own geometry is the local read metric $P_C(x)$; the
+series' $Q$ is a fixed input, and the optimal *description* — an error covariance
+whose directions turn with the budget — depends on $Q$, the source, the holder, and
+$D$ together. That turning is the description's geometry, not the observer's: it
+does not mean the consumer's metric has changed. Replacing $P_C(x)$ by a constant $Q$
+is the bridge of Chapter 5, which has conditions and a price. **The knowledge of the
+weight.** The series assumes $Q$ known; Chapter 10 recovers the read operator from
+the consumer, but its recovery result identifies the read *subspace*, under a
+specified model, probe distribution, and output metric, and not the weights within
+it, which an allocation also needs. Composing recovery with the series' coding
+theorems, and charging for the probing, is the keystone T1 (Chapter 17).
+
+And one thing the series establishes is read differently elsewhere. Its leakage is
+the conditional information $I(X;\hat X\mid S)$; that this quantity is the ideal work
+to reset a record against the holder's knowledge is a further claim, which uses the
+physical memory and reset model of the consumer-relative Landauer paper, in which
+the downstream consumer and the physical reset agent are different parties.
+
 ## COST, in one line
 
 Observation charges a rate, the rate is $R_C(D)$, and its whole difference from

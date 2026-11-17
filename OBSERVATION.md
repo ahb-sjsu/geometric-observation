@@ -12,7 +12,7 @@ channel, and budget; they are ill-posed until all are specified.
 
 | Shadow | Question | Results | Papers · instruments |
 |---|---|---|---|
-| **COST** | what observation charges | R_C(D) achievability+converse; true-divergence reduction (the tilt is C); two-observer region, refinability = Loewner nesting, exact rate loss; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π); **thermodynamic**: the rate–work–distortion region RW_C(D) — description rate I(X;X̂) vs conditional Landauer reset work I(X;X̂\|S) as separate resources; materialize-then-project barrier; multi-consumer coordinated reset saves TC(U₁;…;U_m\|S); thermal water-filling d*=min{λ,νT}; staleness–work complement | Paper III (T-IT) · Paper V (Landauer, GO-P-2026-042/043) |
+| **COST** | what observation charges | R_C(D) achievability+converse; true-divergence reduction (the tilt is C); two-observer region, refinability = Loewner nesting, exact rate loss; k-chain; dispersion counts read dimensions; mismatch: commission tax (r/2)log(M/m), omission floor tr(P̃Π); **thermodynamic**: the rate–work–distortion region RW_C(D) — description rate I(X;X̂) vs conditional Landauer reset work I(X;X̂\|S) as separate resources; materialize-then-project barrier; multi-consumer coordinated reset saves TC(U₁;…;U_m\|S); thermal water-filling d*=min{λ,νT}; staleness–work complement; **the rate–leakage–distortion (RLD) series**, for a fixed per-symbol weight and a holder who learns from the description: tilted water-filling for Gaussian vectors, stationary, slowly varying, cyclostationary and non-Gaussian sources; unstable poles cost log\|ρ\| in rate and again in leakage only if the holder cannot observe them (ρ★ vs ρ_hid); incommensurate sampling removes the phase dependence (a published conjecture); ergodically driven vector sources `[exploratory]` (ledger § RLD) | Paper III (T-IT) · Paper V (Landauer, GO-P-2026-042/043) · RLD I–IV (T-IT, `paper/tit-*`) |
 | **VALUE** | what preserving the read buys | the flip: reconstruction-tied codes rank oppositely per consumer; 12-domain sweep across 3 physics + trained models + classifiers; ZCA-whitened codes win end-to-end | Paper II · Paper IV · turboquant a2_probe / runtime_policy |
 | **LEGIBILITY** | what the quotient reveals | angle carries geodesics where radius carries density; recognizer names the manifold or certifies none; dimension emerges before shape (Weyl ordering); α=1 response sign = ker-P_C membership test | Paper I · Paper I.5 · the recognizer |
 
@@ -39,6 +39,33 @@ sampling gives S = 2.00000 exactly at any hubness, and the only route past it in
 that family was the detection loophole, which additionally signalled. What survives
 is a vocabulary — settings act as queries, so query-relative accessibility is the
 natural language for Bell's measurement-independence premise — not a mechanism.
+
+**The RLD series is COST's analytic foundation, with three boundaries.**
+*Two geometries.* The consumer supplies a local read metric
+P_C(x) = J_C(x)ᵀGJ_C(x); the series takes a fixed per-symbol weight Q as an
+input, and the optimal *description* (an error covariance whose directions turn
+with the budget) then depends on Q, the source, the holder, and the budget
+together. Budget-dependent directions do not require the consumer's own metric
+to change. Replacing P_C(x) by a constant Q needs conditions — the error's
+second moment uncorrelated with P_C(x) to leading order, or a relative sandwich
+(1−ν)Q ⪯ P_C(x) ⪯ (1+ν)Q, which costs at most (p/2)log((1+ν)/(1−ν)) bits per
+symbol. *Identification and coding.* The series assumes Q known; the program
+recovers it from a consumer, but the recovery result identifies the read
+*subspace* under a specified model, probe distribution, and output metric, not
+the weights within it, which an allocation also needs. Composing the two, and
+charging for the probing, is the keystone T1 (a proof sketch exists in the
+sandwich regime, `[exploratory]`, [`paper/t1-learn-then-serve`](paper/t1-learn-then-serve/t1-learn-then-serve.tex);
+its constants must be known in advance, and it is informative only for nearly
+linear consumers).
+*Changing sources, drifting observers, reliable monitors.* RLD III–IV let the
+source's statistics change with the weight and the holder held fixed; a
+drifting read operator, refresh policies, and the reliability of a certificate
+need their own assumptions and results. Expected-distortion coding theorems
+give limits and benchmarks; a monitor's false-clear rate needs a separate
+statistical argument and measurement. Likewise the series establishes the
+conditional information I(X;X̂|S); reading it as ideal reset work uses Paper
+V's physical memory and reset model, in which the downstream consumer and the
+physical reset agent are different parties.
 
 **Method.** Registration-first: sealed predictions, ex-ante bars, misses
 published at equal prominence, fresh-context verification, no file drawer.
