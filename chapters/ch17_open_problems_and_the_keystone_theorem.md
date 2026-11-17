@@ -33,6 +33,37 @@ surrogate gap in GO-6), and the mismatch tax and omission floor are proved (Chap
 Appendix B). T1 would fuse them. It carries no result yet — it is a **stated target**,
 not a theorem — and I flag it as such [status: open, recommended].
 
+**Update, November 2026: a proof sketch in one regime.** A note
+(`paper/t1-learn-then-serve`) proves T1 under one explicit assumption, a *relative
+quadratic sandwich*: the consumer's loss lies between $1-\nu_-$ and $1+\nu_+$ times a
+fixed quadratic form $Q$, the read metric averaged over the probe distribution, with
+the constants known in advance (no finite set of probes can certify them). It composes
+the three error sources the statement above needs. The estimated operator: read
+metrics at $m$ probe points give $\hat Q$ with relative error
+$\varepsilon_m=\nu\big(\sqrt{2L/m}+2L/3m\big)$, $\nu=\max\{\nu_-,\nu_+\}$,
+$L=\ln(2p/\delta)$, with probability $1-\delta$, by matrix Bernstein — so a nearly
+constant read metric is learned from few probes. The quadratic approximation: the
+constants $\nu_\pm$. The probing: $2pm$ consumer queries, paid once. Under the
+assumption, a code built for $\hat Q$ by the coding theorems of the RLD series
+(Chapter 7) has consumer loss at most $D$ and lies within
+$\tau=\tfrac p2\log\frac{(1+\nu_+)(1+\varepsilon_m)}{(1-\nu_-)(1-\varepsilon_m)}$ bits per
+symbol of the best any code can do, in rate and in leakage at once. A fresh-context
+audit found the theorem and its lemma correct and three of its remarks wrong, all
+corrected; it also measured how narrow the regime is. For a Gaussian source the
+sandwich forces the consumer to be globally injective and bi-Lipschitz, and $\tau$ is
+small only near linearity: a leaky ReLU of slope $a$ pays $p\log_2(1/a)$ bits per
+symbol of looseness, and that looseness is an upper bound on what is paid, not a
+price shown to be paid. Read operators of lower rank with a kernel that does not move
+are covered in the settings of RLD I–III, which allow reproducing a linear function of
+the source. Still open, and still the heart of the original statement: a kernel that
+moves with the point and a range estimated with error (principal angles, the
+commission tax, and the omission floor, so far for the rate alone); losses that
+saturate, and consumers like a softmax whose read metric is not bounded below; and
+consumers that read across dependent symbols. The sketch is `[exploratory]`, and the
+end-to-end worked result it calls for — recover a real consumer's operator, charge the
+probing, build the description, and bound its downstream loss against the series'
+frontier — is drafted for registration and not sealed.
+
 ## The cross-domain magnitude constant
 
 The sharpest *quantitative* gap is inherited from the 20-Newsgroups blind test (041,

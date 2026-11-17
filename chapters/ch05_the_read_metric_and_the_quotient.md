@@ -63,6 +63,27 @@ what the three engineers of Chapter 1 should have minimized; it is the objective
 COST theory optimizes (Chapter 7) and the quantity the flip is a statement about
 (Chapter 8).
 
+The identity quietly does two things. It treats the read metric as one matrix,
+although the consumer's metric $P_C(x)=J(x)^\top G\,J(x)$ is *local* and changes with
+the point; and it treats the error's second moment as if it did not depend on the
+point either. The exact leading-order object is $\mathbb{E}_x
+\operatorname{tr}\big(P_C(x)\,\Sigma_\delta(x)\big)$, with
+$\Sigma_\delta(x)=\mathbb{E}[\delta\delta^\top\mid x]$, and it factors into
+$\operatorname{tr}(P_C\Sigma_\delta)$ with the averaged $P_C=\mathbb{E}_x P_C(x)$
+only when $\Sigma_\delta(x)$ is uncorrelated with $P_C(x)$ (the foundational
+manuscript's Proposition 1, which states it for a divergence, with a factor
+$\tfrac12$). Where that fails, a weaker condition still lets a
+constant weight stand in for the local metric, at a stated price: if $(1-\nu)Q
+\preceq P_C(x) \preceq (1+\nu)Q$ at every point, every code's read distortion lies
+within a factor $1\pm\nu$ of $\operatorname{tr}(Q\Sigma_\delta)$, and serving $Q$ in
+place of the local metric costs at most $\tfrac p2\log\frac{1+\nu}{1-\nu}$ bits per
+symbol in each cost (Chapter 17, T1) — an upper bound, often loose, and small only
+when the consumer is nearly linear. The coding theorems of Chapter 7 are statements
+about the constant weight; this is the bridge they need, and it is not free. Keep
+the two geometries apart: the consumer's metric is the observer's, fixed by the
+consumer; the optimal *description* built for it has its own geometry, which also
+depends on the source and the budget.
+
 A warning the ledger insists on. The read distortion is the *controlling* quantity
 for the discriminating comparison, but it is **not a complete rank statistic**. On the
 KV-key domain, $\operatorname{tr}(P_C\Sigma_\delta)$ correctly predicts the flip 12/12

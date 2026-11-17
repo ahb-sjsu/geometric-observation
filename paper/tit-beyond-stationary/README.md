@@ -6,13 +6,34 @@ Gaussian process. This draft treats Gaussian sources that are not
 stationary and sources that are not Gaussian.
 
 **Status (2026-11-16): draft, not submitted, no venue chosen.** The
-manuscript cites the tag `tit-beyond-stationary-1.2`
-(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.2/paper/tit-beyond-stationary),
-which is to be cut on the commit that adds Section IX (unstable
-autoregressive sources); until then the link does not resolve. Tag
+manuscript cites the tag `tit-beyond-stationary-1.3`
+(https://github.com/ahb-sjsu/geometric-observation/tree/tit-beyond-stationary-1.3/paper/tit-beyond-stationary),
+cut on the merge commit of the change that set this citation. Tag
+`tit-beyond-stationary-1.2` has the same manuscript, Section IX
+(unstable autoregressive sources) included, except that it cites
+itself; its notebook does not run the Section IX checks. Tag
 `tit-beyond-stationary-1.1` is the previous version, without Section IX. Title,
 venue and authorship are the owner's decisions. No human has read the
 proofs. The four referee passes recorded below were made by models.
+
+**Changed after tag 1.3 (2026-11-16, branch `paper/beyond-stationary-identity`),
+on an outside reviewer's notes on the series.** Text only; no statement,
+proof, script, or record changed, and the appendix still cites tag 1.3
+for the scripts, which are unchanged. (1) The introduction opens with
+what the paper is about: one inequality, the covariance-mixture
+inequality of Corollary 6, proved through the bound for sources that are
+not Gaussian (Theorem 2), is also what shows that averaging a spectrum
+over time or over a cycle never lowers the cost (Corollary 16, Theorem
+22); so both branches say that the model that forgets structure is
+conservative, and the rest of the paper measures by how much. The old
+paragraph "The two halves of the paper meet in one place" is shortened
+to a pointer. The abstract ends with the same inequality and drops the
+sentence on time averaging that it subsumes (254 words). (2) The Open
+Problems section opens with a paragraph on what the companion paper four
+(`../tit-unstable-ergodic/`, cited as a manuscript in preparation, by
+directory, since it has no tag) treats, and each affected problem says
+what is treated there and what remains open. A tag 1.4 would fix this
+text; none is cut.
 
 ## Why it is a separate paper
 

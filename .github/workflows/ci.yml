@@ -209,6 +209,42 @@ jobs:
             echo "No undefined references or citations in the stationary-sources manuscript or its supplement."
           fi
           exit $rc
+      # Paper three of the rate-leakage series and the T1 learn-then-serve note
+      # (added 2026-11-17, when their ledger rows were written; see claims/LEDGER.md
+      # section RLD). Paper four gets its step on its own branch (PR 26).
+      - name: Compile the beyond-stationary manuscript (tit-beyond-stationary.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: tit-beyond-stationary.tex
+          working_directory: paper/tit-beyond-stationary
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Compile the T1 learn-then-serve note (t1-learn-then-serve.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: t1-learn-then-serve.tex
+          working_directory: paper/t1-learn-then-serve
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (beyond-stationary manuscript and T1 note)
+        run: |
+          rc=0
+          for f in paper/tit-beyond-stationary/tit-beyond-stationary paper/t1-learn-then-serve/t1-learn-then-serve; do
+            if [ ! -f "$f.log" ]; then
+              echo "::error::$f.log is missing -- the document did not compile"
+              rc=1
+              continue
+            fi
+            if grep -qiE "there were undefined (references|citations)" "$f.log"; then
+              echo "::error::Undefined references or citations in $f.log"
+              grep -iE "warning:.*undefined|there were undefined" "$f.log" || true
+              rc=1
+            fi
+          done
+          if [ $rc -eq 0 ]; then
+            echo "No undefined references or citations in the beyond-stationary manuscript or the T1 note."
+          fi
+          exit $rc
       - name: Compile cover letter
         uses: xu-cheng/latex-action@v3
         with:
