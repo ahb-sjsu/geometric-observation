@@ -42,20 +42,20 @@ weighted quadratic distortion, while a second party holds a noisy
 observation of the source; the description costs its rate and its
 conditional leakage to that party. We ask which unstable modes cost
 leakage, and whether sampling a cyclostationary signal at a rate
-incommensurate with its period removes the dependence on the sampling
-phase. For a vector autoregressive source observed through a stable
-rational filter in white noise, the region is that
-of a stationary source moved in rate by the sum of the logarithms of the
-moduli of all unstable poles, and in leakage by the same sum over the
-poles the second party cannot observe: instability is free in leakage
-exactly when every unstable pole is observable. For a scalar source
+incommensurate with its period removes the dependence on its phase. For
+a vector autoregressive source with no poles on the unit
+circle, observed through a stable rational filter in white noise, the
+region is that of a stationary source moved in rate by the sum of the
+logarithms of the moduli of the unstable poles, and in leakage by the
+same sum over the poles the second party cannot observe: instability is
+free in leakage exactly when every unstable pole is observable. For a scalar source
 observed through a scalar gain, poles on the unit circle cost nothing.
 For a scalar source with uniformly bounded window covariances whose
-eigenvalue distributions converge, observed through a scalar gain in
-white noise, the region is a single quadrant given by reverse
+eigenvalue distributions converge, observed through a scalar gain, the
+region is a single quadrant given by reverse
 water-filling on the limit. For a cyclostationary process sampled at an
 incommensurate rate, the region does not depend on the sampling phase,
-which proves a published conjecture. For a vector source driven by a
+proving a published conjecture. For a vector source driven by a
 totally uniquely ergodic map, with continuous correlations of finite
 range and covariances bounded below, observed through a filter of
 finite memory, the region is a limit of programs over independent
@@ -215,8 +215,8 @@ phase of each sequence, they express the function as a limit superior
 of finite programs minimized over the phase, and observe numerically
 that the finite programs become nearly independent of the phase as they
 grow \cite{tan2025}. Their journal article \cite{tan2026} treats sampled
-cyclostationary processes with random sampling jitter. We have read only
-its abstract; slides of an April 2026 seminar on it still state the
+correlated cyclostationary Gaussian processes. We have read only its
+abstract; slides of an April 2026 seminar on it still state the
 independence of the phase as a conjecture \cite{tan2026slides}.
 
 Section~\ref{sec:model} fixes the setting and lists the results used.
@@ -812,14 +812,19 @@ $T'_j(\zeta)$, and the decoder reproduces the code's output. Since the
 reproduction is a function of $T'_j$ and $E_j$ is centered and
 independent of it, the distortion is that of the code plus
 $\tfrac1{n_0}\tr((I\otimes Q)(\mathsf S_j-\mathsf S'))\le D'+\epsilon_Q$. For the
-leakage, $S_j=(\mathsf G'T'_j+U_j)+\mathsf G'E_j$, and given $E_j$ the pair
-$(M_j,\mathsf G'T'_j+U_j)$ has the law under which $L'$ was measured, so
+leakage, $S_j=(\mathsf G'T'_j+U_j)+\mathsf G'E_j$. The seed is correlated
+with $E_j$, since $\Cov(\zeta,E_j)=-\mathsf C_j^{\mathsf T}$, but the given
+encoder is deterministic, so $M_j=f(T'_j)$, and $T'_j$ is independent of
+$(E_j,U_j)$: it is jointly Gaussian with and uncorrelated with $E_j$, and
+$U_j$ is independent of both. So given $E_j$ the pair
+$(M_j,\mathsf G'T'_j+U_j)$ has the law under which $L'$ was measured, and
 \[
 H(M_j\mid S_j)\le H(M_j\mid S_j,E_j)+I(M_j;E_j\mid S_j)\le n_0L'+I(E_j;\mathsf G'E_j+U_j)\le n_0L'+\frac{\tr(\mathsf J'(\mathsf S_j-\mathsf S'))}{2\ln2},
 \]
-because $M_j$ is a function of $(T'_j,\zeta)$, which is independent of
-$(E_j,U_j)$, and $\ln\det(I+X)\le\tr X$. This uses $\mathsf G'$ only as a
-linear map.
+because
+$I(M_j;E_j\mid S_j)\le I(T'_j;E_j\mid S_j)\le I(E_j;T'_j,S_j)=I(E_j;\mathsf G'E_j+U_j)$,
+the equality by the independence of $T'_j$ and $(E_j,U_j)$, and because
+$\ln\det(I+X)\le\tr X$. This uses $\mathsf G'$ only as a linear map.
 
 \emph{Fixing the seeds.} For a fixed seed $z_j$ the encoder of group $j$
 is deterministic; let $D_j(z_j)$ and $L_j(z_j)=\tfrac1{n_0}H(M_j(z_j)\mid S_j)$

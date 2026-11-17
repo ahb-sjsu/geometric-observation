@@ -99,11 +99,25 @@ items before relying on this list.
   - Tan, Dabora and Poor, "Rate-distortion analysis for sampled correlated
     cyclostationary Gaussian processes", IEEE Trans. Commun., vol. 74,
     pp. 5961-5978, 2026, DOI 10.1109/TCOMM.2026.3663539: only the
-    Princeton record and a summary of its abstract were read (random
-    sampling jitter, information-spectrum methods, the function is
+    Princeton record and a summary of its abstract were read (oscillator
+    jitter as motivation, information-spectrum methods, the function is
     sensitive to synchronization and not monotone in the sampling rate).
-    **Whether it addresses the conjecture of the 2024 paper is not known**;
-    the paper says so.
+    The abstract's motivation does not establish that its model has random
+    sampling times, so the paper says only that the article treats sampled
+    correlated cyclostationary Gaussian processes (an outside reader's
+    correction, 2026-11-16). **Whether it addresses the conjecture of the
+    2024 paper is not known**; the paper says so.
+- Correction to Lemma 8 (outside reader, 2026-11-16, after commit ee4735c):
+  the proof said that the seed and T'_j are independent of the remainder
+  E_j; the seed is not (Cov(zeta, E_j) = -C_j^T). The step now uses that
+  the given encoder is deterministic, so M_j = f(T'_j), and T'_j alone is
+  independent of (E_j, U_j). The conclusion is unchanged. The same
+  conflation of the seed with the code's private randomness was made when
+  paper three's coupling was rewritten for Lemma 8; paper three's own
+  Lemma 11 uses the code's private randomness Z', which is independent,
+  and is correct as stated. The abstract's statement for vector sources
+  now also says "with no poles on the unit circle", which Theorems 1 and
+  10 assume.
 
 ## Committed checks (Appendix A)
 
