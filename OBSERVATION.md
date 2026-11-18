@@ -53,10 +53,12 @@ symbol. *Identification and coding.* The series assumes Q known; the program
 recovers it from a consumer, but the recovery result identifies the read
 *subspace* under a specified model, probe distribution, and output metric, not
 the weights within it, which an allocation also needs. Composing the two, and
-charging for the probing, is the keystone T1 (a proof sketch exists in the
-sandwich regime, `[exploratory]`, [`paper/t1-learn-then-serve`](paper/t1-learn-then-serve/t1-learn-then-serve.tex);
-its constants must be known in advance, and it is informative only for nearly
-linear consumers).
+charging for the probing, is the keystone T1 (a working note, `[exploratory]`,
+[`paper/t1-learn-then-serve`](paper/t1-learn-then-serve/t1-learn-then-serve.tex) v3:
+for operational codes it needs a quadratic sandwich known in advance and is
+informative only for nearly linear consumers; for the Gaussian test channels of
+RLD I it needs only three bounded derivatives, and the price is then learning
+plus a term of second order in the distortion).
 *Changing sources, drifting observers, reliable monitors.* RLD III–IV let the
 source's statistics change with the weight and the holder held fixed; a
 drifting read operator, refresh policies, and the reliability of a certificate

@@ -15,41 +15,56 @@
 \newcommand{\cR}{\mathcal R}
 \newcommand{\nup}{\nu_{+}}
 \newcommand{\num}{\nu_{-}}
+\newcommand{\epp}{\varepsilon_{+}}
+\newcommand{\emm}{\varepsilon_{-}}
+\newcommand{\lmin}{\lambda_{\min}}
+\newcommand{\lmax}{\lambda_{\max}}
 
 \begin{document}
 
-\title{Learn Then Serve: Recovering a Consumer's Read Operator and Paying for It\\ (T1, proof sketch)}
+\title{Learn Then Serve: Recovering a Consumer's Read Operator and Paying for It\\ (T1, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, 2026-11-17. Drafted by
-Claude (Opus 5.5) at the author's request; not read by the author. A
-fresh-context model audit (ledger VI-22) found the theorem and the lemma
-correct and three remarks wrong; this version applies all its findings.
-Status: \emph{proof sketch}, ledger class \texttt{[exploratory]}.}}
+\thanks{Working note of the Observation Theory program, v3, 2026-11-17. Drafted by
+Claude (Opus 5.5) at the author's request; not read by the author. Version 2 applied
+a fresh-context model audit (ledger VI-22), which found the theorem and the lemma
+correct and three remarks wrong. Version 3 sharpens the lemma, derives the theorem
+from one proposition, and adds Proposition~\ref{prop:sharp}, the constants of
+Corollary~\ref{cor:n}, Theorem~\ref{thm:second}, and Corollary~\ref{cor:cert}; its numerical checks are
+\texttt{verify\_t1\_v3.py} in this folder, and its fresh-context audit is ledger
+VI-23. Ledger class \texttt{[exploratory]}.}}
 \maketitle
 
 \begin{abstract}
-A consumer reads a source through a smooth map and an output metric, and
-its local read metric $\PC(x)=J(x)^{\mathsf T}GJ(x)$ varies with the point
-$x$. The coding theorems of the rate--leakage--distortion series
-\cite{part1,part2,part3,part4} take a fixed per-symbol quadratic weight as
-an input. This note composes the two under one explicit assumption, a
-relative quadratic sandwich: the consumer's loss lies between $1-\num$ and
-$1+\nup$ times a fixed quadratic form $Q$, the average of $\PC$ under the
-probe distribution, with the bounds $\num,\nup<1$ known in advance. Under
-it, (i) no code with consumer loss at most $D$ does better than the series'
-region for the weight $Q$ at the distortion $D/(1-\num)$; (ii) the read
-metrics at $m$ probe points estimate $Q$ to relative accuracy
-$\varepsilon_m=\nu\bigl(\sqrt{2L/m}+2L/(3m)\bigr)$, $\nu=\max\{\num,\nup\}$,
-$L=\ln(2p/\delta)$, with probability at least $1-\delta$; and (iii) codes built
-by the series' achievability theorems for the estimate have consumer loss
-at most $D$ in the limit and reach every point of the outer region of (i)
-raised by
-$\tau=\tfrac p2\log\frac{(1+\nup)(1+\varepsilon_m)}{(1-\num)(1-\varepsilon_m)}$ bits per
-symbol in both rate and leakage. The three error sources the program's plan
-names---the estimated operator, the quadratic approximation, and the
-probing---enter through one formula. The assumption is strong: for a
-Gaussian source it forces the consumer to be globally injective and
-bi-Lipschitz, and $\tau$ is small only for nearly linear consumers.
+A consumer reads a source through a smooth map and an output metric, and its
+local read metric $\PC(x)=J(x)^{\mathsf T}GJ(x)$ varies with the point $x$. The
+coding theorems of the rate--leakage--distortion series
+\cite{part1,part2,part3,part4} take a fixed per-symbol quadratic weight as an
+input. This note composes the two, and one fact organizes it: a loss that lies
+between $a$ and $b$ times a known quadratic form costs at most
+$\tfrac p2\log(b/a)$ bits per symbol, in rate and in leakage at once, over the
+series' outer region (Proposition~\ref{prop:sand}). The error of a learned weight and the
+error of the quadratic approximation multiply into $a$ and $b$. Under a relative
+quadratic sandwich with constants $\num,\nup$ known in advance, (i) no code with
+consumer loss at most $D$ beats the series' region for the probe-averaged weight
+$Q$ at the distortion $D/(1-\num)$; (ii) the read metrics at $m$ probe points
+satisfy $(1-\emm)Q\preceq\hat Q\preceq(1+\epp)Q$ with probability at least
+$1-\delta$, where $\varepsilon_\pm=\sqrt{2\nup\num L/m}+2\nu_\pm L/(3m)$ and
+$L=\ln(2p/\delta)$, and because read metrics are positive semidefinite the lower
+half holds with $\num=1$ for every consumer; and (iii) the series' codes for
+$\hat Q$ have consumer loss at most $D$ and lie within $\tau=\tau_\nu+\tau_\varepsilon$
+of the outer bound, $\tau_\nu=\tfrac p2\log\frac{1+\nup}{1-\num}$,
+$\tau_\varepsilon=\tfrac p2\log\frac{1+\epp}{1-\emm}$. For Gaussian vector sources the learning part
+$\tau_\varepsilon$ is sharp as $D\to0$ for an encoder that is given $\hat Q$ and the
+confidence statement but not the probes (Proposition~\ref{prop:sharp}). The
+approximation part $\tau_\nu$ is not paid, as $D\to0$, by the Gaussian test channels
+that attain the frontiers for Gaussian vector sources: for a consumer with three
+bounded derivatives, with the probe law equal to the source law, the test channel's
+consumer loss equals $\tr(Q\Delta)$ up to an explicit remainder of order
+$(\tr\Delta)^2$, with no sandwich assumed (Theorem~\ref{thm:second}). A learner that
+knows derivative bounds, the source law, and an upper constant for the read metric
+can therefore certify a test channel's consumer loss (Corollary~\ref{cor:cert}).
+Whether the series' operational codes, whose errors may correlate with the source,
+also avoid $\tau_\nu$ is open.
 \end{abstract}
 
 \section{Setting}
@@ -99,6 +114,9 @@ give, for the regions,
 \cR_{cW}(D)=\cR_W(D/c),\qquad W\preceq W'\Rightarrow\cR_{W'}(D)\subseteq\cR_W(D),\qquad
 \cR_W(D/c)\supseteq\cR_W(D)+\tfrac p2\log c\,(1,1)\ (c\ge1).
 \]
+Logarithms are to base 2 unless written $\ln$. $V_W(\alpha,\cdot)$ is nonincreasing,
+and for $D'>D$ (P3) gives $V_W(\alpha,D)\le V_W(\alpha,D')+\tfrac p2\log(D'/D)$; so
+$V_W(\alpha,\cdot)$ is right-continuous, and $\bigcap_{D'>D}\cR_W(D')=\cR_W(D)$.
 
 \textbf{The consumer side.} A consumer $\mathcal C:\R^p\to\R^k$ acts on each
 symbol, with a constant output metric $G\succeq0$ and the loss
@@ -108,23 +126,27 @@ metric is $\PC(x)=J(x)^{\mathsf T}GJ(x)$, $J=\partial\mathcal C/\partial x$
 $Q=\E_\pi\PC(X)$.
 
 \textbf{Assumption (A1), relative quadratic sandwich.} $Q\succ0$, and there
-are $\num,\nup\in[0,1)$, known to the encoder in advance, such that for every
-$x$ in the support of the source's symbol laws and every $\hat x$,
+are $\num,\nup\in[0,1)$, known to the encoder in advance, such that
+\begin{itemize}
+\item[(A1a)] for every $x$ in the support of the source's symbol laws and every $\hat x$,
 \begin{equation}
-(1-\num)(\hat x-x)^{\mathsf T}Q(\hat x-x)\ \le\ \ell_{\mathcal C}(x,\hat x)\ \le\ (1+\nup)(\hat x-x)^{\mathsf T}Q(\hat x-x),
+(1-\num)(\hat x-x)^{\mathsf T}Q(\hat x-x)\ \le\ \ell_{\mathcal C}(x,\hat x)\ \le\ (1+\nup)(\hat x-x)^{\mathsf T}Q(\hat x-x);
 \label{eq:A1}
 \end{equation}
-and $(1-\num)Q\preceq\PC(x)\preceq(1+\nup)Q$ for every $x$ in the support of $\pi$
-at which $\mathcal C$ is differentiable. The bounds must come from prior
-knowledge of the consumer, such as Lipschitz and monotonicity constants of
-its layers: (A1) is a statement about all pairs of points, and no finite set
-of probes certifies it. For a linear consumer $\mathcal C(x)=Ax$ with
-$G^{1/2}A$ of full column rank, $\num=\nup=0$ and $Q=A^{\mathsf T}GA$. The second
-condition follows from the first at points of differentiability by letting
-$\hat x\to x$, when $\pi$ is supported in the source's support. The first
-condition makes $\mathcal C$ locally Lipschitz, hence differentiable almost
-everywhere, so for $\pi$ absolutely continuous the read metric exists at
-almost every probe point. Write $\nu=\max\{\num,\nup\}$.
+\item[(A1b)] $(1-\num)Q\preceq\PC(x)\preceq(1+\nup)Q$ for every $x$ in the support of
+$\pi$ at which $\mathcal C$ is differentiable.
+\end{itemize}
+The bounds must come from prior knowledge of the consumer, such as Lipschitz
+and monotonicity constants of its layers: (A1a) is a statement about all pairs
+of points, and no finite set of probes certifies it. For a linear consumer
+$\mathcal C(x)=Ax$ with $G^{1/2}A$ of full column rank, $\num=\nup=0$ and
+$Q=A^{\mathsf T}GA$. (A1b) follows from (A1a) at points of differentiability by
+letting $\hat x\to x$, when $\pi$ is supported in the source's support. (A1a)
+makes $\mathcal C$ locally Lipschitz, hence differentiable almost everywhere, so
+for $\pi$ absolutely continuous the read metric exists at almost every probe
+point. Write $\nu=\max\{\num,\nup\}$. Only the estimation lemma uses (A1b), and
+it needs no lower constant: $\PC(x)\succeq0$, so the lower half of (A1b) holds
+with $\num=1$ for every consumer.
 
 \textbf{Assumption (A2), probing.} The learner draws $x_1,\dots,x_m$ i.i.d.\
 from $\pi$, obtains $\PC(x_i)$ from the Jacobian of the consumer at each
@@ -135,161 +157,405 @@ Remark~\ref{rem:fd}.
 \section{Results}
 
 \begin{lemma}[Estimating the weight]\label{lem:est}
-Under (A1) and (A2), with probability at least $1-\delta$,
+Suppose (A2), $Q\succ0$, and $(1-\num)Q\preceq\PC(x)\preceq(1+\nup)Q$ on the support
+of $\pi$, with $\nup\ge0$ and $\num\in[0,1]$. Then with probability at least
+$1-\delta$,
 \[
-(1-\varepsilon_m)Q\preceq\hat Q\preceq(1+\varepsilon_m)Q,\qquad
-\varepsilon_m=\nu\Bigl(\sqrt{\tfrac{2L}m}+\tfrac{2L}{3m}\Bigr),\quad L=\ln\tfrac{2p}\delta .
+(1-\emm)Q\preceq\hat Q\preceq(1+\epp)Q,\qquad
+\varepsilon_\pm=\sqrt{\frac{2\nup\num L}m}+\frac{2\nu_\pm L}{3m},\quad L=\ln\frac{2p}\delta .
 \]
 \end{lemma}
 
 \begin{proof}
-Let $X_i=Q^{-1/2}\PC(x_i)Q^{-1/2}-I$. The $X_i$ are independent, symmetric,
-and centered, and by (A1) $-\num I\preceq X_i\preceq\nup I$, so $\|X_i\|\le\nu$ and
-$\|\sum_i\E X_i^2\|\le m\nu^2$. The matrix Bernstein inequality
-\cite[Theorem~1.4]{tropp2012} gives
+Let $X_i=Q^{-1/2}\PC(x_i)Q^{-1/2}-I$. The $X_i$ are independent, symmetric, and
+centred, with $-\num I\preceq X_i\preceq\nup I$. The polynomial
+$f(t)=(\nup-t)(t+\num)$ is nonnegative on $[-\num,\nup]$, which contains the
+spectrum of $X_i$, so $f(X_i)\succeq0$, that is,
+$X_i^2\preceq(\nup-\num)X_i+\nup\num I$; taking expectations,
+$\E X_i^2\preceq\nup\num I$ (the matrix form of the Bhatia--Davis inequality
+\cite{bhatiadavis}). So $\|\sum_i\E X_i^2\|\le m\nup\num$. The matrix
+Bernstein inequality \cite[Theorem~1.4]{tropp2012} needs only an upper bound
+$\lmax(X_i)\le R$; applied to $\{X_i\}$ with $R=\nup$ and to $\{-X_i\}$ with
+$R=\num$, it gives
 \[
-\Pr\Bigl\{\lambda_{\max}\Bigl(\sum_iX_i\Bigr)\ge s\Bigr\}\le p\exp\Bigl(-\frac{s^2/2}{m\nu^2+\nu s/3}\Bigr),
+\Pr\Bigl\{\lmax\Bigl(\sum_iX_i\Bigr)\ge mt\Bigr\}\le p\,e^{-\frac{mt^2/2}{\nup\num+\nup t/3}},\qquad
+\Pr\Bigl\{\lmax\Bigl(-\sum_iX_i\Bigr)\ge mt\Bigr\}\le p\,e^{-\frac{mt^2/2}{\nup\num+\num t/3}}.
 \]
-and the same for $-\sum_iX_i$. With $s=mt$ the exponent is
-$-\tfrac{mt^2/2}{\nu^2+\nu t/3}$, which equals $-L$ at
-\[
-t=\frac{\nu L}{3m}+\sqrt{\Bigl(\frac{\nu L}{3m}\Bigr)^2+\frac{2\nu^2L}m}\le\varepsilon_m .
-\]
-So with probability at least $1-\delta$,
-$\|\tfrac1m\sum_iX_i\|\le\varepsilon_m$, that is,
-$\|Q^{-1/2}\hat QQ^{-1/2}-I\|\le\varepsilon_m$.
+The exponents equal $-L$ at
+$t_\pm=\frac{\nu_\pm L}{3m}+\sqrt{\bigl(\frac{\nu_\pm L}{3m}\bigr)^2+\frac{2\nup\num L}m}\le\varepsilon_\pm$,
+respectively, so each tail has probability at most $pe^{-L}=\delta/2$ at $t=\varepsilon_\pm$. Outside both,
+$-\emm I\preceq\tfrac1m\sum_iX_i=Q^{-1/2}\hat QQ^{-1/2}-I\preceq\epp I$.
 \end{proof}
 
-The estimation error is proportional to $\nu$: a read metric that is nearly
-constant over the probe distribution is learned from few points, and an
-exactly constant one from a single point.
+Since $\nup\num\le\nu^2$, both $\varepsilon_\pm$ are at most the constant
+$\nu(\sqrt{2L/m}+2L/(3m))$ of version~2. The variance bound is attained by the
+two-point law $X=\nup$ with probability $\num/(\nup+\num)$ and $X=-\num$
+otherwise. When either constant is zero the square-root term vanishes and the
+bound is of order $1/m$ (in fact a read metric that never falls below its mean is
+constant, and the error is zero). On the registration draft's consumer
+$x+0.2\sin x$, $m=32$, $\delta=0.1$, the constants are $\epp=0.186$ and
+$\emm=0.208$, against $0.291$ in version~2; the exact roots $t_\pm$ of the proof,
+$0.177$ and $0.189$, may be used in their place.
+
+\begin{proposition}[The price of a sandwich]\label{prop:sand}
+Let $W\succ0$ and $0<a\le b$.
+\begin{itemize}
+\item[(i)] If $\ell_{\mathcal C}(x,\hat x)\ge a(\hat x-x)^{\mathsf T}W(\hat x-x)$ for every $x$
+in the support of the source's symbol laws and every $\hat x$, then every sequence of
+codes, with or without private randomness, whose consumer loss per symbol has limit
+superior at most $D$ has every limit point of its pairs of rate and leakage in
+$\cR_W(D/a)$.
+\item[(ii)] If $\ell_{\mathcal C}(x,\hat x)\le b(\hat x-x)^{\mathsf T}W(\hat x-x)$ on the same
+set, then the codes given by the setting's achievability theorem for the weight $W$
+at the distortion $D/b$ have consumer loss per symbol with limit superior at most $D$,
+and they approach every pair of
+\[
+\cR_W(D/b)\ \supseteq\ \cR_W(D/a)+\tfrac p2\log\tfrac ba\,(1,1).
+\]
+\end{itemize}
+So a loss known only to lie between $a$ and $b$ times a quadratic form costs at most
+$\tfrac p2\log(b/a)$ bits per symbol over the outer bound, in rate and in leakage at
+once.
+\end{proposition}
+
+\begin{proof}
+(i) Applied to each symbol, the lower inequality gives $W$-distortion at most $D'/a$
+for every $D'>D$ eventually. The setting's converse holds for codes with or without
+private randomness \cite[Sec.~II]{part4} (for a Gaussian vector by
+\cite[Proposition~2]{part1}, which applies to any variable from which the
+reproductions are computed), so every limit point lies in $\cR_W(D'/a)$ for every
+$D'>D$, hence in $\cR_W(D/a)$ by the continuity noted in the setting.
+(ii) Applied to each symbol, the upper inequality bounds the consumer loss by $b$
+times the $W$-distortion, whose limit superior is at most $D/b$ for the setting's
+codes. The inclusion is (P3) with $c=b/a$.
+\end{proof}
 
 \begin{theorem}[Learn then serve]\label{thm:T1}
-Let $D>0$ and suppose (A1), (A2), and $\varepsilon_m<1$.
+Let $D>0$ and suppose (A1), (A2), and $\emm<1$. Let $\mathcal E$ be the event of
+Lemma~\ref{lem:est}, of probability at least $1-\delta$.
 \begin{itemize}
-\item[(a)] \emph{Converse, for any learner.} Every sequence of codes, with or
-without private randomness, whose consumer loss per symbol has limit superior
-at most $D$ has its limiting pair of rate and leakage in $\cR_Q(D/(1-\num))$.
-\item[(b)] \emph{Achievability, learned.} On the event of Lemma~\ref{lem:est},
-the codes given by the achievability theorem of the setting for the weight
-$\hat Q$ at the distortion $\hat D=D(1-\varepsilon_m)/(1+\nup)$ have consumer loss
-per symbol with limit superior at most $D$, and they achieve every pair of
+\item[(a)] \emph{Converse, for any learner.} Every sequence of codes, with or without
+private randomness, whose consumer loss per symbol has limit superior at most $D$ has
+every limit point of its pairs in $\cR_Q(D/(1-\num))$.
+\item[(b)] \emph{Achievability, learned.} On $\mathcal E$, the codes given by the
+achievability theorem of the setting for the weight $\hat Q$ at the distortion
+$\hat D=D(1-\emm)/(1+\nup)$ have consumer loss per symbol with limit superior at most
+$D$, and they achieve every pair of
 \[
 \cR_Q\bigl(D/(1-\num)\bigr)+\tau\,(1,1),\qquad
-\tau=\frac p2\log\frac{(1+\nup)(1+\varepsilon_m)}{(1-\num)(1-\varepsilon_m)} .
+\tau=\tau_\nu+\tau_\varepsilon,\quad
+\tau_\nu=\frac p2\log\frac{1+\nup}{1-\num},\quad
+\tau_\varepsilon=\frac p2\log\frac{1+\epp}{1-\emm}.
 \]
-The encoder uses $\hat Q$, $\nup$, and $\varepsilon_m$ (so $\nu$ and $\delta$);
-the source model and the holder's model are those the setting's
-achievability theorem assumes known.
-\item[(c)] \emph{The gap.} On the event of Lemma~\ref{lem:est}, which has
-probability at least $1-\delta$, the learned code is within $\tau$ bits per
-symbol, in rate and in leakage at once, of the outer bound of (a), hence of
-the best any code can do at consumer loss $D$. The part
-$\tfrac p2\log\frac{1+\nup}{1-\num}$ of $\tau$ is the looseness between the
-lower and the upper sandwich, which remains with exact knowledge of $Q$; it
-bounds the price of the quadratic approximation from above and is not shown
-to be paid. The part
-$\tfrac p2\log\frac{1+\varepsilon_m}{1-\varepsilon_m}=p\varepsilon_m/\ln2+O(\varepsilon_m^3)$
-is the cost of learning, bought with $m$ probe points.
+The encoder uses $\hat Q$, $\nup$, $\emm$, and $\epp$ (so $\nu_\pm$, $m$, and $\delta$);
+the source model and the holder's model are those the setting's achievability
+theorem assumes known.
+\item[(c)] \emph{The gap.} On $\mathcal E$ the learned code is within $\tau$ bits per
+symbol, in rate and in leakage at once, of the outer bound of (a), hence of the best
+any code can do at consumer loss $D$. The learning part
+$\tau_\varepsilon=(\epp+\emm)p/(2\ln2)+O(\varepsilon^2)$ is sharp, for Gaussian vector sources, for an encoder that is given $\hat Q$ and
+$\varepsilon_\pm$ but not the probes (Proposition~\ref{prop:sharp}); whether the probe
+data themselves allow less is a question of statistical lower bounds that this note
+does not treat. The approximation part $\tau_\nu$ remains with exact
+knowledge of $Q$; it bounds the price of the quadratic approximation from above, and
+the test channels of the series do not pay it as $D\to0$ (Theorem~\ref{thm:second}).
 \end{itemize}
 \end{theorem}
 
 \begin{proof}
-(a) A code with consumer loss at most $D'$ has, by the left inequality of
-\eqref{eq:A1} applied to each symbol, quadratic distortion at most
-$D'/(1-\num)$ for the weight $Q$. The converse of the setting holds for codes
-with or without private randomness \cite[Sec.~II]{part4} (for a Gaussian
-vector by \cite[Proposition~2]{part1}, which applies to any variable from
-which the reproductions are computed), and it puts the limiting pair in
-$\cR_Q(D'/(1-\num))$ for every $D'>D$; let $D'\downarrow D$.
-
-(b) On the event of Lemma~\ref{lem:est}, $Q\preceq\hat Q/(1-\varepsilon_m)$, so a
-code with $\hat Q$-distortion at most $\hat D+\gamma$ has, by the right inequality
-of \eqref{eq:A1}, consumer loss at most
-$(1+\nup)\tfrac1N\sum_t\E\delta_t^{\mathsf T}Q\delta_t\le\tfrac{1+\nup}{1-\varepsilon_m}(\hat D+\gamma)$,
-where $\delta_t=\hat T_t-T_t$; the setting's codes have limit superior of
-the $\hat Q$-distortion at most $\hat D$, so the limit superior of the
-consumer loss is at most $D$. For the region, $\hat Q\preceq(1+\varepsilon_m)Q$, so
-by the three properties
+(a) is Proposition~\ref{prop:sand}(i) with $W=Q$ and $a=1-\num$.
+(b) On $\mathcal E$, $Q\preceq\hat Q/(1-\emm)$ and $Q\succeq\hat Q/(1+\epp)$, so (A1a)
+gives the sandwich of Proposition~\ref{prop:sand} for the weight $\hat Q$ with
 \[
-\cR_{\hat Q}(\hat D)\supseteq\cR_{(1+\varepsilon_m)Q}(\hat D)=\cR_Q\Bigl(\frac{\hat D}{1+\varepsilon_m}\Bigr)
-\supseteq\cR_Q\Bigl(\frac D{1-\num}\Bigr)+\frac p2\log c\,(1,1),
+a=\frac{1-\num}{1+\epp},\qquad b=\frac{1+\nup}{1-\emm},\qquad \frac ba=\frac{(1+\nup)(1+\epp)}{(1-\num)(1-\emm)},
 \]
-with $c=\frac{D/(1-\num)}{\hat D/(1+\varepsilon_m)}=\frac{(1+\nup)(1+\varepsilon_m)}{(1-\num)(1-\varepsilon_m)}\ge1$.
-The achievability theorem of the setting for the weight $\hat Q$ gives codes
-that approach every point of $\cR_{\hat Q}(\hat D)$.
-
-(c) is (a) and (b) together, and
-$\log\frac{1+\varepsilon}{1-\varepsilon}=2\,\mathrm{artanh}(\varepsilon)/\ln2$.
+and $D/b=\hat D$. Proposition~\ref{prop:sand}(ii) bounds the loss and gives
+$\cR_{\hat Q}(\hat D)\supseteq\cR_{\hat Q}(D/a)+\tau(1,1)$, since
+$\tfrac p2\log(b/a)=\tau$. Finally $\hat Q\preceq(1+\epp)Q$, so by (P2) and (P1)
+$\cR_{\hat Q}(D/a)\supseteq\cR_{(1+\epp)Q}(D/a)=\cR_Q(D/(a(1+\epp)))=\cR_Q(D/(1-\num))$.
+(c) is (a) and (b) together.
 \end{proof}
 
-The looseness in (c) can be large next to what is paid. In the audit's
-check with a Gaussian test channel, the consumer $x+0.05\sin x$
-(componentwise, $p=2$), and a code designed for the exact $Q$ at the full
-budget $D=0.3$, the measured consumer loss was $0.301$, essentially $D$,
-while the design of (b) spends its budget down to a loss of $0.254$.
+The two sandwiches compose: the approximation constants and the estimation
+constants multiply into $a$ and $b$, and $\tau$ is the logarithm of their ratio.
+
+\begin{proposition}[The learning price is sharp]\label{prop:sharp}
+In the setting of \cite{part1}, with $T\sim N(0,\Sigma)$, the decoder reproducing $T$,
+and a holder $S=HT+U$ with information matrix $\mathsf J=H^{\mathsf T}\Sigma_U^{-1}H$,
+let $W\succ0$ and $0<a\le b$. For every $\alpha\in[0,1]$ and
+$0<D\le a\,\lmin(W)\lmin(\Sigma)$,
+\[
+\frac p2\log\frac ba-(1-\alpha)\frac{\lmax(\mathsf J)\,D\,(1/a-1/b)}{2\ln2\;\lmin(W)}
+\ \le\ V_W(\alpha,D/b)-V_W(\alpha,D/a)\ \le\ \frac p2\log\frac ba .
+\]
+Consequently, consider an encoder that is given $\hat Q$ and $\varepsilon_\pm$ but not
+the probe data, and must keep the consumer loss at most $D$ for every consumer whose
+weight $Q$ is consistent with $(1-\emm)Q\preceq\hat Q\preceq(1+\epp)Q$. Among these are
+the linear consumers with weights $Q_1=\hat Q/(1-\emm)$ and $Q_2=\hat Q/(1+\epp)$. Safety
+for the first forces a weighted cost of at least $V_{\hat Q}(\alpha,D(1-\emm))$, while
+the best code for the second costs $V_{\hat Q}(\alpha,D(1+\epp))$. So, for
+$D\le\lmin(\hat Q)\lmin(\Sigma)/(1+\epp)$, the regret against the second is at least
+\[
+\tau_\varepsilon-(1-\alpha)\frac{\lmax(\mathsf J)\,D\,(\epp+\emm)}{2\ln2\;\lmin(\hat Q)},
+\]
+which tends to $\tau_\varepsilon$ as $D\to0$ and equals it in rate ($\alpha=1$). The
+design for $\hat Q$ at $D(1-\emm)$ is safe for every linear consumer consistent with the
+event and has regret at most $\tau_\varepsilon$ by (P3), so it is minimax in this limit.
+Two limits: for linear consumers a learner that sees the probes recovers $Q$ exactly,
+so this is a statement about the confidence statement, not a statistical lower bound;
+and for $\nu_\pm>0$ it shows that the total gap is at least $\tau_\varepsilon-O(D)$, not
+that $\tau_\varepsilon$ is paid on top of $\tau_\nu$.
+\end{proposition}
+
+\begin{proof}
+The upper bound is (P3). For the lower bound let $\Delta'$ attain $V_W(\alpha,D/b)$
+and put $c=b/a$. From $\tr(W\Delta')\le D/b$, $\tr\Delta'\le D/(b\lmin(W))$, so
+$\|c\Delta'\|\le D/(a\lmin(W))\le\lmin(\Sigma)$ and $c\Delta'$ is feasible at the
+distortion $D/a$. Its rate is $r(\Delta')-\tfrac p2\log c$. Its leakage is
+\[
+\ell(c\Delta')=\tfrac12\log\det(c^{-1}\Delta'^{-1}+\mathsf J)-\tfrac12\log\det(\Sigma^{-1}+\mathsf J)
+=\ell(\Delta')-\tfrac p2\log c+\tfrac12\log\frac{\det(I+c\Delta'\mathsf J)}{\det(I+\Delta'\mathsf J)},
+\]
+The eigenvalues $\mu_i$ of $\Delta'\mathsf J$ are those of
+$\Delta'^{1/2}\mathsf J\Delta'^{1/2}\succeq0$, and
+$\ln\frac{1+c\mu}{1+\mu}\le(c-1)\mu$, so the last term is at most
+$(c-1)\tr(\Delta'\mathsf J)/(2\ln2)\le(c-1)\lmax(\mathsf J)D/(2\ln2\,b\lmin(W))$, and
+$(c-1)/b=1/a-1/b$. So $V_W(\alpha,D/a)\le\alpha r(c\Delta')+(1-\alpha)\ell(c\Delta')$ is
+at most $V_W(\alpha,D/b)-\tfrac p2\log c+(1-\alpha)\lmax(\mathsf J)D(1/a-1/b)/(2\ln2\,\lmin(W))$.
+For the consequence: the first consumer's loss is $\delta^{\mathsf T}\hat Q\delta/(1-\emm)$,
+so Proposition~\ref{prop:sand}(i) with $W=\hat Q$ and $a=1/(1-\emm)$ bounds the cost
+below by $V_{\hat Q}(\alpha,D(1-\emm))$; the second's region is
+$\cR_{Q_2}(D)=\cR_{\hat Q}(D(1+\epp))$ by (P1); apply the bound with $W=\hat Q$,
+$a=1/(1+\epp)$, $b=1/(1-\emm)$, for which $1/a-1/b=\epp+\emm$.
+\end{proof}
 
 \begin{corollary}[Probes for a target price]\label{cor:n}
-For a learning share of at most $\eta$ bits per symbol in each cost, it
-suffices that $\varepsilon_m\le\tanh(\eta\ln2/p)$, which holds for
-$m\ge c_0\bigl(\nu^2p^2/\eta^2+\nu p/\eta\bigr)L$ with an absolute constant
-$c_0$ when $\eta\le p$: the first term controls the square-root part of
-$\varepsilon_m$ and the second its linear part. The probing costs $m$ read
-metrics, or $2pm$ consumer queries by central differences, once; served over
-$K$ symbols it adds $2pm/K$ queries per symbol.
+For a learning price $\tau_\varepsilon\le\eta$ bits per symbol, $0<\eta\le p$, it
+suffices that
+\[
+m\ \ge\ L\max\Bigl\{\frac{200}9\,\frac{\nup\num p^2}{\eta^2},\ \frac{20}9\,\frac{\nu p}\eta\Bigr\}.
+\]
+The probing costs $m$ read metrics, or $2pm$ consumer queries by central
+differences, once; served over $K$ symbols it adds $2pm/K$ queries per symbol.
 \end{corollary}
+
+\begin{proof}
+With $t=\tanh(\eta\ln2/p)$, $\varepsilon_\pm\le t$ gives
+$\tau_\varepsilon\le\tfrac p2\log\frac{1+t}{1-t}=p\,\mathrm{artanh}(t)/\ln2=\eta$. Both
+$\varepsilon_\pm\le\sqrt{2\nup\num L/m}+2\nu L/(3m)$, and each term is at most $t/2$
+when $m\ge8\nup\num L/t^2$ and $m\ge4\nu L/(3t)$. Since $\tanh$ is concave on
+$[0,\infty)$ and $\tanh(\ln2)=3/5$, $t\ge\tfrac35\eta/p$ for $\eta\le p$, and
+substituting gives the two terms.
+\end{proof}
+
+Without an a priori lower constant, $\num=1$ and the first term reads
+$\tfrac{200}9\nup p^2L/\eta^2$.
+
+\section{What the test channel pays}
+
+The approximation part $\tau_\nu$ of Theorem~\ref{thm:T1} is a worst case over all
+codes, including codes whose errors concentrate where the read metric is large. The
+frontiers of the series are attained by Gaussian test channels, whose errors are
+nearly independent of the source. For them the price is of second order in the
+distortion, and no sandwich is needed.
+
+Take the setting of \cite{part1}: $T\sim N(0,\Sigma)$ with $\Sigma\succ0$. For
+$0\prec\Delta\preceq\Sigma$, the Gaussian test channel with error covariance $\Delta$
+has $T-\hat T$ independent of $\hat T$ with covariance $\Delta$; equivalently
+\[
+\hat T=(I-\Delta\Sigma^{-1})T+V,\qquad V\sim N(0,\Delta-\Delta\Sigma^{-1}\Delta)\ \text{independent of }T,
+\]
+and the frontier points of \cite{part1} are the rate and leakage of these channels at
+the minimizing $\Delta$. For a consumer $\mathcal C\in C^3(\R^p,\R^k)$ write
+$M_j=\sup_x\|G^{1/2}D^j\mathcal C(x)\|$ for $j=1,2,3$ (operator norms of the $j$-linear
+maps, Euclidean on $\R^p$), take the probe law to be the source law, $\pi=N(0,\Sigma)$,
+so that $Q=\E\PC(T)$, and let $\omega=\sup_x\|\PC(x)-Q\|$. Since
+$0\preceq\PC\preceq M_1^2I$, $\omega\le\max\{M_1^2-\lmin(Q),\|Q\|\}\le M_1^2$. With
+$s=\tr\Delta$ and $\theta=\tr(\Delta\Sigma^{-1}\Delta)\le s^2/\lmin(\Sigma)$, let
+\[
+\rho_b(\Delta)=\bigl(\tfrac74M_2^2+2M_1M_3\bigr)s^2+\tfrac{\sqrt5}2M_2M_3s^{5/2}+\tfrac5{12}M_3^2s^3,
+\]
+\[
+\rho_f(\Delta)=\omega\theta+M_1M_2\bigl(3\theta^{1/2}s+3^{3/4}\theta^{3/2}\bigr)
++\bigl(\tfrac34M_2^2+M_1M_3\bigr)s^2+\tfrac{\sqrt5}2M_2M_3s^{5/2}+\tfrac5{12}M_3^2s^3 .
+\]
+
+\begin{theorem}[The test channel is exact to second order]\label{thm:second}
+For every $0\prec\Delta\preceq\Sigma$,
+\[
+\bigl|\E\,\ell_{\mathcal C}(T,\hat T)-\tr(Q\Delta)\bigr|\ \le\ \rho(\Delta)=\min\{\rho_b(\Delta),\rho_f(\Delta)\}.
+\]
+Both bounds are $O(s^2)$, and neither dominates the other. For a linear consumer
+$\rho=0$: the identity $\E\,\ell_{\mathcal C}=\tr(Q\Delta)$ is then exact.
+\end{theorem}
+
+\begin{proof}
+\emph{Taylor.} For fixed $t$,
+$\mathcal C(t+\delta)-\mathcal C(t)=J(t)\delta+\tfrac12D^2\mathcal C(t)[\delta,\delta]+r$
+with $\|G^{1/2}r\|\le M_3\|\delta\|^3/6$. Expanding the squared $G$-norm,
+\[
+\ell_{\mathcal C}(t,t+\delta)=\delta^{\mathsf T}\PC(t)\delta+\kappa_t(\delta)+R,\qquad
+\kappa_t(\delta)=\bigl\langle J(t)\delta,\,D^2\mathcal C(t)[\delta,\delta]\bigr\rangle_G,
+\]
+\[
+|R|\le\bigl(\tfrac14M_2^2+\tfrac13M_1M_3\bigr)\|\delta\|^4+\tfrac16M_2M_3\|\delta\|^5+\tfrac1{36}M_3^2\|\delta\|^6 .
+\]
+
+For $\delta\sim N(0,\Delta)$, Jensen's inequality on the eigen-decomposition gives
+$\E\|\delta\|^{2k}\le(2k-1)!!\,s^k$, so $\E\|\delta\|^4\le3s^2$,
+$\E\|\delta\|^6\le15s^3$, $\E\|\delta\|^5\le(3\cdot15)^{1/2}s^{5/2}$, and $\E|R|$ is at
+most $(\tfrac34M_2^2+M_1M_3)s^2+\tfrac{\sqrt5}2M_2M_3s^{5/2}+\tfrac5{12}M_3^2s^3$.
+
+\emph{The bound $\rho_b$: expand about $\hat T$.} The loss is symmetric in its two
+arguments, and $Z=T-\hat T\sim N(0,\Delta)$ is independent of $\hat T$. Expand with
+$t=\hat T$ and $\delta=Z$. The cubic term is a homogeneous cubic form in $Z$ whose
+coefficients depend on $\hat T$ only, so its mean is zero. The quadratic term has mean
+$\tr(\E\PC(\hat T)\,\Delta)$. Since $T=\hat T+Z$, $Q=\E\PC(\hat T+Z)$; by Taylor's theorem
+with integral remainder, the first-order term $D\PC(\hat T)[Z]$ has mean zero, and
+$D^2\PC[z,z]=2(D^2\mathcal C[z,\cdot])^{\mathsf T}G(D^2\mathcal C[z,\cdot])
++(D^3\mathcal C[z,z,\cdot])^{\mathsf T}GJ+J^{\mathsf T}G(D^3\mathcal C[z,z,\cdot])$ has norm at
+most $2(M_2^2+M_1M_3)\|z\|^2$, so $\|Q-\E\PC(\hat T)\|\le(M_2^2+M_1M_3)s$ and
+$|\tr((Q-\E\PC(\hat T))\Delta)|\le(M_2^2+M_1M_3)s^2$. Adding $\E|R|$ gives $\rho_b$.
+
+\emph{The bound $\rho_f$: expand about $T$.} Write $\delta=\hat T-T=u+V$ with
+$u=-\Delta\Sigma^{-1}T$, so that $u$ and $V$ are independent centred Gaussian vectors
+with $\E\|u\|^2=\theta$ and $\E\|V\|^2=s-\theta\le s$. The cross term
+$2\E u^{\mathsf T}\PC(T)V$ vanishes, and
+$\E V^{\mathsf T}\PC(T)V=\tr(Q(\Delta-\Delta\Sigma^{-1}\Delta))$ by independence, while
+$\E u^{\mathsf T}Qu=\tr(Q\Delta\Sigma^{-1}\Delta)$. So
+$\E\delta^{\mathsf T}\PC(T)\delta=\tr(Q\Delta)+\E u^{\mathsf T}(\PC(T)-Q)u$, and the last
+term is at most $\omega\theta$ in absolute value. Given $T$, the vector $V$ is centred, Gaussian, and symmetric,
+so the parts of the trilinear form $\kappa_T(u+V)$ of degree one and three in $V$ have
+conditional mean zero. The remaining parts are $\kappa_T(u)$ and three terms with one
+$u$ and two $V$'s, each at most $M_1M_2\|u\|\|V\|^2$. With
+$\E\|u\|^3\le(\E\|u\|^4)^{3/4}\le(3\theta^2)^{3/4}$ and independence,
+$|\E\kappa_T(\delta)|\le M_1M_2(3^{3/4}\theta^{3/2}+3\theta^{1/2}s)$. Adding $\E|R|$ gives
+$\rho_f$.
+\end{proof}
+
+\begin{remark}[What Theorem~\ref{thm:second} does and does not say]\label{rem:second}
+It assumes no sandwich. The consumer may be non-injective, saturating, or have a
+singular read metric at some points: the circle consumer $x\mapsto(\cos x,\sin x)$,
+which fails (A1a), has $\E\ell_{\mathcal C}=2(1-e^{-\Delta/2})=\Delta-\Delta^2/4+\dots$.
+The relative excess is $O(s)$, so the factor $1+\nup$ is not paid: for the
+registration draft's consumer $x+0.2\sin x$ (where $1+\nup=1.233$) and its design at
+$D=0.3\tr(Q\Sigma)$, the measured ratio $\E\ell_{\mathcal C}/\tr(Q\Delta)$ is $0.998$
+(\texttt{verify\_t1\_v3.py}, check C5). The audit of version~1 (ledger VI-22)
+reported a Monte Carlo loss of $0.301$ for $x+0.05\sin x$ at $D=0.3$; for the instance
+of these checks the exact loss of that design is $0.29999$ (audit VI-23), so the
+excess was sampling noise, if the two instances agree (VI-22 does not record its own). The constants are not tight: over the checks $\rho$ exceeds the measured excess by a
+factor of at least $30$, and the audit found cases within a factor of $12$ for
+$\rho_f$ (the circle consumer with $\Sigma=10$). For consumers with four derivatives a
+formal expansion, derived and checked numerically in audit VI-23 but not proved here,
+gives the excess as $c_2(\Delta)+o(s^2)$ with, for $G=I$ and $H_i$ the Hessian of the
+$i$th output, $c_2=\E\sum_i[\tfrac14(\tr H_i\Delta)^2-\tfrac12\tr(H_i\Delta H_i\Delta)]$;
+in one dimension $c_2=-\tfrac14\E[\mathcal C''(T)^2]\Delta^2<0$, so the test channel
+loses slightly less than $\tr(Q\Delta)$, but for $p\ge3$ the sign can be positive. Three limits. The leading term needs the
+probe law to be the source law; for another $\pi$ it is $\tr(\E_{\mathrm{source}}\PC\,\Delta)$.
+The statement is about the single-letter test channel, which is what the frontier
+designs are and what the registration draft measures; the operational codes of the
+series have joint laws of $(T_t,\hat T_t)$ that need not be the test channel's, and
+whether they also avoid $\tau_\nu$ is open. And there is no converse: for a
+non-injective consumer a code can exploit the non-injectivity (the circle consumer
+needs only $x$ modulo $2\pi$), so $\cR_Q(D)$ is then not a lower bound. The best code
+for a locally quadratic loss itself, rather than for a constant weight, is the subject
+of the high-resolution theory of non-difference distortion measures \cite{linderzamir},
+which this note has not read at first hand and does not use.
+\end{remark}
+
+\begin{corollary}[Learn and certify without the lower sandwich]\label{cor:cert}
+In the setting of Theorem~\ref{thm:second}, suppose the encoder knows $\Sigma$, the
+constants $M_1,M_2,M_3$, and a $\nup$ with $\PC\preceq(1+\nup)Q$ (for instance
+$\nup=M_1^2/\lambda-1$ for an a priori $\lambda\le\lmin(Q)$), and let $\varepsilon_\pm$
+be those of Lemma~\ref{lem:est} with $\num=1$, $\emm<1$. Let $\bar\rho(D)$ be $\rho_b$ with $s$ replaced by $D/\lmin(\hat Q)$, and suppose
+$\bar\rho(D)<D$. On the event of Lemma~\ref{lem:est},
+every Gaussian test channel with $\tr(\hat Q\hat\Delta)\le\hat D=(1-\emm)(D-\bar\rho(D))$
+has consumer loss at most $D$; in particular, for every $\alpha$, so does the one that
+attains $V_{\hat Q}(\alpha,\hat D)$, and
+\[
+V_{\hat Q}(\alpha,\hat D)\le V_Q(\alpha,D)+\bar\tau,\qquad
+\bar\tau=\frac p2\log\frac{1+\epp}{(1-\emm)(1-\bar\rho(D)/D)}=\tau_\varepsilon+O(D).
+\]
+\end{corollary}
+
+\begin{proof}
+Such a $\hat\Delta$ has $\tr(\hat Q\hat\Delta)\le\hat D\le D$, so
+$\tr\hat\Delta\le D/\lmin(\hat Q)$ and $\rho(\hat\Delta)\le\rho_b(\hat\Delta)\le\bar\rho(D)$,
+since $\rho_b$ is increasing in $s$. On the event,
+$\tr(Q\hat\Delta)\le\tr(\hat Q\hat\Delta)/(1-\emm)$, and Theorem~\ref{thm:second} gives
+$\E\ell_{\mathcal C}\le\hat D/(1-\emm)+\bar\rho(D)=D$. For the cost, as in
+Theorem~\ref{thm:T1}(b): $V_{\hat Q}(\alpha,\hat D)\le V_{(1+\epp)Q}(\alpha,\hat D)
+=V_Q(\alpha,\hat D/(1+\epp))\le V_Q(\alpha,D)+\bar\tau$ by (P2), (P1), and (P3) with
+$c=D(1+\epp)/\hat D\ge1$.
+\end{proof}
+
+$V_Q(\alpha,D)$ here is the series' frontier for the true weight, which the oracle's
+test channels attain at consumer loss $D+O(D^2)$; without (A1a) it is a benchmark and not a
+lower bound. The certificate is conservative: in the checks (C6) the certified designs
+have consumer loss between $0.53D$ and $0.90D$, mostly because without a lower constant
+$\num=1$ makes $\emm$ large. The encoder needs $\Sigma$ for the design but not for
+$\bar\rho$.
 
 \section{Scope}
 
 \begin{remark}[How restrictive (A1) is]
-For a Gaussian source the support is all of $\R^p$, so (A1) is global: its
+For a Gaussian source the support is all of $\R^p$, so (A1a) is global: its
 lower half forces $\mathcal C$ to be injective and bi-Lipschitz on $\R^p$. This
 excludes a ReLU without leak, any map to fewer than $p$ outputs, a softmax,
 polynomials of degree two or more, and quantizers. It admits leaky-ReLU
 layers with invertible weights, invertible residual blocks $x+g(x)$ with
 $\mathrm{Lip}(g)<1$, and monotone maps with derivative in $[a,b]$, $a>0$. Even
-then $\tau$ is small only for nearly linear consumers: a componentwise leaky
-ReLU of slope $a$ under a symmetric $\pi$ has $\num=\nup=(1-a^2)/(1+a^2)$, so the
-looseness part of $\tau$ is $p\log_2(1/a)$ bits per symbol, $6.6p$ at $a=0.01$
-and $2.3p$ at $a=0.2$. The note is therefore a statement about the regime
-near linearity, and a guarantee for typical neural consumers needs a
-different argument.
+then $\tau_\nu$ is small only for nearly linear consumers: a componentwise leaky
+ReLU of slope $a$ under a symmetric $\pi$ has $\num=\nup=(1-a^2)/(1+a^2)$, so
+$\tau_\nu=p\log(1/a)$ bits per symbol, $6.6p$ at $a=0.01$ and $2.3p$ at $a=0.2$.
+(A1a) is what the converse and the operational achievability of
+Theorem~\ref{thm:T1} need. For the test channels, Theorem~\ref{thm:second} needs only three bounded
+derivatives, and Corollary~\ref{cor:cert} also $Q\succ0$; a leaky
+ReLU is not $C^2$, and a smoothed one has $M_2$ and $M_3$ of the order of the inverse
+smoothing width and its square.
 \end{remark}
 
 \begin{remark}[Read operators of lower rank]
 (A1) as stated needs $Q\succ0$, but its form allows a singular $Q$ with a
 kernel that does not move: for $\mathcal C(x)=f(Wx)$, $W$ of rank $r<p$, and $f'$
 in $[a,b]$ with $a>0$, both the loss and $\delta^{\mathsf T}Q\delta$ vanish on
-$\ker W$ and the sandwich holds. The second condition of (A1) then forces
+$\ker W$ and the sandwich holds. (A1b) then forces
 $\ker\PC(x)=\ker Q$ at every probe point; Lemma~\ref{lem:est} works on the
 range of $Q$ with $Q^{+1/2}$ and $L=\ln(2r/\delta)$; (P1)--(P3) hold with
 $r$ in place of $p$ for the frontier of the reproduction of $Fx$,
 $F^{\mathsf T}F$ spanning the range; and \cite{part1,part2,part3} allow the
 decoder to reproduce such a linear function of the source, while
-\cite{part4} does not. So the theorem extends to consumers of lower rank
+\cite{part4} does not. So Theorem~\ref{thm:T1} extends to consumers of lower rank
 with a fixed kernel in the settings of \cite{part1,part2,part3}. The open
 cases are a kernel that moves with $x$ and a range that is itself estimated
 with error. For the rate alone, the foundational manuscript's commission tax
 \cite{otieee} prices mis-weighting on an exactly known range (its hypothesis
 $m\hat P\preceq P\preceq M\hat P$ forces equal ranges), with the sharp constant
-$\tfrac r2\log(M/m)$, and is the rate-only analog of Theorem~\ref{thm:T1}(b);
+$\tfrac r2\log(M/m)$, and is the rate-only analog of Proposition~\ref{prop:sand};
 its omission floor is a floor on the distortion, not a rate price, for a
 code blind to a read direction. Principal angles enter there only through
 the overlap discussion that follows it.
 \end{remark}
 
 \begin{remark}[Losses that are quadratic only near the diagonal]
-A consumer whose loss is quadratic near $\hat x=x$ but not globally fails the
-first half of (A1) even when its read metric is constant: $\mathcal C(x)=(\cos x,\sin x)$
-on $\R$ has $\PC\equiv1$, yet its loss saturates. A bound then needs a tail
-term $\E[\ell_{\mathcal C}\mathbf 1\{\|\delta\|>r_0\}]$ that depends on the code's
-error law beyond its second moment, which the series does not control. A
-softmax fails (A1) for a different reason: its read metric is not bounded
-below, since it tends to zero at saturated points, and it has a kernel (the
-direction of the all-ones vector). The leading-order statement of
-\cite[Prop.~1]{otieee}, with remainder $o(\varepsilon^2)$ and the condition that
-the error's second moment be uncorrelated with $\PC(x)$, is the local
-counterpart.
+A consumer whose loss is quadratic near $\hat x=x$ but not globally fails (A1a) even
+when its read metric is constant: $\mathcal C(x)=(\cos x,\sin x)$ on $\R$ has
+$\PC\equiv1$, yet its loss saturates. For arbitrary codes a bound then needs a tail
+term $\E[\ell_{\mathcal C}\mathbf 1\{\|\delta\|>r_0\}]$ that depends on the code's error
+law beyond its second moment, which the series does not control; for the Gaussian
+test channels Theorem~\ref{thm:second} supplies it. A softmax fails (A1a) for a
+different reason: its read metric tends to zero at saturated points, so it is not
+bounded below by a multiple of $Q$; and the softmax's Jacobian annihilates the
+all-ones direction of its logits, so a read-out $\mathrm{softmax}(Wx)$ has a kernel
+exactly when the range of $W$ contains that direction. Theorem~\ref{thm:second}
+applies to it as to any consumer with three bounded derivatives. Corollary~\ref{cor:cert}
+also needs $Q\succ0$, which holds for the registration draft's read-out of two inputs
+into three outputs (the all-ones vector is outside the range of its $W$); the audit
+(VI-23) found $\lmin(Q)\approx2\times10^{-4}$ there, so a certificate would be weak. The leading-order statement of
+\cite[Prop.~1]{otieee}, with remainder $o(\varepsilon^2)$ and the condition that the
+error's second moment be uncorrelated with $\PC(x)$, is the local counterpart; for
+the test channel that condition holds up to the term $\E u^{\mathsf T}(\PC(T)-Q)u$
+of the proof.
 \end{remark}
 
 \begin{remark}[Consumers that read across symbols]
@@ -323,9 +589,10 @@ $Q$ is the average of $\PC$ under $\pi$. Under (A1) the weight of any probe
 distribution supported in the source's support lies between $1-\num$ and
 $1+\nup$ times $Q$, so two such weights are within the factors
 $(1-\num)/(1+\nup)$ and $(1+\nup)/(1-\num)$ of each other; the choice of $\pi$
-changes the constants and not the form of the result. For the sources of
-\cite{part3,part4}, whose symbol laws change with time, (A1) is a condition
-on every symbol law at once.
+changes the constants of Theorem~\ref{thm:T1} and not its form.
+Theorem~\ref{thm:second} singles out the source law: only for it is the leading
+term $\tr(Q\Delta)$. For the sources of \cite{part3,part4}, whose symbol laws change
+with time, (A1) is a condition on every symbol law at once.
 \end{remark}
 
 \begin{remark}[What the probability means]
@@ -353,8 +620,8 @@ tag \texttt{tit-stationary-1.2}.
 stationary Gaussian sources: Water-filling over time and frequency,''
 manuscript, 2026, tag \texttt{tit-beyond-stationary-1.3}.
 \bibitem{part4} A. H. Bond, ``Rate, leakage, and distortion for unstable and
-rapidly varying Gaussian sources,'' manuscript in preparation, 2026
-(\texttt{paper/tit-unstable-ergodic}, pull request 26).
+rapidly varying Gaussian sources,'' manuscript, 2026
+(\texttt{paper/tit-unstable-ergodic}, merged as pull request 26).
 \bibitem{otieee} A. H. Bond, ``Observation theory'' (the foundational
 manuscript), \texttt{paper/ieee/observation-theory-ieee.tex}: Proposition
 ``Consumer-projected distortion'', Proposition ``Recovery of the read
@@ -364,7 +631,15 @@ subspace'', and the theorems ``Commission tax'' and ``Omission floor''.
 \bibitem{tropp2012} J. A. Tropp, ``User-friendly tail bounds for sums of
 random matrices,'' \emph{Found. Comput. Math.}, vol.~12, no.~4,
 pp.~389--434, 2012.
-% Theorem 1.4 (matrix Bernstein) checked by the audit against arXiv:1004.4389v7; the journal numbering was not checked.
+% Theorem 1.4 (matrix Bernstein, one-sided hypothesis lambda_max(X_k) <= R) checked
+% against arXiv:1004.4389v7 on 2026-11-17; the journal numbering was not checked.
+\bibitem{bhatiadavis} R. Bhatia and C. Davis, ``A better bound on the
+variance,'' \emph{Amer. Math. Monthly}, vol.~107, no.~4, pp.~353--357, 2000.
+% Used for attribution of the scalar inequality only; the matrix form is proved in the text.
+\bibitem{linderzamir} T. Linder and R. Zamir, ``High-resolution source coding
+for non-difference distortion measures: The rate-distortion function,''
+\emph{IEEE Trans. Inf. Theory}, vol.~45, no.~2, pp.~533--547, 1999.
+% Bibliographic data from DBLP; the paper was not read at first hand.
 \end{thebibliography}
 
 \end{document}
