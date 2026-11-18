@@ -1,0 +1,17 @@
+=== (G) grid, rounding, sandwich ===
+24000 (instance, rounding) cases incl. all-(+s/2) and all-(-s/2) errors: violations 0; max (1-rmin)/(1-lo) = 1.0000, max (rmax-1)/(hi-1) = 0.9987
+
+=== (B) bits ===
+p=  2 kappa=   10 eq=0.05: e+=0.2, e-=0.2: N_q=300, B=30 bits (p(p+1)/2 log2(p kappa/eq) = 26)
+p=  2 kappa=   10 eq=0.05: e+=0.2, e-=0.9: N_q=2401, B=39 bits (p(p+1)/2 log2(p kappa/eq) = 26)
+p=  2 kappa=   10 eq=0.05: e+=0.2, e-=0.999: N_q=240000, B=57 bits (p(p+1)/2 log2(p kappa/eq) = 26)
+p= 10 kappa=  100 eq=0.01: e+=0.2, e-=0.2: N_q=75000, B=990 bits (p(p+1)/2 log2(p kappa/eq) = 914)
+p= 10 kappa=  100 eq=0.01: e+=0.2, e-=0.9: N_q=600001, B=1155 bits (p(p+1)/2 log2(p kappa/eq) = 914)
+p= 10 kappa=  100 eq=0.01: e+=0.2, e-=0.999: N_q=60000000, B=1485 bits (p(p+1)/2 log2(p kappa/eq) = 914)
+p= 50 kappa= 1000 eq=0.01: e+=0.2, e-=0.2: N_q=3750000, B=29325 bits (p(p+1)/2 log2(p kappa/eq) = 28373)
+p= 50 kappa= 1000 eq=0.01: e+=0.2, e-=0.9: N_q=30000001, B=33150 bits (p(p+1)/2 log2(p kappa/eq) = 28373)
+p= 50 kappa= 1000 eq=0.01: e+=0.2, e-=0.999: N_q=3000000000, B=42075 bits (p(p+1)/2 log2(p kappa/eq) = 28373)
+
+=== (L) the leakage measure, exact on a toy ===
+code independent of q: M = T // 2:  I(T;Qt,M|S)=0.4690  H(M|S,Qt)=0.4690  H(Qt,M|S)=1.4690  H(M|S)=0.4690
+code for q relabels: M = (T // 2) xor q:  I(T;Qt,M|S)=0.4690  H(M|S,Qt)=0.4690  H(Qt,M|S)=1.4690  H(M|S)=1.0000

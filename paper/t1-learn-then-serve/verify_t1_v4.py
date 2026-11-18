@@ -39,6 +39,9 @@ algebra and constants.
       channel, E[ d_k(T_k, That_k) ], minus the channel's consumer loss, on common samples
       (N = 2e6), is below 0.2% of the loss at k = 6 and below 1/10 of its value at k = 1.
   C12 Corollary 3(ii): the explicit m and h make the price with eps+- + eps_h <= eta.
+  C13 Remark 13 (added for v4.1, after audit VI-24): the expanding ReLU layer
+      g(x) = (ReLU(x), ReLU(-x)) componentwise has loss between 1/2 and 1 times
+      |xhat - x|^2, both ends attained, so (A1a) holds with Q = I, nu- = 1/2, nu+ = 0.
 
 Run: python paper/t1-learn-then-serve/verify_t1_v4.py   (writes verify_t1_v4.json)
 """
@@ -631,8 +634,25 @@ def c12():
           cases=n, max_price_over_eta=float(worst))
 
 
+# ----------------------------------------------------------------------------- C13
+def c13():
+    rng = np.random.default_rng([20261118, 13])
+    lo, hi = np.inf, -np.inf
+    for p in (1, 2, 4):
+        x, xh = rng.normal(0, 2, (20000, p)), rng.normal(0, 2, (20000, p))
+        g = lambda z: np.concatenate([np.maximum(z, 0), np.maximum(-z, 0)], axis=1)  # noqa: E731
+        r = np.sum((g(xh) - g(x)) ** 2, 1) / np.sum((xh - x) ** 2, 1)
+        lo, hi = min(lo, r.min()), max(hi, r.max())
+    # the two ends, attained: same signs (ratio 1) and opposite points (ratio 1/2)
+    one = float(np.sum((g(np.array([[2.0]])) - g(np.array([[1.0]]))) ** 2))
+    half = float(np.sum((g(np.array([[1.0]])) - g(np.array([[-1.0]]))) ** 2) / 4.0)
+    ok = lo >= 0.5 - 1e-12 and hi <= 1 + 1e-12 and abs(one - 1) < 1e-15 and abs(half - 0.5) < 1e-15
+    check("C13 Remark 13 expanding ReLU satisfies (A1a)", ok, min_ratio=float(lo), max_ratio=float(hi),
+          same_sign_ratio=one, opposite_ratio=half)
+
+
 if __name__ == "__main__":
-    for f in (c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12):
+    for f in (c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13):
         f()
     OUT["verdict"] = "ALL PASS" if not FAIL else "FAIL: " + ", ".join(FAIL)
     print(OUT["verdict"])

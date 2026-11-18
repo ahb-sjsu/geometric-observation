@@ -33,36 +33,44 @@ surrogate gap in GO-6), and the mismatch tax and omission floor are proved (Chap
 Appendix B). T1 would fuse them. It carries no result yet — it is a **stated target**,
 not a theorem — and I flag it as such [status: open, recommended].
 
-**Update, November 2026: a proof sketch in one regime.** A note
-(`paper/t1-learn-then-serve`) proves T1 under one explicit assumption, a *relative
-quadratic sandwich*: the consumer's loss lies between $1-\nu_-$ and $1+\nu_+$ times a
-fixed quadratic form $Q$, the read metric averaged over the probe distribution, with
-the constants known in advance (no finite set of probes can certify them). It composes
-the three error sources the statement above needs. The estimated operator: read
-metrics at $m$ probe points give $\hat Q$ with relative error
-$\varepsilon_m=\nu\big(\sqrt{2L/m}+2L/3m\big)$, $\nu=\max\{\nu_-,\nu_+\}$,
-$L=\ln(2p/\delta)$, with probability $1-\delta$, by matrix Bernstein — so a nearly
-constant read metric is learned from few probes. The quadratic approximation: the
-constants $\nu_\pm$. The probing: $2pm$ consumer queries, paid once. Under the
-assumption, a code built for $\hat Q$ by the coding theorems of the RLD series
-(Chapter 7) has consumer loss at most $D$ and lies within
-$\tau=\tfrac p2\log\frac{(1+\nu_+)(1+\varepsilon_m)}{(1-\nu_-)(1-\varepsilon_m)}$ bits per
-symbol of the best any code can do, in rate and in leakage at once. A fresh-context
-audit found the theorem and its lemma correct and three of its remarks wrong, all
-corrected; it also measured how narrow the regime is. For a Gaussian source the
-sandwich forces the consumer to be globally injective and bi-Lipschitz, and $\tau$ is
-small only near linearity: a leaky ReLU of slope $a$ pays $p\log_2(1/a)$ bits per
-symbol of looseness, and that looseness is an upper bound on what is paid, not a
-price shown to be paid. Read operators of lower rank with a kernel that does not move
-are covered in the settings of RLD I–III, which allow reproducing a linear function of
-the source. Still open, and still the heart of the original statement: a kernel that
-moves with the point and a range estimated with error (principal angles, the
-commission tax, and the omission floor, so far for the rate alone); losses that
-saturate, and consumers like a softmax whose read metric is not bounded below; and
-consumers that read across dependent symbols. The sketch is `[exploratory]`, and the
-end-to-end worked result it calls for — recover a real consumer's operator, charge the
-probing, build the description, and bound its downstream loss against the series'
-frontier — is drafted for registration and not sealed.
+**Update, November 2026: the T1 note.** A working note (`paper/t1-learn-then-serve`,
+version 4.1, `[exploratory]`) proves T1 in two regimes. The consumer's loss is
+$\|g(\hat x)-g(x)\|^2$ for its weighted map $g=G^{1/2}\mathcal C$, and $Q$ is its read metric
+averaged over a probe distribution. Read metrics at $m$ probe points give $\hat Q$ with
+$(1-\varepsilon_-)Q\preceq\hat Q\preceq(1+\varepsilon_+)Q$ with probability $1-\delta$, where
+$\varepsilon_\pm=\sqrt{2\nu_+\nu_-L/m}+2\nu_\pm L/(3m)$, $L=\ln(2p/\delta)$, and $\nu_\pm$ bound the
+read metric relative to $Q$ (a one-sided matrix Bernstein bound; the lower constant needs no
+prior knowledge, since read metrics are positive semidefinite). *Any smooth consumer.* For a
+Gaussian vector source (RLD I) and a consumer whose $g$ has three bounded derivatives, the
+Gaussian test channels that attain the series' frontiers have consumer loss
+$\operatorname{tr}(Q\Delta)$ up to an explicit remainder of order $(\operatorname{tr}\Delta)^2$, and
+codes built for the consumer achieve the test channel's rate, leakage and consumer loss
+together. So a learner that knows derivative bounds, the source law and an upper constant
+for the read metric certifies that the frontier for $\hat Q$, at a slightly smaller budget,
+is achievable at consumer loss $D$, within $\tau_\varepsilon+O(D)$ bits per symbol of the
+frontier for the true weight, $\tau_\varepsilon=\tfrac p2\log\frac{1+\varepsilon_+}{1-\varepsilon_-}$.
+*Consumers under a quadratic sandwich.* If the loss lies between $1-\nu_-$ and $1+\nu_+$
+times $(\hat x-x)^{\mathsf T}Q(\hat x-x)$, with the constants known in advance (no finite set
+of probes can certify them), a converse holds as well, in every setting of the series, and
+the series' own codes for $\hat Q$ lie within $\tau_\nu+\tau_\varepsilon$ bits per symbol of the
+outer bound in rate and in leakage at once, $\tau_\nu=\tfrac p2\log\frac{1+\nu_+}{1-\nu_-}$; the
+learning part is sharp for an encoder that knows the weight only through the confidence
+statement. The sandwich is restrictive: for a Gaussian source it makes $g$ bi-Lipschitz,
+and $\tau_\nu$ is small only near linearity (a leaky ReLU of slope $a$ has
+$\tau_\nu=p\log_2(1/a)$ bits per symbol, an upper bound on what is paid). *Costs.* Probing
+costs $2pm$ consumer queries by central differences, whose error of order $h^2$ adds to
+$\varepsilon_\pm$; a decoder that does not probe can be sent $\hat Q$ once in
+$O(p^2\log(p\kappa/\varepsilon_q))$ bits that carry no information about the source. Three
+fresh-context audits (ledger VI-22 to VI-24) found errors in remarks and wording only, all
+corrected, and the author has read versions 2 and 3. Read operators of lower rank with a
+kernel that does not move are covered in RLD I–III. Still open, and still the heart of the
+original statement: one code, chosen from $\hat Q$ alone, that serves every consumer of a
+class; codes in the process settings of RLD II–IV; a converse without the sandwich; a kernel
+that moves with the point and a range estimated with error (principal angles, the commission
+tax, and the omission floor, so far for the rate alone); and consumers that read across
+dependent symbols. The end-to-end worked result the note calls for — recover a real
+consumer's operator, charge the probing, build the description, and bound its downstream
+loss against the series' frontier — is drafted for registration and not sealed.
 
 ## The cross-domain magnitude constant
 

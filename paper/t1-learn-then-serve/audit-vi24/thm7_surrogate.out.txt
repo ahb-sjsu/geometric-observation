@@ -1,0 +1,95 @@
+=== (Q) nestedness of the dyadic partitions and L2 convergence of q_k ===
+k=1: level-k edges subset of level-(k+1) edges: True
+k=2: level-k edges subset of level-(k+1) edges: True
+k=3: level-k edges subset of level-(k+1) edges: True
+k=4: level-k edges subset of level-(k+1) edges: True
+k=5: level-k edges subset of level-(k+1) edges: True
+k=6: level-k edges subset of level-(k+1) edges: True
+k=1: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 6.604e-01
+k=2: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 6.596e-02
+k=3: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 5.233e-03
+k=4: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 1.302e-03
+k=5: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 3.259e-04
+k=6: E|q_k(Y)-Y|^2 for Y~N(0,4) (MC 2e6) = 8.139e-05
+
+=== (1)+(3) surrogate distortion of the 1-D Gaussian test channel ===
+That = (1-D/s2) T + V, V~N(0, D - D^2/s2).  SD_k = E d_k(T_k, That_k) under the true joint law;
+NAIVE_k = E l(T, That_k) (true loss of the quantized channel); TARGET = E l(T, That).
+x+0.2sin x               s2=1 Delta=0.1: TARGET=0.12648885
+    k=1: SD_k=0.28627253 (SD-TARGET=+1.60e-01)  NAIVE_k-SD_k=-5.07e-02  max d_k=22.1  cells=9
+    k=2: SD_k=0.16491557 (SD-TARGET=+3.84e-02)  NAIVE_k-SD_k=-1.18e-02  max d_k=62.5  cells=33
+    k=3: SD_k=0.13611473 (SD-TARGET=+9.63e-03)  NAIVE_k-SD_k=-2.97e-03  max d_k=273  cells=129
+    k=4: SD_k=0.12889662 (SD-TARGET=+2.41e-03)  NAIVE_k-SD_k=-7.44e-04  max d_k=906  cells=513
+    k=5: SD_k=0.12709087 (SD-TARGET=+6.02e-04)  NAIVE_k-SD_k=-1.86e-04  max d_k=2.14e+03  cells=2049
+x+0.2sin x               s2=1 Delta=0.5: TARGET=0.63155000
+    k=1: SD_k=0.77740230 (SD-TARGET=+1.46e-01)  NAIVE_k-SD_k=-3.53e-02  max d_k=22.1  cells=9
+    k=2: SD_k=0.66606325 (SD-TARGET=+3.45e-02)  NAIVE_k-SD_k=-6.72e-03  max d_k=62.5  cells=33
+    k=3: SD_k=0.64019379 (SD-TARGET=+8.64e-03)  NAIVE_k-SD_k=-1.69e-03  max d_k=273  cells=129
+    k=4: SD_k=0.63371199 (SD-TARGET=+2.16e-03)  NAIVE_k-SD_k=-4.22e-04  max d_k=906  cells=513
+    k=5: SD_k=0.63209056 (SD-TARGET=+5.41e-04)  NAIVE_k-SD_k=-1.06e-04  max d_k=2.14e+03  cells=2049
+x+0.2sin x               s2=4 Delta=0.3: TARGET=0.32181403
+    k=1: SD_k=0.86885207 (SD-TARGET=+5.47e-01)  NAIVE_k-SD_k=-9.09e-02  max d_k=28.3  cells=9
+    k=2: SD_k=0.39690587 (SD-TARGET=+7.51e-02)  NAIVE_k-SD_k=-1.76e-02  max d_k=71.6  cells=33
+    k=3: SD_k=0.33004803 (SD-TARGET=+8.23e-03)  NAIVE_k-SD_k=-2.60e-03  max d_k=282  cells=129
+    k=4: SD_k=0.32386815 (SD-TARGET=+2.05e-03)  NAIVE_k-SD_k=-6.48e-04  max d_k=1.03e+03  cells=513
+    k=5: SD_k=0.32232758 (SD-TARGET=+5.14e-04)  NAIVE_k-SD_k=-1.62e-04  max d_k=3.62e+03  cells=2049
+circle (cos,sin)         s2=1 Delta=0.1: TARGET=0.09754115
+    k=1: SD_k=0.21633857 (SD-TARGET=+1.19e-01)  NAIVE_k-SD_k=-3.67e-02  max d_k=3.97  cells=9
+    k=2: SD_k=0.12606570 (SD-TARGET=+2.85e-02)  NAIVE_k-SD_k=-8.77e-03  max d_k=3.99  cells=33
+    k=3: SD_k=0.10471132 (SD-TARGET=+7.17e-03)  NAIVE_k-SD_k=-2.22e-03  max d_k=4  cells=129
+    k=4: SD_k=0.09933624 (SD-TARGET=+1.80e-03)  NAIVE_k-SD_k=-5.57e-04  max d_k=4  cells=513
+    k=5: SD_k=0.09799008 (SD-TARGET=+4.49e-04)  NAIVE_k-SD_k=-1.39e-04  max d_k=4  cells=2049
+circle (cos,sin)         s2=1 Delta=0.5: TARGET=0.44239843
+    k=1: SD_k=0.52507586 (SD-TARGET=+8.27e-02)  NAIVE_k-SD_k=-1.86e-02  max d_k=3.97  cells=9
+    k=2: SD_k=0.46256087 (SD-TARGET=+2.02e-02)  NAIVE_k-SD_k=-3.99e-03  max d_k=3.99  cells=33
+    k=3: SD_k=0.44746143 (SD-TARGET=+5.06e-03)  NAIVE_k-SD_k=-1.01e-03  max d_k=4  cells=129
+    k=4: SD_k=0.44366556 (SD-TARGET=+1.27e-03)  NAIVE_k-SD_k=-2.53e-04  max d_k=4  cells=513
+    k=5: SD_k=0.44271530 (SD-TARGET=+3.17e-04)  NAIVE_k-SD_k=-6.34e-05  max d_k=4  cells=2049
+circle (cos,sin)         s2=4 Delta=0.3: TARGET=0.27858405
+    k=1: SD_k=0.63740754 (SD-TARGET=+3.59e-01)  NAIVE_k-SD_k=-3.62e-02  max d_k=3.97  cells=9
+    k=2: SD_k=0.32791575 (SD-TARGET=+4.93e-02)  NAIVE_k-SD_k=-1.07e-02  max d_k=3.99  cells=33
+    k=3: SD_k=0.28514202 (SD-TARGET=+6.56e-03)  NAIVE_k-SD_k=-2.07e-03  max d_k=4  cells=129
+    k=4: SD_k=0.28022243 (SD-TARGET=+1.64e-03)  NAIVE_k-SD_k=-5.18e-04  max d_k=4  cells=513
+    k=5: SD_k=0.27899377 (SD-TARGET=+4.10e-04)  NAIVE_k-SD_k=-1.30e-04  max d_k=4  cells=2049
+(tanh 2x, 0.3x)          s2=1 Delta=0.1: TARGET=0.10499049
+    k=1: SD_k=0.22133766 (SD-TARGET=+1.16e-01)  NAIVE_k-SD_k=-3.39e-02  max d_k=5.73  cells=9
+    k=2: SD_k=0.13563498 (SD-TARGET=+3.06e-02)  NAIVE_k-SD_k=-9.24e-03  max d_k=10.1  cells=33
+    k=3: SD_k=0.11275862 (SD-TARGET=+7.77e-03)  NAIVE_k-SD_k=-2.37e-03  max d_k=27.4  cells=129
+    k=4: SD_k=0.10693938 (SD-TARGET=+1.95e-03)  NAIVE_k-SD_k=-5.95e-04  max d_k=84.8  cells=513
+    k=5: SD_k=0.10547815 (SD-TARGET=+4.88e-04)  NAIVE_k-SD_k=-1.49e-04  max d_k=194  cells=2049
+(tanh 2x, 0.3x)          s2=1 Delta=0.5: TARGET=0.45715428
+    k=1: SD_k=0.55870924 (SD-TARGET=+1.02e-01)  NAIVE_k-SD_k=-1.85e-02  max d_k=5.73  cells=9
+    k=2: SD_k=0.48387725 (SD-TARGET=+2.67e-02)  NAIVE_k-SD_k=-4.75e-03  max d_k=10.1  cells=33
+    k=3: SD_k=0.46391674 (SD-TARGET=+6.76e-03)  NAIVE_k-SD_k=-1.21e-03  max d_k=27.4  cells=129
+    k=4: SD_k=0.45885008 (SD-TARGET=+1.70e-03)  NAIVE_k-SD_k=-3.04e-04  max d_k=84.8  cells=513
+    k=5: SD_k=0.45757856 (SD-TARGET=+4.24e-04)  NAIVE_k-SD_k=-7.61e-05  max d_k=194  cells=2049
+(tanh 2x, 0.3x)          s2=4 Delta=0.3: TARGET=0.16035559
+    k=1: SD_k=0.26633954 (SD-TARGET=+1.06e-01)  NAIVE_k-SD_k=-2.25e-02  max d_k=6.36  cells=9
+    k=2: SD_k=0.17885924 (SD-TARGET=+1.85e-02)  NAIVE_k-SD_k=-5.37e-03  max d_k=10.9  cells=33
+    k=3: SD_k=0.16407274 (SD-TARGET=+3.72e-03)  NAIVE_k-SD_k=-1.16e-03  max d_k=28.4  cells=129
+    k=4: SD_k=0.16128598 (SD-TARGET=+9.30e-04)  NAIVE_k-SD_k=-2.91e-04  max d_k=97.6  cells=513
+    k=5: SD_k=0.16058829 (SD-TARGET=+2.33e-04)  NAIVE_k-SD_k=-7.29e-05  max d_k=328  cells=2049
+|x| (Lipschitz, not C1)  s2=1 Delta=0.1: TARGET=0.08672711
+    k=1: SD_k=0.19847493 (SD-TARGET=+1.12e-01)  NAIVE_k-SD_k=-3.23e-02  max d_k=5.75  cells=9
+    k=2: SD_k=0.11270571 (SD-TARGET=+2.60e-02)  NAIVE_k-SD_k=-7.33e-03  max d_k=17.9  cells=33
+    k=3: SD_k=0.09323991 (SD-TARGET=+6.51e-03)  NAIVE_k-SD_k=-1.86e-03  max d_k=66  cells=129
+    k=4: SD_k=0.08835655 (SD-TARGET=+1.63e-03)  NAIVE_k-SD_k=-4.65e-04  max d_k=255  cells=513
+    k=5: SD_k=0.08713455 (SD-TARGET=+4.07e-04)  NAIVE_k-SD_k=-1.16e-04  max d_k=1.02e+03  cells=2049
+|x| (Lipschitz, not C1)  s2=1 Delta=0.5: TARGET=0.36338023
+    k=1: SD_k=0.43929853 (SD-TARGET=+7.59e-02)  NAIVE_k-SD_k=-1.91e-02  max d_k=5.75  cells=9
+    k=2: SD_k=0.38014543 (SD-TARGET=+1.68e-02)  NAIVE_k-SD_k=-2.56e-03  max d_k=17.9  cells=33
+    k=3: SD_k=0.36757884 (SD-TARGET=+4.20e-03)  NAIVE_k-SD_k=-6.48e-04  max d_k=66  cells=129
+    k=4: SD_k=0.36443042 (SD-TARGET=+1.05e-03)  NAIVE_k-SD_k=-1.63e-04  max d_k=255  cells=513
+    k=5: SD_k=0.36364281 (SD-TARGET=+2.63e-04)  NAIVE_k-SD_k=-4.07e-05  max d_k=1.02e+03  cells=2049
+|x| (Lipschitz, not C1)  s2=4 Delta=0.3: TARGET=0.26541249
+    k=1: SD_k=0.91462167 (SD-TARGET=+6.49e-01)  NAIVE_k-SD_k=-8.79e-02  max d_k=10.1  cells=9
+    k=2: SD_k=0.33386077 (SD-TARGET=+6.84e-02)  NAIVE_k-SD_k=-1.66e-02  max d_k=23  cells=33
+    k=3: SD_k=0.27215257 (SD-TARGET=+6.74e-03)  NAIVE_k-SD_k=-1.99e-03  max d_k=71.6  cells=129
+    k=4: SD_k=0.26709230 (SD-TARGET=+1.68e-03)  NAIVE_k-SD_k=-4.96e-04  max d_k=264  cells=513
+    k=5: SD_k=0.26583247 (SD-TARGET=+4.20e-04)  NAIVE_k-SD_k=-1.24e-04  max d_k=1.02e+03  cells=2049
+
+=== (2) consumer loss of a code acting on T_k^n equals its surrogate distortion ===
+circle consumer, k=2, n=2: surrogate distortion (exact) = 0.813402; true consumer loss (MC 4e6) = 0.813412 +- 0.000381
+
+=== (P) Gaussian test channel: I(T;That)=r(Delta), I(T;That|S)=l(Delta) ===
+200 random (p<=4, r<=3) instances, 1/3 with singular Cov V: max |I - formula| = 9.56e-13 bits

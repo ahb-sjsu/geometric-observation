@@ -1,7 +1,7 @@
 # DRAFT — T1 worked result: learn a consumer's read operator, pay for the probing, serve it, and bound the downstream loss against the RLD frontier
 
 **Status: DRAFT, NOT SEALED, NO REGISTRATION NUMBER.** Drafted 2026-11-17 by
-Claude (Opus 5.5) at the owner's request, from the T1 proof sketch
+Claude (Opus 5.5) at the owner's request, from version 2 of the T1 note, then titled a proof sketch
 (`paper/t1-learn-then-serve`) and an outside reader's recommendation that the next
 synthesis centre on one worked result. **The items formerly marked OWNER were
 filled the same day by Claude at the owner's instruction**; each is marked
@@ -66,7 +66,10 @@ instance.
 1. **Numbering.** Version 3 to version 4: Lemma 1 stays Lemma 1; Corollary 5 is
    Corollary 3; Theorem 6 is Theorem 5; Remark 7 is Remark 6; Corollary 8 stays
    Corollary 8; Proposition 2 is Proposition 10; Theorem 3 is Theorem 11;
-   Proposition 4 is Proposition 12. In the version-3 section above, read "Theorem 6"
+   Proposition 4 is Proposition 12; Remarks 9–12 are Remarks 13–16; Remark 13 is split
+   into Proposition 2 and Remark 17; Remarks 14–16 are Remarks 18–20. Below, "the
+   sketch" means version 2, which this text was written against; the note has had a
+   proof of every result since version 3. In the version-3 section above, read "Theorem 6"
    as Theorem 5, "Remark 7" as Remark 6, and "Proposition 4" as Proposition 12. "The
    sketch's Theorem 2" (version 2) is Theorem 11.
 2. **Finite differences.** The instrument takes Jacobians by central differences with
@@ -85,7 +88,12 @@ instance.
    and decoder are one simulation, which is the shared calibration (A3-i): nothing is
    communicated or counted.
 5. **Semidefinite G.** The Lipschitz statements are now for G^{1/2}C. Every registered
-   arm has G ≻ 0, so nothing changes for them.
+   arm has G ≻ 0, so nothing changes for them. Where the text below says (c) "forces a
+   globally bi-Lipschitz consumer", read: forces G^{1/2}C to be bi-Lipschitz.
+6. **Version 4.1** (2026-11-18) applies the audit VI-24 of version 4, which found no
+   false step. Nothing in it changes a hypothesis or a bar of this registration: an
+   expanding ReLU layer can satisfy (A1) (Remark 13), the calibration message's leakage
+   is now stated for both leakage forms (Proposition 4), and the rest is wording.
 
 ## What it would show
 

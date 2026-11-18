@@ -56,7 +56,7 @@ the weights within it, which an allocation also needs. Composing the two, and
 charging for the probing, is the keystone T1 (a working note, `[exploratory]`,
 [`paper/t1-learn-then-serve`](paper/t1-learn-then-serve/t1-learn-then-serve.tex) v4:
 for a Gaussian vector source (RLD I) and any consumer with three bounded derivatives,
-the test channel's consumer loss is tr(QΔ) to second order and codes achieve it, so a
+the test channel's consumer loss is tr(QΔ) to second order and codes built for the consumer achieve it, so a
 learned weight can be certified at the price of learning plus a term of second order
 in the distortion; a converse, in every setting of the series, needs a quadratic
 sandwich known in advance and is informative only for nearly linear consumers).

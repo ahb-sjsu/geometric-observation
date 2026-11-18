@@ -1,0 +1,18 @@
+=== (R1) ReLU without leak, expanding: bi-Lipschitz and (A1a) ===
+p=1: g=ReLU([I;-I]x), Q=I; loss/(d^T Q d) over 4e5 pairs in [0.5000, 1.0000] (theory [1/2, 1]); so (A1a) with nu-=0.500, nu+=0.000; tau_nu = 0.500 bits (theory p/2)
+p=2: g=ReLU([I;-I]x), Q=I; loss/(d^T Q d) over 4e5 pairs in [0.5000, 1.0000] (theory [1/2, 1]); so (A1a) with nu-=0.500, nu+=0.000; tau_nu = 1.000 bits (theory p/2)
+p=4: g=ReLU([I;-I]x), Q=I; loss/(d^T Q d) over 4e5 pairs in [0.5004, 1.0000] (theory [1/2, 1]); so (A1a) with nu-=0.500, nu+=0.000; tau_nu = 1.998 bits (theory p/2)
+g(x)=(x, ReLU x): ratio loss/(xh-x)^2 in [1.0000, 2.0000] -> bi-Lipschitz (Q = E P = 1.5 under symmetric pi)
+
+=== (R2) C=(x, x^2), G=diag(1,0) ===
+max |loss - (y-x)^2| = 0.00e+00; Lip(x^2) on [-L,L] = 2L unbounded
+
+=== (R3) leaky ReLU ===
+a=0.01: pairwise ratio in [0.0002, 1.9998] vs theory [0.0002, 1.9998]; tau_nu/p = 6.6439 = log2(1/a) = 6.6439
+a=0.2: pairwise ratio in [0.0769, 1.9231] vs theory [0.0769, 1.9231]; tau_nu/p = 2.3219 = log2(1/a) = 2.3219
+a=0.5: pairwise ratio in [0.4000, 1.6000] vs theory [0.4000, 1.6000]; tau_nu/p = 1.0000 = log2(1/a) = 1.0000
+
+=== (R4) Lipschitz constant from the upper half of (A1a) ===
+extremal g: observed Lipschitz 3.1856 <= ((1+nu+) lmax Q)^1/2 = 3.1856
+extremal g: observed Lipschitz 2.6353 <= ((1+nu+) lmax Q)^1/2 = 2.6353
+extremal g: observed Lipschitz 3.3354 <= ((1+nu+) lmax Q)^1/2 = 3.3355

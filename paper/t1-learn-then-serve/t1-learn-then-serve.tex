@@ -24,7 +24,7 @@
 
 \title{Learn Then Serve: Recovering a Consumer's Read Operator and Paying for It\\ (T1, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v4, 2026-11-17. Drafted by
+\thanks{Working note of the Observation Theory program, v4.1, 2026-11-18. Drafted by
 Claude (Opus 5.5) at the author's request. The author read versions 2 and 3 and asked
 for the changes of version 4: the count of consumer queries qualified by the error of
 finite differences (Proposition~\ref{prop:fd}, Corollary~\ref{cor:n}); the Lipschitz
@@ -33,12 +33,16 @@ Remark~\ref{rem:restrictive}); the calibration protocol stated and its message c
 (Assumption (A3), Proposition~\ref{prop:calib}); and the test-channel results made the
 centre of the note. The author also proposed the route of Theorem~\ref{thm:codes},
 through the finite-alphabet coding theorem of \cite[App.~A]{part1}. Version 2 applied the
-fresh-context audit VI-22 and version 3 the audit VI-23; version 4 is not yet audited.
-Numerical checks: \texttt{verify\_t1\_v4.py} in this folder. Ledger class
+fresh-context audit VI-22 and version 3 the audit VI-23. The audit VI-24 of version 4
+found no false mathematical step, and version 4.1 applies its findings: one gap in
+what Proposition~\ref{prop:calib} calls leakage, one overstatement in
+Remark~\ref{rem:restrictive}, and wording. Numerical checks: \texttt{verify\_t1\_v4.py} in this folder. Ledger class
 \texttt{[exploratory]}. Numbering, version 3 to version 4: Lemma~1 is Lemma~1;
 Corollary~5 is Corollary~3; Theorem~6 is Theorem~5; Remark~7 is Remark~6; Corollary~8
 is Corollary~8; Proposition~2 is Proposition~10; Theorem~3 is Theorem~11;
-Proposition~4 is Proposition~12; Remark~13 is Remark~17.}}
+Proposition~4 is Proposition~12; Remarks~9--12 are Remarks~13--16; Remark~13 is split
+into Proposition~2 (finite differences) and Remark~17 (noise); Remarks~14--16 are
+Remarks~18--20.}}
 \maketitle
 
 \begin{abstract}
@@ -54,15 +58,16 @@ is their expectation, $\varepsilon_\pm=\sqrt{2\nup\num L/m}+2\nu_\pm L/(3m)$,
 $L=\ln(2p/\delta)$, and $\nu_\pm$ bound the read metric relative to $Q$; the lower half
 needs no prior constant. Central differences of step $h$ add a deterministic error of
 order $h^2$ (Proposition~\ref{prop:fd}), and a decoder that does not probe the consumer
-can be sent the weight once, in $O(p^2\log(p\kappa/\varepsilon_q))$ bits and at no
-leakage (Proposition~\ref{prop:calib}). For a Gaussian vector source and any consumer
+can be sent the weight once, in $O(p^2\log(p\kappa/\varepsilon_q))$ bits that carry no
+information about the source (Proposition~\ref{prop:calib}). For a Gaussian vector source and any consumer
 with three bounded derivatives, the Gaussian test channel's consumer loss is
 $\tr(Q\Delta)$ up to an explicit remainder of order $(\tr\Delta)^2$, with no
 sandwich assumed (Theorem~\ref{thm:second}), and, by the coding theorem of
 \cite{part1}, codes achieve the test channel's rate, leakage, and consumer loss
 together (Theorem~\ref{thm:codes}). So a learner that knows derivative bounds, the
 source law, and an upper constant for the read metric can certify that the series'
-frontier for $\hat Q$ is achievable at consumer loss $D$, within
+frontier for $\hat Q$, at a budget $\hat D$ slightly below $D$, is achievable at consumer
+loss $D$ by codes built for the consumer, within
 $\bar\tau=\tau_\varepsilon+O(D)$ bits per symbol of the frontier for the true weight,
 $\tau_\varepsilon=\tfrac p2\log\frac{1+\epp}{1-\emm}$ (Corollary~\ref{cor:cert}). For
 consumers under a relative quadratic sandwich known in advance, whose weighted map is
@@ -133,9 +138,8 @@ symbol, with a constant output metric $G\succeq0$ and the loss
 \]
 The loss sees $\mathcal C$ only through the weighted map $g$, and every regularity
 statement below (Lipschitz constants, derivative bounds, injectivity) is a statement
-about $g$. It transfers to $\mathcal C$ when $G\succ0$, and not otherwise: the
-components of $\mathcal C$ that $G$ does not see are unrestricted
-(Remark~\ref{rem:restrictive}). Where $g$ is differentiable, the local read metric is
+about $g$. It transfers to $\mathcal C$ when $G\succ0$, and not otherwise: the part of
+$\mathcal C$ in the kernel of $G$ is unrestricted (Remark~\ref{rem:restrictive}). Where $g$ is differentiable, the local read metric is
 $\PC(x)=J_g(x)^{\mathsf T}J_g(x)$, $J_g=\partial g/\partial x$, which is
 $J^{\mathsf T}GJ$, $J=\partial\mathcal C/\partial x$, where $\mathcal C$ is differentiable
 \cite{otieee}. When $g$ is $C^j$ write $M_j=\sup_x\|D^jg(x)\|$ for $j=1,2,3$
@@ -150,21 +154,25 @@ error that Proposition~\ref{prop:fd} bounds.
 
 \textbf{Assumption (A3), calibration.} Coding starts after a calibration phase. Encoder
 and decoder use the code that the setting's achievability theorem gives for the weight
-$\hat Q$, which both construct from $\hat Q$, the constants of the confidence statement,
-and the source and holder models that the theorem assumes known. The decoder obtains
-$\hat Q$ in one of two ways.
+$\hat Q$, which both construct, by a deterministic selection rule agreed in advance among
+the codes the theorem asserts to exist, from $\hat Q$, the constants of the confidence
+statement (and, for Corollary~\ref{cor:cert}, the derivative bounds $M_1,M_2,M_3$, which
+enter its budget), and the source and holder models that the theorem assumes known. The
+decoder obtains $\hat Q$ in one of two ways.
 \begin{itemize}
 \item[(A3-i)] \emph{Shared calibration.} It holds the same probe points (for instance
 through a common seed) and query access to the same consumer, and computes the same
-$\hat Q$. Nothing is communicated, and nothing is counted.
+$\hat Q$. Nothing is communicated; the decoder's own queries are counted with the
+learner's.
 \item[(A3-ii)] \emph{A calibration message.} The learner sends a quantized weight
 $\tilde Q$ once, and encoder and decoder both use $\tilde Q$. Proposition~\ref{prop:calib}
-counts its bits and shows that it leaks nothing.
+counts its bits and what it leaks.
 \end{itemize}
-Three resources are then bounded separately: consumer queries ($2pm$, once), calibration
-bits (none under (A3-i), at most $B$ once under (A3-ii)), and the rate and leakage of
-the code per symbol. Over a session of $K$ symbols the one-time costs are $2pm/K$ queries
-and $B/K$ bits per symbol. This note does not optimize a combined budget; a price of a
+Three resources are then bounded separately: consumer queries ($2pm$ at the learner,
+once, and as many again at the decoder under (A3-i)), calibration bits (none under
+(A3-i), at most $B$ once under (A3-ii)), and the rate and leakage of the code per symbol.
+Over a session of $K$ symbols the one-time costs are $2pm/K$ queries ($4pm/K$ under
+(A3-i)) and $B/K$ bits per symbol. This note does not optimize a combined budget; a price of a
 query in bits is not defined here.
 
 \section{Learning the weight}
@@ -301,8 +309,8 @@ Without an a priori lower constant, $\num=1$ and the first terms read
 $\tfrac{200}9\nup p^2L/\eta^2$ and $50\nup p^2L/\eta^2$.
 
 \begin{proposition}[The calibration message]\label{prop:calib}
-Let $0<\lambda\le\lmin(Q)$ and $\Lambda\ge\lmax(Q)$ be known to both ends,
-$\kappa=\Lambda/\lambda$, and $0<\varepsilon_q<1$. Let $\hat Q$ be the learner's weight,
+Let $0<\lambda\le\lmin(Q)$, $\Lambda\ge\lmax(Q)$, $0<\varepsilon_q<1$, and the constants
+$e_\pm$ below be known to both ends, and $\kappa=\Lambda/\lambda$. Let $\hat Q$ be the learner's weight,
 with $(1-e_-)Q\preceq\hat Q\preceq(1+e_+)Q$ on an event, $e_-<1$ (for instance
 $e_\pm=\varepsilon_\pm$ by Lemma~\ref{lem:est}, or $\varepsilon_\pm+\varepsilon_h$ by
 Proposition~\ref{prop:fd}). Round each entry of $\hat Q$ on or above the diagonal to the
@@ -315,15 +323,19 @@ and let $\tilde Q$ be the symmetric matrix of the rounded entries. Then $\tilde 
 described by
 \[
 B=\frac{p(p+1)}2\bigl\lceil\log(2N_q+1)\bigr\rceil
-\ =\ O\Bigl(p^2\log\frac{p\kappa}{\varepsilon_q}\Bigr)
+\ =\ O\Bigl(p^2\log\frac{p\kappa(1+e_+)}{(1-e_-)\varepsilon_q}\Bigr)
 \]
 bits, and on the event
 \[
 (1-e_-)(1-\varepsilon_q)Q\preceq\tilde Q\preceq(1+e_+)(1+\varepsilon_q)Q .
 \]
 Sent once before $K$ symbols are coded, the message adds $B/K$ bits per symbol to the
-rate and nothing to the leakage, measured as $I(T^K;\tilde Q,M\mid S^K)$ for the code's
-message $M$ and the holder's observations $S^K$.
+rate. It carries no information about the source: for the code's message $M$ and the
+holder's observations $S^K$, $I(T^K;\tilde Q,M\mid S^K)=I(T^K;M\mid S^K,\tilde Q)$. So
+when the realized calibration is part of the code and known, as a code is, to every
+party, the leakage is that of the code designed for $\tilde Q$. In the series' form
+$\tfrac1KH(\tilde Q,M\mid S^K)$, which also counts the message's own entropy, it adds at
+most $B/K$ bits per symbol.
 \end{proposition}
 
 \begin{proof}
@@ -335,8 +347,13 @@ absolute value at most $s/2$, so $\|E\|\le\|E\|_F\le ps/2=(1-e_-)\lambda\varepsi
 compose with the event. The grid has $2N_q+1$ points and there are $p(p+1)/2$ entries.
 For the leakage, $\tilde Q$ is a function of the probe points and the consumer, which
 are independent of the source and of the holder's observations, so
-$I(T^K;\tilde Q\mid S^K)=0$ and $I(T^K;\tilde Q,M\mid S^K)=I(T^K;M\mid S^K,\tilde Q)$: the
-leakage of the code designed for the weight it is given.
+$I(T^K;\tilde Q\mid S^K)=0$ and $I(T^K;\tilde Q,M\mid S^K)=I(T^K;M\mid S^K,\tilde Q)$. Given
+$\tilde Q=q$ the code is deterministic, so $H(M\mid S^K,\tilde Q=q)=I(T^K;M\mid S^K,\tilde Q=q)$,
+the leakage of the code designed for $q$. Unconditionally,
+$H(\tilde Q,M\mid S^K)=H(\tilde Q)+H(M\mid S^K,\tilde Q)$ because $\tilde Q$ is independent of
+$S^K$, and $H(\tilde Q)\le B$. The same holds under (A3-i) with the probe points in place
+of $\tilde Q$: if the holder did not know them, the entropy form could exceed the
+designed leakage, while the conditional information could not.
 \end{proof}
 
 All results below are stated for the weight $\hat Q$ of Lemma~\ref{lem:est}. They hold
@@ -481,8 +498,11 @@ d_k(t,\hat x)=\E\bigl[\ell_{\mathcal C}(T,\hat x)\bigm|T_k=t\bigr]
 \]
 for the quantized source $T_k=q_k(T)$ and a reproduction letter $\hat x$. The
 quantization of the side information (Step~A), the bounds on rate and leakage in
-Step~B, and the diagonal argument (Step~C) do not involve the distortion. Step~B uses
-three properties of it, and each holds for $\ell_{\mathcal C}$.
+Step~B, and the diagonal argument in the first part of Step~C do not involve the
+distortion. The rest of Step~C, which identifies the region, is not needed here, and the
+proof's opening line, which derives $\E\|\hat Y\|^2<\infty$ from a finite quadratic
+distortion and $W\succ0$, is replaced by the hypothesis $\E\|\hat T\|^2<\infty$. Step~B
+uses three properties of the distortion, and each holds for $\ell_{\mathcal C}$.
 (1) The finite-alphabet code of \cite[Lemma~A]{part1} needs $d_k$ bounded on the finite
 alphabets. It is, because $\ell_{\mathcal C}(t,\hat x)\le M_1^2\|t-\hat x\|^2$, every cell
 has positive probability, and $T$ has finite second moments.
@@ -512,8 +532,8 @@ $\mathcal C$, not only on $Q$; Remark~\ref{rem:open} returns to this. Its errors
 be Gaussian: what transfers is the consumer loss, through the convergence in~(3).
 
 \begin{corollary}[Learn and certify without the lower sandwich]\label{cor:cert}
-In the setting of Theorem~\ref{thm:second}, suppose the encoder knows $\Sigma$, the
-constants $M_1,M_2,M_3$, and a $\nup$ with $\PC\preceq(1+\nup)Q$ (for instance
+In the setting of Theorem~\ref{thm:second}, suppose $Q\succ0$ and the encoder knows
+$\Sigma$, the constants $M_1,M_2,M_3$, and a $\nup$ with $\PC\preceq(1+\nup)Q$ (for instance
 $\nup=M_1^2/\lambda-1$ for an a priori $\lambda\le\lmin(Q)$), and let $\varepsilon_\pm$
 be those of Lemma~\ref{lem:est} with $\num=1$, $\emm<1$. Let $\bar\rho(D)$ be $\rho_b$
 with $s$ replaced by $D/\lmin(\hat Q)$, and suppose $\bar\rho(D)<D$. On the event of
@@ -559,8 +579,8 @@ $\bar\rho$.
 \begin{remark}[What remains open for codes]\label{rem:open}
 Three things. First, one code for a class: the codes of Theorem~\ref{thm:codes} are
 built for the consumer's surrogate distortion, so (A3) covers the test-channel design of
-Corollary~\ref{cor:cert}(a) but not the codes of (b), which need more of $\mathcal C$
-than $\hat Q$. A single code, chosen from $\hat Q$ and the constants, that serves every
+Corollary~\ref{cor:cert}(a), with the derivative bounds among the shared constants, but
+not the codes of (b), which need more of $\mathcal C$ than $\hat Q$. A single code, chosen from $\hat Q$ and the constants, that serves every
 consumer of the class would follow from a form of \cite[Lemma~A]{part1} that holds for
 all bounded distortions at once; a joint-typicality construction suggests such a form,
 and this note has not checked it. Second, the process settings
@@ -661,8 +681,10 @@ sources, for an encoder that is given $\hat Q$ and $\varepsilon_\pm$ but not the
 question of statistical lower bounds that this note does not treat. The approximation
 part $\tau_\nu$ remains with exact knowledge of $Q$ and bounds the price of the
 quadratic approximation from above. The test channels of the series do not pay its
-factor $1+\nup$ as $D\to0$ (Theorem~\ref{thm:second}), and in the memoryless setting
-neither do codes (Corollary~\ref{cor:cert}); its factor $1-\num$ is the converse's.
+factor $1+\nup$ as $D\to0$ (Theorem~\ref{thm:second}), and in the memoryless setting,
+for a consumer whose weighted map has three bounded derivatives, neither do codes built
+for that consumer (Corollary~\ref{cor:cert}, Remark~\ref{rem:open}); its factor
+$1-\num$ is the converse's.
 \end{itemize}
 \end{theorem}
 
@@ -743,10 +765,13 @@ $G\succ0$ so is $\mathcal C$. When $G$ is only semidefinite, $\mathcal C$ need n
 Lipschitz: $\mathcal C(x)=(x,x^2)$ on $\R$ with $G=\mathrm{diag}(1,0)$ has
 $\ell_{\mathcal C}(x,\hat x)=(\hat x-x)^2$, so (A1a) holds with $Q=1$ and $\nu_\pm=0$,
 while $x^2$ is not globally Lipschitz. The restrictions are on $g$. A bi-Lipschitz $g$
-excludes a ReLU without leak, an output metric of rank below $p$ (in particular a map to fewer than $p$ outputs), a softmax, polynomials of
-degree two or more (a globally Lipschitz polynomial is affine), and quantizers; for
-$G\succ0$ these exclusions are of $\mathcal C$ itself, and in directions $G$ does not see
-$\mathcal C$ is free. It admits leaky-ReLU layers with invertible weights, invertible
+excludes a square ReLU layer, which is not injective, an output metric of rank below $p$
+(in particular a map to fewer than $p$ outputs), a softmax, polynomials of degree two or
+more (a globally Lipschitz polynomial is affine), and quantizers; for $G\succ0$ these
+exclusions are of $\mathcal C$ itself, and the part of $\mathcal C$ in the kernel of $G$ is
+free. An expanding ReLU layer can satisfy (A1): applied componentwise,
+$g(x)=(\mathrm{ReLU}(x),\mathrm{ReLU}(-x))$ has $\PC=I$, and (A1a) holds with $Q=I$,
+$\num=1/2$, and $\nup=0$, so $\tau_\nu=p/2$ bits per symbol. It admits leaky-ReLU layers with invertible weights, invertible
 residual blocks $x+f(x)$ with $\mathrm{Lip}(f)<1$, and monotone maps with derivative in
 $[a,b]$, $a>0$. Even then $\tau_\nu$ is small only for nearly linear consumers: a
 componentwise leaky ReLU of slope $a$ under a symmetric $\pi$ has
@@ -861,7 +886,7 @@ sources: Water-filling on a tilted weight,'' manuscript IT-26-1911, under review
 its coding theorem, proved in its Appendix~A with Lemma~A there.
 \bibitem{part2} A. H. Bond, ``Rate, leakage, and distortion for stationary
 Gaussian sources: Water-filling on a tilted spectrum,'' manuscript, 2026,
-tag \texttt{tit-stationary-1.3}.
+tag \texttt{tit-stationary-1.4}.
 \bibitem{part3} A. H. Bond, ``Rate, leakage, and distortion beyond
 stationary Gaussian sources: Water-filling over time and frequency,''
 manuscript, 2026, tag \texttt{tit-beyond-stationary-1.3}.

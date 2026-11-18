@@ -1,0 +1,22 @@
+=== Theorem 5 with M_j of g = G^{1/2} C (grid sups: lower estimates, stringent) ===
+(a) G=diag(1,1,0), C=(x1+.3sin x2, x2+.2sin x1, x1^2): M1=1.2512 M2=0.3000 M3=0.3000
+    24 cases over 4 Sigmas: violations=0; min rho/|excess|=152.61; rho_b<rho_f in 23/24
+(b) G=[[2,1,0],[1,1,0],[0,0,1]], C=(tanh(x1+.5x2), sin x2, .5x1): M1=2.0926 M2=1.6161 M3=4.0217
+    24 cases over 4 Sigmas: violations=0; min rho/|excess|=94.29; rho_b<rho_f in 14/24
+(c) G=vv^T, v=(1,2), C=(cos x1, sin x2 + x1): M1=3.6052 M2=2.0000 M3=2.0000
+    24 cases over 4 Sigmas: violations=0; min rho/|excess|=86.85; rho_b<rho_f in 22/24
+(d) softmax(Wx), G=I: M1=0.6573 M2=0.4719 M3=1.1386
+    24 cases over 4 Sigmas: violations=0; min rho/|excess|=186.21; rho_b<rho_f in 16/24
+GH accuracy spot check (b): E l with 26 vs 34 nodes: 0.334714610058 vs 0.334714582291
+(a) vs its g alone: E l = 0.465488467950 vs 0.465488467950
+
+=== Corollary 8(a): loss <= D for every test channel with tr(Qhat Dhat) <= Dhat ===
+(a) G=diag(1,1,0), C=(x1+.3sin x2, x2+.2sin x1, x1^2): M=(1.251,0.300,0.300) eig(Q)=[0.6866532  1.39760808]
+    certified (D, Qhat) pairs: 54; max E l / D over adversarial test channels = 0.9964 (must be <= 1)
+    V_Qhat(a,Dhat) <= V_Q(a,D) + taubar: 9/9 hold
+(e) G=[[1.5,.5],[.5,1]], C=(x1+.1sin x2, x2+.1sin x1+.3x1): M=(1.660,0.122,0.122) eig(Q)=[0.45062611 2.63023465]
+    certified (D, Qhat) pairs: 45; max E l / D over adversarial test channels = 0.9951 (must be <= 1)
+    V_Qhat(a,Dhat) <= V_Q(a,D) + taubar: 9/9 hold
+(d) softmax(Wx), G=I: M=(0.657,0.472,1.139) eig(Q)=[0.03751696 0.13518769]
+    certified (D, Qhat) pairs: 15; max E l / D over adversarial test channels = 0.8296 (must be <= 1)
+    V_Qhat(a,Dhat) <= V_Q(a,D) + taubar: 0/0 hold

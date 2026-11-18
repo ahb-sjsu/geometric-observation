@@ -1,0 +1,14 @@
+=== (A) column-error constants ===
+g=x^3, h=0.5: max column error 0.25, M3 h^2/6 = 0.25
+g=x|x|/2 at 0, h=0.5: column error 0.25, M2 h/2 = 0.25
+g=x^3, h=0.1: max column error 0.01, M3 h^2/6 = 0.01
+g=x|x|/2 at 0, h=0.1: column error 0.05, M2 h/2 = 0.05
+g=x^3, h=0.01: max column error 0.0001, M3 h^2/6 = 0.0001
+g=x|x|/2 at 0, h=0.01: column error 0.005, M2 h/2 = 0.005
+
+=== (B) operator-norm bound with queries of C and Phat = Jhat^T G Jhat ===
+1798 (consumer, x, h) cases: max ||Phat-P|| / bound = 0.9954 (must be <= 1, up to round-off at tiny h)
+||B|| / (sqrt(p) beta): max 1.000, median 0.056
+
+=== (C) Qhat_h - Qhat between -eps_h Q and +eps_h Q ===
+120 cases: violations 0; max observed |eig(Q^-1/2 (Qhat_h-Qhat) Q^-1/2)| / eps_h = 0.5249
