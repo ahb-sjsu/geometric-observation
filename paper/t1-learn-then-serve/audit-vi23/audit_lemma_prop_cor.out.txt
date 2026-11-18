@@ -1,0 +1,29 @@
+A beta=0.05: nu+=0.0621 nu-=0.1640 eps+=0.0532 eps-=0.0611 v2=0.0914 t+=0.0509 t-=0.0552
+A beta=0.2: nu+=0.2334 nu-=0.5220 eps+=0.1855 eps-=0.2077 v2=0.2908 t+=0.1768 t-=0.1888
+B nu+=0.25 nu-=0.5 p=3 m=8: coverage 1.0000 (need >= 0.9)
+B nu+=0.9 nu-=0.9 p=3 m=16: coverage 1.0000 (need >= 0.9)
+B nu+=2.0 nu-=0.3 p=4 m=32: coverage 1.0000 (need >= 0.9)
+B nu+=5.0 nu-=1.0 p=3 m=64: coverage 0.9993 (need >= 0.9)
+B nu+=0.05 nu-=1.0 p=2 m=4: coverage 1.0000 (need >= 0.9)
+C p=1: 20000 cases, violations of note bound 0, of sharpened (c-1) bound 0; deficit/sharpened-term in [0.031,1.000]
+C p=2: 36 cases; own solver vs spectral_core max |diff| = 1.18e-06; note-bound violations 0; sharpened-bound violations 0
+   a=0.800 b=1.250 alpha=0.0 frac=1.000 gap=0.48808 up=0.64386 lo_note=-0.84097 lo_sharp=0.10932
+   a=0.800 b=1.250 alpha=0.0 frac=0.300 gap=0.57943 up=0.64386 lo_note=0.19841 lo_sharp=0.48350
+   a=0.800 b=1.250 alpha=0.0 frac=0.050 gap=0.63105 up=0.64386 lo_note=0.56962 lo_sharp=0.61713
+   a=0.800 b=1.250 alpha=0.0 frac=0.005 gap=0.64252 up=0.64386 lo_note=0.63643 lo_sharp=0.64118
+   a=0.800 b=1.250 alpha=0.3 frac=1.000 gap=0.53249 up=0.64386 lo_note=-0.39552 lo_sharp=0.26968
+   a=0.800 b=1.250 alpha=0.3 frac=0.300 gap=0.59815 up=0.64386 lo_note=0.33204 lo_sharp=0.53160
+   a=0.800 b=1.250 alpha=0.3 frac=0.050 gap=0.63486 up=0.64386 lo_note=0.59189 lo_sharp=0.62515
+   a=0.800 b=1.250 alpha=0.3 frac=0.005 gap=0.64292 up=0.64386 lo_note=0.63866 lo_sharp=0.64199
+   a=0.800 b=1.250 alpha=1.0 frac=1.000 gap=0.64386 up=0.64386 lo_note=0.64386 lo_sharp=0.64386
+   a=0.800 b=1.250 alpha=1.0 frac=0.300 gap=0.64386 up=0.64386 lo_note=0.64386 lo_sharp=0.64386
+   a=0.800 b=1.250 alpha=1.0 frac=0.050 gap=0.64386 up=0.64386 lo_note=0.64386 lo_sharp=0.64386
+   a=0.800 b=1.250 alpha=1.0 frac=0.005 gap=0.64386 up=0.64386 lo_note=0.64386 lo_sharp=0.64386
+E Cor 5: max tau_eps/eta over 2e5 random cases = 0.9522
+E tanh(ln2 x) >= 0.6 x on (0,1]: min ratio 1.000000; tanh(ln2)=0.600000000000
+F softmax W: rank=2, dist(1/sqrt3, range W)=0.1973; min eig P on circles [(0.0, np.float64(0.00020277550268925013)), (1.0, np.float64(8.182043973241349e-05)), (5.0, np.float64(2.7311020428126337e-08)), (20.0, np.float64(-2.9116757561866574e-22)), (60.0, np.float64(-1.6263032587282567e-19))]
+G leaky a=0.01: nu=0.9998, tau_nu/p=6.6439, log2(1/a)=6.6439
+G leaky a=0.2: nu=0.9231, tau_nu/p=2.3219, log2(1/a)=2.3219
+G circle Delta=0.01: MC E(2-2cos d)=0.00999  formula=0.00998
+G circle Delta=0.3: MC E(2-2cos d)=0.27910  formula=0.27858
+G circle Delta=2.0: MC E(2-2cos d)=1.26452  formula=1.26424

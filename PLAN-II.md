@@ -88,18 +88,25 @@ Ranked by (reachability × operational closure):
   finite-rate visibility scales with the omitted direction's weight, so ε(n, π)
   must carry the rate-regime dependence, not principal angles alone. Completes
   §V → Appendix-mismatch into a pipeline theorem; ISIT-sized on its own.
-  *Status 2026-11-17:* proof sketch in the relative-sandwich regime
-  (`paper/t1-learn-then-serve`, `[exploratory]`, audited VI-22): matrix
-  Bernstein on exact read metrics at m probes gives relative error
-  ε_m ∝ ν√(ln p/m), and the RLD series' coding theorems (with leakage, not only
-  rate) carry it to a gap τ = (p/2)log[(1+ν₊)(1+ε_m)/((1−ν₋)(1−ε_m))]
-  bits/symbol in each cost. The sandwich constants must be known a priori, and
-  the regime is near-linear consumers only (globally bi-Lipschitz for Gaussian
-  sources). Low rank with a fixed kernel extends in RLD I–III. Not yet done: a
-  moving kernel and an estimated range (Davis–Kahan + principal angles +
-  leakage), saturating losses and read metrics not bounded below (softmax),
-  finite-difference noise constants (the noise bias needs a paired estimator),
-  consumers that read across dependent symbols. The
+  *Status 2026-11-17 (note v3, `paper/t1-learn-then-serve`, `[exploratory]`,
+  audited VI-22 and VI-23):* one proposition organizes it — a loss between a and
+  b times a known quadratic form costs at most (p/2)log(b/a) bits/symbol in rate
+  and leakage — and learning and approximation multiply into a and b. One-sided
+  matrix Bernstein with a Bhatia–Davis variance gives
+  ε± = √(2ν₊ν₋L/m) + 2ν±L/(3m) (the lower half needs no a priori constant), and
+  the series' coding theorems carry it to τ = τ_ν + τ_ε,
+  τ_ε = (p/2)log[(1+ε₊)/(1−ε₋)]. τ_ε is sharp for an encoder that knows only the
+  confidence event; τ_ν, the sandwich's looseness, is not paid by the Gaussian
+  test channels of RLD I, whose consumer loss is tr(QΔ) + O((tr Δ)²) for any
+  consumer with three bounded derivatives (softmax and saturating losses
+  included), so a learner with derivative bounds can certify a test channel.
+  The operational theorem still needs the a priori sandwich (near-linear
+  consumers). Low rank with a fixed kernel extends in RLD I–III. Not yet done:
+  whether operational codes avoid τ_ν, statistical lower bounds beyond the
+  confidence-set model, a moving kernel and an estimated range (Davis–Kahan +
+  principal angles + leakage), noise constants for unbounded finite-difference
+  noise (the paired estimator removes the bias), consumers that read across
+  dependent symbols. The
   end-to-end worked result is drafted for registration
   ([`drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md`](drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md)),
   unsealed and unnumbered.

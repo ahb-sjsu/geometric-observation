@@ -11,6 +11,52 @@ session, and rewritten as needed, before it is sealed; it then takes the next fr
 `GO-P-2026-NNN` (092 at the time of writing) and moves to `prereg/`. No governed
 measurement may be run before the sealing commit exists.
 
+## For the cold reread: the T1 note moved to version 3 (2026-11-17)
+
+The text below was written against version 2 of the note. Version 3
+(`paper/t1-learn-then-serve`, checks `verify_t1_v3.py`, audit ledger VI-23) changes
+what this registration can test. The instruments still implement version 2. Nothing
+below has been run on the registered instance; the numbers are closed forms.
+
+1. **Numbering.** Version 2's Theorem 2 is now Theorem 3, and Lemma 1 keeps its number.
+   "The sketch's Theorem 2" below means Theorem 3.
+2. **A sharper Lemma 1.** The constant ε_m = ν(√(2L/m) + 2L/(3m)) is replaced by two
+   one-sided constants, ε± = √(2ν₊ν₋L/m) + 2ν±L/(3m). Both are at most ε_m, so version
+   2's bar is implied by version 3's. The reread chooses one of two options:
+   - keep H1 at ε_m, which tests the weaker statement and needs no change to the
+     instrument; or
+   - set H1 at ε± (upper tail ≤ ε₊, lower tail ≤ ε₋), the stronger and more falsifiable
+     test. Then `t1_worked_result.py` must change `eps_m` to the pair, use
+     D̂ = D(1 − ε₋)/(1 + ν₊), and use τ = (p/2)log₂[(1+ν₊)(1+ε₊)/((1−ν₋)(1−ε₋))].
+   The power statement for H1 is unchanged: each seed still fails with probability at
+   most δ. The H4 robustness check needed ε ≤ 0.3 in every H4 cell, and ε± are smaller.
+   Under ε±, τ at m = 8 / 32 / 128 / 512 would be:
+   - S(β = 0.05): 0.733 / 0.511 / 0.421 / 0.382 bits, against 0.954 / 0.610 / 0.468 / 0.404;
+   - S(β = 0.2): 2.846 / 1.948 / 1.631 / 1.493 bits, against 3.664 / 2.231 / 1.760 / 1.556.
+3. **A new prediction for H2's quantity.** Theorem 6 bounds the Gaussian test channel's
+   consumer loss for any C³ consumer, with no sandwich and with π equal to the source
+   law: |E loss − tr(QΔ)| ≤ ρ(Δ) = min{ρ_b, ρ_f}, explicit and of order (tr Δ)². H2 as drafted
+   only checks loss ≤ D. A candidate H5 is that, on every seed and α, the Monte Carlo
+   loss of the learned design satisfies |loss − tr(QΔ̂)| ≤ ρ(Δ̂) + 4 SE. This is a theorem
+   consequence and needs no power analysis beyond Monte Carlo error. The note's own
+   checks found ρ conservative by a factor of at least 30, so the bar would be loose.
+   A sharper test is the exact second-order coefficient c₂ in Remark 7. For the
+   componentwise arm S it is negative (−¼E[C″²]Δ² per coordinate), but the note
+   records it as formal, not proved.
+4. **Arm B now has a theorem.** The registered matrix W leaves the all-ones vector
+   outside its range (the note's check C7, which is algebraic and measures nothing).
+   So Q ≻ 0 and Theorem 6 applies to the softmax read-out. Turning that into a bar needs
+   bounds M₁, M₂, M₃ for softmax(Wx), which neither the note nor the instrument
+   computes. Otherwise arm B stays report-only. **Disclosure:** the v3 audit (VI-23)
+   computed arm B's Q on the registered instance, with eigenvalues (1.97×10⁻⁴, 0.0689).
+   That is a property of the instance, not an outcome, and arm B has no bars. But it
+   means any certificate for arm B would be weak, and the plug-in design's behaviour
+   along the weak direction is what the report-only arm will show.
+5. **What H3 measures.** τ's looseness part τ_ν is now known not to be paid by the test
+   channels as D → 0 (Theorem 6). H3's reported "looseness part" is therefore expected
+   to be large next to the realized gap, and Remark 7 of the note explains why. The
+   learning part τ_ε is sharp only in the knowledge model of Proposition 4.
+
 ## What it would show
 
 The complete chain from an observer to an achievable resource limit: (1) recover the
