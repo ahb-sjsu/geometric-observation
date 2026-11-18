@@ -318,7 +318,20 @@ nothing else. It has no side information. The holder sees the message
 $M$ and its own observation $S$, and it does not reconstruct anything.
 The leakage is what the message tells the holder about the source
 beyond $S$. This is not the arrangement of Wyner and Ziv, in which the
-observation is at the decoder.
+observation is at the decoder. Fig.~\ref{fig:model} shows the three
+parties.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.92\linewidth]{fig_model.pdf}
+\caption{The three parties. The encoder sees the source and nothing
+else. The decoder sees the message $M$ and nothing else, and reproduces
+$Y_t=FT_t$ under the weighted distortion. The holder sees $M$ and its
+own observation $S_t$, a filtered copy of the source in noise, and
+reconstructs nothing. The rate is the decoder's cost and the leakage
+$\tfrac1NH(M\mid S^N)$ is the holder's, for a block of $N$ symbols.}
+\label{fig:model}
+\end{figure}
 
 The assumptions are used as follows. Positive definiteness of
 $\Sigma_U$ defines $J$ and keeps the leakage finite. A holder that sees
@@ -688,10 +701,44 @@ error spectrum as follows. A direction with $q_i(\omega)=0$ does not
 enter the distortion and has $x_i(\omega)=1$. This case occurs because
 $Q=F^{\mathsf T}WF$ may be rank deficient. Where $q_i(\omega)>0$,
 $x_i(\omega)=\min\{1,\xi_i(\omega)\}$ with $\xi_i$ the positive root of
-$\theta q_ij_ix^2+(\theta q_i-\alpha j_i)x-1=0$ and $\theta=2\nu$
-($\xi_i=1/(\theta q_i)$ when $j_i=0$), and the direction is described at
+$2\nu q_ij_ix^2+(2\nu q_i-\alpha j_i)x-1=0$
+($\xi_i=1/(2\nu q_i)$ when $j_i=0$), and the direction is described at
 that frequency exactly when
-$\theta>(1+\alpha j_i(\omega))/(q_i(\omega)(1+j_i(\omega)))$.
+$2\nu>(1+\alpha j_i(\omega))/(q_i(\omega)(1+j_i(\omega)))$.
+
+For a scalar source with spectrum $S(\omega)$ and $Q=1$, observed by the
+holder through a filter $H$ in noise of spectrum $S_U$, this reads as
+water-filling. Then $q(\omega)=S(\omega)$ and
+$j(\omega)=|H(\omega)|^2S(\omega)/S_U(\omega)$, the tilt of
+\eqref{eq:tilt} is $(1-\alpha)j/(1+jx)$, and $\Phi(a)=\min\{1,1/a\}$, so
+\eqref{eq:spectral} gives the error spectrum
+\begin{equation}
+S(\omega)x(\omega)=\min\bigl\{S(\omega),\lambda(\omega)\bigr\},\qquad
+\lambda(\omega)=\Bigl(2\nu+\frac{(1-\alpha)\,j(\omega)}{S(\omega)\bigl(1+j(\omega)x(\omega)\bigr)}\Bigr)^{-1}.
+\label{eq:surface}
+\end{equation}
+At $\alpha=1$ the surface $\lambda$ is the flat level $1/(2\nu)$ of
+Kolmogorov's formula. For $\alpha<1$ it is lowered where the holder's
+information $j$ is large, so the description moves toward the
+frequencies that the holder already observes well (Fig.~\ref{fig:waterfill}).
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.92\linewidth]{fig_waterfill.pdf}
+\caption{Water-filling on a tilted spectrum, \eqref{eq:surface}, for the
+source $S(\omega)=(1-a^2)/|1-ae^{-i\omega}|^2$ with $a=1/2$, observed by
+the holder through $H(\omega)=(1-e^{-2i\omega})/2$ in white noise of
+spectrum $S_U=0.02$, at $D=0.6\,D_{\max}$. Shaded: the error spectrum.
+(a) $\alpha=1$: the surface is the flat level $1/(2\nu)$, and the
+frequencies below about $1.23$ are described. (b) $\alpha=0$, at the same
+budget: the surface is lowered where the holder's information $j(\omega)$
+is large. The description is withdrawn from the lowest frequencies,
+which the holder barely observes, and extended over the band it
+observes well. The rate-optimal description leaks $0.048$ bits per
+symbol, $2.5$ times the minimum $0.019$, and the leakage-optimal one has
+rate $0.311$, $1.5$ times the minimum $0.206$.}
+\label{fig:waterfill}
+\end{figure}
 
 \section{A Scalar Process with a Scalar Context}
 \label{sec:pair}
@@ -2685,8 +2732,8 @@ scripts, their recorded outputs, and a notebook that reruns them are in
 the public repository
 \texttt{https://github.com/ahb-sjsu/geometric-observation}, directory
 \texttt{paper/tit-stationary}. The files that go with this version of
-the manuscript are fixed by the tag \texttt{tit-stationary-1.3}, at
-\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.3/paper/tit-stationary},
+the manuscript are fixed by the tag \texttt{tit-stationary-1.4}, at
+\url{https://github.com/ahb-sjsu/geometric-observation/tree/tit-stationary-1.4/paper/tit-stationary},
 and archived with the manuscript at \url{https://doi.org/10.5281/zenodo.24329941}.
 No proof depends on them.
 

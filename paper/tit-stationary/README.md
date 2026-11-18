@@ -44,13 +44,15 @@ The results are the GO-12 material (`../go12-process-region.tex`, preregistratio
 
 | File | What it is |
 |---|---|
-| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 30 pp) |
+| `tit-stationary.tex` / `.pdf` | the manuscript (IEEEtran, one column, 31 pp) |
 | `supplement-ot.tex` / `.pdf` | Observation Theory companion, on the pattern of `../tit-rate-leakage/supplement-ot.tex` |
 | `spectral_core.py` | costs and one solver (the water-filling iteration of [1, Prop. 11] with a bisection on the level); numpy only |
 | `verify_spectral.py` | nine checks, fixed seed 20261113; writes `verify_spectral.json` |
 | `verify_spectral-2026-11-13.txt` | recorded output: 9 passed, 0 failed, 499 s |
-| `plot_bands.py`, `fig_bands.pdf/.png` | Fig. 1 |
-| `sweep_bands.py`, `sweep_bands.json`, `sweep_bands-2026-11-13.txt` | Table II: the disjoint-bands instance across budgets (about 12 minutes) |
+| `fig_model.tex`, `fig_model.pdf` | Fig. 1, the three parties (TikZ, standalone; `pdflatex fig_model.tex`) |
+| `plot_waterfill.py`, `fig_waterfill.pdf/.png` | Fig. 2 and equation (8), water-filling on a tilted spectrum for a scalar source; the script checks the closed form against `spectral_core.solve` (agreement 4e-12) before drawing |
+| `plot_bands.py`, `fig_bands.pdf/.png` | Fig. 3 (Fig. 1 until 2026-11-18) |
+| `sweep_bands.py`, `sweep_bands.json`, `sweep_bands-2026-11-13.txt` | Table I: the disjoint-bands instance across budgets (about 12 minutes) |
 | `verify_achievability.py`, `.json`, `verify_achievability-2026-11-14.txt` | covariance steps of the proof of Theorem 16 on Gaussian stand-ins, four instances including the general decomposition and a source of infinite memory (about a minute; the fourth instance imports `spectral_core`); not a check of the coding theorem. The 2026-11-13 record of the first two instances is kept |
 | `verify_filter.py`, `.json`, `verify_filter-2026-11-14.txt` | five checks of steps of the proof of Theorem 20 for a causal two-tap filter in white noise, seed 20261116 (about three minutes); colored noise is not exercised |
 | `verify_filter_colored.py`, `.json`, `verify_filter_colored-2026-11-14.txt` | six checks of steps of the proof of Theorem 20 for a two-sided three-tap filter and moving-average noise, seed 20261117 (about three minutes, run on Atlas): 6 passed. |
@@ -78,7 +80,9 @@ python verify_filter_chains.py                 # under a second
 python verify_filter_lemma.py                  # about a minute
 python verify_iir.py                           # a few seconds
 python verify_whole.py                         # a few seconds
-python plot_bands.py                           # Fig. 1 from verify_spectral.json
+python plot_bands.py                           # Fig. 3 from verify_spectral.json
+python plot_waterfill.py                       # Fig. 2; checks the closed form against spectral_core.solve
+pdflatex fig_model.tex                         # Fig. 1
 python build_notebook.py
 jupyter nbconvert --to notebook --execute reproduce.ipynb --output reproduce-executed.ipynb
 pdflatex tit-stationary.tex   (three times)
@@ -296,8 +300,8 @@ Prepared on the owner's instruction. **Nothing is submitted, and the author has 
 
 | File | What it is |
 |---|---|
-| `submission/tit-stationary.pdf` | the manuscript, 30 pages single column, running head "IEEE Transactions on Information Theory" |
-| `submission/tit-stationary-latex.zip` | `tit-stationary.tex`, `IEEEtran.cls` (V1.8b), `fig_bands.pdf`. ASCII-only source. Compiled in a clean folder holding only these three files: 30 pages, no errors, no undefined references, no overfull lines |
+| `submission/tit-stationary.pdf` | the manuscript, 31 pages single column, running head "IEEE Transactions on Information Theory" |
+| `submission/tit-stationary-latex.zip` | `tit-stationary.tex`, `IEEEtran.cls` (V1.8b), `fig_model.pdf`, `fig_waterfill.pdf`, `fig_bands.pdf`. ASCII-only source. Compiled in a clean folder holding only these five files: 31 pages, no errors, no undefined references, no overfull lines |
 | `submission/supplement-ot.pdf` | the Observation Theory companion, 4 pages, optional reading |
 | `submission/cover-letter-tit.pdf` | the cover letter, 2 pages |
 | `submission/codeocean/` | files for a Code Ocean capsule on the pattern of paper one's (`code/run`, the scripts, the Lean module, recorded outputs, a Dockerfile). **Not tracked in git**, as paper one's is not. The capsule itself is created by the owner on Code Ocean |
@@ -306,9 +310,9 @@ Before submitting:
 
 - Read the proofs. Every referee pass so far was by a model.
 - Decide the two marked sentences of the cover letter (the request for the Associate Editor of paper one; the sentence on IT-26-0996), and set its date.
-- If a Code Ocean capsule or a Zenodo deposit is made, add its DOI to the cover letter and the appendix, rebuild, and refresh this folder. *Done 2026-11-17 for Zenodo:* DOI `10.5281/zenodo.24329941` (draft deposit 24329941, reserved, **not yet published; the owner publishes it**, after which the DOI resolves), in the appendix and the cover letter, with the tag `tit-stationary-1.3`.
+- If a Code Ocean capsule or a Zenodo deposit is made, add its DOI to the cover letter and the appendix, rebuild, and refresh this folder. *Done 2026-11-17 for Zenodo:* DOI `10.5281/zenodo.24329941` (draft deposit 24329941, reserved, **not yet published; the owner publishes it**, after which the DOI resolves), in the appendix and the cover letter, with the tag `tit-stationary-1.3`. *2026-11-18:* the tag is now `tit-stationary-1.4` (Figs. 1 and 2); the DOI is unchanged, and the draft's files were replaced.
 - Enter an ORCID in the submission system.
-- Open the link printed in the cover letter in a private window and confirm it shows the tag `tit-stationary-1.3` (it was `1.2` until 2026-11-17).
+- Open the link printed in the cover letter in a private window and confirm it shows the tag `tit-stationary-1.4` (it was `1.3` until 2026-11-18 and `1.2` until 2026-11-17).
 
 ## An outside reader's three notes, 2026-11-14
 
@@ -322,7 +326,7 @@ The submission files were rebuilt: the manuscript PDF and source zip of this pap
 
 ## Open items before submission
 
-- [x] Pin the code. Done by tag: the appendix and the cover letter now cite `tit-stationary-1.3` (2026-11-17; `1.2` before), and the Zenodo DOI `10.5281/zenodo.24329941`, reserved on a draft that the owner publishes (see the item above). Until 2026-11-17 a Zenodo deposit was not made. The record of how this stood earlier follows. In progress 2026-11-14: the appendix on numerical checks cites the tag `tit-stationary-1.0` and its tree path, on the pattern of `tit-cr-context-1.x`. The tag and a GitHub release are created on the merge commit that contains that text. **A Zenodo deposit is not made**: the earlier Zenodo records of this repository were deposited by the owner (release 1.6 of the other paper has no deposit, so they are not automatic), and depositing needs the owner's Zenodo account. When a DOI exists, add it to the appendix beside the tag.
+- [x] Pin the code. Done by tag: the appendix and the cover letter now cite `tit-stationary-1.4` (2026-11-18; `1.3` from 2026-11-17, `1.2` before), and the Zenodo DOI `10.5281/zenodo.24329941`, reserved on a draft that the owner publishes (see the item above). Until 2026-11-17 a Zenodo deposit was not made. The record of how this stood earlier follows. In progress 2026-11-14: the appendix on numerical checks cites the tag `tit-stationary-1.0` and its tree path, on the pattern of `tit-cr-context-1.x`. The tag and a GitHub release are created on the merge commit that contains that text. **A Zenodo deposit is not made**: the earlier Zenodo records of this repository were deposited by the owner (release 1.6 of the other paper has no deposit, so they are not automatic), and depositing needs the owner's Zenodo account. When a DOI exists, add it to the appendix beside the tag.
 - [ ] Decide whether to move the proofs of Lemmas 11 to 14 out of the body (30 pages now).
 
 - [x] Read Gutierrez-Gutierrez, Zarraga-Rodriguez, Insausti, Entropy 19(10):554 (2017), and compare with Theorem 15(b) at alpha = 1 (done 2026-11-14, see above).
@@ -372,3 +376,13 @@ On the owner's instruction ("create DOI, add it to paper and new tag, then cover
 - A Zenodo **draft** deposit was created through the API (id 24329941) with the reserved DOI `10.5281/zenodo.24329941`, on the pattern of paper one's record (preprint, CC BY 4.0, ORCID on the creator, related identifiers to the tagged folder and to paper one's DOI). It is **not published**: the DOI resolves only after the owner publishes the draft, which should happen before or at submission.
 - The appendix on numerical checks and the cover letter now cite the tag `tit-stationary-1.3` and the DOI. The tag is cut on the commit that contains this text. Nothing else in the manuscript changed, so its pages and numbering are as at `1.2`; the scripts and recorded outputs are identical at `1.1`, `1.2` and `1.3`.
 - The deposit holds the manuscript PDF, the companion PDF, and a sources zip built from the tag (this folder without the cover letter and the `submission/` copies, plus the Lean module `lean/ObservationTheory/SpectralRateLeakage.lean`).
+
+## Figures 1 and 2, a notation fix, and tag 1.4, 2026-11-18
+
+On the owner's instruction (draft the two figures; then "fix the theta clash and finalize the figures"):
+
+- **Fig. 1** (Section II, after "Three parties appear") is a block diagram of the three parties: source, encoder, decoder, and the holder, which sees the message and its filtered, noisy observation and reconstructs nothing. Drawn in TikZ as a standalone file, `fig_model.tex`, and included as `fig_model.pdf`.
+- **Fig. 2** (Section IV, after the commuting case) draws water-filling on a tilted spectrum. A new paragraph and equation (8) rewrite (6) for a scalar source exactly as the error spectrum min{S(w), lambda(w)} under a surface lambda that is the flat level 1/(2 nu) at alpha = 1 and is lowered where the holder's information j(w) is large. The figure's instance is illustrative (an AR(1) source, a band-pass holder filter, D = 0.6 D_max); `plot_waterfill.py` checks the closed form against `spectral_core.solve` before drawing. The old Fig. 1 is now Fig. 3.
+- **Notation.** Section IV used theta for 1/(2 nu) in Kolmogorov's formula and for 2 nu two paragraphs later. The second now reads 2 nu, so theta means 1/(2 nu) throughout. No statement changed.
+- Equation (8) is new, so the equations after it are renumbered by one. Nothing outside this paper cites an equation number of it (checked in papers three and four, the T1 note, and the companion). Theorem, lemma, and proposition numbers are unchanged, so the cover letter and the companion stand.
+- The appendix and the cover letter cite the tag `tit-stationary-1.4`; the Zenodo draft 24329941 (DOI unchanged, still unpublished) holds the new PDF and a sources zip built from the tag; the Code Ocean capsule's README names the new tag.

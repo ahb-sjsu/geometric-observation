@@ -1,4 +1,4 @@
-"""Fig. 1: distortion allocations of the rate-optimal and leakage-optimal
+"""Fig. 3: distortion allocations of the rate-optimal and leakage-optimal
 descriptions for the disjoint-bands instance.  Reads verify_spectral.json
 (written by verify_spectral.py); writes fig_bands.pdf and fig_bands.png."""
 import json
