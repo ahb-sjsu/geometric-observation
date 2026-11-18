@@ -88,8 +88,17 @@ Ranked by (reachability × operational closure):
   finite-rate visibility scales with the omitted direction's weight, so ε(n, π)
   must carry the rate-regime dependence, not principal angles alone. Completes
   §V → Appendix-mismatch into a pipeline theorem; ISIT-sized on its own.
-  *Status 2026-11-17 (note v3, `paper/t1-learn-then-serve`, `[exploratory]`,
-  audited VI-22 and VI-23):* one proposition organizes it — a loss between a and
+  *Status 2026-11-17 (note v4, `paper/t1-learn-then-serve`, `[exploratory]`;
+  v3 audited VI-22 and VI-23, v4 not yet audited).* Version 4, after the owner's
+  review, puts the test-channel results first: for RLD I and any consumer with three
+  bounded derivatives the test channel's consumer loss is tr(QΔ) + O((tr Δ)²), and
+  codes achieve the test channel's rate, leakage and consumer loss (Theorem 7, by the
+  owner's suggested route through RLD I's Appendix A), so a learned weight is
+  certified for codes, not only for test channels. It also bounds the
+  finite-difference error (O(h²), deterministic), states the calibration protocol
+  (shared probes, or a one-time message of O(p² log(pκ/ε_q)) bits that leaks
+  nothing), and states the sandwich's Lipschitz consequences for G^{1/2}C. For the
+  sandwich class, one proposition organizes it — a loss between a and
   b times a known quadratic form costs at most (p/2)log(b/a) bits/symbol in rate
   and leakage — and learning and approximation multiply into a and b. One-sided
   matrix Bernstein with a Bhatia–Davis variance gives
@@ -100,9 +109,10 @@ Ranked by (reachability × operational closure):
   test channels of RLD I, whose consumer loss is tr(QΔ) + O((tr Δ)²) for any
   consumer with three bounded derivatives (softmax and saturating losses
   included), so a learner with derivative bounds can certify a test channel.
-  The operational theorem still needs the a priori sandwich (near-linear
-  consumers). Low rank with a fixed kernel extends in RLD I–III. Not yet done:
-  whether operational codes avoid τ_ν, statistical lower bounds beyond the
+  The converse still needs the a priori sandwich (near-linear consumers). Low rank
+  with a fixed kernel extends in RLD I–III. Not yet done: one code chosen from Q̂
+  that serves every consumer of a class (the codes of Theorem 7 depend on the
+  consumer), codes in the process settings RLD II–IV, statistical lower bounds beyond the
   confidence-set model, a moving kernel and an estimated range (Davis–Kahan +
   principal angles + leakage), noise constants for unbounded finite-difference
   noise (the paired estimator removes the bias), consumers that read across

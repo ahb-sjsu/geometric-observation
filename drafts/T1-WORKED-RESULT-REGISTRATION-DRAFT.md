@@ -57,6 +57,36 @@ below has been run on the registered instance; the numbers are closed forms.
    to be large next to the realized gap, and Remark 7 of the note explains why. The
    learning part τ_ε is sharp only in the knowledge model of Proposition 4.
 
+## For the cold reread: the T1 note moved to version 4 (2026-11-17)
+
+Version 4 applies the owner's review of versions 2 and 3. The instruments are
+unchanged and still implement version 2; nothing has been run on the registered
+instance.
+
+1. **Numbering.** Version 3 to version 4: Lemma 1 stays Lemma 1; Corollary 5 is
+   Corollary 3; Theorem 6 is Theorem 5; Remark 7 is Remark 6; Corollary 8 stays
+   Corollary 8; Proposition 2 is Proposition 10; Theorem 3 is Theorem 11;
+   Proposition 4 is Proposition 12. In the version-3 section above, read "Theorem 6"
+   as Theorem 5, "Remark 7" as Remark 6, and "Proposition 4" as Proposition 12. "The
+   sketch's Theorem 2" (version 2) is Theorem 11.
+2. **Finite differences.** The instrument takes Jacobians by central differences with
+   h = 1e-4 and noiseless outputs (arms L, S, B). Proposition 2 now bounds the error:
+   each column is off by at most M₃h²/6, which adds a deterministic ε_h to ε±. At
+   h = 1e-4 this is a few times 1e-9 relative to Q for the registered sine consumers, far
+   below ε±, so H1's bars are unaffected; the reread may cite Proposition 2 instead of
+   treating the differences as exact. Arm R's paired estimator is Remark 17.
+3. **Codes, not only test channels.** Theorem 7 shows that in RLD I codes achieve the
+   test channel's rate, leakage and consumer loss, so Corollary 8's certificate is
+   operational. The registration measures single-letter test channels, so its
+   hypotheses are unchanged, but H2 and H3 no longer describe an unproved gap between
+   test channels and codes in RLD I. The codes of Theorem 7 depend on the consumer
+   (Remark 9).
+4. **Calibration.** Assumption (A3) states the protocol. In the instrument, encoder
+   and decoder are one simulation, which is the shared calibration (A3-i): nothing is
+   communicated or counted.
+5. **Semidefinite G.** The Lipschitz statements are now for G^{1/2}C. Every registered
+   arm has G ≻ 0, so nothing changes for them.
+
 ## What it would show
 
 The complete chain from an observer to an achievable resource limit: (1) recover the
