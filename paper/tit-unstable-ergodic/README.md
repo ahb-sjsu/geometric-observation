@@ -7,9 +7,9 @@ the end of paper three.
 
 **Status (2026-11-16, evening): working draft, 24 pages. Not submitted, no
 venue chosen.** The folder name and the title are provisional; title,
-venue and authorship are the owner's decisions. No human has read any of
-it. All proofs were drafted by Claude models; every referee pass recorded
-below was made by a model.
+venue and authorship are the owner's decisions. All proofs were drafted by
+Claude models, and every referee pass recorded below was made by a model; the
+author has since read all the proofs (the author's statement, 2026-11-18).
 
 Numbering changed on 2026-11-16 (evening). Theorems 10 and 11 and Lemma
 12 are new; the old Theorem 10, Proposition 11, Corollary 12, Lemma 13,
@@ -368,7 +368,7 @@ instruction: paper one (under review).
 - [ ] Poles on the unit circle for vector sources or holders with memory.
 - [ ] Decide on the non-Gaussian part.
 - [ ] Verify the references marked in the source.
-- [ ] A human reading of every proof.
+- [x] A human reading of every proof: the author has read all the proofs (the author's statement, 2026-11-18).
 
 ## Build
 

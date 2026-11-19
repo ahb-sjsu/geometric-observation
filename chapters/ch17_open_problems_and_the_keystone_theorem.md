@@ -62,7 +62,7 @@ costs $2pm$ consumer queries by central differences, whose error of order $h^2$ 
 $\varepsilon_\pm$; a decoder that does not probe can be sent $\hat Q$ once in
 $O(p^2\log(p\kappa/\varepsilon_q))$ bits that carry no information about the source. Three
 fresh-context audits (ledger VI-22 to VI-24) found errors in remarks and wording only, all
-corrected, and the author has read versions 2 and 3. Read operators of lower rank with a
+corrected, and the author has read all its proofs (2026-11-18). Read operators of lower rank with a
 kernel that does not move are covered in RLD I–III. Still open, and still the heart of the
 original statement: one code, chosen from $\hat Q$ alone, that serves every consumer of a
 class; codes in the process settings of RLD II–IV; a converse without the sandwich; a kernel

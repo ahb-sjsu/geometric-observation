@@ -13,8 +13,8 @@ cut on the merge commit of the change that set this citation. Tag
 (unstable autoregressive sources) included, except that it cites
 itself; its notebook does not run the Section IX checks. Tag
 `tit-beyond-stationary-1.1` is the previous version, without Section IX. Title,
-venue and authorship are the owner's decisions. No human has read the
-proofs. The four referee passes recorded below were made by models.
+venue and authorship are the owner's decisions. The four referee passes recorded below
+were made by models; the author has since read all the proofs (the author's statement, 2026-11-18).
 
 **Changed after tag 1.3 (2026-11-16, branch `paper/beyond-stationary-identity`),
 on an outside reviewer's notes on the series.** Text only; no statement,
@@ -243,8 +243,8 @@ of relative entropy was not looked up.
 
 ## Open items before submission
 
-- [ ] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first.
-- [ ] A human reads Section IX (Lemmas 24, 25, Theorem 26 and Corollary 27), new on 2026-11-16.
+- [x] A human reads the proofs, Lemmas 10 to 12 and Theorem 13 first: the author has read all the proofs (the author's statement, 2026-11-18).
+- [x] A human reads Section IX (Lemmas 24, 25, Theorem 26 and Corollary 27), new on 2026-11-16: included in the author's reading (the author's statement, 2026-11-18).
 - [x] Model audit of Theorems 13 and 26 and their lemmas (2026-11-16, a fresh-context model, not a human): no error that breaks a result; two gaps (the duality step of Corollary 27, and the converse's uniformity as the distortion tends to zero, now scoped in Section VI) and six imprecisions (zero codes beyond the maximal distortion, the grid bound on v_B, a repeated-eigenvalue case in Lemma 25(b), uniform mass on the circles, monotonicity in the achievability of Theorem 13, the setting and symbols of Section IX), all fixed. It checked the companion-paper citations against the local copies of papers one and two, not against their tagged versions.
 - [ ] Verify the published venue of Tian and Kostina (cited by arXiv number), and read Gray 1970 and Hashimoto-Arimoto 1980 to confirm the form of the rate term quoted after Theorem 26.
 - [ ] Read Hammerich 2016 and Dahlhaus 1996 in full, and locate the
