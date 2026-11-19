@@ -2,8 +2,10 @@
 """T1 arm R: the real consumer. Learn a Llama attention head's read operator from black-box
 bfloat16 score queries, and serve keys described for the learned operator.
 
-Optional, report-only arm of the T1 registration (drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md;
-theory: paper/t1-learn-then-serve). There are no bars.
+Report-only arm of the T1 registration (drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md; theory:
+the T1 note, paper/t1-learn-then-serve, version 4.1). There are no bars. Under the registration
+the governed instance runs once after the seal (owner, 2026-11-18). v1.1 (2026-11-18): the
+governed analysis checks the instrument hashes recorded in the prereg (cold reread, finding B6).
 
 THE CONSUMER
   Symbols are the post-RoPE key vectors k in R^d of one KV head of unsloth/Llama-3.2-3B
@@ -13,9 +15,10 @@ THE CONSUMER
       C(k) = Q k / sqrt(d),   computed in bfloat16 on the GPU,   output metric G = (d/n) I.
 
   So the read operator is P = Q^T Q / n, as the GO-P-2026-027 harness computes it. C is
-  linear, so (A1) holds with nu = 0, and in exact arithmetic one probe point would recover P.
-  The black box returns bfloat16 scores of bfloat16 inputs, so every Jacobian carries
-  rounding noise. That is what this arm measures.
+  linear, so in exact arithmetic (A1) holds with nu = 0 and one probe point would recover P.
+  The black box returns bfloat16 scores of bfloat16 inputs, so it is a noisy consumer in the
+  sense of the note's Remark 17, and every Jacobian carries rounding noise. That is what this
+  arm measures.
 
 PROBING (on Atlas GPU 1)
   Probe points are keys drawn uniformly with replacement from the source keys of the head
@@ -28,13 +31,14 @@ PROBING (on Atlas GPU 1)
 
   Two estimators:
   - plain: mean of J1^T G J1, costing 2d queries per point;
-  - paired (T1 Remark "finite differences"): mean of sym(J1^T G J2) with an independent
+  - paired (the note's Remark 17): mean of sym(J1^T G J2) with an independent
     second basis, costing 4d queries per point. It removes the noise bias E[N^T G N] when
     the two noises are independent. A fixed rounding rule is deterministic, so this
     independence comes only from the random bases. Whether it is enough is part of what
     the arm reports.
 
-  Each estimator is saved at the probe counts m in `ms`, for several seeds.
+  Each estimator is saved at the probe counts m in `ms`, for several seeds. Within a seed the
+  probe sets are nested: each m uses a prefix of one draw of max(ms) points.
 
 DESCRIPTION AND SERVING (local CPU)
   Source law: the head's keys. mu is their mean and Sigma = Cov + 1e-6 I (the GO-027
@@ -55,11 +59,13 @@ DESCRIPTION AND SERVING (local CPU)
 
   Reported for each design:
   - tr(P Delta), and the realized read error on the keys;
-  - the leakage, as the Gaussian upper bound (RLD III: the Gaussian frontier with the keys'
-    covariance is achievable for them);
+  - the leakage given by the Gaussian formula for the design (the frontier for a Gaussian
+    source with the keys' covariance; RLD-III.3, an [exploratory] ledger row, makes that
+    region achievable for a memoryless non-Gaussian source). It is not the leakage of the
+    forward channel actually applied to the keys;
   - the softmax divergence KL(softmax(Q K^T / sqrt d) || softmax(Q K_hat^T / sqrt d)),
-    taken over the row-0 queries and keys. The draws are common random numbers across
-    designs.
+    taken over the row-0 queries and keys, with a full (non-causal) softmax of the 768
+    queries over the 256 keys. The draws are common random numbers across designs.
 
 COMMANDS
   On Atlas, GPU 1 only, CPUs pinned away from CPU 0, thermally throttled:
@@ -71,10 +77,12 @@ COMMANDS
     python experiments/t1_arm_r_llama.py analyze --capture gov.npz --governed --prereg <file>
 
   The governed analysis refuses unless all of these hold:
-  - the prereg passes the guard of t1_worked_result.check_governed, naming both T1 scripts;
+  - the prereg passes the guard of t1_worked_result.check_governed, naming both T1 scripts
+    (which also checks that both scripts and the solver match the hashes recorded in the
+    prereg's `instruments_sha256:` block);
   - the capture recorded that prereg's sha256;
-  - the capture was made by the committed version of this script (the hash is taken over
-    the text, with line endings normalized);
+  - the capture was made by the sealed version of this script: its recorded script hash (taken
+    over the text, with line endings normalized) equals the prereg's recorded hash;
   - the capture's UTC time is later than the prereg's commit.
   The smoke instance (layer 12, its own text and seeds) is the only one that may run
   before the seal.
@@ -95,7 +103,7 @@ import numpy as np
 
 MODEL = "unsloth/Llama-3.2-3B"
 SCRIPT_REL = "experiments/t1_arm_r_llama.py"
-VERSION = "1.0"
+VERSION = "1.1"
 
 SMOKE_TEXT = (
     "The survey crew left the harbour before dawn and followed the coast north for three days. "
@@ -306,8 +314,8 @@ def analyze(args):
         problems = []
         if meta.get("sealed") != seal["sha256"]:
             problems.append("the capture did not record this prereg's sha256")
-        if meta.get("script_sha256") != text_sha256(root / SCRIPT_REL):
-            problems.append("the capture was not made by the committed version of this script")
+        if meta.get("script_sha256") != seal["instruments_sha256"].get(SCRIPT_REL):
+            problems.append("the capture was not made by the sealed version of this script")
         ct = t1._git("log", "-1", "--format=%cI", "--", seal["path"]).stdout.strip()
         if not ct or dt.datetime.fromisoformat(meta["capture_utc"]) <= dt.datetime.fromisoformat(ct):
             problems.append(f"the capture ({meta['capture_utc']}) does not postdate the prereg commit ({ct})")

@@ -120,7 +120,10 @@ Ranked by (reachability × operational closure):
   dependent symbols. The
   end-to-end worked result is drafted for registration
   ([`drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md`](drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md)),
-  unsealed and unnumbered.
+  unsealed and unnumbered. Its cold reread (2026-11-18,
+  [`drafts/T1-COLD-REREAD-2026-11-18.md`](drafts/T1-COLD-REREAD-2026-11-18.md)) found that no gating
+  bar can fail with a correct instrument; it is rewritten as a governed verification of proved
+  results (at most `[demonstrated]`) and awaits the owner's read before sealing.
 - **T2 — Consumer-relative channel coding (the §VI dual).** Define the
   observation channel and prove the capacity theorem that turns the
   extreme-value vacuity threshold into an operational limit — the missing

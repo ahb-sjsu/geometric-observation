@@ -2,51 +2,70 @@
 """T1 worked result: learn a consumer's read operator, pay for the probing, serve it,
 and bound the downstream loss against the rate-leakage-distortion (RLD) frontier.
 
-Instrument for the registration drafted in drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md
-(to be sealed as GO-P-2026-NNN). Theory: paper/t1-learn-then-serve (Lemma 1, Theorem 2).
-Solver: paper/tit-stationary/spectral_core.py, one block, which is the memoryless Gaussian
-vector setting of RLD I: whitened error covariance 0 < X <= I, rate -1/2 log2 det X,
-leakage I(T; Xhat | S), distortion tr(Qt X) = tr(Q Delta).
+Instrument v1.1 for the registration drafted in drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md
+(to be sealed as GO-P-2026-NNN). Theory: the T1 note, paper/t1-learn-then-serve, version 4.1
+(Lemma 1, Proposition 2, Theorem 11(b)). Solver: paper/tit-stationary/spectral_core.py, one
+block, which is the memoryless Gaussian vector setting of RLD I: whitened error covariance
+0 < X <= I, rate -1/2 log2 det X, leakage I(T; Xhat | S), distortion tr(Qt X) = tr(Q Delta).
+v1.1 (2026-11-18) applies the cold reread of the registration: H1 is one-sided with
+Proposition 2's eps_h, H4 needs 14 of 20 seeds, the gates are split into instrument gates and
+physics gates, the probing overhead counts the decoder's queries, and the seal guard checks
+the instrument hashes recorded in the prereg.
 
 MODES
   --smoke
-      Runs the smoke instance the registration names (p = 3, Sigma = I, beta = 0.1, with
-      its own seeds). It is a different instance from the registered one and produces no
-      governed number. This is the only mode that may run before the seal.
+      Runs the smoke instance (p = 3, Sigma = I, beta = 0.1, with its own seeds). It is a
+      different instance from the registered one and produces no governed number. This is
+      the only mode that may run before the seal.
   --governed --prereg prereg/GO-P-2026-NNN-....md [--verify-only]
       Runs the registered instance. It refuses unless all of these hold:
         - the prereg file is tracked by git and unmodified against HEAD;
         - it says `status: SEALED`;
-        - its sha256 verifies by the rule of scripts/seal.py;
+        - its sha256 verifies by the rule of scripts/seal.py (so a prereg amended after
+          sealing is refused: under the registration, an amendment before the run takes
+          a new registration number);
         - its `governs:` line names this script;
-        - this script is tracked by git and unmodified against HEAD.
+        - its `instruments_sha256:` block records the text sha256 (line endings
+          normalized) of this script and of the solver, and every file it lists has
+          exactly that hash now;
+        - this script and the solver are tracked by git and unmodified against HEAD.
       --verify-only runs these checks and exits without measuring.
 
 WHAT IS MEASURED (per arm, probe count m, seed)
   Probing. m points x_i ~ pi = N(0, Sigma). The Jacobian at each point is taken by central
-  differences, which costs 2p consumer queries. Then Qhat = mean_i J^T G J.
-  H1. Relative error ||Q^{-1/2} Qhat Q^{-1/2} - I||_2 against eps_m = nu (sqrt(2L/m) +
-      2L/(3m)), with L = ln(2p/delta) and nu = max(nu-, nu+) known in advance. For arm L,
-      nu = 0, so the bar is exact recovery to tol_L.
+  differences, which costs 2p consumer queries (Proposition 2). Then Qhat = mean_i J^T G J.
+  Under shared calibration (A3-i) the decoder repeats the probing, so a session of K
+  symbols costs 4pm/K queries per symbol.
+  H1. With M = Q^{-1/2} Qhat Q^{-1/2}: lambda_max(M) - 1 <= eps_+ + eps_h and
+      1 - lambda_min(M) <= eps_- + eps_h, where eps_pm = sqrt(2 nu+ nu- L/m) + 2 nu_pm L/(3m),
+      L = ln(2p/delta) (Lemma 1), and eps_h is Proposition 2's finite-difference term from
+      the derivative bounds M1, M2, M3 of g = G^{1/2} C. For arm L, nu = 0 and eps_h = 0,
+      so the bar is exact recovery to tol_L. At least h1_min of n_seeds seeds per cell.
   H2. On the seeds where the H1 event holds, the Gaussian test channel built for Qhat at
-      Dhat = D (1 - eps_m) / (1 + nu+), at weight alpha. Its Monte Carlo consumer loss
-      must be at most D (1 + h2_rel) + h2_se * SE.
+      Dhat = D (1 - eps_- - eps_h) / (1 + nu+), at weight alpha. Its Monte Carlo consumer
+      loss must be at most D (1 + h2_rel) + h2_se * SE. Recorded with it: tr(Q Delta_hat),
+      tr(Qhat Delta_hat), and loss / tr(Q Delta_hat) (Theorem 5's quantity, no bar).
   H3. On the same seeds, its weighted cost alpha R + (1 - alpha) L must be at most
       V_Q(alpha, D / (1 - nu-)) + tau + h3_tol, with
-      tau = (p/2) log2[(1 + nu+)(1 + eps_m) / ((1 - nu-)(1 - eps_m))].
+      tau = (p/2) log2[(1 + nu+)(1 + eps_+ + eps_h) / ((1 - nu-)(1 - eps_- - eps_h))].
   H4. At alpha = 1 and matched rate R_h4, compare the consumer quadratic distortion
       tr(Q Delta) of the design for Qhat against the reconstruction design (water-filling
       on Sigma). The reduction must be at least half the closed-form reduction for the
       true Q, in at least h4_min seeds per cell.
-  Control (shuffled consumer). The design for P Qhat P^T, with P reversing the coordinates,
-      must FAIL the H4 criterion in every cell.
-  Arm B (softmax read-out). It fails (A1), so there are no bars. The arm applies the
+  Control (shuffled estimate). The design for P Qhat P^T, with P reversing the coordinates,
+      must miss the H4 criterion in every cell.
+  Arm B (softmax read-out). It fails (A1a), so there are no bars. The arm applies the
       recipe with plug-in Dhat = D and reports.
-  Arm R (the real Llama attention-score consumer) is NOT implemented here. It is optional
-      in the registration, needs the owner's GPU go-ahead, and would be a separate
-      instrument.
+  Arm R (the real Llama attention-score consumer) is the separate instrument
+      experiments/t1_arm_r_llama.py.
 
-SELF-CHECKS (instrument errors, not bars). They run in both modes:
+GATES (fixed by the registration before the run)
+  Instrument gates, a miss voids the run: SC1-SC3 below; arm L in full (H1 exact, H2, H3,
+  H4); the shuffled control; the seal guard. Physics gates, a miss refutes: H1-H4 on the
+  arms S. The verdict is "VOID: ..." if an instrument gate misses, else "ALL PASS" or
+  "MISS: ...".
+
+SELF-CHECKS (instrument gates). They run in both modes:
   SC1. The rate-R water-filling matches the series' solver at alpha = 1.
   SC2. The held-out sandwich ratios lie inside the a priori (nu-, nu+) for arms L and S.
   SC3. The closed form of Q for arm S matches a Monte Carlo average of the analytic
@@ -74,7 +93,8 @@ sys.path.insert(0, str(ROOT / "paper" / "tit-stationary"))
 import spectral_core as sc  # noqa: E402
 
 SCRIPT_REL = "experiments/t1_worked_result.py"
-VERSION = "1.0"
+SOLVER_REL = "paper/tit-stationary/spectral_core.py"
+VERSION = "1.1"
 
 # ----------------------------------------------------------------------------- instances
 GOVERNED = dict(
@@ -87,7 +107,7 @@ GOVERNED = dict(
     D_frac=0.3,                         # D = D_frac * tr(Q Sigma)
     delta=0.1,
     ms=[8, 32, 128, 512], h4_ms=[32, 128, 512],
-    n_seeds=20, h1_min=14, h4_min=18,
+    n_seeds=20, h1_min=14, h4_min=14,
     n_mc=200_000, h2_rel=0.005, h2_se=4.0, h3_tol=1e-6, tol_L=1e-6,
     R_h4=2.0, fd_step=1e-4, n_pairs=10_000, n_Qmc=1_000_000,
     base_seed=20261117,
@@ -136,6 +156,19 @@ def rel_err(Qh, Q):
     return float(np.linalg.norm(sym(Mi @ Qh @ Mi) - np.eye(len(Q)), 2))
 
 
+def rel_errs(Qh, Q):
+    """(spectral error, upper error lambda_max(M) - 1, lower error 1 - lambda_min(M)) for
+    M = Q^{-1/2} Qhat Q^{-1/2}; the one-sided errors may be negative."""
+    Mi = minv_sqrt(Q)
+    w = np.linalg.eigvalsh(sym(Mi @ Qh @ Mi))
+    return float(max(abs(w[-1] - 1), abs(1 - w[0]))), float(w[-1] - 1), float(1 - w[0])
+
+
+def text_sha256(path):
+    """sha256 of a file's text with line endings normalized (the rule of t1_arm_r_llama.py)."""
+    return hashlib.sha256(Path(path).read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+
+
 def rng_for(inst, arm, beta, *rest):
     return np.random.default_rng([inst["base_seed"], ARM_CODE[arm], int(round(1e4 * beta)), *rest])
 
@@ -172,6 +205,14 @@ class Arm:
             self.nu_minus = float(1 - np.min((1 - b) ** 2 / qs))
             self.nu_plus = float(np.max((1 + b) ** 2 / qs) - 1)
             self.Q_se = 0.0
+            # derivative bounds of g = G^{1/2} C, g_i = sqrt(G_i)(x_i + b sin x_i): the j-linear
+            # maps are diagonal, so their operator norms are the largest diagonal entries
+            rg = float(np.max(np.sqrt(np.array(inst["G"], float))))
+            self.M1, self.M2, self.M3 = rg * (1 + b), rg * b, rg * b
+            # Proposition 2: column error beta_fd, then eps_h relative to lambda_min(Q)
+            h = inst["fd_step"]
+            bfd = min(self.M2 * h / 2, self.M3 * h ** 2 / 6)
+            self.eps_h = float((2 * self.M1 * np.sqrt(p) * bfd + p * bfd ** 2) / np.linalg.eigvalsh(self.Q)[0])
         else:
             k = inst["B_k"]
             W = np.random.default_rng(inst["B_W_seed"]).standard_normal((k, p))
@@ -180,6 +221,7 @@ class Arm:
             self.f = lambda X: softmax(X @ self.W.T)
             self.Q, self.Q_se = self._mc_Q_softmax(np.random.default_rng([inst["base_seed"], 3, 0, 0, 0, 6]))
             self.nu_minus = self.nu_plus = None
+            self.M1 = self.M2 = self.M3 = self.eps_h = None
 
     def jac_analytic(self, X):
         if self.kind in ("L", "S"):
@@ -266,9 +308,12 @@ class Coder:
 
 
 # ----------------------------------------------------------------------------- the run
-def eps_m(nu, m, p, delta):
+def eps_pm(nu_minus, nu_plus, m, p, delta):
+    """Lemma 1 (v4.1): eps_pm = sqrt(2 nu+ nu- L/m) + 2 nu_pm L/(3m), L = ln(2p/delta).
+    Returns (eps_plus, eps_minus)."""
     L = np.log(2 * p / delta)
-    return float(nu * (np.sqrt(2 * L / m) + 2 * L / (3 * m)))
+    root = np.sqrt(2 * nu_plus * nu_minus * L / m)
+    return float(root + 2 * nu_plus * L / (3 * m)), float(root + 2 * nu_minus * L / (3 * m))
 
 
 def run_arm(arm, inst, coder):
@@ -278,7 +323,8 @@ def run_arm(arm, inst, coder):
     D = inst["D_frac"] * Dmax
     bar = arm.kind in ("L", "S")
     rec = dict(arm=arm.label, Q=Q.tolist(), Q_mc_se=arm.Q_se, D_max=Dmax, D=D,
-               nu_minus=arm.nu_minus, nu_plus=arm.nu_plus)
+               nu_minus=arm.nu_minus, nu_plus=arm.nu_plus,
+               M1=arm.M1, M2=arm.M2, M3=arm.M3, eps_h=arm.eps_h)
     P = np.eye(p)[::-1]
 
     # held-out sandwich ratios: 'pairs' of independent draws from pi (reported, never a bar)
@@ -289,7 +335,7 @@ def run_arm(arm, inst, coder):
     r = arm.loss(xb, xa) / np.einsum("ni,ij,nj->n", d, Q, d)
     rec["nu_hat_minus"], rec["nu_hat_plus"] = float(1 - r.min()), float(r.max() - 1)
 
-    # reference designs for the true Q (no bars): outer bound of Thm 2(a) and the full-budget design
+    # reference designs for the true Q (no bars): outer bound of Theorem 11(a) and the full-budget design
     nu = max(arm.nu_minus, arm.nu_plus) if bar else None
     ref = {}
     for ai, a in enumerate(alphas):
@@ -314,14 +360,23 @@ def run_arm(arm, inst, coder):
 
     cells = {}
     for m in inst["ms"]:
-        e = eps_m(nu, m, p, inst["delta"]) if bar else None
-        tau = (p / 2) * np.log2((1 + arm.nu_plus) * (1 + e) / ((1 - arm.nu_minus) * (1 - e))) if bar else None
-        Dhat = D * (1 - e) / (1 + arm.nu_plus) if bar else D
-        cell = dict(m=m, eps_m=e, tau=tau, tau_looseness=(p / 2) * np.log2((1 + arm.nu_plus) / (1 - arm.nu_minus)) if bar else None,
-                    D_hat=Dhat, queries=2 * p * m, probe_overhead_per_symbol=2 * p * m / inst["K_serve"],
-                    rel_err=[], h1_event=[], per_alpha={str(a): dict(loss=[], se=[], loss_over_D=[], h2_ok=[], cost=[],
-                                                                       h3_bound=None, h3_ok=[], gap_to_full_design=[])
-                                                         for a in alphas},
+        if bar:
+            ep, em = eps_pm(arm.nu_minus, arm.nu_plus, m, p, inst["delta"])
+            up, lo = ep + arm.eps_h, em + arm.eps_h      # Proposition 2 adds eps_h to both sides
+            tau = (p / 2) * np.log2((1 + arm.nu_plus) * (1 + up) / ((1 - arm.nu_minus) * (1 - lo)))
+            Dhat = D * (1 - lo) / (1 + arm.nu_plus)
+        else:
+            ep = em = up = lo = tau = None
+            Dhat = D
+        cell = dict(m=m, eps_plus=ep, eps_minus=em, eps_h=arm.eps_h, h1_upper=up, h1_lower=lo, tau=tau,
+                    tau_looseness=(p / 2) * np.log2((1 + arm.nu_plus) / (1 - arm.nu_minus)) if bar else None,
+                    D_hat=Dhat, queries_learner=2 * p * m, queries_session_A3i=4 * p * m,
+                    probe_overhead_per_symbol=4 * p * m / inst["K_serve"],
+                    rel_err=[], err_upper=[], err_lower=[], h1_event=[],
+                    per_alpha={str(a): dict(loss=[], se=[], loss_over_D=[], h2_ok=[], cost=[],
+                                            trQ_Delta=[], trQhat_Delta=[], loss_over_trQ_Delta=[],
+                                            h3_bound=None, h3_ok=[], gap_to_full_design=[])
+                               for a in alphas},
                     h4=dict(reduction=[], ok=[], shuffled_reduction=[], shuffled_ok=[], loss_Qhat_mc=[], loss_rec_mc=[])
                     if m in inst["h4_ms"] else None)
         if bar:
@@ -330,21 +385,33 @@ def run_arm(arm, inst, coder):
         for s in range(inst["n_seeds"]):
             X = coder.sample_N(rng_for(inst, arm.kind, arm.beta, m, s, 1), m, coder.Sig)
             Qh = fd_Qhat(arm, X, inst["fd_step"])
-            err = rel_err(Qh, Q)
-            ev = (err <= (e if nu > 0 else inst["tol_L"])) if bar else None
+            err, e_up, e_lo = rel_errs(Qh, Q)
+            if not bar:
+                ev = None
+            elif nu > 0:
+                ev = bool(e_up <= up and e_lo <= lo)
+            else:
+                ev = bool(err <= inst["tol_L"])
             cell["rel_err"].append(err)
+            cell["err_upper"].append(e_up)
+            cell["err_lower"].append(e_lo)
             cell["h1_event"].append(ev)
             for ai, a in enumerate(alphas):
                 pa = cell["per_alpha"][str(a)]
                 if bar and not ev:
-                    for key in ("loss", "se", "loss_over_D", "h2_ok", "cost", "h3_ok", "gap_to_full_design"):
+                    for key in ("loss", "se", "loss_over_D", "h2_ok", "cost", "h3_ok", "gap_to_full_design",
+                                "trQ_Delta", "trQhat_Delta", "loss_over_trQ_Delta"):
                         pa[key].append(None)
                     continue
                 des = coder.design(Qh, a, Dhat)
                 ml, se = coder.mc_loss(arm, des["Delta"], inst["n_mc"], rng_for(inst, arm.kind, arm.beta, m, s, 2, ai))
+                tq = float(np.trace(Q @ des["Delta"]))
                 pa["loss"].append(ml)
                 pa["se"].append(se)
                 pa["loss_over_D"].append(ml / D)
+                pa["trQ_Delta"].append(tq)
+                pa["trQhat_Delta"].append(float(np.trace(Qh @ des["Delta"])))
+                pa["loss_over_trQ_Delta"].append(ml / tq)
                 pa["cost"].append(des["cost"])
                 pa["gap_to_full_design"].append(des["cost"] - ref[a]["V_full"])
                 pa["h2_ok"].append(bool(ml <= D * (1 + inst["h2_rel"]) + inst["h2_se"] * se) if bar else None)
@@ -410,27 +477,42 @@ def self_checks(arms, inst, coder):
 
 def verdict(recs, checks, inst):
     bar = [r for r in recs if r["nu_minus"] is not None]
-    h1 = all(c["h1_pass"] for r in bar for c in r["cells"].values())
-    h2v = [ok for r in bar for c in r["cells"].values() for pa in c["per_alpha"].values() for ok in pa["h2_ok"] if ok is not None]
-    h3v = [ok for r in bar for c in r["cells"].values() for pa in c["per_alpha"].values() for ok in pa["h3_ok"] if ok is not None]
     h4c = [c["h4"] for r in bar for c in r["cells"].values() if c["h4"] is not None]
     sc2 = all(r["nu_hat_minus"] <= r["nu_minus"] + 1e-9 and r["nu_hat_plus"] <= r["nu_plus"] + 1e-9 for r in bar)
     checks["SC2_sandwich_contains_heldout"] = dict(ok=sc2, rows=[dict(arm=r["arm"], nu_hat_minus=r["nu_hat_minus"],
                                                                      nu_hat_plus=r["nu_hat_plus"]) for r in bar])
-    instrument_ok = all(v["ok"] for v in checks.values())
-    v = dict(
-        H1=h1,
-        H2=all(h2v), H2_tests=len(h2v), H2_failures=int(len(h2v) - sum(h2v)),
-        H3=all(h3v), H3_tests=len(h3v), H3_failures=int(len(h3v) - sum(h3v)),
-        H4=all(c["pass"] for c in h4c),
-        control_shuffled=all(c["shuffled_fails_as_required"] for c in h4c),
-        control_armL_exact=all(all(c["h1_event"]) for r in bar if r["arm"] == "L" for c in r["cells"].values()),
-        instrument_self_checks=instrument_ok,
+    sc_ok = all(v["ok"] for v in checks.values())
+
+    def hyp(rows):
+        """H1-H4 over the given arm records, with test and failure counts for H2 and H3."""
+        h2v = [ok for r in rows for c in r["cells"].values() for pa in c["per_alpha"].values() for ok in pa["h2_ok"] if ok is not None]
+        h3v = [ok for r in rows for c in r["cells"].values() for pa in c["per_alpha"].values() for ok in pa["h3_ok"] if ok is not None]
+        h4c = [c["h4"] for r in rows for c in r["cells"].values() if c["h4"] is not None]
+        return dict(H1=all(c["h1_pass"] for r in rows for c in r["cells"].values()),
+                    H2=all(h2v), H2_tests=len(h2v), H2_failures=int(len(h2v) - sum(h2v)),
+                    H3=all(h3v), H3_tests=len(h3v), H3_failures=int(len(h3v) - sum(h3v)),
+                    H4=all(c["pass"] for c in h4c))
+
+    armL = [r for r in bar if r["arm"] == "L"]
+    armS = [r for r in bar if r["arm"] != "L"]
+    hl, hs = hyp(armL), hyp(armS)
+    # instrument gates: a miss voids the run (the seal guard is enforced before anything runs)
+    inst_gates = dict(
+        self_checks_SC1_SC3=sc_ok,
+        armL_exact_recovery=all(all(c["h1_event"]) for r in armL for c in r["cells"].values()),
+        armL_H2=hl["H2"], armL_H3=hl["H3"], armL_H4=hl["H4"],
+        shuffled_control_misses_H4=all(c["shuffled_fails_as_required"] for c in h4c),
     )
-    keys = ("H1", "H2", "H3", "H4", "control_shuffled", "control_armL_exact")
-    v["all_pass"] = instrument_ok and all(v[k] for k in keys)
-    v["summary"] = "INSTRUMENT ERROR (self-check failed)" if not instrument_ok else (
-        "ALL PASS" if v["all_pass"] else "MISS: " + ", ".join(k for k in keys if not v[k]))
+    # physics gates: a miss refutes, on the arms S
+    phys_gates = {f"armS_{k}": hs[k] for k in ("H1", "H2", "H3", "H4")}
+    v = dict(instrument_gates=inst_gates, physics_gates=phys_gates,
+             armS_H2_tests=hs["H2_tests"], armS_H2_failures=hs["H2_failures"],
+             armS_H3_tests=hs["H3_tests"], armS_H3_failures=hs["H3_failures"],
+             armL_H2_tests=hl["H2_tests"], armL_H3_tests=hl["H3_tests"])
+    void = [k for k, ok in inst_gates.items() if not ok]
+    miss = [k for k, ok in phys_gates.items() if not ok]
+    v["all_pass"] = not void and not miss
+    v["summary"] = ("VOID: " + ", ".join(void)) if void else ("ALL PASS" if not miss else "MISS: " + ", ".join(miss))
     return v
 
 
@@ -439,9 +521,27 @@ def _git(*args):
     return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True)
 
 
+def recorded_hashes(text):
+    """The `instruments_sha256:` block of a prereg: {repo-relative path: 64-hex text sha256}.
+    The block is the indented lines after the key; comment lines are skipped. None if absent.
+    (The values are bare hex, so seal.py's `hash: sha256:` pattern never matches them.)"""
+    m = re.search(r"^instruments_sha256:[^\n]*\n((?:[ \t]+[^\n]*(?:\n|$))*)", text, re.M)
+    if not m:
+        return None
+    out = {}
+    for line in m.group(1).splitlines():
+        mm = re.match(r"[ \t]+([^\s#:]+):[ \t]*([0-9a-f]{64})\b", line)
+        if mm:
+            out[mm.group(1)] = mm.group(2)
+    return out
+
+
 def check_governed(prereg, scripts=(SCRIPT_REL,)):
-    """Refuse unless `prereg` is a committed, unmodified, SEALED prereg whose hash verifies and whose
-    `governs:` line (before any comment) names every script in `scripts`, each committed and unmodified."""
+    """Refuse unless `prereg` is a committed, unmodified, SEALED prereg whose hash verifies, whose
+    `governs:` line (before any comment) names every script in `scripts`, and whose
+    `instruments_sha256:` block records every script in `scripts` and the solver, with every file
+    it lists matching its recorded text sha256 now; and every script and the solver are committed
+    and unmodified. A prereg amended after sealing fails the hash check and is refused."""
     pr = Path(prereg).resolve()
     if not pr.is_file() or ROOT not in pr.parents:
         raise SystemExit(f"refusing the governed run: {prereg} is not a file inside {ROOT}")
@@ -458,14 +558,28 @@ def check_governed(prereg, scripts=(SCRIPT_REL,)):
     digest = hashlib.sha256(re.sub(r"hash:\s*sha256:\S*", "hash: sha256:", text).encode("utf-8")).hexdigest()
     if not mh or mh.group(1) != digest:
         problems.append("sha256 does not verify")
-    for path in (rel, *scripts):
+    rec = recorded_hashes(text)
+    files = (*scripts, SOLVER_REL)
+    if rec is None:
+        problems.append("no `instruments_sha256:` block")
+        rec = {}
+    for f in files:
+        if f not in rec:
+            problems.append(f"`instruments_sha256:` does not record {f}")
+    for f, hx in rec.items():
+        fp = ROOT / f
+        if not fp.is_file():
+            problems.append(f"{f} (recorded in `instruments_sha256:`) does not exist")
+        elif text_sha256(fp) != hx:
+            problems.append(f"{f} does not match its recorded sha256")
+    for path in (rel, *files):
         if _git("ls-files", "--error-unmatch", path).returncode != 0:
             problems.append(f"{path} is not tracked by git")
         elif _git("diff", "--quiet", "HEAD", "--", path).returncode != 0:
             problems.append(f"{path} differs from HEAD")
     if problems:
         raise SystemExit("refusing the governed run: " + "; ".join(problems))
-    return dict(path=rel, sha256=digest)
+    return dict(path=rel, sha256=digest, instruments_sha256=rec)
 
 
 # ----------------------------------------------------------------------------- main
@@ -498,11 +612,12 @@ def main():
     recs = [run_arm(arm, inst, coder) for arm in arms]
     v = verdict(recs, checks, inst)
     head = _git("rev-parse", "HEAD").stdout.strip()
-    dirty = _git("diff", "--quiet", "HEAD", "--", SCRIPT_REL).returncode != 0
+    dirty = _git("diff", "--quiet", "HEAD", "--", SCRIPT_REL, SOLVER_REL).returncode != 0
     out = dict(instrument=SCRIPT_REL, version=VERSION, mode=inst["name"],
                note=None if a.governed else "SMOKE: instance differs from the registration; not a governed result",
-               git_head=head, script_differs_from_head=dirty, prereg=seal,
-               arm_R="not implemented (optional in the registration; needs the owner's GPU go-ahead)",
+               git_head=head, script_or_solver_differs_from_head=dirty, prereg=seal,
+               script_sha256=text_sha256(ROOT / SCRIPT_REL), solver_sha256=text_sha256(ROOT / SOLVER_REL),
+               arm_R="separate instrument: experiments/t1_arm_r_llama.py",
                instance=inst, self_checks=checks, arms=recs, verdict=v,
                wall_seconds=round(time.time() - t0, 1))
 
