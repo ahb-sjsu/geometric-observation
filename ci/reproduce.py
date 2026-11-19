@@ -6,6 +6,8 @@ rows by RE-RUNNING each CPU-only harness and asserting it reproduces the exact
 `verdict` dict and `*_supported` flag committed in results/. Verdicts are booleans
 with margin, so this is robust across platforms/BLAS. It also:
   * runs the Appendix-B numerical verification (verify_appendixB.py) and asserts PASS;
+  * runs the T1 worked-result instrument on its smoke instance and asserts ALL PASS
+    (the governed instance is never run here);
   * validates that every committed results/*.json parses and its summary flag is
     self-consistent with its verdict dict (tamper check), including the harnesses CI
     cannot re-run (Gate-B needs Atlas+Llama; GO-4/GO-5-ADC need external corpora).
@@ -231,6 +233,25 @@ for h in ("verify_rate_region.py", "verify_observer_mismatch.py",
     except Exception as e:
         failures.append(f"{h} crashed: {e}")
         print(f"  FAIL {h}: {e}")
+
+print()
+print("=" * 68)
+print("[1d] T1 worked-result instrument, smoke instance (t1_worked_result.py --smoke)")
+print("=" * 68)
+# The instrument of the unsealed T1 registration (drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md).
+# Only the smoke instance runs here: the governed instance runs once, after the seal, and its
+# guard refuses without a sealed prereg. Added 2026-11-18 (owner: "add the smoke step to CI").
+try:
+    sm = extract_json(run("experiments/t1_worked_result.py --smoke", timeout=600), "T1-JSON")
+    summary = sm.get("verdict", {}).get("summary")
+    if sm.get("mode") == "smoke" and summary == "ALL PASS":
+        print(f"  PASS t1_worked_result.py --smoke: {summary} (instrument v{sm.get('version')})")
+    else:
+        failures.append(f"t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
+        print(f"  FAIL t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
+except Exception as e:
+    failures.append(f"t1_worked_result.py --smoke crashed: {e}")
+    print(f"  FAIL t1_worked_result.py --smoke: {e}")
 
 print()
 print("=" * 68)
