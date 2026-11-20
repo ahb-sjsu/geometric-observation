@@ -20,8 +20,9 @@ the pass/fail bar — is hashed and **git-committed before** the first governed 
 it covers. The binding registration timestamp is the git commit, not the file's
 modification time; the sealed state is externally anchored in a DOI deposit (Zenodo concept
 DOI 10.5281/zenodo.21423315), so the registered claim is not merely local (REG-3).
-Corrections to a sealed prereg are appended as dated amendments and re-sealed, with the
-reason stated, and the original remains in git history (REG-2). Registration IDs are a
+Corrections to a sealed prereg are appended after the sealed text as dated amendments,
+with the reason stated. The sealed text is never edited and the file is never re-sealed,
+so the original commitment still verifies, and CI checks that it does (REG-2). Registration IDs are a
 single monotone sequence `GO-P-2026-###` — never reused, never backfilled (REG-4) — which
 is what lets Appendix D present a *gap-free* disposition table and lets the "no file drawer"
 claim mean something: an unexplained hole in the sequence would be visible.

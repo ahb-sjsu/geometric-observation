@@ -6,7 +6,7 @@
 > independent verification, the AI-assistant conflict, theorem custody, and the
 > discipline of losing in public.
 
-**Status:** v1.0 — in force. **Scope:** every `[proved]` and `[demonstrated]`
+**Status:** v1.2 — in force. **Scope:** every `[proved]` and `[demonstrated]`
 claim in the trilogy (Papers I–III) and the claim ledger.
 **House rule (inherited):** the book may not assert what the ledger cannot show.
 **Standing fact:** much of this program is co-designed and co-authored with an
@@ -91,16 +91,24 @@ catches.
 - **REG-1 (seal before measure).** A prereg is hashed (`scripts/seal.py`) and
   **git-committed before** the first governed measurement it covers. The binding
   registration timestamp is the git commit, not the file mtime.
-- **REG-2 (amendments dated, pre-unblinding).** Corrections to a sealed prereg are
-  appended as dated amendments and re-sealed, with the reason stated; the original
-  remains in git history. (Reference: GO-P-2026-022 amended when `sigma_star` was
-  corrected.)
+- **REG-2 (amendments dated, pre-unblinding, appended).** Corrections to a sealed prereg
+  are appended *after* the sealed text as dated amendments, with the reason stated. The
+  sealed text is never edited, and the file is **not re-sealed**: re-sealing overwrites
+  the original commitment. The sealed text then still verifies as the file's first lines,
+  and the change is disclosed in the registry row and in `prereg/SEAL-DISCLOSURES.json`,
+  which `scripts/verify_seals.py` checks in CI. (v1.1 said "and re-sealed";
+  GO-P-2026-022 was amended and re-sealed that way when `sigma_star` was corrected,
+  and 056 and 067–070 were re-sealed after in-place amendments. Corrected 2026-11-19
+  after VI-25, which records each original hash.)
 - **REG-3 (custody chain).** Sealed preregs, results, and harnesses are archived
   in the DOI deposit (Zenodo concept DOI 10.5281/zenodo.21423315), so the
   registered state is externally anchored, not only local.
 - **REG-4 (counter).** Registration IDs are a single monotone sequence
-  `GO-P-2026-###`; **the counter stands at 027**; the next free number is **028**.
-  Never reuse or backfill a number.
+  `GO-P-2026-###`. The counter is the registry,
+  [`claims/REGISTRY-ACCOUNTING.md`](claims/REGISTRY-ACCOUNTING.md), where every
+  assigned ID has a disposition; the next free number follows its last row. Never
+  reuse or backfill a number. (v1.1 gave the counter as a number, 027, which went
+  stale; removed 2026-11-19.)
 
 ---
 
@@ -176,3 +184,6 @@ standing evidence that the composition works and that it was needed.)
 *v1.1. §7 (standards alignment) added 2026-07-18. This charter codifies rules already in
 force through GO-P-2026-028; it adds no retroactive burden to sealed claims that already
 satisfy them.*
+*v1.2 (2026-11-19). REG-2 now says amendments are appended and never re-sealed, as
+PE-CLS-1.0 and the registry's practice already required; REG-4 points to the registry
+for the counter instead of a number. Both corrected after VI-25, the content-hash audit.*

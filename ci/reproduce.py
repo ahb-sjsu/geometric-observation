@@ -5,6 +5,9 @@ Enforces PROTOCOL.md's "CI green" requirement for the [demonstrated]/[replicated
 rows by RE-RUNNING each CPU-only harness and asserting it reproduces the exact
 `verdict` dict and `*_supported` flag committed in results/. Verdicts are booleans
 with margin, so this is robust across platforms/BLAS. It also:
+  * verifies every sealed prereg's recorded content hash (scripts/verify_seals.py):
+    each one verifies whole, or its disclosure in prereg/SEAL-DISCLOSURES.json holds
+    (added 2026-11-19, VI-25; needs full git history, so CI checks out with fetch-depth 0);
   * runs the Appendix-B numerical verification (verify_appendixB.py) and asserts PASS;
   * runs the T1 worked-result instrument on its smoke instance and asserts ALL PASS
     (the governed instance is never run here);
@@ -162,8 +165,11 @@ def extract_json(stdout: str, sentinel: str) -> dict:
     try:
         # House convention is ===SENTINEL===; the sealed GO-16 harnesses
         # (090/091, hash-pinned) print bare SENTINEL_BEGIN lines instead --
-        # accepted here per the 064 precedent (CI adapts, sealed harnesses
-        # are never modified for CI's convenience).
+        # accepted here per the 064 precedent (CI adapts to sealed harnesses).
+        # Correction (2026-11-19, VI-25): this comment used to say sealed
+        # harnesses are never modified for CI's convenience. 090's was, after
+        # its governed run (f8b20f9, cross-BLAS hardening of V5); disclosed in
+        # prereg/SEAL-DISCLOSURES.json and checked by scripts/verify_seals.py.
         start = next(i for i, l in enumerate(lines)
                      if l.strip() in (f"==={sentinel}===", sentinel))
     except StopIteration:
@@ -180,6 +186,22 @@ def extract_json(stdout: str, sentinel: str) -> dict:
     return obj
 
 
+print("=" * 68)
+print("[0] Seal integrity: every sealed prereg's content hash (verify_seals.py)")
+print("=" * 68)
+# Added 2026-11-19 (VI-25): 13 of 84 recorded hashes no longer verified over their whole
+# file and 6 more had been re-sealed over their originals, while nothing checked them. The
+# verifier checks each seal against its seal commit and fails on any undisclosed change and
+# on any stale or broken disclosure.
+try:
+    out = run("scripts/verify_seals.py", timeout=600)
+    summary = [l for l in out.splitlines() if l.startswith("verify_seals: ") and "sealed preregs" in l]
+    print("  PASS", summary[0][len("verify_seals: "):] if summary else "")
+except Exception as e:
+    failures.append(f"verify_seals crashed or failed: {e}")
+    print("  FAIL:", e)
+
+print()
 print("=" * 68)
 print("[1/3] Appendix-B numerical verification (verify_appendixB.py)")
 print("=" * 68)
@@ -319,6 +341,6 @@ if failures:
     for f in failures:
         print("  -", f)
     sys.exit(1)
-print("CI RESULT: GREEN -- Appendix-B verified, all CPU-only claims reproduced, "
+print("CI RESULT: GREEN -- seals verified, Appendix-B verified, all CPU-only claims reproduced, "
       "results self-consistent.")
 sys.exit(0)

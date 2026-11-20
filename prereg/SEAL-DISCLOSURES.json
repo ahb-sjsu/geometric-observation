@@ -1,0 +1,295 @@
+{
+  "schema": "seal-disclosures/2",
+  "audited": "2026-11-19",
+  "incident": "VI-25 in claims/LEDGER.md",
+  "about": "Every sealed prereg whose recorded content hash is not simply its original commitment over its whole current file, with how its sealed text can still be checked (or why it cannot), and every sealed prereg removed from this repository. scripts/verify_seals.py checks each entry against git and fails on any change not listed here, on any entry whose facts no longer hold or that is no longer needed, and on any sealed prereg deleted or moved without a 'removed' entry. Each entry locks the file's current content (current_text_sha256) and its post-seal commits, so a later amendment fails the check until it is disclosed here and in claims/REGISTRY-ACCOUNTING.md. Never re-seal a file to remove it from this list: that overwrites the original commitment.",
+  "previously_disclosed": "Whether the change, or the fact that the recorded hash is not the original commitment, was disclosed anywhere before this audit, and where.",
+  "entries": {
+    "GO-P-2026-022": {
+      "file": "prereg/GO-P-2026-022-two-observer-refinement.md",
+      "kind": "re-sealed",
+      "seal_commit": "eb4bd51",
+      "recorded_sha256": "7a7629422ea5c9b0e4116f27ddafe028abc451333f450844602e9e6377312ba1",
+      "post_seal_commits": [
+        "ab63c7c"
+      ],
+      "current_text_sha256": "7a7629422ea5c9b0e4116f27ddafe028abc451333f450844602e9e6377312ba1",
+      "previously_disclosed": "re-seal disclosed in CHARTER and the book; prior hash not recorded",
+      "what_changed": "The prediction and falsification lines were rewritten in place and the file re-sealed (ab63c7c, 2026-07-17 22:34), about 14 hours after the registration's first result file was committed (f751852, 08:35), when the harness's in-context sigma_star formula was found to be wrong (VI-4): 'nesting_equiv' became 'sufficiency_construction', 'distortion_met' gained a cap clause, the falsification clause and the harness comment changed. The re-seal is disclosed (CHARTER v1.1 REG-2, chapters 7 and 15, Appendix B), but the original hash, recorded here, appears nowhere in the file.",
+      "original_sha256": "a04519f8b38a904fdae431f29b3d9ca8bb2324773feea6ab92694795b8a5e2a5",
+      "prior_hash_in_file": false
+    },
+    "GO-P-2026-034": {
+      "file": "prereg/GO-P-2026-034-domain-generality-battery.md",
+      "kind": "appended",
+      "seal_commit": "3b76e11",
+      "recorded_sha256": "ff1131d8e13fd9d25ab22b31bf28c299c55e54d5ffd246898fff6bc272ab0aba",
+      "post_seal_commits": [
+        "7b77221",
+        "1843ebd",
+        "a08febb",
+        "2de7927",
+        "cbc1242",
+        "8beceae"
+      ],
+      "current_text_sha256": "ed7b5c673dfcea489c0a15cd571ee541b1dd0889bef7c857d0468213b053e772",
+      "previously_disclosed": "in the prereg (its amendment header)",
+      "what_changed": "Dated amendments A1-A4 and the battery result were appended after the sealed text. A1 replaced two sealed design choices for D1: the reference (camera/lidar ground truth) became displacement from the consumer's own uncompressed MUSIC estimate, and the held-out set (disjoint recordings) became a within-recording split of an accessible 50-frame sample. A1 says it was recorded before any held-out flip was scored, but it was committed in the same commit as D1's outcome (7b77221), so git cannot show that. A2 and A3 (the D2 and D3 config freezes) were committed before their runs (1843ebd, 2de7927).",
+      "sealed_lines": 80
+    },
+    "GO-P-2026-035": {
+      "file": "prereg/GO-P-2026-035-legal-retrieval-flip.md",
+      "kind": "appended",
+      "seal_commit": "f3f3c4f",
+      "recorded_sha256": "a386ca4507e6d490df2bcf985b60f34254859ebda683e39eabae3173cbb03268",
+      "post_seal_commits": [
+        "cb4cf9e"
+      ],
+      "current_text_sha256": "cd5a363f53eeaf1db5d5a3ebc9d386e1418616bab9cbd5472dc1d87ffd23b204",
+      "previously_disclosed": "none",
+      "what_changed": "The result commit appended the outcome (NOT CONFIRMED, honest negative) after the sealed text.",
+      "sealed_lines": 59
+    },
+    "GO-P-2026-036": {
+      "file": "prereg/GO-P-2026-036-legal-retrieval-rehab.md",
+      "kind": "appended",
+      "seal_commit": "a6016bf",
+      "recorded_sha256": "84dfad567afaa6596d06de72bd660caf9db3c62995793bdaa80b9725af91e16e",
+      "post_seal_commits": [
+        "d9c5376"
+      ],
+      "current_text_sha256": "bef8f04a478b86d3d0255514626f9674eecfffcd590901d734422cde16c45d76",
+      "previously_disclosed": "none",
+      "what_changed": "The result commit appended the outcome (CONFIRMED) after the sealed text.",
+      "sealed_lines": 57
+    },
+    "GO-P-2026-037": {
+      "file": "prereg/GO-P-2026-037-a2probe-reconciliation.md",
+      "kind": "appended",
+      "seal_commit": "bbbaab9",
+      "recorded_sha256": "afd3e8ac4dfa56bb0c30f3048e7f31160e4b0935fb138d0da534f580b16f1a0e",
+      "post_seal_commits": [
+        "2b174f8"
+      ],
+      "current_text_sha256": "bbd8053754b28042661d8a3fe38df96bc23536fc12a583c0014671af356c605c",
+      "previously_disclosed": "none",
+      "what_changed": "The result commit appended the outcome (diagnostic rule REFUTED, NEG-14) after the sealed text.",
+      "sealed_lines": 61
+    },
+    "GO-P-2026-038": {
+      "file": "prereg/GO-P-2026-038-whale-dialect-flip.md",
+      "kind": "appended",
+      "seal_commit": "0a7368a",
+      "recorded_sha256": "2f458983de307c5e224372d4c0df1f45f707d1c0a4ae5984af42dc638733a55b",
+      "post_seal_commits": [
+        "44cfbbd"
+      ],
+      "current_text_sha256": "ae67f1442e11ac849d2014e30a841c3cbefd450b04ce89cc7636613bd3e78d0f",
+      "previously_disclosed": "none",
+      "what_changed": "The result commit appended the outcome (CONFIRMED) after the sealed text.",
+      "sealed_lines": 53
+    },
+    "GO-P-2026-039": {
+      "file": "prereg/GO-P-2026-039-legal-fresh-split.md",
+      "kind": "placeholder-replaced",
+      "seal_commit": "607666e",
+      "recorded_sha256": "786b2c7a0608d737d47f0a99f4c5a4ac7cda57abec5bdcc1f083481a5fd8250f",
+      "post_seal_commits": [
+        "da111f6"
+      ],
+      "current_text_sha256": "0506a72c7240634efad6e93c12e5a80a60e6313013cf7cf00251c3d46585fafc",
+      "previously_disclosed": "none",
+      "what_changed": "The sealed text ended with the placeholder line '## Outcome — PENDING'; the result commit replaced that one line with the outcome (CONFIRMED). No other sealed line changed. The recorded hash was computed with the hash line removed, not blanked as scripts/seal.py does, because seal.py's pattern would also have overwritten the file's code_hash line. That code_hash value matches no object in the repository, so the code it pins cannot be checked here.",
+      "scheme": "hash-line-removed",
+      "kept_lines": 67,
+      "placeholder": "## Outcome — PENDING"
+    },
+    "GO-P-2026-041": {
+      "file": "prereg/GO-P-2026-041-blind-nonoracle-flip.md",
+      "kind": "placeholder-replaced",
+      "seal_commit": "f11abb9",
+      "recorded_sha256": "1f5974b4197c80efbd3816e4c3f23923e2fa1849c3a0f0dd33b1e759fe5f3f21",
+      "post_seal_commits": [
+        "f9df37d"
+      ],
+      "current_text_sha256": "feabf24ca8099936a358d2ddb19884417751200459af1855b69aae79cf32141b",
+      "previously_disclosed": "none",
+      "what_changed": "The sealed text ended with the placeholder line '## Outcome — PENDING'; the result commit replaced that one line with the outcome (PARTIAL). No other sealed line changed. The recorded hash was computed with the hash line removed, not blanked as scripts/seal.py does, because seal.py's pattern would also have overwritten the file's code_hash line (which matches experiments/blind_clf.py at the seal commit). The appended outcome quotes delta_pred=+0.122; the sealed value is +0.116.",
+      "scheme": "hash-line-removed",
+      "kept_lines": 59,
+      "placeholder": "## Outcome — PENDING"
+    },
+    "GO-P-2026-055": {
+      "file": "prereg/GO-P-2026-055-complementarity-tax.md",
+      "kind": "unexplained",
+      "seal_commit": "e1e9dfe",
+      "recorded_sha256": "f08ef84908ffdbac3cd53002d714659b6b6fee2ead232672df7aec0a95c2ad73",
+      "post_seal_commits": [],
+      "current_text_sha256": "6cbb18bc8cfc6f13d4e5ddac37a1246fc206a633ace9a0d43533d1faea797360",
+      "previously_disclosed": "none",
+      "what_changed": "The file is unchanged since its seal commit, but its recorded hash matches no stored version of it under any scheme tried (seal.py's, hash line removed, the YAML block alone, every prefix, suffix and single-line deletion, CRLF, trailing-newline and BOM variants), nor any of the repository's objects. It was sealed three minutes before another prereg was sealed under the same number (that one was renumbered 056). The cause cannot be shown; the likeliest is an edit between running seal.py and committing. Priority still rests on the seal commit, an ancestor of the result commit. text_sha256_at_seal is a content hash computed on 2026-11-19 from the text at the seal commit, for identification only, not a pre-run commitment.",
+      "text_sha256_at_seal": "6cbb18bc8cfc6f13d4e5ddac37a1246fc206a633ace9a0d43533d1faea797360"
+    },
+    "GO-P-2026-056": {
+      "file": "prereg/GO-P-2026-056-kv-serving-flip.md",
+      "kind": "re-sealed",
+      "seal_commit": "2d5794a",
+      "recorded_sha256": "9f40590ade14ada50ae589d84033145ca4143513878371daf81988ad3a4f2015",
+      "post_seal_commits": [
+        "3b9b295"
+      ],
+      "current_text_sha256": "9f40590ade14ada50ae589d84033145ca4143513878371daf81988ad3a4f2015",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "Sealed as GO-P-2026-055 (2d5794a), renumbered 056 before its governed run because 055 was already bound by the complementarity-tax seal (e1e9dfe, three minutes earlier), and re-sealed (3b9b295). Only the title, id, amendments and hash lines changed; the amendment records the prior hash.",
+      "original_sha256": "1b84e1256bc5e028b1e8f7f184cf4021d76ef6e78a4c3cc73b1fae4d75dfe399",
+      "prior_hash_in_file": true
+    },
+    "GO-P-2026-067": {
+      "file": "prereg/GO-P-2026-067-go13-matrixq.md",
+      "kind": "re-sealed",
+      "seal_commit": "aa8d663",
+      "recorded_sha256": "d7cddf7913dd8ae61638033ed865df739fd07a4adb1ff0bd5f0c609dc1d0748c",
+      "post_seal_commits": [
+        "6058d0d"
+      ],
+      "current_text_sha256": "d7cddf7913dd8ae61638033ed865df739fd07a4adb1ff0bd5f0c609dc1d0748c",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "A dated amendment was written in place of 'amendments: []' and the file re-sealed; the amendment records the prior hash, which verifies the seal-commit text.",
+      "original_sha256": "d3d5cde8d724431a4a2e418b28a30c3beffe95c90f4bc2c5c52f4cf5202732ae",
+      "prior_hash_in_file": true
+    },
+    "GO-P-2026-068": {
+      "file": "prereg/GO-P-2026-068-go13-taxcurve.md",
+      "kind": "re-sealed",
+      "seal_commit": "078687e",
+      "recorded_sha256": "be1ce4fdc3f0709c1dbe37b1415c53aa92d4fa45cba6d3c421e4ed7ba0647339",
+      "post_seal_commits": [
+        "6058d0d"
+      ],
+      "current_text_sha256": "be1ce4fdc3f0709c1dbe37b1415c53aa92d4fa45cba6d3c421e4ed7ba0647339",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "A dated amendment was written in place of 'amendments: []' and the file re-sealed; the amendment records the prior hash, which verifies the seal-commit text.",
+      "original_sha256": "16b537c9284aa649b59e71861c5e920c7c268ca24046d8b66e3edde1fd6df241",
+      "prior_hash_in_file": true
+    },
+    "GO-P-2026-069": {
+      "file": "prereg/GO-P-2026-069-go13-operational-face.md",
+      "kind": "re-sealed",
+      "seal_commit": "6c02b86",
+      "recorded_sha256": "4c7ee404e441ed8bc4191a0227c0943cff9e9edece257cf938b1421c5425330c",
+      "post_seal_commits": [
+        "81957ac"
+      ],
+      "current_text_sha256": "4c7ee404e441ed8bc4191a0227c0943cff9e9edece257cf938b1421c5425330c",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "Re-sealed (81957ac) five minutes after the seal commit, after a governed run (seed 20260927) missed gate V6 on 1 of 216 cells: the in-place amendment classed the miss as instrumentation and authorized a rerun under seed 20260928, which passed. The amendment records the prior hash.",
+      "original_sha256": "e70170ba2081c05a94587265866f723919b93de0a738c3cf2476c09a10679303",
+      "prior_hash_in_file": true
+    },
+    "GO-P-2026-070": {
+      "file": "prereg/GO-P-2026-070-go12-spectral-crdf.md",
+      "kind": "re-sealed",
+      "seal_commit": "a43cbbd",
+      "recorded_sha256": "f7c76eb6fb850c0824c514f34a846700918d01b4ce6b6d12e942f19201eb3b4e",
+      "post_seal_commits": [
+        "c61a317"
+      ],
+      "current_text_sha256": "f7c76eb6fb850c0824c514f34a846700918d01b4ce6b6d12e942f19201eb3b4e",
+      "previously_disclosed": "in the prereg (prior hash recorded)",
+      "what_changed": "A dated amendment was written in place of 'amendments: []' and the file re-sealed; the amendment records the prior hash, which verifies the seal-commit text, and says no bar, seed or gate changed.",
+      "original_sha256": "735dcaf44f478432b0a8c0235d8b0253b004fb3d7d244f46242801ae012d8e6e",
+      "prior_hash_in_file": true
+    },
+    "GO-P-2026-074": {
+      "file": "prereg/GO-P-2026-074-go13-m2-convexity.md",
+      "kind": "appended",
+      "seal_commit": "087c902",
+      "recorded_sha256": "c7c3ee632edfb23a00cf8d8b8d8629d31dc8c44d94709bc117f5337834f7eb63",
+      "post_seal_commits": [
+        "80c166d"
+      ],
+      "current_text_sha256": "2233215a18c76783e6825352bfe0df6145e71817eebbba090b23990c6aa7fd95",
+      "previously_disclosed": "none",
+      "what_changed": "A dated attribution amendment (2026-08-07) was appended; it changes no gate, verdict or number.",
+      "sealed_lines": 78
+    },
+    "GO-P-2026-079": {
+      "file": "prereg/GO-P-2026-079-go14-convexity.md",
+      "kind": "appended",
+      "seal_commit": "a4bb4b5",
+      "recorded_sha256": "0d76398081b19567a00135434a648e362911ea27c7a10cf53281051a76f02185",
+      "post_seal_commits": [
+        "4640551",
+        "d6ee18a",
+        "1f2b4b9",
+        "32d449e"
+      ],
+      "current_text_sha256": "b65bf98ff416af9e34a603815b57d1d0ad089b1e3a5947dbf53fb677afad972a",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "Dated instrumentation amendments (2026-08-06, revisions 1-4) were appended after the governed run (result committed 53df441, 2026-08-05). With them the harness experiments/go14_convexity.py was changed four times (4640551, d6ee18a, 1f2b4b9, 32d449e), and 32d449e moved it from CI's re-run tier to the artifact self-consistency tier, so CI no longer re-runs it.",
+      "sealed_lines": 114
+    },
+    "GO-P-2026-081": {
+      "file": "prereg/GO-P-2026-081-go14-hrepair.md",
+      "kind": "appended",
+      "seal_commit": "08ef45d",
+      "recorded_sha256": "a823acee3eb416c26b1b1da9853ccfe28224309932fd175de120a4cd9cfd4128",
+      "post_seal_commits": [
+        "a016dc5"
+      ],
+      "current_text_sha256": "65a99171b6e83ec8acf6519b9aba05c5aa233ca35adadb6cf03d71b3fa665e09",
+      "previously_disclosed": "registry row and prereg",
+      "what_changed": "A dated instrumentation amendment (2026-08-08) was appended about 13 hours after the run (result committed 300d49a, 2026-08-07). It demoted one sealed sub-gate of s9, the reproduction of the certified price p_cert against a recorded literal at 1e-5 (a difference of two optimizer endpoints, which failed on CI's BLAS), to reported, not gated. The two substantive s9 claims stay gated.",
+      "sealed_lines": 163
+    },
+    "GO-P-2026-090": {
+      "file": "prereg/GO-P-2026-090-go16-partition-tie.md",
+      "kind": "harness-hash",
+      "seal_commit": "3a74638",
+      "recorded_sha256": "a5ed1dab5ac39f578b04eb3bd2ee8a582a0cddb5f99de796b89bd662c8156491",
+      "post_seal_commits": [],
+      "current_text_sha256": "671c75947584fcc7ab4942e43d601917c7e2986d92ec96767682703e67325d50",
+      "previously_disclosed": "none",
+      "what_changed": "The registration's only 'hash: sha256:' field records the harness's sha256 at the seal commit, not a content hash of the registration's own text (PE-CLS-1.0 s7.1 requires one). text_sha256_at_seal is that content hash under scripts/seal.py's scheme, computed on 2026-11-19 from the text at the seal commit, which is unchanged since: it identifies the registration if history is rewritten, and is not a pre-run commitment. The harness was changed after the governed run (f8b20f9: the V5 direct-solve multistart hardened for cross-BLAS CI). The governed verdict (2b90441) predates the change, and re-running the sealed harness reproduces it exactly; CI re-runs the changed harness against that verdict.",
+      "harness": "experiments/go16_verify_partition.py",
+      "harness_changed_after_seal": [
+        "f8b20f9"
+      ],
+      "harness_sha256_now": "755fcb750b4aac328b56259faad4d04d8e68eecbe34e02a7421fef29d7c1d992",
+      "governed_result_commit": "2b90441",
+      "text_sha256_at_seal": "671c75947584fcc7ab4942e43d601917c7e2986d92ec96767682703e67325d50"
+    },
+    "GO-P-2026-091": {
+      "file": "prereg/GO-P-2026-091-go16-discrete-twin.md",
+      "kind": "harness-hash",
+      "seal_commit": "3a74638",
+      "recorded_sha256": "1725c8e5e63f0ea609a14e06258b27970d0b69d2df13a217a960f05aecdbc2fb",
+      "post_seal_commits": [],
+      "current_text_sha256": "218f514b6855785e06b5177450dac74c864ef8adff7bca5781e6f082f32b0d59",
+      "previously_disclosed": "none",
+      "what_changed": "The registration's only 'hash: sha256:' field records the harness's sha256 at the seal commit, not a content hash of the registration's own text (PE-CLS-1.0 s7.1 requires one). text_sha256_at_seal is that content hash under scripts/seal.py's scheme, computed on 2026-11-19 from the text at the seal commit, which is unchanged since: it identifies the registration if history is rewritten, and is not a pre-run commitment.",
+      "harness": "experiments/go16_discrete_twin.py",
+      "harness_changed_after_seal": [],
+      "harness_sha256_now": "1725c8e5e63f0ea609a14e06258b27970d0b69d2df13a217a960f05aecdbc2fb",
+      "governed_result_commit": "2b90441",
+      "text_sha256_at_seal": "218f514b6855785e06b5177450dac74c864ef8adff7bca5781e6f082f32b0d59"
+    }
+  },
+  "removed": {
+    "prereg/GO-P-2026-087-blind-recovery-scheduling.md": {
+      "seal_commit": "63a6f56",
+      "removed_by": "d88a004",
+      "reason": "migrated with the OT-EC campaigns to the observation-theory-campaigns repository; the seal commit here remains the binding registration (claims/REGISTRY-ACCOUNTING.md)"
+    },
+    "prereg/GO-P-2026-088-consumer-flip-sensing.md": {
+      "seal_commit": "705f068",
+      "removed_by": "d88a004",
+      "reason": "migrated with the OT-EC campaigns to the observation-theory-campaigns repository; the seal commit here remains the binding registration (claims/REGISTRY-ACCOUNTING.md)"
+    },
+    "prereg/GO-P-2026-089-operational-trigger.md": {
+      "seal_commit": "705f068",
+      "removed_by": "d88a004",
+      "reason": "migrated with the OT-EC campaigns to the observation-theory-campaigns repository; the seal commit here remains the binding registration (claims/REGISTRY-ACCOUNTING.md)"
+    }
+  }
+}

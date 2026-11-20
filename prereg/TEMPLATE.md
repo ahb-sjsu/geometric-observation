@@ -3,7 +3,13 @@
 Copy to `prereg/GO-<id>-<slug>.md`, fill every field, commit **before** the first
 measurement it governs. The git commit timestamp is the binding registration
 time; `hash` is the sha256 of this file's body with the `hash:` line blanked.
-Amendments only dated-and-logged **before** unblinding (§1.17, §5).
+Amendments only dated-and-logged **before** unblinding (§1.17, §5). Append amendments
+and outcomes *after* the sealed text: never edit a sealed line, never re-seal (CHARTER
+REG-2), and disclose the change in the registry row and `prereg/SEAL-DISCLOSURES.json`.
+Keep exactly one seal line, the `hash:` field in the block below. `scripts/seal.py`
+refuses a file in which its pattern matches twice, because it would overwrite the other
+match: name other hashes `code_sha256:`, or list them under `instruments_sha256:`.
+Check with `python scripts/verify_seals.py`.
 
 ```yaml
 id: GO-P-2026-###

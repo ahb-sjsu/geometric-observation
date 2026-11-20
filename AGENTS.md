@@ -64,6 +64,12 @@ lost to rebases before the pre-rebase hook existed.
 
 ## 3. Checks before pushing
 
+- **Seals:** `python scripts/verify_seals.py`. It checks every sealed prereg
+  against its seal commit and fails on any change not disclosed in
+  `prereg/SEAL-DISCLOSURES.json`, including a re-seal, an appended amendment and
+  a deleted or moved prereg. It needs full git history. `ci/reproduce.py` runs
+  it first. If you change the verifier, run `python scripts/test_verify_seals.py`
+  too; it must still fail on every tampering case.
 - **Claims harness (the CI "Tier-A" job, CPU only):**
   `python -m pip install -r ci/requirements-ci.txt`, then
   `python ci/reproduce.py`.
@@ -77,6 +83,14 @@ lost to rebases before the pre-rebase hook existed.
   `CONFORMING`. Level L3 currently fails by construction, because the markdown
   ledger has no field for dependency edges. Diff its report before and after
   instead of "fixing" it.
+- **Lint the committed ledger, not stray files.** The report's first lines must
+  name the markdown front end and a non-zero count of registry rows. If they say
+  `native ledger format`, an untracked claim file somewhere in the tree has
+  switched the linter. It then skips the registry entirely and still prints
+  `P2 PASS`. Lint a clean clone instead (`git clone -q . <dir>`, with your
+  edited files copied in).
+  **Why:** an uncommitted migration directory did exactly this to every lint
+  run in the main checkout, unnoticed, until 2026-11-19.
 
 ## 4. Registration: seal before you measure
 
@@ -97,10 +111,15 @@ class requires.
 3. **Seal.** Set `status: SEALED <date>` *first*, then run
    `python scripts/seal.py prereg/<file>.md`. Run it a second time: the digest
    must not change. Then commit. The commit is the binding registration, and
-   the hash is the content commitment. The pattern `hash: sha256:` must occur
-   exactly once in the file, because `seal.py` rewrites every occurrence.
+   the hash is the content commitment. Keep exactly one `hash: sha256:` field:
+   the pattern also matches inside names like `code_hash:`, so `seal.py`
+   refuses a second match rather than overwrite it. Name other hashes
+   `code_sha256:`, or list them under `instruments_sha256:`. Never reuse the
+   `hash:` field for a harness's hash.
    **Why:** the hash covers the whole body, so a status line edited after
-   sealing silently breaks it.
+   sealing silently breaks it. Two preregs had to be sealed by hand because of a
+   `code_hash:` line, and two used `hash:` for the harness and so have no
+   content hash of their own text.
 4. **Optionally anchor the seal:** `python scripts/anchor_seal.py prereg/<file>.md`
    gets a third-party timestamp (RFC 3161, or `--method ots` for
    OpenTimestamps). It anchors the content hash, so it survives renames and
@@ -111,10 +130,15 @@ class requires.
    unmodified and match the hashes the prereg records. Check this first with,
    for example,
    `experiments/t1_worked_result.py --governed --prereg <file> --verify-only`.
-6. **After sealing, never edit the body silently.** Corrections are appended as
-   dated amendments with their reason (CHARTER REG-2). The original stays in
-   git history. The registry row says the content hash was superseded by
-   disclosed amendments.
+6. **After sealing, never edit the sealed text, and never re-seal.** Append
+   dated amendments and outcomes *after* it, with their reason (CHARTER REG-2).
+   Then add an entry to `prereg/SEAL-DISCLOSURES.json` and a note in the
+   registry row; `scripts/verify_seals.py` fails until both exist. Re-sealing
+   would overwrite the original commitment.
+   **Why:** on 2026-11-19, 13 of 84 recorded hashes no longer verified over
+   their files and 6 more had been re-sealed over their originals. Most of it
+   was disclosed somewhere, but the hash record showed none of it, because
+   nothing checked (VI-25).
 7. **If history is rewritten anyway,** run `python scripts/reanchor_seals.py --apply`
    at once, and record both commit identities in the row.
 8. **Losses count.** Misses and refutations are reported as prominently as

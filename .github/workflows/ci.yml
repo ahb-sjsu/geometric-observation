@@ -27,6 +27,10 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: scripts/verify_seals.py compares disclosed preregs and
+          # harnesses with their seal commits, and refuses a shallow clone.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
