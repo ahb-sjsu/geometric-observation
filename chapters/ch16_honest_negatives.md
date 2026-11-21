@@ -97,6 +97,30 @@ polar win at 1 bit. The two-axis reconciliation *stands* (the regime needs conce
 correlation, Chapter 12); only the shortcut is refuted. The discipline caught an over-simple
 rule on its first domain — which is the point of prospective sealing.
 
+**NEG-17: the adversarial observer's tie theorem, as sealed.** `[refuted]`, the iff clause
+only.
+
+**The claim.** GO-16's Theorem 3 says that in the diagonal game the reader's attention water
+level sits at one of the coordinates' read weights μ_j, and that the spectral tie, where the
+reader is indifferent between its k-th and (k+1)-th directions, holds exactly when some
+coordinate is contested. Registration 090 sealed that claim, and its governed run passed.
+
+**The refutation.** A fresh-context re-check, three months after the seal (VI-30), found that
+the level can also sit at zero, a blackout regime. There, every coordinate worth shielding is
+hidden completely and only the conceded ones are revealed. The witness is μ = (5, 3, 2, 1),
+s² = (10, 0.1, 0.1, 0.1), λ = 1 and k = 2. The optimum reveals one coordinate fully and hides
+the rest, so the tie holds at zero while no coordinate is contested. It was confirmed two
+ways, from the paper's own water-level function and by brute force.
+
+**Why the sealed run passed.** The gate that should have tested the iff was circular by
+construction, and no instance it ran was in the blackout regime.
+
+**What stands.** Theorems 1–2 (the revelation reduction, the partition) and the analysis at a
+positive level.
+
+**The lesson** is the one VI-4 taught, three months later. A passing gate certifies only what
+it can fail. A fresh context is what finds the regime nobody sampled.
+
 ## The four kinds of boundary
 
 The negatives are not a random pile; they sort into the four degeneracies of $P_C$ (Chapter
