@@ -41,6 +41,13 @@ in git; this paragraph and the records VI-36 and VI-37 are the account):
   pair VI32_not_refinable_though_P1<=P2, where the recorded gaps are below 3e-10 in magnitude
   (VI-38); it is informative only on the other non-nested pairs. A version 4 with an
   absolute tolerance, on a fresh seed, is owed before this net joins CI.
+- Version 4 (2026-11-21, seed 20261127), after VI-38. m4's bar is absolute, |a| <= 1e-5
+  nats on every pair, and m4 now also requires at least 20 informative pairs, those whose
+  gap at delta = 1e-3 is at least 1e-6 (on v3's seed: 33 pairs, all independent, worst
+  |a| 3.7e-6 over all 82 pairs). m1's trace check is two-sided, |tr(P Sigma) - D| <= 1e-9 D,
+  as its docstring once claimed (VI-38 #17). The run records this file's sha256. These
+  criteria were written, and this file committed, before version 4's first run; they were
+  informed by version 3's output and not by version 4's.
 
 Targets:
   the max-det closed form   Sigma*(P,D) = argmax{logdet S : 0 <= S <= C, tr(P S) <= D} is
@@ -59,10 +66,10 @@ Targets:
       terms 1/2 log(gamma/theta) + 1/2 (y^2/gamma - 1) (active) and (y^2 - gamma)/(2 theta)
       (inactive), and variance V = 1/2 [r_D + sum_{0 < gamma_k <= theta} (gamma_k/theta)^2].
 
-Checks (seed 20261126; criteria written before the first run of version 3):
+Checks (seed 20261127; criteria written before the first run of version 4):
   m1_maxdet_vs_solver: on 150 random instances (d in 2..5, P of rank 1..d), the closed form
-     is feasible (Sigma <= C to 1e-9, tr(P Sigma) <= D (1 + 1e-9); a slack trace would show
-     in the logdet comparison) and an independent
+     is feasible (Sigma <= C to 1e-9, tr(P Sigma) <= D (1 + 1e-9)), puts the trace at the
+     budget (|tr(P Sigma) - D| <= 1e-9 D; version 4) and an independent
      conic solve (cvxpy log_det, Clarabel) agrees in logdet to 1e-5 and in the matrix to
      1e-3 (Frobenius, relative to C).
   m2_maxdet_certificate: feasibility as in m1, and a two-sided dual certificate: lambda =
@@ -85,11 +92,13 @@ Checks (seed 20261126; criteria written before the first run of version 3):
      delta), at delta in {1e-3, 3e-4, 1e-4, 3e-5, 1e-5, 3e-6, 1e-6} (Clarabel, tolerances
      1e-9), with gap(delta) = R2° - R2min(delta). For every pair, fit gap = a + c sqrt(delta)
      by least squares on delta in {1e-5, 3e-6, 1e-6}; the corner claim is a = 0, gated as
-     |a| <= 1e-5 + 0.01 L, with no exception. No solver failure, and at most 5% of the solves
-     "optimal_inaccurate". Every pair's gaps, intercept, statuses and the logdet constraint's
-     dual are recorded (the dual is reported only: interior-point duals of a slack constraint
-     are residues of order tolerance/slack, VI-37). This is a consistency check of resolution
-     about 1e-5 + 0.01 L, not a power check: its target (gap -> 0) also follows from
+     |a| <= 1e-5 nats (absolute; version 4), with no exception. At least 20 pairs must be
+     informative (gap(1e-3) >= 1e-6): on the others gap = 0 by construction. No solver
+     failure, and at most 5% of the solves "optimal_inaccurate". Every pair's gaps,
+     intercept, informative flag, statuses and the logdet constraint's dual are recorded (the
+     dual is reported only: interior-point duals of a slack constraint are residues of order
+     tolerance/slack, VI-37). This is a consistency check of resolution 1e-5 nats on the
+     informative pairs, not a power check: its target (gap -> 0) also follows from
      compactness, the upper semicontinuity of logdet and the uniqueness of Sigma1*; m3 is the
      tighter check on Sigma°. A true pair whose active set changes inside [1e-6, 1e-5] could
      trip it, which would be a false alarm to investigate. (The clauses gap >= 0 and gap
@@ -137,7 +146,7 @@ import time
 import numpy as np
 from scipy import integrate
 
-SEED = 20261126
+SEED = 20261127
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -364,7 +373,9 @@ def main():
         cvx = cvxpy.__version__
     except ImportError:
         cvx = None
-    res = {"seed": SEED, "version": 3,
+    import hashlib
+    harness_sha = hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()
+    res = {"seed": SEED, "version": 4, "harness_sha256": harness_sha,
            "environment": {"python": platform.python_version(), "numpy": np.__version__,
                            "scipy": scipy.__version__, "cvxpy": cvx, "machine": platform.machine(),
                            "system": platform.system()},
@@ -373,11 +384,12 @@ def main():
 
     # ---- m1, m2, m7 (VI-4 bug, 1.2 theta): max-det
     inst = maxdet_instances(rng, 150)
-    worst_ld = worst_mat = worst_feas = worst_absgap = 0.0
+    worst_ld = worst_mat = worst_feas = worst_absgap = worst_trace = 0.0
     worst_Ymin = np.inf
     bug_fired = wrong_level_fired = rank1 = 0
     for P, D, C in inst:
         S, th = sigma_star(P, D, C)
+        worst_trace = max(worst_trace, abs(float(np.trace(P @ S)) - D) / D)
         Ssol = solve_maxdet(P, D, C)
         worst_ld = max(worst_ld, abs(logdet(S) - logdet(Ssol)))
         worst_mat = max(worst_mat, np.linalg.norm(S - Ssol) / np.linalg.norm(C))
@@ -390,10 +402,12 @@ def main():
         Sw, thw = sigma_star(P, D, C, theta_scale=1.2)
         if not m2_ok(*certificate(P, D, C, Sw, 1.0 / thw)):
             wrong_level_fired += 1
-    verdict["m1_maxdet_vs_solver"] = bool(worst_ld <= 1e-5 and worst_mat <= 1e-3 and worst_feas <= 1e-9)
+    verdict["m1_maxdet_vs_solver"] = bool(worst_ld <= 1e-5 and worst_mat <= 1e-3 and worst_feas <= 1e-9
+                                          and worst_trace <= 1e-9)
     verdict["m2_maxdet_certificate"] = bool(m2_ok(worst_feas, worst_absgap, worst_Ymin))
     res["maxdet"] = {"instances": len(inst), "rank_one_P": int(rank1), "maxdet_solver_status": MAXDET_STATUS, "worst_logdet_vs_solver": worst_ld,
                      "worst_matrix_vs_solver": worst_mat, "worst_feasibility": worst_feas,
+                     "worst_trace_residual_rel": worst_trace,
                      "worst_abs_dual_gap": worst_absgap, "worst_Y_min_eig_rel": worst_Ymin,
                      "vi4_bug_beaten_by_solver": int(bug_fired), "level_1.2theta_fails_m2": int(wrong_level_fired)}
 
@@ -428,7 +442,7 @@ def main():
     n_solves = n_inacc = 0
     coupling_fail, refuted_always_refinable, rows = [], 0, []
     solver_failed = []
-    noncommuting = 0
+    noncommuting = n_informative = 0
     for name, cls, Sx, P1, D1, P2, D2 in pairs:
         S1, _ = sigma_star(P1, D1, Sx)
         S2, _ = sigma_star(P2, D2, Sx)
@@ -465,24 +479,27 @@ def main():
         except Exception as e:     # recorded, and fails m4, rather than crashing the run
             solver_failed.append(f"{name}: {type(e).__name__}")
             continue
-        tol_a = 1e-5 + 0.01 * max(L, 0.0)
+        tol_a = 1e-5                     # absolute, nats (version 4; v3 had 1e-5 + 0.01 L)
         fit_d = (1e-5, 3e-6, 1e-6)
         a = fit_intercept(fit_d, [gaps[dl] for dl in fit_d])   # a + c sqrt(delta), every pair
+        informative = bool(gaps[1e-3] >= 1e-6)
+        n_informative += informative
         if abs(a) > tol_a:
             coupling_fail.append(name)
         if v <= -1e-4 and (R2o - gaps[1e-4]) > R2free + 1e-3:
             refuted_always_refinable += 1
         rows.append({"case": name, "class": cls, "v": v, "L": L, "R2_corner": R2o, "intercept": a,
-                     "tolerance": tol_a, "statuses": statuses, "gaps": [gaps[dl] for dl in deltas],
+                     "tolerance": tol_a, "informative": informative, "statuses": statuses, "gaps": [gaps[dl] for dl in deltas],
                      "duals": [mus[dl] for dl in deltas]})
     verdict["m3_corner_closed_form"] = bool(worst_corner <= 1e-5 and iff_ok and n_cap_binds >= 40
                                              and counts["nested"] >= 30 and counts["not_nested_cap_binds"] >= 15)
     verdict["m4_corner_coupling"] = bool(not coupling_fail and not solver_failed
-                                          and n_inacc <= 0.05 * n_solves)
+                                          and n_inacc <= 0.05 * n_solves and n_informative >= 20)
     res["corner"] = {"pairs": len(pairs), "counts": counts, "cap_binds": n_cap_binds,
                      "nested_distinct_noncommuting": noncommuting,
                      "worst_corner_logdet_vs_solver": worst_corner, "iff_ok": bool(iff_ok),
                      "coupling_failures": coupling_fail, "solver_failures": solver_failed,
+                     "m4_informative_pairs": n_informative,
                      "joint_solves": n_solves, "joint_solves_optimal_inaccurate": n_inacc,
                      "always_refinable_refuted": refuted_always_refinable, "pairs_detail": rows}
 
