@@ -133,7 +133,9 @@ energy have to be absorbed by the active modes. A Monte Carlo of the definition 
 where the claim gives 1.0, and the corrected formula gives 1.225.
 
 **What stands.** The bound: the dispersion counts at most the r read dimensions, never the
-ambient d.
+ambient d. It counts exactly r when every mode is active. The first correction wrote a strict
+"< r", which is false there; the re-check VI-34 caught it, and the ledger row has been
+fixed.
 
 **Why the harness passed.** It sampled only distortions at which every mode is active. That
 is the same pattern as NEG-17, and here the sharpening itself was the error.

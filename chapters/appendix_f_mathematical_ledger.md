@@ -31,17 +31,26 @@ lost bet, carried at full prominence.
 
 ## COST-face theorems (Appendix B)
 
+*Corrected 2026-11-20 (VI-32). No COST-face theorem is `[proved]`: none has a custody
+table yet. Appendix B also misstated B4 and B6, and B7's constant was wrong (NEG-18). The
+full corrected custody summary is in Appendix B.*
+
 | Claim | Class | Registry | Incident |
 |---|---|---|---|
-| B1 — consumer $R_C(D)$ achievability + converse | `[proved]` | 022 blk | — |
-| B2 — output ≤ surrogate ≤ reconstruction | `[proved]`/`[demonstrated]` | 028 | — |
-| B3 — surrogate–output gap vanishes with rate | `[demonstrated]` | 028 | VI-3 |
-| B4 — two-observer region; refinability = Loewner nesting | `[proved]` | 022 | **VI-4** |
-| B5 — complete rate region + k-observer chain | `[proved]` | 023 | VI-5 |
-| B6 — mismatch tax $(r/2)\log(M/m)$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[proved]`/`[demonstrated]` | 024/027 | VI-6, NEG-13 |
-| B7 — dispersion counts read dimensions ($r_D \le r$) | `[proved]` | 025 | VI-7 |
+| B1 — consumer $R_C(D)$ achievability + converse | `[exploratory]` (pending net + custody) | 022 blk | VI-3 |
+| B2 — output ≤ surrogate ≤ reconstruction (GO-6) | `[demonstrated]`, **disputed** (harness off the matched-rate premise; re-run owed) | 028 | VI-32, VI-34 |
+| B3 — surrogate–output gap vanishes with rate | `[demonstrated]`, **disputed** (same harness) | 028 | VI-3, VI-34 |
+| B4 — two-observer region; refinability iff $\Sigma_2^\star\preceq\Sigma_1^\star$ | `[predicted]`-grade (weak net) | 022 | **VI-4**, VI-32 |
+| B5 — two-observer rate region; $k$-observer converse and the necessity of nesting ($k\ge3$ achievability and the sufficiency of nesting owed) | corner `[predicted]`-grade; region converse `[exploratory]` (no net that can fail) | 023 | VI-5, VI-32, VI-34 |
+| B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[predicted]`-grade / floor `[demonstrated]` | 024/027 | VI-6, NEG-13 |
+| B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$) | reduction `[exploratory]` (025's checks cannot fail); the $r_D/2$ constant `[refuted]` | 025 | VI-7, **NEG-18**, VI-34 |
 
 ## LEGIBILITY-face theorems (Chapter 9)
+
+*As of 2026-11-20 the `[proved]` tags below are the book's, not the ledger's: no ledger row
+carries them, and their custody (proofs, R-IND-5 records, nets) lives in the sibling
+repository `the-angular-observer`. That custody has not yet been audited against T-CUST-1
+(FRONTIER G11). Read them as pending audit.*
 
 | Claim | Class |
 |---|---|

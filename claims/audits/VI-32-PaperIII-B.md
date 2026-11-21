@@ -39,7 +39,10 @@ continuous in D. The r_D/2 version jumps by ½ each time a mode activates.
 | E j (simulated) | 1.0395 |
 | R(D) | 1.0397 |
 
-**What survives.** Each inactive term is below 1, since γ_k < θ. So r_D ≤ 2V/log²e < r: the
+**What survives.** *(Correction, 2026-11-20, VI-34: the strict "< r" below is false when no
+mode is inactive. The bound is r_D ≤ 2V/log²e ≤ r, with equality on the right iff γ_k ≥ θ for
+every k. The original sentence is kept as written.)* Each inactive term is below 1, since
+γ_k < θ. So r_D ≤ 2V/log²e < r: the
 dispersion counts at most the r read dimensions and never the ambient d. Prereg 025's gated
 claims also stand: R_C = R_Y, and r_D ≤ r as defined. The false part is the identification of
 the dispersion with the active modes alone.

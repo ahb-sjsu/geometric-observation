@@ -89,7 +89,7 @@ measure an \emph{identifiable geometric object}, recover it from the consumer, a
 show adversarially that changing it changes which representation is optimal. We
 further determine, for a \emph{Gaussian source}, the complete two-stage rate region for
 two read operators (\S\ref{sec:multiobs})---successively refinable exactly when their
-optimal error covariances nest---extend it to $k$ observers, and price a misidentified
+optimal error covariances nest---give the converse for $k$ observers, and price a misidentified
 observer (Appendix~\ref{app:mismatch}): mis-weighting a read direction costs a bounded
 rate tax, omitting one erects an irreducible distortion floor.
 \end{abstract}
@@ -130,7 +130,7 @@ face carried as prominently as the wins---whose recurring demonstration is a sin
 code whose downstream verdict \emph{inverts} when nothing changes but the consumer;
 (vi) the complete two-stage rate region for a Gaussian source under two read
 operators---with successive refinability (the optimal error covariances nest) and a
-closed-form max-det rate loss as its corner, extended to $k$ observers
+closed-form max-det rate loss as its corner, with a converse for $k$ observers
 (\S\ref{sec:multiobs})---together with a finite-blocklength reduction (with, in the
 Gaussian case, a dispersion counting read dimensions) and an observer source--channel
 separation (\S\ref{sec:consequences}); and (vii) for a Gaussian source, an operational
@@ -629,15 +629,36 @@ encoder. So $R_{\mathcal C}(n,\epsilon,D)=R_Y(n,\epsilon,D)$ exactly at every $n
 \end{proof}
 
 \begin{corollary}[Dispersion counts read dimensions]\label{cor:dispersion}
-For a Gaussian source under quadratic distortion, in the excess-distortion regime where the
-Kostina--Verd\'u \cite{kostinaverdu2012} normal approximation holds, the reduction gives
+For a Gaussian source under quadratic distortion with $0<D<\sum_k\gamma_k$, where
+$\gamma_1,\dots,\gamma_r$ are the variances of the tilted modes, Kostina and Verd\'u's
+Gaussian approximation \cite{kostinaverdu2012} applied to the $\mathbb R^r$-valued tilted letter
+gives
 \[
 R_{\mathcal C}(n,\epsilon,D)=R_Y(D)+\sqrt{V_Y(D)/n}\,Q^{-1}(\epsilon)+O\!\left(\tfrac{\log n}{n}\right),
 \]
-with effective dimension $r_D:=\#\{\text{active water-filling modes}\}\le r$ (equal to $r$
-as $D\to0$), never the ambient $d$; the tilted-Gaussian dispersion $V_Y$ is cited---the
-scalar quadratic-Gaussian case \cite{kostinaverdu2012,ingberkochman}, the parallel case
-following by per-mode additivity of the tilted information---not re-derived.
+where, with $\theta$ the reverse water-filling level and $r_D:=\#\{k:\gamma_k>\theta\}$ the
+active modes, the dispersion in nats$^2$ (natural logarithms, as declared for this section) is
+\[
+V_Y(D)=\tfrac12\Bigl[r_D+\sum_{k:\,0<\gamma_k\le\theta}\bigl(\gamma_k/\theta\bigr)^2\Bigr],
+\qquad r_D\le 2V_Y(D)\le r ,
+\]
+with equality on the right iff $\gamma_k\ge\theta$ for every $k$ (so in the whole
+low-distortion regime), and strict inequality iff some $\gamma_k<\theta$. The dispersion
+therefore counts at most the $r$ read dimensions, never the ambient $d$: the $d-r$
+dimensions of $\ker\PC$ contribute nothing. The formula is the variance of the $D$-tilted
+information, which is additive over the tilted modes: an active mode contributes
+$\tfrac12\log(\gamma_k/\theta)+\tfrac12(y_k^2/\gamma_k-1)$, and a mode below the water level
+contributes $(y_k^2-\gamma_k)/(2\theta)$, at slope $1/(2\theta)$, because fluctuations of
+its energy must be absorbed by the active modes. The variance is computed here; the
+identification of $V_Y$ with it, and the remainder, are Kostina--Verd\'u's general Gaussian
+approximation, whose hypotheses (a unique optimal kernel, which holds here, and moment
+conditions on the distortion) are to be checked against \cite{kostinaverdu2012} at the
+source for the vector letter. The scalar case is \cite{kostinaverdu2012,ingberkochman}.
+(Corrected 2026-11-20, NEG-18: the earlier statement counted only the active modes, the
+``effective dimension $r_D$''; a Monte Carlo of the tilted information at
+$\gamma=(4,2,0.6,0.3)$, $\theta=1$ gives variance $1.226$ against $r_D/2=1.0$ and the
+formula's $1.225$. A first correction wrote $2V_Y<r$, which fails when every mode is
+active.)
 \end{corollary}
 
 \begin{remark}
@@ -648,8 +669,10 @@ non-difference $D_Y$) the finite-blocklength theory ports only under Linder--Zam
 \end{remark}
 
 \begin{proposition}[Observer separation]\label{prop:separation}
-Let $X$ be i.i.d.\ read by a fixed consumer with distortion $d_{\mathcal C}$ (reference
-letter of finite second moment), transmitted at $\rho$ source symbols per channel use over
+Let $X$ be i.i.d.\ read by a fixed consumer with fixed read operator $\PC$, so that
+$d_{\mathcal C}(x,\hat x)=\lVert\PC^{1/2}(x-\hat x)\rVert^2$ is a squared seminorm (reference
+letter of finite second moment; block distortion the per-letter average), transmitted at
+$\rho$ source symbols per channel use over
 a memoryless channel of capacity $C_{\mathrm{ch}}$ without feedback. The source is
 transmissible within consumer distortion $D$ if $\rho\,R_{\mathcal C}(D)<C_{\mathrm{ch}}$,
 and only if $\rho\,R_{\mathcal C}(D)\le C_{\mathrm{ch}}$; the boundary
@@ -657,17 +680,36 @@ $\rho\,R_{\mathcal C}(D)=C_{\mathrm{ch}}$ is transmissible only when the distort
 curve is approachable from below in rate.
 \end{proposition}
 \begin{proof}
-Take $\rho=1$. \emph{Forward:} for $R_{\mathcal C}(D)<R<C_{\mathrm{ch}}$, concatenate a
-rate-$R$ consumer source code (Theorem~\ref{thm:coding}) with a capacity-achieving channel
-code; on the error event (probability $P_e\to0$) the distortion contribution is
-$O(\sqrt{P_e})\to0$ by the second-moment hypothesis, so $\limsup_n\E d_{\mathcal C}\le D$.
+Take $\rho=1$, and write $S_n:=d_{\mathcal C}(X^n,\hat x_0^n)$ for the block distortion
+of the reference word; the $S_n$ are averages of i.i.d.\ integrable variables, hence
+uniformly integrable. \emph{Forward:} for $R_{\mathcal C}(D)<R<C_{\mathrm{ch}}$, take a
+rate-$R$ consumer source code (Theorem~\ref{thm:coding}), add the reference word
+$\hat x_0^n$ to its codebook (one codeword, no rate cost), and encode by minimum
+distortion; this does not raise the distortion, and now every block's codeword $c$ has
+$d_{\mathcal C}(X^n,c)\le S_n$, so by the quadratic triangle inequality
+$d_{\mathcal C}(a,c)\le2d_{\mathcal C}(a,b)+2d_{\mathcal C}(b,c)$ (valid for the squared
+seminorm) $d_{\mathcal C}(\hat x_0^n,c)\le4S_n$. Expurgate: replace every codeword with
+$d_{\mathcal C}(\hat x_0^n,c)>B$ by $\hat x_0^n$. A reassigned block has $S_n>B/4$, and its
+distortion rises to at most $S_n$, so the distortion rises by at most
+$\varepsilon(B):=\sup_n\E[S_n\mathbf 1\{S_n>B/4\}]\to0$ as $B\to\infty$. Concatenate with a
+channel code of rate $R$ and \emph{maximal} error probability $\lambda_n\to0$ (the source
+indices need not be uniform). On the channel-error event $E$ the decoder outputs some other
+codeword $c$, with $d_{\mathcal C}(X^n,c)\le2S_n+2B$, and since the error probability is
+at most $\lambda_n$ whatever the index, $\E[S_n\mathbf 1_E]\le\sup_{\Pr F\le\lambda_n}\E[S_n
+\mathbf 1_F]\to0$ by uniform integrability; so the error event adds at most
+$2\E[S_n\mathbf 1_E]+2B\lambda_n\to0$, and $\limsup_n\E d_{\mathcal C}\le
+D+\varepsilon(B)$, with $B$ arbitrary. (Corrected 2026-11-20, VI-32 and its re-check: the
+earlier argument bounded the error-event distortion by the reference letter's, but on that
+event the output is a wrong codeword; and a first correction did not control the
+expurgated blocks or the non-uniform indices.)
 \emph{Converse:} $nR_{\mathcal C}(D)\le I(X^n;\hat X^n)\le nC_{\mathrm{ch}}$ by the RD
 converse and data processing across the memoryless channel. At the boundary $\rho
 R_{\mathcal C}(D)=C_{\mathrm{ch}}$ transmissibility needs the distortion--rate curve
 approachable from below in rate: if $R_{\mathcal C}$ is strictly decreasing at $D$, codes
 for $D+1/k$ use rate $R_{\mathcal C}(D+1/k)<C_{\mathrm{ch}}$ and give $\limsup$-distortion
-$D$; on a flat segment of $R_{\mathcal C}$ it is not guaranteed. The only property used is
-that $d_{\mathcal C}$ is an admissible distortion with a legitimate $R_{\mathcal C}$.
+$D$; on a flat segment of $R_{\mathcal C}$ it is not guaranteed. The forward part uses the
+quadratic triangle inequality, so it is stated for a fixed $\PC$; it does not cover the
+point-dependent surrogate or the true divergence.
 \end{proof}
 
 \begin{remark}
@@ -687,7 +729,7 @@ consumer~1's read operator $P_1$, the full description by consumer~2's $P_2$---t
 frontier flagged in \S\ref{sec:framework} (``another consumer may read those
 directions'') becomes a coding question we answer completely: we determine the entire two-stage rate
 region (Theorem~\ref{thm:region}), of which successive refinability and the exact rate
-loss are the corner, and we extend it to $k$ observers---the paper's read operator turned
+loss are the corner, and we give its converse for $k$ observers---the paper's read operator turned
 into rate.
 
 Let $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, be i.i.d.; consumer
@@ -754,7 +796,7 @@ maximizer lies in $\mathbb S^d_{++}$, where $\log\det$ is strictly concave.
 Let $\Sigma_i^\star:=\Sigma^\star(P_i,D_i)$. With $R_2$ the total rate to both stages, the
 closure of the achievable two-stage rate region is
 \[
-\mathcal R(D_1,D_2)=\Bigl\{(R_1,R_2):\ \exists\,\Sigma_f\preceq\Sigma_b\preceq\Sigma_x
+\mathcal R(D_1,D_2)=\Bigl\{(R_1,R_2):\ \exists\,0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x
 \text{ with }\tr(P_1\Sigma_b)\le D_1,\ \tr(P_2\Sigma_f)\le D_2,
 \]
 \[
@@ -775,7 +817,18 @@ $\hat X_1$ yields $\Sigma_b=\Sigma_f+\E\bigl[\Cov(\E[X\mid\hat X_1,\hat X_2]\mid
 X_1)\bigr]\succeq\Sigma_f$, and Lemma~\ref{lem:info} gives $\Sigma_b\preceq\Sigma_x$; so
 $\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$. Finally Lemma~\ref{lem:info} on $\hat X_1$ and
 on the pair gives $R_1\ge I(X;\hat X_1)\ge\tfrac12\log\det\Sigma_x/\det\Sigma_b$ and
-$R_2\ge I(X;\hat X_1,\hat X_2)\ge\tfrac12\log\det\Sigma_x/\det\Sigma_f$. \emph{The converse
+$R_2\ge I(X;\hat X_1,\hat X_2)\ge\tfrac12\log\det\Sigma_x/\det\Sigma_f$. \emph{Blocks.}
+These steps are single-letter; for a code of blocklength $n$ with messages $M_1$ and
+$(M_1,M_2)$, apply them letter by letter and average. With
+$\bar\Sigma_b:=\tfrac1n\sum_i\E\Cov(X_i\mid M_1)$ and $\bar\Sigma_f$ likewise for the
+pair, the chain rule and conditioning give $nR_1\ge I(X^n;M_1)\ge\sum_i[h(X_i)-h(X_i\mid
+M_1)]$, the Gaussian maximum-entropy bound bounds each $h(X_i\mid M_1)$ by
+$\tfrac12\log\det(2\pi e\,\E\Cov(X_i\mid M_1))$, and concavity of $\log\det$ gives
+$R_1\ge\tfrac12\log\det\Sigma_x/\det\bar\Sigma_b$; the trace and nesting constraints are
+linear and pass to the averages, and $\bar\Sigma_f\succ0$ because $R_2\ge\tfrac12\log\det
+\Sigma_x/\det\bar\Sigma_f$ is finite. So the single-letter region bounds every code; for the
+closure, $\det\bar\Sigma_f\ge\det\Sigma_x\,e^{-2R_2}$ keeps limits of such pairs positive
+definite. (Added 2026-11-20, VI-32 and its re-check.) \emph{The converse
 uses neither a Markov-chain assumption nor max-det uniqueness
 (Lemma~\ref{lem:maxdet})---the nesting comes straight from the law of total covariance.} \emph{Achievability.} Fix feasible $\Sigma_f\preceq\Sigma_b
 \preceq\Sigma_x$ and set $\Lambda_b:=\Sigma_b^{-1}-\Sigma_x^{-1}\preceq\Lambda_f:=
@@ -808,7 +861,7 @@ $\Sigma_f\preceq\Sigma_b$ is then exactly $\Sigma_2^\star\preceq\Sigma_1^\star$.
 \begin{corollary}[Exact rate loss]\label{thm:multiobs-loss}
 Among two-stage codes whose base is stage-1-optimal ($R_1=R_1(D_1)$, $\E d_1\le D_1$) and
 whose second stage meets $D_2$, the minimal total rate is $\tfrac12\log\det\Sigma_x-
-\tfrac12\log\det\Sigma^\circ$, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:\Sigma
+\tfrac12\log\det\Sigma^\circ$, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:0\prec\Sigma
 \preceq\Sigma_1^\star,\ \tr(P_2\Sigma)\le D_2\}$---the \emph{same} reverse water-filling
 as $\Sigma^\star$ with the cap $\Sigma_x$ replaced by $\Sigma_1^\star$, i.e.\
 $\Sigma^\circ=\Sigma^\star(P_2,D_2;\Sigma_1^\star)$. Hence the rate loss is
@@ -824,31 +877,43 @@ the looser $\Sigma_2^\star$ program, so $\det\Sigma^\circ\le\det\Sigma_2^\star$;
 $\Sigma_2^\star$ already nests under $\Sigma_1^\star$ (then $\Sigma^\circ=\Sigma_2^\star$).
 \end{proof}
 
-The same region argument closes the $k$-observer case, settling a frontier the corner
-theorem left open.
+The same region argument gives the converse of the $k$-observer case.
 
 \begin{corollary}[The $k$-observer chain]\label{cor:kobs}
 For read operators $P_1,\dots,P_k\succeq0$ with targets $D_1,\dots,D_k$, write $T_i$ for
 the \emph{cumulative} rate decoded through stage $i$ (so $T_2=R_2$ of
-Theorem~\ref{thm:region}). The achievable region is
-$\{(T_1,\dots,T_k):\exists\ \Sigma_k\preceq\cdots\preceq\Sigma_1\preceq\Sigma_x,\
-\tr(P_i\Sigma_i)\le D_i,\ T_i\ge\tfrac12\log\det\Sigma_x/\det\Sigma_i\ \forall i\}$, and
-$(D_1,\dots,D_k)$ is refinable iff the $k$ single-stage optima form a nested chain
-$\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$.
+Theorem~\ref{thm:region}). The achievable region is contained in
+$\{(T_1,\dots,T_k):\exists\ 0\prec\Sigma_k\preceq\cdots\preceq\Sigma_1\preceq\Sigma_x,\
+\tr(P_i\Sigma_i)\le D_i,\ T_i\ge\tfrac12\log\det\Sigma_x/\det\Sigma_i\ \forall i\}$, and if
+$(D_1,\dots,D_k)$ is refinable then the $k$ single-stage optima form a nested chain
+$\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$. For $k=2$ the region is
+equal to this set and refinability is equivalent to nesting (Theorem~\ref{thm:region},
+Corollary~\ref{thm:multiobs}); for $k\ge3$ equality, and the converse direction of the
+refinability criterion, need the $k$-stage coding step discussed below, which is not
+proved here.
 \end{corollary}
 \begin{proof}
 Put $\Sigma_i:=\Sigma(\hat X_{1:i})$: Lemma~\ref{lem:cm} gives each trace bound, the law
 of total covariance (conditioned on $\hat X_{1:i-1}$) the chain nesting, and
-Lemma~\ref{lem:info} the cumulative-rate bounds. A feasible chain is realized by
+Lemma~\ref{lem:info} the cumulative-rate bounds, single-letter; for blocks, the Blocks step
+of Theorem~\ref{thm:region} applies verbatim, and gives $0\prec\Sigma_k$. A feasible chain is realized by
 independent Fisher increments $Z_i=\Delta_i^{1/2}X+M_i$, $\Delta_i:=\Lambda_i-
 \Lambda_{i-1}\succeq0$ ($\Lambda_i:=\Sigma_i^{-1}-\Sigma_x^{-1}$, $\Lambda_0:=0$, $M_i$
-i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$. The two-stage abstract-source arguments of
-\cite{kostinatuncel} extend verbatim to $k$ stages (cf.\ the discrete multiresolution
-region \cite{effros}), and for the present Gaussian instance the independent-increment
-construction with the covering argument of Prop.~\ref{prop:dispersion} yields $k$-stage
-achievability directly. Refinability pins each
-$\Sigma_i=\Sigma_i^\star$ by uniqueness, and the chain nesting reads $\Sigma_i^\star
-\preceq\Sigma_{i-1}^\star$.
+i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$. This realizes every feasible chain by a
+physically degraded Gaussian test channel; turning that test channel into $k$-stage codes
+is a successive-refinement coding step for degraded chains, which is \emph{not proved
+here} for $k\ge3$. For $k=2$ it is Theorem~\ref{thm:region}'s achievability; for $k\ge3$
+the abstract-source region is attributed to \cite{kostinatuncel} (\cite{effros} gives
+bounds, and Rimoldi's result is the finite-alphabet $L$-stage region), and whether its
+hypotheses cover the present Gaussian quadratic case is to be checked at the source.
+(Corrected 2026-11-20, VI-32: the earlier text said the two-stage arguments ``extend
+verbatim'' and that the covering argument of Prop.~\ref{prop:dispersion} yields $k$-stage
+achievability; neither was shown, and that covering argument is a converse-side
+reassignment.) The outer bound, and the necessity of nesting for refinability, do not
+depend on this step: refinability pins each $\Sigma_i=\Sigma_i^\star$ by uniqueness, and
+the chain nesting then reads $\Sigma_i^\star\preceq\Sigma_{i-1}^\star$. Sufficiency of
+nesting for $k\ge3$ is exactly $k$-stage achievability at the nested corner, so it waits on
+that step.
 \end{proof}
 \begin{remark}
 The two-stage backward channel does \emph{not} iterate for $k\ge3$: one contraction fixes
@@ -880,9 +945,10 @@ minimal total rate is $R_1(D_1)+R_2(D_2)$, zero reuse. This is ``one observer's 
 another's signal'' (\S\ref{sec:framework}) as an exact coding theorem.
 
 We confirmed Theorem~\ref{thm:region} and Corollaries~\ref{thm:multiobs}--\ref{cor:kobs}
-numerically (committed with the ledger \cite{ledger2026}): the region converse survives
-$5{,}000+$ random admissible codes, the achievability construction reproduces every
-feasible $(\Sigma_b,\Sigma_f)$ and the $k=3$ chain, and the corner recovers the nesting
+numerically (committed with the ledger \cite{ledger2026}): the region converse holds on
+$5{,}000+$ random Gaussian linear codes (for which membership is automatic, so this checks
+the computation rather than the converse), the achievability construction reproduces the
+corner-type feasible pairs tested and the $k=3$ chain, and the corner recovers the nesting
 characterization, the Equitz--Cover recovery, and the orthogonal-observer loss
 $L=R_1(D_1)$; sealed preregs GO-P-2026-022 (corner) and GO-P-2026-023 (region and
 $k$-observer), each with a fresh-context derivation-grade pass logged---the latter caught
@@ -891,7 +957,8 @@ that the two-stage backward channel does not iterate for $k\ge3$.
 \emph{Related work.} The successive-refinement line is Koshelev \cite{koshelev},
 Equitz--Cover \cite{equitzcover}, Rimoldi \cite{rimoldi} (per-stage measures may
 differ), and, for abstract sources, Effros \cite{effros} and Kostina--Tuncel
-\cite{kostinatuncel}, which supply the operational region invoked above. Two works are
+\cite{kostinatuncel} (Effros gives bounds; the Kostina--Tuncel attribution for $k\ge3$ is
+to be checked at the source). Two works are
 closest, and neither subsumes ours. Nayak \emph{et al.}~\cite{nayaktuncel} treat one
 vector Gaussian source under \emph{individual} (per-component) MSE criteria---the same
 coordinate constraints at both stages---and already show that vector-Gaussian
@@ -1125,10 +1192,11 @@ $R_{\mathcal{C}}^{\mathrm{true}}(D):=\inf\{I(X;\hat X):\E\,d_{\mathcal{C}}(X,\ha
 D\}$. The three results settle, in turn, existence of the single-letter theorem at
 non-vanishing $D$, the exact nonlinear tilt, and the quantitative relation to the
 quadratic surrogate $d_{\PC}$ of Cor.~\ref{cor:pointdep}. The load-bearing identities
-(Thm.~\ref{thm:B2}, Cor.~\ref{cor:B2a}) and the high-resolution formula
-(Thm.~\ref{thm:B3}) were confirmed to machine precision by an independent
-Blahut--Arimoto / reverse-water-filling check committed with the ledger
-\cite{ledger2026}.
+(Thm.~\ref{thm:B2}, Cor.~\ref{cor:B2a}) were checked by an independent Blahut--Arimoto /
+reverse-water-filling computation committed with the ledger \cite{ledger2026}, at a
+tolerance of $10^{-4}$; the high-resolution formula (Thm.~\ref{thm:B3}) was compared with
+it but no pass/fail gate checks that comparison. (Corrected 2026-11-20, VI-32: the earlier
+text said ``to machine precision''.)
 
 \subsection{Existence: the theorem ports verbatim}
 
@@ -1233,8 +1301,8 @@ R_{\mathcal{C}}^{\mathrm{true}}(D)=h(\mathcal{C}(X))-\frac r2\log\frac{2\pi eD}{
 +\frac12\E\bigl[\log\det(G(\mathcal{C}(X))/2)\bigr]+o(1),
 \]
 the input-weighted Linder--Zamir asymptotic ($R(D)=h(X)-\tfrac n2\log\tfrac{2\pi
-eD}{n}+\E\log|\det W(X)|$), which we verified to machine precision against exact reverse
-water-filling in the fixed-$G$ Gaussian case. For KL-type consumers $G$ is the Fisher
+eD}{n}+\E\log|\det W(X)|$), which we compared with exact reverse water-filling in the
+fixed-$G$ Gaussian case (ungated; see above). For KL-type consumers $G$ is the Fisher
 metric and the middle term is a Jeffreys-prior log-volume: \emph{rate = entropy of
 what the consumer sees + log-volume of the consumer's metric + resolution}. The
 chart is essential: the ambient output metric may be degenerate---softmax's
@@ -1270,13 +1338,15 @@ Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-ima
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
 charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
 \S\ref{sec:capacity}; \emph{(c)} the multi-observer problem beyond the Gaussian weighted-quadratic case that
-\S\ref{sec:multiobs} now settles completely (region, refinability, rate loss, and the
-$k$-observer chain)---namely non-Gaussian sources, and the multi-observer region under the
+\S\ref{sec:multiobs} now settles for two observers (region, refinability, rate loss), with
+the $k$-observer converse and the necessity of nesting---namely non-Gaussian sources, and
+the multi-observer region under the
 \emph{true} nonlinear divergence, where the consumer quotients do not reduce to a common
 Gaussian program; and
 \emph{(d)} non-i.i.d.\ sources.
 
-\smallskip\noindent\textbf{GO-6 (proposed; to be sealed before running).} At matched
+\smallskip\noindent\textbf{GO-6 (sealed as GO-P-2026-028 and run, ALL PASS; its harness
+does not match the coders' rates exactly, VI-32).} At matched
 rate $R$, three coders: (a) \emph{output coding}---compress $\mathcal{C}(X)$ under $D_Y$
 (Thm.~\ref{thm:B2}-optimal); (b) \emph{surrogate coding}---$X$-space, $d_{\PC}$;
 (c) \emph{reconstruction coding}---$X$-space MSE. Predictions:
@@ -1356,8 +1426,10 @@ $R=\mathrm{range}\,P$ and the recovered $\hat R$. Under the projector model $P=\
 $\hat P=\Pi_{\hat R}$, $\Sigma_x=I$, Theorem~\ref{thm:omission} gives
 $D_{\mathrm{floor}}=r(1-o)$: a fraction $1-o$ of the read energy is irreducible. The
 measured median $o=0.647$ (Llama-3.2-3B, \S\ref{sec:id}) thus \emph{certifies} a floor of
-$0.353$ of the read energy---\emph{provided the recovery omits the true subspace and the
-read weights are equal}. This is a conditional certificate, not a flat figure:
+$0.353$ of the read energy---\emph{provided the recovery omits the true subspace, the read
+weights are equal, and the source is isotropic} ($\Sigma_x=I$; real key distributions are
+anisotropic, so the whitened kernel of Theorem~\ref{thm:omission} applies instead). This
+is a conditional certificate, not a flat figure:
 Prop.~\ref{prop:id} recovers the subspace but not the eigenvalues, so a weighted floor
 $\sum_i\lambda_i\sin^2\phi_i$ needs data the overlap does not carry, and an
 \emph{over}-covering probe ($\hat R\supseteq R$) has $D_{\mathrm{floor}}=0$---it reads
@@ -1369,9 +1441,11 @@ refutes the $\alpha=1$ density quotient for a direct inner-product consumer: the
 \emph{read} (not in $\ker\PC$, Prop.~\ref{prop:rd}), so, modeled within the
 quadratic-Gaussian water-filling picture, quotienting it acts as an $\hat P$ whose range
 omits a direction the true $P$ reads---exactly Theorem~\ref{thm:omission}'s hypothesis,
-hence a positive floor and irrecoverable failure at any budget. The diffusion-domain case, where the density lies \emph{in} $\ker\PC$, is
-pure commission: bounded wasted bits (Theorem~\ref{thm:commission}), the observed $<2\%$
-effect. One knob, two regimes, separated exactly by whether the discarded direction is
+hence a positive floor and irrecoverable failure at any budget. The diffusion-domain case,
+where the density lies \emph{in} $\ker\PC$, is plausibly pure commission: bounded wasted
+bits (Theorem~\ref{thm:commission}), consistent with the observed $<2\%$ effect---though
+the theorem's equal-range sandwich hypothesis $m\hat P\preceq P\preceq M\hat P$ is not
+established for that case. One knob, two regimes, separated exactly by whether the discarded direction is
 inside or outside $\mathrm{range}\,P$---the theory-side account the practice paper lacked.
 
 We verified Theorems~\ref{thm:commission}--\ref{thm:omission} numerically (sealed prereg
