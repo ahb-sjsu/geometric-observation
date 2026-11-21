@@ -1,0 +1,33 @@
+==============================================================================
+[1] Prop 2: exact binary rate-work frontier (D = 0.15)
+  product-BSC channels realize the closed form: worst residual = 7.8e-16
+  support-line net: 2056 admissible channels (random + optimizer), violations = 0
+  matched-rate inversion: R = 1.1187 = 1.1187, D tied at 0.15; L = 0.1187 vs 1.0000 (ratio 8.42x)  ok=True
+==============================================================================
+[2] Prop 1: Pareto-channel equation -- descent, self-consistency, optimality
+  40 random (source, d, a, b): descent worst uptick = 0.0e+00; eq.(20) self-consistency worst = 1.6e-07; random channels beating J* = 0
+  a=1 classical check: |R - (1 - h2(D))| worst = 2.2e-16
+  midpoint convexity of I(X;Xh) and I(X;Xh|S) in q: violations = 0/2000
+==============================================================================
+[3] Thm 1 converse net: random finite-n codes vs the single-letter boundary
+  admissible random deterministic codes tested = 4048; boundary violations = 0
+==============================================================================
+[4] Thm 2: materialization barrier H(A,M|S^n) = n H(X|S), chain rule, gap >= 0
+  60 random (source, f): |H(A,M|S^n) - nH(X|S)| and chain-rule worst residual = 2.2e-15
+  Delta-W >= 0: negative gaps = 0/20
+==============================================================================
+[5] Cor 2 exact-consumer endpoints + Cor 3 several-consumer TC >= 0
+  15 random exact consumers: |R_C(0) - H(U)|, |L_C(0|S) - H(U|S)| worst = 1.7e-13
+  400 random 3-consumer reads: TC(U1;U2;U3|S) negative = 0; max saved by coordinated reset = 2.063 bits
+==============================================================================
+[6] Cor 4: Gaussian read-operator water-filling = max-det program; net; kernel
+  40 random (Sx, P_C): |eq.(41) - max-det| worst = 6.9e-15; admissible Gaussian codes tested = 6869, violations = 0
+==============================================================================
+[7] Prop 3: temperature-weighted water-filling d_i* = min{lam_i, nu T_i}
+  30 random (spectrum, T, D): feasibility+KKT+equal-T worst = 1.8e-15; random-allocation violations = 0
+==============================================================================
+[8] Prop 4: staleness -- L_t = H(M|X_t) nondecreasing; binary complement = 1 bit
+  40 random finite chains (M deterministic or noisy read of X_0): monotonicity violations = 0, worst decrease = 1.8e-15
+  binary example p=0.05: |H(X0|Xt) - h2(q_t)| and complement-to-1 worst = 1.6e-15
+==============================================================================
+VERDICT: ALL PASS

@@ -1,0 +1,27 @@
+==============================================================================
+[1] scalar moment-level converse: LMMSE algebra + min of l(c,v) = closed form
+  LMMSE algebra: 2000 random (rho,c,v), worst |direct - formula| = 3.2e-16
+  min over admissible moments vs closed form + minimizer (1-D,1-D): worst dev = 3.5e-04
+==============================================================================
+[2] Gaussian channels: exact L and the single-curve identity (no scalar tradeoff)
+  3000 random Gaussian channels: |L - curve(R)| worst = 1.8e-15
+==============================================================================
+[3] quantizer net: non-Gaussian channels never beat either scalar bound
+  quantizer channels tested = 400; bound violations = 0
+==============================================================================
+[4] discrete-optimizer net: quantized (X,S) reproduces the analytic corner
+  rho=0.5: R(a=1)=0.9975 (analytic 1.0000)  L(a=0)=0.8506 (analytic 0.8502)  corner degeneracy |dR|,|dL| <= 0.0000
+  rho=0.9: R(a=1)=0.9975 (analytic 1.0000)  L(a=0)=0.3423 (analytic 0.3254)  corner degeneracy |dR|,|dL| <= 0.0000
+==============================================================================
+[5] vector allocation: quadratic+bisection = KKT; random allocations never beat
+  30 random (r,sig,rho,p,D) x 4 alpha: feasibility+KKT+omitted+classical worst = 1.75e-14; random-allocation beats = 0
+==============================================================================
+[6] strict vector frontier + 2-mode full-channel net
+  registered example rho=(0.95,0), D=0.5: alloc(a=1)=[0.25 0.25] alloc(a=0)=[0.148 0.352]  L-gap=0.1105  R-gap=0.1306
+  full-channel a=1: weighted objective 1.9506 vs per-mode envelope 1.9506  (R,L)=(1.9506,1.3289)  separability holds=True
+  full-channel a=0: weighted objective 1.2832 vs per-mode envelope 1.2836  (R,L)=(1.9998,1.2832)  separability holds=True
+==============================================================================
+[7] side-information discount: monotone in D, -> I(X;S) as D -> 0
+  discount decreasing in D and -> I(X;S) at D->0: True
+==============================================================================
+VERDICT: ALL PASS

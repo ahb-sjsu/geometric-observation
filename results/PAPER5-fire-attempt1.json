@@ -1,0 +1,537 @@
+{
+ "_meta": {
+  "script": "experiments/fire_paper5_nets.py",
+  "harness_sha256": {
+   "experiments/verify_consumer_landauer.py": "e2246f6944084b571ab57df699ff01a642107305bd97564788cbbab0dcf2057c",
+   "experiments/verify_gaussian_sideinfo.py": "d994d5dbaf3c70694e127a84ef21254b7dad8e87af6e62eda702fbf31f5b100c"
+  },
+  "python": "3.12.3",
+  "numpy": "2.4.6",
+  "platform": "Linux-6.8.0-107-generic-x86_64-with-glibc2.39",
+  "jobs": 8,
+  "wall_seconds": 1009.3,
+  "date": "2026-11-21",
+  "control_logs_sha256": {
+   "PAPER5-CL-control.log": "cd1074c61d0de90c4d2e85174f5fbff984d8e94bed39523f25d0c93d9ad10379",
+   "PAPER5-GS-control.log": "3d47e72e17e8df0c7025dcc1c066119cedb4f91d3fbc1a932e96e33df8b6ba5a"
+  }
+ },
+ "controls": [
+  {
+   "id": "CL0",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "control",
+   "expect": null,
+   "claim": "unmutated",
+   "passed": true,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 49.0
+  },
+  {
+   "id": "GS0",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "control",
+   "expect": null,
+   "claim": "unmutated",
+   "passed": true,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 441.2
+  }
+ ],
+ "mutations": [
+  {
+   "id": "CL1[0.001]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "prop2-converse-violations",
+   "claim": "Prop 2 boundary raised (s = 0.001)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 48.1
+  },
+  {
+   "id": "CL1[0.01]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "prop2-converse-violations",
+   "claim": "Prop 2 boundary raised (s = 0.01)",
+   "fired": true,
+   "verdict": "FAIL: ['prop2-converse-violations=1']",
+   "tags": [
+    "prop2-converse-violations=1"
+   ],
+   "returncode": 0,
+   "seconds": 49.5
+  },
+  {
+   "id": "CL1[0.05]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop2-converse-violations",
+   "claim": "Prop 2 boundary raised (s = 0.05)",
+   "fired": true,
+   "verdict": "FAIL: ['prop2-converse-violations=6']",
+   "tags": [
+    "prop2-converse-violations=6"
+   ],
+   "returncode": 0,
+   "seconds": 45.6
+  },
+  {
+   "id": "CL2",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop2-achievability",
+   "claim": "Prop 2 closed form lowered by 1e-3",
+   "fired": true,
+   "verdict": "FAIL: ['prop2-achievability']",
+   "tags": [
+    "prop2-achievability"
+   ],
+   "returncode": 0,
+   "seconds": 45.1
+  },
+  {
+   "id": "CL3",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop2-inversion",
+   "claim": "Prop 2 example: L = 0.9 for the second code",
+   "fired": true,
+   "verdict": "FAIL: ['prop2-inversion']",
+   "tags": [
+    "prop2-inversion"
+   ],
+   "returncode": 0,
+   "seconds": 48.4
+  },
+  {
+   "id": "CL4",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "prop1-fixed-point",
+   "claim": "eq. (20) S-term halved",
+   "fired": true,
+   "verdict": "FAIL: ['prop1-fixed-point']",
+   "tags": [
+    "prop1-fixed-point"
+   ],
+   "returncode": 0,
+   "seconds": 55.4
+  },
+  {
+   "id": "CL4b",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "prop1-fixed-point",
+   "claim": "eq. (20) marginal exponent alpha/2",
+   "fired": true,
+   "verdict": "FAIL: ['prop1-fixed-point']",
+   "tags": [
+    "prop1-fixed-point"
+   ],
+   "returncode": 0,
+   "seconds": 50.5
+  },
+  {
+   "id": "CL5",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop1-convexity-violations",
+   "claim": "convexity probed on -I(X;Xh|S)",
+   "fired": true,
+   "verdict": "FAIL: ['prop1-convexity-violations=2000']",
+   "tags": [
+    "prop1-convexity-violations=2000"
+   ],
+   "returncode": 0,
+   "seconds": 45.2
+  },
+  {
+   "id": "CL6a",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "thm1-converse-violations",
+   "claim": "Thm 1 boundary raised by 1e-3",
+   "fired": true,
+   "verdict": "FAIL: ['thm1-converse-violations=1163']",
+   "tags": [
+    "thm1-converse-violations=1163"
+   ],
+   "returncode": 0,
+   "seconds": 45.9
+  },
+  {
+   "id": "CL6b[0.01]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "thm1-converse-violations",
+   "claim": "Thm 1 boundary raised where D >= 0.05 (s = 0.01)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 50.7
+  },
+  {
+   "id": "CL6b[0.05]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "thm1-converse-violations",
+   "claim": "Thm 1 boundary raised where D >= 0.05 (s = 0.05)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 47.0
+  },
+  {
+   "id": "CL6b[0.1]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "thm1-converse-violations",
+   "claim": "Thm 1 boundary raised where D >= 0.05 (s = 0.1)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 47.7
+  },
+  {
+   "id": "CL7",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "thm2-identity",
+   "claim": "Thm 2 with a randomized description",
+   "fired": true,
+   "verdict": "FAIL: ['thm2-identity']",
+   "tags": [
+    "thm2-identity"
+   ],
+   "returncode": 0,
+   "seconds": 50.5
+  },
+  {
+   "id": "CL8",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "cor2-endpoints",
+   "claim": "Cor 2: R_C(0) = H(X)",
+   "fired": true,
+   "verdict": "FAIL: ['cor2-endpoints']",
+   "tags": [
+    "cor2-endpoints"
+   ],
+   "returncode": 0,
+   "seconds": 55.8
+  },
+  {
+   "id": "CL9",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "cor3-total-correlation",
+   "claim": "Cor 3: total correlation sign flipped",
+   "fired": true,
+   "verdict": "FAIL: ['cor3-total-correlation']",
+   "tags": [
+    "cor3-total-correlation"
+   ],
+   "returncode": 0,
+   "seconds": 47.0
+  },
+  {
+   "id": "CL10[0.01]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "cor4-waterfilling",
+   "claim": "Cor 4 rate claimed (1+s)x, random codes only (s = 0.01)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 50.9
+  },
+  {
+   "id": "CL10[0.05]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "cor4-waterfilling",
+   "claim": "Cor 4 rate claimed (1+s)x, random codes only (s = 0.05)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 46.9
+  },
+  {
+   "id": "CL10[0.2]",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "probe",
+   "expect": "cor4-waterfilling",
+   "claim": "Cor 4 rate claimed (1+s)x, random codes only (s = 0.2)",
+   "fired": true,
+   "verdict": "FAIL: ['cor4-waterfilling']",
+   "tags": [
+    "cor4-waterfilling"
+   ],
+   "returncode": 0,
+   "seconds": 48.0
+  },
+  {
+   "id": "CL11",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "cor4-waterfilling",
+   "claim": "VI-4's bug in sigma_star",
+   "fired": true,
+   "verdict": "FAIL: ['cor4-waterfilling']",
+   "tags": [
+    "cor4-waterfilling"
+   ],
+   "returncode": 0,
+   "seconds": 50.4
+  },
+  {
+   "id": "CL12",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop3-het-waterfilling",
+   "claim": "Prop 3: d* = min{lam, nu sqrt(T)}",
+   "fired": true,
+   "verdict": "FAIL: ['prop3-het-waterfilling']",
+   "tags": [
+    "prop3-het-waterfilling"
+   ],
+   "returncode": 0,
+   "seconds": 30.3
+  },
+  {
+   "id": "CL13",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop4-monotonicity",
+   "claim": "Prop 4 tested on I(M;X_t)",
+   "fired": true,
+   "verdict": "FAIL: ['prop4-monotonicity']",
+   "tags": [
+    "prop4-monotonicity"
+   ],
+   "returncode": 0,
+   "seconds": 46.6
+  },
+  {
+   "id": "CL14",
+   "harness": "experiments/verify_consumer_landauer.py",
+   "kind": "gate",
+   "expect": "prop4-binary",
+   "claim": "Prop 4 example: q_t with (1-p)^t",
+   "fired": true,
+   "verdict": "FAIL: ['prop4-binary']",
+   "tags": [
+    "prop4-binary"
+   ],
+   "returncode": 0,
+   "seconds": 46.4
+  },
+  {
+   "id": "GS1",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "lmmse-algebra",
+   "claim": "LMMSE formula with rho for rho^2",
+   "fired": true,
+   "verdict": "FAIL: ['lmmse-algebra']",
+   "tags": [
+    "lmmse-algebra"
+   ],
+   "returncode": 0,
+   "seconds": 504.0
+  },
+  {
+   "id": "GS2",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "moment-minimum",
+   "claim": "scalar L bound with rho D for rho^2 D",
+   "fired": true,
+   "verdict": "FAIL: ['moment-minimum', 'quantizer-violations=23']",
+   "tags": [
+    "moment-minimum",
+    "quantizer-violations=23"
+   ],
+   "returncode": 0,
+   "seconds": 504.8
+  },
+  {
+   "id": "GS3[0.01]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "quantizer-violations",
+   "claim": "quantizer net, both bounds raised (s = 0.01)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 500.2
+  },
+  {
+   "id": "GS3[0.1]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "quantizer-violations",
+   "claim": "quantizer net, both bounds raised (s = 0.1)",
+   "fired": true,
+   "verdict": "FAIL: ['quantizer-violations=19']",
+   "tags": [
+    "quantizer-violations=19"
+   ],
+   "returncode": 0,
+   "seconds": 513.6
+  },
+  {
+   "id": "GS3[0.3]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "quantizer-violations",
+   "claim": "quantizer net, both bounds raised (s = 0.3)",
+   "fired": true,
+   "verdict": "FAIL: ['quantizer-violations=139']",
+   "tags": [
+    "quantizer-violations=139"
+   ],
+   "returncode": 0,
+   "seconds": 510.1
+  },
+  {
+   "id": "GS4",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "single-curve",
+   "claim": "single-curve identity with (1-rho)",
+   "fired": true,
+   "verdict": "FAIL: ['single-curve']",
+   "tags": [
+    "single-curve"
+   ],
+   "returncode": 0,
+   "seconds": 505.9
+  },
+  {
+   "id": "GS5[0.05]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "discrete-corner",
+   "claim": "discrete-corner net, analytic corner shifted (s = 0.05)",
+   "fired": false,
+   "verdict": "ALL PASS",
+   "tags": [],
+   "returncode": 0,
+   "seconds": 498.8
+  },
+  {
+   "id": "GS5[0.1]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "discrete-corner",
+   "claim": "discrete-corner net, analytic corner shifted (s = 0.1)",
+   "fired": true,
+   "verdict": "FAIL: ['discrete-corner worst=0.103 degen=0.000']",
+   "tags": [
+    "discrete-corner worst=0.103 degen=0.000"
+   ],
+   "returncode": 0,
+   "seconds": 410.5
+  },
+  {
+   "id": "GS6",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "vector-allocation",
+   "claim": "vector quadratic's linear term with alpha/2",
+   "fired": true,
+   "verdict": "FAIL: ['vector-allocation worst=8.5e-01 viol=26', 'strictness gapL=0.033 gapR=0.103']",
+   "tags": [
+    "vector-allocation worst=8.5e-01 viol=26",
+    "strictness gapL=0.033 gapR=0.103"
+   ],
+   "returncode": 0,
+   "seconds": 504.6
+  },
+  {
+   "id": "GS7",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "strictness",
+   "claim": "strict-frontier example made symmetric",
+   "fired": true,
+   "verdict": "FAIL: ['strictness gapL=0.000 gapR=0.000']",
+   "tags": [
+    "strictness gapL=0.000 gapR=0.000"
+   ],
+   "returncode": 0,
+   "seconds": 497.8
+  },
+  {
+   "id": "GS8[0.01]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "full-channel-separability",
+   "claim": "separability envelope raised (s = 0.01)",
+   "fired": true,
+   "verdict": "FAIL: ['full-channel-separability']",
+   "tags": [
+    "full-channel-separability"
+   ],
+   "returncode": 0,
+   "seconds": 504.4
+  },
+  {
+   "id": "GS8[0.05]",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "probe",
+   "expect": "full-channel-separability",
+   "claim": "separability envelope raised (s = 0.05)",
+   "fired": true,
+   "verdict": "FAIL: ['full-channel-separability']",
+   "tags": [
+    "full-channel-separability"
+   ],
+   "returncode": 0,
+   "seconds": 504.3
+  },
+  {
+   "id": "GS9",
+   "harness": "experiments/verify_gaussian_sideinfo.py",
+   "kind": "gate",
+   "expect": "discount",
+   "claim": "discount limit claimed as log2(1/(1-rho^2))",
+   "fired": false,
+   "verdict": null,
+   "tags": [],
+   "returncode": 1,
+   "seconds": 495.1,
+   "stderr_tail": [
+    "    ok7 &= abs(disc[0] - np.log2(1 / (1 - rho * rho)))  # MUTATED < 2e-3",
+    "    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "TypeError: ufunc 'bitwise_and' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''"
+   ]
+  }
+ ],
+ "counts": {
+  "gates": 18,
+  "gates_fired": 17,
+  "probes": 17,
+  "probes_fired": 9
+ },
+ "verdict": {
+  "controls_pass": true,
+  "gates_fire": false
+ },
+ "PAPER5FIRE_supported": false
+}
