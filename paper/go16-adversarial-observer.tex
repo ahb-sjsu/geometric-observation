@@ -17,10 +17,13 @@
 \newcommand{\sym}{\operatorname{sym}}
 
 \title{GO-16: The Adversarial Observer\\
-\large Statement v0.5 --- the revelation reduction and the partition/tie theorem\\
-\normalsize status: theory netted at LQG scope, R-IND-5-verified for
-Theorems 1--3 (the v0.2/v0.3 record; Theorems 4--6 of v0.5 R-IND-5
-pending), and GOVERNED --- opened 2026-08-21 at \texttt{[exploratory]} (v0.1,
+\large Statement v0.6 --- the revelation reduction and the partition/tie theorem\\
+\normalsize status (v0.6): Theorem 3 as sealed in GO-P-2026-090 is refuted
+(NEG-17) and corrected; the corrected Theorems 3--6 were checked by
+fresh-context passes (VI-30, VI-31), re-checked (VI-33) and confirmed
+(VI-35); the corrected Theorem 3 is netted, ungoverned, by
+\texttt{experiments/verify\_go16\_diagonal.py} in CI. History: opened
+2026-08-21 at \texttt{[exploratory]} (v0.1,
 un-parked from U4 out of \texttt{paper/OT-POKER-SURVEY.md}); v0.2 same
 day: Theorems 1--3 proved, harness ALL PASS, Lean-checked; v0.3 same
 day: fresh-context R-IND-5 pass complete (2 exposition errors, 3 gaps,
@@ -47,7 +50,8 @@ is OPEN around commuting, not measure-zero), and a second Lean module
 \textbf{Corrected 2026-11-20} after fresh-context passes VI-30 and
 VI-31: Theorem 3 missed the blackout regime (NEG-17); Theorem 4(ii)'s
 equality clause and Theorem 6's scope are corrected. The corrected
-statements are R-IND-5 pending}
+statements were re-checked (VI-33) and confirmed by a further pass
+(VI-35, 2026-11-21), whose wording fixes are applied}
 \author{Geometric Observation program}
 \date{2026-08-21 (v0.5); corrected 2026-11-20 (v0.6)}
 
@@ -78,10 +82,10 @@ $\theta_i = s_i^2/(\lambda\mu_i)$, a blackout regime at $t^\ast=0$,
 and \textbf{tie iff some coordinate is contested or blacked out}
 (Theorem~\ref{thm:diagonal}; corrected 2026-11-20 --- the v0.2--v0.5
 statement ``tie iff contested $\neq\emptyset$'', sealed in GO-P-2026-090,
-is false on an open set, NEG-17) --- on contested coordinates each
-side's mixture is pinned by the other's indifference, the
-mixed-equilibrium structure of poker (in blackout the reader's mixture
-is only bounded below). Two v0.1 items fall: Conjecture~2 (never-dither)
+is false on an open set, NEG-17) --- on contested coordinates, given
+the level $t^\ast$, each side's mixture is pinned by the other's
+indifference, the mixed-equilibrium structure of poker (in blackout the
+reader's attention is bounded below, and pinned only when $J'(0+)=0$). Two v0.1 items fall: Conjecture~2 (never-dither)
 is \textbf{refuted} --- fractional revelation \emph{requires} dither,
 and the v0.1 probe's contrary finding is explained by its instances
 (their optima are near-projections needing $\approx$no dither; the
@@ -93,9 +97,11 @@ $\Theta$-mixture game is settled at commuting scope for $k=1$
 (Theorem~\ref{thm:nogap}) and open otherwise. The discrete twin (binary
 alphabet) is settled at probe level: the tie survives exactly, the
 pricing generalizes, mixing is the carrier of dither, and a fifth
-class appears that LQG forbids. Verification: numerical harness ALL
-PASS 9/9 + a diagnosis measurement
-(\texttt{experiments/go16\_verify\_partition.py}); twin probe ALL
+class appears that LQG forbids. Verification: the governed harness
+(\texttt{experiments/go16\_verify\_partition.py}, ALL PASS 9/9) passed
+the statement since refuted, its V6 gate being circular (NEG-17); the
+corrected Theorem~\ref{thm:diagonal} is netted by
+\texttt{experiments/verify\_go16\_diagonal.py} (9/9, in CI); twin probe ALL
 PASS 4/4 (\texttt{experiments/go16\_discrete\_twin.py}); eight theorems
 machine-checked in Lean~4/Mathlib
 (\texttt{lean/ObservationTheory/AdversarialObserver.lean}, built
@@ -339,7 +345,7 @@ a committed $\Theta$-mixture cannot enforce a fixed $W^\ast$ across
 encoder deviations. Whether a commitment gap exists in the
 fixed-instrument game is settled at commuting scope for $k=1$
 (Theorem~\ref{thm:nogap}) and \textbf{open} otherwise. What stands:
-where every saddle attention has a fractional entry, the reader must mix
+where no saddle attention is a projection (some eigenvalue lies in $(0,1)$), the reader must mix
 (a projection --- an extreme point of $\mathcal W_k$ --- announced
 first is exploitable); at a positive level with nothing contested a projection can be
 maximin (at the witness of Theorem~\ref{thm:diagonal}'s integral
@@ -401,7 +407,8 @@ $\lambda\mu_i>s_i^2$, and let
 J(t)=\lambda kt+\sum_{i\in C}\lambda(\mu_i-t)_+ +\sum_{i\in S}s_i^2\Bigl(1-\frac t{\mu_i}\Bigr)_+,
 \qquad t\ge0,
 \]
-convex and piecewise linear with breakpoints $\{0\}\cup\{\mu_i\}$.
+convex and piecewise linear, with breakpoints $\{\mu_i\}$ and the end
+$0$ of its domain.
 Then a diagonal optimum $K^\ast=\operatorname{diag}(\rho_i)$ of the
 reduced program exists, and the diagonal optima are exactly
 $\rho_i=1$ ($i\in C$), $\rho_i=\min(1,t^\ast/\mu_i)$ ($i\in S$), for
@@ -443,9 +450,11 @@ the reader's leftover attention is worth less than the shielding.
 \end{itemize}
 In the blackout regime $|C|<k$ and $S\neq\emptyset$, no coordinate is
 contested (contested needs $t^\ast>0$), the conceded ones are read in
-full, and every saddle $W^\ast$ has a fractional entry on $S$ (on the
-$S$-block it is $\succeq\operatorname{diag}(s_i^2/(\lambda\mu_i))\succ0$
-with trace $k-|C|<|S|$). Moreover the \textbf{tie}
+full, and no saddle $W^\ast$ is a projection: its diagonal is $1$ on
+$C$, and a matrix $0\preceq W\preceq I$ with a unit diagonal entry has
+no other entry in that row, so $W^\ast=I_C\oplus W^\ast_{SS}$; the
+$S$-block is $\succeq\operatorname{diag}(s_i^2/(\lambda\mu_i))\succ0$
+with trace $k-|C|<|S|$, so it has an eigenvalue in $(0,1)$. Moreover the \textbf{tie}
 $\lambda_k(G^\ast) = \lambda_{k+1}(G^\ast) = t^\ast$ holds \emph{iff}
 $t^\ast=0$ or the contested set is nonempty, that is, iff some
 coordinate is contested or blacked out. At a positive level with the
@@ -526,15 +535,19 @@ $a$ and $k$ integers forces $\theta_j\in\{0,1\}$: strict, integral.
 \begin{remark}[The poker reading]
 On contested directions (a) the reader mixes (fractional $\theta$ =
 randomized attention --- bluff-catching frequencies), (b) the encoder
-part-shields (fractional $\rho$ = balanced ranges), and (c) each side's
-frequency is pinned by the \emph{other's} indifference
+part-shields (fractional $\rho$ = balanced ranges), and (c) given the
+level $t^\ast$, each side's frequency is pinned by the \emph{other's}
+indifference
 ($\theta_i = s_i^2/(\lambda\mu_i)$; $g_i = t^\ast$), as in poker. They
-are not the whole mixing support (corrected 2026-11-20, VI-30): the
-reader also mixes on a level coordinate, fully revealed, with
-$\theta_j=J'(\mu_j+)/\lambda$, and on blacked-out coordinates, fully
-shielded, where $\theta_i$ is only bounded below by
-$s_i^2/(\lambda\mu_i)$, not pinned; and the spectrum ties in the
-blackout regime with nothing contested. Conceded directions are ``too cheap to balance''
+are not the whole mixing support (corrected 2026-11-20, VI-30, and
+2026-11-21, VI-35): the reader can also mix on a level coordinate, fully
+revealed, with $\theta_j=J'(\mu_j+)/\lambda$, which is $0$ or the cap at
+the ends of a flat stretch (so in the integral regime it need not mix),
+and on blacked-out coordinates, fully shielded, where $\theta_i$ is
+bounded below by $s_i^2/(\lambda\mu_i)$ and pinned only when
+$J'(0+)=0$; the encoder's contested $\rho_i=t^\ast/\mu_i$ is pinned
+given $t^\ast$ but not unique on a contested flat stretch; and the
+spectrum ties in the blackout regime with nothing contested. Conceded directions are ``too cheap to balance''
 (the lazy regime the probe found); submerged directions are
 exploitation for free by budget exhaustion; $\ker\Theta$ (fixed
 reads) was v0.1's structural free-exploitation and survives as the
@@ -596,9 +609,10 @@ diagonality argument of Theorem~\ref{thm:diagonal}(a), the
 $\varepsilon$-limit assertions, the SVD computation in
 achievability's $K$-verification, and the KKT bookkeeping of
 Theorems~\ref{thm:partition}--\ref{thm:diagonal}; these are
-standard-cited. (v0.3 said ``and harness-netted''; 090's V6 is circular,
-and the new diagonal net checks values and the tie, not the attention
-bookkeeping --- corrected 2026-11-20, VI-30.)
+standard-cited. (v0.3 said ``and harness-netted''; 090's V6 is circular
+--- corrected 2026-11-20, VI-30. The new diagonal net checks the
+diagonal program's attention bookkeeping against two LPs' duals, its d5
+and d9, but not the full program's KKT conditions.)
 
 \textbf{Lean, second module}
 (\texttt{lean/ObservationTheory/AdversarialObserverDiscrete.lean};
@@ -643,11 +657,17 @@ Theorem~\ref{thm:nogap}~($\ge$), gated since 2026-11-20 so that no
 encoder start, near or far, may reach below $V^\ast-10^{-8}$ (best found
 $1.749999999999$ vs $7/4$ at $k=1$; $4.052777777957$ vs $V^\ast$ at
 $k=2$). This harness is not in CI, and no governed seal covers it.
-\texttt{experiments/verify\_go16\_diagonal.py} (in CI) nets
-Theorem~\ref{thm:diagonal} as corrected: the closed form against an
-exact LP on 601 instances (worst $1.4\times10^{-15}$), the blackout
-condition, and the tie characterization, and requires the sealed
-``tie iff contested'' to fail.
+\texttt{experiments/verify\_go16\_diagonal.py} (in CI, 9/9) nets the
+diagonal program of Theorem~\ref{thm:diagonal} as corrected: the closed
+form against an exact LP on 601 instances (worst $1.4\times10^{-15}$),
+the blackout condition, the tie characterization, the LP's dual
+attention and its optimal vertex (d1--d6), and, added 2026-11-21 after
+VI-35, the whole optimal face against the segment $\{\rho(t)\}$ with the
+uniqueness clause, the tie on the whole minimizer interval, and every
+coordinate's attention range from a reader-side LP (d7--d9, 603 cases,
+317 flat stretches, 0 violations); it requires the sealed ``tie iff
+contested'' to fail, and putting back VI-33's corrected errors fails
+d7 or d9. The diagonalization step is proved, not netted.
 
 \textbf{Correction ledger for the dither question (all steps kept at
 equal prominence):} v0.1 conjectured never-dither from probe C4;
@@ -757,8 +777,8 @@ and $v^2=\rho\,u(2-u)$, so equality is $v=\sqrt\rho$, that is $v\ge0$
 and ($u=1$ or $v=0$). (Corrected 2026-11-20, VI-31: v0.5 said
 ``exactly on the symmetric family $q_0+q_1=1$'', which fails both ways,
 e.g.\ at $(0.8,0.2)$ and at $(0.3,0.3)$.) Lean: \texttt{frontier\_bound};
-\texttt{frontier\_attained} proves the ``if'' half for $\varepsilon\le
-\tfrac12$; \texttt{symmetric\_rho}. Deterministic
+\texttt{frontier\_attained} proves the ``if'' half on the $u=1$
+branch; \texttt{symmetric\_rho}. Deterministic
 policies have $\rho\in\{0,1\}$. The 091 pilot's SLSQP refinement is
 hereby superseded by proof. The frontier cost
 $c(\rho) = s^2(1-\sqrt\rho)/2$ is convex (midpoint concavity of
@@ -812,9 +832,12 @@ conjugating $K$ by joint-eigenbasis sign flips leaves both terms
 invariant (the entrywise step for one flip is Lean:
 \texttt{sign\_flip\_average}; composing the flips and the change of basis
 are prose), so averaging over the $2^n$ flips yields a jointly-diagonal
-optimum by convexity --- existence, not uniqueness. The governed face is
-090's V9 (the rotated instance --- a commuting pair --- whose
-fractional spectrum and tie the generic SDP solver recovers).
+optimum by convexity --- existence, not uniqueness. No governed or
+netted face covers it as corrected: 090's V9 governs one rotated
+instance at a positive level (a commuting pair, whose fractional
+spectrum and tie the generic SDP solver recovers), under a sealed
+statement since refuted in the blackout regime (NEG-17), and the
+blackout regime has no rotated face at all.
 \end{theorem}
 
 \begin{theorem}[No fixed-instrument commitment gap at commuting

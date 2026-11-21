@@ -34,7 +34,7 @@ sentences around the core, not in the core itself.
 | O3 | overclaim | The netting claims (KKT bookkeeping "harness-netted"; the water-level and Theorem 6 assembly "netted by S1–S3 plus 090/091") are false. | Both withdrawn in the text. |
 | O4 | overclaim | Corollary 1's "demands fractional revelation whenever a coordinate is contested" fails at J′(0+) = 0. | Now "exactly when it has a contested coordinate", noting that blackout and contested optima coexist when J′(0+) = 0. |
 
-**Exposition, X1–X8 (all applied):**
+**Exposition, ten items (all applied; this heading said "X1–X8" until VI-35 counted the bullets, 2026-11-21):**
 - "Every saddle W* has a fractional entry on S", with the PSD-block reason.
 - Undefined "fractional/integral regime" references replaced.
 - Theorem 6: q_i defined; the reader strategy set of case (b) named; 4.88 vs 3.50 cited.
