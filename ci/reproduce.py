@@ -169,6 +169,9 @@ REPRODUCIBLE = [
     # registrations: Track P nets for [proved], fixed seeds, seconds each.
     ("verify_rld1_turning.py",      "RLD1T20-JSON","RLD1-turning.json",             "RLD1T20_supported"),
     ("verify_rld1_lemma1.py",       "RLD1L1-JSON", "RLD1-lemma1.json",              "RLD1L1_supported"),
+    # GO-16 Theorem 3 as corrected 2026-11-20 (NEG-17: the blackout regime): closed form vs an
+    # exact LP on 601 instances, and the sealed "tie iff contested" must fail. ~1 s.
+    ("verify_go16_diagonal.py",     "GO16DIAG-JSON","GO16-diagonal.json",           "GO16DIAG_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
