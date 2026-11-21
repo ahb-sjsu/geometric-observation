@@ -22,7 +22,8 @@ connector or network tools and no access to the assistant's verdict. Its checks:
 - swept the repository's other prose about Paper V.
 
 **Verdict.** **No false mathematical step.** The pass found 0 errors, 3 gaps, 2 overclaims
-and 10 exposition items in the paper, and 6 items in other files.
+and 10 exposition items in the paper (9 rows below: VI-44 counted them), and 6 items in
+other files.
 
 The main finding is #1. Corollary 3's statement left out a hypothesis that its proof uses:
 consumer j decodes from M_j alone. Without it, the independent-reset clause is false.

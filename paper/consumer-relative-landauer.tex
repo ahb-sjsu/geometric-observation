@@ -90,8 +90,8 @@ extend the region to several consumers, identify the conditional total
 correlation saved by coordinated reset, derive the Landauer scaling of the
 Gaussian read-operator water-filling solution, and obtain a temperature-weighted
 water-filling rule for heterogeneous memory banks. With jointly Gaussian reset
-side information, the scalar single-letter region, a lower bound on every code,
-collapses to a single corner whose rate--work gap grows to the full
+side information, the scalar single-letter region, which contains every code's
+rate--work pair, collapses to a single corner whose rate--work gap grows to the full
 source--side-information mutual information as distortion vanishes, while the
 vector single-letter frontier reappears as a generalized water-filling in which
 the minimum-rate and minimum-work allocations differ.
@@ -206,8 +206,8 @@ total correlation. Fourth, for a Gaussian source and the read operator
 $\PC$ of Observation Theory, the usual spectral water-filling rate becomes an
 isothermal work law. If eigenmodes are erased in memory banks at different
 temperatures, the water level is proportional to temperature. Fifth, with
-jointly Gaussian reset side information the scalar single-letter region, a
-lower bound on every code, is a single corner whose rate--work gap grows to
+jointly Gaussian reset side information the scalar single-letter region, which
+contains every code's rate--work pair, is a single corner whose rate--work gap grows to
 $I(X;S)$ as distortion vanishes, and the
 tradeoff reappears in the vector single-letter region through the allocation of distortion
 across modes that the reset context knows unequally well. Sixth, for a
@@ -830,8 +830,9 @@ For the Landauer content the proof is exact at every blocklength, and it uses
 neither Theorem~\ref{thm:main-region} nor Theorem~\ref{thm:multi}; reading the
 content as work still rests on the asymptotic tightness of
 \eqref{eq:landauer-bound}. Without the restriction that consumer $j$ reads $M_j$
-alone, the independent-reset minimum is smaller: if $U_1=U_2$, one memory can
-serve both consumers and the other can be empty.
+alone, the independent-reset minimum can be strictly smaller: one memory can
+then hold every output and the others be empty, so the minimum falls to
+$H(U_1,\ldots,U_m\mid S)$, for example when $U_1=U_2$ with $H(U_1\mid S)>0$.
 
 The qualification about coordinated reset matters. The saving in
 \eqref{eq:conditional-tc} is not attached to a particular memory package. It is
@@ -867,11 +868,14 @@ The source is now continuous and the distortion unbounded, so
 Theorem~\ref{thm:main-region} does not apply as proved.
 Corollary~\ref{cor:gauss} and
 Propositions~\ref{prop:scalar-corner}--\ref{prop:vector-frontier} are
-statements about the single-letter region $\mathcal U(D)$: the union in
-\eqref{eq:main-region}, taken over test channels from the source space to any
-reproduction alphabet whose distortion is at most $D$, with $R_{\cC}$ and
-$L_{\cC}$ its two minima as in
-\eqref{eq:ordinary-rd}--\eqref{eq:work-endpoint}.
+statements about the single-letter region $\mathcal U(D)$, which is
+$\mathcal U_{\cC}(D)$ for this source: the union in \eqref{eq:main-region},
+taken over test channels from the source space to any reproduction alphabet on
+which $d_{\cC}$ is defined, with distortion at most $D$. Here $R_{\cC}$ and
+$L_{\cC}$ denote its two minima as in
+\eqref{eq:ordinary-rd}--\eqref{eq:work-endpoint}, and
+$W_{\cC}^\star=\kb T\ln2\,L_{\cC}$ is read in the same way: the single-letter
+work, a lower bound on the ideal reset work of every code.
 (Proposition~\ref{prop:thermal-waterfill} is an optimization inside a stated
 memory model.) The operational region $\RW_{\cC}(D)$ is defined as before, and
 its definition does not depend on the alphabet. Its relation to
@@ -881,13 +885,14 @@ Lemma~\ref{lem:convexity} and the mixture-channel step hold verbatim, and
 Appendix~\ref{app:converse} gives the single-letterization in a form that uses
 no differential entropy. Every code therefore has
 $(R_n,L_n)\in\mathcal U(D_n)$. The limit step of
-Theorem~\ref{thm:main-region} used the compactness of a finite set of
-channels. Here it is replaced by a property of the regions below, shown in the
-proof of Proposition~\ref{prop:vector-frontier}: each $\mathcal U(D)$ is
-closed, and if $(R+1/k,L+1/k)\in\mathcal U(D+1/k)$ for every $k$, then
-$(R,L)\in\mathcal U(D)$. Every achievable pair therefore lies in
-$\mathcal U(D)$, and the closed forms of this section are lower bounds on the
-rate and the Landauer content of every code. Achievability would need the
+Theorem~\ref{thm:main-region} used the compactness of the set of channels
+between finite alphabets. Here it is replaced by a property of the regions
+below, shown in the proof of Proposition~\ref{prop:vector-frontier}: each
+$\mathcal U(D)$ is closed, and if $(R+1/k,L+1/k)\in\mathcal U(D+1/k)$ for every
+$k$, then $(R,L)\in\mathcal U(D)$. Every achievable pair therefore lies in
+$\mathcal U(D)$, and since $\mathcal U(D)$ is closed,
+$\RW_{\cC}(D)\subseteq\mathcal U(D)$: the closed forms of this section bound
+the rate and the Landauer content of every code from below. Achievability would need the
 covering and binning steps extended to continuous alphabets and unbounded
 squared error. That extension is not written out here, so
 $\RW_{\cC}(D)=\mathcal U(D)$ is not claimed for
@@ -900,7 +905,7 @@ likewise not reproved here.
 Let $\lambda_1,\ldots,\lambda_r>0$ be the nonzero eigenvalues of
 $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$, where
 $r=\rank(\Sigma_X^{1/2}\PC\Sigma_X^{1/2})$. In an isothermal memory with no
-reset side information, rate and Landauer content coincide.
+reset side information, the minima of rate and Landauer content coincide.
 
 \begin{corollary}[Isothermal read-operator work law]\label{cor:gauss}
 For $0<D<\sum_{i=1}^{r}\lambda_i$, let $\theta$ be chosen so that
@@ -924,10 +929,27 @@ never materialized in the observation memory.
 \end{corollary}
 
 \begin{proof}
-Equation~\eqref{eq:gaussian-rd} is the weighted Gaussian
-rate--distortion solution obtained by diagonalizing the read covariance
-$\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$ and applying reverse water-filling. Multiply
-bits by $\kb T\ln2$ to obtain \eqref{eq:gaussian-work}.
+Write $\PC^{1/2}\Sigma_X\PC^{1/2}=V\diag(\lambda_1,\ldots,\lambda_r,0,\ldots,0)V^{\mathsf T}$
+with $V$ orthogonal; its nonzero eigenvalues are those of
+$\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$. Then $Z=V^{\mathsf T}\PC^{1/2}X$ has
+independent components $Z_i\sim\mathcal N(0,\lambda_i)$ for $i\le r$ and
+$Z_i=0$ for $i>r$, and
+$d_{\cC}(x,\hat x)=\lVert z-\hat z\rVert^2$ with
+$\hat z=V^{\mathsf T}\PC^{1/2}\hat x$. For any test channel, $\hat Z$ is a
+function of $\hX$ and $Z$ a function of $X$, so
+$I(X;\hX)\ge I(Z;\hat Z)\ge I(Z_{1:r};\hat Z_{1:r})$, and the first $r$
+coordinates carry distortion at most $D$.
+Proposition~\ref{prop:vector-frontier} below, with unit weights and every
+$\rho_i=0$ (side information independent of the source, so that $L_i=R_i$ and
+$\alpha$ is immaterial), bounds this below by \eqref{eq:gaussian-rd}: its
+roots are $\delta_i=1/(2\mu)=\theta$. Conversely, the product of scalar
+reverse channels on $Z_1,\ldots,Z_r$, with $\hat Z_i=0$ for $i>r$, pulled back
+by $\hX=(\PC^{1/2})^{+}V\hat Z$, attains it. The vector $V\hat Z$ lies in the
+range of $\PC^{1/2}\Sigma_X\PC^{1/2}$, which is contained in that of
+$\PC^{1/2}$, so $\PC^{1/2}\hX=V\hat Z$ and the distortion is that of
+$\hat Z$; and $\hX$ depends on $X$ only through $Z$, so
+$I(X;\hX)=I(Z;\hat Z)$. Multiply bits by $\kb T\ln2$ to obtain
+\eqref{eq:gaussian-work}.
 \end{proof}
 
 The final proviso is the materialization barrier in spectral form. A null
@@ -1366,8 +1388,9 @@ which of the stored distinctions remain predictable when the memory is cleared.
 The binary frontier shows why neither coordinate can be inferred from the
 other: a code that minimizes description capacity need not minimize reset work.
 Landauer's principle then prices the residue. In the exact case, that residue is
-$H(\cC(X)\mid S)$. In the Gaussian local model, it is the ordinary read-operator
-water-filling rate multiplied by $\kb T\ln2$. Across several consumers, it is the
+$H(\cC(X)\mid S)$. In the Gaussian local model, at the single-letter level and as a
+bound on every code, it is the ordinary read-operator water-filling rate multiplied
+by $\kb T\ln2$. Across several consumers, it is the
 conditional entropy of their joint read rather than the sum of isolated records.
 
 The materialization theorem states the practical boundary most plainly. Once a

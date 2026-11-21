@@ -173,6 +173,15 @@ REPRODUCIBLE = [
     # GO-16 Theorem 3 as corrected 2026-11-20 (NEG-17: the blackout regime): closed form vs an
     # exact LP on 601 instances, and the sealed "tie iff contested" must fail. ~1 s.
     ("verify_go16_diagonal.py",     "GO16DIAG-JSON","GO16-diagonal.json",           "GO16DIAG_supported"),
+    # Paper III's C3 nets (max-det closed form, corner coupling, dispersion), version 4,
+    # committed (57bccec) before its first run; reviews VI-36 to VI-38 and VI-45. Not a
+    # registration: a Track P net, fixed seed 20261127. ~35 s on Atlas; needs cvxpy
+    # (Clarabel; 0.11.1 on Atlas, not pinned). Unlike the margins above, its m4 verdict has
+    # two discrete solver-status clauses (no failure; <= 5% "optimal_inaccurate" of 574
+    # solves), so a BLAS or solver difference can flip it (VI-45). If it does, fix forward
+    # and disclose. Run account: results/PAPER3-nets-RUNS.md; version 3's output is
+    # results/PAPER3-nets-v3.json.
+    ("verify_paper3_nets.py",       "PAPER3NETS-JSON","PAPER3-nets.json",           "PAPER3NETS_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
