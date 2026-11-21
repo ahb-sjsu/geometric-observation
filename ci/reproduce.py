@@ -54,7 +54,8 @@ def unit(name: str, first_shard_only: bool = False) -> bool:
         print(f"  would run: {name}")
     return ok and not DRY
 
-# (harness, stdout sentinel, committed json, summary-flag key)
+# (harness, stdout sentinel, committed json, summary-flag key). A sentinel of None means the
+# harness writes results/<committed json> itself (file mode, in the [2/3] loop below).
 # NOTE: the go2_kv_keys* and go2_embed_retrieval harnesses import `turboquant_pro`
 # (a separate research package, not on PyPI), so they are NOT Tier-A self-contained
 # and are carried as committed artifacts, re-derived for self-consistency in step [3].
@@ -182,6 +183,13 @@ REPRODUCIBLE = [
     # and disclose. Run account: results/PAPER3-nets-RUNS.md; version 3's output is
     # results/PAPER3-nets-v3.json.
     ("verify_paper3_nets.py",       "PAPER3NETS-JSON","PAPER3-nets.json",           "PAPER3NETS_supported"),
+    # Paper III lem:maxdet's rate identity (added 2026-11-21 after VI-46): quantizer and
+    # Gaussian channels against the formula. Version 2, committed (69c4359) before its first
+    # run, seed 20261129, ~20 s, numpy + scipy only. Version 1 FAILED one r3 clause and is kept
+    # as results/PAPER3-rate-identity-v1.json; run account results/PAPER3-rate-identity-RUNS.md.
+    # The harness writes its JSON to results/ rather than printing it, so its sentinel is None
+    # (file mode, below); it is not edited for CI, since its recorded sha256 must keep matching.
+    ("verify_paper3_rate_identity.py", None,          "PAPER3-rate-identity.json",  "PAPER3RATE_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
@@ -416,8 +424,23 @@ for harness, sentinel, jname, flag in REPRODUCIBLE:
     if not unit(f"[2/3] {harness}"):
         continue
     try:
-        committed = json.load(open(os.path.join(ROOT, "results", jname)))
-        fresh = extract_json(run(f"experiments/{harness}"), sentinel)
+        jpath = os.path.join(ROOT, "results", jname)
+        committed = json.load(open(jpath))
+        if sentinel is None:
+            # File mode: the harness writes results/<jname> itself. Move the committed artifact
+            # aside so that a harness which crashes or writes nothing cannot pass on the stale
+            # file, read the fresh one, and always put the committed one back.
+            aside = jpath + ".committed"
+            os.replace(jpath, aside)
+            try:
+                run(f"experiments/{harness}")
+                if not os.path.exists(jpath):
+                    raise RuntimeError(f"{harness} wrote no results/{jname}")
+                fresh = json.load(open(jpath))
+            finally:
+                os.replace(aside, jpath)
+        else:
+            fresh = extract_json(run(f"experiments/{harness}"), sentinel)
         bad = []
         if fresh.get("verdict") != committed.get("verdict"):
             bad.append(f"verdict {fresh.get('verdict')} != committed {committed.get('verdict')}")

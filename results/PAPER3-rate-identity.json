@@ -1,0 +1,182 @@
+{
+ "version": 2,
+ "seed": 20261129,
+ "started_utc": "2026-11-21T21:33:17+00:00",
+ "harness_sha256": "05f0cc042b7e45477b5b6705c42218dce646a507dc61f3bb905f230f8f39c914",
+ "git": {
+  "commit": "69c43596fb5038abae3d196632cc962afd5ed455",
+  "harness_modified": false
+ },
+ "environment": {
+  "python": "3.12.2",
+  "numpy": "2.5.2",
+  "scipy": "1.18.1",
+  "system": "Windows",
+  "machine": "AMD64"
+ },
+ "targets": "Paper III lem:maxdet rate identity: R_P(D) = 1/2 logdet Sx - 1/2 logdet Sigma*(P,D)",
+ "counts": {
+  "base_instances": 120,
+  "skew_instances": 40,
+  "channels": 880,
+  "by_family": {
+   "product_random": 120,
+   "product_aligned": 120,
+   "skew": 40,
+   "gauss_random": 120,
+   "gauss_optimum": 120,
+   "gauss_near_eps1": 120,
+   "gauss_near_eps2": 120,
+   "gauss_near_eps3": 120
+  }
+ },
+ "lemma_info": {
+  "min_slack": {
+   "product_random": -2.775557561562892e-16,
+   "product_aligned": -9.436895709313835e-16,
+   "skew": 0.016404243007721024
+  },
+  "skew_guard_worst": {
+   "p_sum": 2.220446049250313e-16,
+   "mean_sum": 2.636779683484747e-16,
+   "second_sum": 2.6645352591003757e-15
+  },
+  "skew_min_centroid_gap": 0.034224837054458605
+ },
+ "converse": {
+  "min_gap": {
+   "product_random": 0.0,
+   "product_aligned": -1.1102230246251564e-16,
+   "skew": 0.04348557266313943,
+   "gauss_random": 1.4083872940107156e-07,
+   "gauss_optimum": -4.440892098500626e-15,
+   "gauss_near_eps1": 0.0001606120159382482,
+   "gauss_near_eps2": 6.0070760760089215e-06,
+   "gauss_near_eps3": 6.084400272499124e-08
+  }
+ },
+ "attained": {
+  "worst_abs_gap_at_optimum": 4.440892098500626e-15,
+  "worst_identity_gap": 3.247402347028583e-15,
+  "near_optimum_max_gap": {
+   "eps1": 0.9247531441029526,
+   "eps2": 0.19671521168000705,
+   "eps3": 0.023530982827598912
+  },
+  "near_optimum_min_gap": {
+   "eps1": 0.0001606120159382482,
+   "eps2": 6.0070760760089215e-06,
+   "eps3": 6.084400272499124e-08
+  }
+ },
+ "backward": {
+  "worst_min_eig_rel": -2.504852929257588e-15,
+  "worst_trace_rel": 2.9105882758843503e-15,
+  "monte_carlo": [
+   {
+    "z_distortion": 0.38098634947765875,
+    "z_cov_max": 1.824063136768085
+   },
+   {
+    "z_distortion": -0.35611955977612314,
+    "z_cov_max": 1.1180355845142929
+   },
+   {
+    "z_distortion": -0.5120202714420905,
+    "z_cov_max": 1.6286555526459898
+   },
+   {
+    "z_distortion": 0.7604024610406886,
+    "z_cov_max": 0.42853444439702526
+   },
+   {
+    "z_distortion": -0.9291812690766273,
+    "z_cov_max": 1.274327693235073
+   },
+   {
+    "z_distortion": 0.9024699266139664,
+    "z_cov_max": 1.9317036524516034
+   },
+   {
+    "z_distortion": -0.8762150922902885,
+    "z_cov_max": 1.3152975309842911
+   },
+   {
+    "z_distortion": -0.009567057513904296,
+    "z_cov_max": 2.30440235474051
+   },
+   {
+    "z_distortion": -0.9518242707949155,
+    "z_cov_max": 1.1214347598873677
+   },
+   {
+    "z_distortion": -0.2954389393326341,
+    "z_cov_max": 2.105996420782219
+   }
+  ]
+ },
+ "power": {
+  "a_raised_counts": {
+   "s_1e-3": {
+    "product_random": 2,
+    "product_aligned": 4,
+    "gauss_optimum": 120,
+    "gauss_near_eps3": 100,
+    "gauss_near_eps1": 10,
+    "gauss_near_eps2": 50,
+    "gauss_random": 1
+   },
+   "s_1e-2": {
+    "product_random": 2,
+    "product_aligned": 4,
+    "gauss_optimum": 120,
+    "gauss_near_eps3": 117,
+    "gauss_near_eps2": 100,
+    "gauss_near_eps1": 50,
+    "gauss_random": 1
+   },
+   "s_1e-1": {
+    "product_random": 14,
+    "product_aligned": 11,
+    "skew": 4,
+    "gauss_optimum": 120,
+    "gauss_near_eps2": 118,
+    "gauss_near_eps3": 120,
+    "gauss_near_eps1": 103,
+    "gauss_random": 11
+   }
+  },
+  "b_lemma_info_raised_counts": {
+   "product_random": {
+    "s_1e-2": 6,
+    "s_5e-2": 13
+   },
+   "product_aligned": {
+    "s_1e-2": 4,
+    "s_5e-2": 11
+   },
+   "skew": {
+    "s_1e-2": 0,
+    "s_5e-2": 4
+   }
+  },
+  "c_commuting_shortcut_instances_caught": 67,
+  "d_vi4_bug_instances_caught": 67,
+  "e_bits_channels_caught": 517,
+  "gates": {
+   "a_raised_1e-2": true,
+   "b_lemma_info_raised_5e-2_product": true,
+   "c_commuting_shortcut": true,
+   "d_vi4_bug": true,
+   "e_bits_for_nats": true
+  }
+ },
+ "verdict": {
+  "r1_lemma_info": true,
+  "r2_converse": true,
+  "r3_attained": true,
+  "r4_backward": true,
+  "r5_power": true
+ },
+ "PAPER3RATE_supported": true
+}
