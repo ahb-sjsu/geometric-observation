@@ -72,7 +72,9 @@ lost to rebases before the pre-rebase hook existed.
   too; it must still fail on every tampering case.
 - **Claims harness (the CI "Tier-A" job, CPU only):**
   `python -m pip install -r ci/requirements-ci.txt`, then
-  `python ci/reproduce.py`.
+  `python ci/reproduce.py`. CI runs it as three parallel shards
+  (`--shard I/3`); `--dry-run` lists what a shard would run. A harness you add
+  joins a shard automatically, and its wall time appears in the log.
 - **LaTeX:** compile each document you changed in its own directory with
   `latexmk -pdf -interaction=nonstopmode -halt-on-error <file>.tex`. CI fails
   on undefined references or citations, so check the log for them.

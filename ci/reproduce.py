@@ -15,13 +15,43 @@ with margin, so this is robust across platforms/BLAS. It also:
     self-consistent with its verdict dict (tamper check), including the harnesses CI
     cannot re-run (Gate-B needs Atlas+Llama; GO-4/GO-5-ADC need external corpora).
 
-Run from repo root:  python ci/reproduce.py
+Run from repo root:  python ci/reproduce.py [--shard I/N] [--dry-run]
+  --shard I/N  run only shard I of N (0 <= I < N). CI runs the shards as parallel jobs.
+               Each harness is one unit; unit k runs in shard k % N. [0] seals and
+               [3/3] integrity run in shard 0 only. With no flag, everything runs.
+  --dry-run    print which units this shard would run, and run nothing.
 Exit 0 iff everything green."""
 from __future__ import annotations
-import json, subprocess, sys, glob, os
+import json, subprocess, sys, glob, os, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
+# Print as we go, so CI logs show progress and per-harness timings (they used to arrive
+# all at once when the job ended).
+sys.stdout.reconfigure(line_buffering=True)
+
+# Sharding (added 2026-11-20): the single Tier-A job had reached ~43 of its 60 minutes,
+# with more harnesses on the way.
+SHARD, NSHARD = 0, 1
+if "--shard" in sys.argv:
+    SHARD, NSHARD = (int(x) for x in sys.argv[sys.argv.index("--shard") + 1].split("/"))
+    if not (NSHARD >= 1 and 0 <= SHARD < NSHARD):
+        sys.exit(f"--shard I/N needs 0 <= I < N, got {SHARD}/{NSHARD}")
+DRY = "--dry-run" in sys.argv
+_next_unit = 0
+
+
+def unit(name: str, first_shard_only: bool = False) -> bool:
+    """True iff this shard runs the unit `name`; under --dry-run, list it and return False."""
+    global _next_unit
+    if first_shard_only:
+        ok = SHARD == 0
+    else:
+        ok = _next_unit % NSHARD == SHARD
+        _next_unit += 1
+    if DRY and ok:
+        print(f"  would run: {name}")
+    return ok and not DRY
 
 # (harness, stdout sentinel, committed json, summary-flag key)
 # NOTE: the go2_kv_keys* and go2_embed_retrieval harnesses import `turboquant_pro`
@@ -150,9 +180,11 @@ failures: list[str] = []
 
 def run(rel_path: str, timeout: int = 600) -> str:
     parts = rel_path.split()
+    t0 = time.monotonic()
     p = subprocess.run([PY, os.path.join(ROOT, parts[0])] + parts[1:],
                        capture_output=True,
                        text=True, timeout=timeout, cwd=ROOT)
+    print(f"    [{time.monotonic() - t0:6.1f} s] {rel_path}")
     if p.returncode != 0:
         raise RuntimeError(f"{rel_path} exited {p.returncode}\n"
                            f"STDOUT tail:\n{p.stdout[-2000:]}\n"
@@ -186,6 +218,7 @@ def extract_json(stdout: str, sentinel: str) -> dict:
     return obj
 
 
+print(f"Tier-A shard {SHARD}/{NSHARD}" + (" (dry run)" if DRY else ""))
 print("=" * 68)
 print("[0] Seal integrity: every sealed prereg's content hash (verify_seals.py)")
 print("=" * 68)
@@ -193,50 +226,53 @@ print("=" * 68)
 # file and 6 more had been re-sealed over their originals, while nothing checked them. The
 # verifier checks each seal against its seal commit and fails on any undisclosed change and
 # on any stale or broken disclosure.
-try:
-    out = run("scripts/verify_seals.py", timeout=600)
-    summary = [l for l in out.splitlines() if l.startswith("verify_seals: ") and "sealed preregs" in l]
-    print("  PASS", summary[0][len("verify_seals: "):] if summary else "")
-except Exception as e:
-    failures.append(f"verify_seals crashed or failed: {e}")
-    print("  FAIL:", e)
+if unit("[0] verify_seals.py", first_shard_only=True):
+    try:
+        out = run("scripts/verify_seals.py", timeout=600)
+        summary = [l for l in out.splitlines() if l.startswith("verify_seals: ") and "sealed preregs" in l]
+        print("  PASS", summary[0][len("verify_seals: "):] if summary else "")
+    except Exception as e:
+        failures.append(f"verify_seals crashed or failed: {e}")
+        print("  FAIL:", e)
 
 print()
 print("=" * 68)
 print("[1/3] Appendix-B numerical verification (verify_appendixB.py)")
 print("=" * 68)
-try:
-    out = run("experiments/verify_appendixB.py", timeout=300)
-    need = ["B2/B2a VERDICT: PASS", "B3(ii) VERDICT: PASS"]
-    missing = [s for s in need if s not in out]
-    # B3(i): confirm the last high-res diff is tiny (exact once modes active)
-    if missing:
-        failures.append(f"verify_appendixB: missing {missing}")
-        print("  FAIL:", missing)
-    else:
-        print("  PASS: B2, B2a, B3(ii) verdicts green")
-except Exception as e:
-    failures.append(f"verify_appendixB crashed: {e}")
-    print("  FAIL:", e)
+if unit("[1/3] verify_appendixB.py"):
+    try:
+        out = run("experiments/verify_appendixB.py", timeout=300)
+        need = ["B2/B2a VERDICT: PASS", "B3(ii) VERDICT: PASS"]
+        missing = [s for s in need if s not in out]
+        # B3(i): confirm the last high-res diff is tiny (exact once modes active)
+        if missing:
+            failures.append(f"verify_appendixB: missing {missing}")
+            print("  FAIL:", missing)
+        else:
+            print("  PASS: B2, B2a, B3(ii) verdicts green")
+    except Exception as e:
+        failures.append(f"verify_appendixB crashed: {e}")
+        print("  FAIL:", e)
 
 print()
 print("=" * 68)
 print("[1b] Two-observer theorem harness (verify_two_observer.py)")
 print("=" * 68)
-try:
-    out = run("experiments/verify_two_observer.py", timeout=180)
-    need = ["construction reproduces both optima", "all nested = True",
-            "L=R1(D1): OK", "VERDICT: ALL PASS"]
-    missing = [s for s in need if s not in out]
-    if missing:
-        failures.append(f"verify_two_observer: missing {missing}")
-        print("  FAIL:", missing)
-    else:
-        print("  PASS: max-det sufficiency construction, Equitz-Cover recovery, "
-              "orthogonal loss L=R1(D1)")
-except Exception as e:
-    failures.append(f"verify_two_observer crashed: {e}")
-    print("  FAIL:", e)
+if unit("[1b] verify_two_observer.py"):
+    try:
+        out = run("experiments/verify_two_observer.py", timeout=180)
+        need = ["construction reproduces both optima", "all nested = True",
+                "L=R1(D1): OK", "VERDICT: ALL PASS"]
+        missing = [s for s in need if s not in out]
+        if missing:
+            failures.append(f"verify_two_observer: missing {missing}")
+            print("  FAIL:", missing)
+        else:
+            print("  PASS: max-det sufficiency construction, Equitz-Cover recovery, "
+                  "orthogonal loss L=R1(D1)")
+    except Exception as e:
+        failures.append(f"verify_two_observer crashed: {e}")
+        print("  FAIL:", e)
 
 print()
 print("=" * 68)
@@ -245,6 +281,8 @@ print("=" * 68)
 for h in ("verify_rate_region.py", "verify_observer_mismatch.py",
           "verify_dispersion_separation.py", "verify_go6.py",
           "verify_consumer_landauer.py", "verify_gaussian_sideinfo.py"):
+    if not unit(f"[1c] {h}"):
+        continue
     try:
         out = run(f"experiments/{h}", timeout=900)
         if "VERDICT: ALL PASS" in out:
@@ -263,23 +301,26 @@ print("=" * 68)
 # The instrument of the unsealed T1 registration (drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md).
 # Only the smoke instance runs here: the governed instance runs once, after the seal, and its
 # guard refuses without a sealed prereg. Added 2026-11-18 (owner: "add the smoke step to CI").
-try:
-    sm = extract_json(run("experiments/t1_worked_result.py --smoke", timeout=600), "T1-JSON")
-    summary = sm.get("verdict", {}).get("summary")
-    if sm.get("mode") == "smoke" and summary == "ALL PASS":
-        print(f"  PASS t1_worked_result.py --smoke: {summary} (instrument v{sm.get('version')})")
-    else:
-        failures.append(f"t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
-        print(f"  FAIL t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
-except Exception as e:
-    failures.append(f"t1_worked_result.py --smoke crashed: {e}")
-    print(f"  FAIL t1_worked_result.py --smoke: {e}")
+if unit("[1d] t1_worked_result.py --smoke"):
+    try:
+        sm = extract_json(run("experiments/t1_worked_result.py --smoke", timeout=600), "T1-JSON")
+        summary = sm.get("verdict", {}).get("summary")
+        if sm.get("mode") == "smoke" and summary == "ALL PASS":
+            print(f"  PASS t1_worked_result.py --smoke: {summary} (instrument v{sm.get('version')})")
+        else:
+            failures.append(f"t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
+            print(f"  FAIL t1_worked_result.py --smoke: mode={sm.get('mode')} verdict={summary}")
+    except Exception as e:
+        failures.append(f"t1_worked_result.py --smoke crashed: {e}")
+        print(f"  FAIL t1_worked_result.py --smoke: {e}")
 
 print()
 print("=" * 68)
 print("[2/3] Re-run CPU-only harnesses; assert committed verdict reproduces")
 print("=" * 68)
 for harness, sentinel, jname, flag in REPRODUCIBLE:
+    if not unit(f"[2/3] {harness}"):
+        continue
     try:
         committed = json.load(open(os.path.join(ROOT, "results", jname)))
         fresh = extract_json(run(f"experiments/{harness}"), sentinel)
@@ -305,7 +346,8 @@ print()
 print("=" * 68)
 print("[3/3] Integrity: every results/*.json parses; summary flag == all(verdict)")
 print("=" * 68)
-for path in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))):
+integrity = unit("[3/3] results/*.json integrity", first_shard_only=True)
+for path in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))) if integrity else []:
     name = os.path.basename(path)
     try:
         d = json.load(open(path))
@@ -336,11 +378,16 @@ for path in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))):
 
 print()
 print("=" * 68)
+if DRY:
+    print(f"DRY RUN: shard {SHARD}/{NSHARD}; {_next_unit} sharded units in total; nothing was run.")
+    sys.exit(0)
+where = f" (shard {SHARD}/{NSHARD})" if NSHARD > 1 else ""
 if failures:
-    print(f"CI RESULT: FAIL ({len(failures)} problem(s))")
+    print(f"CI RESULT{where}: FAIL ({len(failures)} problem(s))")
     for f in failures:
         print("  -", f)
     sys.exit(1)
-print("CI RESULT: GREEN -- seals verified, Appendix-B verified, all CPU-only claims reproduced, "
-      "results self-consistent.")
+print(f"CI RESULT{where}: GREEN -- seals verified, Appendix-B verified, all CPU-only claims "
+      "reproduced, results self-consistent." if NSHARD == 1 else
+      f"CI RESULT{where}: GREEN -- every unit in this shard passed.")
 sys.exit(0)

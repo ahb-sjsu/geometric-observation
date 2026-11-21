@@ -16,8 +16,17 @@ permissions:
 
 jobs:
   reproduce:
-    name: Reproduce CPU-only claims (Tier-A)
+    name: Reproduce CPU-only claims (Tier-A, shard ${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
+    # Sharded 2026-11-20: the single job had reached ~43 of its 60 minutes with more
+    # harnesses to come. ci/reproduce.py --shard I/N runs unit k in shard k % N, and
+    # [0] seals and [3/3] integrity in shard 0. It prints each harness's wall time, so
+    # the split can be rebalanced from the logs. fail-fast is off, so every shard
+    # reports even when one fails; the workflow fails if any shard fails.
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
     # 45 -> 60 after the 085 cut: adding go14_density.py (CI #30) took the
     # Tier-A suite from 24m42s to 39m32s, leaving ~5 min of headroom under
     # the old cap. The harness runs 40 s locally and is far slower on the
@@ -37,7 +46,7 @@ jobs:
       - name: Install Tier-A deps
         run: python -m pip install --upgrade pip -r ci/requirements-ci.txt
       - name: Reproduce verdicts + verify Appendix B
-        run: python ci/reproduce.py
+        run: python ci/reproduce.py --shard ${{ matrix.shard }}/3
 
   paper:
     name: Compile paper (no undefined refs)
