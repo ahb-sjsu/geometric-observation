@@ -130,8 +130,8 @@ algebra + basic probability.
 ### Part III — One Object, Three Shadows
 
 **Ch. 7 — COST [B].** The consumer rate–distortion function $R_C(D)$: achievability
-+ converse; the tilt toward $P_C$; the two-observer region and refinability =
-Loewner nesting; the $k$-chain; dispersion counts read dimensions; the mismatch tax
++ converse; the tilt toward $P_C$; the two-observer region and refinability
+(nested optimal error covariances, not nested read metrics); the $k$-chain; dispersion counts read dimensions; the mismatch tax
 $(r/2)\log(M/m)$ and the omission floor $\operatorname{tr}(\tilde P\Pi)$. GO-6 as
 the operational net (output ≤ surrogate ≤ reconstruction) [demonstrated]. Proofs to
 Appendix B. *Source: Paper III (T-IT).*

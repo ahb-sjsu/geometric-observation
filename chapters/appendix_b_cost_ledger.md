@@ -14,8 +14,9 @@ A green harness is a net, not a proof (T-CUST-2). Full proofs live in Paper III 
 appendix. This ledger gives each statement, its status, its custody, and the verification
 incidents it survived.
 
-**Status as of 2026-11-20.** A custody pass (VI-32, `claims/audits/VI-32-PaperIII-B.md`)
-found that this appendix had overstated itself:
+**Status as of 2026-11-21.** A custody pass (VI-32, `claims/audits/VI-32-PaperIII-B.md`)
+found, and later passes (VI-34, VI-36 to VI-38) extended, that this appendix had overstated
+itself:
 - no theorem here has a custody table, so none is `[proved]`;
 - three of its statements misstated Paper III (B1, B4, B6);
 - one constant was wrong (B7, NEG-18);
@@ -96,14 +97,17 @@ regime.
 
 ## Thm B4 — Two-observer region & refinability
 
-**Statement.** The achievable rate region for two observers $(P_1, P_2)$ is the
-max-determinant region of Paper III (`thm:region`), with $0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$.
+**Statement.** The achievable rate region for two observers $(P_1, P_2)$ is contained in
+the max-determinant region of Paper III (`thm:region`), with
+$0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$, and equals it under Assumption SR.
 
-A single scalable code serves the coarse observer with a prefix of the fine observer's bits
-**iff the observers' optimal error covariances nest, $\Sigma_2^\star\preceq\Sigma_1^\star$**
-(`thm:multiobs`). This condition depends on $D_1$ and $D_2$.
+If a single scalable code serves the coarse observer with a prefix of the fine observer's
+bits, then **the observers' optimal error covariances nest, $\Sigma_2^\star\preceq\Sigma_1^\star$**
+(`thm:multiobs`); under Assumption SR nesting also suffices. This condition depends on $D_1$
+and $D_2$.
 
-Non-nested optima incur the exact rate loss of `thm:multiobs-loss`.
+Non-nested optima incur at least the rate loss of `thm:multiobs-loss`, and exactly that loss
+under Assumption SR. (Stated unconditionally until 2026-11-21; VI-38.)
 
 **Correction (VI-32).** This appendix used to state the criterion as "iff
 $P_1\preceq P_2$". That is false in both directions:
@@ -139,7 +143,7 @@ The paper always had it right.
 - *Later (VI-32).* The "decisive" check added then is an algebraic identity that holds for
   any nested pair, so it cannot detect the bug.
 
-## Thm B5 — Complete rate region & the $k$-observer chain
+## Thm B5 — Rate region & the $k$-observer chain
 
 **Statement.**
 - **Converse and the necessity of nesting:** for $k$ observers in a chain, the achievable
@@ -148,18 +152,21 @@ The paper always had it right.
   proves both, with the $n$-block step added in 2026-11.
 - **Under Assumption SR, for every $k$** (for $k=2$: `thm:region`, `thm:multiobs`), the
   region equals that set and refinability is equivalent to nesting.
-- **Achievability for $k\ge3$, and with it the sufficiency of nesting:** the
+- **Achievability, for every $k$, and with it the sufficiency of nesting:** the
   independent-Fisher-increment Gaussian test channel realizes every feasible chain, but
   turning it into codes is not proved in Paper III. That step is Paper III's Assumption SR,
-  attributed to Effros's $L$-resolution coding theorem (IEEE T-IT 1999), whose hypotheses
-  for this Gaussian case are still to be checked at the source. Every achievability claim
+  attributed to Effros (IEEE T-IT 1999), which Kostina–Tuncel cite for the two-stage region
+  on continuous alphabets; that it covers $k\ge3$ stages is a reading of its title
+  ("multiresolution"), and its hypotheses for this Gaussian case are still to be checked at
+  the source. Every achievability claim
   here, for $k=2$ too, rests on it. (Checked 2026-11-21, VI-36: Kostina–Tuncel, which Paper III
   cited as the coding theorem, is a two-stage parametric characterization of the region's
   boundary, and itself cites Effros for the continuous-alphabet extension.)
 
 **Status.**
-- $k=2$ (the corner): proof, R-IND-5 (VI-5), and the sealed net 023, whose check [3] is a
-  real net for the corner. **`[predicted]`-grade.**
+- $k=2$, the max-det corner identity: proof, R-IND-5 (VI-5), and the sealed net 023, whose
+  check [3] is a real net for it. **`[predicted]`-grade.** Refinability as a coding
+  statement is `[exploratory]`, as in B4.
 - The region converse: proof and R-IND-5, but no net that can fail. 023's [1] is an
   identity, and [2] cannot fail on the region's coupling. **`[exploratory]` until a net
   exists.**
@@ -242,9 +249,11 @@ bound survives.
   re-derived by two fresh contexts (VI-34, VI-36) and is netted by `verify_paper3_nets.py`
   (m5, m6). The corrected formula is **`[exploratory]`** until that net is in CI with a
   custody table (Track P). Identifying the variance with the dispersion is Kostina–Verdú's
-  Theorem 12, checked at the source on 2026-11-21: it holds for abstract alphabets, and its
-  restrictions (i)–(iv) and its uniqueness condition hold for the vector letter
-  (`cor:dispersion`; the uniqueness argument is new and awaits a confirming pass).
+  Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
+  abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
+  the vector letter (`cor:dispersion`). VI-38 confirmed the uniqueness argument line by line,
+  and corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
+  assistant had read and used to overrule VI-37's verifier.
 - 025's check C3b is circular and samples only the all-active regime. The net with
   inactive modes is now `verify_paper3_nets.py` (m5, m6), not yet in CI.
 - The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú's eq. (94), for
@@ -262,10 +271,10 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-34 | `[demonstrated]`, disputed; re-run owed |
-| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
-| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
+| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
+| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13 | `[predicted]`-grade; floor `[demonstrated]` |
-| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
+| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
 
 No row is `[proved]`; none has a custody table yet.
 

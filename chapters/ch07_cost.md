@@ -29,7 +29,8 @@ both high-source-variance *and* high-consumer-sensitivity, and abandoning any
 direction that either the source does not populate or the consumer does not read. The
 tilt away from Shannon's source-only allocation is precisely the factor $P_C$; the
 "true-divergence reduction" relative to reconstruction coding *is* that tilt.
-[proved — Appendix B, Thm B1; conclusion-grade via a committed Blahut–Arimoto harness]
+[`[exploratory]` pending a net and custody — Appendix B, B1; tagged `[proved]` until
+2026-11-21, VI-38]
 
 Two operational consequences frame the rest of the chapter.
 
@@ -93,7 +94,8 @@ correct single-letter construction uses independent Fisher increments from physi
 degraded channels, exact to $10^{-14}$ [corrected; prereg GO-P-2026-023; the coding step
 is assumed, not proved]. The lesson survives the technicality: a
 chain of observers is not a stack of two-observer problems, and the geometry that
-makes it work is the nesting of read metrics.
+makes it work is the nesting of the observers' optimal error covariances, not of their
+read metrics.
 
 Dispersion — the second-order term governing finite-blocklength performance — counts at
 most the **read** dimensions, never the source dimensions: $r_D \le 2V \le r$ in nats$^2$,
@@ -109,9 +111,13 @@ modes, an "effective dimension $r_D$"; that is refuted, NEG-18, Chapter 16.)
 The two results with the most operational bite are about using the *wrong* read
 metric — which is what every reconstruction-optimal code does.
 
-**The commission tax.** Coding for a read metric of rank $M$ when the consumer's is
-rank $m < M$ costs an excess rate of order $(r/2)\log(M/m)$ — you pay to protect
-directions the consumer does not read [proved — Appendix B; prereg GO-P-2026-024].
+**The commission tax.** Coding for a read metric $\hat P$ when the consumer's is $P$,
+with $m\hat P\preceq P\preceq M\hat P$ on their shared range (Loewner constants
+$0<m\le M$), costs an excess rate of at most $(r/2)\log(M/m)$ in the regime
+`thm:commission` states, and the $r/2$ is sharp — you pay for weighting directions as the
+consumer does not [`[predicted]`-grade — Appendix B, B6; prereg GO-P-2026-024]. (Until
+2026-11-21 this paragraph gave the metrics ranks $M$ and $m$, confusing the Loewner
+constants with ranks, and tagged it `[proved]`; VI-32, VI-38.)
 This is the rate-domain shadow of "reconstruction is wasteful": the waste has a
 closed-form price.
 
@@ -127,7 +133,8 @@ omission gives a *floor*, a compact distortion band $[D_{\text{floor}},
 \operatorname{tr}(P\Sigma_x)]$, **not** the "unbounded distortion" a first draft
 claimed; and the floor uses the *whitened* kernel, which a naive kernel projector
 overstates by $\sim 30\%$ when $\Sigma_x \ne I$ (VI-6, corrected;
-[proved — prereg GO-P-2026-024]).
+`[predicted]`-grade, prereg GO-P-2026-024, and the floor's measurement `[demonstrated]` —
+Appendix B, B6; tagged `[proved]` until 2026-11-21, VI-38).
 
 The omission floor is not only a theorem. It was **measured biting a real language
 model.** On trained Llama-3.2-3B read operators, the read-metric floor is reached on

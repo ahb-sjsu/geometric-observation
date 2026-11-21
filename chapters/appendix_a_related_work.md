@@ -28,8 +28,11 @@ consumer is a likelihood — and the point is the job, not the algebra.
 refinement, the multi-stage/$k$-observer rate regions.
 
 *This program adds.* The consumer-relative $R_C(D)$ with its tilt toward the read
-subspace; the two-observer region whose refinability is exactly Loewner-nesting of read
-metrics; the mismatch **tax** $(r/2)\log(M/m)$ and the omission **floor**
+subspace; the two-observer region's converse, in which refinability requires the
+observers' optimal error covariances to nest (sufficient under Paper III's Assumption SR;
+not the Loewner order of the read metrics themselves, VI-32); the mismatch **tax**
+$(r/2)\log(M/m)$ for Loewner constants $m\hat P\preceq P\preceq M\hat P$, and the omission
+**floor**
 $\operatorname{tr}(\tilde P\Pi)$ for using the wrong read metric.
 
 *Differentiation.* Classical rate–distortion fixes the fidelity measure (usually squared
@@ -40,7 +43,8 @@ no achievability, for which they cite Rimoldi and Effros; the
 achievability of the multi-observer region, for $k=2$ and $k\ge3$ alike, is Paper III's
 Assumption SR, attributed to Effros and not yet checked at the source (and the $k$-stage
 construction is not an iteration of the two-stage map — VI-5; VI-32, VI-36, VI-37). The dispersion rests on Kostina–Verdú's Gaussian approximation (their Theorem 12,
-with the scalar constant their eq. (94)), checked at the source on 2026-11-21; the parallel
+with the scalar constant their eq. (94)), checked at the source on 2026-11-21 and
+independently by VI-38, which corrected restriction (iv) to a ninth moment; the parallel
 formula is derived in Paper III (NEG-18).
 
 ## Perceptual / weighted-distortion coding

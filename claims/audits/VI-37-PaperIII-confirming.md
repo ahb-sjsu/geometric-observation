@@ -52,6 +52,13 @@ the achievability theorem Paper III had cited it as. The substance is unchanged:
 achievability still rests on Assumption SR. Found by the assistant on rereading the source
 while briefing the next confirming pass, not by a fresh context; that pass checks it.
 
+**Correction to row 10 (2026-11-21, VI-38).** Row 10 is wrong. Kostina–Verdú's restriction
+(iv) reads "E[d⁹(X, Y⋆)] < ∞ where averaging is with respect to P_X × P_Y⋆" (arXiv:1102.3944,
+p. 7), a ninth moment. The verifier's recollection of a higher power was right, and the
+assistant misread the page and overruled it. Paper III's `cor:dispersion` now says d⁹; the
+conclusion is unaffected, since the Gaussian letter has every moment. See
+`claims/audits/VI-38-PaperIII-confirming.md`.
+
 **Confirmed resolved or right:**
 - **m2:** a valid weak-duality certificate. Levels 1.2θ and 0.8θ both fail 150/150.
 - **A3 and A4:** resolved.

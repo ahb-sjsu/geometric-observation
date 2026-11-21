@@ -33,7 +33,14 @@ in git; this paragraph and the records VI-36 and VI-37 are the account):
   false-corner clause is dropped from m7 (m4's resolution is stated instead); the
   environment is recorded by the harness. Its criteria were written before its first run,
   informed by the earlier seeds' runs and not by its own. Its as-executed output is
-  results/PAPER3-nets.json.
+  results/PAPER3-nets.json. It also doubled m4's tolerance, from version 2's
+  5e-6 + 0.005 L to 1e-5 + 0.01 L: a loosening, not called one at the time, with no
+  reason recorded (VI-38). On a pair with L near 1 a corner error up to about 0.01 nats
+  passes m4, some 3000 times the worst |a| observed (3.6e-6 over L >= 1e-2). m4 tests
+  nothing on the 41 nested pairs, where gap(delta) = 0 by construction, nor on the named
+  pair VI32_not_refinable_though_P1<=P2, where the recorded gaps vanish to about 1e-11
+  (VI-38); it is informative only on the other non-nested pairs. A version 4 with an
+  absolute tolerance, on a fresh seed, is owed before this net joins CI.
 
 Targets:
   the max-det closed form   Sigma*(P,D) = argmax{logdet S : 0 <= S <= C, tr(P S) <= D} is
@@ -54,7 +61,8 @@ Targets:
 
 Checks (seed 20261126; criteria written before the first run of version 3):
   m1_maxdet_vs_solver: on 150 random instances (d in 2..5, P of rank 1..d), the closed form
-     is feasible (Sigma <= C to 1e-9, tr(P Sigma) = D to 1e-9 relative) and an independent
+     is feasible (Sigma <= C to 1e-9, tr(P Sigma) <= D (1 + 1e-9); a slack trace would show
+     in the logdet comparison) and an independent
      conic solve (cvxpy log_det, Clarabel) agrees in logdet to 1e-5 and in the matrix to
      1e-3 (Frobenius, relative to C).
   m2_maxdet_certificate: feasibility as in m1, and a two-sided dual certificate: lambda =

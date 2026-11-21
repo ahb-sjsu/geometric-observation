@@ -89,9 +89,9 @@ measure an \emph{identifiable geometric object}, recover it from the consumer, a
 show adversarially that changing it changes which representation is optimal. We
 further give, for a \emph{Gaussian source}, the two-stage rate region for two read
 operators (\S\ref{sec:multiobs})---its converse unconditionally, its equality under a
-successive-refinement achievability assumption attributed to Effros and not yet checked at
-the source; nesting of the optimal error covariances is necessary for successive
-refinability, and sufficient under that assumption---give the converse for $k$ observers,
+stated successive-refinement achievability assumption; nesting of the optimal error
+covariances is necessary for successive refinability, and sufficient under that
+assumption---give the converse for $k$ observers,
 and price a misidentified
 observer (Appendix~\ref{app:mismatch}): mis-weighting a read direction costs a bounded
 rate tax, omitting one erects an irreducible distortion floor.
@@ -133,8 +133,9 @@ face carried as prominently as the wins---whose recurring demonstration is a sin
 code whose downstream verdict \emph{inverts} when nothing changes but the consumer;
 (vi) the two-stage rate region for a Gaussian source under two read
 operators---its converse proved, its equality under a successive-refinement achievability
-assumption---with successive refinability (the optimal error covariances nest) and a
-closed-form max-det rate loss as its corner, with a converse for $k$ observers
+assumption---with nesting of the optimal error covariances (necessary for successive
+refinability, sufficient under the assumption) and a closed-form max-det rate-loss bound,
+attained under the assumption, as its corner, with a converse for $k$ observers
 (\S\ref{sec:multiobs})---together with a finite-blocklength reduction (with, in the
 Gaussian case, a dispersion counting read dimensions) and an observer source--channel
 separation (\S\ref{sec:consequences}); and (vii) for a Gaussian source, an operational
@@ -658,10 +659,13 @@ $D$-tilted information and its defining property are \cite[Def.~6, Property~2]{k
 the identification of $V_Y$ with it, and the remainder, are \cite[Thm.~12]{kostinaverdu2012}
 (numbering of arXiv:1102.3944), which holds for abstract alphabets and so for the
 $\mathbb R^r$-valued letter. Its restrictions (i)--(iv) hold here: an i.i.d.\ source, a
-separable distortion, $0=d_{\min}<D<d_{\max}=\sum_k\gamma_k$, and $\E\,d^3(Y,\hat
-Y^\star)<\infty$ with $Y$ and $\hat Y^\star$ independent Gaussians. So do its basic
-conditions (a)--(c): $R$ is finite, a single reproduction point ($0$) has finite expected
-distortion, and the optimal kernel is unique. For uniqueness, let $\hat Y$ attain $R(D)$.
+separable distortion, $0=d_{\min}<D<d_{\max}=\sum_k\gamma_k$ with $0<\epsilon<1$, and
+$\E\,d^9(Y,\hat Y^\star)<\infty$ with $Y$ and $\hat Y^\star$ independent Gaussians (all their
+moments are finite). So do its basic conditions (a)--(c): $R$ is finite, a single
+reproduction point ($0$) has finite expected distortion, the distortion is finite-valued,
+and the optimal kernel is unique. (Without uniqueness Theorem~12 still holds, with $V$ an
+$\epsilon$-dependent extremum over the optimal kernels \cite[Remark~9]{kostinaverdu2012};
+uniqueness gives the single $V$ below.) For uniqueness, let $\hat Y$ attain $R(D)$.
 Lemma~\ref{lem:info} gives $R(D)\ge\tfrac12\log\det\Gamma/\det\Sigma(\hat Y)$ with $\Gamma$
 the covariance of $Y$, and $\Sigma(\hat Y)$ is feasible for the max-det program of
 Lemma~\ref{lem:maxdet} (cap $\Gamma$, unit weight), so $\Sigma(\hat Y)=\Sigma^\star$ by its
@@ -672,7 +676,9 @@ $\E\lVert Y-\hat Y\rVert^2\le D$, Lemma~\ref{lem:cm} forces $\hat Y=\E[Y\mid\hat
 $Y=\hat Y+Z$ with $Z\sim\mathcal N(0,\Sigma^\star)$ independent of $\hat Y$, and the law of
 $\hat Y$, hence the kernel, is fixed by deconvolution. The scalar constant $\tfrac12\log^2e$
 ($0<d<\sigma^2$) is \cite[eq.~(94)]{kostinaverdu2012}; see also \cite{ingberkochman}. (Checked
-at the source 2026-11-21.)
+against arXiv:1102.3944 on 2026-11-21 by the author's assistant, then independently by a
+fresh-context reading, VI-38, which corrected restriction~(iv): it is a ninth moment, not
+the third this sentence first gave.)
 (Corrected 2026-11-20, NEG-18: the earlier statement counted only the active modes, the
 ``effective dimension $r_D$''; a Monte Carlo of the tilted information at
 $\gamma=(4,2,0.6,0.3)$, $\theta=1$ gives variance $1.226$ against $r_D/2=1.0$ and the
@@ -751,7 +757,7 @@ frontier flagged in \S\ref{sec:framework} (``another consumer may read those
 directions'') becomes a coding question: we prove the converse of the two-stage rate
 region (Theorem~\ref{thm:region}), and its equality under a successive-refinement
 achievability assumption (Assumption~SR below), of which successive refinability and the
-exact rate loss are the corner, and we give the converse for $k$ observers---the paper's
+rate loss are the corner, and we give the converse for $k$ observers---the paper's
 read operator turned into rate.
 
 Let $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, be i.i.d.; consumer
@@ -771,10 +777,12 @@ $(R_1,R_2)=(R_1(D_1),R_2(D_2))$ is achievable. Write $\Sigma(\hat X):=\Cov(X-\E[
 Gaussian source and the quadratic distortions here, and for any number $k$ of stages,
 every point $\bigl(I(X;\hat X_1),\,I(X;\hat X_1,\hat X_2),\dots,I(X;\hat X_{1:k})\bigr)$
 with $\E d_i(X,\hat X_i)\le D_i$ lies in the closure of the achievable region of cumulative
-rates. For finite alphabets this is Rimoldi's theorem \cite{rimoldi} (per-stage distortion
-measures may differ). For our continuous, unbounded-distortion instance it is attributed to
-Effros \cite{effros}, which Kostina and Tuncel \cite{kostinatuncel} cite for the extension
-to continuous alphabets and stationary sources; Kostina and Tuncel themselves characterize
+rates. For finite alphabets and two stages this is Rimoldi's theorem \cite{rimoldi}, as
+Kostina and Tuncel quote it (per-stage distortion measures may differ). For our continuous,
+unbounded-distortion instance it is attributed to Effros \cite{effros}, which Kostina and
+Tuncel \cite{kostinatuncel} cite for the extension of the two-stage region to continuous
+alphabets and stationary sources; that it covers $k\ge3$ stages is our reading of its
+title (``multiresolution''), not of its text. Kostina and Tuncel themselves characterize
 the two-stage boundary parametrically and prove a nonasymptotic converse, but no
 achievability, for which they cite Rimoldi and Effros. Effros's hypotheses
 have not been checked against this case at the source. Every converse below is proved
@@ -879,8 +887,8 @@ statements; uniqueness (Lemma~\ref{lem:maxdet}) re-enters only there.
 \begin{corollary}[Refinability]\label{thm:multiobs}
 If $(D_1,D_2)$ is successively refinable, i.e.\ the corner $(R_1(D_1),R_2(D_2))$ is
 achievable, then the observers' optimal uncertainty ellipsoids nest,
-$\Sigma_2^\star\preceq\Sigma_1^\star$; under Assumption~SR the converse holds, so
-refinability is equivalent to nesting.
+$\Sigma_2^\star\preceq\Sigma_1^\star$; under Assumption~SR the reverse implication
+holds, so refinability is equivalent to nesting.
 \end{corollary}
 \begin{proof}
 The corner requires a feasible pair with $\det\Sigma_b\ge\det\Sigma_1^\star$ and
@@ -890,7 +898,7 @@ $\Sigma_b=\Sigma_1^\star$, $\Sigma_f=\Sigma_2^\star$. The region's nesting
 $\Sigma_f\preceq\Sigma_b$ is then exactly $\Sigma_2^\star\preceq\Sigma_1^\star$.
 \end{proof}
 
-\begin{corollary}[Exact rate loss]\label{thm:multiobs-loss}
+\begin{corollary}[Rate loss]\label{thm:multiobs-loss}
 Among two-stage codes whose base is stage-1-optimal ($R_1=R_1(D_1)$, $\E d_1\le D_1$) and
 whose second stage meets $D_2$, the total rate is at least $\tfrac12\log\det\Sigma_x-
 \tfrac12\log\det\Sigma^\circ$, a bound attained under Assumption~SR, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:0\prec\Sigma
@@ -954,23 +962,25 @@ once and is unaffected.
 Three consequences make the characterization legible. \emph{(i) Commuting observers.} If
 $\Sigma_x,P_1,P_2$ are simultaneously diagonalizable with mode variances $\sigma_k^2$
 and weights $p_k^{(i)}$, then $e_k^{(i)}=\min(\sigma_k^2,\theta_i/p_k^{(i)})$ (water
-levels $\theta_i$ from $\sum_k p_k^{(i)}e_k^{(i)}=D_i$), and refinability is $e_k^{(2)}
-\le e_k^{(1)}$ for every mode. \emph{(ii) Equitz--Cover, recovered.} For $P_1=P_2=P$ (not
+levels $\theta_i$ from $\sum_k p_k^{(i)}e_k^{(i)}=D_i$), and nesting, hence refinability under
+Assumption~SR, is $e_k^{(2)}\le e_k^{(1)}$ for every mode. \emph{(ii) Equitz--Cover, recovered.} For $P_1=P_2=P$ (not
 necessarily commuting with $\Sigma_x$), whiten by $\tilde P=\Sigma_x^{1/2}P
 \Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then $\Sigma^\star(D)=
 \Sigma_x^{1/2}V\,\mathrm{diag}(\min(1,\theta_D/\tilde p_k))\,V^\top\Sigma_x^{1/2}$ is
 Loewner-monotone in $D$ in a \emph{$D$-independent} eigenbasis, so $D_2\le D_1$ gives
-$\Sigma_2^\star\preceq\Sigma_1^\star$ automatically---a Gaussian source is successively
-refinable under any single weighted-quadratic measure, the $P=I$ case being
-Equitz--Cover \cite{equitzcover}; conflict requires genuinely distinct observers. \emph{(iii) Kernel overhead.} If the base layer codes a direction in
+$\Sigma_2^\star\preceq\Sigma_1^\star$ automatically---so under Assumption~SR a Gaussian
+source is successively refinable under any single weighted-quadratic measure, the scalar
+$P=I$ case being Equitz--Cover's theorem \cite{equitzcover}; conflict requires genuinely distinct observers. \emph{(iii) Kernel overhead.} If the base layer codes a direction in
 $\ker P_2$---one consumer~2 cannot read ($p_k^{(1)}>0$, $e_k^{(1)}<\sigma_k^2$,
 $p_k^{(2)}=0$)---then $e_k^{(2)}=\sigma_k^2>e_k^{(1)}$ and refinability fails strictly:
 rate spent on directions the next observer cannot read is unrecoverable. Concretely, for
 $\Sigma_x=I_2$, $P_1=\mathrm{diag}(1,0)$, $P_2=\mathrm{diag}(0,1)$, the optima
 $\Sigma_1^\star=\mathrm{diag}(D_1,1)$ and $\Sigma_2^\star=\mathrm{diag}(1,D_2)$ never
 nest and $\Sigma^\circ=\mathrm{diag}(D_1,D_2)$, so $L=\tfrac12\log(1/D_1)=R_1(D_1)$: the
-minimal total rate is $R_1(D_1)+R_2(D_2)$, zero reuse. This is ``one observer's noise is
-another's signal'' (\S\ref{sec:framework}) as an exact coding theorem.
+minimal total rate is $R_1(D_1)+R_2(D_2)$, zero reuse. Here the bound is attained
+without Assumption~SR, by two independent single-stage Gaussian codes, one per coordinate.
+This is ``one observer's noise is another's signal'' (\S\ref{sec:framework}) as an exact
+coding theorem.
 
 The numerical record (committed with the ledger \cite{ledger2026}) is thinner than it
 once claimed. Of the checks in the sealed preregs GO-P-2026-022 (corner) and GO-P-2026-023
@@ -998,12 +1008,13 @@ coordinate constraints at both stages---and already show that vector-Gaussian
 refinability can fail; Op~'t~Veld and Gastpar \cite{optveld} refine a rank-deficient
 Gaussian \emph{projection} to full reconstruction ($P_2=I$), exhibiting the
 kernel-overhead rate penalty. Our contribution is neither of those qualitative
-phenomena---both are known---but their common generalization: the complete rate region
-(Thm.~\ref{thm:region}) for two \emph{arbitrary, possibly non-commuting, possibly
-different-kernel} positive-semidefinite read operators, whose corner is the single Loewner
-condition $\Sigma_2^\star\preceq\Sigma_1^\star$ (Cor.~\ref{thm:multiobs}) with the
-closed-form max-det rate loss (Cor.~\ref{thm:multiobs-loss}), extended to the $k$-observer
-chain (Cor.~\ref{cor:kobs}); to our knowledge this general two-operator statement has not
+phenomena---both are known---but their common generalization: the rate region's
+converse, with equality under Assumption~SR (Thm.~\ref{thm:region}), for two \emph{arbitrary, possibly non-commuting, possibly
+different-kernel} positive-semidefinite read operators, whose corner is governed by the
+single Loewner condition $\Sigma_2^\star\preceq\Sigma_1^\star$ (Cor.~\ref{thm:multiobs};
+necessary, and sufficient under Assumption~SR) with the closed-form max-det rate-loss bound
+(Cor.~\ref{thm:multiobs-loss}), extended to the converse for the $k$-observer chain
+(Cor.~\ref{cor:kobs}); to our knowledge this general two-operator statement has not
 appeared explicitly. The covariance-distortion-constraint and side-informed vector-Gaussian
 successive-refinement lines \cite{xuSR,zahedi} impose \emph{matrix} distortion constraints
 or add side information rather than two scalar weighted-quadratic criteria, and do not
