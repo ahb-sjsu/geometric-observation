@@ -237,6 +237,27 @@ if unit("[0] verify_seals.py", first_shard_only=True):
 
 print()
 print("=" * 68)
+print("[0b] Custody files behind [proved] rows (check_custody.py, and its fire test)")
+print("=" * 68)
+# Added 2026-11-20: CHARTER T-CUST-1 asks every [proved] row for a constants/slack and
+# known-gaps table; claims/custody/ holds them, and the checker ties each cited value to
+# its committed JSON and each harness to this file. Its fire test is fast, so it runs too.
+if unit("[0b] check_custody.py + test_check_custody.py", first_shard_only=True):
+    for script, verdict in (("scripts/check_custody.py", "check_custody: PASS"),
+                            ("scripts/test_check_custody.py", "ALL FIRE AS EXPECTED")):
+        try:
+            out = run(script, timeout=300)
+            if verdict in out:
+                print(f"  PASS {script}: " + out.strip().splitlines()[-2].split(": ", 1)[-1])
+            else:
+                failures.append(f"{script}: no '{verdict}'")
+                print(f"  FAIL {script}")
+        except Exception as e:
+            failures.append(f"{script} crashed or failed: {e}")
+            print(f"  FAIL {script}: {e}")
+
+print()
+print("=" * 68)
 print("[1/3] Appendix-B numerical verification (verify_appendixB.py)")
 print("=" * 68)
 if unit("[1/3] verify_appendixB.py"):
