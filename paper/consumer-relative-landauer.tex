@@ -898,9 +898,20 @@ squared error. That extension is not written out here, so
 $\RW_{\cC}(D)=\mathcal U(D)$ is not claimed for
 Propositions~\ref{prop:scalar-corner} and~\ref{prop:vector-frontier}. Without
 side information (Corollary~\ref{cor:gauss}), $L_n\le R_n$, and the equality
-reduces to the achievability half of the rate--distortion theorem for the
-Gaussian source $\PC^{1/2}X$ under squared error, a classical result that is
-likewise not reproved here.
+follows from the rate--distortion theorem for memoryless sources on general
+alphabets \cite[Thm.~24.2]{polyanskiywu2016}. Its hypotheses hold here:
+$d_{\cC}$ is non-negative and separable,
+$D_{\max}=\inf_{\hat x}\E\,d_{\cC}(X,\hat x)=\tr(\PC\Sigma_X)<\infty$, and
+every $D>0$ exceeds $D_0=0$. So there are fixed-length codes with average
+distortion at most $D$ whose rates approach $R_{\cC}(D)$. A code of
+blocklength $n$ with $M$ messages has $nL_n\le\log_2M$. The per-code converse
+gives $L_n\ge L_{\cC}(D_n)$, and Corollary~\ref{cor:gauss} gives
+$L_{\cC}=R_{\cC}$, so the contents of those codes approach $L_{\cC}(D)$ too.
+For Corollary~\ref{cor:gauss}, then, the single-letter values are the
+operational ones: $R_{\cC}(D)$ and $W_{\cC}^\star$ are the least rate and the
+least ideal reset work that codes approach at average distortion $D$. (The
+cited theorem was checked against its source on 2026-11-21 by the author's
+assistant, then independently by a fresh-context reading.)
 
 Let $\lambda_1,\ldots,\lambda_r>0$ be the nonzero eigenvalues of
 $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$, where
@@ -939,16 +950,20 @@ $\hat z=V^{\mathsf T}\PC^{1/2}\hat x$. For any test channel, $\hat Z$ is a
 function of $\hX$ and $Z$ a function of $X$, so
 $I(X;\hX)\ge I(Z;\hat Z)\ge I(Z_{1:r};\hat Z_{1:r})$, and the first $r$
 coordinates carry distortion at most $D$.
-Proposition~\ref{prop:vector-frontier} below, with unit weights and every
-$\rho_i=0$ (side information independent of the source, so that $L_i=R_i$ and
-$\alpha$ is immaterial), bounds this below by \eqref{eq:gaussian-rd}: its
+Proposition~\ref{prop:vector-frontier} below bounds this below by
+\eqref{eq:gaussian-rd}. Apply it to $Z_{1:r}$ paired with an auxiliary
+$S'\sim\mathcal N(0,I_r)$ independent of $(X,\hX)$, with unit weights. Then
+every $\rho_i=0$, $\hat Z-Z-S'$ holds,
+$I(Z_{1:r};\hat Z_{1:r}\mid S')=I(Z_{1:r};\hat Z_{1:r})$, so $L_i=R_i$ and
+$\alpha$ is immaterial. Its
 roots are $\delta_i=1/(2\mu)=\theta$. Conversely, the product of scalar
 reverse channels on $Z_1,\ldots,Z_r$, with $\hat Z_i=0$ for $i>r$, pulled back
 by $\hX=(\PC^{1/2})^{+}V\hat Z$, attains it. The vector $V\hat Z$ lies in the
 range of $\PC^{1/2}\Sigma_X\PC^{1/2}$, which is contained in that of
 $\PC^{1/2}$, so $\PC^{1/2}\hX=V\hat Z$ and the distortion is that of
-$\hat Z$; and $\hX$ depends on $X$ only through $Z$, so
-$I(X;\hX)=I(Z;\hat Z)$. Multiply bits by $\kb T\ln2$ to obtain
+$\hat Z$. Moreover $\hX$ and $\hat Z$ determine each other, since
+$\hat Z=V^{\mathsf T}\PC^{1/2}\hX$, and $\hat Z$ depends on $X$ only through $Z$,
+so $I(X;\hX)=I(X;\hat Z)=I(Z;\hat Z)$. Multiply bits by $\kb T\ln2$ to obtain
 \eqref{eq:gaussian-work}.
 \end{proof}
 
@@ -1367,7 +1382,10 @@ for Gaussian sources and states the single-letter region. Extending the
 covering and binning steps of Theorem~\ref{thm:main-region} to continuous
 alphabets and unbounded squared error would make the closed forms of
 Propositions~\ref{prop:scalar-corner} and~\ref{prop:vector-frontier}, which
-carry reset side information, the operational region.
+carry reset side information, the operational region. Without side
+information (Corollary~\ref{cor:gauss}) the rate--distortion theorem for
+memoryless sources on general alphabets \cite[Thm.~24.2]{polyanskiywu2016}
+already does this.
 
 \emph{Sources with memory.} Proposition~\ref{prop:stale} uses memory directly,
 but the coding theorem is i.i.d. Information-spectrum methods should extend the
@@ -1388,9 +1406,10 @@ which of the stored distinctions remain predictable when the memory is cleared.
 The binary frontier shows why neither coordinate can be inferred from the
 other: a code that minimizes description capacity need not minimize reset work.
 Landauer's principle then prices the residue. In the exact case, that residue is
-$H(\cC(X)\mid S)$. In the Gaussian local model, at the single-letter level and as a
-bound on every code, it is the ordinary read-operator water-filling rate multiplied
-by $\kb T\ln2$. Across several consumers, it is the
+$H(\cC(X)\mid S)$. In the Gaussian local model without reset side information, it
+is the ordinary read-operator water-filling rate multiplied by $\kb T\ln2$, a bound
+on every code that codes approach; with side information, the closed forms hold at
+the single-letter level and as a bound on every code. Across several consumers, it is the
 conditional entropy of their joint read rather than the sum of isolated records.
 
 The materialization theorem states the practical boundary most plainly. Once a

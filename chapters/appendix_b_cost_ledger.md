@@ -17,7 +17,7 @@ incidents it survived.
 **Status as of 2026-11-21.** A custody pass (VI-32, `claims/audits/VI-32-PaperIII-B.md`)
 found, and later passes (VI-34, VI-36 to VI-38) extended, that this appendix had overstated
 itself:
-- no theorem here has a custody table, so none is `[proved]`;
+- no theorem here had a custody table, so none was `[proved]`;
 - three of its statements misstated Paper III (B1, B4, B6);
 - one constant was wrong (B7, NEG-18);
 - some of the harnesses could not fail.
@@ -25,6 +25,13 @@ itself:
 The classes below are corrected to the ledger, which wins (Appendix F). A theorem whose
 statement is netted by a sealed C3 registration is `[predicted]`-grade until its custody
 table exists.
+
+**`[proved]` since 2026-11-21.** Ledger row PAPER-III.a, with its custody file
+`claims/custody/PAPER-III.a.md`, covers the max-det corner identity of B4 and B5: the max-det
+closed form (derived in `lem:maxdet` since 2026-11-21, read by VI-47) and the rate-loss corner step. Their
+coding readings keep the classes given below. B7's corrected dispersion formula is row
+PAPER-III.b, `[exploratory]`: it rests on `lem:maxdet`'s rate identity, which nothing nets yet
+(VI-46).
 
 ## Conventions
 
@@ -121,14 +128,16 @@ $P_1\preceq P_2$". That is false in both directions:
 The paper always had it right.
 
 **Status.**
-- Proof plus R-IND-5 (VI-4).
+- Proof plus R-IND-5 (VI-4; later VI-32, VI-36 to VI-40, VI-46 and VI-47).
 - Sealed net 022, but that net is weak. VI-32 re-inserted VI-4's original bug into
   `verify_two_observer.py`, and checks [1]–[3] still pass. Only `verify_rate_region.py` [3]
   catches it.
 - **Split (VI-36, corrected by VI-37).** `verify_rate_region.py` [3] computes the
   closed-form Gaussian corner and takes the region as given, so what it nets is the
   **max-det corner identity** (the closed forms of $\Sigma^\star$, $\Sigma^\circ$ and $L$):
-  **`[predicted]`-grade**, pending custody. The coding statements take the region's class:
+  **`[proved]`** since 2026-11-21 (ledger row PAPER-III.a, netted by `verify_paper3_nets.py`
+  m1–m4 in CI; it was `[predicted]`-grade pending custody). The coding statements take the
+  region's class:
   the necessity of nesting and the rate loss as a lower bound rest on the region converse,
   which has no net that can fail, and the sufficiency of nesting and the attained minimum
   rest on Assumption SR (achievability, attributed to Effros, unchecked): **`[exploratory]`**.
@@ -168,8 +177,9 @@ The paper always had it right.
 
 **Status.**
 - $k=2$, the max-det corner identity: proof, R-IND-5 (VI-5), and the sealed net 023, whose
-  check [3] is a real net for it. **`[predicted]`-grade.** Refinability as a coding
-  statement is `[exploratory]`, as in B4.
+  check [3] is a real net for it. **`[proved]`** since 2026-11-21 (ledger row PAPER-III.a,
+  netted in CI by `verify_paper3_nets.py`). Refinability as a coding statement is
+  `[exploratory]`, as in B4.
 - The region converse: proof and R-IND-5, but no net that can fail. 023's [1] is an
   identity, and [2] cannot fail on the region's coupling. **`[exploratory]` until a net
   exists.**
@@ -254,15 +264,15 @@ bound survives.
   **`[exploratory]` until a net exists** (VI-34).
 - The dispersion formula: `[refuted]` as earlier stated. The corrected variance was
   re-derived by two fresh contexts (VI-34, VI-36) and is netted by `verify_paper3_nets.py`
-  (m5, m6). The corrected formula is **`[exploratory]`** until that net is in CI with a
-  custody table (Track P). Identifying the variance with the dispersion is Kostina–Verdú's
+  (m5, m6), in CI since 2026-11-21. The corrected formula is **`[exploratory]`** (ledger row
+  PAPER-III.b): it rests on `lem:maxdet`'s rate identity, which no net covers yet (VI-46). Identifying the variance with the dispersion is Kostina–Verdú's
   Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
   abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
   the vector letter (`cor:dispersion`). VI-37 checked the uniqueness argument line by line
   and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
   assistant had read and used to overrule VI-37's verifier.
 - 025's check C3b is circular and samples only the all-active regime. The net with
-  inactive modes is now `verify_paper3_nets.py` (m5, m6), not yet in CI.
+  inactive modes is now `verify_paper3_nets.py` (m5, m6), in CI since 2026-11-21.
 - The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú's eq. (94), for
   $0<d<\sigma^2$ (checked at the source, 2026-11-21; FRONTIER G12 closed).
 
@@ -278,12 +288,14 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3, VI-32, VI-38 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
-| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
-| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
+| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3]; `verify_paper3_nets` m1–m4 | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46 | max-det corner identity `[proved]` (PAPER-III.a); region, refinability and rate loss as coding statements `[exploratory]` |
+| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 | corner identity `[proved]` (PAPER-III.a); region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13, VI-32, VI-38 | `[predicted]`-grade; floor `[demonstrated]` |
-| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
+| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46 | reduction `[exploratory]`; corrected $V$ `[exploratory]` (PAPER-III.b; it rests on the unnetted rate identity); old constant `[refuted]` |
 
-No row is `[proved]`; none has a custody table yet.
+One ledger row, PAPER-III.a, is `[proved]` (2026-11-21). It covers the max-det corner identity
+of B4 and B5, and its custody file is `claims/custody/PAPER-III.a.md`. No other row
+here has a custody table yet.
 
 The appendix used to end on "the discipline caught the errors, and the record shows
 where". That stays true, with a correction. The first round of passes caught four errors in

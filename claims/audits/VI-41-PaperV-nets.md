@@ -93,3 +93,11 @@ extension is replaced by that rescoping: `claims/audits/VI-43-PaperV-text.md`.)
 
 No ledger row for Paper V's theorems is created in this commit. The split and (d) go to the
 author first.
+
+(Dated note, 2026-11-21: the author accepted the split, "yes, I accept. Proceed as you recommend". Ledger rows
+PAPER-V.a and PAPER-V.b are `[proved]`, with custody files in `claims/custody/`; PAPER-V.c
+and PAPER-V.d are `[exploratory]`. The author's reply answered a question that carried no
+recommendation for (d); the assistant wrote one afterwards, recorded in row PAPER-V.d and open to
+the author's revision: an exhaustive search over small codes can test Cor 3's independent-reset
+minimum, while Thm 2 has no content a net can test beyond the imported physics. #10 was not put
+to the author separately; VI-46 re-derived row (a)'s results at the current text.)

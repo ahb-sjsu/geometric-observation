@@ -35,8 +35,8 @@ run; `void` = a reservation abandoned unsealed.
 | 019 | GO-5 α=1 diffusion distance v4 | core | GO-5 **`[refuted]`** NEG-11 |
 | 020 | Gate B blind probe, real Llama layer | core · superseded→021 | MISS (2/3 triggers) → NEG-12 |
 | 021 | Gate B **rematch**, recon-matched | sweep (A2) | GO-B-Llama-rematch **HIT** 4/4 |
-| 022 | Two-observer successive-refinement | cost | confirmed; **VI-4** false-pass logged + corrected. Now: 022's checks pass with VI-4's bug re-inserted (VI-32); the corner identity is `[predicted]`-grade through 023 [3]; the coding statements `[exploratory]` (Appendix B, B4) |
-| 023 | Complete rate region + k-chain (registered title) | cost | confirmed; VI-5 (the non-iterating construction caught pre-pub; its citation correction proved unchecked or wrong, VI-36 to VI-40). Now: corner identity `[predicted]`-grade; region `[exploratory]`, equality under Assumption SR (Appendix B, B5; VI-32 to VI-39) |
+| 022 | Two-observer successive-refinement | cost | confirmed; **VI-4** false-pass logged + corrected. Now: 022's checks pass with VI-4's bug re-inserted (VI-32); the corner identity is `[proved]` (ledger row PAPER-III.a, netted by 023 [3] and `verify_paper3_nets.py`); the coding statements `[exploratory]` (Appendix B, B4) |
+| 023 | Complete rate region + k-chain (registered title) | cost | confirmed; VI-5 (the non-iterating construction caught pre-pub; its citation correction proved unchecked or wrong, VI-36 to VI-40). Now: corner identity `[proved]` (ledger row PAPER-III.a); region `[exploratory]`, equality under Assumption SR (Appendix B, B5; VI-32 to VI-39) |
 | 024 | Price of a misidentified observer | cost | floor theorems confirmed; VI-6 |
 | 025 | Dispersion counts read dimensions | cost | confirmed w/ sharpenings; VI-7. Now: the sharpened constant $r_D/2$ `[refuted]` (NEG-18); 025's checks cannot fail; reduction `[exploratory]` (Appendix B, B7) |
 | 026 | Omission floor on a trained Llama layer | cost · superseded→027 | read-floor 16/16 ✓, finite-rate gate MISSED → NEG-13 |

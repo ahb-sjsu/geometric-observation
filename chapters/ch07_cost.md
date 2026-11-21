@@ -68,7 +68,7 @@ Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \p
 neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
 in which one observer is "a refinement of" another: it can be served by adding bits at no
 rate loss (under Assumption SR), not resending them. When the optima do *not* nest, serving both costs a rate loss, which the
-theory bounds below (exactly, under the assumption). [The max-det corner identity `[predicted]`-grade; the region and its
+theory bounds below (exactly, under the assumption). [The max-det corner identity `[proved]`, ledger row PAPER-III.a; the region and its
 coding statements `[exploratory]` — Appendix B.] (This paragraph said until 2026-11-21 that
 refinability holds exactly when $P_1 \preceq P_2$, tagged `[proved]`; that criterion is
 false both ways, VI-32.)
@@ -106,7 +106,9 @@ most the **read** dimensions, never the source dimensions: $r_D \le 2V \le r$ in
 with $r_D$ the modes above the water level and equality on the right exactly when no
 read mode lies below it (a mode at the level, $\gamma_k=\theta$, counts fully). Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
 each, because fluctuations of their energy are absorbed by the active ones. As the target
-distortion falls, more modes become active and $2V$ rises to $r$. (This paragraph said
+distortion falls, more modes become active and $2V$ rises to $r$. [The variance formula
+`[exploratory]`, ledger row PAPER-III.b, until the Gaussian rate identity it rests on is netted;
+the expansion it enters is Kostina–Verdú's, imported — Appendix B.] (This paragraph said
 until 2026-11-21, following VI-7's "sharpening", that the dispersion counts only the active
 modes, an "effective dimension $r_D$"; that is refuted, NEG-18, Chapter 16.)
 

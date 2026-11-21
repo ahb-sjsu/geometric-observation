@@ -819,7 +819,13 @@ entropy maximization. The covariance bound is $\Sigma(\hat X)=\Sigma_x-\Cov(\E[X
 For $\Sigma_x\succ0$, $P\succeq0$, $D>0$,
 $R_P(D)=\tfrac12\log\det\Sigma_x-\tfrac12\log\det\Sigma^\star(P,D)$, where
 $\Sigma^\star(P,D)=\arg\max\{\log\det\Sigma:0\preceq\Sigma\preceq\Sigma_x,\ \tr(P\Sigma)
-\le D\}$, and the maximizer is unique.
+\le D\}$, and the maximizer is unique. More generally, for any cap $C\succ0$ in place of
+$\Sigma_x$, write $C^{1/2}PC^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$ with $V$
+orthogonal. If $D\ge\tr(PC)$ the maximizer is $C$. If $0<D<\tr(PC)$, let $\theta>0$ solve
+$\sum_k\min(\tilde p_k,\theta)=D$; then the maximizer is unique and equals
+\[\Sigma^\star(P,D;C)=C^{1/2}V\,\mathrm{diag}\bigl(\min(1,\theta/\tilde p_k)\bigr)\,V^\top
+C^{1/2},\qquad \min(1,\theta/0):=1,\]
+so that $\Sigma^\star(P,D)=\Sigma^\star(P,D;\Sigma_x)$.
 \end{lemma}
 \begin{proof}
 \emph{Converse:} Lemmas~\ref{lem:cm}--\ref{lem:info} give, for any admissible channel,
@@ -828,7 +834,24 @@ feasible; minimizing the bound is the stated program. \emph{Achievability:} the 
 Gaussian backward channel $X=\hat X+Z$, $Z\sim\mathcal N(0,\Sigma^\star)\perp\hat X$,
 $\Cov\hat X=\Sigma_x-\Sigma^\star\succeq0$, attains it. \emph{Uniqueness:} the feasible
 set is convex with an interior point; since $\log\det=-\infty$ on singular matrices the
-maximizer lies in $\mathbb S^d_{++}$, where $\log\det$ is strictly concave.
+maximizer lies in $\mathbb S^d_{++}$, where $\log\det$ is strictly concave. The argument
+uses only that the cap is positive definite, so it holds for every $C\succ0$.
+\emph{Closed form:} if $D\ge\tr(PC)$, the cap $C$ is feasible and maximizes $\log\det$ on
+$\{\Sigma\preceq C\}$. Otherwise, $\Sigma\mapsto W=C^{-1/2}\Sigma C^{-1/2}$ maps
+$\{0\preceq\Sigma\preceq C\}$ onto $\{0\preceq W\preceq I\}$, with $\log\det\Sigma=\log\det
+C+\log\det W$ and $\tr(P\Sigma)=\tr(\tilde PW)$, $\tilde P:=C^{1/2}PC^{1/2}$. Put
+$W'=V^\top WV$ and $w_k=W'_{kk}\in[0,1]$. Hadamard's inequality gives $\log\det W\le\sum_k
+\log w_k$ (both sides are $-\infty$ if some $w_k=0$), and the budget reads
+$\sum_k\tilde p_kw_k\le D$. The scalar program
+$\max\{\sum_k\log w_k:0<w_k\le1,\ \sum_k\tilde p_kw_k\le D\}$ is concave with affine
+constraints, so any point satisfying its KKT conditions is optimal. With $\theta$ the unique
+solution of $\sum_k\min(\tilde p_k,\theta)=D$ (the left side is continuous and strictly
+increasing in $\theta$ on $(0,\max_k\tilde p_k]$, from $0$ to $\tr\tilde P>D$), the point
+$w_k=\min(1,\theta/\tilde p_k)$ is one, with multiplier $\lambda=1/\theta$ on the budget and
+$\mu_k=(1-\tilde p_k/\theta)_+$ on $w_k\le1$: stationarity $1/w_k=\lambda\tilde p_k+\mu_k$
+holds, and both constraints are tight wherever their multipliers are positive. The bound is
+attained by $W'=\mathrm{diag}(w_k)$, which gives the stated $\Sigma^\star(P,D;C)$; it is
+feasible, so by uniqueness it is the maximizer.
 \end{proof}
 
 \begin{theorem}[Two-stage rate region]\label{thm:region}
@@ -914,8 +937,14 @@ Restrict $\mathcal R$ to $\Sigma_b=\Sigma_1^\star$ (Corollary~\ref{thm:multiobs}
 minimize $R_2=\tfrac12\log\det\Sigma_x/\det\Sigma_f$ over feasible fine layers
 $\Sigma_f\preceq\Sigma_1^\star$, $\tr(P_2\Sigma_f)\le D_2$; maximizing $\det\Sigma_f$ is
 the stated constrained max-det program. $L\ge0$ because $\Sigma^\circ$ is feasible for
-the looser $\Sigma_2^\star$ program, so $\det\Sigma^\circ\le\det\Sigma_2^\star$; $L=0$ iff
-$\Sigma_2^\star$ already nests under $\Sigma_1^\star$ (then $\Sigma^\circ=\Sigma_2^\star$).
+the looser $\Sigma_2^\star$ program, so $\det\Sigma^\circ\le\det\Sigma_2^\star$. If
+$\Sigma_2^\star\preceq\Sigma_1^\star$, then $\Sigma_2^\star$ is feasible for the
+$\Sigma^\circ$ program, so $\Sigma^\circ=\Sigma_2^\star$ by the uniqueness of that program's
+maximizer (Lemma~\ref{lem:maxdet} with cap $\Sigma_1^\star$), and $L=0$. Conversely, if $L=0$,
+then $\Sigma^\circ$ attains the maximum of the $\Sigma_2^\star$ program, so
+$\Sigma^\circ=\Sigma_2^\star$ by the uniqueness in Lemma~\ref{lem:maxdet}, and
+$\Sigma_2^\star=\Sigma^\circ\preceq\Sigma_1^\star$. Since $\Sigma_1^\star\succ0$ for
+$D_1>0$, Lemma~\ref{lem:maxdet} with $C=\Sigma_1^\star$ gives $\Sigma^\circ$ in closed form.
 \end{proof}
 
 The same region argument gives the converse of the $k$-observer case.
@@ -966,7 +995,7 @@ and weights $p_k^{(i)}$, then $e_k^{(i)}=\min(\sigma_k^2,\theta_i/p_k^{(i)})$ (w
 levels $\theta_i$ from $\sum_k p_k^{(i)}e_k^{(i)}=D_i$), and nesting, hence refinability under
 Assumption~SR, is $e_k^{(2)}\le e_k^{(1)}$ for every mode. \emph{(ii) Equitz--Cover, recovered.} For $P_1=P_2=P$ (not
 necessarily commuting with $\Sigma_x$), whiten by $\tilde P=\Sigma_x^{1/2}P
-\Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then
+\Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then, by Lemma~\ref{lem:maxdet},
 \[\Sigma^\star(D)=\Sigma_x^{1/2}V\,\mathrm{diag}\bigl(\min(1,\theta_D/\tilde p_k)\bigr)\,
 V^\top\Sigma_x^{1/2}\]
 is Loewner-monotone in $D$ in a \emph{$D$-independent} eigenbasis, so $D_2\le D_1$ gives

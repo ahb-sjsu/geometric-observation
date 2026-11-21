@@ -85,4 +85,4 @@ points that bear on reading the numbers above:
   settings;
 - record each nested-distinct pair's draws, and fail when the floor is not met;
 - record `cap_binds` per row;
-- fix the docstring.
+- fix the docstring, including its account of `lem:maxdet`, which since 2026-11-21 also states and proves the closed form (VI-46, VI-47).
