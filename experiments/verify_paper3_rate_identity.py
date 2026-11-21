@@ -69,6 +69,15 @@ versions of Python, numpy and scipy.
 Before this file was committed, its helper functions were smoke-tested on hand-made inputs only
 (the scalar moments against direct numerical integration; the skew quadrature with M = I against
 the product closed form). No instance at the seed was evaluated before the commit.
+
+History.
+- Attempt 1 (commit 3073453, 2026-11-21) crashed after 2 s, while building the product channels
+  and before any check was computed or any output written: `scalar_quantizer` raised "empty
+  cell". A dead-zone quantizer with a threshold near +-12 has an upper-tail cell whose
+  probability Phi(inf) - Phi(12) cancels to 0 in double precision (the true value is about
+  1e-33). The fix (`tail_stable_diff`) computes upper-tail differences as Phi(-a) - Phi(-b). The
+  criteria, the seed and the instance generator are unchanged; the fix was committed before
+  attempt 2.
 """
 from __future__ import annotations
 
@@ -195,6 +204,13 @@ def _phi(x):
     return np.exp(-0.5 * x * x) / np.sqrt(2.0 * np.pi)
 
 
+def tail_stable_diff(a, b):
+    """Phi(b) - Phi(a) for a < b, computed as Phi(-a) - Phi(-b) when a >= 0, so that a cell far in
+    the upper tail keeps its (tiny, positive) probability instead of cancelling to 0 (attempt 1)."""
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    return np.where(a >= 0, ndtr(-a) - ndtr(-b), ndtr(b) - ndtr(a))
+
+
 def scalar_cells(th):
     """Thresholds of a scalar quantizer of N(0,1) -> per-cell (p, E[Z; c], E[Z^2; c])."""
     e = np.concatenate([[-np.inf], np.sort(np.asarray(th, float)), [np.inf]])
@@ -202,7 +218,7 @@ def scalar_cells(th):
     fa = np.where(np.isfinite(a), _phi(np.where(np.isfinite(a), a, 0.0)), 0.0)
     fb = np.where(np.isfinite(b), _phi(np.where(np.isfinite(b), b, 0.0)), 0.0)
     af, bf = np.where(np.isfinite(a), a, 0.0), np.where(np.isfinite(b), b, 0.0)
-    p = ndtr(b) - ndtr(a)
+    p = tail_stable_diff(a, b)
     m1 = fa - fb
     m2 = p + af * fa - bf * fb
     return p, m1, m2
@@ -230,7 +246,7 @@ def skew_cell_moments(G, a1, b1, a2, b2):
         mu = beta * y1
         ua = (a2 - mu) / s if np.isfinite(a2) else -np.inf
         ub = (b2 - mu) / s if np.isfinite(b2) else np.inf
-        q0 = ndtr(ub) - ndtr(ua)
+        q0 = float(tail_stable_diff(ua, ub))
         fa = _phi(ua) if np.isfinite(ua) else 0.0
         fb = _phi(ub) if np.isfinite(ub) else 0.0
         ta = ua * fa if np.isfinite(ua) else 0.0
