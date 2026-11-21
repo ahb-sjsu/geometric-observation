@@ -28,8 +28,11 @@ matched the committed file except the timestamp, the git fields and the hash. Th
 scipy `IntegrationWarning`s (roundoff) during the skew quadrature; they are not recorded in the
 JSON. The quadrature guards still hold to 2.7e-15.
 
-**Version 2 in numbers.** Some checks below are identities of the code (VI-48 #5). They can fail
-only on a bug, so they are not evidence for the identity.
+**Version 2 in numbers.** Some checks below hold by construction for the correct closed form
+(VI-48 #5), so on their own they are not evidence for the identity. VI-49 found that two of
+them, r3's optimum check and r4's trace check, still fail on a self-consistent formula that is
+too low (a water level raised by 0.1% failed them at 1.5e-3 and 1e-3). They therefore guard the
+formula's lower side.
 
 | Check | Measured | Bar | Kind |
 |---|---|---|---|
@@ -39,12 +42,12 @@ only on a bug, so they are not evidence for the identity.
 | r2, smallest gap I − R_P(E d), skew quantizers | 0.0435 | ≥ −1e-7 | real, independent of the formula |
 | r2, smallest gap, random Gaussian channels | 1.4e-7 | ≥ −1e-9 | real, independent of the formula; one instance, aligned by chance (VI-48) |
 | r2, smallest gap over all families | −4.4e-15 (the optimum) | ≥ −1e-9 max(1, R) | the optimum term is an identity |
-| r3, the optimum against the formula | 4.4e-15 | ≤ 1e-9 | **identity of the code** |
+| r3, the optimum against the formula | 4.4e-15 | ≤ 1e-9 | holds by construction for the correct formula; fails on a too-low one (VI-49) |
 | r3, near-optimal Gaussian gaps at eps = 1e-1, 1e-2, 1e-3 (smallest) | 1.6e-4, 6.0e-6, 6.1e-8 | ≥ −1e-9 | a one-sided first-order descent test around the formula's own optimum; see below |
 | r3, the same (largest) | 0.92, 0.20, 0.024 | recorded only | |
-| r4, min eig(Σx − Σ⋆)/‖Σx‖ and the trace residual | −2.5e-15, 2.9e-15 | ≥ −1e-10, ≤ 1e-9 | **identities of the code** |
+| r4, min eig(Σx − Σ⋆)/‖Σx‖ and the trace residual | −2.5e-15, 2.9e-15 | ≥ −1e-10, ≤ 1e-9 | feasibility holds by the closed form; the trace check fails on a too-low formula (VI-49) |
 | r4, Monte Carlo on 10 instances: worst \|z\| of the distortion and of the covariance | 0.95, 2.3 | ≤ 5 | **identity of the construction** |
-| r5(a), formula raised by 1e-2 nats | all 120 optima; 50, 100 and 117 near-optimal channels | at least 1 | **cannot fail**: the optimum catches any raise by algebra. The 6 product catches are all trivial channels |
+| r5(a), formula raised by 1e-2 nats | all 120 optima; 50, 100 and 117 near-optimal channels | at least 1 | **cannot fail**: the optimum catches any raise by algebra. The 6 product catches are all trivial channels; the one other formula-independent catch is a random Gaussian channel aligned by chance |
 | r5(b), `lem:info` raised by 0.05 | 13 product (random U), 11 product (aligned), 4 skew | at least 1 product | real, but the gate also counts trivial channels; 18 informative product catches were confirmed after the run (below) |
 | r5(c), the "commuting" shortcut: instances caught | 67 | at least 1 | measures where the mutant exceeds the formula. The catches are by the optimum and near-optimal channels; informative channels independent of the formula catch it on 5 instances (VI-48) |
 | r5(d), VI-4's bug: instances caught | 67 | at least 1 | likewise; formula-independent catches on 2 instances (VI-48) |
@@ -74,6 +77,8 @@ VI-48 reproduced this split.
   channels at eps = 1e-3 and the random Gaussian channels caught them. The mechanism: the
   near-optimal channels perturb the claimed optimum in random PSD directions, a one-sided
   first-order test of whether the claimed Σ⋆ really is optimal.
+- **The power is thin per instance.** VI-49's rotation by 0.001 (median excess 3.4e-7 nats) was
+  caught on only 2 of 120 instances. That is enough to fail the verdict.
 - **The maximum-entropy step of `lem:info`** is tested only by non-Gaussian channels, and only
   weakly in relative terms:
   - every informative catch has H ≤ 0.13 nats;
@@ -81,10 +86,14 @@ VI-48 reproduced this split.
   - so a `lem:info` strengthened by a factor of about 1.11 (product) or 1.26 (two-dimensional)
     would pass;
   - per instance, the best formula-independent gap has median 0.31 nats, and only 1 instance in
-    120 has one within 1e-2. Near the optimum, the converse is tested by Gaussian channels only.
-- **The achievability half.** The backward channel's checks are identities of the construction.
-  The achievability rests on the proof: Σ⋆ ≻ 0, Σ⋆ ⪯ Σx, and the jointly Gaussian channel's
-  information.
+    120 has one within 1e-2. These figures exclude trivial channels; with them included, they
+    are 0.284 and 7. Near the optimum, the converse is tested by Gaussian channels only.
+- **The achievability half.**
+  - r3's optimum check and r4's trace check hold by construction for the correct formula, but
+    catch one that is too low (VI-49).
+  - r4's feasibility check holds by the closed form, and its Monte Carlo adds nothing.
+  - The achievability itself rests on the proof: Σ⋆ ≻ 0, Σ⋆ ⪯ Σx, and the jointly Gaussian
+    channel's information.
 - **The removed r3 clause, checked.** VI-48 confirmed the stated reason quantitatively. At
   eps = 1e-4 on both seeds, the measured gap divided by eps times the predicted first-order term,
   ½·scale·Σ_k (1 − p̃_k/θ)₊ (VᵀΣx^{1/2}EΣx^{1/2}V)_kk, lies between 0.998 and 1.003. That
@@ -97,6 +106,8 @@ VI-48 reproduced this split.
 - r5(b) counting only channels with H > 0;
 - the first-order prediction above as r3's convergence clause;
 - the identities labelled as such in the output;
+- a lowered-formula gate on the achievability checks (VI-49);
+- catch counts per instance;
 - the `IntegrationWarning`s counted.
 
 ## In CI
@@ -109,3 +120,10 @@ From 2026-11-21 the net is in CI's re-run tier, in file mode, and runs in shard 
 
 Like sentinel mode, file mode cannot reproduce a committed FAIL, because a harness that exits
 with 1 makes the runner raise. Version 2's verdict is a PASS.
+
+**First CI runs:**
+- **Atlas, before the push:** shard 2/3 ran on an Atlas clean clone. The net's unit took
+  27.9 s, the verdict was reproduced, and the committed JSON was restored unchanged.
+- **GitHub:** Actions run 44955486964 (commit 235ba32), job 137002514952 (shard 2/3), took 9.7 s
+  and reproduced the verdict and `PAPER3RATE_supported=True`. The run was green on all four
+  jobs.

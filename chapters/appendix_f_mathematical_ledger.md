@@ -32,8 +32,8 @@ lost bet, carried at full prominence.
 ## COST-face theorems (Appendix B)
 
 *Corrected 2026-11-20 (VI-32). No COST-face theorem was `[proved]`, since none had a custody
-table; since 2026-11-21 ledger row PAPER-III.a covers the max-det corner identity of B4
-and B5. Appendix B also misstated B4 and B6, and B7's constant was wrong (NEG-18). The
+table; since 2026-11-21 ledger rows PAPER-III.a and PAPER-III.b cover the max-det corner
+identity of B4 and B5, `lem:maxdet`'s rate identity, and B7's corrected $V$ as a variance. Appendix B also misstated B4 and B6, and B7's constant was wrong (NEG-18). The
 full corrected custody summary is in Appendix B.*
 
 | Claim | Class | Registry | Incident |
@@ -44,7 +44,7 @@ full corrected custody summary is in Appendix B.*
 | B4 — two-observer region; refinability ⇒ $\Sigma_2^\star\preceq\Sigma_1^\star$ (⇔ under Assumption SR) | max-det corner identity `[proved]` (ledger row PAPER-III.a); region, refinability and rate loss as coding statements `[exploratory]` | 022, 023 | **VI-4**, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46 |
 | B5 — rate region: the converse for every $k$; equality and the sufficiency of nesting under Assumption SR (successive-refinement achievability, attributed to Effros, unchecked), for every $k$ | corner identity `[proved]` (ledger row PAPER-III.a); region `[exploratory]` (converse: no net that can fail; equality: Assumption SR) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 |
 | B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[predicted]`-grade / floor `[demonstrated]` | 024/027 | VI-6, NEG-13, VI-32, VI-38 |
-| B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$) | reduction `[exploratory]` (025's checks cannot fail); corrected $V$ `[exploratory]` (ledger row PAPER-III.b; it rests on the unnetted rate identity); the $r_D/2$ constant `[refuted]` | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46 |
+| B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$) | reduction `[exploratory]` (025's checks cannot fail); corrected $V$ as a variance `[proved]` (ledger row PAPER-III.b), as the dispersion `[exploratory]`; the $r_D/2$ constant `[refuted]` | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46, VI-48, VI-49 |
 
 ## LEGIBILITY-face theorems (Chapter 9)
 

@@ -107,8 +107,9 @@ with $r_D$ the modes above the water level and equality on the right exactly whe
 read mode lies below it (a mode at the level, $\gamma_k=\theta$, counts fully). Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
 each, because fluctuations of their energy are absorbed by the active ones. As the target
 distortion falls, more modes become active and $2V$ rises to $r$. [The variance formula
-`[exploratory]`, ledger row PAPER-III.b, until the Gaussian rate identity it rests on is netted;
-the expansion it enters is Kostina–Verdú's, imported — Appendix B.] (This paragraph said
+`[proved]`, ledger row PAPER-III.b. Reading it as this dispersion also needs the finite-$n$
+reduction, `[exploratory]`, and kernel uniqueness, and the expansion is Kostina–Verdú's, imported —
+Appendix B.] (This paragraph said
 until 2026-11-21, following VI-7's "sharpening", that the dispersion counts only the active
 modes, an "effective dimension $r_D$"; that is refuted, NEG-18, Chapter 16.)
 

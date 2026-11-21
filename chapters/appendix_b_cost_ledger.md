@@ -27,11 +27,12 @@ statement is netted by a sealed C3 registration is `[predicted]`-grade until its
 table exists.
 
 **`[proved]` since 2026-11-21.** Ledger row PAPER-III.a, with its custody file
-`claims/custody/PAPER-III.a.md`, covers the max-det corner identity of B4 and B5: the max-det
-closed form (derived in `lem:maxdet` since 2026-11-21, read by VI-47) and the rate-loss corner step. Their
-coding readings keep the classes given below. B7's corrected dispersion formula is row
-PAPER-III.b, `[exploratory]`: it rests on `lem:maxdet`'s rate identity, which nothing nets yet
-(VI-46).
+`claims/custody/PAPER-III.a.md`, covers `lem:maxdet`'s single-letter rate identity and the max-det
+corner identity of B4 and B5: the max-det closed form (derived in `lem:maxdet` since 2026-11-21,
+read by VI-47) and the rate-loss corner step. Their coding readings keep the classes given below.
+B7's corrected variance formula is row PAPER-III.b, `[proved]` since the rate identity it rests on
+was netted (`verify_paper3_rate_identity.py`, 2026-11-21). Reading it as the dispersion stays
+`[exploratory]` (VI-48).
 
 ## Conventions
 
@@ -55,6 +56,9 @@ matched no statement and is withdrawn.)
 
 **Status.**
 - R-IND-5: VI-3.
+- The single-letter Gaussian identity behind it, `lem:maxdet`'s rate identity, is
+  `[proved]` (ledger row PAPER-III.a) since 2026-11-21. `thm:coding`, the operational theorem,
+  still has no net.
 - `thm:coding` has no C3 net of its own; `verify_appendixB.py` nets `thm:B2`/`cor:B2a` and
   part of `thm:B3`.
 - **`[exploratory]` pending a net and custody.**
@@ -264,8 +268,12 @@ bound survives.
   **`[exploratory]` until a net exists** (VI-34).
 - The dispersion formula: `[refuted]` as earlier stated. The corrected variance was
   re-derived by two fresh contexts (VI-34, VI-36) and is netted by `verify_paper3_nets.py`
-  (m5, m6), in CI since 2026-11-21. The corrected formula is **`[exploratory]`** (ledger row
-  PAPER-III.b): it rests on `lem:maxdet`'s rate identity, which no net covers yet (VI-46). Identifying the variance with the dispersion is Kostina–Verdú's
+  (m5, m6), in CI since 2026-11-21. The corrected formula is **`[proved]`** (ledger row
+  PAPER-III.b, custody file `claims/custody/PAPER-III.b.md`) as the variance of the tilted
+  information. It rests on `lem:maxdet`'s rate identity, which VI-46 found unnetted and
+  `verify_paper3_rate_identity.py` now nets. Reading it as the consumer problem's dispersion
+  also needs the finite-$n$ reduction above, which stays `[exploratory]`, and kernel uniqueness,
+  which is proved but on which no check can fail (VI-48). Identifying the variance with the dispersion is Kostina–Verdú's
   Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
   abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
   the vector letter (`cor:dispersion`). VI-37 checked the uniqueness argument line by line
@@ -291,10 +299,11 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3]; `verify_paper3_nets` m1–m4 | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46 | max-det corner identity `[proved]` (PAPER-III.a); region, refinability and rate loss as coding statements `[exploratory]` |
 | B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 | corner identity `[proved]` (PAPER-III.a); region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13, VI-32, VI-38 | `[predicted]`-grade; floor `[demonstrated]` |
-| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46 | reduction `[exploratory]`; corrected $V$ `[exploratory]` (PAPER-III.b; it rests on the unnetted rate identity); old constant `[refuted]` |
+| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46, VI-48, VI-49 | reduction `[exploratory]`; corrected $V$ as a variance `[proved]` (PAPER-III.b), as the dispersion `[exploratory]`; old constant `[refuted]` |
 
-One ledger row, PAPER-III.a, is `[proved]` (2026-11-21). It covers the max-det corner identity
-of B4 and B5, and its custody file is `claims/custody/PAPER-III.a.md`. No other row
+Two ledger rows are `[proved]` (2026-11-21). PAPER-III.a covers the max-det corner identity of B4
+and B5 and `lem:maxdet`'s rate identity; PAPER-III.b covers B7's corrected $V$ as a variance. Their custody
+files are in `claims/custody/`. No other row
 here has a custody table yet.
 
 The appendix used to end on "the discipline caught the errors, and the record shows
