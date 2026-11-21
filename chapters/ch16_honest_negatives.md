@@ -121,6 +121,23 @@ positive level.
 **The lesson** is the one VI-4 taught, three months later. A passing gate certifies only what
 it can fail. A fresh context is what finds the regime nobody sampled.
 
+**NEG-18: the dispersion counts only the active modes.** `[refuted]`, the constant only.
+
+**The claim.** Paper III's corollary and the book's B7 gave the second-order dispersion of
+the consumer-relative parallel Gaussian code as V = (r_D/2) log² e, where r_D is the number of
+modes above the water level. The value came from VI-7's "sharpening" in July.
+
+**The refutation.** A custody pass in November (VI-32) derived the d-tilted information and
+found that modes below the water level still contribute (γ_k/θ)²/2 each. Fluctuations in their
+energy have to be absorbed by the active modes. A Monte Carlo of the definition gives 1.226
+where the claim gives 1.0, and the corrected formula gives 1.225.
+
+**What stands.** The bound: the dispersion counts at most the r read dimensions, never the
+ambient d.
+
+**Why the harness passed.** It sampled only distortions at which every mode is active. That
+is the same pattern as NEG-17, and here the sharpening itself was the error.
+
 ## The four kinds of boundary
 
 The negatives are not a random pile; they sort into the four degeneracies of $P_C$ (Chapter
