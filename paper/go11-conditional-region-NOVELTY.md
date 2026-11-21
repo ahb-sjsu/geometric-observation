@@ -17,8 +17,8 @@ Question 1's first decidable step recorded).
    rate–distortion–equivocation lineage. v0.2 attributes it and claims only
    the reframing (single curve of corners → distortion-constrained IB /
    max-leakage Yamamoto member).
-2. **Paper V solves the one-constraint pair-region completely** (general
-   alphabets; Pareto-channel fixed point = the β′-scalarization with
+2. **Paper V solves the one-constraint pair-region completely** (finite
+   alphabets; its Gaussian results are single-letter, with the converse proved, per VI-43 on 2026-11-21; Pareto-channel fixed point = the β′-scalarization with
    β′ = 1−α; scalar corner + mode-aligned reset water-filling as the solved
    Gaussian instances). GO-11's open content is exactly: general non-aligned
    Gaussian S (Paper V's own declared "general Gaussian coupling" gap) and

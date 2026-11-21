@@ -86,7 +86,10 @@ be dishonest. The verifier suggests four:
   `[proved]`. That is the author's decision.
 
 Props 2–4 describe the operational region RW(D), so their operational reading takes Thm 1's
-grade.
+grade. (Dated note, 2026-11-21, VI-43: false for Props 3–4 since this record. They are now
+statements about the single-letter region U(D); their operational reading is a converse only.
+Cor 3's proof is written, Prop 4's hypotheses are stated, and the continuous-alphabet
+extension is replaced by that rescoping: `claims/audits/VI-43-PaperV-text.md`.)
 
 No ledger row for Paper V's theorems is created in this commit. The split and (d) go to the
 author first.

@@ -73,8 +73,9 @@ coincide only when no correlated side information survives at reset. We study
 a memory that stores a lossy description of an i.i.d. source, supports a
 declared consumer distortion without access to side information, and is later
 erased while correlated side information is retained. Under the classical,
-isothermal Landauer model, we characterize the complete achievable region of
-description rate, ideal reset work, and consumer distortion. For a test channel
+isothermal Landauer model, we characterize, for finite alphabets, the complete
+achievable region of description rate, ideal reset work, and consumer
+distortion. For a test channel
 from the source to its reconstruction, the two coordinates are the ordinary
 mutual information and the mutual information conditioned on the reset side
 information. The work-only endpoint is the common-reconstruction
@@ -89,10 +90,11 @@ extend the region to several consumers, identify the conditional total
 correlation saved by coordinated reset, derive the Landauer scaling of the
 Gaussian read-operator water-filling solution, and obtain a temperature-weighted
 water-filling rule for heterogeneous memory banks. With jointly Gaussian reset
-side information, the scalar region collapses to a single corner whose
-rate--work gap grows to the full source--side-information mutual information as
-distortion vanishes, while the vector frontier reappears as a generalized
-water-filling in which the minimum-rate and minimum-work allocations differ.
+side information, the scalar single-letter region, a lower bound on every code,
+collapses to a single corner whose rate--work gap grows to the full
+source--side-information mutual information as distortion vanishes, while the
+vector single-letter frontier reappears as a generalized water-filling in which
+the minimum-rate and minimum-work allocations differ.
 Finally, for a stale Markov
 record, predictive information lost with age is gained exactly as conditional
 erasure work. The results concern the reversible lower bound on reset work, not
@@ -204,9 +206,10 @@ total correlation. Fourth, for a Gaussian source and the read operator
 $\PC$ of Observation Theory, the usual spectral water-filling rate becomes an
 isothermal work law. If eigenmodes are erased in memory banks at different
 temperatures, the water level is proportional to temperature. Fifth, with
-jointly Gaussian reset side information the scalar region is a single corner
-whose rate--work gap grows to $I(X;S)$ as distortion vanishes, and the
-tradeoff reappears in the vector case through the allocation of distortion
+jointly Gaussian reset side information the scalar single-letter region, a
+lower bound on every code, is a single corner whose rate--work gap grows to
+$I(X;S)$ as distortion vanishes, and the
+tradeoff reappears in the vector single-letter region through the allocation of distortion
 across modes that the reset context knows unequally well. Sixth, for a
 stale Markov record, the loss of predictive information and the rise of
 conditional reset work are two sides of the same entropy identity.
@@ -392,8 +395,21 @@ $\bar q\in\mathcal T_{\cC}(D_n)$, and by Lemma~\ref{lem:convexity},
  \qquad
  L_n\ \ge\ \frac1n\sum_i I(X_i;\hX_i\mid S_i)\ \ge\ I_{\bar q}(X;\hX\mid S),
 \end{equation*}
-which places $(R_n,L_n)$ in the (already convex and closed) union of
-\eqref{eq:main-region} at distortion $D_n$.
+which places $(R_n,L_n)$ in the union of \eqref{eq:main-region} at
+distortion $D_n$. Write $\mathcal U_{\cC}(D)$ for that union; it grows with
+$D$ and is closed under increasing either coordinate.
+
+It remains to pass from the distortions $D_n$ of the codes to the limit $D$.
+Let $(R,L,D)$ be achievable. For each $k$, all large $n$ have $D_n\le D+1/k$,
+$R_n\le R+1/k$ and $L_n\le L+1/k$, so $(R+1/k,L+1/k)\in\mathcal U_{\cC}(D+1/k)$:
+there is a channel $q_k\in\mathcal T_{\cC}(D+1/k)$ with
+$I_{q_k}(X;\hX)\le R+1/k$ and $I_{q_k}(X;\hX\mid S)\le L+1/k$. The set of
+channels is compact, so a subsequence of $(q_k)$ converges to some $q$. The
+distortion is linear in the channel, so $\E_q d_{\cC}(X,\hX)\le D$, and both
+mutual informations are continuous, so $I_q(X;\hX)\le R$ and
+$I_q(X;\hX\mid S)\le L$. Hence $(R,L)\in\mathcal U_{\cC}(D)$, and because
+$\mathcal U_{\cC}(D)$ is closed, every point of the closure of the achievable
+set lies in it too.
 
 For achievability, fix $p(\hat x\mid x)\in\mathcal T_{\cC}(D)$ and
 $\epsilon>0$. Generate a standard rate--distortion codebook containing
@@ -766,22 +782,56 @@ deterministic projection.
 \end{proof}
 
 \begin{corollary}[Exact consumers and coordinated reset]\label{cor:tc}
-Let $U_j=\cC_j(X)$ be exact deterministic consumer outputs. A joint memory, or
-separate memories reset with full cross-memory coordination, has ideal reset
-content
+Let $U_j=\cC_j(X)$ be deterministic consumer outputs, and consider codes from
+which consumer $j$ recovers $U_j^n$ exactly, for every $j$. The minimum ideal
+reset content of a joint memory is
 \begin{equation}
- H(U_1,\ldots,U_m\mid S).
+ H(U_1,\ldots,U_m\mid S)
  \label{eq:joint-exact-work}
 \end{equation}
-If the $m$ memories are reset independently and each reset sees only $S$, their
-contents sum to $\sum_j H(U_j\mid S)$. The excess is the conditional total
-correlation
+per source symbol, and so is that of separate memories $M_1,\ldots,M_m$, with
+consumer $j$ decoding $U_j^n$ from $M_j$ alone, reset with full cross-memory
+coordination: each reset may condition on $S^n$ and on the memories not yet
+reset. If the separate memories are instead reset independently, each reset
+seeing only $S^n$, the minimum of their summed contents is
+$\sum_j H(U_j\mid S)$ per source symbol. The code that stores $M_j=U_j^n$
+attains both minima at every blocklength, and their difference is the
+conditional total correlation
 \begin{equation}
  \operatorname{TC}(U_1;\ldots;U_m\mid S)
  =\sum_{j=1}^{m}H(U_j\mid S)-H(U_1,\ldots,U_m\mid S)\ge0.
  \label{eq:conditional-tc}
 \end{equation}
 \end{corollary}
+
+\begin{proof}
+Let $M$ be a joint memory and $g_j$ consumer $j$'s decoder, so that
+$U_j^n=g_j(M)$ for every $j$. The tuple $(U_1^n,\ldots,U_m^n)$ is then a
+function of $M$, and
+\begin{equation*}
+ H(M\mid S^n)\ \ge\ H(U_1^n,\ldots,U_m^n\mid S^n)\ =\ nH(U_1,\ldots,U_m\mid S),
+\end{equation*}
+the equality because the tuples $(U_{1,i},\ldots,U_{m,i},S_i)$ are i.i.d.
+Separate memories $M_1,\ldots,M_m$, with $M_j$ read by consumer $j$ alone,
+form the joint memory $(M_1,\ldots,M_m)$. Reset in sequence, each against
+$S^n$ and the memories not yet reset, they cost in the ideal model
+\begin{equation*}
+ \sum_{j=1}^{m}H(M_j\mid M_{j+1},\ldots,M_m,S^n)=H(M_1,\ldots,M_m\mid S^n)
+\end{equation*}
+by the chain rule, so the same bound applies to them. Reset independently,
+they cost $\sum_jH(M_j\mid S^n)\ge\sum_jH(U_j^n\mid S^n)=n\sum_jH(U_j\mid S)$,
+since $U_j^n$ is a function of $M_j$. The code that stores $M_j=U_j^n$ meets
+all three bounds with equality, at every $n$. The difference of the two minima
+is therefore $n\operatorname{TC}(U_1;\ldots;U_m\mid S)$, which is nonnegative
+by the subadditivity of conditional entropy.
+\end{proof}
+
+For the Landauer content the proof is exact at every blocklength, and it uses
+neither Theorem~\ref{thm:main-region} nor Theorem~\ref{thm:multi}; reading the
+content as work still rests on the asymptotic tightness of
+\eqref{eq:landauer-bound}. Without the restriction that consumer $j$ reads $M_j$
+alone, the independent-reset minimum is smaller: if $U_1=U_2$, one memory can
+serve both consumers and the other can be empty.
 
 The qualification about coordinated reset matters. The saving in
 \eqref{eq:conditional-tc} is not attached to a particular memory package. It is
@@ -812,6 +862,40 @@ and the quadratic consumer distortion is
 For a nonlinear consumer, this is the second-order approximation to its output
 loss; for a linear consumer with quadratic output loss it is exact
 \cite{bond2026observation}.
+
+The source is now continuous and the distortion unbounded, so
+Theorem~\ref{thm:main-region} does not apply as proved.
+Corollary~\ref{cor:gauss} and
+Propositions~\ref{prop:scalar-corner}--\ref{prop:vector-frontier} are
+statements about the single-letter region $\mathcal U(D)$: the union in
+\eqref{eq:main-region}, taken over test channels from the source space to any
+reproduction alphabet whose distortion is at most $D$, with $R_{\cC}$ and
+$L_{\cC}$ its two minima as in
+\eqref{eq:ordinary-rd}--\eqref{eq:work-endpoint}.
+(Proposition~\ref{prop:thermal-waterfill} is an optimization inside a stated
+memory model.) The operational region $\RW_{\cC}(D)$ is defined as before, and
+its definition does not depend on the alphabet. Its relation to
+$\mathcal U(D)$ is one-sided. The per-code converse of
+Theorem~\ref{thm:main-region} holds for general alphabets:
+Lemma~\ref{lem:convexity} and the mixture-channel step hold verbatim, and
+Appendix~\ref{app:converse} gives the single-letterization in a form that uses
+no differential entropy. Every code therefore has
+$(R_n,L_n)\in\mathcal U(D_n)$. The limit step of
+Theorem~\ref{thm:main-region} used the compactness of a finite set of
+channels. Here it is replaced by a property of the regions below, shown in the
+proof of Proposition~\ref{prop:vector-frontier}: each $\mathcal U(D)$ is
+closed, and if $(R+1/k,L+1/k)\in\mathcal U(D+1/k)$ for every $k$, then
+$(R,L)\in\mathcal U(D)$. Every achievable pair therefore lies in
+$\mathcal U(D)$, and the closed forms of this section are lower bounds on the
+rate and the Landauer content of every code. Achievability would need the
+covering and binning steps extended to continuous alphabets and unbounded
+squared error. That extension is not written out here, so
+$\RW_{\cC}(D)=\mathcal U(D)$ is not claimed for
+Propositions~\ref{prop:scalar-corner} and~\ref{prop:vector-frontier}. Without
+side information (Corollary~\ref{cor:gauss}), $L_n\le R_n$, and the equality
+reduces to the achievability half of the rate--distortion theorem for the
+Gaussian source $\PC^{1/2}X$ under squared error, a classical result that is
+likewise not reproved here.
 
 Let $\lambda_1,\ldots,\lambda_r>0$ be the nonzero eigenvalues of
 $\Sigma_X^{1/2}\PC\Sigma_X^{1/2}$, where
@@ -858,7 +942,7 @@ Let $(X,S)$ be jointly Gaussian and zero mean with $\operatorname{Var}X=\sigma^2
 and correlation coefficient $\rho\in(-1,1)$, let
 $d(x,\hat x)=(x-\hat x)^2$, and let $0<D<\sigma^2$. Then
 \begin{equation}
- \RW(D)
+ \mathcal U(D)
  =\Bigl\{(R,L):
  R\ge\tfrac12\log_2\tfrac{\sigma^2}{D},\
  L\ge\tfrac12\log_2\tfrac{\sigma^2(1-\rho^2)+\rho^2D}{D}
@@ -866,7 +950,7 @@ $d(x,\hat x)=(x-\hat x)^2$, and let $0<D<\sigma^2$. Then
  \label{eq:scalar-corner}
 \end{equation}
 Both bounds are attained simultaneously by the classical reverse channel, so
-the scalar Gaussian problem has no rate--work tradeoff. The side-information
+the scalar single-letter region has no rate--work tradeoff. The side-information
 discount
 \begin{equation}
  R_{\min}-L_{\min}
@@ -884,7 +968,10 @@ $\E[S\hX]=\E\bigl[\E[S\mid X]\,\E[\hX\mid X]\bigr]=\rho\,\E[X\hX]$, so with
 $c=\operatorname{Cov}(X,\hX)$ and $v=\operatorname{Var}\hX\ge c^2$ the second
 moments of $(X,\hX,S)$ are determined by $(c,v)$, and the distortion
 constraint reads $1-2c+v\le D$; together these force $c>0$ on the feasible
-set. For the work coordinate,
+set. For the work coordinate, if the conditional law of $X$ given $(\hX,S)$
+fails to have a density on a set of positive probability, it is not
+absolutely continuous with respect to the Gaussian law of $X$ given $S$ there,
+so $I(X;\hX\mid S)=\infty$ and there is nothing to prove. Otherwise
 $L=h(X\mid S)-h(X\mid\hX,S)$ and
 $h(X\mid\hX,S)\le\tfrac12\log2\pi e\,e_{\mathrm{lin}}$, where
 $e_{\mathrm{lin}}$ is the error of the best linear estimate of $X$ from
@@ -915,13 +1002,15 @@ between a component the reset context knows and one it does not. The next
 proposition restores exactly that mechanism.
 
 \begin{proposition}[Vector frontier and reset water-filling]\label{prop:vector-frontier}
-Let $X$ have independent components $X_i\sim\mathcal N(0,\sigma_i^2)$,
-$i=1,\ldots,r$, let $S=(S_1,\ldots,S_r)$ with $S_i$ jointly Gaussian with
-$X_i$ alone at correlation $\rho_i$, and let
+Let $X=(X_1,\ldots,X_r)$ and $S=(S_1,\ldots,S_r)$, where the pairs
+$(X_1,S_1),\ldots,(X_r,S_r)$ are mutually independent, each pair is jointly
+Gaussian and zero mean, $X_i\sim\mathcal N(0,\sigma_i^2)$, and $X_i$ and $S_i$
+have correlation $\rho_i\in(-1,1)$. Let
 $d(x,\hat x)=\sum_i p_i(x_i-\hat x_i)^2$ with $p_i>0$, the read geometry of
 \eqref{eq:weighted-dist} with independently read and independently known
-modes. Write $c_i=\sigma_i^2(1-\rho_i^2)$. The lower Pareto boundary of
-$\RW(D)$ is traced by $\alpha\in[0,1]$ as follows. With $\mu>0$ chosen so
+modes, and let $0<D<\sum_ip_i\sigma_i^2$. Write $c_i=\sigma_i^2(1-\rho_i^2)>0$.
+The lower Pareto boundary of $\mathcal U(D)$ is traced by $\alpha\in[0,1]$ as
+follows. With $\mu>0$ chosen so
 that $\sum_i p_id_i=D$, allocate $d_i=\min\{\sigma_i^2,\delta_i(\mu)\}$,
 where $\delta_i(\mu)$ is the positive root of
 \begin{equation}
@@ -943,18 +1032,26 @@ with $d_i=\sigma_i^2$ contributes zero to both coordinates.
 \end{proposition}
 
 \begin{proof}
-For independent pairs $(X_i,S_i)$ and any code with $\hX-X-S$, the
-componentwise analogue of Appendix~\ref{app:converse} gives
+For any test channel with $\hX-X-S$, the general-alphabet form of
+Appendix~\ref{app:converse}, applied across the mutually independent pairs
+$(X_i,S_i)$ in place of time, gives
 $I(X;\hX)\ge\sum_iI(X_i;\hX_i)$ and
-$I(X;\hX\mid S)\ge\sum_iI(X_i;\hX_i\mid S_i)$.
-Proposition~\ref{prop:scalar-corner} bounds each mode at its own distortion
-$d_i=\E(X_i-\hX_i)^2$, so every achievable pair is dominated by the
-allocation program that minimizes
-$\alpha\sum_iR_i(d_i)+(1-\alpha)\sum_iL_i(d_i)$ over
-$\sum_ip_id_i\le D$, $0<d_i\le\sigma_i^2$. Each $R_i$ is convex in $d_i$, and
+$I(X;\hX\mid S)\ge\sum_iI(X_i;\hX_i\mid S_i)$. Each component channel
+satisfies $\hX_i-X_i-S_i$: by $\hX-X-S$ and the independence of $S_i$ from
+$X_{\ne i}$ given $X_i$,
+$p(\hat x_i,s_i\mid x_i)=p(s_i\mid x_i)\,p(\hat x_i\mid x_i)$.
+Proposition~\ref{prop:scalar-corner} therefore bounds each mode at its
+own distortion $d_i=\E(X_i-\hX_i)^2$; a mode with $d_i\ge\sigma_i^2$ is bounded
+by zero, and lowering its $d_i$ to $\sigma_i^2$ only loosens the distortion
+constraint. Every pair in $\mathcal U(D)$ thus lies above the point
+$\bigl(\sum_iR_i(d_i),\sum_iL_i(d_i)\bigr)$ of some allocation with
+$\sum_ip_id_i\le D$ and $0<d_i\le\sigma_i^2$, where $R_i$ and $L_i$ are the
+scalar corner coordinates of mode $i$, and the lower boundary is traced by
+the allocation program that minimizes
+$\alpha\sum_iR_i(d_i)+(1-\alpha)\sum_iL_i(d_i)$ over those allocations. Each
+$R_i$ is convex in $d_i$, and since $c_i>0$,
 \begin{equation*}
- L_i''(d)\ \propto\ \frac1{d^2}-\frac{\rho_i^4}{(c_i+\rho_i^2d)^2}\ >\ 0
- \quad\text{exactly when } c_i>0,
+ L_i''(d)\ \propto\ \frac1{d^2}-\frac{\rho_i^4}{(c_i+\rho_i^2d)^2}\ >\ 0,
 \end{equation*}
 so the program is convex and its KKT condition
 \begin{equation}
@@ -963,12 +1060,33 @@ so the program is convex and its KKT condition
  =\mu p_i
  \label{eq:alloc-kkt}
 \end{equation}
-is sufficient; clearing denominators gives \eqref{eq:alloc-quadratic}.
+is sufficient; clearing denominators gives \eqref{eq:alloc-quadratic}. The
+left side of \eqref{eq:alloc-kkt} decreases strictly in $d_i$ from $+\infty$
+to $0$, so $\delta_i(\mu)$ is the unique positive root, and it decreases
+continuously in $\mu$ from $+\infty$ to $0$. The sum
+$\sum_ip_i\min\{\sigma_i^2,\delta_i(\mu)\}$ is then continuous and
+nonincreasing in $\mu$, strictly decreasing wherever it is below
+$\sum_ip_i\sigma_i^2$, and runs from $\sum_ip_i\sigma_i^2$ to $0$, so the
+level $\mu$ exists and is unique for $0<D<\sum_ip_i\sigma_i^2$.
 Products of scalar reverse channels achieve every allocation, convexity of
-the per-mode objectives makes the achievable set convex, and the weighted-sum
-sweep therefore traces the entire lower boundary; strict convexity makes the
-minimizer unique at every $\alpha$, endpoints included. The last claim is the
-identity $c_i+\rho_i^2\sigma_i^2=\sigma_i^2$.
+the per-mode objectives makes the set of dominated pairs convex, and the
+weighted-sum sweep therefore traces the entire lower boundary; strict
+convexity makes the minimizer unique at every $\alpha$, endpoints included.
+The claim about a mode at $d_i=\sigma_i^2$ is the identity
+$c_i+\rho_i^2\sigma_i^2=\sigma_i^2$.
+
+Finally, the limit property used in the scope paragraph of this section.
+Suppose that for every $k$ the pair $(R+1/k,L+1/k)$ lies above the point of an
+allocation $d^{(k)}$ feasible at $D+1/k$. Then
+$R+1\ge\frac12\log_2(\sigma_i^2/d^{(k)}_i)$ for every $i$, so the $d^{(k)}$
+lie in the compact box $\prod_i[\sigma_i^22^{-2(R+1)},\sigma_i^2]$. A limit
+point is feasible at $D$ and, by continuity of the per-mode functions, its
+point lies below $(R,L)$, so $(R,L)\in\mathcal U(D)$. The same box argument
+at a fixed $D$ shows that $\mathcal U(D)$ is closed. For
+Proposition~\ref{prop:scalar-corner}, $\mathcal U(D)$ is a quadrant whose
+corner is continuous in $D$, and for Corollary~\ref{cor:gauss} it is the
+quadrant with corner $(R_{\cC}(D),R_{\cC}(D))$, with $R_{\cC}$ continuous; in
+both the property is immediate.
 \end{proof}
 
 Setting every $\rho_i=0$ gives $L\equiv R$ and recovers
@@ -1222,6 +1340,13 @@ $\Sigma_{X\mid S}$, and $\PC$ are not simultaneously diagonalizable, the
 allocation program becomes a joint semidefinite optimization and the frontier
 need not separate across modes; its characterization is left open.
 
+\emph{Continuous alphabets.} Section~\ref{sec:gaussian} proves the converse
+for Gaussian sources and states the single-letter region. Extending the
+covering and binning steps of Theorem~\ref{thm:main-region} to continuous
+alphabets and unbounded squared error would make the closed forms of
+Propositions~\ref{prop:scalar-corner} and~\ref{prop:vector-frontier}, which
+carry reset side information, the operational region.
+
 \emph{Sources with memory.} Proposition~\ref{prop:stale} uses memory directly,
 but the coding theorem is i.i.d. Information-spectrum methods should extend the
 region to general sources, with conditional spectral information rates replacing
@@ -1277,6 +1402,24 @@ For the work coordinate,
  \left[H(X_i\mid S_i)-H(X_i\mid\hX_i,S_i)\right]\nonumber\\
  &=\sum_{i=1}^{n}I(X_i;\hX_i\mid S_i).
 \end{align}
+
+For general alphabets, used in Section~\ref{sec:gaussian}, the same
+inequalities follow without entropies of $X^n$. The other steps of
+\eqref{eq:rate-conv} and \eqref{eq:work-conv} need only that $M$ is discrete:
+$H(M\mid S^n)=I(X^n;M\mid S^n)+H(M\mid X^n,S^n)$, and $\hXn$ is a function of
+$M$. By the chain rule for mutual information,
+$I(X^n;\hXn\mid S^n)=\sum_{i}I(X_i;\hXn\mid X^{i-1},S^n)$. The pair
+$(X_i,S_i)$ is independent of $(X^{i-1},S_{\ne i})$, so
+$I(X_i;X^{i-1},S_{\ne i}\mid S_i)=0$ and
+\begin{equation*}
+ I(X_i;\hXn\mid X^{i-1},S^n)
+ =I(X_i;\hXn,X^{i-1},S_{\ne i}\mid S_i)
+ \ge I(X_i;\hX_i\mid S_i).
+\end{equation*}
+Taking $S$ constant gives the rate coordinate. The argument uses only the
+independence of the pairs across the index $i$, so it applies equally across
+the mutually independent components of
+Proposition~\ref{prop:vector-frontier}.
 
 \bibliographystyle{IEEEtran}
 \bibliography{consumer-relative-landauer}
