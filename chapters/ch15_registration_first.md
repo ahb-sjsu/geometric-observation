@@ -91,11 +91,12 @@ source before assertion and grepped out before export (T-CUST-3).
 R-IND is not a posture; it has a track record, and the track record is the argument. Caught
 *before publication*: an extreme-value scaling error (VI-2 — $\exp(-x^a)$ tails give
 $(\ln N)^{1/a}$, not $\sqrt{\ln N}$); the `sigma_star` false pass (VI-4); a non-iterating
-$k$-stage construction and a mis-attributed citation (VI-5 — the two-stage map does not
-iterate; an accumulating rotation ambiguity leaks Fisher information by $O(0.1)$); a
+$k$-stage construction (VI-5 — the two-stage map does not iterate; an accumulating
+rotation ambiguity leaks Fisher information by $O(0.1)$; VI-5 also flagged a citation, but
+its replacement readings proved unchecked or wrong, VI-36 to VI-40); a
 naive-kernel floor error (VI-6 — the omission floor uses the *whitened* kernel, overstated
 $\sim 30\%$ otherwise, and is a *floor*, not unbounded distortion); and a "bijection"
-argument that had to be a covering argument (VI-7). Six catches, each a place the book
+argument that had to be a covering argument (VI-7). Five catches, each a place the book
 would have asserted something false had the rule not fired. A rule earns its cost by its
 catches, and these are the catches.
 

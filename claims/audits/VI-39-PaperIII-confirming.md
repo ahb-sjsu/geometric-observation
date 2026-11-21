@@ -23,7 +23,7 @@ It re-read the uniqueness argument step by step, and confirmed Example (iii) by 
 findings are older text that the earlier passes missed. Five were introduced by 287f349:
 #1, #4, #12, #13 and #14.
 
-## Findings and dispositions (all applied, 2026-11-21)
+## Findings and dispositions (applied 2026-11-21, except #11, whose files are the author's)
 
 | # | Severity | Finding | Applied |
 |---|---|---|---|

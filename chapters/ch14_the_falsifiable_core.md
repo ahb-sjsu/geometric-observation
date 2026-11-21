@@ -67,7 +67,8 @@ absent [GO-P-2026-019 → NEG-11]. The retained positive: $\alpha = 1$ is the op
 diffusion exponent, non-spectrally. A bet placed, lost, and carried.
 
 **GO-6 — at matched rate, output ≤ surrogate ≤ reconstruction on the consumer metric.**
-`[demonstrated]`. The operational net for the COST theorems (B2/B3): the ordering holds at
+`[demonstrated]`, **disputed** (VI-32, VI-34: the harness charges two of the coders a rate
+off the matched-rate premise; a re-run is owed, and the class is the author's to set). The operational net for the COST theorems (B2/B3): the ordering holds at
 every rate; reconstruction up to ~500× worse at high rate; the surrogate→output gap shrinks
 0.41→0.005 as rate grows; the isotropic control $P_C = I$ collapses the three coders
 [GO-P-2026-028, all pass]. This closes the last promised registration.

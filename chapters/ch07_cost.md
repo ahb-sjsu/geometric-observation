@@ -59,13 +59,15 @@ exact outer structure. For observers with read metrics $P_1, P_2$, Paper III pro
 every two-stage code lies in a max-determinant region, and that the region is tight under
 a successive-refinement achievability assumption (Assumption SR, attributed to
 Effros and not yet checked at the source). Its corner decides **refinability** — whether a
-single scalable code can serve the coarse observer with a prefix of the bits it serves the
-fine one. Refinability requires the observers' optimal error covariances to **nest**,
+single scalable code can serve both observers at their single-stage optimal rates
+$R_1(D_1)$ and $R_2(D_2)$, the coarse one with a prefix of the bits it serves the fine one.
+(Without the optimal rates the question is empty: two independent codes always serve both,
+at a higher total rate; VI-40.) Refinability requires the observers' optimal error covariances to **nest**,
 $\Sigma_2^\star \preceq \Sigma_1^\star$, and under the assumption nesting suffices.
 Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \preceq P_2$
 neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
-in which one observer is "a refinement of" another: it can be served by adding bits, not
-resending them. When the optima do *not* nest, serving both costs a rate loss, which the
+in which one observer is "a refinement of" another: it can be served by adding bits at no
+rate loss, not resending them. When the optima do *not* nest, serving both costs a rate loss, which the
 theory bounds below (exactly, under the assumption). [The max-det corner identity `[predicted]`-grade; the region and its
 coding statements `[exploratory]` — Appendix B.] (This paragraph said until 2026-11-21 that
 refinability holds exactly when $P_1 \preceq P_2$, tagged `[proved]`; that criterion is
@@ -101,8 +103,8 @@ read metrics.
 
 Dispersion — the second-order term governing finite-blocklength performance — counts at
 most the **read** dimensions, never the source dimensions: $r_D \le 2V \le r$ in nats$^2$,
-with $r_D$ the modes above the water level and equality on the right exactly when every
-read mode is active. Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
+with $r_D$ the modes above the water level and equality on the right exactly when no
+read mode lies below it (a mode at the level, $\gamma_k=\theta$, counts fully). Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
 each, because fluctuations of their energy are absorbed by the active ones. As the target
 distortion falls, more modes become active and $2V$ rises to $r$. (This paragraph said
 until 2026-11-21, following VI-7's "sharpening", that the dispersion counts only the active

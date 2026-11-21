@@ -29,8 +29,8 @@ This is the COST↔VALUE bridge, and it is the recommended keystone because it c
 the program's central practical claim — *recover the observer, then serve it* — from a
 two-step empirical recipe into one theorem with an end-to-end guarantee. The pieces
 exist: the probe's recovery rate is measured (GO-1, and the rate-dependence of the
-surrogate gap in GO-6), and the mismatch tax and omission floor are proved (Chapter 7,
-Appendix B). T1 would fuse them. It carries no result yet — it is a **stated target**,
+surrogate gap in GO-6), and the mismatch tax and omission floor are derived
+(`[predicted]`-grade, the floor measured `[demonstrated]`; Chapter 7, Appendix B, B6). T1 would fuse them. It carries no result yet — it is a **stated target**,
 not a theorem — and I flag it as such [status: open, recommended].
 
 **Update, November 2026: the T1 note.** A working note (`paper/t1-learn-then-serve`,
