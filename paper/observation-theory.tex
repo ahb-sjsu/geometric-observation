@@ -87,9 +87,12 @@ distortion is chosen. Euclidean reconstruction is its \emph{isotropic-observer}
 corner ($\PC=I$); Observation Theory's contribution is to make that distortion
 measure an \emph{identifiable geometric object}, recover it from the consumer, and
 show adversarially that changing it changes which representation is optimal. We
-further determine, for a \emph{Gaussian source}, the complete two-stage rate region for
-two read operators (\S\ref{sec:multiobs})---successively refinable exactly when their
-optimal error covariances nest---give the converse for $k$ observers, and price a misidentified
+further give, for a \emph{Gaussian source}, the two-stage rate region for two read
+operators (\S\ref{sec:multiobs})---its converse unconditionally, its equality under a
+successive-refinement achievability assumption attributed to Effros and not yet checked at
+the source; nesting of the optimal error covariances is necessary for successive
+refinability, and sufficient under that assumption---give the converse for $k$ observers,
+and price a misidentified
 observer (Appendix~\ref{app:mismatch}): mis-weighting a read direction costs a bounded
 rate tax, omitting one erects an irreducible distortion floor.
 \end{abstract}
@@ -128,8 +131,9 @@ reliability certificate; (iv) budget-relativity of the verdict; and (v) a
 registration-first empirical program---sealed predictions, ex-ante bars, a refuted
 face carried as prominently as the wins---whose recurring demonstration is a single
 code whose downstream verdict \emph{inverts} when nothing changes but the consumer;
-(vi) the complete two-stage rate region for a Gaussian source under two read
-operators---with successive refinability (the optimal error covariances nest) and a
+(vi) the two-stage rate region for a Gaussian source under two read
+operators---its converse proved, its equality under a successive-refinement achievability
+assumption---with successive refinability (the optimal error covariances nest) and a
 closed-form max-det rate loss as its corner, with a converse for $k$ observers
 (\S\ref{sec:multiobs})---together with a finite-blocklength reduction (with, in the
 Gaussian case, a dispersion counting read dimensions) and an observer source--channel
@@ -630,9 +634,9 @@ encoder. So $R_{\mathcal C}(n,\epsilon,D)=R_Y(n,\epsilon,D)$ exactly at every $n
 
 \begin{corollary}[Dispersion counts read dimensions]\label{cor:dispersion}
 For a Gaussian source under quadratic distortion with $0<D<\sum_k\gamma_k$, where
-$\gamma_1,\dots,\gamma_r$ are the variances of the tilted modes, Kostina and Verd\'u's
-Gaussian approximation \cite{kostinaverdu2012} applied to the $\mathbb R^r$-valued tilted letter
-gives
+$\gamma_1,\dots,\gamma_r$ are the variances of the tilted modes, and under the
+excess-distortion criterion, Kostina and Verd\'u's Gaussian approximation
+\cite[Thm.~12]{kostinaverdu2012} applied to the $\mathbb R^r$-valued tilted letter gives
 \[
 R_{\mathcal C}(n,\epsilon,D)=R_Y(D)+\sqrt{V_Y(D)/n}\,Q^{-1}(\epsilon)+O\!\left(\tfrac{\log n}{n}\right),
 \]
@@ -649,11 +653,26 @@ dimensions of $\ker\PC$ contribute nothing. The formula is the variance of the $
 information, which is additive over the tilted modes: an active mode contributes
 $\tfrac12\log(\gamma_k/\theta)+\tfrac12(y_k^2/\gamma_k-1)$, and a mode below the water level
 contributes $(y_k^2-\gamma_k)/(2\theta)$, at slope $1/(2\theta)$, because fluctuations of
-its energy must be absorbed by the active modes. The variance is computed here; the
-identification of $V_Y$ with it, and the remainder, are Kostina--Verd\'u's general Gaussian
-approximation, whose hypotheses (a unique optimal kernel, which holds here, and moment
-conditions on the distortion) are to be checked against \cite{kostinaverdu2012} at the
-source for the vector letter. The scalar case is \cite{kostinaverdu2012,ingberkochman}.
+its energy must be absorbed by the active modes. The variance is computed here (the
+$D$-tilted information and its defining property are \cite[Def.~6, Property~2]{kostinaverdu2012});
+the identification of $V_Y$ with it, and the remainder, are \cite[Thm.~12]{kostinaverdu2012}
+(numbering of arXiv:1102.3944), which holds for abstract alphabets and so for the
+$\mathbb R^r$-valued letter. Its restrictions (i)--(iv) hold here: an i.i.d.\ source, a
+separable distortion, $0=d_{\min}<D<d_{\max}=\sum_k\gamma_k$, and $\E\,d^3(Y,\hat
+Y^\star)<\infty$ with $Y$ and $\hat Y^\star$ independent Gaussians. So do its basic
+conditions (a)--(c): $R$ is finite, a single reproduction point ($0$) has finite expected
+distortion, and the optimal kernel is unique. For uniqueness, let $\hat Y$ attain $R(D)$.
+Lemma~\ref{lem:info} gives $R(D)\ge\tfrac12\log\det\Gamma/\det\Sigma(\hat Y)$ with $\Gamma$
+the covariance of $Y$, and $\Sigma(\hat Y)$ is feasible for the max-det program of
+Lemma~\ref{lem:maxdet} (cap $\Gamma$, unit weight), so $\Sigma(\hat Y)=\Sigma^\star$ by its
+uniqueness, and both inequalities in Lemma~\ref{lem:info}'s proof are equalities: the
+residual $Y-\E[Y\mid\hat Y]$ is independent of $\hat Y$ (the conditioning step) and Gaussian
+(the maximum-entropy step). Since $\tr\Sigma^\star=D$ (the trace constraint binds) and
+$\E\lVert Y-\hat Y\rVert^2\le D$, Lemma~\ref{lem:cm} forces $\hat Y=\E[Y\mid\hat Y]$. So
+$Y=\hat Y+Z$ with $Z\sim\mathcal N(0,\Sigma^\star)$ independent of $\hat Y$, and the law of
+$\hat Y$, hence the kernel, is fixed by deconvolution. The scalar constant $\tfrac12\log^2e$
+($0<d<\sigma^2$) is \cite[eq.~(94)]{kostinaverdu2012}; see also \cite{ingberkochman}. (Checked
+at the source 2026-11-21.)
 (Corrected 2026-11-20, NEG-18: the earlier statement counted only the active modes, the
 ``effective dimension $r_D$''; a Monte Carlo of the tilted information at
 $\gamma=(4,2,0.6,0.3)$, $\theta=1$ gives variance $1.226$ against $r_D/2=1.0$ and the
@@ -676,8 +695,7 @@ $\rho$ source symbols per channel use over
 a memoryless channel of capacity $C_{\mathrm{ch}}$ without feedback. The source is
 transmissible within consumer distortion $D$ if $\rho\,R_{\mathcal C}(D)<C_{\mathrm{ch}}$,
 and only if $\rho\,R_{\mathcal C}(D)\le C_{\mathrm{ch}}$; the boundary
-$\rho\,R_{\mathcal C}(D)=C_{\mathrm{ch}}$ is transmissible only when the distortion--rate
-curve is approachable from below in rate.
+$\rho\,R_{\mathcal C}(D)=C_{\mathrm{ch}}>0$ is transmissible too.
 \end{proposition}
 \begin{proof}
 Take $\rho=1$, and write $S_n:=d_{\mathcal C}(X^n,\hat x_0^n)$ for the block distortion
@@ -703,11 +721,14 @@ earlier argument bounded the error-event distortion by the reference letter's, b
 event the output is a wrong codeword; and a first correction did not control the
 expurgated blocks or the non-uniform indices.)
 \emph{Converse:} $nR_{\mathcal C}(D)\le I(X^n;\hat X^n)\le nC_{\mathrm{ch}}$ by the RD
-converse and data processing across the memoryless channel. At the boundary $\rho
-R_{\mathcal C}(D)=C_{\mathrm{ch}}$ transmissibility needs the distortion--rate curve
-approachable from below in rate: if $R_{\mathcal C}$ is strictly decreasing at $D$, codes
-for $D+1/k$ use rate $R_{\mathcal C}(D+1/k)<C_{\mathrm{ch}}$ and give $\limsup$-distortion
-$D$; on a flat segment of $R_{\mathcal C}$ it is not guaranteed. The forward part uses the
+converse and data processing across the memoryless channel. \emph{Boundary
+(achievability):} at $\rho R_{\mathcal C}(D)=C_{\mathrm{ch}}>0$, $R_{\mathcal C}$ is
+convex and nonincreasing and vanishes for $D\ge\E\,d_{\mathcal C}(X,\hat x_0)$, which the
+reference letter makes finite, so it is strictly decreasing wherever it is positive (a flat
+stretch at a positive value would, by convexity, persist for all larger $D$); codes for
+$D+1/k$ use rate $R_{\mathcal C}(D+1/k)<C_{\mathrm{ch}}$, and a diagonal choice gives
+$\limsup$-distortion $D$. (Until 2026-11-21 this said the boundary needs the curve
+``approachable from below in rate'', a caveat that is vacuous here, VI-36.) The forward part uses the
 quadratic triangle inequality, so it is stated for a fixed $\PC$; it does not cover the
 point-dependent surrogate or the true divergence.
 \end{proof}
@@ -727,10 +748,11 @@ The single-observer theory (\S\ref{sec:rd}) serves one consumer at a time. When 
 consumers read the \emph{same} Gaussian source in two stages---a base layer judged by
 consumer~1's read operator $P_1$, the full description by consumer~2's $P_2$---the
 frontier flagged in \S\ref{sec:framework} (``another consumer may read those
-directions'') becomes a coding question we answer completely: we determine the entire two-stage rate
-region (Theorem~\ref{thm:region}), of which successive refinability and the exact rate
-loss are the corner, and we give its converse for $k$ observers---the paper's read operator turned
-into rate.
+directions'') becomes a coding question: we prove the converse of the two-stage rate
+region (Theorem~\ref{thm:region}), and its equality under a successive-refinement
+achievability assumption (Assumption~SR below), of which successive refinability and the
+exact rate loss are the corner, and we give the converse for $k$ observers---the paper's
+read operator turned into rate.
 
 Let $X\sim\mathcal N(0,\Sigma_x)$ on $\mathbb R^d$, $\Sigma_x\succ0$, be i.i.d.; consumer
 $i\in\{1,2\}$ has $P_i\succeq0$ and distortion $d_i(x,\hat x)=(x-\hat x)^\top P_i
@@ -743,15 +765,22 @@ $nR_1$ bits decoded to $\hat X_1^n$ for consumer~1 and $n(R_2-R_1)$ further bits
 messages decode to $\hat X_2^n$ for consumer~2, with $\E\tfrac1n\sum_t d_i(X_t,\hat
 X_{i,t})\le D_i$. The pair $(D_1,D_2)$ is \emph{successively refinable} if the corner
 $(R_1,R_2)=(R_1(D_1),R_2(D_2))$ is achievable. Write $\Sigma(\hat X):=\Cov(X-\E[X\mid
-\hat X])=\E[\Cov(X\mid\hat X)]$. The two-stage achievable region for memoryless sources
-with per-stage distortion measures is Rimoldi's \cite{rimoldi}: $(R_1,R_2)$ achievable
-iff there exist $\hat X_1,\hat X_2$ with $\E d_i(X,\hat X_i)\le D_i$, $R_1\ge
-I(X;\hat X_1)$, $R_2\ge I(X;\hat X_1,\hat X_2)$; for our abstract-alphabet,
-unbounded-distortion instance we invoke the abstract-source successive-refinement coding
-theorem \cite{kostinatuncel} (which extends Rimoldi's finite-alphabet per-stage-measure
-region to standard-Borel sources under a finite-distortion reference letter $\hat x_0=0$,
-$\E d_i(X,0)^2<\infty$ for Gaussian $X$); only its \emph{achievability} direction is
-used---the converses below are self-contained. Uniqueness of the max-det optimizer
+\hat X])=\E[\Cov(X\mid\hat X)]$.
+
+\smallskip\noindent\textbf{Assumption SR (successive-refinement achievability).} For the
+Gaussian source and the quadratic distortions here, and for any number $k$ of stages,
+every point $\bigl(I(X;\hat X_1),\,I(X;\hat X_1,\hat X_2),\dots,I(X;\hat X_{1:k})\bigr)$
+with $\E d_i(X,\hat X_i)\le D_i$ lies in the closure of the achievable region of cumulative
+rates. For finite alphabets this is Rimoldi's theorem \cite{rimoldi} (per-stage distortion
+measures may differ). For our continuous, unbounded-distortion instance it is attributed to
+Effros \cite{effros}, which Kostina and Tuncel \cite{kostinatuncel} cite for the extension
+to continuous alphabets and stationary sources; Kostina and Tuncel themselves characterize
+the two-stage boundary parametrically and prove no coding theorem. Effros's hypotheses
+have not been checked against this case at the source. Every converse below is proved
+without Assumption~SR; every achievability claim is stated under it. (Checked 2026-11-21,
+VI-36 and VI-37: this paragraph used to call \cite{kostinatuncel} ``the abstract-source
+successive-refinement coding theorem'' and to assert the achievability outright.)
+\smallskip Uniqueness of the max-det optimizer
 (Lemma~\ref{lem:maxdet}) forces the per-stage distortions to bind at $D_i$, which pins the
 corner $(R_1(D_1),R_2(D_2))$; the region itself (Theorem~\ref{thm:region}) needs neither.
 
@@ -792,9 +821,10 @@ set is convex with an interior point; since $\log\det=-\infty$ on singular matri
 maximizer lies in $\mathbb S^d_{++}$, where $\log\det$ is strictly concave.
 \end{proof}
 
-\begin{theorem}[Complete two-stage rate region]\label{thm:region}
+\begin{theorem}[Two-stage rate region]\label{thm:region}
 Let $\Sigma_i^\star:=\Sigma^\star(P_i,D_i)$. With $R_2$ the total rate to both stages, the
-closure of the achievable two-stage rate region is
+closure of the achievable two-stage rate region is contained in, and under
+Assumption~SR equal to,
 \[
 \mathcal R(D_1,D_2)=\Bigl\{(R_1,R_2):\ \exists\,0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x
 \text{ with }\tr(P_1\Sigma_b)\le D_1,\ \tr(P_2\Sigma_f)\le D_2,
@@ -837,8 +867,8 @@ observations $Z_1:=\Lambda_b^{1/2}X+M_1$ and $Z_2:=(\Lambda_f-\Lambda_b)^{1/2}X+
 $M_1,M_2\sim\mathcal N(0,I)$ independent, have additive Fisher information, so
 $\Cov(X\mid Z_1)=(\Sigma_x^{-1}+\Lambda_b)^{-1}=\Sigma_b$ and $\Cov(X\mid Z_1,Z_2)=
 \Sigma_f$; with $\hat X_1=\E[X\mid Z_1]$, $\hat X_2=\E[X\mid Z_1,Z_2]$ this attains the
-boundary rates, and the abstract-source achievability of \cite{kostinatuncel} (finite
-alphabets: \cite{rimoldi}) lifts the single-letter point to $\mathcal R$. Upward closure
+boundary rates, and Assumption~SR lifts the single-letter point to $\mathcal R$ (for
+finite alphabets this step is \cite{rimoldi}). Upward closure
 supplies the rest.
 \end{proof}
 
@@ -846,9 +876,10 @@ The corner of $\mathcal R$ recovers---and simplifies the proof of---the two head
 statements; uniqueness (Lemma~\ref{lem:maxdet}) re-enters only there.
 
 \begin{corollary}[Refinability]\label{thm:multiobs}
-$(D_1,D_2)$ is successively refinable, i.e.\ the corner $(R_1(D_1),R_2(D_2))\in\mathcal
-R$, if and only if the observers' optimal uncertainty ellipsoids nest,
-$\Sigma_2^\star\preceq\Sigma_1^\star$.
+If $(D_1,D_2)$ is successively refinable, i.e.\ the corner $(R_1(D_1),R_2(D_2))$ is
+achievable, then the observers' optimal uncertainty ellipsoids nest,
+$\Sigma_2^\star\preceq\Sigma_1^\star$; under Assumption~SR the converse holds, so
+refinability is equivalent to nesting.
 \end{corollary}
 \begin{proof}
 The corner requires a feasible pair with $\det\Sigma_b\ge\det\Sigma_1^\star$ and
@@ -860,12 +891,12 @@ $\Sigma_f\preceq\Sigma_b$ is then exactly $\Sigma_2^\star\preceq\Sigma_1^\star$.
 
 \begin{corollary}[Exact rate loss]\label{thm:multiobs-loss}
 Among two-stage codes whose base is stage-1-optimal ($R_1=R_1(D_1)$, $\E d_1\le D_1$) and
-whose second stage meets $D_2$, the minimal total rate is $\tfrac12\log\det\Sigma_x-
-\tfrac12\log\det\Sigma^\circ$, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:0\prec\Sigma
+whose second stage meets $D_2$, the total rate is at least $\tfrac12\log\det\Sigma_x-
+\tfrac12\log\det\Sigma^\circ$, a bound attained under Assumption~SR, where $\Sigma^\circ:=\arg\max\{\log\det\Sigma:0\prec\Sigma
 \preceq\Sigma_1^\star,\ \tr(P_2\Sigma)\le D_2\}$---the \emph{same} reverse water-filling
 as $\Sigma^\star$ with the cap $\Sigma_x$ replaced by $\Sigma_1^\star$, i.e.\
-$\Sigma^\circ=\Sigma^\star(P_2,D_2;\Sigma_1^\star)$. Hence the rate loss is
-$L(D_1,D_2)=\tfrac12\log(\det\Sigma_2^\star/\det\Sigma^\circ)\ge0$, with $L=0$ iff
+$\Sigma^\circ=\Sigma^\star(P_2,D_2;\Sigma_1^\star)$. Hence the rate loss (a lower
+bound, exact under Assumption~SR) is $L(D_1,D_2)=\tfrac12\log(\det\Sigma_2^\star/\det\Sigma^\circ)\ge0$, with $L=0$ iff
 $\Sigma_2^\star\preceq\Sigma_1^\star$.
 \end{corollary}
 \begin{proof}
@@ -885,12 +916,11 @@ the \emph{cumulative} rate decoded through stage $i$ (so $T_2=R_2$ of
 Theorem~\ref{thm:region}). The achievable region is contained in
 $\{(T_1,\dots,T_k):\exists\ 0\prec\Sigma_k\preceq\cdots\preceq\Sigma_1\preceq\Sigma_x,\
 \tr(P_i\Sigma_i)\le D_i,\ T_i\ge\tfrac12\log\det\Sigma_x/\det\Sigma_i\ \forall i\}$, and if
-$(D_1,\dots,D_k)$ is refinable then the $k$ single-stage optima form a nested chain
-$\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$. For $k=2$ the region is
-equal to this set and refinability is equivalent to nesting (Theorem~\ref{thm:region},
-Corollary~\ref{thm:multiobs}); for $k\ge3$ equality, and the converse direction of the
-refinability criterion, need the $k$-stage coding step discussed below, which is not
-proved here.
+$(D_1,\dots,D_k)$ is refinable (the corner $T_i=R_i(D_i)$ for all $i$ is achievable)
+then the $k$ single-stage optima form a nested chain
+$\Sigma_k^\star\preceq\cdots\preceq\Sigma_1^\star\preceq\Sigma_x$. Under Assumption~SR,
+for every $k$, the region equals this set and refinability is equivalent to nesting (for
+$k=2$, Theorem~\ref{thm:region} and Corollary~\ref{thm:multiobs}).
 \end{corollary}
 \begin{proof}
 Put $\Sigma_i:=\Sigma(\hat X_{1:i})$: Lemma~\ref{lem:cm} gives each trace bound, the law
@@ -901,19 +931,16 @@ independent Fisher increments $Z_i=\Delta_i^{1/2}X+M_i$, $\Delta_i:=\Lambda_i-
 \Lambda_{i-1}\succeq0$ ($\Lambda_i:=\Sigma_i^{-1}-\Sigma_x^{-1}$, $\Lambda_0:=0$, $M_i$
 i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$. This realizes every feasible chain by a
 physically degraded Gaussian test channel; turning that test channel into $k$-stage codes
-is a successive-refinement coding step for degraded chains, which is \emph{not proved
-here} for $k\ge3$. For $k=2$ it is Theorem~\ref{thm:region}'s achievability; for $k\ge3$
-the abstract-source region is attributed to \cite{kostinatuncel} (\cite{effros} gives
-bounds, and Rimoldi's result is the finite-alphabet $L$-stage region), and whether its
-hypotheses cover the present Gaussian quadratic case is to be checked at the source.
+is the coding step Assumption~SR supplies (for finite alphabets, Rimoldi's $L$-stage
+theorem). It is \emph{not proved here}, for any $k$.
 (Corrected 2026-11-20, VI-32: the earlier text said the two-stage arguments ``extend
 verbatim'' and that the covering argument of Prop.~\ref{prop:dispersion} yields $k$-stage
 achievability; neither was shown, and that covering argument is a converse-side
 reassignment.) The outer bound, and the necessity of nesting for refinability, do not
 depend on this step: refinability pins each $\Sigma_i=\Sigma_i^\star$ by uniqueness, and
 the chain nesting then reads $\Sigma_i^\star\preceq\Sigma_{i-1}^\star$. Sufficiency of
-nesting for $k\ge3$ is exactly $k$-stage achievability at the nested corner, so it waits on
-that step.
+nesting, for every $k$, is exactly achievability at the nested corner, so it holds under
+Assumption~SR.
 \end{proof}
 \begin{remark}
 The two-stage backward channel does \emph{not} iterate for $k\ge3$: one contraction fixes
@@ -944,21 +971,26 @@ nest and $\Sigma^\circ=\mathrm{diag}(D_1,D_2)$, so $L=\tfrac12\log(1/D_1)=R_1(D_
 minimal total rate is $R_1(D_1)+R_2(D_2)$, zero reuse. This is ``one observer's noise is
 another's signal'' (\S\ref{sec:framework}) as an exact coding theorem.
 
-We confirmed Theorem~\ref{thm:region} and Corollaries~\ref{thm:multiobs}--\ref{cor:kobs}
-numerically (committed with the ledger \cite{ledger2026}): the region converse holds on
-$5{,}000+$ random Gaussian linear codes (for which membership is automatic, so this checks
-the computation rather than the converse), the achievability construction reproduces the
-corner-type feasible pairs tested and the $k=3$ chain, and the corner recovers the nesting
-characterization, the Equitz--Cover recovery, and the orthogonal-observer loss
-$L=R_1(D_1)$; sealed preregs GO-P-2026-022 (corner) and GO-P-2026-023 (region and
-$k$-observer), each with a fresh-context derivation-grade pass logged---the latter caught
-that the two-stage backward channel does not iterate for $k\ge3$.
+The numerical record (committed with the ledger \cite{ledger2026}) is thinner than it
+once claimed. Of the checks in the sealed preregs GO-P-2026-022 (corner) and GO-P-2026-023
+(region and $k$-observer), the only one that can fail on these statements is 023's
+check~[3], on the corner: the region-converse check on $5{,}000+$ random Gaussian linear
+codes cannot fail (membership is automatic, so it checks the computation), the
+achievability check reproduces feasible pairs, and the $k=3$ chain check is a covariance
+computation. A later net, \texttt{experiments/verify\_paper3\_nets.py}, checks the max-det
+closed form against a conic solver and a dual certificate, and the corner restriction of
+Corollary~\ref{thm:multiobs-loss} against the region's own joint program; it takes the
+region as given, so it is not a net for Theorem~\ref{thm:region}'s converse or
+achievability. Each prereg has a fresh-context derivation-grade pass logged; the latter
+caught that the two-stage backward channel does not iterate for $k\ge3$. (Until
+2026-11-21 this paragraph said these results were ``confirmed numerically'', VI-36.)
 
 \emph{Related work.} The successive-refinement line is Koshelev \cite{koshelev},
 Equitz--Cover \cite{equitzcover}, Rimoldi \cite{rimoldi} (per-stage measures may
-differ), and, for abstract sources, Effros \cite{effros} and Kostina--Tuncel
-\cite{kostinatuncel} (Effros gives bounds; the Kostina--Tuncel attribution for $k\ge3$ is
-to be checked at the source). Two works are
+differ), Effros \cite{effros}, which Kostina--Tuncel cite for the extension to
+continuous alphabets and stationary sources (the source of Assumption~SR), and
+Kostina--Tuncel's parametric characterization of the two-stage boundary for abstract
+alphabets \cite{kostinatuncel}. Two works are
 closest, and neither subsumes ours. Nayak \emph{et al.}~\cite{nayaktuncel} treat one
 vector Gaussian source under \emph{individual} (per-component) MSE criteria---the same
 coordinate constraints at both stages---and already show that vector-Gaussian
@@ -1338,11 +1370,15 @@ Genuinely open after Thms.~\ref{thm:B1}--\ref{thm:B3}: \emph{(a)} the curved-ima
 ($U$ on a submanifold without an ambient density---the high-resolution theory needs
 charts); \emph{(b)} the consumer-relative \emph{channel} coding theorem behind
 \S\ref{sec:capacity}; \emph{(c)} the multi-observer problem beyond the Gaussian weighted-quadratic case that
-\S\ref{sec:multiobs} now settles for two observers (region, refinability, rate loss), with
-the $k$-observer converse and the necessity of nesting---namely non-Gaussian sources, and
+\S\ref{sec:multiobs} treats (the converse of the region for $k$ observers, the necessity
+of nesting, the rate loss as a bound; equality and sufficiency under Assumption~SR)---namely
+non-Gaussian sources, and
 the multi-observer region under the
 \emph{true} nonlinear divergence, where the consumer quotients do not reduce to a common
-Gaussian program; and
+Gaussian program; \emph{(c$'$)} within the Gaussian case, Assumption~SR itself: a check
+of Effros's theorem at the source, or a direct proof of successive-refinement
+achievability for the Gaussian source with quadratic distortions and any number of stages;
+and
 \emph{(d)} non-i.i.d.\ sources.
 
 \smallskip\noindent\textbf{GO-6 (sealed as GO-P-2026-028 and run, ALL PASS; its harness

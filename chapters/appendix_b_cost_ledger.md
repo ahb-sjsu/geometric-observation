@@ -118,7 +118,15 @@ The paper always had it right.
 - Sealed net 022, but that net is weak. VI-32 re-inserted VI-4's original bug into
   `verify_two_observer.py`, and checks [1]–[3] still pass. Only `verify_rate_region.py` [3]
   catches it.
-- **`[predicted]`-grade, with the weak net disclosed, pending a real net and custody.**
+- **Split (VI-36, corrected by VI-37).** `verify_rate_region.py` [3] computes the
+  closed-form Gaussian corner and takes the region as given, so what it nets is the
+  **max-det corner identity** (the closed forms of $\Sigma^\star$, $\Sigma^\circ$ and $L$):
+  **`[predicted]`-grade**, pending custody. The coding statements take the region's class:
+  the necessity of nesting and the rate loss as a lower bound rest on the region converse,
+  which has no net that can fail, and the sufficiency of nesting and the attained minimum
+  rest on Assumption SR (achievability, attributed to Effros, unchecked): **`[exploratory]`**.
+  `verify_paper3_nets.py` nets the closed forms and the corner restriction; it too takes the
+  region as given.
 
 **Verification incident (VI-4, standing).**
 - *The bug.* An in-context `sigma_star` formula used
@@ -138,13 +146,16 @@ The paper always had it right.
   region is contained in the chain of nested max-det covariances (`cor:kobs`, with
   $0\prec\Sigma_k$), and refinability implies that the single-stage optima nest. Paper III
   proves both, with the $n$-block step added in 2026-11.
-- **For $k=2$** the region is equal to that set, and refinability is equivalent to nesting
-  (`thm:region`, `thm:multiobs`).
+- **Under Assumption SR, for every $k$** (for $k=2$: `thm:region`, `thm:multiobs`), the
+  region equals that set and refinability is equivalent to nesting.
 - **Achievability for $k\ge3$, and with it the sufficiency of nesting:** the
   independent-Fisher-increment Gaussian test channel realizes every feasible chain, but
-  turning it into codes is not proved in Paper III. The abstract-source region is
-  attributed to Kostina–Tuncel, and whether its hypotheses cover this case is to be
-  checked at the source.
+  turning it into codes is not proved in Paper III. That step is Paper III's Assumption SR,
+  attributed to Effros's $L$-resolution coding theorem (IEEE T-IT 1999), whose hypotheses
+  for this Gaussian case are still to be checked at the source. Every achievability claim
+  here, for $k=2$ too, rests on it. (Checked 2026-11-21, VI-36: Kostina–Tuncel, which Paper III
+  cited as the coding theorem, is a two-stage parametric characterization of the region's
+  boundary, and itself cites Effros for the continuous-alphabet extension.)
 
 **Status.**
 - $k=2$ (the corner): proof, R-IND-5 (VI-5), and the sealed net 023, whose check [3] is a
@@ -152,7 +163,7 @@ The paper always had it right.
 - The region converse: proof and R-IND-5, but no net that can fail. 023's [1] is an
   identity, and [2] cannot fail on the region's coupling. **`[exploratory]` until a net
   exists.**
-- Achievability for $k\ge3$: **owed.**
+- Achievability, for $k=2$ as for $k\ge3$: Assumption SR, **unchecked** (FRONTIER G12b).
 
 **Verification incident (VI-5).** Two errors were caught before publication:
 - (a) the citation: Rimoldi's is the finite-alphabet $L$-stage result;
@@ -227,15 +238,17 @@ bound survives.
 - The finite-$n$ reduction: proof plus R-IND-5 (VI-7), and the sealed net 025. But 025's
   checks C4 and D1–D3 are tautological and C3/C3b are circular, so none of them can fail:
   **`[exploratory]` until a net exists** (VI-34).
-- The dispersion formula: `[refuted]` as earlier stated. A fresh context re-derived the
-  corrected variance and checked it by Monte Carlo (VI-34), and caught a false strict bound in
-  the first correction. Identifying the variance with the dispersion rests on
-  Kostina–Verdú's general Gaussian approximation for the vector letter, whose hypotheses are
-  to be checked at the source (FRONTIER G12).
-- 025's check C3b is circular and samples only the all-active regime. A net with inactive
-  modes is owed.
-- The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú's. Checking it at the source is
-  owed (FRONTIER G12).
+- The dispersion formula: `[refuted]` as earlier stated. The corrected variance was
+  re-derived by two fresh contexts (VI-34, VI-36) and is netted by `verify_paper3_nets.py`
+  (m5, m6). The corrected formula is **`[exploratory]`** until that net is in CI with a
+  custody table (Track P). Identifying the variance with the dispersion is Kostina–Verdú's
+  Theorem 12, checked at the source on 2026-11-21: it holds for abstract alphabets, and its
+  restrictions (i)–(iv) and its uniqueness condition hold for the vector letter
+  (`cor:dispersion`; the uniqueness argument is new and awaits a confirming pass).
+- 025's check C3b is circular and samples only the all-active regime. The net with
+  inactive modes is now `verify_paper3_nets.py` (m5, m6), not yet in CI.
+- The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú's eq. (94), for
+  $0<d<\sigma^2$ (checked at the source, 2026-11-21; FRONTIER G12 closed).
 
 **Verification incident (VI-7).** A draft claimed the finite-$n$ equivalence was "exact at
 every $n$ because the tilt is a bijection", with "effective dimension $= r$". The
@@ -249,10 +262,10 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-34 | `[demonstrated]`, disputed; re-run owed |
-| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug) | 022 | VI-4, VI-32 | `[predicted]`-grade |
-| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34 | corner `[predicted]`-grade; region converse `[exploratory]`; $k\ge3$ achievability owed |
+| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
+| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13 | `[predicted]`-grade; floor `[demonstrated]` |
-| B7 | reduction: proof + R-IND-5 | 025 (no check can fail) | 025 | VI-7, **NEG-18**, VI-34 | reduction `[exploratory]`; old constant `[refuted]` |
+| B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
 
 No row is `[proved]`; none has a custody table yet.
 

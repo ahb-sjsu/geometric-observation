@@ -51,15 +51,22 @@ load-bearing precisely in the bit-starved regime where compression matters.
 
 ## Two observers: the rate region and refinability
 
-Serving *two* consumers from one code is a network-information-theory problem, and it
-has an exact structure. For observers with read metrics $P_1, P_2$ the achievable
-rate region is characterized, and its **refinability** — whether a single scalable
-code can serve the coarse observer with a prefix of the bits it serves the fine one —
-holds exactly when the read metrics are **Loewner-nested**, $P_1 \preceq P_2$
-[proved — Appendix B; the two-observer max-determinant program, prereg GO-P-2026-022].
-Nesting is the precise sense in which one observer is "a refinement of" another: it
-can be served by adding bits, not resending them. When the read metrics are *not*
-nested, there is an exact rate loss for serving both, and the theory quantifies it.
+Serving *two* consumers from one code is a network-information-theory problem with an
+exact outer structure. For observers with read metrics $P_1, P_2$, Paper III proves that
+every two-stage code lies in a max-determinant region, and that the region is tight under
+a standard successive-refinement achievability assumption (Assumption SR, attributed to
+Effros and not yet checked at the source). Its corner decides **refinability** — whether a
+single scalable code can serve the coarse observer with a prefix of the bits it serves the
+fine one. Refinability requires the observers' optimal error covariances to **nest**,
+$\Sigma_2^\star \preceq \Sigma_1^\star$, and under the assumption nesting suffices.
+Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \preceq P_2$
+neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
+in which one observer is "a refinement of" another: it can be served by adding bits, not
+resending them. When the optima do *not* nest, serving both costs a rate loss, which the
+theory computes. [The max-det corner identity `[predicted]`-grade; the region and its
+coding statements `[exploratory]` — Appendix B.] (This paragraph said until 2026-11-21 that
+refinability holds exactly when $P_1 \preceq P_2$, tagged `[proved]`; that criterion is
+false both ways, VI-32.)
 
 This region carries one of the program's standing verification incidents, and it is
 worth stating because it is exactly the kind of error the discipline exists to catch.
@@ -69,27 +76,33 @@ adversarial pass found the max-determinant error covariance is reverse water-fil
 in the *whitened* basis and the cap **does** bind on $\ker P$ (VI-4). The formula was
 corrected, the prereg amended and re-sealed, and the false pass logged with the same
 prominence as a positive. The theorem statements — the abstract max-det program — were
-unaffected; the harness was wrong and the harness was fixed. This is what "[proved]
-means both grades" buys you: the analytic claim and the numerical net disagreed, and
-the disagreement was the alarm.
+unaffected; the harness was wrong and the harness was fixed. This is what checking both
+the analytic claim and its numerical net buys you: they disagreed, and the disagreement was
+the alarm. (A later custody pass, VI-32, found that the check added then cannot fail
+either: re-inserting the original bug still passes it. The corner is now netted by
+prereg 023's check [3] and by `verify_paper3_nets.py`.)
 
 ## The $k$-chain and what counts a dimension
 
-For $k \ge 3$ observers in a chain the tight region is Kostina–Tuncel's, not a naive
-iteration of the two-stage map — another caught error (VI-5): the two-stage
-construction *does not iterate*, because an accumulating rotation ambiguity leaks
-Fisher information by $O(0.1)$ per stage; the correct achievability uses independent
-Fisher increments from physically-degraded channels, exact to $10^{-14}$
-[proved, corrected; prereg GO-P-2026-023]. The lesson survives the technicality: a
+For $k \ge 3$ observers in a chain, Paper III proves the outer bound and that
+refinability requires the optima to nest; equality, and the sufficiency of nesting, rest on
+the same achievability assumption. The chain is not a naive iteration of the two-stage
+map — another caught error (VI-5): the two-stage construction *does not iterate*, because
+an accumulating rotation ambiguity leaks Fisher information by $O(0.1)$ per stage; the
+correct single-letter construction uses independent Fisher increments from physically
+degraded channels, exact to $10^{-14}$ [corrected; prereg GO-P-2026-023; the coding step
+is assumed, not proved]. The lesson survives the technicality: a
 chain of observers is not a stack of two-observer problems, and the geometry that
 makes it work is the nesting of read metrics.
 
-Dispersion — the second-order term governing finite-blocklength performance — counts
-the **read** dimensions, not the source dimensions. The effective dimension is $r_D
-\le r$, equal to the read rank only as $D \to 0$; a fresh-context pass sharpened a
-draft that had claimed a flat $r$ (VI-7). The number of directions that cost you at
-finite blocklength is the number the *consumer* resolves at the target distortion, and
-that number grows from few to $r$ as you demand more fidelity.
+Dispersion — the second-order term governing finite-blocklength performance — counts at
+most the **read** dimensions, never the source dimensions: $r_D \le 2V \le r$ in nats$^2$,
+with $r_D$ the modes above the water level and equality on the right exactly when every
+read mode is active. Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
+each, because fluctuations of their energy are absorbed by the active ones. As the target
+distortion falls, more modes become active and $2V$ rises to $r$. (This paragraph said
+until 2026-11-21, following VI-7's "sharpening", that the dispersion counts only the active
+modes, an "effective dimension $r_D$"; that is refuted, NEG-18, Chapter 16.)
 
 ## Mismatch: the tax and the floor
 
