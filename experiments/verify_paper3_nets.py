@@ -38,7 +38,7 @@ in git; this paragraph and the records VI-36 and VI-37 are the account):
   reason recorded (VI-38). On a pair with L near 1 a corner error up to about 0.01 nats
   passes m4, some 3000 times the worst |a| observed (3.6e-6 over L >= 1e-2). m4 tests
   nothing on the 41 nested pairs, where gap(delta) = 0 by construction, nor on the named
-  pair VI32_not_refinable_though_P1<=P2, where the recorded gaps vanish to about 1e-11
+  pair VI32_not_refinable_though_P1<=P2, where the recorded gaps are below 3e-10 in magnitude
   (VI-38); it is informative only on the other non-nested pairs. A version 4 with an
   absolute tolerance, on a fresh seed, is owed before this net joins CI.
 

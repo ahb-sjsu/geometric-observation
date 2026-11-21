@@ -36,9 +36,9 @@ run; `void` = a reservation abandoned unsealed.
 | 020 | Gate B blind probe, real Llama layer | core · superseded→021 | MISS (2/3 triggers) → NEG-12 |
 | 021 | Gate B **rematch**, recon-matched | sweep (A2) | GO-B-Llama-rematch **HIT** 4/4 |
 | 022 | Two-observer successive-refinement | cost | confirmed; **VI-4** false-pass logged + corrected |
-| 023 | Complete rate region + k-chain | cost | confirmed; VI-5 (2 errors caught pre-pub) |
+| 023 | Complete rate region + k-chain (registered title) | cost | confirmed; VI-5 (2 errors caught pre-pub). Now: corner identity `[predicted]`-grade; region `[exploratory]`, equality under Assumption SR (Appendix B, B5; VI-32 to VI-39) |
 | 024 | Price of a misidentified observer | cost | floor theorems confirmed; VI-6 |
-| 025 | Dispersion counts read dimensions | cost | confirmed w/ sharpenings; VI-7 |
+| 025 | Dispersion counts read dimensions | cost | confirmed w/ sharpenings; VI-7. Now: the sharpened constant $r_D/2$ `[refuted]` (NEG-18); 025's checks cannot fail; reduction `[exploratory]` (Appendix B, B7) |
 | 026 | Omission floor on a trained Llama layer | cost · superseded→027 | read-floor 16/16 ✓, finite-rate gate MISSED → NEG-13 |
 | 027 | Omission floor bites downstream (held-out) | cost | NEG-13 **resolved** → `[demonstrated]` |
 | 028 | GO-6 output vs surrogate vs reconstruction | core (App. B) | GO-6 `[demonstrated]` ALL PASS |

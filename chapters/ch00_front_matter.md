@@ -57,7 +57,7 @@ they appear in the text.
 | $P_C = J^{\top} G\, J$ (the read metric) | *what the observer can distinguish* — the pullback of the output metric | Symmetric PSD operator; its range is the read subspace, its kernel the nuisance the observer discards (Ch. 5) |
 | $X/\!\sim_C$ (the quotient) | *the world the observer can act on* — objects it cannot tell apart are one point | Equivalence under $\ker P_C$; the space on which the consumer's verdicts live (Ch. 5) |
 | $\operatorname{tr}(P_C \Sigma_\delta)$ (read distortion) | how much of the coding error lands where the consumer looks | The quantity that controls downstream loss at matched rate — **not** $\|\delta\|^2$ (Ch. 6) |
-| $R_C(D)$ (the consumer rate–distortion function) | the price of observation | Achievability + converse for the read metric; the true-divergence reduction is the *tilt* toward $P_C$ (Ch. 7, the COST shadow) |
+| $R_C(D)$ (the consumer rate–distortion function) | the price of observation | Achievability + converse for the read metric, whose water-filling tilts toward $P_C$ (Ch. 7, the COST shadow) |
 | The **flip** | preserving the read can beat reconstructing the object | Reconstruction-tied codes rank oppositely per consumer; sealed across 12 domains + 3 physics (Ch. 8, the VALUE shadow) |
 | Keep-the-Angle | in spectral embeddings the *angle* carries geodesics, the radius carries density | Angular coordinate is the read subspace of the geodesic-rank consumer; radius $\in \ker P_C$ (Ch. 9, the LEGIBILITY shadow) |
 | The blind probe (GO-1) | recover $P_C$ from the consumer's outputs alone, no labels, no oracle | Finite-difference the consumer margin; recovers the read subspace ex ante (Ch. 10) |
@@ -134,8 +134,8 @@ opaque to you.
 
 **The information theorist** will find the formal spine in Part III's COST chapter
 (Ch. 7): the consumer rate–distortion function $R_C(D)$, its achievability and
-converse, the two-observer region and its refinability criterion (nested optimal
-error covariances), the
+converse, the two-observer region, whose refinability requires nested optimal
+error covariances (sufficient under an achievability assumption), the
 mismatch tax and the omission floor. The interest is in the *domain*, not the
 tools — the operative object is a pullback metric that varies with the observer,
 and classical rate–distortion is the slice where $P_C = I$.

@@ -27,8 +27,9 @@ in the **joint basis** that diagonalizes $P_C$ against $\Sigma_x$ (the whitened
 operator $\Sigma_x^{1/2} P_C \Sigma_x^{1/2}$), pouring bits into directions that are
 both high-source-variance *and* high-consumer-sensitivity, and abandoning any
 direction that either the source does not populate or the consumer does not read. The
-tilt away from Shannon's source-only allocation is precisely the factor $P_C$; the
-"true-divergence reduction" relative to reconstruction coding *is* that tilt.
+tilt away from Shannon's source-only allocation is precisely the factor $P_C$. (An
+earlier sentence here, that the "true-divergence reduction" relative to reconstruction
+coding *is* that tilt, matched no statement in Paper III and is withdrawn; VI-32, VI-39.)
 [`[exploratory]` pending a net and custody — Appendix B, B1; tagged `[proved]` until
 2026-11-21, VI-38]
 
@@ -40,12 +41,13 @@ measures this end to end: at matched rate, **output coding $\le$ surrogate $\le$
 reconstruction** on the consumer metric, the ordering holding at *every* rate, with
 reconstruction up to $\sim 500\times$ worse downstream at high rate because its bits
 went to the unread directions [demonstrated — GO-P-2026-028, all bars pass, nonlinear
-consumer $d=8, r=4$]. The isotropic control $P_C = I$ collapses the three coders, as
+consumer $d=8, r=4$; **disputed**: the harness is off the matched-rate premise, re-run
+owed (VI-32, VI-34)]. The isotropic control $P_C = I$ collapses the three coders, as
 it must — when the consumer reads everything, there is nothing to save.
 
-**The surrogate–output gap vanishes with rate.** GO-6 also confirms Thm B3: the
+**The surrogate–output gap vanishes with rate.** GO-6 also supports Thm B3: the
 relative gap between an output-optimal code and a good surrogate shrinks (measured
-$0.41 \to 0.005$) as the budget grows [demonstrated]. At high resolution you do not
+$0.41 \to 0.005$) as the budget grows [demonstrated, disputed (VI-32, VI-34)]. At high resolution you do not
 need to know the consumer exactly; a surrogate for $P_C$ suffices. At low resolution
 you do. This is the rate-dependence that makes the blind probe (Chapter 10)
 load-bearing precisely in the bit-starved regime where compression matters.
@@ -55,7 +57,7 @@ load-bearing precisely in the bit-starved regime where compression matters.
 Serving *two* consumers from one code is a network-information-theory problem with an
 exact outer structure. For observers with read metrics $P_1, P_2$, Paper III proves that
 every two-stage code lies in a max-determinant region, and that the region is tight under
-a standard successive-refinement achievability assumption (Assumption SR, attributed to
+a successive-refinement achievability assumption (Assumption SR, attributed to
 Effros and not yet checked at the source). Its corner decides **refinability** — whether a
 single scalable code can serve the coarse observer with a prefix of the bits it serves the
 fine one. Refinability requires the observers' optimal error covariances to **nest**,
@@ -64,7 +66,7 @@ Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \p
 neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
 in which one observer is "a refinement of" another: it can be served by adding bits, not
 resending them. When the optima do *not* nest, serving both costs a rate loss, which the
-theory computes. [The max-det corner identity `[predicted]`-grade; the region and its
+theory bounds below (exactly, under the assumption). [The max-det corner identity `[predicted]`-grade; the region and its
 coding statements `[exploratory]` — Appendix B.] (This paragraph said until 2026-11-21 that
 refinability holds exactly when $P_1 \preceq P_2$, tagged `[proved]`; that criterion is
 false both ways, VI-32.)

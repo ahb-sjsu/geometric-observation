@@ -665,7 +665,7 @@ moments are finite). So do its basic conditions (a)--(c): $R$ is finite, a singl
 reproduction point ($0$) has finite expected distortion, the distortion is finite-valued,
 and the optimal kernel is unique. (Without uniqueness Theorem~12 still holds, with $V$ an
 $\epsilon$-dependent extremum over the optimal kernels \cite[Remark~9]{kostinaverdu2012};
-uniqueness gives the single $V$ below.) For uniqueness, let $\hat Y$ attain $R(D)$.
+uniqueness gives the single $V$ above.) For uniqueness, let $\hat Y$ attain $R(D)$.
 Lemma~\ref{lem:info} gives $R(D)\ge\tfrac12\log\det\Gamma/\det\Sigma(\hat Y)$ with $\Gamma$
 the covariance of $Y$, and $\Sigma(\hat Y)$ is feasible for the max-det program of
 Lemma~\ref{lem:maxdet} (cap $\Gamma$, unit weight), so $\Sigma(\hat Y)=\Sigma^\star$ by its
@@ -678,7 +678,7 @@ $\hat Y$, hence the kernel, is fixed by deconvolution. The scalar constant $\tfr
 ($0<d<\sigma^2$) is \cite[eq.~(94)]{kostinaverdu2012}; see also \cite{ingberkochman}. (Checked
 against arXiv:1102.3944 on 2026-11-21 by the author's assistant, then independently by a
 fresh-context reading, VI-38, which corrected restriction~(iv): it is a ninth moment, not
-the third this sentence first gave.)
+the third this paragraph first gave.)
 (Corrected 2026-11-20, NEG-18: the earlier statement counted only the active modes, the
 ``effective dimension $r_D$''; a Monte Carlo of the tilted information at
 $\gamma=(4,2,0.6,0.3)$, $\theta=1$ gives variance $1.226$ against $r_D/2=1.0$ and the
@@ -775,7 +775,8 @@ $(R_1,R_2)=(R_1(D_1),R_2(D_2))$ is achievable. Write $\Sigma(\hat X):=\Cov(X-\E[
 
 \smallskip\noindent\textbf{Assumption SR (successive-refinement achievability).} For the
 Gaussian source and the quadratic distortions here, and for any number $k$ of stages,
-every point $\bigl(I(X;\hat X_1),\,I(X;\hat X_1,\hat X_2),\dots,I(X;\hat X_{1:k})\bigr)$
+every point
+\[\bigl(I(X;\hat X_1),\,I(X;\hat X_1,\hat X_2),\,\dots,\,I(X;\hat X_{1:k})\bigr)\]
 with $\E d_i(X,\hat X_i)\le D_i$ lies in the closure of the achievable region of cumulative
 rates. For finite alphabets and two stages this is Rimoldi's theorem \cite{rimoldi}, as
 Kostina and Tuncel quote it (per-stage distortion measures may differ). For our continuous,
@@ -940,8 +941,8 @@ independent Fisher increments $Z_i=\Delta_i^{1/2}X+M_i$, $\Delta_i:=\Lambda_i-
 \Lambda_{i-1}\succeq0$ ($\Lambda_i:=\Sigma_i^{-1}-\Sigma_x^{-1}$, $\Lambda_0:=0$, $M_i$
 i.i.d.), so $\Cov(X\mid Z_{1:i})=\Sigma_i$. This realizes every feasible chain by a
 physically degraded Gaussian test channel; turning that test channel into $k$-stage codes
-is the coding step Assumption~SR supplies (for finite alphabets, Rimoldi's $L$-stage
-theorem). It is \emph{not proved here}, for any $k$.
+is the coding step Assumption~SR supplies (for finite alphabets, Rimoldi's theorem, which
+Kostina and Tuncel quote for two stages; its $L$-stage form is not checked here). It is \emph{not proved here}, for any $k$.
 (Corrected 2026-11-20, VI-32: the earlier text said the two-stage arguments ``extend
 verbatim'' and that the covering argument of Prop.~\ref{prop:dispersion} yields $k$-stage
 achievability; neither was shown, and that covering argument is a converse-side
@@ -965,9 +966,10 @@ and weights $p_k^{(i)}$, then $e_k^{(i)}=\min(\sigma_k^2,\theta_i/p_k^{(i)})$ (w
 levels $\theta_i$ from $\sum_k p_k^{(i)}e_k^{(i)}=D_i$), and nesting, hence refinability under
 Assumption~SR, is $e_k^{(2)}\le e_k^{(1)}$ for every mode. \emph{(ii) Equitz--Cover, recovered.} For $P_1=P_2=P$ (not
 necessarily commuting with $\Sigma_x$), whiten by $\tilde P=\Sigma_x^{1/2}P
-\Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then $\Sigma^\star(D)=
-\Sigma_x^{1/2}V\,\mathrm{diag}(\min(1,\theta_D/\tilde p_k))\,V^\top\Sigma_x^{1/2}$ is
-Loewner-monotone in $D$ in a \emph{$D$-independent} eigenbasis, so $D_2\le D_1$ gives
+\Sigma_x^{1/2}=V\,\mathrm{diag}(\tilde p_k)\,V^\top$: then
+\[\Sigma^\star(D)=\Sigma_x^{1/2}V\,\mathrm{diag}\bigl(\min(1,\theta_D/\tilde p_k)\bigr)\,
+V^\top\Sigma_x^{1/2}\]
+is Loewner-monotone in $D$ in a \emph{$D$-independent} eigenbasis, so $D_2\le D_1$ gives
 $\Sigma_2^\star\preceq\Sigma_1^\star$ automatically---so under Assumption~SR a Gaussian
 source is successively refinable under any single weighted-quadratic measure, the scalar
 $P=I$ case being Equitz--Cover's theorem \cite{equitzcover}; conflict requires genuinely distinct observers. \emph{(iii) Kernel overhead.} If the base layer codes a direction in
@@ -999,7 +1001,7 @@ caught that the two-stage backward channel does not iterate for $k\ge3$. (Until
 \emph{Related work.} The successive-refinement line is Koshelev \cite{koshelev},
 Equitz--Cover \cite{equitzcover}, Rimoldi \cite{rimoldi} (per-stage measures may
 differ), Effros \cite{effros}, which Kostina--Tuncel cite for the extension to
-continuous alphabets and stationary sources (the source of Assumption~SR), and
+continuous alphabets and stationary sources (to which Assumption~SR is attributed), and
 Kostina--Tuncel's parametric characterization of the two-stage boundary for abstract
 alphabets \cite{kostinatuncel}. Two works are
 closest, and neither subsumes ours. Nayak \emph{et al.}~\cite{nayaktuncel} treat one
@@ -1106,7 +1108,8 @@ coding of the reachable output source $\mathcal{C}(X)$ (Thm.~\ref{thm:B2}), with
 quotient floor unconditional (Cor.~\ref{cor:B2a}). What
 remains open is narrower: the curved-image high-resolution case, the multi-observer
 rate region \emph{under the true divergence} (distinct quotients, no common Gaussian
-reduction; the Gaussian weighted-quadratic region is settled in \S\ref{sec:multiobs}), the
+reduction; for the Gaussian weighted-quadratic region \S\ref{sec:multiobs} proves the
+converse and gives equality under Assumption~SR), the
 consumer-relative
 \emph{channel} coding theorem behind \S\ref{sec:capacity}, and whether the flip is
 exactly $R_{\mathcal{C}}$'s argmin migrating with $\PC$. Underneath is one

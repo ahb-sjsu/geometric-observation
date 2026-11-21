@@ -27,7 +27,7 @@ lost bet, carried at full prominence.
 | GO-3 — certificate vacuity threshold predicts single-stage death | `[demonstrated]` | 11 | 014 |
 | GO-4 — fixed-budget verdicts invert under budget-matched observation | `[replicated]` | 4, 14 | 015 |
 | GO-5 — α=1 density quotient restores fidelity outside diffusion | **`[refuted]`** (NEG-11) | 9, 16 | 019 |
-| GO-6 — output ≤ surrogate ≤ reconstruction at matched rate | `[demonstrated]` | 7, App. B | 028 |
+| GO-6 — output ≤ surrogate ≤ reconstruction at matched rate | `[demonstrated]`, disputed (VI-32, VI-34; re-run owed) | 7, App. B | 028 |
 
 ## COST-face theorems (Appendix B)
 
@@ -37,12 +37,12 @@ full corrected custody summary is in Appendix B.*
 
 | Claim | Class | Registry | Incident |
 |---|---|---|---|
-| B1 — consumer $R_C(D)$ achievability + converse | `[exploratory]` (pending net + custody) | 022 blk | VI-3 |
+| B1 — consumer $R_C(D)$ achievability + converse | `[exploratory]` (pending net + custody) | 022 blk | VI-3, VI-32, VI-38 |
 | B2 — output ≤ surrogate ≤ reconstruction (GO-6) | `[demonstrated]`, **disputed** (harness off the matched-rate premise; re-run owed) | 028 | VI-32, VI-34 |
 | B3 — surrogate–output gap vanishes with rate | `[demonstrated]`, **disputed** (same harness) | 028 | VI-3, VI-34 |
-| B4 — two-observer region; refinability iff $\Sigma_2^\star\preceq\Sigma_1^\star$ | max-det corner identity `[predicted]`-grade (023 [3]); region, refinability and rate loss as coding statements `[exploratory]` | 022, 023 | **VI-4**, VI-32, VI-36, VI-37, VI-38 |
+| B4 — two-observer region; refinability ⇒ $\Sigma_2^\star\preceq\Sigma_1^\star$ (⇔ under Assumption SR) | max-det corner identity `[predicted]`-grade (023 [3]); region, refinability and rate loss as coding statements `[exploratory]` | 022, 023 | **VI-4**, VI-32, VI-36, VI-37, VI-38 |
 | B5 — rate region: the converse for every $k$; equality and the sufficiency of nesting under Assumption SR (successive-refinement achievability, attributed to Effros, unchecked), for every $k$ | corner identity `[predicted]`-grade; region `[exploratory]` (converse: no net that can fail; equality: Assumption SR) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38 |
-| B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[predicted]`-grade / floor `[demonstrated]` | 024/027 | VI-6, NEG-13 |
+| B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[predicted]`-grade / floor `[demonstrated]` | 024/027 | VI-6, NEG-13, VI-32, VI-38 |
 | B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$) | reduction `[exploratory]` (025's checks cannot fail); corrected $V$ `[exploratory]` pending CI + custody; the $r_D/2$ constant `[refuted]` | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 |
 
 ## LEGIBILITY-face theorems (Chapter 9)

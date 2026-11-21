@@ -101,9 +101,12 @@ regime.
 the max-determinant region of Paper III (`thm:region`), with
 $0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$, and equals it under Assumption SR.
 
-If a single scalable code serves the coarse observer with a prefix of the fine observer's
-bits, then **the observers' optimal error covariances nest, $\Sigma_2^\star\preceq\Sigma_1^\star$**
-(`thm:multiobs`); under Assumption SR nesting also suffices. This condition depends on $D_1$
+If a single scalable code serves both observers at their single-stage optimal rates
+$R_1(D_1)$ and $R_2(D_2)$ (the corner), the coarse observer with a prefix of the fine
+observer's bits, then **the observers' optimal error covariances nest,
+$\Sigma_2^\star\preceq\Sigma_1^\star$** (`thm:multiobs`); under Assumption SR nesting also
+suffices. (Without the corner rates the statement is false: Paper III's Example (iii) is
+served by two independent codes at a higher total rate; VI-39.) This condition depends on $D_1$
 and $D_2$.
 
 Non-nested optima incur at least the rate loss of `thm:multiobs-loss`, and exactly that loss
@@ -173,7 +176,9 @@ The paper always had it right.
 - Achievability, for $k=2$ as for $k\ge3$: Assumption SR, **unchecked** (FRONTIER G12b).
 
 **Verification incident (VI-5).** Two errors were caught before publication:
-- (a) the citation: Rimoldi's is the finite-alphabet $L$-stage result;
+- (a) the citation: Rimoldi's is the finite-alphabet $L$-stage result (VI-5's reading;
+  Kostina–Tuncel quote it for two stages, and the $L$-stage form is not checked at the
+  source; VI-39);
 - (b) the two-stage K-map **does not iterate**: an accumulating rotation ambiguity leaks
   Fisher information by $O(0.1)$ per stage.
 
@@ -251,8 +256,8 @@ bound survives.
   custody table (Track P). Identifying the variance with the dispersion is Kostina–Verdú's
   Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
   abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
-  the vector letter (`cor:dispersion`). VI-38 confirmed the uniqueness argument line by line,
-  and corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
+  the vector letter (`cor:dispersion`). VI-37 checked the uniqueness argument line by line
+  and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
   assistant had read and used to overrule VI-37's verifier.
 - 025's check C3b is circular and samples only the all-active regime. The net with
   inactive modes is now `verify_paper3_nets.py` (m5, m6), not yet in CI.
@@ -264,16 +269,16 @@ every $n$ because the tilt is a bijection", with "effective dimension $= r$". Th
 fresh-context pass found that the equivalence rests on a **covering** argument. Its
 replacement, "effective dimension $r_D$", was itself wrong for the dispersion (NEG-18).
 
-## Custody summary (corrected 2026-11-20)
+## Custody summary (corrected 2026-11-20 and 2026-11-21)
 
 | Thm | Statement grade | Harness (C3) | Prereg | Incidents | Class |
 |---|---|---|---|---|---|
-| B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3 | `[exploratory]` (pending net + custody) |
+| B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3, VI-32, VI-38 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
 | B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
-| B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13 | `[predicted]`-grade; floor `[demonstrated]` |
+| B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13, VI-32, VI-38 | `[predicted]`-grade; floor `[demonstrated]` |
 | B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
 
 No row is `[proved]`; none has a custody table yet.
