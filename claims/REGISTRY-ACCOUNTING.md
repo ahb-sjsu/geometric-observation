@@ -290,7 +290,10 @@ deleted, moved or un-tracked sealed prereg without a `removed` entry; a stale or
 duplicate entry; and a shallow clone. `scripts/test_verify_seals.py` drives it on
 mutated clones: every tampering case, each fail-open path the fresh-context review
 found among them, must fail, and an untouched clone and a new, uncommitted seal must
-pass. `scripts/seal.py` now refuses a file
+pass. `python scripts/verify_seals.py --facts <file>` prints the entry a changed file
+needs, with every fact git determines filled in and the human-written fields left as
+`TODO:`, which the check refuses; the fire test requires it to reproduce every entry of
+the disclosure file from git. `scripts/seal.py` now refuses a file
 whose pattern matches twice, or whose only match is not a `hash:` line at the start of
 a line. **This audit edited and re-sealed no sealed file**: re-sealing would
 overwrite the original commitment. A later change to a sealed registration is

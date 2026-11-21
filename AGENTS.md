@@ -131,10 +131,14 @@ class requires.
    for example,
    `experiments/t1_worked_result.py --governed --prereg <file> --verify-only`.
 6. **After sealing, never edit the sealed text, and never re-seal.** Append
-   dated amendments and outcomes *after* it, with their reason (CHARTER REG-2).
-   Then add an entry to `prereg/SEAL-DISCLOSURES.json` and a note in the
-   registry row; `scripts/verify_seals.py` fails until both exist. Re-sealing
-   would overwrite the original commitment.
+   dated amendments and outcomes *after* it, with their reason (CHARTER REG-2),
+   and commit. Then run `python scripts/verify_seals.py --facts prereg/<file>.md`.
+   It prints the file's entry for `prereg/SEAL-DISCLOSURES.json`, with every
+   fact git determines filled in. Replace its `TODO:` fields (what changed, and
+   where it was disclosed before), add a note to the registry row, commit both,
+   and push the two commits together. `scripts/verify_seals.py` fails until the
+   entry is in place with no `TODO:` left; it does not check the registry note.
+   Re-sealing would overwrite the original commitment.
    **Why:** on 2026-11-19, 13 of 84 recorded hashes no longer verified over
    their files and 6 more had been re-sealed over their originals. Most of it
    was disclosed somewhere, but the hash record showed none of it, because

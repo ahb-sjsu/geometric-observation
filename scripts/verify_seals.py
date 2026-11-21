@@ -33,8 +33,19 @@ renames) or appear under "removed" with the commit that removed it. Entries that
 prereg, duplicate JSON keys, and an entry whose key is not its file's ID all fail. A shallow clone
 fails, because every check needs history (CI checks out with fetch-depth 0). A sealed file with no
 committed history (sealed, not yet committed) passes only if it verifies whole and has no entry.
+Every entry must say what changed and where it was disclosed before (`what_changed`,
+`previously_disclosed`), and every "removed" entry why (`reason`); a `TODO:` left in any of them
+fails.
 
     python scripts/verify_seals.py
+    python scripts/verify_seals.py --facts PATH [PATH ...]
+
+--facts (read-only) prints, as JSON, the disclosure entry each named file needs: every fact git
+determines is filled in, and the human-written fields are left as `TODO:`, which the check refuses.
+It keeps the human-written fields of an existing entry, and marks `what_changed` `TODO:` again if
+the facts have moved since. Commit an amendment before running it: the entry records the commits
+that touched the file, so the manifest goes in the next commit, and both are pushed together.
+For a deleted prereg it prints the "removed" entry instead.
 """
 from __future__ import annotations
 
@@ -52,6 +63,9 @@ SEAL = re.compile(r"(?m)^hash:\s*sha256:([0-9a-f]{64})\b")
 IDLINE = re.compile(r"(?m)^id:\s*(GO-P-\d{4}-\d{3})\b")
 IDNAME = re.compile(r"(GO-P-\d{4}-\d{3})")
 TEXT_EXT = (".md", ".markdown", ".txt", ".yaml", ".yml")
+TODO = "TODO:"                                     # placeholder --facts leaves; the check refuses it
+HUMAN = ("previously_disclosed", "what_changed", "governed_result_commit")
+PYPATH = re.compile(r"[\w./-]+\.py\b")
 
 
 def sealpy_digest(text: str) -> str:
@@ -88,6 +102,23 @@ def history(path: str) -> list[tuple[str, str]]:
         elif line.strip() and cur:
             res.append((cur, line.strip())); cur = None
     return res
+
+
+def derive(hist):
+    """(seal commit, its text, its recorded hash, later commits oldest first), or None when no
+    committed version carries a seal. The seal commit is the earliest version with a 64-hex seal."""
+    sealed = [(c, p) for c, p in hist if SEAL.search(show(c, p) or "")]
+    if not sealed:
+        return None
+    oc, op = sealed[-1]
+    otext = show(oc, op)
+    commits = [c for c, _ in hist]
+    return oc, otext, SEAL.search(otext).group(1), commits[: commits.index(oc)][::-1]
+
+
+def written(v) -> bool:
+    """A human-written field: a non-empty string with no TODO placeholder left in it."""
+    return isinstance(v, str) and bool(v.strip()) and TODO not in v
 
 
 def no_dupes(pairs):
@@ -204,6 +235,8 @@ def main() -> int:
             if (ROOT / p).exists() or not gone or gone[0] != r.get("removed_by") \
                     or not (show(r.get("seal_commit", ""), p) or "") or not SEAL.search(show(r["seal_commit"], p)):
                 problems.append(f"{p}: 'removed' entry does not match git (removed_by / seal_commit)")
+            if not written(r.get("reason")):
+                problems.append(f"{p}: 'removed' entry has no reason, or still a {TODO} placeholder")
             continue
         problems.append(f"{p}: a sealed prereg in history is missing or moved, with no 'removed' entry")
     for p in removed:
@@ -222,19 +255,16 @@ def main() -> int:
             if key != rid:
                 problems.append(f"{path}: entry key {key} is not the file's ID {rid}")
         hist = hists[path] if path in hists else (history(path) if path in tracked else [])
-        sealed_hist = [(c, p) for c, p in hist if SEAL.search(show(c, p) or "")]
+        d = derive(hist)
         verifies_whole = sealpy_digest(text) == rec
-        if not sealed_hist:
+        if d is None:
             if e is None and verifies_whole and len(ANY.findall(text)) == 1 and path not in ever:
                 new += 1
                 print(f"  new (not yet committed)  {path}")
             else:
                 problems.append(f"{path}: sealed but with no committed seal")
             continue
-        oc, op = sealed_hist[-1]
-        otext = show(oc, op)
-        orec = SEAL.search(otext).group(1)
-        post = [c for c, _ in hist[: [c for c, _ in hist].index(oc)]][::-1]
+        oc, otext, orec, post = d
 
         if e is None:
             bad = []
@@ -264,6 +294,9 @@ def main() -> int:
             bad.append("the file changed since its disclosure (current_text_sha256)")
         if kind != "re-sealed" and verifies_whole:
             bad.append("verifies whole: the entry is stale")
+        for f in ("what_changed", "previously_disclosed"):
+            if not written(e.get(f)):
+                bad.append(f"{f} is missing, empty or still a {TODO} placeholder")
         if kind == "appended":
             head = "".join(text.splitlines(keepends=True)[: e.get("sealed_lines", 0)])
             if head != otext or sealpy_digest(head) != rec:
@@ -319,5 +352,153 @@ def main() -> int:
     return 1 if problems else 0
 
 
+def harness_for(oc: str, otext: str, rec: str) -> str | None:
+    """A .py path named in the sealed text whose blob at the seal commit hashes to `rec`."""
+    for h in dict.fromkeys(PYPATH.findall(otext)):
+        p = git("show", f"{oc}:{h}")
+        if p.returncode == 0 and hashlib.sha256(p.stdout).hexdigest() == rec:
+            return h
+    return None
+
+
+def facts(args: list[str]) -> int:
+    """--facts: print the disclosure entries the named files need, as JSON. Read-only."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+    def note(msg: str) -> None:
+        print(f"  {msg}", file=sys.stderr)
+
+    if not args:
+        print("usage: verify_seals.py --facts PATH [PATH ...]", file=sys.stderr)
+        return 2
+    if out("rev-parse", "--is-shallow-repository").strip() != "false":
+        print("verify_seals --facts: needs full git history", file=sys.stderr)
+        return 1
+    try:
+        man = json.loads(MANIFEST.read_text(encoding="utf-8"), object_pairs_hook=no_dupes)
+        entries, removed = man["entries"], man.get("removed", {})
+    except Exception as e:
+        print(f"verify_seals --facts: cannot read {MANIFEST.name}: {e}", file=sys.stderr)
+        return 1
+    by_file = {e.get("file"): k for k, e in entries.items()}
+    tracked = {p for p in out("ls-files", "-z").split("\0") if p}
+    log = prereg_log()
+    new_entries: dict = {}
+    new_removed: dict = {}
+    rc = 0
+
+    for arg in args:
+        try:
+            rel = (Path.cwd() / arg).resolve().relative_to(ROOT).as_posix()
+        except ValueError:
+            note(f"{arg}: not inside this repository"); rc = 1; continue
+        path = ROOT / rel
+
+        if not path.is_file():                              # deleted: a "removed" entry
+            gone = out("log", "--diff-filter=D", "--format=%h", "--", rel).split()
+            seals = [c for c in out("log", "--format=%h", "--", rel).split()
+                     if SEAL.search(show(c, rel) or "")]
+            if not gone or not seals:
+                note(f"{rel}: no such file, and git shows no sealed prereg deleted there"); rc = 1; continue
+            old = removed.get(rel, {})
+            new_removed[rel] = {"seal_commit": seals[-1], "removed_by": gone[0],
+                                "reason": old.get("reason") or f"{TODO} why it was removed, and where it went"}
+            note(f"{rel}: deleted at {gone[0]}: needs a 'removed' entry"
+                 + (" (it has one)" if old else ""))
+            continue
+
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError) as e:
+            note(f"{rel}: cannot read it: {e}"); rc = 1; continue
+        m = SEAL.search(text)
+        rid = IDLINE.search(text) or IDNAME.search(path.name)
+        if not (m and rid):
+            note(f"{rel}: not a sealed prereg (no 'hash: sha256:<64 hex>' line, or no GO-P ID)"); rc = 1; continue
+        rid, rec = rid.group(1), m.group(1)
+        hist = []
+        if rel in tracked:
+            hist = histories(log, [rel])[rel] if rel.startswith("prereg/") else history(rel)
+        d = derive(hist)
+        if d is None:
+            note(f"{rel}: no committed version carries a seal: a new seal needs no entry if it verifies whole")
+            continue
+        if git("diff", "--quiet", "HEAD", "--", rel).returncode != 0:
+            note(f"{rel}: has uncommitted changes. Commit the amendment first, then run --facts: "
+                 "the entry records the commits that touched the file"); rc = 1; continue
+        oc, otext, orec, post = d
+        cur = sealpy_digest(text)
+        key = by_file.get(rel)
+        old = entries.get(key) if key else None
+        if cur == rec == orec == sealpy_digest(otext) and len(ANY.findall(text)) == 1:
+            note(f"{rel}: verifies whole against its seal commit {oc}: needs no entry"
+                 + (f" (delete the stale entry {key})" if old else ""))
+            continue
+
+        e = {"file": rel, "kind": None, "seal_commit": oc, "recorded_sha256": rec,
+             "post_seal_commits": post, "current_text_sha256": cur,
+             "previously_disclosed": f"{TODO} where this was disclosed before the entry, or 'none'",
+             "what_changed": f"{TODO} what changed after the seal, when, why, and in which commits"}
+        lines, olines = text.splitlines(keepends=True), otext.splitlines(keepends=True)
+        n = len(olines)
+        if "".join(lines[:n]) == otext and sealpy_digest(otext) == rec:
+            e.update(kind="appended", sealed_lines=n)
+        elif cur == rec != orec == sealpy_digest(otext):
+            e.update(kind="re-sealed", original_sha256=orec, prior_hash_in_file=orec in text)
+        elif n and otext.endswith("\n") and "".join(lines[: n - 1]) == "".join(olines[:-1]) \
+                and removed_digest(otext) == rec:
+            e.update(kind="placeholder-replaced", scheme="hash-line-removed", kept_lines=n - 1,
+                     placeholder=olines[-1][:-1])
+        elif text == otext:
+            h = harness_for(oc, otext, rec)
+            if h:
+                hp = ROOT / h
+                e.update(kind="harness-hash", harness=h,
+                         harness_changed_after_seal=out("log", "--format=%h", f"{oc}..HEAD", "--", h).split()[::-1],
+                         harness_sha256_now=hashlib.sha256(hp.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+                         if hp.is_file() else None,
+                         governed_result_commit=f"{TODO} the commit of the governed result")
+            else:
+                e["kind"] = f"{TODO} 'unexplained', once no cause can be found"
+            e["text_sha256_at_seal"] = sealpy_digest(otext)
+        else:
+            e["kind"] = f"{TODO} none fits: the sealed text is not intact at the start of the file"
+            note(f"{rel}: the sealed text is not intact at the start of the file. An edit inside the "
+                 "sealed text cannot be disclosed by an entry alone: ask the author")
+
+        if old is None:
+            note(f"{rel}: needs an entry ({e['kind']}): replace every {TODO}, and add a note to its "
+                 "row in claims/REGISTRY-ACCOUNTING.md")
+        else:
+            if str(e["kind"]).startswith(TODO) and old.get("kind") == "unexplained" and text == otext:
+                e["kind"] = old["kind"]                     # a human judgement, kept
+            for f in HUMAN:
+                if f in e and f in old:
+                    e[f] = old[f]
+            moved = sorted(k for k in set(e) | set(old) if k not in HUMAN and e.get(k) != old.get(k))
+            if moved:
+                newc = [c for c in post if c not in old.get("post_seal_commits", [])]
+                e["what_changed"] = (f"{old.get('what_changed', '')} {TODO} extend this for "
+                                     f"{', '.join(newc) or 'the change'}").strip()
+                note(f"{rel}: entry {key} is out of date ({', '.join(moved)}): extend what_changed, "
+                     "and the note in its registry row")
+            else:
+                note(f"{rel}: entry {key} is current")
+            if key != rid:
+                note(f"{rel}: its entry is keyed {key}, but the file's ID is {rid}")
+        new_entries[rid] = e
+
+    print(json.dumps({"entries": new_entries, "removed": new_removed}, indent=2, ensure_ascii=False))
+    print(f"verify_seals --facts: put each object under \"entries\" or \"removed\" in "
+          f"{MANIFEST.relative_to(ROOT).as_posix()}, then run verify_seals.py", file=sys.stderr)
+    return rc
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--facts":
+        sys.exit(facts(sys.argv[2:]))
+    if len(sys.argv) > 1:
+        print("usage: verify_seals.py [--facts PATH [PATH ...]]", file=sys.stderr)
+        sys.exit(2)
     sys.exit(main())
