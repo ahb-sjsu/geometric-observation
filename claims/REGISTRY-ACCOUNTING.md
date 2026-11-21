@@ -107,6 +107,7 @@ file or a run (numbering skip); proven absent from git history.
 | 089 | OT-EC Campaign 4: signal-aware operational event triggering at matched realized transmission budgets, with the 087 recover/match blind positive control; sealed 705f068 after THREE disclosed pilots, the first a registered null FINDING (covariance-only threshold triggers collapse to quasi-periodic; the operational trigger must see the realized error), the second a performance defect (steady_prior recomputed per rollout), the third clean with delta_T TIGHTENED 0.05 -> 0.10 | ot-ec (Campaign 4) MIGRATED 2026-08-19 -> observation-theory-campaigns (EC track, @897fd96; original seals here remain the binding timestamps) | **ALL PASS 6/6** (governed seed 20260822, n_sys=20) -- T1 armP 0.200 / armN 0.333 (gate 0.10 both), T2 blind capture 0.869 (gate 0.75), T3 budget band pass, shuffled +0.048, anti worst pooled | OT-EC paper (Campaign 4) . LEDGER GO-EC-4 | GO89-operational-trigger.json |
 | 090 | GO-16 Theorems 1–3 C3 net: revelation reduction (leakage through K = FᵀN⁻¹F only; minimal value cost exactly tr(S(I−K)Sᵀ); shrink-and-dither attainment; convex SDP + bilinear saddle), four-way partition with encoder-indifference pricing, spectral tie under fractional attention, diagonal water level with the fractional/integral two-regime alternative, dither necessity; theorems R-IND-5-verified by an INDEPENDENT fresh-context verifier PRE-seal ([notes](../paper/GO16-R-IND-5-NOTES.md)); sealed 3a74638 pre-run | cost (GO-16) | **ALL PASS 9/9** (governed seed 20260822, ~2 min) — FRESH draws for every random object: V1 cost identity exact / K-err 2.7e-12; V2 0/2000 with worst slack +1.44; V3 2.1e-14; V4 idempotency 2.0e-14; V7 saddle 0 violations/1000; V9 rotated known-fractional instance: spectrum err 6.5e-3, tie gap 7.0e-4; V5/V8 committed-value + instrument gates in-band (4.0555 vs 4.052777…; m=2 direct 1.750002); V10 measurement recorded (near-projection optima at the v0.1 probe cells — the corrected C4 diagnosis). Pilots: three dev runs + the R-IND-5 verifier's byte-identical rerun, ALL DISCLOSED; V9's originally vacuous tie gate replaced (STRENGTHENED) pre-seal on the verifier's finding · **Content hash:** see the content-hash audit below (VI-25). | GO-16 · LEDGER | go16-partition-verify-governed.json |
 | 091 | GO-16 discrete twin net: binary frontier = the symmetric channel exactly ((1−√ρ)/2 — the LQG linear cost is a Gaussian privilege); deterministic policies all-or-nothing (mixing = the discrete carrier of dither, with bluff frequencies reported); fractional-attention tie + water level survive with generalized pricing θ = s²/(4λ√(μt\*)); the fifth class (interior-contested-above — partial balancing without indifference, impossible in LQG) at the pre-run hand prediction; sealed 3a74638 pre-run | cost (GO-16) | **ALL PASS 4/4** (governed seed 20260822, ~1 min) — P1 frontier monotone/convex with SLSQP refinement ≤ symmetric + 1e-9 at five interior ρ; P2 five-way tie spread 0.0 at t\* = 0.36754, budget 4.4e-16, FRESH saddle perturbations 0 violations, grid cross-check 1.1e-3; P3 ρ₁ = 0.5625, J\* = 3.75, gap 1.25 EXACT with θ₁ = 1; P4 every shielded policy strictly randomized. Pilots: three dev runs ALL DISCLOSED with every gate change itemized (two mis-specified gates + one instrument replaced; the hand predictions predate every run and never moved) · **Content hash:** see the content-hash audit below (VI-25). | GO-16 · LEDGER | go16-discrete-twin-governed.json |
+| 092 | T1 worked result: learn a consumer's read operator by probing, charge the probes, serve the description, and bound the downstream loss against the RLD frontier (instruments `experiments/t1_worked_result.py` and `experiments/t1_arm_r_llama.py`, v1.1) | **reserved-unsealed** (reserved 2026-11-20 by the owner's decision) — draft `drafts/T1-WORKED-RESULT-REGISTRATION-DRAFT.md`, cold reread `drafts/T1-COLD-REREAD-2026-11-18.md` (27 findings, folded in); awaits the owner's read before sealing; retrospective, class at most `[demonstrated]` | — (no governed run exists) | LEDGER T1 row | — |
 
 ## Completeness argument
 
@@ -159,12 +160,16 @@ The argument above covered 001–041 when written; the sequence now runs to
   `observation-theory-campaigns`, where the run artifacts live; the rows above
   record both.
 - **090–091** — the GO-16 block (sealed 3a74638 pre-run, governed 20260822).
+- **092** — **reserved-unsealed** (2026-11-20) for the T1 worked result, so that no
+  other registration takes its number while the draft awaits the owner's read.
+  No bar is final and no governed run exists. New registrations start at **093**.
 
-**No file drawer holds, restated for the full sequence:** every ID in 001–091
+**No file drawer holds, restated for the full sequence:** every ID in 001–092
 has a disposition row above. The only IDs without a sealed governed run are
 **029/030** (never assigned — proven absent from git history), **040** (void
-reservation, failed validation pre-seal), and **075** (design failure disclosed
-by its own pilot pre-seal) — each with its reason on record, none with a hidden
+reservation, failed validation pre-seal), **075** (design failure disclosed
+by its own pilot pre-seal), and **092** (reserved for the T1 worked result,
+unsealed, awaiting the owner's read) — each with its reason on record, none with a hidden
 measurement. Extended supersession chains: 046→047 · 048→049 · 051→053 ·
 052→054 · 056→(075 burned)→077.
 
