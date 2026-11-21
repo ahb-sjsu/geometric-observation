@@ -42,11 +42,11 @@ The `[proved]` bar has four parts (CHARTER T-CUST-1):
 
 | ID | Item | Source | State | Missing pieces | Kill criterion |
 |---|---|---|---|---|---|
-| G1 | RLD-I (Thms 3, 7, 20) | `paper/tit-rate-leakage` | pending-custody | R-IND-5 (none on record); CI net; custody. **The owner sets the class** (LEDGER) | a pass finds an error: report to the owner, the row stays |
+| G1 | RLD-I (Thms 3, 7, 20) | `paper/tit-rate-leakage` | active | R-IND-5 done: **VI-27**, no false step; the ledger row is narrowed; the paper's items go to the owner, since it is under review. Still owed: nets for Theorem 3 (Lemma 1, Prop 2) and a stronger one for Theorem 20; the Lean–statement correspondence for Theorem 7; CI wiring (the scripts exit 0 on failure); custody. **The owner sets the class** | a pass finds an error: report to the owner, the row stays |
 | G2 | RLD-II (Thms 4, 16, 20, 22, 23) | `paper/tit-stationary` | pending-custody | CI net; custody (VI-16 on record) | same |
 | G3 | RLD-III.1–5 (Thms 13; 18; 2, 3, 5; Cor 6; 26) | `paper/tit-beyond-stationary` | pending-custody | CI net; custody (VI-17) | same |
 | G4 | RLD-IV.1, .2, .4 (Thms 1, 10; 11; 18) | `paper/tit-unstable-ergodic` | pending-custody | CI net; custody (VI-18–21) | same |
-| G5 | RLD-IV.3 (Thm 13) | same | pending-custody | R-IND-5 (none in its row); CI net; custody | same |
+| G5 | RLD-IV.3 (Thm 13, Prop 14, Cor 15) | same | active | R-IND-5 done: **VI-26**, three fresh-context passes (the original text and two rewrites), no false step; all findings applied to the draft; Tan–Dabora–Poor checked at the source; the harness strengthened (power control, exact example). Still owed: CI wiring; custody | same |
 | G6 | T1 note v4.1 (Thms 5, 7, 11, Cor 8, Prop 12) | `paper/t1-learn-then-serve` | pending-custody | custody (VI-22–24); confirm `verify_t1_v4.py` runs in CI. The note is frozen until 092 is sealed | same |
 | G7 | GO-12 theorems (065, 066, 070, 071) | `paper/go12-process-region.tex` | pending-custody | index its verification record as a VI row, diffed against v0.6; custody | the diff shows unverified changes: fresh pass on those parts |
 | G8 | GO-14 theorems (076–086) | `paper/go14-causal-erasure.tex` | pending-custody | index the F/W restatements and prereg records as VI rows; split the row so `[proved]` covers only proved statements; custody (079 sits in the committed-artifact tier) | same |

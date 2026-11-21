@@ -53,9 +53,10 @@ observed through a scalar gain, poles on the unit circle cost nothing.
 For a scalar source with uniformly bounded window covariances whose
 eigenvalue distributions converge, observed through a scalar gain, the
 region is a single quadrant given by reverse
-water-filling on the limit. For a cyclostationary process sampled at an
-incommensurate rate, the region does not depend on the sampling phase,
-proving a published conjecture. For a vector source driven by a
+water-filling on the limit. For a cyclostationary process with a
+continuous correlation of finite range, sampled at an incommensurate
+rate and observed in the same way, the region does not depend on the
+sampling phase, proving a published conjecture. For a vector source driven by a
 totally uniquely ergodic map, with continuous correlations of finite
 range and covariances bounded below, observed through a filter of
 finite memory, the region is a limit of programs over independent
@@ -83,8 +84,10 @@ cannot observe it, in the sense of Kalman: the extra rate is
 $\rho_\star$, the sum of $\log|\rho|$ over the unstable poles $\rho$, and
 the extra leakage is $\rhid$, the same sum over the poles hidden from the
 holder (Theorems~\ref{thm:vector} and~\ref{thm:iir}). The answer to the
-second is no: with incommensurate sampling the limit exists and does not
-depend on the phase (Corollary~\ref{cor:sampled}), which proves a
+second is no for a scalar source seen through a scalar gain in white
+noise: with incommensurate sampling and a continuous correlation of
+finite range, the limit exists and does not depend on the phase
+(Corollary~\ref{cor:sampled}), which proves a
 conjecture of Tan, Dabora, and Poor \cite{tan2024}.
 
 Both questions are posed in the setting of \cite{part1,part2,part3}. An
@@ -1520,7 +1523,8 @@ which happens only when $r_0=0$, see \cite[Theorem~26]{part3}.
 
 Let $(T_t)_{t\ge1}$ be a centered scalar Gaussian process, with any
 covariance, observed by the holder through $S_t=HT_t+U_t$, $H\in\R$, with
-$U_t$ independent $\mathcal N(0,\sigma_U^2)$, and $J=H^2/\sigma_U^2$. The
+$U_t$ independent $\mathcal N(0,\sigma_U^2)$, $\sigma_U^2>0$, and
+$J=H^2/\sigma_U^2$. The
 decoder reproduces $T$ with weight $Q>0$. Let $\Gamma_N=\Cov(T^N)$ and
 let $\mu_N$ be the distribution of its eigenvalues, the probability
 measure that puts mass $1/N$ on each.
@@ -1543,10 +1547,15 @@ rate--distortion function is $r_\mu(D)$.
 The quantity $\theta$ is unique because
 $\theta\mapsto Q\int\min\{\lambda,\theta\}\,d\mu$ is continuous and
 strictly increasing until it reaches $D_{\max}^\mu$. The theorem applies
-to stationary scalar sources, where $\mu$ is the distribution of the
-values of the spectral density by Szeg\H{o}'s theorem
-\cite{grenander1958}, and to the scalar locally stationary and
-cyclostationary sources of \cite{part3}. Its interest is for sources
+to stationary scalar sources whose spectral measure has an essentially
+bounded density $f$, where $\mu$ is the distribution of the values of
+$f$ by Szeg\H{o}'s theorem \cite{grenander1958}. Its proof uses
+$\Gamma_N$ one blocklength at a time, so it holds as stated for a
+triangular array of windows whose laws for different $N$ need not be
+related. For the scalar sources of \cite{part3}, locally stationary or
+cyclostationary, with a constant weight and a constant holder (gain and
+noise variance), it applies once their eigenvalue distributions are shown to
+converge, which is not proved here. Its interest is for sources
 whose statistics vary too fast for a local spectrum and never repeat.
 
 \begin{proof}
@@ -1566,28 +1575,71 @@ bounded and Lipschitz on $[0,b]$, uniformly in $\theta$; with strict
 monotonicity at $\theta$, $\theta_N\to\theta$. The integrands of $r$
 and $\ell$ are bounded and jointly continuous in $(\lambda,\theta)$ on
 $[0,b]\times[\theta/2,2\theta]$, so $r_N\to r_\mu(D)$ and
-$\ell_N\to\ell_\mu(D)$. Every code of blocklength $N$ has
+$\ell_N\to\ell_\mu(D)$. With $\mu$ fixed, $\theta(D)$ is continuous on
+$(0,D_{\max}^\mu)$, as the inverse of a continuous strictly increasing
+function, and the same bounded, jointly continuous integrands make
+$r_\mu$ and $\ell_\mu$ continuous there. Every code of blocklength $N$ has
 $\alpha R_N+(1-\alpha)L_N\ge\tfrac1N\VG(\alpha,ND_N;\Gamma_N,JI_N)$, and the
 continuity of $r_\mu$ and $\ell_\mu$ in $D$ gives the converse as in the
 proof of Theorem~\ref{thm:vector}.
 
-\emph{Achievability.} The proof of \cite[Theorem~26]{part3} for the
-bulk applies with two changes. The window is rotated into the
-eigenbasis of $\Gamma_N$, which keeps the holder's noise white because
-its gain is scalar, and the components are independent with variances
-the eigenvalues. The bins are $[v_{i-1},v_i)$ with
-$v_0=\epsilon_0\in(0,\theta)$, $v_i\le(1+\kappa)v_{i-1}$, $v_B>b$, and
-$\mu(\{v_i\})=0$ for $0\le i<B$, and the components with eigenvalues
-below $\epsilon_0$ are reproduced as zero. In the minimizing allocation
-those components have $\delta=\lambda$, so they cost nothing there
-either, and their distortion is the same in both. Each other bin is
-coded with codes for white sources of variance $v_{i-1}$ and
-\cite[Lemma~12]{part3}. Since $\mu_N\to\mu$ and the boundaries carry no
-mass, the share of each bin tends to its $\mu$-mass, and the rest of
-that proof gives every point of the quadrant. By
-\cite[Lemma~24]{part3} the same allocation
-$\delta=\min\{\lambda,\theta\}$ minimizes every weighted cost, so the
-region is a quadrant. The construction works at every large $N$.
+\emph{Achievability.} By the converse, $\mathcal A(D)$ lies in the
+quadrant above $(r_\mu(D),\ell_\mu(D))$, so it suffices to achieve that
+quadrant. For $D\ge D_{\max}^\mu$, reproduce every component as zero:
+the rate and the leakage are $0$, and the distortion per symbol is
+$Q\int\lambda\,d\mu_N\to D_{\max}^\mu\le D$. Let now
+$0<D<D_{\max}^\mu$, $R\ge r_\mu(D)$, $L\ge\ell_\mu(D)$, and $\gamma>0$.
+A component of variance $\lambda$ reproduced at distortion $x\lambda$,
+$0<x\le1$, has rate $\tfrac12\log(1/x)$ and leakage
+$\ell(\lambda,x)=\tfrac12\log\frac{1/(x\lambda)+J}{1/\lambda+J}$, the
+integrands of $r_\mu$ and $\ell_\mu$ at $x=\min\{1,\theta/\lambda\}$;
+both are convex in $x$. The proof of \cite[Theorem~26]{part3} for the
+bulk applies with the following changes, made in this order; $\eta>0$
+denotes the arbitrary slack of \cite[Lemma~12]{part3} (called $\delta$
+there). First, by the continuity of $r_\mu$ and $\ell_\mu$ in $D$
+shown in the converse, choose $D''<D$ with
+$r_\mu(D'')\le r_\mu(D)+\gamma/2$ and $\ell_\mu(D'')\le\ell_\mu(D)+\gamma/2$,
+and let $\theta''<\theta$ solve $Q\int\min\{\lambda,\theta''\}\,d\mu=D''$.
+Second, choose $\epsilon_0\in(0,\theta'')$ with $\mu(\{\epsilon_0\})=0$.
+The components with eigenvalues below $\epsilon_0$ are reproduced as
+zero, at no rate or leakage and at distortion
+$Q\int_{[0,\epsilon_0)}\lambda\,d\mu_N$ per symbol, which tends to
+$D_0=Q\int_{[0,\epsilon_0)}\lambda\,d\mu$ because $\epsilon_0$ carries
+no mass. The allocation $\min\{\lambda,\theta''\}$ also reproduces
+these components at distortion equal to their variance ($x=1$), so on
+$[\epsilon_0,b]$ it spends
+distortion $D''-D_0$, rate $r_\mu(D'')$ and leakage $\ell_\mu(D'')$.
+Third, fix $\kappa>0$ and $\eta>0$ with $\tfrac12\log(1+\kappa)\le\gamma/2$
+and $Q\kappa(1+\kappa)b+2\eta<D-D''$, and then the bins
+$[v_{i-1},v_i)$ with $v_0=\epsilon_0$, $v_i\le(1+\kappa)v_{i-1}$,
+$b<v_B\le(1+\kappa)b$, and $\mu(\{v_i\})=0$ for $0\le i<B$. The window
+is rotated into the eigenbasis of $\Gamma_N$, which keeps the holder's
+noise white because its gain is scalar, and the components are
+independent with variances the eigenvalues. Each bin is coded with
+codes for white sources of variance $v_{i-1}$ and \cite[Lemma~12]{part3},
+which adds at most $\epsilon_Q=Q\kappa v_B\le Q\kappa(1+\kappa)b$ to the
+distortion and $\epsilon_J=J\kappa v_B/(2\ln2)$ to the leakage. Form the
+set $\mathcal B_\kappa$ of that proof with the budget $D''-D_0$ in place
+of $D''$. It contains $(r_\mu(D''),\ell_\mu(D'')+\tfrac12\log(1+\kappa))$:
+in each bin, keep the ratio $x=\min\{1,\theta''/\lambda\}$ and move the
+variance to the left end of the bin, which keeps the rate, lowers the
+distortion, and raises the leakage by at most $\tfrac12\log(1+\kappa)$,
+as there; then replace the ratios in each bin by their $\mu$-average
+$\bar x_i$, which keeps the distortion and, by convexity, raises neither
+the rate nor the leakage. With $D_i=Qv_{i-1}\bar x_i$, so that
+$\sum_iw_iD_i\le D''-D_0$, the point is
+$\sum_iw_i\bigl(\tfrac12\log(1/\bar x_i),\ell(v_{i-1},\bar x_i)\bigr)$, and
+each term lies in $\mathcal R_{v_{i-1}}(D_i)$, the quadrant above
+$\bigl(\tfrac12\log(1/\bar x_i),\ell(v_{i-1},\bar x_i)\bigr)$ for the white
+source of variance $v_{i-1}$ \cite[Lemma~24]{part3}. A sum of upward
+closed sets is upward closed, so $(R+\gamma,L+\gamma)\in\mathcal B_\kappa$. Since $\mu_N\to\mu$ and the
+bin boundaries carry no mass, the share of each bin tends to its
+$\mu$-mass, and the rest of that proof achieves
+$(R+\gamma+\eta,L+\gamma+\epsilon_J+2\eta)$ at a distortion
+$D''-D_0+\epsilon_Q+2\eta$ for these components, plus $D_0+o(1)$ for the
+components reproduced as zero, which is eventually below $D$. Since
+$\gamma$, $\kappa$, and $\eta$ are arbitrary, $(R,L)\in\mathcal A(D)$.
+The construction works at every large $N$.
 \end{proof}
 
 \subsection{Sources driven by a uniquely ergodic map}
@@ -1599,10 +1651,11 @@ Let $c:\Theta\times\{0,1,\dots,m\}\to\R$ be continuous in its first
 argument, set $c(\vartheta,\Delta)=0$ for $\Delta>m$, and
 for $\vartheta_0\in\Theta$ let $\Gamma_N(\vartheta_0)$ be the matrix with
 entries $c(\tau^s\vartheta_0,t-s)$, $1\le s\le t\le N$, extended
-symmetrically. If every $\Gamma_N(\vartheta_0)$ is positive semidefinite,
-then $\|\Gamma_N(\vartheta_0)\|\le(2m+1)\max|c|$, and the eigenvalue
-distributions $\mu_N(\vartheta_0)$ converge weakly to one probability
-measure $\mu$, the same for every $\vartheta_0$, whose moments are
+symmetrically. Then $\|\Gamma_N(\vartheta_0)\|\le(2m+1)\max|c|$, and the
+eigenvalue distributions $\mu_N(\vartheta_0)$ converge weakly to one
+probability measure $\mu$, the same for every $\vartheta_0$; if every
+$\Gamma_N(\vartheta_0)$ is positive semidefinite, $\mu$ lives on
+$[0,(2m+1)\max|c|]$, as Theorem~\ref{thm:law} requires. Its moments are
 \[
 \int\lambda^k\,d\mu=\int_\Theta g_k\,d\nu,\qquad
 g_k(\vartheta)=\bigl(\Gamma(\vartheta)^k\bigr)_{00},
@@ -1638,8 +1691,8 @@ window covariances converge to a measure $\mu$ that does not depend on
 $\phi$, and with a scalar holder in white noise the region of
 Theorem~\ref{thm:law} is the same for every sampling phase. In
 particular the rate--distortion function of the sampled process exists
-as a limit at every $D>0$, equals
-$\int\tfrac12\log^+(\lambda/\theta)\,d\mu$, and does not depend on $\phi$.
+as a limit at every $D>0$, equals $r_\mu(D)$ for $D<D_{\max}^\mu$ and
+$0$ for $D\ge D_{\max}^\mu$, and does not depend on $\phi$.
 \end{corollary}
 
 \begin{proof}
@@ -1647,7 +1700,17 @@ Take $\Theta=\R/T_c\Z$, $\tau(\vartheta)=\vartheta+T_s$, which is uniquely
 ergodic with Lebesgue measure because $T_s/T_c$ is irrational, and
 $c(\vartheta,\Delta)=c_c(\vartheta,\Delta T_s)$, which vanishes for
 $|\Delta|>\lambda_c/T_s$. Covariance matrices are positive semidefinite,
-so Proposition~\ref{prop:ergodic} and Theorem~\ref{thm:law} apply.
+so Proposition~\ref{prop:ergodic} and Theorem~\ref{thm:law} apply. For
+$D<D_{\max}^\mu$ the window functions $r_N(D)$ tend to $r_\mu(D)$ by the
+proof of Theorem~\ref{thm:law}. For $D>D_{\max}^\mu$, eventually
+$D>\tfrac QN\tr\Gamma_N$, so $r_N(D)=0$. At $D=D_{\max}^\mu$, the
+functions are nonincreasing in $D$, so for $D'<D$,
+$\limsup_Nr_N(D)\le r_\mu(D')$. As $D'\uparrow D_{\max}^\mu$, the level
+$\theta(D')$ increases to a limit $\theta^*$ with
+$Q\int\min\{\lambda,\theta^*\}\,d\mu=Q\int\lambda\,d\mu$, so
+$\theta^*\ge\lambda$ for $\mu$-almost every $\lambda$; the integrand
+$\tfrac12\log^+(\lambda/\theta(D'))$ is bounded and tends to $0$
+$\mu$-almost everywhere, so $r_\mu(D')\to0$ by dominated convergence.
 \end{proof}
 
 Tan, Dabora, and Poor \cite[Theorem~1]{tan2024} express the
@@ -1665,14 +1728,19 @@ maximum over it \cite[Corollary~1]{tan2024} are both equal to
 $r_\mu(D)$. When $T_s/T_c$ is rational the map $\tau$ has finite orbits,
 the moments of $\mu$ are averages of $g_k$ over the orbit of $\phi$
 rather than over the circle, and they can depend on the orbit. For
-example, let $X_c(t)=\sigma(t)Z(t)$ with $Z$ stationary, so that
-$\Gamma_N=D_\sigma\Gamma^Z_ND_\sigma$ with $D_\sigma$ the diagonal matrix of
-the sampled $\sigma$, and let $\sigma(t)^2=5+4\sin(2\pi t/T_c)$ and
+example, let $X_c(t)=\sigma(t)Z(t)$ with $Z$ stationary, of unit
+variance, with a continuous correlation of finite range (so that $X_c$
+is in the class of
+Corollary~\ref{cor:sampled}) and a sampled spectral density bounded below
+by some $m_Z>0$, so that every eigenvalue of $\Gamma^Z_N$ is at least
+$m_Z$. Then $\Gamma_N=D_\sigma\Gamma^Z_ND_\sigma$ with $D_\sigma$ the
+diagonal matrix of the sampled $\sigma$; let $\sigma(t)^2=5+4\sin(2\pi t/T_c)$ and
 $T_s=T_c/2$. The phase $\phi=0$ gives samples of variance $5$, and
-$\phi=T_c/4$ gives variances alternating between $9$ and $1$, so
-$\tfrac1N\log\det\Gamma_N$ differs between the two by $\log(5/3)$. At a
-distortion small enough that every eigenvalue exceeds the water level,
-the rate is $\tfrac1{2N}\log\det\Gamma_N-\tfrac12\log(D/Q)$, so the two
+$\phi=T_c/4$ gives variances alternating between $9$ and $1$, so for
+even $N$, $\tfrac1N\log\det\Gamma_N$ differs between the two by
+$\log(5/3)$. Every eigenvalue is at least $m_Z\min\sigma^2=m_Z$, so at a
+distortion $D<Qm_Z$ every eigenvalue exceeds the water level $D/Q$, the
+rate is $\tfrac1{2N}\log\det\Gamma_N-\tfrac12\log(D/Q)$, and the two
 rate--distortion functions differ by $\tfrac12\log(5/3)$ bits there.
 
 \subsection{Vector sources}
@@ -2207,7 +2275,10 @@ the script passed on its first run.
 \texttt{verify\_spectral\_law.py} checks Corollary~\ref{cor:sampled} on
 the process $\sigma(t)Z(t)$ with $\sigma(t)^2=5+\tfrac13\sin2\pi t$, the
 variance profile of the example of \cite{tan2024}, and $Z$ stationary
-with a triangular correlation of length $2.5$ samples, sampled at
+with a triangular correlation of length $2.5$ samples; the length is
+fixed in samples, so at every sampling rate below the sampled
+correlation of $Z$ is $(1,0.6,0.2)$ and only the samples of $\sigma$
+change. The process is sampled at
 $T_s=1/(3+\varepsilon)$ with $\varepsilon=(\sqrt5-1)/2$. Over four sampling
 phases, the largest difference in the rate or the leakage of
 Theorem~\ref{thm:law}, at two distortions, falls from
@@ -2217,8 +2288,29 @@ with the formula of Proposition~\ref{prop:ergodic} to
 $2.4\times10^{-4}$ relative. Two rational sampling rates, with periods of
 $7$ and $3$ samples, also show no measurable phase dependence for this
 source, whose modulation is weak; the second was added after the first
-run. The exact example after Corollary~\ref{cor:sampled} shows phase
-dependence at a rational rate.
+run. That check therefore cannot tell the two cases apart. With the
+strong modulation $\sigma(t)^2=5+4\sin2\pi t$ the same comparison does:
+at the irrational rate the spread falls from $2.6\times10^{-3}$ bits at
+$N=500$ to $1.3\times10^{-4}$ bits at $N=8000$, below a quarter of its
+value at $N=500$, while at the period-$3$ rate, a control for the
+power of the comparison rather than a statement of
+Corollary~\ref{cor:sampled}, it goes from $1.85\times10^{-2}$ to
+$2.08\times10^{-2}$ bits, meeting its criterion of at least $10^{-2}$
+bits and at least half its value at $N=500$. These two checks were
+added after a check of the proofs found that the weak one had no
+power, and their criteria were set after an exploratory run of the
+same two configurations. The exact example after
+Corollary~\ref{cor:sampled} is checked against the value derived there
+(not blindly: a check of the proofs had computed a similar configuration
+first): at
+$T_s=T_c/2$, every eigenvalue is at least $0.15$, the minimum of the
+spectral density $1+1.2\cos\omega+0.4\cos2\omega$ of the sampled
+correlation of $Z$, so at $D=0.1$ all lie above the water level, and the
+rates at the phases $0$ and $T_c/4$ differ by
+$\tfrac12\log_2(5/3)=0.368483$ bits to within $10^{-14}$ at $N=1000$ and
+$2000$. Because $\log\det(D_\sigma\Gamma^ZD_\sigma)=\log\det\Gamma^Z+\sum\log\sigma^2$,
+this check tests the variances, the factor, and the eigenvalue floor,
+not $Z$.
 
 \texttt{verify\_vector\_ergodic.py} checks Theorem~\ref{thm:ergodic} with
 the memoryless holder $H=(1,0.5)$ on a source in $\R^2$ driven by the
@@ -2303,7 +2395,9 @@ Theorem~\ref{thm:iir} & \texttt{innovations}, \texttt{window\_cost} & the same, 
 Lemma~\ref{lem:circleeig} & \texttt{bulk\_logmean}, \texttt{exceptional} & eigenvalues, poles on the circle\\
 Theorem~\ref{thm:circle} & \texttt{window} & window rate and leakage against the corner\\
 Proposition~\ref{prop:ergodic} & \texttt{moments} & eigenvalue moments against the ergodic average\\
-Corollary~\ref{cor:sampled} & \texttt{phase\_independence} & rate and leakage over sampling phases\\
+Corollary~\ref{cor:sampled} & \texttt{phase\_independence}, \texttt{strong\_phase\_independence} & rate and leakage over sampling phases\\
+(power control) & \texttt{strong\_rational\_control} & the comparison at a rational rate, which must see a difference\\
+Example after Cor.~\ref{cor:sampled} & \texttt{rational\_example\_exact} & rate difference against $\tfrac12\log_2(5/3)$\\
 Theorem~\ref{thm:ergodic} & \texttt{monotone}, \texttt{common\_limit}, \texttt{phase\_spread} & frozen blocks against window costs\\
 \hline
 \end{tabular}
