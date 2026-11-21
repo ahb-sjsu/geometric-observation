@@ -35,7 +35,8 @@ $\operatorname{tr}(\tilde P\Pi)$ for using the wrong read metric.
 *Differentiation.* Classical rate–distortion fixes the fidelity measure (usually squared
 error) and is recovered here as the $P_C = I$ slice; this program promotes the fidelity
 measure to the observer-dependent variable it always was. Citations are exact:
-Kostina–Tuncel characterize the two-stage boundary and prove no coding theorem; the
+Kostina–Tuncel characterize the two-stage boundary and prove a nonasymptotic converse, but
+no achievability, for which they cite Rimoldi and Effros; the
 achievability of the multi-observer region, for $k=2$ and $k\ge3$ alike, is Paper III's
 Assumption SR, attributed to Effros and not yet checked at the source (and the $k$-stage
 construction is not an iteration of the two-stage map — VI-5; VI-32, VI-36, VI-37). The dispersion rests on Kostina–Verdú's Gaussian approximation (their Theorem 12,

@@ -39,6 +39,19 @@ rebuilt the generator as it was before the change made after version 2's second 
 | 12 | exposition | "Effros … extends the region to stationary sources and any number of resolutions" is second-hand, and leaves out the property that matters. | Now "which Kostina–Tuncel cite for the extension to continuous alphabets and stationary sources". |
 | 13 | exposition | `prop:separation`: why R_C vanishes was unsaid, and the boundary argument (an achievability) sat under "Converse". Appendix B said "a net with inactive modes is owed" under a bullet that cites one. The JSON's `run` field was added by hand. | R_C(D) = 0 for D ≥ E d_C(X, x̂₀), finite by the reference letter; the boundary argument is labelled "Boundary (achievability)"; Appendix B points to the net; the harness now records its environment itself, and the JSON is saved exactly as printed. |
 
+**Correction to row 1 (2026-11-21, after commit 5375b7b).** Row 1's applied text, and the
+same phrase in Paper III's Assumption SR paragraph, said Kostina–Tuncel "prove no coding
+theorem". That overcorrects. arXiv:1707.09567v2 proves a nonasymptotic converse bound (its
+Theorem 3: a necessary condition for a two-stage excess-distortion code to exist, given its
+code sizes, distortion levels and per-stage failure probabilities), which
+recovers known dispersion converses. What it does not prove is achievability: for the
+region's operational meaning it quotes Rimoldi for discrete memoryless sources and points to
+Effros "for a generalization to continuous alphabets and stationary sources". Both passages
+now say this. VI-36's "not a coding theorem" (its B5 row) is to be read the same way: not
+the achievability theorem Paper III had cited it as. The substance is unchanged: Paper III's
+achievability still rests on Assumption SR. Found by the assistant on rereading the source
+while briefing the next confirming pass, not by a fresh context; that pass checks it.
+
 **Confirmed resolved or right:**
 - **m2:** a valid weak-duality certificate. Levels 1.2θ and 0.8θ both fail 150/150.
 - **A3 and A4:** resolved.
