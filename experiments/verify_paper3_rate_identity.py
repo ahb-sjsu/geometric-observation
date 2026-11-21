@@ -34,7 +34,8 @@ formula under test.
   ones Lam = Lam* + eps E around the optimum Lam* = Sigma*^{-1} - Sx^{-1}. For these `lem:info`
   holds with equality, so they test the formula's water-filling part, at high resolution.
 
-Checks (seed 20261128; every criterion below was written before this file first ran):
+Checks (version 2, seed 20261129; every criterion below was written before version 2 first ran,
+and is informed by version 1's output, as the History below says):
   r1_lemma_info   every quantizer channel has slack H(cell) - 1/2 log det Sx / det Sigma(Xh)
                   >= -1e-9 (product) or >= -1e-7 (skew, quadrature); the skew quadrature guards
                   hold (|sum p - 1| <= 1e-9, |sum E[Y; c]| <= 1e-8, |sum E[YY^T; c] - Cov Y|
@@ -42,9 +43,10 @@ Checks (seed 20261128; every criterion below was written before this file first 
                   centroids are distinct by construction).
   r2_converse     every channel (all three families) has I(X; Xh) - R_P(E d) >= -1e-9 max(1, R)
                   (product, Gaussian) or >= -1e-7 (skew).
-  r3_attained     at the optimum Lam*, I - R_P(D) is within 1e-9 of 0, and the eigenvalue form
+  r3_attained     at the optimum Lam*, I - R_P(E d) is within 1e-9 of 0, and the eigenvalue form
                   of R_P equals 1/2 logdet Sx - 1/2 logdet Sigma* to 1e-9; every near-optimal
-                  channel has gap >= -1e-9, and those with eps = 1e-3 have gap <= 1e-3.
+                  channel has gap >= -1e-9. (Version 1 also required gap <= 1e-3 at eps = 1e-3;
+                  see the History.) The near-optimal gaps are recorded per eps.
   r4_backward     the backward channel exists (min eig(Sx - Sigma*) >= -1e-10 ||Sx||) and meets
                   the budget (|tr(P Sigma*) - D| <= 1e-9 D); on 10 instances a Monte Carlo
                   realization (Xh ~ N(0, Sx - Sigma*), Z ~ N(0, Sigma*), X = Xh + Z, 200000
@@ -78,6 +80,27 @@ History.
   1e-33). The fix (`tail_stable_diff`) computes upper-tail differences as Phi(-a) - Phi(-b). The
   criteria, the seed and the instance generator are unchanged; the fix was committed before
   attempt 2.
+- Attempt 2 (commit b54ecab, 2026-11-21, 17 s) ran to the end: **FAIL**. r1, r2, r4 and r5
+  passed; r3 failed. Its output is kept, as executed, in results/PAPER3-rate-identity-v1.json.
+  - **What passed.** The optimum attained the formula to 4.2e-15. No channel of any family beat
+    it: the worst gap was -3.3e-15, roundoff. All five wrong versions were caught.
+  - **The clause that failed.** r3 also required every near-optimal channel at eps = 1e-3 to sit
+    within 1e-3 of the formula. The largest such gap was 1.7e-2. The gaps fell about tenfold
+    per decade of eps (largest 0.84, 0.15 and 0.017 at eps = 1e-1, 1e-2 and 1e-3): first order,
+    not second.
+  - **Why the clause was wrong.** The perturbation E is full rank, so it adds information on the
+    modes where the cap binds (pt_k <= theta, Lam* = 0 there). There the optimum is on the
+    boundary of the program, and leaving it costs rate at first order. The clause assumed second
+    order, a wrong expectation about the check, and was written without a pilot. Nothing in the
+    run bears against the identity.
+- Version 2 (this file) makes two changes, both informed by attempt 2's output:
+  - **r3:** that clause is removed, and the near-optimal gaps are recorded instead.
+  - **Skew quantizers:** they now include low-rate dead-zone cells. In version 1 their smallest
+    `lem:info` slack was 0.21 nats, so the genuinely two-dimensional test could only catch large
+    violations. Their thresholds are capped at 3 standard deviations, so that every skew cell
+    keeps a probability the quadrature resolves.
+
+  It runs on a fresh seed, and was committed before its first run.
 """
 from __future__ import annotations
 
@@ -94,7 +117,8 @@ import scipy
 from scipy import integrate
 from scipy.special import ndtr
 
-SEED = 20261128
+SEED = 20261129
+VERSION = 2
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "results", "PAPER3-rate-identity.json")
 LN2 = float(np.log(2.0))
@@ -317,6 +341,15 @@ def random_thresholds(rng):
     return np.concatenate([-right[::-1], right])
 
 
+def skew_thresholds(rng):
+    """Version 2: one to three random thresholds, or a low-rate dead zone (+-t, t in [1.5, 3]),
+    in units of the coordinate's standard deviation, never beyond 3."""
+    if rng.integers(0, 2) == 0:
+        return np.sort(np.clip(rng.normal(0.0, 1.0, size=int(rng.integers(1, 4))), -3.0, 3.0))
+    t = float(rng.uniform(1.5, 3.0))
+    return np.array([-t, t]) if rng.integers(0, 2) == 0 else np.array([t])
+
+
 # ---------------------------------------------------------------- environment and custody
 def harness_sha256():
     raw = open(os.path.abspath(__file__), "rb").read().replace(b"\r\n", b"\n")
@@ -339,7 +372,7 @@ def git_info():
 def main():
     started = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     rng = np.random.default_rng(SEED)
-    out = {"seed": SEED, "started_utc": started, "harness_sha256": harness_sha256(),
+    out = {"version": VERSION, "seed": SEED, "started_utc": started, "harness_sha256": harness_sha256(),
            "git": git_info(),
            "environment": {"python": platform.python_version(), "numpy": np.__version__,
                            "scipy": scipy.__version__, "system": platform.system(),
@@ -387,8 +420,8 @@ def main():
             if np.linalg.cond(M) <= 10.0 and abs(float(G[0, 1])) / np.sqrt(G[0, 0] * G[1, 1]) > 0.2:
                 break
         sd = np.sqrt(np.diag(M @ M.T))
-        t1 = np.sort(rng.normal(0.0, 1.0, size=int(rng.integers(1, 4)))) * sd[0]
-        t2 = np.sort(rng.normal(0.0, 1.0, size=int(rng.integers(1, 4)))) * sd[1]
+        t1 = skew_thresholds(rng) * sd[0]
+        t2 = skew_thresholds(rng) * sd[1]
         H, SW, guards, cgap = skew_channel(M, t1, t2)
         for kk in skew_guard_worst:
             skew_guard_worst[kk] = max(skew_guard_worst[kk], guards[kk])
@@ -451,7 +484,7 @@ def main():
 
     # r3
     r3_ok = (max(abs(g) for g in gauss_exact_gap) <= 1e-9 and max(ident_gap) <= 1e-9
-             and all(g >= -1e-9 for e in near for g in near[e]) and max(near[1e-3]) <= 1e-3)
+             and all(g >= -1e-9 for e in near for g in near[e]))
 
     # r4
     r4_eig, r4_tr = [], []

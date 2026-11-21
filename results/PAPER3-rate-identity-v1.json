@@ -1,0 +1,178 @@
+{
+ "seed": 20261128,
+ "started_utc": "2026-11-21T21:31:11+00:00",
+ "harness_sha256": "efcaaa3a3af343663d2ebca066b9b4710cea8e8811b0dec5548b351768621b8b",
+ "git": {
+  "commit": "b54ecaba181e1ba98131135706e9c54c170e591b",
+  "harness_modified": false
+ },
+ "environment": {
+  "python": "3.12.2",
+  "numpy": "2.5.2",
+  "scipy": "1.18.1",
+  "system": "Windows",
+  "machine": "AMD64"
+ },
+ "targets": "Paper III lem:maxdet rate identity: R_P(D) = 1/2 logdet Sx - 1/2 logdet Sigma*(P,D)",
+ "counts": {
+  "base_instances": 120,
+  "skew_instances": 40,
+  "channels": 880,
+  "by_family": {
+   "product_random": 120,
+   "product_aligned": 120,
+   "skew": 40,
+   "gauss_random": 120,
+   "gauss_optimum": 120,
+   "gauss_near_eps1": 120,
+   "gauss_near_eps2": 120,
+   "gauss_near_eps3": 120
+  }
+ },
+ "lemma_info": {
+  "min_slack": {
+   "product_random": -2.220446049250313e-16,
+   "product_aligned": -5.551115123125783e-17,
+   "skew": 0.21464485693975044
+  },
+  "skew_guard_worst": {
+   "p_sum": 4.440892098500626e-16,
+   "mean_sum": 2.2833297752544723e-16,
+   "second_sum": 2.6645352591003757e-15
+  },
+  "skew_min_centroid_gap": 0.13003492087634125
+ },
+ "converse": {
+  "min_gap": {
+   "product_random": -1.1102230246251564e-16,
+   "product_aligned": -1.1102230246251564e-16,
+   "skew": 0.4008966294988836,
+   "gauss_random": 0.018220390310585866,
+   "gauss_optimum": -3.3029134982598407e-15,
+   "gauss_near_eps1": 3.955195639317177e-05,
+   "gauss_near_eps2": 3.9553364340472186e-06,
+   "gauss_near_eps3": 5.268263086888325e-08
+  }
+ },
+ "attained": {
+  "worst_abs_gap_at_optimum": 4.218847493575595e-15,
+  "worst_identity_gap": 4.6629367034256575e-15,
+  "near_optimum_max_gap": {
+   "eps1": 0.8380214199804048,
+   "eps2": 0.15090687535173197,
+   "eps3": 0.016915444296631055
+  },
+  "near_optimum_min_gap": {
+   "eps1": 3.955195639317177e-05,
+   "eps2": 3.9553364340472186e-06,
+   "eps3": 5.268263086888325e-08
+  }
+ },
+ "backward": {
+  "worst_min_eig_rel": -2.4590825934639526e-15,
+  "worst_trace_rel": 3.6580616463559255e-15,
+  "monte_carlo": [
+   {
+    "z_distortion": 0.2633016179822585,
+    "z_cov_max": 0.6831174974904564
+   },
+   {
+    "z_distortion": 1.4488967101212749,
+    "z_cov_max": 1.78420068161775
+   },
+   {
+    "z_distortion": 0.2948586372560683,
+    "z_cov_max": 0.8312628742235747
+   },
+   {
+    "z_distortion": -0.6685024818069683,
+    "z_cov_max": 2.3242956473193854
+   },
+   {
+    "z_distortion": 1.30853662226508,
+    "z_cov_max": 1.0507058462165264
+   },
+   {
+    "z_distortion": -1.6362161670058457,
+    "z_cov_max": 1.5082153879759437
+   },
+   {
+    "z_distortion": -0.7535101188305936,
+    "z_cov_max": 2.3671862540702424
+   },
+   {
+    "z_distortion": 1.9237866266638894,
+    "z_cov_max": 1.6332492862313996
+   },
+   {
+    "z_distortion": 0.19530127641460138,
+    "z_cov_max": 0.9223124964681159
+   },
+   {
+    "z_distortion": 1.709109544866322,
+    "z_cov_max": 1.8612695048676313
+   }
+  ]
+ },
+ "power": {
+  "a_raised_counts": {
+   "s_1e-3": {
+    "product_random": 4,
+    "product_aligned": 1,
+    "gauss_optimum": 120,
+    "gauss_near_eps2": 46,
+    "gauss_near_eps3": 99,
+    "gauss_near_eps1": 10
+   },
+   "s_1e-2": {
+    "product_random": 4,
+    "product_aligned": 1,
+    "gauss_optimum": 120,
+    "gauss_near_eps1": 47,
+    "gauss_near_eps2": 99,
+    "gauss_near_eps3": 117
+   },
+   "s_1e-1": {
+    "product_random": 9,
+    "product_aligned": 7,
+    "gauss_optimum": 120,
+    "gauss_near_eps1": 99,
+    "gauss_near_eps2": 117,
+    "gauss_near_eps3": 120,
+    "gauss_random": 5
+   }
+  },
+  "b_lemma_info_raised_counts": {
+   "product_random": {
+    "s_1e-2": 4,
+    "s_5e-2": 9
+   },
+   "product_aligned": {
+    "s_1e-2": 2,
+    "s_5e-2": 8
+   },
+   "skew": {
+    "s_1e-2": 0,
+    "s_5e-2": 0
+   }
+  },
+  "c_commuting_shortcut_instances_caught": 90,
+  "d_vi4_bug_instances_caught": 89,
+  "e_bits_channels_caught": 516,
+  "gates": {
+   "a_raised_1e-2": true,
+   "b_lemma_info_raised_5e-2_product": true,
+   "c_commuting_shortcut": true,
+   "d_vi4_bug": true,
+   "e_bits_for_nats": true
+  }
+ },
+ "verdict": {
+  "r1_lemma_info": true,
+  "r2_converse": true,
+  "r3_attained": false,
+  "r4_backward": true,
+  "r5_power": true
+ },
+ "PAPER3RATE_supported": false
+}
