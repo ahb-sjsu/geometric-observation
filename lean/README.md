@@ -247,3 +247,39 @@ Build records: `paper/tit-beyond-stationary/lean-beyond-2026-11-16.txt` (the
 module and its axiom audit) and
 `paper/tit-beyond-stationary/lean-library-2026-11-16.txt` (the root target
 with the import, an incremental build).
+
+## Paper V's identity layer (finite-alphabet entropy)
+
+`ObservationTheory/FiniteEntropy.lean` is a minimal Shannon-entropy layer on finite
+alphabets. The pinned Mathlib has `negMulLog`, binary entropy and Kullback–Leibler
+divergence for measures, but no entropy of finitely supported random variables, so the
+author chose (2026-11-21) to write a small layer rather than add a dependency. Laws are
+functions to ℝ; entropy is `∑ negMulLog`, in nats; the law of `f X` is a pushforward;
+conditional entropy is defined by the chain rule. It proves:
+
+- coarse-graining, `H(f X) ≤ H(X)`, and its conditional form;
+- invariance under injective relabeling;
+- additivity on product laws;
+- conditional subadditivity, `H(A, B | S) ≤ H(A | S) + H(B | S)`, from `log x ≤ x − 1`
+  term by term.
+
+`ObservationTheory/ConsumerLandauerIdentities.lean` states and proves, on that layer, the
+information content of two results of `paper/consumer-relative-landauer.tex`:
+
+- **Theorem 2** (`materialization`): `H(A, f A | S) = H(A | S)` for any law and any
+  description map. That is, storing a description beside the full record adds no reset
+  content, whatever the description.
+- **Corollary 3, for two consumers:** the joint minimum, the coordinated reset chain, the
+  independent minimum, the nonnegativity of the conditional total correlation, and
+  attainment by the code that stores the outputs.
+
+**Not formalized:**
+- reading reset content as work (Landauer's bound, imported by the paper);
+- the step `H(Xⁿ | Sⁿ) = n H(X | S)` for an i.i.d. block;
+- Corollary 3 for general `m`;
+- every coding theorem.
+
+Build record: `paper/consumer-relative-landauer-lean-2026-11-21.txt`. Each module was
+compiled with `lake env lean -o` on Atlas against the pinned toolchain and Mathlib, with
+zero `sorry`. Every theorem depends only on `propext`, `Classical.choice` and
+`Quot.sound`.

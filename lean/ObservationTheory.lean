@@ -10,3 +10,5 @@ import ObservationTheory.TiltedWaterFilling
 import ObservationTheory.TiltedExistence
 import ObservationTheory.SpectralRateLeakage
 import ObservationTheory.BeyondStationary
+import ObservationTheory.FiniteEntropy
+import ObservationTheory.ConsumerLandauerIdentities
