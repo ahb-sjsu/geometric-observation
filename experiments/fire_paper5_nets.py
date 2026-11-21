@@ -25,11 +25,15 @@ VERDICT line, counts as not fired.
 Numbering. The CL claims below use the CL harness's own section names, which predate the
 paper's Section VI: CL's "Prop 3" is the paper's Proposition 5 (prop:thermal-waterfill)
 and CL's "Prop 4" is Proposition 6 (prop:stale). The paper's Propositions 3 and 4
-(prop:scalar-corner, prop:vector-frontier) are GS's subject. Every other number matches
-the compiled paper.
+(prop:scalar-corner, prop:vector-frontier) are GS's subject. Every other theorem number
+matches the compiled paper; the equation numbers do not. The harnesses, their preregs and
+this file number equations as the paper did before Lemma 1's eq. (10) was inserted
+(7ef2eb8): their eq. (20), the Pareto-channel equation, is the paper's (21), and their
+(40)-(41) are its (41)-(42). CL5's "Prop 1's convexity premise" is now Lemma 1. (This
+paragraph said until VI-41 that every other number matched.)
 
 What the mutations mean (~ marks a check that cannot fail for a mathematical reason, so
-that its gate only shows the code path is live):
+that its gate only shows the code path is live; VI-41 found three unmarked, now marked):
   CL1  Prop 2 converse: the closed-form lower boundary raised by s (probe s = 1e-3, 1e-2;
        gate s = 5e-2). Caught by the optimizer-driven support-line net.
   CL2  Prop 2 achievability: the closed form lowered by 1e-3 (not attained). Gate.
@@ -38,16 +42,22 @@ that its gate only shows the code path is live):
        (factor 1/2). Probe: only optimality nets can see it.
   CL4b Prop 1, eq. (20) wrong in its marginal term (exponent alpha/2). Probe.
   CL5  Prop 1's convexity premise: probe -I(X;Xh|S) instead (concave). Gate.
-  CL6a Thm 1 converse, boundary raised by 1e-3 at every D. Gate (the identity code sits
-       on the D = 0 corner).
+  CL6a ~Thm 1 converse, boundary raised by 1e-3 at every D. Gate. The codes it catches
+       are the 1163 injective n = 1 maps at D = 0, whose L_n = H(X|S) exactly: an
+       identity, slack 0. No tested code has 0 < D_n < 0.1, and the rest sit at least
+       0.311 bits above the boundary (VI-41), so Thm 1's converse is not netted.
   CL6b Thm 1 converse, boundary raised by s only where D >= 0.05 (s = 1e-2, 5e-2, 0.1).
        Probe: power away from the corner.
   CL7  ~Thm 2: the description made randomized (hypothesis dropped). Gate.
   CL8  Cor 2: R_C(0) = H(X) claimed instead of H(U). Gate.
-  CL9  Cor 3: total correlation's sign flipped (coordinated reset costs more). Gate.
+  CL9  ~Cor 3: total correlation's sign flipped. Gate. TC >= 0 is subadditivity, and the
+       "> 0.05 somewhere" clause is not a claim of the paper, so Cor 3 is not netted.
   CL10 Cor 4: the optimal Gaussian rate claimed (1+s) times higher, seen only by the
        random-code net (s = 0.01, 0.05, 0.2). Probe.
-  CL11 Cor 4: VI-4's bug, Sigma^-1 = Sx^-1 + lam P, in sigma_star. Gate.
+  CL11 ~Cor 4: VI-4's bug, Sigma^-1 = Sx^-1 + lam P, in sigma_star. Gate. It mutates the
+       reference, not the claim: CL's "eq.(41) = max-det" check computes one reverse
+       water-filling twice (the same matrix and bisection), with no solver (VI-41, the
+       VI-4 pattern). Only CL's random-code net can fail on Cor 4.
   CL12 Prop 3: d_i* = min{lam_i, nu sqrt(T_i)} claimed. Gate.
   CL13 Prop 4: I(M;X_t), which decreases, put where H(M|X_t) is claimed to increase. Gate.
   CL14 Prop 4's binary example: q_t with (1-p)^t. Gate.
@@ -58,7 +68,9 @@ that its gate only shows the code path is live):
   GS5  discrete-corner net, analytic corner shifted by s (s = 0.05, 0.1). Probe.
   GS6  vector allocation: the quadratic's linear term with alpha/2. Gate.
   GS7  registered strict-frontier example made symmetric (both modes rho = 0.95):
-       the claim then predicts no gap. Gate.
+       the claim then predicts no gap. Gate; an input mutation, not a claim mutation. The
+       strictness bar (>= 0.05) is looser than the paper's stated gaps (about 0.11 and
+       0.13; measured 0.1105 and 0.1306).
   GS8  separability net, per-mode envelope raised by s (s = 0.01, 0.05). Probe.
   GS9  side-information discount's limit claimed as log2(1/(1-rho^2)) (twice I(X;S)). Gate.
 
@@ -78,16 +90,25 @@ probes. Every outcome but GS9's is identical to attempt 1, and the two controls'
 byte-identical across the attempts. Its output is results/PAPER5-fire.json.
 
 What the probes found (the nets' resolution; the custody table carries it):
-  CL1   Prop 2's support-line net catches a boundary raised by 1e-2 bits, not by 1e-3.
+  CL1   Prop 2's support-line net catches a uniform raise of 1e-2 bits, not 1e-3, and only
+        in its best direction. VI-41 measured its slack over the support line by alpha:
+        from 0.0074 (alpha = 1) to 0.13 bits, and a raise of 0.015 confined to t < 0.9 D
+        went uncaught. It tests D = 0.15 only.
   CL4   a wrong eq. (20) is caught by the optimality nets (both variants).
   CL6b  Thm 1's finite-n converse net catches nothing away from the D = 0 corner, even a
         boundary raised by 0.1 bits where D >= 0.05: random codes at n <= 2 are far from
-        the frontier. Its power is the corner alone (CL6a).
-  CL10  Cor 4's random-code net catches a rate claimed 20% high, not 5%.
+        the frontier. It has no power: the corner it catches is an identity (CL6a).
+  CL10  Cor 4's random-code net catches a rate claimed 20% high, not 5% (its closest
+        approach is 6.1% above the optimum, VI-41).
   GS3   the quantizer net catches bounds raised by 0.1 bits, not by 0.01.
   GS5   the discrete-corner net catches a shift of 0.1 bits, not 0.05 (its tolerance is
         0.06).
   GS8   the separability net catches an envelope raised by 0.01.
+
+Custody of this file (VI-41). It was committed after both attempts, so "fixed before the
+first run" rests on the assistant's word; the JSONs record each mutation's id, kind, expect
+and claim (identical across the attempts) but not the edit texts, this file's hash or the
+mutants' hashes. A future run should record all three, and be committed before it runs.
 
 Usage:  python experiments/fire_paper5_nets.py [--jobs N] [--only ID,ID] [--no-write] [--check]
 Writes results/PAPER5-fire.json and the two controls' output verbatim,
