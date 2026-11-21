@@ -53,6 +53,7 @@ VI-1, and the merged pass VI-4.
 | c2 | Lemma 2 | c2 >= 2 | 2.5 | `results/r.json#a.list.1` | 1.25x |
 | verdict | harness | ALL PASS | ALL PASS | `results/r.json#verdict` | n/a |
 | tiny | Rem 3 | <= 1e-6 | 1.5e-7 | `results/r.json#big` | 6.7x |
+| gap | Fact 2 | >= 0 | 0.0529 bits | `paper/record.md` | n/a |
 | c3 | Prop 4 | exact | 1/3 | — | n/a |
 
 ## Known gaps
@@ -68,6 +69,8 @@ def build(root: str, custody: str | None) -> None:
     for h in ("harness_ok.py", "harness_artifact.py"):
         open(os.path.join(root, "experiments", h), "w").write("print('net')\n")
     json.dump(RESULT, open(os.path.join(root, "results", "r.json"), "w"))
+    open(os.path.join(root, "paper", "record.md"), "w", encoding="utf-8").write(
+        "Outcome: the gap is 0.0529 bits at the governed seed.\n")
     if custody is not None:
         open(os.path.join(root, "claims", "custody", "ROW-X.md"), "w", encoding="utf-8").write(custody)
 
@@ -99,7 +102,9 @@ CASES = [  # (name, custody text or None, expected exit code)
     ("a string value disagrees with its JSON", sub("| ALL PASS | ALL PASS |", "| ALL PASS | PASS |"), 1),
     ("a Source key that is not in the JSON", sub("r.json#a.b`", "r.json#a.c`"), 1),
     ("a Source file that does not exist", sub("`results/r.json#a.b`", "`results/q.json#a.b`"), 1),
-    ("a Source without #key", sub("`results/r.json#a.b`", "`results/r.json`"), 1),
+    ("a JSON Source without #key", sub("`results/r.json#a.b`", "`results/r.json`"), 1),
+    ("a text Source that lacks the measured value", sub("| 0.0529 bits |", "| 0.0530 bits |"), 1),
+    ("a text Source file that does not exist", sub("`paper/record.md`", "`paper/missing.md`"), 1),
     ("a re-run harness that CI never runs", sub("harness_ok.py` | re-run", "harness_artifact.py` | re-run"), 1),
     ("a harness file that does not exist", sub("`experiments/harness_ok.py`", "`experiments/gone.py`"), 1),
     ("an unknown tier", sub("| re-run |", "| sometimes |"), 1),

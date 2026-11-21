@@ -48,13 +48,30 @@ The `[proved]` bar has four parts (CHARTER T-CUST-1):
 | G4 | RLD-IV.1, .2, .4 (Thms 1, 10; 11; 18) | `paper/tit-unstable-ergodic` | pending-custody | CI net; custody (VI-18–21) | same |
 | G5 | RLD-IV.3 (Thm 13, Prop 14, Cor 15) | same | active | R-IND-5 done: **VI-26**, three fresh-context passes (the original text and two rewrites), no false step; all findings applied to the draft; Tan–Dabora–Poor checked at the source; the harness strengthened (power control, exact example). Still owed: CI wiring; custody | same |
 | G6 | T1 note v4.1 (Thms 5, 7, 11, Cor 8, Prop 12) | `paper/t1-learn-then-serve` | pending-custody | custody (VI-22–24); confirm `verify_t1_v4.py` runs in CI. The note is frozen until 092 is sealed | same |
-| G7 | GO-12 theorems (065, 066, 070, 071) | `paper/go12-process-region.tex` | pending-custody | index its verification record as a VI row, diffed against v0.6; custody | the diff shows unverified changes: fresh pass on those parts |
+| G7 | GO-12 theorems (065, 066, 070, 071) | `paper/go12-process-region.tex` | pending-custody | Records indexed as **VI-28**; since each record, the theorem text changed only cosmetically. All four nets are in CI's re-run tier. Owed: the custody table, after GO-11 (G16), which Theorem 1 imports | the diff shows unverified changes: fresh pass on those parts |
 | G8 | GO-14 theorems (076–086) | `paper/go14-causal-erasure.tex` | pending-custody | index the F/W restatements and prereg records as VI rows; split the row so `[proved]` covers only proved statements; custody (079 sits in the committed-artifact tier) | same |
 | G9 | GO-16 Thms 1–3 (090, 091) | `paper/go16-adversarial-observer.tex` | pending-custody | index `GO16-R-IND-5-NOTES.md` (v0.2) as a VI row; custody | same |
 | G10 | GO-16 Thms 4–6 (v0.5) | same | pending-custody | R-IND-5 pass on v0.5; CI net for `go16_theory_extensions.py`; custody | a pass finds an error |
 | G11 | The book's `[proved]` tags (Appendix B: B1, B4, B5, B7; Appendix F: the legibility theorems) | `chapters/appendix_b_cost_ledger.md`, `appendix_f_mathematical_ledger.md` | open | map the book's B-numbers to Paper III's labels; ledger rows with full custody where all four pieces exist, otherwise retag the book; the legibility custody is in `the-angular-observer` | a missing piece: retag at the true class |
 | G12 | Appendix B's `[C7]` flag on the B7 dispersion constants (T-CUST-3: flags never ship) | `appendix_b_cost_ledger.md` (VI-7 paragraph) | open | check the constants against Kostina–Verdú at the source, then remove the flag | the constants disagree with the source: fix and log |
 | G13 | Appendix F stops at GO-6 | `appendix_f_mathematical_ledger.md` | open | extend it through GO-16, RLD and T1 | — |
+| G14 | Paper V theorems (the rate–work–distortion region; the Gaussian region with reset side information) | `paper/consumer-relative-landauer.tex` | pending-custody | VI-8 and VI-9 on record; nets in CI ([1c] `verify_consumer_landauer.py`, `verify_gaussian_sideinfo.py`); custody; a ledger row for the theorems | a pass finds an error |
+| G15 | GO-10 theorems (the complementarity tax) | `paper/complementarity-tax.tex` | pending-custody | VI-10 on record (`paper/complementarity-tax-VERIFICATION.md`); net 055 in CI; custody | same |
+| G16 | GO-11 theorems (Theorems 1–10) | `paper/go11-conditional-region.tex` | pending-custody | index the R-IND-5 records in `paper/go11-conditional-region-NOVELTY.md` (addenda) as VI rows, diffed against the current text; nets 060, 063, 064 in CI; custody | same |
+
+**Order of promotion: bottom-up by dependency** (added 2026-11-20). A `[proved]` row may rest
+only on `[proved]` rows or on external results checked at the source (T-CUST-3), so the
+promotions go in this order:
+
+1. G11, Paper III's B-theorems, which have no ledger rows yet;
+2. G14, Paper V;
+3. G15 and G16, GO-10 and GO-11;
+4. G7, GO-12, whose Theorem 1 imports GO-11's static converse;
+5. GO-13;
+6. G8, GO-14;
+7. G9 and G10, GO-16.
+
+The RLD series (G1–G5) and the T1 note (G6) form a separate chain, since T1 uses RLD I–IV.
 
 ## List 1 — GO-12 to GO-16 and T1
 

@@ -20,9 +20,12 @@ The checks:
   * every VI-n cited under R-IND-5 is a row of the ledger's verification-incident table;
   * every harness exists; Tier is `re-run` (its file name must appear in ci/reproduce.py)
     or `committed-artifact` (it then needs a Source JSON below);
-  * every Measured value with a Source `path#key.path` matches the committed JSON:
+  * every Measured value with a JSON Source `path.json#key.path` matches the committed JSON:
     numbers to within half a unit in their last printed digit, or the stated `± tol`;
-    anything else as an exact string;
+    anything else as an exact string. A JSON Source must name a key;
+  * a Measured value whose Source is a text file (`.md`, `.txt`, `.tex`, `.log`), for
+    harnesses that print rather than write JSON, must appear verbatim in that file; a sealed
+    prereg's recorded outcome is such a file, and verify_seals.py guards its text;
   * no unresolved citation flag (`[C7]`, T-CUST-3) and no `TODO:` anywhere.
 
 Usage:  python scripts/check_custody.py [--root DIR]
@@ -36,6 +39,7 @@ import sys
 
 SECTIONS = ("Claim", "Proof", "R-IND-5", "C3 harness", "Constants and slack", "Known gaps")
 TIERS = ("re-run", "committed-artifact")
+TEXT_SOURCES = (".md", ".txt", ".tex", ".log")
 FLAG = re.compile(r"\[C\d+\]")
 VI = re.compile(r"\bVI-\d+\b")
 VI_RANGE = re.compile(r"\bVI-(\d+)\s*[–-]\s*VI-(\d+)\b")
@@ -140,8 +144,17 @@ def check_file(root: str, path: str, rows: set[str], vis: set[str], ci_text: str
         name, measured, source = r[0], r[3], r[4].strip("` ")
         if not source or source in ("—", "-"):
             continue
+        if source.lower().endswith(TEXT_SOURCES):
+            full = os.path.join(root, source)
+            if not os.path.isfile(full):
+                bad.append(f"{rel}: {name}: Source file {source} does not exist")
+                continue
+            sources += 1
+            if measured.strip("` ") not in open(full, encoding="utf-8", errors="replace").read():
+                bad.append(f"{rel}: {name}: Measured {measured.strip('` ')!r} does not appear in {source}")
+            continue
         if "#" not in source:
-            bad.append(f"{rel}: {name}: Source {source!r} is not 'path#key.path'")
+            bad.append(f"{rel}: {name}: Source {source!r} is not 'path.json#key.path' or a text file")
             continue
         fpath, key = source.split("#", 1)
         full = os.path.join(root, fpath)

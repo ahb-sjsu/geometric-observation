@@ -33,6 +33,19 @@ Theorem 3 has none.
 | 5 | exposition (ledger) | The row says "is reverse water-filling on … tilted weight". It should say "is the fixed point of", as the abstract does: the tilt is evaluated at the solution, with no closed form for holder rank above 1 (lines 712–713). | **Ledger row corrected, 2026-11-20.** |
 | 6 | exposition | The numerical-checks appendix, lines 2699–2702: its "Not formalized" list omits Theorem 3, Lemma 1 and Proposition 2, which have neither a formal nor a numerical check. It also lists Theorem 7 as not formalized, although `lean/ObservationTheory/TiltedWaterFilling.lean` and `TiltedExistence.lean` exist (`lean-tilted-complete-2026-10-07.txt` records a build with no `sorry`). The verifier did not check that the Lean statements match Theorem 7. | For the owner's revision. The Lean–statement correspondence is owed. |
 
+## Later finding for the owner (from the pass on the new Theorem 20 net, 2026-11-20)
+
+The condition (eq:common) of Theorem 20 needs only one of its two equations. Once
+b₀ = b(Δ₀) is a generalized eigenvector of the pencil with μ = μ_max(Δ₀) > 0, the two
+equations imply each other:
+
+- Q Σ_T b₀ = λ b₀ gives (λ − Δ₀) Σ_T b₀ = μ K_c b₀. Hence Σ_T b₀ = c K_c b₀ with
+  c = μ/(λ − Δ₀), so J Σ_T b₀ = (c − 1) b₀.
+- Conversely, J Σ_T b₀ = ς b₀ gives Q Σ_T b₀ = (Δ₀ + μ/(1+ς)) b₀.
+
+I re-derived both directions. The theorem is not wrong; it can be stated more simply. The
+paper is under review, so this is a note for its next revision and has not been applied.
+
 ## The verifier's coverage: checked and found correct
 
 - **Lemma 1:** the divergence form; the infinite case; the Pythagorean split; the trace and mean

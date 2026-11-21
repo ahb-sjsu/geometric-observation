@@ -15,7 +15,9 @@ also points to items 1 to 3. The format is in the docstring of
 - every required section is present;
 - every cited VI row exists in the ledger;
 - every harness either runs in CI or is declared committed-artifact with its JSON cited;
-- every measured value matches the committed JSON it cites;
+- every measured value matches the committed JSON it cites, or, for a harness that prints
+  instead of writing JSON, appears verbatim in the text file it cites (for example a sealed
+  prereg's recorded outcome, whose text `verify_seals.py` guards);
 - no `[C7]`-style citation flag or `TODO:` is left.
 
 **What it cannot check** is whether the proof is right. That judgement rests on the
