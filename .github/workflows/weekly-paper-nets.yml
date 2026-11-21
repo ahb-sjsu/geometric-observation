@@ -1,0 +1,35 @@
+name: Weekly paper nets
+
+# The RLD papers' and the T1 note's heavy numerical nets (ci/paper_nets.py, tier "weekly"):
+# 75 s to 14 min each on Atlas, about 83 minutes in all, too long to re-run on every push.
+# CHARTER T-CUST-1 asks every [proved] row's C3 net to be CI-run; these run here, weekly
+# and on demand. Each script's per-check verdicts must reproduce its committed record
+# exactly, so a disclosed first-run failure must stay failed and any new failure fails.
+# Added 2026-11-20 (plan W1).
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"   # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  weekly:
+    name: Weekly paper nets (shard ${{ matrix.shard }}/3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip -r ci/requirements-ci.txt
+      - name: Run the weekly paper nets
+        run: python ci/reproduce.py --weekly --shard ${{ matrix.shard }}/3

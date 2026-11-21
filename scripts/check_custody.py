@@ -18,7 +18,8 @@ Each `claims/custody/<row>.md` file has these sections:
 The checks:
   * every section is present, and the ledger row named in the title exists;
   * every VI-n cited under R-IND-5 is a row of the ledger's verification-incident table;
-  * every harness exists; Tier is `re-run` (its file name must appear in ci/reproduce.py)
+  * every harness exists; Tier is `re-run` (its file name must appear in ci/reproduce.py,
+    or its path in ci/paper_nets.py, the papers' own nets, re-run per push or weekly)
     or `committed-artifact` (it then needs a Source JSON below);
   * every Measured value with a JSON Source `path.json#key.path` matches the committed JSON:
     numbers to within half a unit in their last printed digit, or the stated `± tol`;
@@ -113,7 +114,8 @@ def matches(written: str, actual) -> tuple[bool, str]:
     return ok, f"{w!r} vs {str(actual)!r}"
 
 
-def check_file(root: str, path: str, rows: set[str], vis: set[str], ci_text: str) -> list[str]:
+def check_file(root: str, path: str, rows: set[str], vis: set[str], ci_text: str,
+               nets_text: str = "") -> list[str]:
     rel = os.path.relpath(path, root)
     text = open(path, encoding="utf-8").read()
     bad: list[str] = []
@@ -182,8 +184,9 @@ def check_file(root: str, path: str, rows: set[str], vis: set[str], ci_text: str
             bad.append(f"{rel}: harness {h} does not exist")
         if tier not in TIERS:
             bad.append(f"{rel}: harness {h}: Tier {tier!r} is not one of {TIERS}")
-        elif tier == "re-run" and os.path.basename(h) not in ci_text:
-            bad.append(f"{rel}: harness {h} is tier re-run but ci/reproduce.py never runs it")
+        elif tier == "re-run" and os.path.basename(h) not in ci_text and f'"{h}"' not in nets_text:
+            bad.append(f"{rel}: harness {h} is tier re-run but neither ci/reproduce.py nor "
+                       f"ci/paper_nets.py runs it")
         elif tier == "committed-artifact" and sources == 0:
             bad.append(f"{rel}: harness {h} is committed-artifact but no constant cites its JSON")
     return bad
@@ -194,10 +197,12 @@ def main(argv: list[str]) -> int:
         os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     rows, vis = ledger_ids(root)
     ci_text = open(os.path.join(root, "ci", "reproduce.py"), encoding="utf-8").read()
+    nets = os.path.join(root, "ci", "paper_nets.py")
+    nets_text = open(nets, encoding="utf-8").read() if os.path.isfile(nets) else ""
     d = os.path.join(root, "claims", "custody")
     files = sorted(os.path.join(d, f) for f in os.listdir(d) if f.endswith(".md") and f != "README.md") \
         if os.path.isdir(d) else []
-    problems = [p for f in files for p in check_file(root, f, rows, vis, ci_text)]
+    problems = [p for f in files for p in check_file(root, f, rows, vis, ci_text, nets_text)]
     for p in problems:
         print("  FAIL", p)
     print(f"check_custody: {len(files)} custody file(s); {len(problems)} problem(s)")

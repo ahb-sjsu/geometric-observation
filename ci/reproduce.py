@@ -38,6 +38,7 @@ if "--shard" in sys.argv:
     if not (NSHARD >= 1 and 0 <= SHARD < NSHARD):
         sys.exit(f"--shard I/N needs 0 <= I < N, got {SHARD}/{NSHARD}")
 DRY = "--dry-run" in sys.argv
+WEEKLY = "--weekly" in sys.argv   # run only the papers' heavy nets (the weekly workflow)
 _next_unit = 0
 
 
@@ -226,6 +227,29 @@ def extract_json(stdout: str, sentinel: str) -> dict:
     return obj
 
 
+if WEEKLY:
+    # The papers' heavy nets only (ci/paper_nets.py, tier "weekly"), sharded like Tier-A.
+    sys.path.insert(0, os.path.join(ROOT, "ci"))
+    from paper_nets import PAPER_NETS, run_net  # noqa: E402
+    print(f"Weekly paper nets, shard {SHARD}/{NSHARD}" + (" (dry run)" if DRY else ""))
+    for script, args, rule, jname, tier in PAPER_NETS:
+        if tier != "weekly" or not unit(f"[weekly] {script}"):
+            continue
+        try:
+            good, msg = run_net(script, args, rule, jname, timeout=3600)
+            print(f"  {'PASS' if good else 'FAIL'} {script}: {msg}")
+            if not good:
+                failures.append(f"{script}: {msg}")
+        except Exception as e:
+            failures.append(f"{script} crashed: {e}")
+            print(f"  FAIL {script}: {e}")
+    if DRY:
+        sys.exit(0)
+    print(f"WEEKLY RESULT (shard {SHARD}/{NSHARD}): " + ("GREEN" if not failures else f"FAIL ({len(failures)})"))
+    for f in failures:
+        print("  -", f)
+    sys.exit(1 if failures else 0)
+
 print(f"Tier-A shard {SHARD}/{NSHARD}" + (" (dry run)" if DRY else ""))
 print("=" * 68)
 print("[0] Seal integrity: every sealed prereg's content hash (verify_seals.py)")
@@ -342,6 +366,38 @@ if unit("[1d] t1_worked_result.py --smoke"):
     except Exception as e:
         failures.append(f"t1_worked_result.py --smoke crashed: {e}")
         print(f"  FAIL t1_worked_result.py --smoke: {e}")
+
+print()
+print("=" * 68)
+print("[1e] The papers' own nets (RLD series, T1 note), push tier (ci/paper_nets.py)")
+print("=" * 68)
+# Added 2026-11-20 (plan W1): CHARTER T-CUST-1 needs each [proved] row's C3 net CI-run, and
+# these scripts were only compiled-beside. Heavy ones run weekly (--weekly; see
+# .github/workflows/weekly-paper-nets.yml); verify_iir_holder.py is a committed artifact.
+sys.path.insert(0, os.path.join(ROOT, "ci"))
+from paper_nets import PAPER_NETS, run_net  # noqa: E402
+if unit("[1e] ci/test_paper_nets.py (the wrapper's fire test)", first_shard_only=True):
+    try:
+        out = run("ci/test_paper_nets.py", timeout=300)
+        if "ALL FIRE AS EXPECTED" in out:
+            print("  PASS ci/test_paper_nets.py: every pass rule rejects what it should")
+        else:
+            failures.append("ci/test_paper_nets.py: no 'ALL FIRE AS EXPECTED'")
+            print("  FAIL ci/test_paper_nets.py")
+    except Exception as e:
+        failures.append(f"ci/test_paper_nets.py crashed or failed: {e}")
+        print(f"  FAIL ci/test_paper_nets.py: {e}")
+for script, args, rule, jname, tier in PAPER_NETS:
+    if tier != "push" or not unit(f"[1e] {script}"):
+        continue
+    try:
+        good, msg = run_net(script, args, rule, jname, timeout=900)
+        print(f"  {'PASS' if good else 'FAIL'} {script}: {msg}")
+        if not good:
+            failures.append(f"{script}: {msg}")
+    except Exception as e:
+        failures.append(f"{script} crashed: {e}")
+        print(f"  FAIL {script}: {e}")
 
 print()
 print("=" * 68)

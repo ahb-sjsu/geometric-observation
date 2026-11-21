@@ -75,6 +75,12 @@ lost to rebases before the pre-rebase hook existed.
   `python ci/reproduce.py`. CI runs it as three parallel shards
   (`--shard I/3`); `--dry-run` lists what a shard would run. A harness you add
   joins a shard automatically, and its wall time appears in the log.
+  The papers' own nets (RLD series, T1) are listed in `ci/paper_nets.py`: the fast
+  ones run in section [1e] on every push, the heavy ones weekly
+  (`.github/workflows/weekly-paper-nets.yml`, or `python ci/reproduce.py --weekly`).
+  A net that writes a JSON must reproduce the committed file's per-check flags
+  exactly, so a disclosed failure must stay failed. `ci/test_paper_nets.py` is the
+  wrapper's fire test.
 - **LaTeX:** compile each document you changed in its own directory with
   `latexmk -pdf -interaction=nonstopmode -halt-on-error <file>.tex`. CI fails
   on undefined references or citations, so check the log for them.

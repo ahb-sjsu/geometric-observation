@@ -66,6 +66,10 @@ def build(root: str, custody: str | None) -> None:
         os.makedirs(os.path.join(root, d), exist_ok=True)
     open(os.path.join(root, "claims", "LEDGER.md"), "w", encoding="utf-8").write(LEDGER)
     open(os.path.join(root, "ci", "reproduce.py"), "w", encoding="utf-8").write(CI)
+    open(os.path.join(root, "ci", "paper_nets.py"), "w", encoding="utf-8").write(
+        'PAPER_NETS = [("paper/net_ok.py", [], "fails0", None, "weekly")]' + "\n")
+    for h in ("net_ok.py", "net_other.py"):
+        open(os.path.join(root, "paper", h), "w").write("print('FAILS: 0')" + "\n")
     for h in ("harness_ok.py", "harness_artifact.py"):
         open(os.path.join(root, "experiments", h), "w").write("print('net')\n")
     json.dump(RESULT, open(os.path.join(root, "results", "r.json"), "w"))
@@ -106,6 +110,8 @@ CASES = [  # (name, custody text or None, expected exit code)
     ("a text Source that lacks the measured value", sub("| 0.0529 bits |", "| 0.0530 bits |"), 1),
     ("a text Source file that does not exist", sub("`paper/record.md`", "`paper/missing.md`"), 1),
     ("a re-run harness that CI never runs", sub("harness_ok.py` | re-run", "harness_artifact.py` | re-run"), 1),
+    ("a paper net listed in ci/paper_nets.py", sub("`experiments/harness_ok.py` | re-run", "`paper/net_ok.py` | re-run"), 0),
+    ("a paper net that ci/paper_nets.py does not list", sub("`experiments/harness_ok.py` | re-run", "`paper/net_other.py` | re-run"), 1),
     ("a harness file that does not exist", sub("`experiments/harness_ok.py`", "`experiments/gone.py`"), 1),
     ("an unknown tier", sub("| re-run |", "| sometimes |"), 1),
     ("an unresolved [C7] citation flag", sub("Theorem 1.", "Theorem 1 [C7]."), 1),

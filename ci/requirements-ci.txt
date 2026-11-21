@@ -3,3 +3,9 @@
 # design -- they require Atlas/GPU or external corpora and run as committed artifacts.
 numpy>=1.26,<3
 scikit-learn>=1.3
+# Added 2026-11-20 for the papers' own nets (ci/paper_nets.py): scipy is used directly
+# (it also comes with scikit-learn), cvxpy by five RLD-I scripts, mpmath by RLD-IV. The
+# timing runs used cvxpy 1.9.3, mpmath 1.3.0, scipy 1.18.1.
+scipy>=1.11
+cvxpy>=1.5,<2
+mpmath>=1.3,<2
