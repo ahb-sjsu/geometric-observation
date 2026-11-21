@@ -164,6 +164,11 @@ REPRODUCIBLE = [
     # ~1-2 min. Same conventions.
     ("go16_discrete_twin.py 20260822", "GO16_DISCRETE_TWIN_BEGIN",
      "go16-discrete-twin-governed.json", "ALL_PASS"),
+    # RLD-I C3 nets added 2026-11-20 (plan W1; VI-27 found Theorem 3's ingredients un-netted
+    # and Theorem 20's net weak; both harnesses passed two R-IND-5 rounds, VI-29). Not
+    # registrations: Track P nets for [proved], fixed seeds, seconds each.
+    ("verify_rld1_turning.py",      "RLD1T20-JSON","RLD1-turning.json",             "RLD1T20_supported"),
+    ("verify_rld1_lemma1.py",       "RLD1L1-JSON", "RLD1-lemma1.json",              "RLD1L1_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
