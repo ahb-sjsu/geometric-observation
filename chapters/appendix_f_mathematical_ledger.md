@@ -40,8 +40,8 @@ full corrected custody summary is in Appendix B.*
 | B1 — consumer $R_C(D)$ achievability + converse | `[exploratory]` (pending net + custody) | 022 blk | VI-3, VI-32, VI-38 |
 | B2 — output ≤ surrogate ≤ reconstruction (GO-6) | `[demonstrated]`, **disputed** (harness off the matched-rate premise; re-run owed) | 028 | VI-32, VI-34 |
 | B3 — surrogate–output gap vanishes with rate | `[demonstrated]`, **disputed** (same harness) | 028 | VI-3, VI-32, VI-34 |
-| B4 — two-observer region; refinability ⇒ $\Sigma_2^\star\preceq\Sigma_1^\star$ (⇔ under Assumption SR) | max-det corner identity `[predicted]`-grade (023 [3]); region, refinability and rate loss as coding statements `[exploratory]` | 022, 023 | **VI-4**, VI-32, VI-36, VI-37, VI-38, VI-39 |
-| B5 — rate region: the converse for every $k$; equality and the sufficiency of nesting under Assumption SR (successive-refinement achievability, attributed to Effros, unchecked), for every $k$ | corner identity `[predicted]`-grade; region `[exploratory]` (converse: no net that can fail; equality: Assumption SR) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39 |
+| B4 — two-observer region; refinability ⇒ $\Sigma_2^\star\preceq\Sigma_1^\star$ (⇔ under Assumption SR) | max-det corner identity `[predicted]`-grade (023 [3]); region, refinability and rate loss as coding statements `[exploratory]` | 022, 023 | **VI-4**, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40 |
+| B5 — rate region: the converse for every $k$; equality and the sufficiency of nesting under Assumption SR (successive-refinement achievability, attributed to Effros, unchecked), for every $k$ | corner identity `[predicted]`-grade; region `[exploratory]` (converse: no net that can fail; equality: Assumption SR) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 |
 | B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$ | `[predicted]`-grade / floor `[demonstrated]` | 024/027 | VI-6, NEG-13, VI-32, VI-38 |
 | B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$) | reduction `[exploratory]` (025's checks cannot fail); corrected $V$ `[exploratory]` pending CI + custody; the $r_D/2$ constant `[refuted]` | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 |
 
@@ -93,7 +93,7 @@ NEG-13 (resolved to `[demonstrated]` by a fresh held-out test).
 
 VI-2 (extreme-value scaling) · VI-3 (App-B derivation-grade caveats) · **VI-4** (the
 `sigma_star` false-pass — the standing reminder that the assistant may not grade itself) ·
-VI-5 (k-chain non-iteration + citation) · VI-6 (omission floor: whitened kernel, floor not
+VI-5 (k-chain non-iteration; its citation correction proved unchecked or wrong, VI-36 to VI-40) · VI-6 (omission floor: whitened kernel, floor not
 unbounded) · VI-7 (dispersion: covering argument, $r_D \le r$).
 
 ## How to read this appendix

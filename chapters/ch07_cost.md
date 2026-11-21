@@ -67,7 +67,7 @@ $\Sigma_2^\star \preceq \Sigma_1^\star$, and under the assumption nesting suffic
 Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \preceq P_2$
 neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
 in which one observer is "a refinement of" another: it can be served by adding bits at no
-rate loss, not resending them. When the optima do *not* nest, serving both costs a rate loss, which the
+rate loss (under Assumption SR), not resending them. When the optima do *not* nest, serving both costs a rate loss, which the
 theory bounds below (exactly, under the assumption). [The max-det corner identity `[predicted]`-grade; the region and its
 coding statements `[exploratory]` — Appendix B.] (This paragraph said until 2026-11-21 that
 refinability holds exactly when $P_1 \preceq P_2$, tagged `[proved]`; that criterion is

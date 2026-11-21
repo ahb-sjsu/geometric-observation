@@ -96,7 +96,8 @@ rotation ambiguity leaks Fisher information by $O(0.1)$; VI-5 also flagged a cit
 its replacement readings proved unchecked or wrong, VI-36 to VI-40); a
 naive-kernel floor error (VI-6 — the omission floor uses the *whitened* kernel, overstated
 $\sim 30\%$ otherwise, and is a *floor*, not unbounded distortion); and a "bijection"
-argument that had to be a covering argument (VI-7). Five catches, each a place the book
+argument that had to be a covering argument (VI-7; its replacement, "effective dimension
+$r_D$", was itself refuted later, NEG-18). Five catches, each a place the book
 would have asserted something false had the rule not fired. A rule earns its cost by its
 catches, and these are the catches.
 

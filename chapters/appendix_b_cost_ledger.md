@@ -105,7 +105,7 @@ If a single scalable code serves both observers at their single-stage optimal ra
 $R_1(D_1)$ and $R_2(D_2)$ (the corner), the coarse observer with a prefix of the fine
 observer's bits, then **the observers' optimal error covariances nest,
 $\Sigma_2^\star\preceq\Sigma_1^\star$** (`thm:multiobs`); under Assumption SR nesting also
-suffices. (Without the corner rates the statement is false: Paper III's §multiobs, consequence
+suffices. (Without the corner rates the statement is false: Paper III's `sec:multiobs`, consequence
 (iii), is served by two independent codes at a higher total rate; VI-39, VI-40.) This condition depends on $D_1$
 and $D_2$.
 
@@ -175,7 +175,9 @@ The paper always had it right.
   exists.**
 - Achievability, for $k=2$ as for $k\ge3$: Assumption SR, **unchecked** (FRONTIER G12b).
 
-**Verification incident (VI-5).** Two errors were caught before publication:
+**Verification incident (VI-5).** One error was caught before publication, (b) below. A
+citation was also flagged, but VI-5's replacement readings proved unchecked or wrong
+(VI-36 to VI-40), so (a) is not counted as a catch:
 - (a) the citation: Rimoldi's is the finite-alphabet $L$-stage result (VI-5's reading;
   Kostina–Tuncel quote it for two stages, and the $L$-stage form is not checked at the
   source; VI-39);
@@ -276,8 +278,8 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3, VI-32, VI-38 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
-| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
-| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
+| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3] | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40 | max-det corner identity `[predicted]`-grade; region, refinability and rate loss as coding statements `[exploratory]` |
+| B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 | corner identity `[predicted]`-grade; region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13, VI-32, VI-38 | `[predicted]`-grade; floor `[demonstrated]` |
 | B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38 | reduction `[exploratory]`; corrected $V$ `[exploratory]` pending CI + custody; old constant `[refuted]` |
 
