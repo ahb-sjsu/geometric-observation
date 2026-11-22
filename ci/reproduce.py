@@ -192,6 +192,7 @@ REPRODUCIBLE = [
     ("verify_paper3_rate_identity.py", None,          "PAPER3-rate-identity.json",  "PAPER3RATE_supported"),
     # FT.7 net (T1 addendum on moving read kernels); file mode; about 7 min; read by VI-52.
     ("verify_ft7_moving_kernel.py",   None,          "FT7-moving-kernel-net.json", "FT7NET_supported"),
+    ("verify_ft7_exact.py",           None,          "FT7-exact-net.json",         "FT7EXACT_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
