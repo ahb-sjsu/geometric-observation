@@ -7,7 +7,7 @@ author's request of 2026-11-22 ("write the FT.7 custody table"). It records what
 ## Claim
 
 The numbered statements of the T1 addendum on moving read kernels,
-`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.5), by label. The source is
+`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.6), by label. The source is
 $T\sim N(0,\Sigma)$ in $\mathbb R^p$, $\Sigma\succ0$. The consumer acts through a $C^3$ map
 $g:\mathbb R^p\to\mathbb R^k$ with three bounded derivatives, loss
 $\|g(\hat x)-g(x)\|^2$, local read metric $P_C(x)=J_g(x)^{\mathsf T}J_g(x)$ and
@@ -107,7 +107,8 @@ selections on further review notes passed on by the author on 2026-11-22.
 
 Version 0.5 (the same day) applies VI-56: the example of a curved image is now
 $(x_1,\sin x_1)$; `prop:gapex`'s proof states both sides of the expansion with their
-ranges; $H_a$ is renamed $\Theta_a$; wording.
+ranges; a new section "Main results" in v0.6 states the headline result first and calls
+Theorem A a step toward it, with no change to any statement or proof; $H_a$ is renamed $\Theta_a$; wording.
 
 `thm:A` imports one result: the second-order remainder
 $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (its theorem

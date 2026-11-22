@@ -22,7 +22,7 @@
 \title{The Price of a Fixed Weight When the Read Kernel Moves:\\ Fixed-Covariance
 Gaussian Test Channels\\ (T1 addendum, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v0.5, 2026-11-22. Drafted by
+\thanks{Working note of the Observation Theory program, v0.6, 2026-11-22. Drafted by
 Claude (Anthropic) at the author's request. The scope follows review notes of
 2026-11-21 that the author passed on, which also gave the example of
 Section~\ref{sec:example}. Theorems~\ref{thm:sharp} and \ref{thm:reduce}, Propositions~\ref{prop:exact}
@@ -106,6 +106,27 @@ Since $s\le\tr\Sigma$, this is at most $Ks^2$ with
 K=\tfrac74M_2^2+2M_1M_3+\tfrac{\sqrt5}2M_2M_3(\tr\Sigma)^{1/2}+\tfrac5{12}M_3^2\tr\Sigma .
 \end{equation}
 
+\section{Main results}
+
+The main result is the rate of the fixed-covariance class to within a vanishing term. Let
+$q=\operatorname{rank}Q\ge1$ and let ${\det}^{+}$ denote the product of the nonzero
+eigenvalues. Then (Theorems~\ref{thm:sharp} and~\ref{thm:reduce})
+\[
+\Rfix(D)=\tfrac q2\log\frac qD+\tfrac12\log{\det}^{+}\bigl(\Sigma^{1/2}Q\Sigma^{1/2}\bigr)
++O(D)\qquad(D\to0).
+\]
+When $g$ has a measurable right inverse on a closed convex image in $\R^k$ and its output
+has a density, finite differential entropy and a finite positive definite covariance,
+$\RC$ is the output's rate--distortion function, and (Corollary~\ref{cor:gapq})
+\[
+\Rfix(D)-\RC(D)=\tfrac{q-k}2\log\frac1D+O(1).
+\]
+For the example $x_1+a\sin x_2$ the $O(1)$ term is a constant plus $O(D)$
+(Proposition~\ref{prop:gapex}). Theorem~\ref{thm:A}, which comes first in the text, is a
+step toward these: it gives the coefficient for $q=p$ with looser constants, and it
+supplies the compactness argument on which the lower bounds rest. All of these are
+statements about fixed-covariance Gaussian test channels.
+
 \section{Kernel geometry}
 
 The picture is this. The level sets of $g$ are the fibers the consumer cannot tell apart.
@@ -133,7 +154,7 @@ $q\ge r$, and $q=r$ means that the kernels $\ker J_g(T)$ agree almost surely: ea
 contains $\ker Q$ and has the same dimension. We say the kernel \emph{moves} when
 $q>r$. This is geometry only. It says nothing yet about rates.
 
-\section{The fixed-covariance rate when $Q$ has full rank}
+\section{A first step: the coefficient when $Q$ has full rank}
 
 \begin{theorem}[Fixed-covariance channels pay for every direction]\label{thm:A}
 Suppose $Q\succ0$, let $\lambda=\lmin(Q)$, let $K$ be any positive constant not less than the value in \eqref{eq:K} (the remainder
