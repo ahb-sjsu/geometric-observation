@@ -1,14 +1,13 @@
 """C3 net for the T1 addendum on consumers whose read kernel moves (FRONTIER FT.7).
 
-Claims checked (paper/t1-moving-kernel/t1-moving-kernel.tex):
-  Theorem A  For a consumer map g with bounded derivatives and Q = E P_C(T) positive definite,
-             every fixed-covariance Gaussian test channel T = That + Z, Z ~ N(0, Delta)
-             independent of That, with small Delta has tr(Delta) <= 2 E loss / lambda_min(Q);
-             so its rate is at least (p/2) ln(1/D) - c at consumer loss D.
-  Prop. B    R_C(D) = R_U(D) for U = g(T) when g has a section on a closed convex image, so
-             R_C(D) = (r/2) ln(1/D) + O(1) for an r-dimensional output.
-  Cor. C     The fixed-weight excess R_fix(D) - R_C(D) grows like ((rank Q - r)/2) ln(1/D);
-             for a fixed kernel (rank Q = r) it stays bounded.
+Claims checked (paper/t1-moving-kernel/t1-moving-kernel.tex, by label):
+  thm:A   For a consumer map g with bounded derivatives and Q = E P_C(T) positive definite,
+          every fixed-covariance Gaussian test channel T = That + Z, Z ~ N(0, Delta)
+          independent of That, with small Delta has tr(Delta) <= 2 E loss / lambda_min(Q)
+          (part a); so its rate is at least (p/2) ln(1/D) - c at consumer loss D (part c);
+          and (p/2) ln(1/D) + c2 is attained (part d).
+  prop:B  R_C(D) = R_U(D) for U = g(T) when g has a section on a closed convex image.
+  cor:C   The gap R_fixed(D) - R_C(D) is ((p - k)/2) ln(1/D) + O(1) when Q is full rank.
 
 Instances (source N(0, I_p)):
   I1  p = 2, g(x) = sqrt(1 + |x|^2)                         r = 1, rank Q = 2 (moving)
@@ -16,26 +15,33 @@ Instances (source N(0, I_p)):
   I3  p = 3, g(x) = (sqrt(1 + x1^2 + x2^2), x3)             r = 2, rank Q = 3 (moving)
   I4  p = 2, g(x) = x1 + 0.3 sin(x1)                        r = 1, rank Q = 1 (control: fixed)
   I5  p = 2, g(x) = x1 + sin(x2)                            r = 1, rank Q = 2 (moving)
-      I5 is the theorem-faithful instance (the author's, 2026-11-21): three bounded
-      derivatives, det Q = (1/2)(1 - 1/e)^2, section s(u) = (u, 0), image R. Its R_fix is
-      computed over the family Delta = t Q^{-1} (first-order optimal), so it is an upper
-      bound on the least fixed-weight rate; Theorem A (c1) is the matching lower bound.
+      I5 is the theorem-faithful instance (the author, 2026-11-21): three bounded
+      derivatives, det Q = (1/2)(1 - 1/e)^2, section s(u) = (u, 0), image R.
 
-Checks:
-  c1  Theorem A's inequality tr(Delta) <= 2 L(Delta) / lambda_min(Q) on random small Delta
-      (I1-I3).
-  c2  The slope of the fixed-weight rate R_fix(D) in ln(1/D) over D in [1e-5, 1e-2] is
-      rank(Q)/2 (within 0.03), for all four instances; equivalently the excess over R_C has
-      slope (rank Q - r)/2: 1/2, 1, 1/2 for I1-I3, 1/2 for I5, and 0 for the control I4.
-  c3  The section code: g(s(proj(u))) = proj(u) on the image, and its consumer loss equals the
-      projected error, never above the unprojected error (I1-I4).
-  c4  The excess bracket [R_fix - R_U upper, R_fix - R_U lower] at D = 1e-5, reported, with
-      R_U bracketed by the Shannon lower bound and the Gaussian upper bound (always passes if
-      finite; it carries the numbers the note quotes).
+What each check can and cannot fail on (the review VI-52 found that the slope checks of
+the first version could not fail if thm:A(c) were false):
+  c1  thm:A(a): tr(Delta) <= 2 L(Delta) / lambda_min(Q), on random small Delta and on
+      Delta nearly rank one along the least eigenvector of Q, where the bound is tight
+      (ratio 1/2). I1-I3, I5. For I5 the proved range tr(Delta) <= s_0 is recorded.
+  c2  The rate of a hand-picked ACHIEVABLE family (I1, I2 isotropic; I3 diag(a, a, b);
+      I4 diag(d, 1); I5 t Q^{-1}) has slope rank(Q)/2 in ln(1/D). This is an upper bound
+      on R_fixed. It tests thm:A(d) and the second-order exactness of T1. It does NOT test
+      the lower bound thm:A(c). For the control I4 an upper bound is the right direction.
+  c3  The section code: g(s(proj(u))) = proj(u), evaluated with the consumer function
+      itself, and its consumer loss never above the unprojected error. I1-I5.
+  c4  The excess bracket at D = 1e-5 is finite (it carries the numbers the note quotes).
+  c5  I5 only, the lower bound: the least rate over ALL 2x2 Delta (rotation, anisotropy,
+      scale; a grid and a Nelder-Mead polish) has slope 1 in ln(1/D), is not below the
+      t Q^{-1} family by more than Monte Carlo noise, and is not below the bound of
+      thm:A(c).
 
-Fire test: `--fire` runs four mutants (Theorem A's factor 2 -> 0.5; slopes (rank Q - r)/2
-halved; the control predicted to grow at slope 1/2; the moving kernels predicted bounded) and
-exits 0 only if every mutant fails its check.
+Fire test: `--fire` exits 0 only if every mutant fails its check.
+  m1  thm:A(a) with factor 0.5 instead of 2 (a re-run of c1).
+  m2-m4  wrong predictions compared with measured slopes (tolerance checks only).
+  m5  instrument mutant: the c5 optimiser run on the fixed-kernel consumer
+      g(x) = x1 + sin x1 must NOT return slope 1.
+  m6  instrument mutant: the c5 optimiser run with the loss corrupted to z1^2 (the
+      sin x2 term dropped) must NOT return slope 1.
 
 Output: results/FT7-moving-kernel-net.json (verdict, FT7NET_supported). Seed 20261131.
 """
@@ -230,7 +236,7 @@ def lambda_min_Q(name, rng):
 
 
 # ---------- c1: Theorem A's inequality on random small Delta ----------
-def check_c1(name, lam, rng, factor=2.0, n_delta=60, n_mc=400_000):
+def check_c1(name, lam, rng, factor=2.0, n_delta=60, n_mc=400_000, q=None):
     p = INST[name]["p"]
     loss = INST[name]["loss"]
     worst = -np.inf
@@ -249,7 +255,22 @@ def check_c1(name, lam, rng, factor=2.0, n_delta=60, n_mc=400_000):
         ratio = np.trace(delta) / (factor * L / lam)  # must be <= 1
         worst = max(worst, ratio)
         ok = ok and ratio <= 1.0
-    return ok, float(worst)
+    # adversarial: Delta nearly rank one along the least eigenvector of Q
+    adv = []
+    if q is not None:
+        v = np.linalg.eigh(q)[1][:, 0]
+        for sv in [1e-4, 1e-3, 1e-2]:
+            delta = sv * np.outer(v, v) + 1e-3 * sv * np.eye(p)
+            ch = np.linalg.cholesky(np.eye(p) - delta)
+            cz = np.linalg.cholesky(delta)
+            w1 = rng.standard_normal((n_mc, p))
+            w2 = rng.standard_normal((n_mc, p))
+            L = float(np.mean(loss(w1 @ ch.T, w2 @ cz.T)))
+            ratio = np.trace(delta) / (factor * L / lam)
+            adv.append(float(ratio))
+            worst = max(worst, ratio)
+            ok = ok and ratio <= 1.0
+    return ok, float(worst), adv
 
 
 # ---------- c3: the section code ----------
@@ -280,7 +301,8 @@ def check_c3(name, rng, n=200_000):
     elif name == "I5":
         u = x[:, 0] + np.sin(x[:, 1])
         uh = u + 0.3 * rng.standard_normal(n)
-        gu = uh + np.sin(np.zeros(n))  # g(s(uh)) with s(u) = (u, 0)
+        sec = np.stack([uh, np.zeros(n)], axis=1)  # s(u) = (u, 0)
+        gu = sec[:, 0] + np.sin(sec[:, 1])  # the consumer evaluated on the section
         lc, lu = (gu - u) ** 2, (uh - u) ** 2
         exact = np.max(np.abs(gu - uh))
     elif name == "I4":
@@ -299,6 +321,67 @@ def check_c3(name, rng, n=200_000):
         exact = np.max(np.abs(gu - uh))
     ok = bool(exact < 1e-9 and np.all(lc <= lu + 1e-12))
     return ok, float(exact), float(np.mean(lc)), float(np.mean(lu))
+
+
+# ---------- c5: least rate over all 2x2 Delta ----------
+C5_DS = [1e-2, 1e-3, 1e-4, 1e-5]
+C5_N = 200_000
+
+
+def loss_fixed_kernel(xh, z):
+    return (z[:, 0] + np.sin(xh[:, 0] + z[:, 0]) - np.sin(xh[:, 0])) ** 2
+
+
+def loss_corrupted(xh, z):
+    return z[:, 0] ** 2
+
+
+def full_min_rate(loss, D, w1, w2):
+    """min (1/2) ln det(Delta^{-1}) over 0 < Delta <= I (p = 2) with E loss <= D.
+    Delta = R(theta) diag(d1, d2) R(theta)^T, d = min(t exp(+-lr/2), 0.999)."""
+    def delta_of(theta, lr, t):
+        d1, d2 = min(t * math.exp(lr / 2), 0.999), min(t * math.exp(-lr / 2), 0.999)
+        c, sn = math.cos(theta), math.sin(theta)
+        r = np.array([[c, -sn], [sn, c]])
+        return r @ np.diag([d1, d2]) @ r.T, d1, d2
+
+    def L(theta, lr, t):
+        delta, _, _ = delta_of(theta, lr, t)
+        ch = np.linalg.cholesky(np.eye(2) - delta)
+        cz = np.linalg.cholesky(delta)
+        return float(np.mean(loss(w1 @ ch.T, w2 @ cz.T)))
+
+    def rate(x):
+        theta, lr = x
+        if abs(lr) > 24:
+            return 1e9
+        lo, hi = 1e-12, 0.999
+        if L(theta, lr, hi) <= D:
+            t = hi
+        elif L(theta, lr, lo) > D:
+            return 1e9
+        else:
+            t = math.exp(optimize.brentq(lambda u: L(theta, lr, math.exp(u)) - D,
+                                         math.log(lo), math.log(hi), xtol=1e-5))
+        _, d1, d2 = delta_of(theta, lr, t)
+        return 0.5 * (math.log(1.0 / d1) + math.log(1.0 / d2))
+
+    best, arg = np.inf, None
+    for theta in np.linspace(0, math.pi, 8, endpoint=False):
+        for lr in [-16, -12, -8, -4, 0, 4, 8, 12, 16]:
+            v = rate((theta, lr))
+            if v < best:
+                best, arg = v, (theta, lr)
+    res = optimize.minimize(rate, arg, method="Nelder-Mead",
+                            options={"xatol": 1e-3, "fatol": 1e-5, "maxiter": 120})
+    return float(min(best, res.fun))
+
+
+def c5_slopes(loss, rng):
+    w1 = rng.standard_normal((C5_N, 2))
+    w2 = rng.standard_normal((C5_N, 2))
+    rates = [full_min_rate(loss, D, w1, w2) for D in C5_DS]
+    return rates, slope(C5_DS, rates)
 
 
 def slope(ds, rates):
@@ -331,8 +414,9 @@ def run(fire=False):
                 "predicted_slope_excess": (rank_q - info["r"]) / 2.0}
         verdict[f"c2_{name}_slope"] = abs(s_fix - pred) <= SLOPE_TOL
         if info["moving"]:
-            ok1, worst = check_c1(name, lam, rng)
+            ok1, worst, adv = check_c1(name, lam, rng, q=q)
             inst["c1_worst_ratio"] = worst
+            inst["c1_adversarial_ratios"] = adv
             verdict[f"c1_{name}_thmA"] = ok1
         ok3, exact, lc, lu = check_c3(name, rng)
         inst["c3"] = {"section_max_error": exact, "loss_section_code": lc, "loss_unprojected": lu}
@@ -340,6 +424,19 @@ def run(fire=False):
         last = rows[-1]
         inst["c4_excess_bracket_at_1e-5"] = [last["excess_lower"], last["excess_upper"]]
         verdict[f"c4_{name}_finite"] = bool(np.isfinite(last["excess_lower"]) and np.isfinite(last["excess_upper"]))
+        if name == "I5":
+            rates, s5 = c5_slopes(loss_I5, rng)
+            fam = {r["D"]: r["R_fix"] for r in rows}
+            thm_a = [math.log(2 * lam / (2 * D)) for D in C5_DS]  # (p/2) ln(p lam/(2D)), p = 2, Sigma = I
+            # K of eq. (K) in the note for g_1: M1 = sqrt 2, M2 = M3 = 1, tr Sigma = 2
+            big_k = 1.75 + 2 * math.sqrt(2) + (math.sqrt(5) / 2) * math.sqrt(2) + (5 / 12) * 2
+            inst["c5"] = {"D": C5_DS, "min_rate_all_Delta": rates, "slope": s5,
+                          "family_rate": [fam[D] for D in C5_DS], "thmA_c_bound": thm_a,
+                          "K": big_k, "s0": lam / (2 * big_k)}
+            verdict["c5_I5_slope"] = abs(s5 - 1.0) <= SLOPE_TOL
+            verdict["c5_I5_not_below_family"] = all(m >= fam[D] - 0.02 for m, D in zip(rates, C5_DS))
+            verdict["c5_I5_above_thmA_bound"] = all(m >= b for m, b in zip(rates, thm_a))
+            print(f"I5 c5: min over all Delta {[round(x, 4) for x in rates]}, slope {s5:.4f}", flush=True)
         out["instances"][name] = inst
         print(f"{name}: rank Q {rank_q}, lam_min {lam:.4f}, slope R_fix {s_fix:.4f} (pred {pred}), "
               f"excess at 1e-5 in [{last['excess_lower']:.4f}, {last['excess_upper']:.4f}]", flush=True)
@@ -363,7 +460,8 @@ def fire():
     caught = {}
     # m1: Theorem A with factor 0.5 instead of 2
     caught["m1_thmA_factor_half"] = not all(
-        check_c1(nm, out["instances"][nm]["lambda_min_Q"], rng, factor=0.5)[0] for nm in ["I1", "I2", "I3", "I5"])
+        check_c1(nm, out["instances"][nm]["lambda_min_Q"], rng, factor=0.5,
+                 q=np.array(out["instances"][nm]["Q"]))[0] for nm in ["I1", "I2", "I3", "I5"])
     # m2: excess slopes halved, (rank Q - r)/4
     caught["m2_slopes_halved"] = any(
         abs(out["instances"][nm]["slope_excess"] - (out["instances"][nm]["rank_Q"] - INST[nm]["r"]) / 4.0) > SLOPE_TOL
@@ -372,6 +470,12 @@ def fire():
     caught["m3_control_grows"] = abs(out["instances"]["I4"]["slope_excess"] - 0.5) > SLOPE_TOL
     # m4: the moving kernels predicted bounded (rank Q = r)
     caught["m4_moving_bounded"] = all(abs(out["instances"][nm]["slope_excess"]) > SLOPE_TOL for nm in ["I1", "I2", "I3", "I5"])
+    # m5, m6: instrument mutants through the c5 optimiser
+    _, s_fk = c5_slopes(loss_fixed_kernel, rng)
+    caught["m5_fixed_kernel_through_c5"] = abs(s_fk - 1.0) > SLOPE_TOL
+    _, s_co = c5_slopes(loss_corrupted, rng)
+    caught["m6_corrupted_loss_through_c5"] = abs(s_co - 1.0) > SLOPE_TOL
+    print("m5 slope", round(s_fk, 4), "m6 slope", round(s_co, 4))
     print("fire:", caught)
     return all(caught.values())
 

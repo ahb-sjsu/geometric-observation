@@ -190,6 +190,8 @@ REPRODUCIBLE = [
     # The harness writes its JSON to results/ rather than printing it, so its sentinel is None
     # (file mode, below); it is not edited for CI, since its recorded sha256 must keep matching.
     ("verify_paper3_rate_identity.py", None,          "PAPER3-rate-identity.json",  "PAPER3RATE_supported"),
+    # FT.7 net (T1 addendum on moving read kernels); file mode; about 7 min; read by VI-52.
+    ("verify_ft7_moving_kernel.py",   None,          "FT7-moving-kernel-net.json", "FT7NET_supported"),
     # NOTE: go14_convexity.py (GO-P-2026-079) is NOT in the re-run tier.
     # Its s5 certified-width gates race the L-BFGS-B stopping point,
     # which is BLAS-dependent (ubuntu runner: rn 5.8e-8 -> width 2.0e-5
@@ -433,7 +435,8 @@ for harness, sentinel, jname, flag in REPRODUCIBLE:
             aside = jpath + ".committed"
             os.replace(jpath, aside)
             try:
-                run(f"experiments/{harness}")
+                # File-mode nets may run for minutes (the FT.7 net takes about 7 on a laptop).
+                run(f"experiments/{harness}", timeout=1800)
                 if not os.path.exists(jpath):
                     raise RuntimeError(f"{harness} wrote no results/{jname}")
                 fresh = json.load(open(jpath))

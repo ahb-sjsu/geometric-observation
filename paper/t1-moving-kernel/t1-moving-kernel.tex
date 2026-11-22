@@ -1,0 +1,368 @@
+\documentclass[11pt,onecolumn]{IEEEtran}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\PC}{P_{\mathcal C}}
+\newcommand{\lmin}{\lambda_{\min}}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\Rfix}{R_{\mathrm{fixed}}}
+\newcommand{\RC}{R_{\mathcal C}}
+
+\begin{document}
+
+\title{The Price of a Fixed Weight When the Read Kernel Moves\\ (T1 addendum, working note)}
+\author{Andrew~H.~Bond%
+\thanks{Working note of the Observation Theory program, v0.1, 2026-11-21. Drafted by
+Claude (Anthropic) at the author's request. The author set the scope in review notes of
+2026-11-21 and supplied the example of Section~\ref{sec:example}. The author has not yet
+read the proofs. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
+addendum.}\\
+\emph{Senior Member, IEEE}\\
+Department of Computer Engineering, San Jos\'e State University\\
+\texttt{andrew.bond@sjsu.edu} \textbar\ ORCID: 0009-0003-2599-6158}
+\maketitle
+
+\begin{abstract}
+The T1 note learns one quadratic weight for a consumer and serves codes built for that
+weight. That is the right object when the directions the consumer ignores are the same at
+every source point. This addendum treats a consumer whose ignored directions change with
+the point. The case proved here is the one in which the averaged weight has full rank,
+the consumer's image is closed and convex, and its output has a regular law. For the
+Gaussian test channels that T1 covers, the rate needed to meet a small consumer loss then
+exceeds the consumer's own rate--distortion function by a term that grows like the
+logarithm of the inverse loss. Its coefficient is half the number of source dimensions
+beyond the consumer's output dimension. A right inverse of the consumer map turns the
+consumer's rate--distortion function into that of its output. These are statements about
+test channels and information rates, not about every code. What a learner needs in order
+to obtain the right inverse is left to a separate item.
+\end{abstract}
+
+\section{Setting}\label{sec:setting}
+
+Logarithms are natural and rates are in nats. The source symbol is $T\sim N(0,\Sigma)$ in
+$\R^p$ with $\Sigma\succ0$. As in \cite{t1}, a consumer acts through its weighted map
+$g:\R^p\to\R^k$, with the loss
+\[
+\ell_{\mathcal C}(x,\hat x)=\|g(\hat x)-g(x)\|^2 ,
+\]
+the local read metric $\PC(x)=J_g(x)^{\mathsf T}J_g(x)$, and $Q=\E\,\PC(T)$. We assume
+throughout that $g$ is $C^3$ with $M_j=\sup_x\|D^jg(x)\|<\infty$ for $j=1,2,3$. Write
+$q=\operatorname{rank}Q$.
+
+\textbf{Fixed-covariance test channels.} For $0\prec\Delta\preceq\Sigma$ let
+$\hat T\sim N(0,\Sigma-\Delta)$ and $Z\sim N(0,\Delta)$ be independent and $T=\hat T+Z$.
+This is the test channel of the Gaussian frontier codes of the series, whatever weight
+they are built for: its error covariance does not depend on the source point. Its rate
+and consumer loss are
+\[
+r(\Delta)=\tfrac12\log\det(\Sigma\Delta^{-1}),\qquad
+L(\Delta)=\E\,\ell_{\mathcal C}(T,\hat T),
+\]
+and we define
+\[
+\Rfix(D)=\inf\{\,r(\Delta):0\prec\Delta\preceq\Sigma,\ L(\Delta)\le D\,\}.
+\]
+This is a statement about test channels. T1's coding theorem carries a test channel's
+rate and consumer loss to codes in the memoryless setting \cite[Theorem ``From test
+channels to codes'']{t1}. It does not show that every code chosen from a weight is bounded
+below by $\Rfix$, and this note does not claim that.
+
+\textbf{The consumer's own rate.} Let
+\[
+\RC(D)=\inf\{\,I(T;\hat T):\E\,\ell_{\mathcal C}(T,\hat T)\le D\,\},
+\]
+the infimum over all conditional laws of $\hat T\in\R^p$ given $T$.
+
+\textbf{What T1 supplies.} For every $0\prec\Delta\preceq\Sigma$, with $s=\tr\Delta$,
+\cite[Theorem ``The test channel is exact to second order'']{t1} gives
+$|L(\Delta)-\tr(Q\Delta)|\le\rho(\Delta)\le\rho_b(\Delta)$, where T1 defines and its
+proof derives
+\[
+\rho_b(\Delta)=\bigl(\tfrac74M_2^2+2M_1M_3\bigr)s^2+\tfrac{\sqrt5}2M_2M_3s^{5/2}
++\tfrac5{12}M_3^2s^3 .
+\]
+Since $s\le\tr\Sigma$, this is at most $Ks^2$ with
+\begin{equation}\label{eq:K}
+K=\tfrac74M_2^2+2M_1M_3+\tfrac{\sqrt5}2M_2M_3(\tr\Sigma)^{1/2}+\tfrac5{12}M_3^2\tr\Sigma .
+\end{equation}
+
+\section{Kernel geometry}
+
+\begin{lemma}\label{lem:kernel}
+$\ker Q=\{v:J_g(T)v=0\ \text{almost surely}\}$.
+\end{lemma}
+
+\begin{proof}
+$v^{\mathsf T}Qv=\E\|J_g(T)v\|^2$, which is zero exactly when $J_g(T)v=0$ almost surely.
+\end{proof}
+
+So $q$ counts the directions that the consumer reads at some source points, and
+$p-q$ the directions it reads at none. If $J_g$ has rank $r$ at almost every point, then
+$q\ge r$, and $q=r$ means that the kernels $\ker J_g(T)$ agree almost surely: each
+contains $\ker Q$ and has the same dimension. We say the kernel \emph{moves} when
+$q>r$. This is geometry only. It says nothing yet about rates.
+
+\section{The fixed-weight rate when $Q$ has full rank}
+
+\begin{theorem}[Fixed-covariance channels pay for every direction]\label{thm:A}
+Suppose $Q\succ0$, let $\lambda=\lmin(Q)$, let $K$ be as in \eqref{eq:K} with $K>0$, and
+let $s_0=\lambda/(2K)$.
+\begin{enumerate}
+\item[(a)] If $0\prec\Delta\preceq\Sigma$ and $\tr\Delta\le s_0$, then
+$\tr\Delta\le 2L(\Delta)/\lambda$.
+\item[(b)] $D_0=\inf\{L(\Delta):0\prec\Delta\preceq\Sigma,\ \tr\Delta\ge s_0\}$ is
+positive (and is $+\infty$ if $s_0>\tr\Sigma$, when the set is empty).
+\item[(c)] For $D<D_0$,
+\[
+\Rfix(D)\ \ge\ \tfrac p2\log\frac{p\lambda}{2D}+\tfrac12\log\det\Sigma .
+\]
+\item[(d)] $\Rfix(D)\le\tfrac p2\log(1/D)+c$ for $D<D_1$, with
+$c=\tfrac12\log\det(\Sigma Q)+\tfrac p2\log(2p)$ and
+$D_1=2p\min\{\lmin(\Sigma)\lambda,\ p/(K(\tr Q^{-1})^2)\}$.
+\end{enumerate}
+Hence $\Rfix(D)=\tfrac p2\log(1/D)+O(1)$ as $D\to0$.
+\end{theorem}
+
+\begin{proof}
+(a) With $s=\tr\Delta\le s_0$,
+$L(\Delta)\ge\tr(Q\Delta)-Ks^2\ge\lambda s-Ks^2\ge\lambda s/2$.
+
+(b) Let $\mathcal K=\{\Delta:0\preceq\Delta\preceq\Sigma,\ \tr\Delta\ge s_0\}$, a compact
+set that contains the set in (b). If it is empty there is nothing to prove. Extend $L$ to singular $\Delta$ by the same
+construction, with $\hat T=(\Sigma-\Delta)^{1/2}W_1$ and $Z=\Delta^{1/2}W_2$ for
+independent standard Gaussian vectors $W_1,W_2$. The matrix square root is continuous on
+positive semidefinite matrices, $g$ is continuous, and
+$\ell_{\mathcal C}(\hat T+Z,\hat T)\le M_1^2\|Z\|^2\le M_1^2\|\Sigma\|\,\|W_2\|^2$, so $L$
+is continuous on $\mathcal K$ by dominated convergence. It remains to show $L>0$ on
+$\mathcal K$. Suppose $L(\Delta)=0$ for some $\Delta\ne0$, and let $V$ and $W$ be the
+ranges of $\Delta$ and $\Sigma-\Delta$. Then $g(\hat t+z)=g(\hat t)$ for almost every
+$(\hat t,z)\in W\times V$, and by continuity for every such pair. Because
+$\Sigma\succ0$, $V+W=\R^p$. Take $x\in\R^p$ and $v\in V$, and write $x=w+v'$ with
+$w\in W$, $v'\in V$. Then $g(x+v)=g(w)=g(x)$. So $g$ is constant along $V$, hence
+$J_g(x)v=0$ for all $x$ and all $v\in V$, and $v^{\mathsf T}Qv=0$ for some $v\ne0$,
+which contradicts $Q\succ0$. A continuous positive function on a compact set has a
+positive minimum, and $D_0$ is at least that minimum.
+
+(c) Let $D<D_0$ and $L(\Delta)\le D$. By (b), $\tr\Delta<s_0$, so by (a)
+$\tr\Delta\le2D/\lambda$. By the inequality of arithmetic and geometric means,
+$\det\Delta\le(\tr\Delta/p)^p\le(2D/(p\lambda))^p$, and
+$r(\Delta)=\tfrac12\log\det\Sigma-\tfrac12\log\det\Delta$.
+
+(d) Take $\Delta_t=tQ^{-1}$. For $t\le\lmin(\Sigma)\lambda$ we have
+$\Delta_t\preceq\Sigma$. Then $\tr(Q\Delta_t)=pt$ and
+$L(\Delta_t)\le pt+K(\tr Q^{-1})^2t^2\le 2pt$ once
+$t\le p/(K(\tr Q^{-1})^2)$. With $t=D/(2p)$ the loss is at most $D$ and
+$r(\Delta_t)=\tfrac12\log\det(\Sigma Q)+\tfrac p2\log(2p/D)$.
+\end{proof}
+
+\begin{remark}[What the theorem does not cover]\label{rem:scope}
+The theorem needs $Q\succ0$. For $q<p$ the analogous statement would have $q$ in place of
+$p$, since a channel may leave the directions of $\ker Q$ undescribed, but
+$\Delta\preceq\Sigma$ couples those directions to the rest unless $\ker Q$ is invariant
+under $\Sigma$, and we do not prove it. The constant $D_0$ comes from a compactness
+argument and is not explicit. The bound is over fixed-covariance Gaussian test channels
+only.
+\end{remark}
+
+\section{The consumer's rate as an output rate}
+
+Let $U=g(T)\in\R^k$ and $\cU=g(\R^p)$. The image $\cU$ is a continuous image of a
+$\sigma$-compact set, so it is $\sigma$-compact and Borel. For a Borel set
+$\mathcal A\subseteq\R^k$ containing $\cU$, let
+\[
+R_U^{\mathcal A}(D)=\inf\{\,I(U;\hat U):\hat U\in\mathcal A\ \text{almost surely},\
+\E\|\hat U-U\|^2\le D\,\},
+\]
+the infimum over conditional laws of $\hat U$ given $U$, and $R_U=R_U^{\R^k}$. Like
+$\RC$, these are informational quantities. This section invokes no coding theorem. To
+carry its conclusions to codes through T1's theorem one would also need
+$\E\|s(\hat U)\|^2<\infty$ for the section $s$ below, which a general measurable section
+does not give.
+
+\begin{proposition}[A section turns the consumer's rate into an output rate]\label{prop:B}
+\begin{enumerate}
+\item[(a)] $\RC(D)\ge R_U^{\cU}(D)\ge R_U(D)$.
+\item[(b)] If there is a measurable $s:\cU\to\R^p$ with $g(s(u))=u$ for all
+$u\in\cU$, then $\RC(D)=R_U^{\cU}(D)$.
+\item[(c)] If moreover $\cU$ is closed and convex, then $\RC(D)=R_U(D)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) For any admissible $\hat T$, the variable $\hat U=g(\hat T)$ takes values in $\cU$
+and $\E\|\hat U-U\|^2=\E\,\ell_{\mathcal C}(T,\hat T)\le D$. Since $U$ is a function of
+$T$ and $\hat U$ of $\hat T$, $I(T;\hat T)\ge I(U;\hat U)\ge R_U^{\cU}(D)$. The second
+inequality holds because $\cU\subseteq\R^k$.
+
+(b) Take any conditional law of $\hat U\in\cU$ given $U$ with
+$\E\|\hat U-U\|^2\le D$, apply it to $U=g(T)$, and set $\hat T=s(\hat U)$. Then
+$\ell_{\mathcal C}(T,\hat T)=\|\hat U-U\|^2$, and $T\to U\to\hat U\to\hat T$ is a Markov
+chain, so $I(T;\hat T)\le I(U;\hat U)$. Taking the infimum gives
+$\RC(D)\le R_U^{\cU}(D)$.
+
+(c) Let $\pi$ be the Euclidean projection onto $\cU$. It does not increase the distance
+to any point of $\cU$, and $U\in\cU$, so for any $\hat U\in\R^k$,
+$\|\pi(\hat U)-U\|\le\|\hat U-U\|$, while $I(U;\pi(\hat U))\le I(U;\hat U)$. Hence
+$R_U^{\cU}(D)\le R_U(D)$.
+\end{proof}
+
+When the image is curved and not convex, (b) still applies and the reproductions must
+stay on the image. Part (c) is what lets unrestricted Euclidean reproductions be used.
+
+The proposition shows that describing the output suffices for a decoder that holds a
+section. The substance of hypothesis (b) is that the decoder holds one, not that one
+exists. It does not show that a learner must learn the level sets of $g$. That would
+need a lower bound of its own.
+
+\begin{corollary}[The rate gap]\label{cor:C}
+Suppose the hypotheses of Theorem~\ref{thm:A} and of Proposition~\ref{prop:B}(c) hold,
+that $U$ has a density with finite differential entropy $h(U)$, and that its covariance
+$K_U$ is finite and positive definite with least eigenvalue $\kappa$. Then for
+$D<\min\{D_0,D_1,k\kappa\}$,
+\[
+\tfrac{p-k}2\log\frac1D+c_-\ \le\ \Rfix(D)-\RC(D)\ \le\ \tfrac{p-k}2\log\frac1D+c_+ ,
+\]
+with
+$c_-=\tfrac p2\log\tfrac{p\lambda}2+\tfrac12\log\det\Sigma-\tfrac12\log\det K_U-\tfrac k2\log k$
+and
+$c_+=c+\tfrac k2\log\tfrac{2\pi e}k-h(U)$, where $c$ is the constant of
+Theorem~\ref{thm:A}(d).
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{prop:B}(c), $\RC=R_U$. The Shannon lower bound gives
+$R_U(D)\ge h(U)-\tfrac k2\log(2\pi eD/k)$. A Gaussian source has the largest
+rate--distortion function among sources of a given covariance, and for $D\le k\kappa$
+the Gaussian value is $\tfrac12\log\det K_U+\tfrac k2\log(k/D)$
+\cite{coverthomas}. Combine these with Theorem~\ref{thm:A}(c) and (d).
+\end{proof}
+
+The corollary is stated with the output dimension $k$. When $J_g$ has rank $k$ at almost
+every point, $k$ is the pointwise rank $r$, and with $q=p$ the gap is
+$\tfrac{q-r}2\log(1/D)+O(1)$. The hypotheses on the law of $U$ are assumptions of the
+corollary. Bounded derivatives of $g$ do not imply them.
+
+\begin{remark}[A fixed kernel]
+When $q=r$ the kernel does not move, and T1's remark on read operators of lower rank
+treats that case under its sandwich assumption. This note proves nothing about it:
+Theorem~\ref{thm:A} needs $q=p$, and a fixed kernel alone does not give the lower
+quadratic sandwich on which T1's bounded price rests.
+\end{remark}
+
+\section{An example}\label{sec:example}
+
+Let $p=2$, $\Sigma=I$, and
+\[
+g_a(x_1,x_2)=x_1+a\sin x_2,\qquad a\ne0 .
+\]
+Its derivatives are bounded: $M_1\le(1+a^2)^{1/2}$ and $M_2,M_3\le|a|$. The Jacobian
+$(1,\ a\cos x_2)$ has rank one everywhere and its kernel turns with $x_2$. With
+$\E\cos X_2=e^{-1/2}$ and $\E\cos^2X_2=\tfrac12(1+e^{-2})$,
+\[
+Q=\begin{pmatrix}1&ae^{-1/2}\\ ae^{-1/2}&\tfrac{a^2}2(1+e^{-2})\end{pmatrix},\qquad
+\det Q=\tfrac{a^2}2(1-e^{-1})^2>0 .
+\]
+So $q=2$ and $r=k=1$. The image is $\R$, which is closed and convex, and $s(u)=(u,0)$
+is a section. The output $U=X_1+a\sin X_2$ is a Gaussian variable plus an independent
+bounded one, so it has a smooth density, finite differential entropy, and variance
+$1+\tfrac{a^2}2(1-e^{-2})$. Corollary~\ref{cor:C} applies and the gap is
+$\tfrac12\log(1/D)+O(1)$.
+
+\textbf{Numerical check.} The script
+\texttt{experiments/verify\_ft7\_moving\_kernel.py} (seed 20261131, output
+\texttt{results/FT7-moving-kernel-net.json}) works at $a=1$, by Monte Carlo with common
+random numbers. It makes three kinds of check, and they test different things.
+
+\emph{The lower bound.} For $g_1$ the script minimizes the rate over all $2\times2$
+covariances $\Delta$ (rotation, anisotropy and scale) subject to the loss constraint. At
+$D=10^{-2},10^{-3},10^{-4},10^{-5}$ the minimum is $4.485$, $6.794$, $9.097$ and
+$11.400$ nats, with slope $1.0009$ in $\log(1/D)$ against $p/2=1$. It stays above the
+bound of Theorem~\ref{thm:A}(c), which is $2.636$, $4.938$, $7.241$ and $9.544$. The
+inequality of Theorem~\ref{thm:A}(a) is checked on random $\Delta$ and on $\Delta$
+nearly of rank one along the least eigenvector of $Q$, where it is tight: the ratio
+$\lambda\tr\Delta/(2L)$ is between $0.494$ and $0.498$ on those cases, against the bound
+$1$. Here $K=6.993$ and $s_0=0.0100$, and most of the sampled range
+$\tr\Delta\in[10^{-4},0.03]$ lies beyond $s_0$, so the check reaches past what part (a)
+proves.
+
+\emph{The upper bound.} The family $\Delta=tQ^{-1}$ of part (d) gives $4.489$, $6.798$,
+$9.101$ and $11.403$ nats at the same four values of $D$. The minimum over all $\Delta$
+is within $0.004$ of it, which is Monte Carlo noise between two samples. Over
+$D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ it exceeds the
+bracket for $R_U$ by between $5.4672$ and $5.4676$ nats, where
+$\tfrac12\log(1/D)=5.756$.
+
+\emph{Other consumers, upper bounds only.} For three smooth radial consumers the script
+evaluates one hand-picked family each, and finds slopes $1.0002$, $1.4995$ and $1.5001$
+against $1$, $1.5$ and $1.5$. These are rates of achievable families. They test part
+(d) and T1's second-order statement, not the lower bound. A control with a fixed kernel,
+$g(x)=x_1+0.3\sin x_1$, has slope $0.5000$ and an excess between $0.004$ and $0.014$
+nats; for a control an upper bound is the right direction.
+
+The script's fire test has six mutants. Two run the full minimization on a changed
+instrument, a fixed-kernel consumer and a loss with the $\sin x_2$ term removed, and
+require the slope check to fail. The other four change a predicted number.
+
+\section{What is not claimed}
+
+\textbf{Codes.} The lower bound is for fixed-covariance Gaussian test channels, not for
+every code built from a weight.
+
+\textbf{Learning.} Proposition~\ref{prop:B} assumes the decoder holds a section. How a
+learner obtains one from queries, and at what cost, depends on the query model: the
+noise, the precision, the calibration message, and the number of queries per served
+symbol. For the family $g_a$ with only $a$ unknown, one exact query at $(0,\pi/2)$
+returns $a$, whatever $D$ is. So any growth of the query cost as $D\to0$ has to come
+from noise, limited precision, or the size of the consumer class. That question is a
+separate item of the program and is not treated here.
+
+\textbf{Prior work.} The best code for a locally quadratic loss, as opposed to a constant
+weight, is the subject of the high-resolution theory of non-difference distortion
+measures \cite{linderzamir,linderzamirzeger}. We could not obtain those two papers and
+have not read them. Quantization judged by the error of a downstream function is studied
+as functional quantization by Misra, Goyal and Varshney \cite{misra}. We read the first
+half of its arXiv version, through an automated summary and not line by line. Its setting
+is distributed: each sensor quantizes its own coordinate with a scalar quantizer, and the
+loss is the squared error of the function. It remarks that an encoder which knows the
+function can do no better than compute it and encode the result, which is the idea of
+Proposition~\ref{prop:B}; the proposition adds the role of the decoder's section and of a
+curved image. Its comparisons with ordinary quantizers in that setting show the same
+slope in rate and a different constant, and a gap that grows with the number of sensors.
+The growing gap here is of another kind: it is in rate at a fixed small loss, for vector
+test channels whose error covariance cannot depend on the source point. We did not read
+its section on intervals where the function is insensitive, which may be closer. This
+note therefore makes no claim of priority. What the note adds to T1 is the comparison: when $Q$ has full rank
+and the consumer reads fewer directions at each point, the fixed-covariance Gaussian test
+channels behind the codes T1 serves need a rate that exceeds $\RC$ by a growing term.
+
+\begin{thebibliography}{9}
+\bibitem{t1} A. H. Bond, ``Learn then serve: Recovering a consumer's read operator and
+paying for it'' (T1, working note, v4.1, 2026-11-18),
+\texttt{paper/t1-learn-then-serve}.
+\bibitem{coverthomas} T. M. Cover and J. A. Thomas, \emph{Elements of Information
+Theory}, 2nd ed. Wiley, 2006, ch.~10.
+% verify the chapter's statements of the Shannon lower bound and the Gaussian upper bound on final
+\bibitem{linderzamir} T. Linder and R. Zamir, ``High-resolution source coding
+for non-difference distortion measures: The rate-distortion function,''
+\emph{IEEE Trans. Inf. Theory}, vol.~45, no.~2, pp.~533--547, 1999.
+% Bibliographic data from DBLP; not read at first hand.
+\bibitem{linderzamirzeger} T. Linder, R. Zamir, and K. Zeger, ``High-resolution source
+coding for non-difference distortion measures: Multidimensional companding,''
+\emph{IEEE Trans. Inf. Theory}, vol.~45, no.~2, pp.~548--561, 1999.
+% Pages from a search result's reading of the PDF header; not read at first hand.
+\bibitem{misra} V. Misra, V. K. Goyal, and L. R. Varshney, ``Distributed scalar
+quantization for computing: High-resolution analysis and extensions,''
+\emph{IEEE Trans. Inf. Theory}, vol.~57, no.~8, pp.~5298--5325, 2011.
+% Bibliographic data from a web search (BU and MIT repository records, arXiv:0811.3617).
+\end{thebibliography}
+
+\end{document}
