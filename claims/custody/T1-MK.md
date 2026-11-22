@@ -7,7 +7,7 @@ author's request of 2026-11-22 ("write the FT.7 custody table"). It records what
 ## Claim
 
 The numbered statements of the T1 addendum on moving read kernels,
-`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.4), by label. The source is
+`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.5), by label. The source is
 $T\sim N(0,\Sigma)$ in $\mathbb R^p$, $\Sigma\succ0$. The consumer acts through a $C^3$ map
 $g:\mathbb R^p\to\mathbb R^k$ with three bounded derivatives, loss
 $\|g(\hat x)-g(x)\|^2$, local read metric $P_C(x)=J_g(x)^{\mathsf T}J_g(x)$ and
@@ -18,8 +18,8 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
   is $T=\hat T+Z$ with $Z\sim N(0,\Delta)$ independent of $\hat T$; its rate is
   $\tfrac12\log\det(\Sigma\Delta^{-1})$ and its consumer loss is $L(\Delta)$.
   $R_{\rm fixed}(D)$ is the least rate over such $\Delta$ with $L(\Delta)\le D$. Suppose
-  $Q\succ0$, with $\lambda=\lambda_{\min}(Q)$, $K$ the constant of the note's `eq:K` with
-  $K>0$, and $s_0=\lambda/(2K)$.
+  $Q\succ0$, with $\lambda=\lambda_{\min}(Q)$, $K$ any positive constant not less than the value of the note's `eq:K`,
+  and $s_0=\lambda/(2K)$.
   - (a) If $0\prec\Delta\preceq\Sigma$ and $\operatorname{tr}\Delta\le s_0$, then
     $\operatorname{tr}\Delta\le2L(\Delta)/\lambda$.
   - (b) $D_0=\inf\{L(\Delta):0\prec\Delta\preceq\Sigma,\ \operatorname{tr}\Delta\ge s_0\}$
@@ -59,28 +59,29 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
 - **`prop:exact`**, for that example with $0\preceq\Delta\preceq I$ and $v=d_{22}$:
   (a) $L(\Delta)=d_{11}+2ae^{-1/2}d_{12}+a^2F(v)$ with
   $F(v)=1-e^{-v/2}+e^{-2}(e^{3v/2}-\tfrac12(1+e^{2v}))$;
-  (b) $F$ is concave on $[0,1]$, so $L(\Delta)\ge\operatorname{tr}(H_a\Delta)\ge\mu\operatorname{tr}\Delta$
-  with $\mu=\lambda_{\min}(H_a)>0$; (c) $D_0\ge\mu s_0$.
+  (b) $F$ is concave on $[0,1]$, so $L(\Delta)\ge\operatorname{tr}(\Theta_a\Delta)\ge\mu\operatorname{tr}\Delta$
+  with $\mu=\lambda_{\min}(\Theta_a)>0$; (c) $D_0\ge\mu s_0$.
 - **`prop:gapex`**, for that example: $\mathrm{SLB}(D)\le R_C(D)\le\mathrm{SLB}(D)+\tfrac12\log(1+D)$
   with $\mathrm{SLB}(D)=h(U)-\tfrac12\log(2\pi eD)$, so
   $R_{\rm fixed}(D)-R_C(D)=\tfrac12\log(1/D)+C_*+O(D)$ with
   $C_*=\log2+\tfrac12\log\det Q+\tfrac12\log(2\pi e)-h(U)$, the constant $c'_+$ of `cor:gapq`.
-  The argument was supplied by the author on 2026-11-22; the assistant checked it.
+  The argument came in review notes passed on by the author on 2026-11-22, whose writer
+  is not stated; the assistant checked it.
 
 **Not claimed** (the note's remark on scope and its section "What is not claimed"; VI-52
 #1, #2; VI-53 #1, #3):
 - **Codes.** Every statement about $R_{\rm fixed}$ is about fixed-covariance Gaussian test
   channels. It is not a bound on every code built from a weight; a code that adapts its
-  error covariance to the fiber, or describes $U=g(T)$ directly, can do better. No coding
+  error covariance to the fiber, or describes $U=g(T)$ directly, can have a lower information rate. No coding
   theorem is invoked for $R_C$; carrying `prop:B` to codes would need, among other things,
   a second moment for the right inverse's output.
 - **Beyond the model case.** Three bounded derivatives and a Gaussian source are used
   throughout. Images that are not closed and convex, and outputs with no density in
-  $\mathbb R^k$ (a circle, a parabola), are outside `cor:C` and `cor:gapq`.
+  $\mathbb R^k$ (a circle, a sine curve), are outside `cor:C` and `cor:gapq`.
 - **A range of $D$ for a general consumer.** In general there is no explicit lower bound on
   $D_0$; `prop:exact` gives one for the example only.
 - **Learning.** `prop:B` does not show what a learner must learn. Obtaining a right inverse
-  means learning a transversal to the fibers, which is frontier item FT.9. The price here
+  means learning a selection of fiber representatives, which is frontier item FT.9. The price here
   is the price of stopping at $Q$ within the fixed-covariance class, not a price of
   learning $g$.
 - **Priority.** See "Known gaps".
@@ -98,11 +99,15 @@ gap numbers do and do not bound. Version 0.3 (the same day) applies VI-54's word
 findings to those passages.
 
 Version 0.4 (the same day) adds `thm:sharp`, `thm:reduce`, `cor:gapq` and `prop:exact`.
-Their derivations came from a review of v0.2 that the author supplied; the assistant
+Their derivations came from a review of v0.2 passed on by the author; the assistant
 re-derived each, and proved the rate step of `thm:reduce`(b) by a Schur-complement
 determinant bound. v0.4 also retitles the note to name the channel class, rewrites the
 prior-work paragraph from the sources, and adds limits and a paragraph on fibers and
-transversals on the author's notes of 2026-11-22.
+selections on further review notes passed on by the author on 2026-11-22.
+
+Version 0.5 (the same day) applies VI-56: the example of a curved image is now
+$(x_1,\sin x_1)$; `prop:gapex`'s proof states both sides of the expansion with their
+ranges; $H_a$ is renamed $\Theta_a$; wording.
 
 `thm:A` imports one result: the second-order remainder
 $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (its theorem
@@ -141,18 +146,26 @@ $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (i
     cross-checked with an independent optimizer.
   - Two stale passages contradicted the new results (the fixed-kernel remark; a caveat on
     $D<D_0$ at $10^{-5}$), and one figure was mislabelled. All applied.
-- **Not read by any fresh context:**
+- **VI-56** was a confirming pass on all of that later material, at commit 5b9d1c8.
+  - No mathematical error. `prop:gapex` re-derived, with $h(U)$ by its own quadrature.
+  - One example violated the standing assumption (a parabola, unbounded derivative);
+    check e5 could not fail on a wrong $h(U)$; wording and record items. All applied in
+    v0.5, with a second quadrature method for $h(U)$ and two more mutants.
+  - No further pass is run on v0.5's changes.
+- **Read by VI-56, and listed here as they stood before it:**
   - the first net's code since 45cbc15 (the present c5, m5 and m6);
   - the dispositions of VI-55, including the exact net's check e5 and mutant m6;
   - `prop:gapex` and its proof, added after VI-55's reading. It replaced an unsupported
     statement that the example's gap is $\tfrac12\log(1/D)-0.29+O(D)$: the two constants of
-    `cor:gapq` differ by a fixed 0.0004. VI-55 did not catch that; the author did;
+    `cor:gapq` differ by a fixed 0.0004. VI-55 did not catch that; review notes passed on
+    by the author on 2026-11-22 did;
   - the other v0.4 text added after VI-55's reading: the prior-work paragraph, the support
     sentence in `thm:A`(b), the strict-inequality remark in `thm:reduce`(b), the paragraph
     on fibers, the method statement for $h(U)$, and the limits.
 
 No fresh-context pass checked the prior-art sources; the assistant read the cited passages
-(see "Known gaps"). A separate fresh-context pass read this custody
+(see "Known gaps"). VI-56 read this file as of 5b9d1c8. Before that, a separate
+fresh-context pass read the first version of this custody
 file on 2026-11-22, before it was committed; its findings are applied here. It is not a pass
 on the proofs and has no VI row.
 
@@ -187,7 +200,7 @@ the committed output of one local run.
 **What the exact net's checks can and cannot fail on:**
 - **e1** tests `prop:exact`(a) against Monte Carlo in six cases.
 - **e2** tests `prop:exact`(b), (c): the sign of $F''$ on a grid, the chord inequality,
-  $L\ge\operatorname{tr}(H_a\Delta)$ and $L\ge\mu\operatorname{tr}\Delta$ on 20,000 random
+  $L\ge\operatorname{tr}(\Theta_a\Delta)$ and $L\ge\mu\operatorname{tr}\Delta$ on 20,000 random
   $\Delta$, and that a numerical estimate of $D_0$ lies between the two bounds.
 - **e3** tests `thm:sharp` for $g_1$ with the exact loss: the search's least rate lies in
   the sandwich at three values of $D$ inside the proved range. The comparison with the
@@ -196,10 +209,13 @@ the committed output of one local run.
   The consumer is $g_1$ composed with a linear map, so part (a) holds by construction and
   is not tested. The rate inequality has a margin of 0.89 nats on the sampled $\Delta$ and
   guards only against a wrong direction.
-- **e5** tests the numbers quoted for $g_1$: $h(U)$ at two quadrature resolutions, the
+- **e5** tests the numbers quoted for $g_1$: $h(U)$ at two quadrature resolutions and by a
+  second method, the variance of $U$ by quadrature against its closed form, the entropy
+  step of `prop:gapex` at two values of $D$, the
   family's exact rate against the search, and the family's excess over the two bounds on
   $R_U$ against `cor:gapq`.
-- **Fire test** (`--fire`): six mutants, each a changed formula. It is not run in CI.
+- **Fire test** (`--fire`): eight mutants, each a changed formula or value. It is not run
+  in CI.
 
 ## Constants and slack
 
@@ -241,7 +257,7 @@ says what it is.
 | Lower bound $\mu s_0$ on $D_0$ | `prop:exact`(c) | $D_0\ge\mu s_0$ | `0.000465` | `results/FT7-exact-net.json#e2.mu_s0` | $10^{-4}$, $10^{-5}$, $10^{-6}$ are inside the proved range of `thm:A`(c) |
 | Upper bound on $D_0$ | `rem:scope` | $D_0\le3\lambda^2/(4K)$ | `0.0021` | `results/FT7-exact-net.json#e2.D0_upper_bound` | |
 | Numerical estimate of $D_0$ | `thm:A`(b) | between 0.000465 and 0.0021 | `0.0014` | `results/FT7-exact-net.json#e2.D0_numerical_estimate` | a search, not a certified infimum; $10^{-3}$ is not shown to be inside |
-| e3, least rate with exact loss, $D=10^{-5}$ | `thm:sharp` | between 11.38664 and 11.40190 | `11.40082` | `results/FT7-exact-net.json#e3.3.min_rate_exact_loss` | 0.014 below, 0.0011 above; the sandwich is 0.015 wide |
+| e3, least rate with exact loss, $D=10^{-5}$ | `thm:sharp` | between 11.38664 and 11.40190 | `11.40082` | `results/FT7-exact-net.json#e3.3.min_rate_exact_loss` | 0.014 above the lower side, 0.0011 below the upper side; the sandwich is 0.015 wide |
 | e3, the same, $D=10^{-6}$ | `thm:sharp` | between 13.70198 and 13.70352 | `13.70341` | `results/FT7-exact-net.json#e3.4.min_rate_exact_loss` | the sandwich is 0.0015 wide |
 | e3, lower side at $D=10^{-5}$ | `thm:sharp`(a) | — | `11.38664` | `results/FT7-exact-net.json#e3.3.lower` | |
 | e3, upper side at $D=10^{-5}$ | `thm:sharp`(b) | — | `11.40190` | `results/FT7-exact-net.json#e3.3.upper` | |
@@ -252,15 +268,16 @@ says what it is.
 | $c'_-$ for $g_1$ | `cor:gapq` | — | `-0.2918` | `results/FT7-exact-net.json#e5.c_minus_prime` | |
 | $c'_+$ for $g_1$, which is $C_*$ | `cor:gapq`, `prop:gapex` | — | `-0.291379` | `results/FT7-exact-net.json#e5.c_plus_prime` | 0.0004 above $c'_-$; by `prop:gapex` this is the gap's constant |
 | Entropy increase $h(U+\sqrt D N)-h(U)$ at $D=0.01$ | `prop:gapex` | ≤ ½ log(1 + D) = 0.004975 | `0.003490` | `results/FT7-exact-net.json#e5.entropy_step.1.entropy_increase` | factor 1.4; by quadrature |
-| Family's exact rate less the Gaussian upper bound on $R_U$, $D=10^{-5}$ | `cor:gapq`, lower side (not tight) | ≥ $\tfrac12\log(1/D)+c'_-+O(D)$ = 5.4647 | `5.4647` | `results/FT7-exact-net.json#e5.family_minus_gaussian_upper` | the Gaussian bound overstates $R_U$ by 0.0004, so this is not the gap |
-| The same less the Shannon lower bound | `prop:gapex` | $\tfrac12\log(1/D)+C_*+O(D)$ = 5.465084 | `5.465077` | `results/FT7-exact-net.json#e5.family_minus_shannon_lower` | equal to $7\cdot10^{-6}$, the $O(D)$ term; this tests the constant of `thm:sharp` and the arithmetic, not $R_C=R_U$ |
-| Exact net's fire test, mutants caught | the exact net | must fail | `6 of 6` | `claims/audits/VI-55-ft7-v04.md` | the assistant's run after the VI-55 fixes; the verifier's own run was 5 of 5, before mutant m6. Not CI-run |
+| Family's exact rate less the Gaussian upper bound on $R_U$, $D=10^{-5}$ | `cor:gapq`, lower side (not tight) | leading term $\tfrac12\log(1/D)+c'_-$ = 5.464709 | `5.464702` | `results/FT7-exact-net.json#e5.family_minus_gaussian_upper` | below the leading term by $7\cdot10^{-6}$, the $O(D)$ term; the Gaussian bound overstates $R_U$ by 0.0004, so this is not the gap; $h(U)$ cancels in this comparison |
+| The same less the Shannon lower bound | `prop:gapex` | $\tfrac12\log(1/D)+C_*+O(D)$ = 5.465084 | `5.465077` | `results/FT7-exact-net.json#e5.family_minus_shannon_lower` | equal to $7\cdot10^{-6}$, the $O(D)$ term; $h(U)$ cancels, so this tests the constant of `thm:sharp`, not $h(U)$, $C_*$ or $R_C=R_U$ |
+| $h(U)$, second method less first | example | — | `0.0` | `results/FT7-exact-net.json#e5.h_U_method_difference` | $3\cdot10^{-13}$; the VI-56 verifier's own value agrees to 12 decimals |
+| Exact net's fire test, mutants caught | the exact net | must fail | `8 of 8` | `claims/audits/VI-56-ft7-v04-confirming.md` | the assistant's run after the VI-56 fixes; the VI-56 verifier's own run was 6 of 6, before mutants m7 and m8. Not CI-run |
 
 ## Known gaps
 
 - **The row is `[exploratory]`.** This file does not promote it.
-- **The author's read.** No statement by the author that he has read these proofs is on
-  record; the note's own footnote of 2026-11-21 says they are unread.
+- **The author's read.** No statement by the author of having read these proofs is on
+  record.
 - **The prior art is read in part.** On 2026-11-22 the assistant read, in the author-hosted
   preprints, Section 2.1 and the concluding remarks of Linder–Zamir (1999) and Section 3.1
   of Linder–Zamir–Zeger (1999); and in the author copy of the published
@@ -309,5 +326,4 @@ says what it is.
   exact net's JSON.
 - **Neither fire test is in CI,** and each result on the present mutants is the assistant's
   own run.
-- **A confirming pass is owed** on everything listed under "Not read by any fresh context"
-  above.
+- **The prior-work reading has no fresh-context check,** and v0.5's changes have none.

@@ -22,12 +22,15 @@
 \title{The Price of a Fixed Weight When the Read Kernel Moves:\\ Fixed-Covariance
 Gaussian Test Channels\\ (T1 addendum, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v0.4, 2026-11-22. Drafted by
-Claude (Anthropic) at the author's request. The author set the scope in review notes of
-2026-11-21 and supplied the example of Section~\ref{sec:example}. Theorems~\ref{thm:sharp} and \ref{thm:reduce}, Proposition~\ref{prop:exact} and the
-comparison with prior work follow derivations and pointers in a review of v0.2, dated
-22 November 2026, that the author supplied; Claude re-derived the mathematics and read the
-cited passages of the prior work. The author has not yet read the proofs. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
+\thanks{Working note of the Observation Theory program, v0.5, 2026-11-22. Drafted by
+Claude (Anthropic) at the author's request. The scope follows review notes of
+2026-11-21 that the author passed on, which also gave the example of
+Section~\ref{sec:example}. Theorems~\ref{thm:sharp} and \ref{thm:reduce}, Propositions~\ref{prop:exact}
+and~\ref{prop:gapex} and the comparison with prior work follow derivations and pointers
+in a review of v0.2, dated 22 November 2026, and in further review notes of the same
+day, all passed on by the author; Claude re-derived the mathematics and read the cited
+passages of the prior work. No statement by the author of having read the proofs is on
+record. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
 addendum.}\\
 \emph{Senior Member, IEEE}\\
 Department of Computer Engineering, San Jos\'e State University\\
@@ -133,8 +136,9 @@ $q>r$. This is geometry only. It says nothing yet about rates.
 \section{The fixed-covariance rate when $Q$ has full rank}
 
 \begin{theorem}[Fixed-covariance channels pay for every direction]\label{thm:A}
-Suppose $Q\succ0$, let $\lambda=\lmin(Q)$, let $K>0$ be at least the value in \eqref{eq:K} (that value itself when it is positive;
-the remainder bound holds for any larger constant), and
+Suppose $Q\succ0$, let $\lambda=\lmin(Q)$, let $K$ be any positive constant not less than the value in \eqref{eq:K} (the remainder
+bound holds for any such constant; when the value in \eqref{eq:K} is positive we take
+it), and
 let $s_0=\lambda/(2K)$.
 \begin{enumerate}
 \item[(a)] If $0\prec\Delta\preceq\Sigma$ and $\tr\Delta\le s_0$, then
@@ -291,7 +295,7 @@ corollary. Bounded derivatives of $g$ do not imply them.
 \begin{remark}[A fixed kernel]
 When $q=r$ the kernel does not move, and T1's remark on read operators of lower rank
 treats that case under its sandwich assumption. Theorem~\ref{thm:A} needs $q=p$ and says
-nothing about it. Theorem~\ref{thm:reduce} below does: it gives $\Rfix$ for every
+nothing about it when $r<p$. Theorem~\ref{thm:reduce} below does: it gives $\Rfix$ for every
 $q\ge1$, and under the hypotheses of Corollary~\ref{cor:gapq} with $k=q$ the gap
 $\Rfix-\RC$ is bounded, with no sandwich assumption. That is a statement about the
 fixed-covariance class. It is not T1's bounded price for codes, which rests on the lower
@@ -402,7 +406,8 @@ No invariance of $\ker Q$ under $\Sigma$ is needed. Theorems~\ref{thm:A}
 and~\ref{thm:sharp} are applied to $(S,f)$ with $q$, $I_q$ and $Q_f$ in place of $p$,
 $\Sigma$ and $Q$; with $\lambda_f$, the least nonzero eigenvalue of $H$, in place of
 $\lambda$; with $M_j\|\Sigma\|^{j/2}$ in place of $M_j$ and $q$ in place of $\tr\Sigma$ in
-\eqref{eq:K}, which gives $K_f$; and with the $D_0$ of the pair $(S,f)$. The lower bound
+\eqref{eq:K}, which gives a value, and $K_f>0$ is any constant at least that value; and
+with the $D_0$ of the pair $(S,f)$. The lower bound
 then holds for $D$ below that $D_0$, and the upper bound for
 $D<\min\{q\lambda_f,\ q^2/(K_f(\tr Q_f^{-1})^2)\}$. If $q=0$ the consumer is constant
 and $\Rfix=0$.
@@ -466,12 +471,12 @@ F(v)=1-e^{-v/2}+e^{-2}\Bigl(e^{3v/2}-\tfrac12(1+e^{2v})\Bigr).
 \begin{enumerate}
 \item[(a)] $L(\Delta)=d_{11}+2ae^{-1/2}d_{12}+a^2F(v)$.
 \item[(b)] $F$ is concave on $[0,1]$ with $F(0)=0$ and $F(1)=\tfrac12(1-e^{-2})$, so
-$L(\Delta)\ge\tr(H_a\Delta)\ge\mu\tr\Delta$, where
+$L(\Delta)\ge\tr(\Theta_a\Delta)\ge\mu\tr\Delta$, where
 \[
-H_a=\begin{pmatrix}1&ae^{-1/2}\\ ae^{-1/2}&\tfrac{a^2}2(1-e^{-2})\end{pmatrix},\qquad
-\det H_a=a^2\Bigl(\tfrac12(1-e^{-2})-e^{-1}\Bigr)>0,
+\Theta_a=\begin{pmatrix}1&ae^{-1/2}\\ ae^{-1/2}&\tfrac{a^2}2(1-e^{-2})\end{pmatrix},\qquad
+\det \Theta_a=a^2\Bigl(\tfrac12(1-e^{-2})-e^{-1}\Bigr)>0,
 \]
-and $\mu=\lmin(H_a)>0$.
+and $\mu=\lmin(\Theta_a)>0$.
 \item[(c)] $D_0\ge\mu s_0$.
 \end{enumerate}
 \end{proposition}
@@ -489,7 +494,7 @@ Adding gives $a^2F(v)$.
 (b) With $y=e^{v/2}\ge1$, $4e^{v/2}F''(v)=-1+e^{-2}y^4(9-8y)$, and $y^4(9-8y)$ decreases
 for $y\ge1$ from the value $1$, so $F''<0$. A concave function with $F(0)=0$ lies above its
 chord on $[0,1]$: $F(v)\ge vF(1)$. So $L(\Delta)\ge d_{11}+2ae^{-1/2}d_{12}+a^2F(1)v
-=\tr(H_a\Delta)\ge\mu\tr\Delta$, as $\Delta\succeq0$.
+=\tr(\Theta_a\Delta)\ge\mu\tr\Delta$, as $\Delta\succeq0$.
 
 (c) If $\tr\Delta\ge s_0$ then $L(\Delta)\ge\mu s_0$.
 \end{proof}
@@ -524,9 +529,14 @@ normal with variance $\sigma^2$ and independent of $Y$; then
 $h(Y+G_\sigma)=I(Y;Y+G_\sigma)+\tfrac12\log(2\pi e\sigma^2)$. The mutual information does
 not increase with $\sigma$, by data processing, since $Y+G_{\sigma'}$ is $Y+G_\sigma$ plus
 independent noise when $\sigma'>\sigma$. So
-$h(U+\sqrt D\,N)-h(U)\le\tfrac12\log(1+D)$, which gives the upper bound. The expansion
-follows from Theorem~\ref{thm:sharp} with $p=2$, since
-$R_0(D)-\mathrm{SLB}(D)=\tfrac12\log(1/D)+C_*$.
+$h(U+\sqrt D\,N)-h(U)\le\tfrac12\log(1+D)$, which gives the upper bound. For the
+expansion, $R_0(D)-\mathrm{SLB}(D)=\tfrac12\log(1/D)+C_*$ exactly, and
+Theorem~\ref{thm:sharp} with $p=2$ gives both sides. For $D<D_0$, part (a) and the upper
+bound on $\RC$ give
+$\Rfix-\RC\ge\tfrac12\log\tfrac1D+C_*-\log(1+4KD/\lambda^2)-\tfrac12\log(1+D)$, and
+$D_0\ge\mu s_0>0$ by Proposition~\ref{prop:exact}(c). For $D<\min\{2\lambda,\ 4/B\}$, part
+(b) and the lower bound on $\RC$ give
+$\Rfix-\RC\le\tfrac12\log\tfrac1D+C_*-\log(1-BD/4)$.
 \end{proof}
 
 $C_*$ is the constant $c'_+$ of Corollary~\ref{cor:gapq}: for this consumer the Shannon
@@ -539,7 +549,7 @@ $C_*=-0.291379$, with $h(U)$ from the quadrature above.
 \texttt{FT7-exact-net.json} in \texttt{results/}) uses the closed form of
 Proposition~\ref{prop:exact}. The closed form agrees with Monte Carlo within $1.2$
 standard errors in six cases: three covariances at each of $a=1$ and $a=0.7$. On 20{,}000 random admissible
-$\Delta$, $L\ge\tr(H_a\Delta)$ always, and the least sampled ratio $L/\tr\Delta$ is $0.083$,
+$\Delta$, $L\ge\tr(\Theta_a\Delta)$ always, and the least sampled ratio $L/\tr\Delta$ is $0.083$,
 against $\mu=0.0465$; the constant $\mu$ is a valid bound and is not sharp. A numerical
 estimate of $D_0$ is $0.0014$, inside $[0.000465,0.0021]$; it is a search, not a certified
 infimum. With the exact loss, a search for the least rate over all $2\times2$ covariances
@@ -548,7 +558,9 @@ inside the bounds of Theorem~\ref{thm:sharp}; it is below $R_0(D)$ by $0.68D$ at
 script also evaluates the family $\Delta=tQ^{-1}$ with the exact loss: at $D=10^{-5}$ its
 rate is $11.400817$ nats, and the search's least rate agrees with it to $10^{-9}$. At $D=10^{-5}$ the family's rate exceeds the Shannon lower bound on $R_U$ by $5.465077$
 nats, against $\tfrac12\log(1/D)+C_*=5.465084$ from Proposition~\ref{prop:gapex}; the
-difference is $7\cdot10^{-6}$, the size of the $O(D)$ term. It exceeds the Gaussian upper
+difference is $7\cdot10^{-6}$, the size of the $O(D)$ term. The value of $h(U)$ cancels in
+this comparison, so it tests the constant of Theorem~\ref{thm:sharp} and not $h(U)$; the
+script checks $h(U)$ separately, by a second quadrature method. It exceeds the Gaussian upper
 bound on $R_U$ by $5.464702$, which is $0.0004$ less because that bound is not tight. The
 script also checks the entropy step of Proposition~\ref{prop:gapex} by quadrature at
 $D=0.1$ and $0.01$. The search is not a certified minimum. For
@@ -622,9 +634,10 @@ other four change a predicted number.
 \section{What is not claimed}
 
 \textbf{Codes.} Every statement about $\Rfix$ is about fixed-covariance Gaussian test
-channels. It is not a lower bound for every code built from a weight. A code that adapts
-its error covariance to the fiber through the source point, or that describes $U=g(T)$
-directly, can do better; Proposition~\ref{prop:B} is exactly such a comparison.
+channels. It is not a lower bound for every code built from a weight. A test channel
+that is not of fixed covariance, for instance one that describes $U=g(T)$ and reproduces
+through a right inverse, can have a lower rate; Proposition~\ref{prop:B} and the
+corollaries compare information rates of that kind. No statement about codes is made.
 
 \textbf{A model case.} Three bounded derivatives of $g$ and a Gaussian source are used
 throughout. They exclude natural consumers such as $g(x)=\|x\|^2$. The results are a model
@@ -633,7 +646,7 @@ case, not a general theory of non-difference distortion measures.
 \textbf{The range of $D$.} Theorem~\ref{thm:A}(c) and Theorem~\ref{thm:sharp}(a) hold for
 $D<D_0$, and in general we have no explicit lower bound for $D_0$. The sine example has
 one, from a concavity special to it. So for a general consumer the lower bounds are
-asymptotic statements with no stated range of $D$.
+asymptotic statements with no explicit range of $D$.
 
 \textbf{Learning.} Proposition~\ref{prop:B} assumes the decoder holds a section. How a
 learner obtains one from queries, and at what cost, depends on the query model: the
@@ -652,7 +665,8 @@ $g$.
 closed convex image and an output with a density in $\R^k$, finite differential entropy
 and a positive definite covariance. That leaves out much of the geometry of interest. The
 map $g(x)=(\cos x,\sin x)$ has a circle for its image, which is not convex, and
-$g(x)=(x_1,x_1^2)$ has a parabola, on which the output has no density in $\R^2$. For such
+$g(x)=(x_1,\sin x_1)$ has a sine curve, on which the output has no density in $\R^2$.
+Both maps have bounded derivatives and a measurable right inverse. For such
 consumers Proposition~\ref{prop:B}(b) still gives $\RC=R_U^{\cU}$ when a right inverse
 exists, but we do not evaluate $R_U^{\cU}$. A natural next step is to stratify the source
 space by the rank of $J_g$, treat the locus where the rank drops, and ask what
@@ -663,8 +677,8 @@ weight, is the subject of the high-resolution theory of non-difference distortio
 measures \cite{linderzamir,linderzamirzeger}. Quantization judged by the error of a
 downstream function is studied as functional quantization by Misra, Goyal and Varshney
 \cite{misra}. A review of v0.2 of this note pointed to the passages below. The drafter
-then read them in the author-hosted versions of the first two papers and the published
-version of the third, on 22 November 2026: the passages named, not the papers in full.
+then read them in the author-hosted preprints of the first two papers (not the published
+versions) and the author copy of the published third, on 22 November 2026: the passages named, not the papers in full.
 
 The main theorem of \cite{linderzamir} (Theorem~1, Section~2.1) gives the low-distortion
 form of the rate--distortion function for a distortion measure with sensitivity matrix
@@ -689,8 +703,8 @@ Example~6, the function $\min(X,\tfrac12)$ of a uniform variable, has distortion
 proportional to $2^{-2R}$ at fixed rate and to $2^{-4R}$ at variable rate, and the paper
 notes that the exponent is larger. So the gains of functional quantization are not all
 constant offsets, and a change of exponent caused by what the function ignores is not new
-in itself. The setting here differs in two ways. The pointwise read rank is constant and the
-ignored subspace moves with the point, where their example, which also has a scalar
+in itself. The setting here differs in two ways. In the example here the pointwise read rank is one everywhere and the
+ignored direction turns with the point, where their example, which also has a scalar
 output throughout, has a region where the local rank drops to zero. And the comparison here is against one explicitly restricted class, the
 fixed-covariance Gaussian test channels, where theirs is between fixed-rate and
 variable-rate quantizers. We did not read the proof of their Theorem~16 or the rest of the

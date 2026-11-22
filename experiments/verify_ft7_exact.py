@@ -8,7 +8,8 @@ Claims checked (paper/t1-moving-kernel/t1-moving-kernel.tex, by label):
                F(v) = 1 - e^{-v/2} + e^{-2} (e^{3v/2} - (1 + e^{2v})/2).
   prop:exact(b), (c)
                F is concave on [0, 1], so L >= tr(H_a Delta) >= mu tr(Delta) with
-               H_a = [[1, a e^{-1/2}], [a e^{-1/2}, a^2 (1 - e^{-2})/2]] and mu = lambda_min(H_a);
+               H_a = [[1, a e^{-1/2}], [a e^{-1/2}, a^2 (1 - e^{-2})/2]] and mu = lambda_min(H_a)
+               (H_a is called Theta_a in the note);
                hence D_0 >= mu s_0.
   thm:sharp    For Q positive definite and small D,
                R_0(D) - (p/2) ln(1 + 4 K D / lambda^2) <= R_fixed(D)
@@ -41,9 +42,13 @@ Checks:
       (agreement to 1e-9), the variance of U by the same quadrature against its closed
       form, the exact rate of the family t Q^{-1} at D = 1e-5 against the search (1e-6),
       and the family's excess over the Shannon and Gaussian bounds on R_U against
-      (1/2) ln(1/D) + c'_- and c'_+ of cor:gapq (within 1e-4, the O(D) term); and the
-      entropy step of prop:gapex, 0 <= h(U + sqrt(D) N) - h(U) <= (1/2) ln(1 + D), at
-      D = 0.1 and 0.01. By prop:gapex the constant of the gap is c'_+ (called C_* there).
+      (1/2) ln(1/D) + c'_- and c'_+ of cor:gapq (within 1e-4, the O(D) term). h(U) and
+      Var U cancel in those two comparisons: both say |family rate - R_0(D)| <= 1e-4, so
+      they test the constant of thm:sharp, not h(U) and not c'_+ against c'_-. h(U) is
+      tested separately: two resolutions of one quadrature, and a second method (adaptive
+      quadrature over a trapezoid-rule density), agreement to 1e-9. Last, the entropy step
+      of prop:gapex, 0 <= h(U + sqrt(D) N) - h(U) <= (1/2) ln(1 + D), at D = 0.1 and 0.01.
+      By prop:gapex the constant of the gap is c'_+ (called C_* there).
 
 What the checks cannot fail on: e3's search is an upper estimate of the infimum, so its
 comparison with the lower side of the sandwich is only as good as the search. The O(D)
@@ -55,7 +60,11 @@ Fire test: `--fire` exits 0 only if every mutant fails its check.
   m3  R_0 with ln(1/D) in place of ln(p/D)                                (e3 must fail)
   m4  the lift with 1/2 in place of 1 on the inactive coordinate          (e4 must fail)
   m5  the reduced covariance taken as the Schur complement, not the block (e4 must fail)
-  m6  h(U) replaced by the Gaussian entropy of the same variance          (e5 must fail)
+  m6  h(U) replaced by the Gaussian entropy of the same variance          (e5 must fail;
+      it fails on the guard h(U) < Gaussian entropy, not on the excess comparisons)
+  m7  the entropy step with the bound (1/2) ln(1 + D / Var U)             (e5 must fail)
+  m8  h(U) shifted by 1e-6                                                (e5 must fail,
+      on the agreement with the second quadrature method)
 
 Output: results/FT7-exact-net.json (verdict, FT7EXACT_supported). Seed 20261122.
 """
@@ -326,12 +335,27 @@ def family_rate_exact(D):
     return 0.5 * math.log(np.linalg.det(q)) - math.log(t)
 
 
-def check_e5(gaussian_h=False):
+def h_second_method():
+    """h(U) by adaptive quadrature in u over a trapezoid-rule density in t."""
+    from scipy import integrate
+    tt = np.linspace(-10.0, 10.0, 20001)
+    wt = np.exp(-0.5 * tt * tt) / (2 * math.pi) * (tt[1] - tt[0])
+    st = np.sin(tt)
+
+    def ent(u):
+        f = float(np.sum(wt * np.exp(-0.5 * (u - st) ** 2)))
+        return -f * math.log(f) if f > 0 else 0.0
+    val, err = integrate.quad(ent, -12.0, 12.0, limit=400, epsabs=1e-13, epsrel=1e-13)
+    return float(val), float(err)
+
+
+def check_e5(gaussian_h=False, weak_bound=False, h_shift=0.0):
     D = 1e-5
     h1, v1 = h_and_var(80, 4001, 12.0)
     h2, v2 = h_and_var(240, 32001, 16.0)
+    h3, h3_err = h_second_method()
     var = 1 + 0.5 * (1 - math.exp(-2.0))
-    h = 0.5 * math.log(2 * math.pi * math.e * var) if gaussian_h else h2
+    h = 0.5 * math.log(2 * math.pi * math.e * var) if gaussian_h else h2 + h_shift
     q = Q_of(1.0)
     fam = family_rate_exact(D)
     srch = min_rate_exact(D)
@@ -344,9 +368,12 @@ def check_e5(gaussian_h=False):
     steps = []
     for dd in (0.1, 0.01):
         inc = h_and_var(240, 32001, 16.0, noise=dd)[0] - h2
-        steps.append({"D": dd, "entropy_increase": inc, "half_log_1_plus_D": 0.5 * math.log(1 + dd)})
+        bound = 0.5 * math.log(1 + (dd / var if weak_bound else dd))
+        steps.append({"D": dd, "entropy_increase": inc, "half_log_1_plus_D": bound})
     step_ok = all(0.0 <= r["entropy_increase"] <= r["half_log_1_plus_D"] for r in steps)
     info = {"h_U": h2, "h_U_coarse": h1, "h_U_resolution_difference": abs(h1 - h2),
+            "h_U_second_method": h3, "h_U_second_method_quad_error_estimate": h3_err,
+            "h_U_method_difference": abs(h3 - h2),
             "entropy_step": steps,
             "var_U_quadrature": v2, "var_U_closed_form": var,
             "family_rate_exact_1e-5": fam, "search_min_1e-5": srch,
@@ -357,7 +384,7 @@ def check_e5(gaussian_h=False):
     ok = (abs(h1 - h2) <= 1e-9 and abs(v2 - var) <= 1e-9 and abs(fam - srch) <= 1e-6
           and h < 0.5 * math.log(2 * math.pi * math.e * var)
           and abs((fam - gub) - (half + cm)) <= 1e-4 and abs((fam - slb) - (half + cp)) <= 1e-4
-          and cp - cm > 1e-5 and step_ok)
+          and cp - cm > 1e-5 and step_ok and abs(h - h3) <= 1e-9)
     return ok, info
 
 
@@ -389,6 +416,8 @@ def fire():
         "m4_lift_half": not check_e4(rng, lift_inactive=0.5)[0],
         "m5_schur_complement": not check_e4(rng, schur=True)[0],
         "m6_gaussian_entropy": not check_e5(gaussian_h=True)[0],
+        "m7_entropy_step_weak_bound": not check_e5(weak_bound=True)[0],
+        "m8_h_shifted": not check_e5(h_shift=1e-6)[0],
     }
     print("fire:", caught)
     return all(caught.values())
