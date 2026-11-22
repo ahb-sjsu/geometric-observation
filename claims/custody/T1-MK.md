@@ -7,7 +7,7 @@ author's request of 2026-11-22 ("write the FT.7 custody table"). It records what
 ## Claim
 
 The numbered statements of the T1 addendum on moving read kernels,
-`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.6), by label. The source is
+`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.7), by label. The source is
 $T\sim N(0,\Sigma)$ in $\mathbb R^p$, $\Sigma\succ0$. The consumer acts through a $C^3$ map
 $g:\mathbb R^p\to\mathbb R^k$ with three bounded derivatives, loss
 $\|g(\hat x)-g(x)\|^2$, local read metric $P_C(x)=J_g(x)^{\mathsf T}J_g(x)$ and
@@ -67,6 +67,11 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
   $C_*=\log2+\tfrac12\log\det Q+\tfrac12\log(2\pi e)-h(U)$, the constant $c'_+$ of `cor:gapq`.
   The argument came in review notes passed on by the author on 2026-11-22, whose writer
   is not stated; the assistant checked it.
+- **`prop:rate`**, for $a=1$, $\Sigma=I$ and $0<D\le10^{-2}$: with
+  $\Phi_D(v)=v(D-F(v)+v/e)$ and $\eta=F(1)-1/e=0.06445$, $\Phi_D$ is strictly concave on
+  $[0,D/\eta]$ and $R_{\rm fixed}(D)=-\tfrac12\log\max_{[0,D/\eta]}\Phi_D$, attained by the
+  covariance with $d_{22}=v_*$, $d_{12}=-e^{-1/2}v_*$, $d_{11}=D-F(v_*)+2v_*/e$, where $v_*$
+  is the zero of $\Phi_D'$. The assistant derived it.
 
 **Not claimed** (the note's remark on scope and its section "What is not claimed"; VI-52
 #1, #2; VI-53 #1, #3):
@@ -89,7 +94,8 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
 ## Proof
 
 `paper/t1-moving-kernel/t1-moving-kernel.tex`, the proofs following `lem:kernel`, `thm:A`,
-`prop:B`, `cor:C`, `thm:sharp`, `thm:reduce`, `cor:gapq`, `prop:exact` and `prop:gapex`. The proofs of
+`prop:B`, `cor:C`, `thm:sharp`, `thm:reduce`, `cor:gapq`, `prop:exact`, `prop:gapex` and
+`prop:rate`. The proofs of
 the first four last changed in 45cbc15, apart from one support sentence added to the
 proof of `thm:A`(b) in v0.4 and the constant $K$, which `thm:A` now takes as any positive
 number at least the value of `eq:K`.
@@ -108,7 +114,7 @@ selections on further review notes passed on by the author on 2026-11-22.
 Version 0.5 (the same day) applies VI-56: the example of a curved image is now
 $(x_1,\sin x_1)$; `prop:gapex`'s proof states both sides of the expansion with their
 ranges; a new section "Main results" in v0.6 states the headline result first and calls
-Theorem A a step toward it, with no change to any statement or proof; $H_a$ is renamed $\Theta_a$; wording.
+Theorem A a step toward it, with no change to any statement or proof; v0.7 adds `prop:rate`; $H_a$ is renamed $\Theta_a$; wording.
 
 `thm:A` imports one result: the second-order remainder
 $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (its theorem
@@ -153,6 +159,13 @@ $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (i
     check e5 could not fail on a wrong $h(U)$; wording and record items. All applied in
     v0.5, with a second quadrature method for $h(U)$ and two more mutants.
   - No further pass is run on v0.5's changes.
+- **VI-57** read `prop:rate` and its proof, the "Main results" section of v0.6, and the
+  net's check e6.
+  - No mathematical error; every numerical bound of the proof holds with slack. It
+    solved the one-dimensional problem at 50 digits and ran its own minimization over
+    covariances in another parametrization (agreement to $10^{-14}$).
+  - Scope dropped where the proposition is cited, two silent hypotheses, wording, and
+    net conditions that could not fail. All applied in v0.7; no further pass on those.
 - **Read by VI-56, and listed here as they stood before it:**
   - the first net's code since 45cbc15 (the present c5, m5 and m6);
   - the dispositions of VI-55, including the exact net's check e5 and mutant m6;
@@ -175,7 +188,7 @@ on the proofs and has no VI row.
 | Harness | Tier | CI section |
 |---|---|---|
 | `experiments/verify_ft7_moving_kernel.py` | re-run | `ci/reproduce.py` [2/3], file mode; seed 20261131, 22 checks |
-| `experiments/verify_ft7_exact.py` | re-run | `ci/reproduce.py` [2/3], file mode; seed 20261122, 5 checks |
+| `experiments/verify_ft7_exact.py` | re-run | `ci/reproduce.py` [2/3], file mode; seed 20261122, 6 checks |
 
 **What CI compares.** Each re-run must reproduce its committed file's pass/fail flags and
 overall verdict. It does not compare the numbers. Every measured number below is from
@@ -215,7 +228,13 @@ the committed output of one local run.
   step of `prop:gapex` at two values of $D$, the
   family's exact rate against the search, and the family's excess over the two bounds on
   $R_U$ against `cor:gapq`.
-- **Fire test** (`--fire`): eight mutants, each a changed formula or value. It is not run
+- **e6** tests `prop:rate` at five values of $D$: the sign of $\Phi_D''$ on a grid; that
+  $\Phi_D'$ changes sign on $(0,D/\eta)$; that the stated covariance, with $d_{11}$ from the
+  proposition's formula, has loss $D$, is positive definite and below $I$; that the search
+  of e3 agrees with its rate to $10^{-9}$; and that none of 40,000 random covariances per
+  $D$, each scaled to loss $D$, has a lower rate. The random comparison can only catch a
+  claimed minimum that is too high; the search agreement catches one that is too low.
+- **Fire test** (`--fire`): ten mutants, each a changed formula or value. It is not run
   in CI.
 
 ## Constants and slack
@@ -252,7 +271,7 @@ says what it is.
 | Family rate less the Shannon lower bound on $R_U$, $D=10^{-5}$ | `cor:C`, upper side | ≤ 6.158; this side needs only `thm:A`(d) and the Shannon bound, so $D<D_1$ suffices | `5.4676` | `results/FT7-moving-kernel-net.json#instances.I5.c4_excess_bracket_at_1e-5.1` | 0.69 nats; the measured figure carries sampling error of about 0.003, more than the 0.0004 between the two bounds on $R_U$. Not an independent test: $h(U)$ cancels, and this is the `thm:A`(d) row again. $c_+=0.402$, computed here |
 | c3, error of the right inverse after projection, I1 | `prop:B`(c) | 0 | `8.9e-16` | `results/FT7-moving-kernel-net.json#instances.I1.c3.section_max_error` | rounding; the same value for I2 to I4 |
 | Fire test, mutants caught | the net | must fail | `6 of 6` | `claims/audits/VI-53-ft7-confirming.md` | the assistant's run after the VI-53 fixes ("After these fixes"). The VI-53 verifier's own 6 of 6 was on the earlier m5 and m6. Not CI-run, not independently re-run |
-| Exact net verdict, 5 checks | the exact net | all pass (the script's criteria) | `True` | `results/FT7-exact-net.json#FT7EXACT_supported` | |
+| Exact net verdict, 6 checks | the exact net | all pass (the script's criteria) | `True` | `results/FT7-exact-net.json#FT7EXACT_supported` | |
 | $\mu=\lambda_{\min}(H_1)$ | `prop:exact`(b) | $L\ge\mu\operatorname{tr}\Delta$ | `0.04651` | `results/FT7-exact-net.json#e2.mu` | not sharp: the least sampled ratio is 0.083 |
 | Least sampled $L/\operatorname{tr}\Delta$, 20,000 $\Delta$ | `prop:exact`(b) | ≥ 0.04651 | `0.083` | `results/FT7-exact-net.json#e2.worst_ratio_L_over_trace` | factor 1.8 |
 | Lower bound $\mu s_0$ on $D_0$ | `prop:exact`(c) | $D_0\ge\mu s_0$ | `0.000465` | `results/FT7-exact-net.json#e2.mu_s0` | $10^{-4}$, $10^{-5}$, $10^{-6}$ are inside the proved range of `thm:A`(c) |
@@ -272,7 +291,11 @@ says what it is.
 | Family's exact rate less the Gaussian upper bound on $R_U$, $D=10^{-5}$ | `cor:gapq`, lower side (not tight) | leading term $\tfrac12\log(1/D)+c'_-$ = 5.464709 | `5.464702` | `results/FT7-exact-net.json#e5.family_minus_gaussian_upper` | below the leading term by $7\cdot10^{-6}$, the $O(D)$ term; the Gaussian bound overstates $R_U$ by 0.0004, so this is not the gap; $h(U)$ cancels in this comparison |
 | The same less the Shannon lower bound | `prop:gapex` | $\tfrac12\log(1/D)+C_*+O(D)$ = 5.465084 | `5.465077` | `results/FT7-exact-net.json#e5.family_minus_shannon_lower` | equal to $7\cdot10^{-6}$, the $O(D)$ term; $h(U)$ cancels, so this tests the constant of `thm:sharp`, not $h(U)$, $C_*$ or $R_C=R_U$ |
 | $h(U)$, second method less first | example | — | `0.0` | `results/FT7-exact-net.json#e5.h_U_method_difference` | $3\cdot10^{-13}$; the VI-56 verifier's own value agrees to 12 decimals |
-| Exact net's fire test, mutants caught | the exact net | must fail | `8 of 8` | `claims/audits/VI-56-ft7-v04-confirming.md` | the assistant's run after the VI-56 fixes; the VI-56 verifier's own run was 6 of 6, before mutants m7 and m8. Not CI-run |
+| e6, $R_{\rm fixed}$ of $g_1$ at $D=10^{-5}$ by the one-dimensional problem | `prop:rate` | equals the minimum | `11.400817` | `results/FT7-exact-net.json#e6.rows.3.rate` | the e3 search agrees to $8\cdot10^{-14}$; floating point, no rounding bound |
+| e6, the same at $D=10^{-2}$ | `prop:rate` | equals the minimum | `4.486143` | `results/FT7-exact-net.json#e6.rows.0.rate` | the edge of the proposition's range |
+| e6, largest $\Phi_D''$ on a grid of $[0,0.16]$ | `prop:rate` | < −0.28 | `-0.296` | `results/FT7-exact-net.json#e6.max_phi_second_derivative_on_grid` | 0.016 |
+| e6, best random covariance less the proved rate, $D=10^{-6}$ | `prop:rate` | ≥ 0 | `0.00003` | `results/FT7-exact-net.json#e6.rows.4.best_random_rate_minus_rate` | the closest of the five values of $D$ |
+| Exact net's fire test, mutants caught | the exact net | must fail | `10 of 10` | `claims/audits/VI-57-ft7-exact-rate.md` | the assistant's run after the VI-57 fixes; the VI-57 verifier's own run was 9 of 9, before mutant m10. Not CI-run |
 
 ## Known gaps
 
@@ -301,6 +324,10 @@ says what it is.
 - **Only one consumer tests the lower bounds.** c5 and e3 run for $g_1$ alone, $p=2$. I1 to
   I3 test `thm:A`(a) and upper bounds. `thm:reduce` is tested on one instance, built from
   $g_1$, and only its part (b).
+- **A proved minimum exists for one case only.** `prop:rate` covers $g_1$, $\Sigma=I$,
+  $D\le10^{-2}$. For $a\ne1$, larger $D$, and every other consumer, the least rate is a
+  search. The expansion $R_{\rm fixed}=R_0-0.67695\,D+O(D^2)$ quoted in the note is the
+  VI-57 verifier's derivation and is not proved in the text.
 - **c5 is a numerical search, not a certified minimum.** A lower rate that the grid and the
   simplex polish both miss would pass unseen. The VI-53 verifier's independent optimizer
   agreed to 10⁻⁵, on the form of c5 before 45cbc15.
@@ -327,4 +354,9 @@ says what it is.
   exact net's JSON.
 - **Neither fire test is in CI,** and each result on the present mutants is the assistant's
   own run.
-- **The prior-work reading has no fresh-context check,** and v0.5's changes have none.
+- **The prior-work reading has no fresh-context check,** and the changes made after VI-56
+  and after VI-57 have none.
+- **Open problems named on 2026-11-22:** an explicit lower bound on $D_0$ for a general
+  consumer; images that are not closed and convex and outputs with no density (the
+  stratification by the rank of $J_g$ is not done); the query model for learning a
+  selection of fiber representatives (FT.9).

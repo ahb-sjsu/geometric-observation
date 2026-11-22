@@ -22,14 +22,14 @@
 \title{The Price of a Fixed Weight When the Read Kernel Moves:\\ Fixed-Covariance
 Gaussian Test Channels\\ (T1 addendum, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v0.6, 2026-11-22. Drafted by
+\thanks{Working note of the Observation Theory program, v0.7, 2026-11-22. Drafted by
 Claude (Anthropic) at the author's request. The scope follows review notes of
 2026-11-21 that the author passed on, which also gave the example of
 Section~\ref{sec:example}. Theorems~\ref{thm:sharp} and \ref{thm:reduce}, Propositions~\ref{prop:exact}
 and~\ref{prop:gapex} and the comparison with prior work follow derivations and pointers
 in a review of v0.2, dated 22 November 2026, and in further review notes of the same
 day, all passed on by the author; Claude re-derived the mathematics and read the cited
-passages of the prior work. No statement by the author of having read the proofs is on
+passages of the prior work. Proposition~\ref{prop:rate} was derived by Claude. No statement by the author of having read the proofs is on
 record. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
 addendum.}\\
 \emph{Senior Member, IEEE}\\
@@ -119,13 +119,15 @@ When $g$ has a measurable right inverse on a closed convex image in $\R^k$ and i
 has a density, finite differential entropy and a finite positive definite covariance,
 $\RC$ is the output's rate--distortion function, and (Corollary~\ref{cor:gapq})
 \[
-\Rfix(D)-\RC(D)=\tfrac{q-k}2\log\frac1D+O(1).
+\Rfix(D)-\RC(D)=\tfrac{q-k}2\log\frac1D+O(1)\qquad(D\to0).
 \]
 For the example $x_1+a\sin x_2$ the $O(1)$ term is a constant plus $O(D)$
-(Proposition~\ref{prop:gapex}). Theorem~\ref{thm:A}, which comes first in the text, is a
+(Proposition~\ref{prop:gapex}), and at $a=1$ and $D\le10^{-2}$ the rate $\Rfix(D)$ is $-\tfrac12\log$ of the maximum
+of a one-dimensional concave function (Proposition~\ref{prop:rate}). Theorem~\ref{thm:A}, which comes first in the text, is a
 step toward these: it gives the coefficient for $q=p$ with looser constants, and it
-supplies the compactness argument on which the lower bounds rest. All of these are
-statements about fixed-covariance Gaussian test channels.
+supplies the compactness argument on which the lower bounds rest. The statements
+about $\Rfix$ concern fixed-covariance Gaussian test channels, and those about $\RC$
+concern information rates over all conditional laws; none is about every code.
 
 \section{Kernel geometry}
 
@@ -564,6 +566,61 @@ $C_*$ is the constant $c'_+$ of Corollary~\ref{cor:gapq}: for this consumer the 
 lower bound is tight to $O(D)$, and the Gaussian upper bound on $R_U$ is not. At $a=1$,
 $C_*=-0.291379$, with $h(U)$ from the quadrature above.
 
+For $g_1$ and $D\le10^{-2}$ the closed form also gives $\Rfix(D)$ exactly, through a
+one-dimensional problem, so in that range the least rate needs no search over
+covariances.
+
+\begin{proposition}[The fixed-covariance rate of $g_1$]\label{prop:rate}
+Let $a=1$ and $\Sigma=I_2$, let $\Psi(v)=F(v)-v/e$ and
+$\eta=F(1)-1/e=\det\Theta_1=0.06445$, and for
+$0<D\le10^{-2}$ let $\Phi_D(v)=v\,(D-\Psi(v))$. Then $\Phi_D$ is strictly concave on
+$[0,D/\eta]$, and
+\[
+\Rfix(D)=-\tfrac12\log\max_{0\le v\le D/\eta}\Phi_D(v).
+\]
+The maximum is attained at the unique zero $v_*$ of $\Phi_D'$ in $(0,D/\eta)$, and
+the infimum defining $\Rfix(D)$ is attained by the covariance with entries
+$d_{22}=v_*$, $d_{12}=-e^{-1/2}v_*$ and $d_{11}=D-F(v_*)+2v_*/e$.
+\end{proposition}
+
+\begin{proof}
+Let $\Delta$ be admissible with $L(\Delta)\le D$ and $d_{22}=v$. Since
+$0\prec\Delta\preceq I$, $0<v\le1$, and $F\ge0$ on $[0,1]$ because $F$ is concave with
+$F(0)=0$ and $F(1)>0$. By
+Proposition~\ref{prop:exact}(a), $d_{11}\le D-F(v)-2e^{-1/2}d_{12}$, so
+\[
+\det\Delta=d_{11}v-d_{12}^2\le(D-F(v))v-2e^{-1/2}d_{12}v-d_{12}^2\le(D-F(v))v+v^2/e
+=\Phi_D(v),
+\]
+the last step by maximizing the quadratic in $d_{12}$, at $d_{12}=-e^{-1/2}v$. Since
+$\det\Delta>0$, $\Phi_D(v)>0$, so $\Psi(v)<D$. By Proposition~\ref{prop:exact}(b),
+$F(v)\ge vF(1)$, so $\Psi(v)\ge\eta v$ and $v<D/\eta\le0.156$. Hence
+$\det\Delta\le\max_{[0,D/\eta]}\Phi_D$, and $r(\Delta)=-\tfrac12\log\det\Delta$.
+
+For the concavity, $\Phi_D''(v)=-2F'(v)-vF''(v)+2/e$. On $[0,0.16]$: $F'$ is
+decreasing, so $F'(v)\ge F'(0.16)>0.53$; and from the formula for $F''$ in the proof of
+Proposition~\ref{prop:exact}, $-\tfrac14<F''(v)<0$, so $-vF''(v)<0.04$. With $2/e<0.736$,
+$\Phi_D''<-0.28$. Since $\Phi_D(0)=0$, $\Phi_D'(0)=D>0$ and
+$\Phi_D(D/\eta)\le0$, the maximum is at an interior point $v_*$, the unique zero of
+$\Phi_D'$, and $\Phi_D(v_*)>0$.
+
+It remains to check that the stated covariance is admissible. Its loss is
+$d_{11}+2e^{-1/2}d_{12}+F(v_*)=D$, and its determinant is $\Phi_D(v_*)>0$ with
+$v_*>0$, so it is positive definite. Its entries satisfy $v_*<0.16$,
+$d_{11}\le D+2v_*/e<0.13$ and $d_{12}^2=v_*^2/e<0.01$, so $I-\Delta$ has positive trace
+and determinant at least $0.87\cdot0.84-0.01>0$, and $\Delta\preceq I$.
+\end{proof}
+
+The proposition is a proof of the reduction. The number it yields at a given $D$ is then
+the root of a monotone function, found in floating point. From $\Phi_D'(v_*)=0$, $d_{11}=v_*F'(v_*)$, so the minimizer is $v_*$ times the matrix
+with diagonal $(F'(v_*),1)$ and off-diagonal entries $-e^{-1/2}$. $Q^{-1}$ is proportional
+to the same matrix with $F'(0)$ in place of $F'(v_*)$, and $F'$ is strictly decreasing, so
+the minimizer is never on the family $tQ^{-1}$ of Theorem~\ref{thm:sharp}(b). Expanding
+the proposition in $D$ gives $\Rfix(D)=R_0(D)-c_1D+O(D^2)$ with
+$c_1=-F''(0)/(8(\det Q)^2)=(1-e^{-2})/(8(1-e^{-1})^4)=0.67695$. The reviewer of this
+proposition derived that expansion; it is not proved in the text, and the script's values
+of $(R_0-\Rfix)/D$ approach $0.67695$ as $D$ falls.
+
 \begin{sloppypar}
 \textbf{Numerical check with the exact loss.} The script
 \texttt{verify\_ft7\_exact.py} in \texttt{experiments/} (seed 20261122, output
@@ -582,17 +639,21 @@ nats, against $\tfrac12\log(1/D)+C_*=5.465084$ from Proposition~\ref{prop:gapex}
 difference is $7\cdot10^{-6}$, the size of the $O(D)$ term. The value of $h(U)$ cancels in
 this comparison, so it tests the constant of Theorem~\ref{thm:sharp} and not $h(U)$; the
 script checks $h(U)$ separately, by a second quadrature method. It exceeds the Gaussian upper
-bound on $R_U$ by $5.464702$, which is $0.0004$ less because that bound is not tight. The
-script also checks the entropy step of Proposition~\ref{prop:gapex} by quadrature at
-$D=0.1$ and $0.01$. The search is not a certified minimum. For
+bound on $R_U$ by $5.464702$, which is $0.0004$ less because that bound is not tight. The script also checks the entropy step of Proposition~\ref{prop:gapex} by quadrature at
+$D=0.1$ and $0.01$. By Proposition~\ref{prop:rate} the search's least rates are the
+minimum: the script solves the one-dimensional problem by bracketing the zero of
+$\Phi_D'$, and in the committed run the result agrees with the search to $10^{-13}$ nats at
+$D=10^{-2},\dots,10^{-6}$ (the script requires $10^{-9}$). So at these values $\Rfix$ is
+computed in floating point without relying on the search; there is no proved bound on
+the rounding error. For
 Theorem~\ref{thm:reduce} the script takes $p=3$, a correlated $\Sigma$, and
 $g(x)=g_1(Bx)$ with $B\Sigma B^{\mathsf T}=I_2$, for which $q=2$ and $\ker Q$ is not
 invariant under $\Sigma$. The loss of the three-dimensional channel, by Monte Carlo,
 agrees with the closed form at the block $E=B\Delta B^{\mathsf T}$ within $1.5$ standard
 errors on four random $\Delta$; the rate exceeds $-\tfrac12\log\det E$ on each; and the
 lift attains it. This consumer is $g_1$ composed with a linear map, so part (a) of the
-theorem holds by construction and only part (b) is tested. The fire test has six mutants,
-each a changed formula.
+theorem holds by construction and only part (b) is tested. The fire test has ten mutants,
+each a changed formula or value.
 \end{sloppypar}
 
 \textbf{An earlier check by Monte Carlo.} The script
@@ -663,6 +724,10 @@ corollaries compare information rates of that kind. No statement about codes is 
 \textbf{A model case.} Three bounded derivatives of $g$ and a Gaussian source are used
 throughout. They exclude natural consumers such as $g(x)=\|x\|^2$. The results are a model
 case, not a general theory of non-difference distortion measures.
+
+\textbf{Certified minima.} Only the example at $a=1$, for $D\le10^{-2}$, has a proved minimum
+(Proposition~\ref{prop:rate}). The searches of the earlier Monte Carlo script, and any
+search for another consumer, are not certified minima.
 
 \textbf{The range of $D$.} Theorem~\ref{thm:A}(c) and Theorem~\ref{thm:sharp}(a) hold for
 $D<D_0$, and in general we have no explicit lower bound for $D_0$. The sine example has

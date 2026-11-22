@@ -20,6 +20,11 @@ Claims checked (paper/t1-moving-kernel/t1-moving-kernel.tex, by label):
                through the active block E of the whitened error covariance, the rate is at
                least -(1/2) ln det E, and the lift diag(E, I) attains it.
 
+  prop:rate    For a = 1, Sigma = I and 0 < D <= 1e-2: R_fixed(D) = -(1/2) ln max phi_D(v)
+               over 0 <= v <= D/eta, phi_D(v) = v (D - F(v) + v/e), eta = F(1) - 1/e; phi_D
+               is strictly concave there; the minimizing covariance has d22 = v*,
+               d12 = -e^{-1/2} v*, d11 = D - F(v*) + 2 v*/e. (phi_D is Phi_D in the note.)
+
 Checks:
   e1  prop:exact against Monte Carlo (4 standard errors) at 3 covariances, for a = 1 and 0.7.
   e2  prop:exact(b), (c): F'' < 0 on a grid; F(v) >= v F(1); on 20,000 random admissible
@@ -50,8 +55,19 @@ Checks:
       of prop:gapex, 0 <= h(U + sqrt(D) N) - h(U) <= (1/2) ln(1 + D), at D = 0.1 and 0.01.
       By prop:gapex the constant of the gap is c'_+ (called C_* there).
 
+  e6  prop:rate (a = 1): phi_D'' < 0 on a grid of [0, 0.16]; phi_D' changes sign on
+      (0, D/eta), which is what lets the root-finder return v*; the stated covariance,
+      with d11 from the proposition's own formula, has loss D to 1e-15, is positive
+      definite and below I; its rate equals -(1/2) ln phi_D(v*); the search of e3 agrees
+      with that rate to 1e-9; and of 40,000 random admissible Delta per value of D, each
+      scaled along its ray to loss exactly D (the loss is concave along a ray, so that
+      point is the best feasible one on it), none has a lower rate. The random comparison
+      can only catch a claimed minimum that is too high; the search agreement catches one
+      that is too low. D = 1e-2, 1e-3, 1e-4, 1e-5, 1e-6.
+
 What the checks cannot fail on: e3's search is an upper estimate of the infimum, so its
-comparison with the lower side of the sandwich is only as good as the search. The O(D)
+comparison with the lower side of the sandwich is only as good as the search; at a = 1,
+e6 shows the search's values are the minimum. The O(D)
 remainder is checked through the sandwich, on one consumer.
 
 Fire test: `--fire` exits 0 only if every mutant fails its check.
@@ -65,6 +81,10 @@ Fire test: `--fire` exits 0 only if every mutant fails its check.
   m7  the entropy step with the bound (1/2) ln(1 + D / Var U)             (e5 must fail)
   m8  h(U) shifted by 1e-6                                                (e5 must fail,
       on the agreement with the second quadrature method)
+  m9  prop:rate with the term v^2/e dropped (a diagonal Delta)             (e6 must fail,
+      by about 0.52 nats)
+  m10 prop:rate with d12 = -0.99 e^{-1/2} v                               (e6 must fail,
+      by a few 1e-6 nats: this one probes the tolerance)
 
 Output: results/FT7-exact-net.json (verdict, FT7EXACT_supported). Seed 20261122.
 """
@@ -388,6 +408,52 @@ def check_e5(gaussian_h=False, weak_bound=False, h_shift=0.0):
     return ok, info
 
 
+def F1(v):
+    return 0.5 * math.exp(-v / 2) + math.exp(-2.0) * (1.5 * math.exp(1.5 * v) - math.exp(2 * v))
+
+
+E6_DS = [1e-2, 1e-3, 1e-4, 1e-5, 1e-6]
+
+
+def check_e6(rng, cross=1.0):
+    """cross = 1 is the proposition; d12 = -cross e^{-1/2} v is the mutated minimizer."""
+    ie = (2 * cross - cross * cross) * math.exp(-1.0)
+    kappa = F(1.0) - math.exp(-1.0)
+    grid = np.linspace(0.0, 0.16, 1601)
+    worst_curv = max(-2 * F1(v) - v * F2(v) + 2 * math.exp(-1.0) for v in grid)
+    ok, rows = worst_curv < 0, []
+    for D in E6_DS:
+        phi = lambda v: v * (D - F(v) + v * ie)
+        dphi = lambda v: D - F(v) + 2 * v * ie - v * F1(v)
+        vmax = D / kappa
+        v = optimize.brentq(dphi, 1e-300, vmax, xtol=1e-300, rtol=8.9e-16)
+        rate = -0.5 * math.log(phi(v))
+        d12 = -cross * EH * v
+        # the proposition's own formula for d11 at cross = 1: D - F(v*) + 2 v*/e
+        d11 = D - F(v) + 2 * cross * v * math.exp(-1.0)
+        delta = np.array([[d11, d12], [d12, v]])
+        loss = loss_exact(delta)
+        lo = float(np.linalg.eigvalsh(delta)[0])
+        hi = float(np.linalg.eigvalsh(np.eye(2) - delta)[0])
+        rate_direct = -0.5 * math.log(np.linalg.det(delta))
+        srch = min_rate_exact(D)
+        # random admissible Delta scaled to loss exactly D: none may beat the rate
+        best = math.inf
+        for d in random_admissible(rng, 40000):
+            sc = optimize.brentq(lambda x: loss_exact(x * d) - D, 1e-12, 1.0, xtol=1e-300, rtol=1e-12) \
+                if loss_exact(d) > D else 1.0
+            best = min(best, -0.5 * math.log(np.linalg.det(sc * d)))
+        rows.append({"D": D, "v_star": v, "v_star_over_bound": v / vmax, "rate": rate,
+                     "rate_from_det": rate_direct, "loss_of_minimizer": loss,
+                     "min_eig_Delta": lo, "min_eig_I_minus_Delta": hi,
+                     "search_min": srch, "rate_minus_search": rate - srch,
+                     "best_random_rate_minus_rate": best - rate})
+        ok = (ok and 0 < v < vmax and abs(loss - D) <= 1e-15
+              and lo > 0 and hi > 0 and abs(rate - rate_direct) <= 1e-9
+              and abs(rate - srch) <= 1e-9 and best >= rate - 1e-12)
+    return ok, {"max_phi_second_derivative_on_grid": worst_curv, "kappa": kappa, "rows": rows}
+
+
 def run():
     t0 = time.time()
     rng = np.random.default_rng(SEED)
@@ -397,10 +463,11 @@ def run():
     ok3, r3 = check_e3()
     ok4, r4 = check_e4(rng)
     ok5, r5 = check_e5()
-    out.update({"e1": r1, "e2": r2, "e3": r3, "e4": r4, "e5": r5})
+    ok6, r6 = check_e6(rng)
+    out.update({"e1": r1, "e2": r2, "e3": r3, "e4": r4, "e5": r5, "e6": r6})
     out["verdict"] = {"e1_exact_loss": bool(ok1), "e2_d0_lower_bound": bool(ok2),
                       "e3_sharp_expansion": bool(ok3), "e4_reduction": bool(ok4),
-                      "e5_quoted_numbers": bool(ok5)}
+                      "e5_quoted_numbers": bool(ok5), "e6_exact_rate": bool(ok6)}
     out["FT7EXACT_supported"] = all(out["verdict"].values())
     out["seconds"] = round(time.time() - t0, 1)
     return out
@@ -418,6 +485,8 @@ def fire():
         "m6_gaussian_entropy": not check_e5(gaussian_h=True)[0],
         "m7_entropy_step_weak_bound": not check_e5(weak_bound=True)[0],
         "m8_h_shifted": not check_e5(h_shift=1e-6)[0],
+        "m9_no_cross_term": not check_e6(rng, cross=0.0)[0],
+        "m10_cross_term_0.99": not check_e6(rng, cross=0.99)[0],
     }
     print("fire:", caught)
     return all(caught.values())
