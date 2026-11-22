@@ -7,7 +7,7 @@ author's request of 2026-11-22 ("write the FT.7 custody table"). It records what
 ## Claim
 
 The numbered statements of the T1 addendum on moving read kernels,
-`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.2), by label. The source is
+`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.3), by label. The source is
 $T\sim N(0,\Sigma)$ in $\mathbb R^p$, $\Sigma\succ0$. The consumer acts through a $C^3$ map
 $g:\mathbb R^p\to\mathbb R^k$ with three bounded derivatives, loss
 $\|g(\hat x)-g(x)\|^2$, local read metric $P_C(x)=J_g(x)^{\mathsf T}J_g(x)$ and
@@ -59,7 +59,8 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
 `prop:B` and `cor:C`, and the section "An example". The proofs last changed in 45cbc15.
 Version 0.2 (2026-11-22) changed the remark `rem:scope` and the example's numerical
 paragraphs only: it adds the upper bound $D_0\le3\lambda^2/(4K)$ and says what the quoted
-gap numbers do and do not bound.
+gap numbers do and do not bound. Version 0.3 (the same day) applies VI-54's wording
+findings to those passages.
 
 `thm:A` imports one result: the second-order remainder
 $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (its theorem
@@ -84,13 +85,19 @@ $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (i
     m5 and m6 passed on "slope is not 1" (#12).
   - Of its 16 findings, 14 were applied in 45cbc15. #13 (c3 for $g_1$ is nearly trivial) was
     left as is; #14 (CI wall time) needed no change.
-- **No pass with a VI row has read the state after 45cbc15.** That includes the bound
-  $D_0\le3\lambda^2/(4K)$ of v0.2, which the reviewer of this file derived and the
-  assistant re-derived, and the present form of c5 (same
+- **VI-54** read the v0.2 changes: the bound $D_0\le3\lambda^2/(4K)$ of `rem:scope`, its use
+  in the example, and the reworded gap paragraph.
+  - No mathematical error; the bound is correct and correctly used, and every new number
+    reproduces from the JSON.
+  - One overclaim: gap figures quoted to four decimals, finer than the sampling error
+    (about 0.003) of the rates they come from.
+  - The script's docstring contradicted the note; gaps and wording. All applied in v0.3.
+  - It did not re-run the net and did not re-read the proofs of `thm:A`, `prop:B` or `cor:C`.
+- **No pass has read the net's code since 45cbc15.** That is the present form of c5 (same
   sample, two-sided, the closed-form $\lambda$) and the present m5 and m6. c5 is the only
-  check on the lower bound.
+  check on the lower bound. No pass has read the v0.3 wording.
 
-Neither pass checked the prior-art sources. A separate fresh-context pass read this custody
+No pass checked the prior-art sources. A separate fresh-context pass read this custody
 file on 2026-11-22, before it was committed; its findings are applied here. It is not a pass
 on the proofs and has no VI row.
 
@@ -152,7 +159,7 @@ says what it is.
 | c2, family slope, I2 | `thm:A`(d) | 1.5, as for I1 | `1.4995` | `results/FT7-moving-kernel-net.json#instances.I2.slope_R_fix` | upper bound only |
 | c2, family slope, I3 | `thm:A`(d) | 1.5, as for I1 | `1.5001` | `results/FT7-moving-kernel-net.json#instances.I3.slope_R_fix` | upper bound only |
 | c2, family slope, the control I4 | the net | — (the script's prediction, 0.5; the note proves nothing for a fixed kernel) | `0.5000` | `results/FT7-moving-kernel-net.json#instances.I4.slope_R_fix` | |
-| Family rate less the Shannon lower bound on $R_U$, $D=10^{-5}$ | `cor:C`, upper side | ≤ 6.158, if $D<D_0$ | `5.4676` | `results/FT7-moving-kernel-net.json#instances.I5.c4_excess_bracket_at_1e-5.1` | 0.69 nats. Not an independent test: $h(U)$ cancels, and this is the `thm:A`(d) row again. $c_+=0.402$, computed here |
+| Family rate less the Shannon lower bound on $R_U$, $D=10^{-5}$ | `cor:C`, upper side | ≤ 6.158; this side needs only `thm:A`(d) and the Shannon bound, so $D<D_1$ suffices | `5.4676` | `results/FT7-moving-kernel-net.json#instances.I5.c4_excess_bracket_at_1e-5.1` | 0.69 nats; the measured figure carries sampling error of about 0.003, more than the 0.0004 between the two bounds on $R_U$. Not an independent test: $h(U)$ cancels, and this is the `thm:A`(d) row again. $c_+=0.402$, computed here |
 | c3, error of the right inverse after projection, I1 | `prop:B`(c) | 0 | `8.9e-16` | `results/FT7-moving-kernel-net.json#instances.I1.c3.section_max_error` | rounding; the same value for I2 to I4 |
 | Fire test, mutants caught | the net | must fail | `6 of 6` | `claims/audits/VI-53-ft7-confirming.md` | the assistant's run after the VI-53 fixes ("After these fixes"). The VI-53 verifier's own 6 of 6 was on the earlier m5 and m6. Not CI-run, not independently re-run |
 
@@ -186,10 +193,13 @@ says what it is.
   - Its upper side, tested with the family, repeats the `thm:A`(d) row.
   - Its lower side would be tested by the search's minimum less the Gaussian upper bound on
     $R_U$. At $D=10^{-5}$ that is $11.3996-5.9361=5.4635$ against
-    $\tfrac12\log(1/D)+c_-=3.610$, with $c_-=-2.146$. This is the `thm:A`(c) comparison
-    again, and no check computes it.
+    $\tfrac12\log(1/D)+c_-=3.610$, with $c_-=-2.146$, a bound proved only for $D<D_0$. This
+    is the `thm:A`(c) comparison again, and no check computes it.
   - The number 5.4672 that the note quotes is the family less the Gaussian upper bound. It
-    bounds the true gap in neither direction; the note says so since v0.2.
+    bounds the true gap in neither direction.
+  - The figures 5.4635, 5.4672 and 5.4676 come from two samples (200,000 and 10⁶) whose
+    family rates differ by 0.004, so they are good to about two decimals. The note says
+    "about 5.46 to 5.47" since v0.3.
   - What `cor:C` adds to `thm:A` has no check: $R_C=R_U$, the Shannon lower bound and the
     Gaussian upper bound on $R_U$.
 - **No check can fail on some statements.** `lem:kernel`, `thm:A`(b), `prop:B`(a) and the
@@ -207,4 +217,9 @@ says what it is.
   recomputed all of them, and $h(U)$ by its own quadrature.
 - **The fire test is not in CI,** and its result on the present mutants is the assistant's
   own run.
-- **No fresh pass has read the proofs or the net since 45cbc15.**
+- **No fresh pass has read the proofs or the net's code since 45cbc15.** VI-54 read the
+  v0.2 text changes only.
+- **A lead, unverified.** The VI-54 verifier derived a closed form for the loss of $g_1$
+  and from it estimated $D_0\approx0.0014$, which would put $10^{-3}$, $10^{-4}$ and
+  $10^{-5}$ inside the proved range. No second context has checked that formula, and the
+  minimization behind the estimate is not certified. Nothing here relies on it.

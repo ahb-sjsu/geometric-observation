@@ -1,6 +1,8 @@
 """C3 net for the T1 addendum on consumers whose read kernel moves (FRONTIER FT.7).
 
-Claims checked (paper/t1-moving-kernel/t1-moving-kernel.tex, by label):
+Claims of the note (paper/t1-moving-kernel/t1-moving-kernel.tex, by label). thm:A is
+checked as listed below. Of prop:B only the section identity is checked (c3); R_C and R_U
+are never computed, so what cor:C adds to thm:A has no check of its own:
   thm:A   For a consumer map g with bounded derivatives and Q = E P_C(T) positive definite,
           every fixed-covariance Gaussian test channel T = That + Z, Z ~ N(0, Delta)
           independent of That, with small Delta has tr(Delta) <= 2 E loss / lambda_min(Q)
@@ -34,8 +36,10 @@ the first version could not fail if thm:A(c) were false):
       Delta (rotation, anisotropy, scale; a grid and a Nelder-Mead polish; not a certified
       minimum) has slope 1 in ln(1/D); on the same sample it agrees with the t Q^{-1}
       family to 1e-3 nats, two-sided; and it is not below the bound of thm:A(c), computed
-      from the exact lambda_min(Q). That bound is proved only for D < D_0, which is not
-      explicit, so the comparison at the larger D is beyond the proved range.
+      from the exact lambda_min(Q). That bound is proved only for D < D_0. The note
+      (rem:scope) shows D_0 <= 3 lambda^2/(4K) = 0.0021 for I5, so D = 1e-2 is outside
+      the proved range; D_0 has no lower bound on record, so the smaller D are not shown
+      to be inside it.
 
 Fire test: `--fire` exits 0 only if every mutant fails its check.
   m1  thm:A(a) with factor 0.5 instead of 2 (a re-run of c1).

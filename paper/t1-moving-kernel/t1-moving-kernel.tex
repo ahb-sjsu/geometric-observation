@@ -21,7 +21,7 @@
 
 \title{The Price of a Fixed Weight When the Read Kernel Moves\\ (T1 addendum, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v0.2, 2026-11-22. Drafted by
+\thanks{Working note of the Observation Theory program, v0.3, 2026-11-22. Drafted by
 Claude (Anthropic) at the author's request. The author set the scope in review notes of
 2026-11-21 and supplied the example of Section~\ref{sec:example}. The author has not yet
 read the proofs. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
@@ -165,13 +165,14 @@ $t\le p/(K(\tr Q^{-1})^2)$. With $t=D/(2p)$ the loss is at most $D$ and
 $r(\Delta_t)=\tfrac12\log\det(\Sigma Q)+\tfrac p2\log(2p/D)$.
 \end{proof}
 
-\begin{remark}[What the theorem does not cover]\label{rem:scope}
+\begin{remark}[Scope of the theorem]\label{rem:scope}
 The theorem needs $Q\succ0$. For $q<p$ the analogous statement would have $q$ in place of
 $p$, since a channel may leave the directions of $\ker Q$ undescribed, but
 $\Delta\preceq\Sigma$ couples those directions to the rest unless $\ker Q$ is invariant
 under $\Sigma$, and we do not prove it. The constant $D_0$ comes from a compactness
 argument, and we have no explicit lower bound for it. It does have an explicit upper
-bound when $s_0<\lmin(\Sigma)$. Let $v$ be a unit eigenvector of $Q$ for $\lambda$ and
+bound, for instance when $s_0<\lmin(\Sigma)$ (a sufficient condition, not a necessary
+one). Let $v$ be a unit eigenvector of $Q$ for $\lambda$ and
 $\Delta_\varepsilon=s_0vv^{\mathsf T}+\varepsilon I$. For small $\varepsilon>0$ this is
 admissible with $\tr\Delta_\varepsilon\ge s_0$, and
 $L(\Delta_\varepsilon)\le\tr(Q\Delta_\varepsilon)+K(\tr\Delta_\varepsilon)^2$, so letting
@@ -179,7 +180,9 @@ $\varepsilon\to0$,
 \[
 D_0\ \le\ \lambda s_0+Ks_0^2=\frac{3\lambda^2}{4K}.
 \]
-So part (c) can only cover $D$ below $3\lambda^2/(4K)$, and we do not show how far below.
+Then the range $D<D_0$ for which part (c) is proved lies below $3\lambda^2/(4K)$, and we
+do not show how far below. This limits the proof's range; it does not say the inequality
+of part (c) fails for larger $D$.
 The bound is over fixed-covariance Gaussian test channels only.
 \end{remark}
 
@@ -315,16 +318,21 @@ reaches past what part (a) proves.
 sample as the search, agrees with the search's minimum to within $10^{-4}$ nats at all
 four values of $D$. On a separate, larger sample it gives $4.489$, $6.798$, $9.101$ and
 $11.403$ nats; the difference of $0.004$ is Monte Carlo noise between the two samples. Over
-$D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ the family's rate exceeds
-$R_U$ by between $5.4672$ and $5.4676$ nats, the two ends coming from the Gaussian upper
-bound and the Shannon lower bound on $R_U$; here $\tfrac12\log(1/D)=5.756$. Only the
-larger number bounds the gap $\Rfix-\RC$, and from above, since the family's rate is an
-upper bound on $\Rfix$. It is the comparison of part (d) again, not a separate test of
-Corollary~\ref{cor:C}. From below, the search's minimum less the Gaussian upper bound on
-$R_U$ is $5.4635$ nats, against $\tfrac12\log(1/D)+c_-=3.610$; that is the comparison of
-part (c) again, and it rests on a search that is not a certified minimum. What the
-corollary adds to Theorem~\ref{thm:A}, namely $\RC=R_U$ and the two bounds on $R_U$, has
-no numerical check.
+$D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ the family's rate on the larger
+sample exceeds $R_U$ by between $5.4672$ and $5.4676$ nats, the two ends coming from the
+Gaussian upper bound and the Shannon lower bound on $R_U$. Those two bounds on $R_U$ are
+$0.0004$ apart, while the family's rate differs by $0.004$ between the two samples, so
+the sampling error is the larger uncertainty and the gap figures are good to about two
+decimals: the family's rate exceeds $R_U$ by about $5.46$ to $5.47$ nats. The family's
+rate is an upper bound on $\Rfix$, so this bounds the gap $\Rfix-\RC$ from above, up to
+that sampling error, against $\tfrac12\log(1/D)+c_+=6.158$. It is the comparison of part
+(d) again, not a separate test of Corollary~\ref{cor:C}. From below, the search's minimum
+(on the smaller sample) less the Gaussian upper bound on $R_U$ is $5.46$ nats, against
+$\tfrac12\log(1/D)+c_-=3.610$, a bound proved only for $D<D_0$, which is not shown here.
+That is the comparison of part (c) again, and it rests on a search that is not a
+certified minimum. What the corollary adds to Theorem~\ref{thm:A}, namely $\RC=R_U$ and
+the two bounds on $R_U$, has no numerical check beyond the identity $g(s(u))=u$, which is
+trivial for this $g$.
 
 \emph{Other consumers, upper bounds only.} For three smooth radial consumers the script
 evaluates one hand-picked family each, and finds slopes $1.0002$, $1.4995$ and $1.5001$
