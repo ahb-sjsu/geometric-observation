@@ -33,10 +33,11 @@ Department of Computer Engineering, San Jos\'e State University\\
 
 \begin{abstract}
 The T1 note learns one quadratic weight for a consumer and serves codes built for that
-weight. That is the right object when the directions the consumer ignores are the same at
-every source point. This addendum treats a consumer whose ignored directions change with
-the point. The case proved here is the one in which the averaged weight has full rank,
-the consumer's image is closed and convex, and its output has a regular law. For the
+weight. T1 bounds the price of that weight when the directions the consumer ignores are
+the same at every source point and its sandwich assumption holds. This addendum treats a
+consumer whose ignored directions change with the point. The case proved here is the one
+in which the averaged weight has full rank, the consumer map has a measurable right
+inverse, its image is closed and convex, and its output has a regular law. For the
 Gaussian test channels that T1 covers, the rate needed to meet a small consumer loss then
 exceeds the consumer's own rate--distortion function by a term that grows like the
 logarithm of the inverse loss. Its coefficient is half the number of source dimensions
@@ -218,9 +219,10 @@ $R_U^{\cU}(D)\le R_U(D)$.
 When the image is curved and not convex, (b) still applies and the reproductions must
 stay on the image. Part (c) is what lets unrestricted Euclidean reproductions be used.
 
-The proposition shows that describing the output suffices for a decoder that holds a
-section. The substance of hypothesis (b) is that the decoder holds one, not that one
-exists. It does not show that a learner must learn the level sets of $g$. That would
+The proposition shows that describing the output suffices for a reproduction map that
+uses a section. We call the holder of that map the decoder, informally: no code is
+constructed here. The substance of hypothesis (b) is that the decoder holds a section,
+not that one exists. It does not show that a learner must learn the level sets of $g$. That would
 need a lower bound of its own.
 
 \begin{corollary}[The rate gap]\label{cor:C}
@@ -282,21 +284,26 @@ $\tfrac12\log(1/D)+O(1)$.
 \texttt{results/FT7-moving-kernel-net.json}) works at $a=1$, by Monte Carlo with common
 random numbers. It makes three kinds of check, and they test different things.
 
-\emph{The lower bound.} For $g_1$ the script minimizes the rate over all $2\times2$
-covariances $\Delta$ (rotation, anisotropy and scale) subject to the loss constraint. At
-$D=10^{-2},10^{-3},10^{-4},10^{-5}$ the minimum is $4.485$, $6.794$, $9.097$ and
-$11.400$ nats, with slope $1.0009$ in $\log(1/D)$ against $p/2=1$. It stays above the
-bound of Theorem~\ref{thm:A}(c), which is $2.636$, $4.938$, $7.241$ and $9.544$. The
-inequality of Theorem~\ref{thm:A}(a) is checked on random $\Delta$ and on $\Delta$
-nearly of rank one along the least eigenvector of $Q$, where it is tight: the ratio
-$\lambda\tr\Delta/(2L)$ is between $0.494$ and $0.498$ on those cases, against the bound
-$1$. Here $K=6.993$ and $s_0=0.0100$, and most of the sampled range
-$\tr\Delta\in[10^{-4},0.03]$ lies beyond $s_0$, so the check reaches past what part (a)
-proves.
+\emph{The lower bound.} For $g_1$ the script searches numerically for the least rate
+over all $2\times2$ covariances $\Delta$ (rotation, anisotropy and scale; a grid and a
+simplex polish, not a certified minimum) subject to the loss constraint. At
+$D=10^{-2},10^{-3},10^{-4},10^{-5}$ it finds $4.485$, $6.794$, $9.097$ and
+$11.400$ nats, with slope $1.0009$ in $\log(1/D)$ against $p/2=1$. These sit above the
+expression of Theorem~\ref{thm:A}(c), which with the exact $\lambda=0.13993$ is $2.639$,
+$4.941$, $7.244$ and $9.546$. Part (c) is proved only for $D<D_0$, and $D_0$ is not
+explicit, so at the larger values of $D$ this comparison is beyond the proved range. The
+gap to that expression is a constant, about $1.85$ nats, so the slope is the sensitive
+check. The inequality of Theorem~\ref{thm:A}(a) is checked on random $\Delta$ and on
+$\Delta$ nearly of rank one along the least eigenvector of $Q$, where it is closest to
+equality: the ratio $\lambda\tr\Delta/(2L)$ tends to $1/2$ there, and is between $0.494$
+and $0.498$ on those cases, against the bound $1$. Here $K=6.993$ and $s_0=0.0100$, and
+most of the sampled range $\tr\Delta\in[10^{-4},0.03]$ lies beyond $s_0$, so the check
+reaches past what part (a) proves.
 
-\emph{The upper bound.} The family $\Delta=tQ^{-1}$ of part (d) gives $4.489$, $6.798$,
-$9.101$ and $11.403$ nats at the same four values of $D$. The minimum over all $\Delta$
-is within $0.004$ of it, which is Monte Carlo noise between two samples. Over
+\emph{The upper bound.} The family $\Delta=tQ^{-1}$ of part (d), evaluated on the same
+sample as the search, agrees with the search's minimum to within $10^{-4}$ nats at all
+four values of $D$. On a separate, larger sample it gives $4.489$, $6.798$, $9.101$ and
+$11.403$ nats; the difference of $0.004$ is Monte Carlo noise between the two samples. Over
 $D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ it exceeds the
 bracket for $R_U$ by between $5.4672$ and $5.4676$ nats, where
 $\tfrac12\log(1/D)=5.756$.
@@ -308,9 +315,10 @@ against $1$, $1.5$ and $1.5$. These are rates of achievable families. They test 
 $g(x)=x_1+0.3\sin x_1$, has slope $0.5000$ and an excess between $0.004$ and $0.014$
 nats; for a control an upper bound is the right direction.
 
-The script's fire test has six mutants. Two run the full minimization on a changed
-instrument, a fixed-kernel consumer and a loss with the $\sin x_2$ term removed, and
-require the slope check to fail. The other four change a predicted number.
+The script's fire test has six mutants. Two run the full search on a changed instrument:
+a fixed-kernel consumer, and a loss that reads one fixed direction at $37^\circ$, off the
+search's angle grid. Both must return slope $1/2$ in place of $1$, and both do. The
+other four change a predicted number.
 
 \section{What is not claimed}
 
@@ -330,19 +338,21 @@ weight, is the subject of the high-resolution theory of non-difference distortio
 measures \cite{linderzamir,linderzamirzeger}. We could not obtain those two papers and
 have not read them. Quantization judged by the error of a downstream function is studied
 as functional quantization by Misra, Goyal and Varshney \cite{misra}. We read the first
-half of its arXiv version, through an automated summary and not line by line. Its setting
-is distributed: each sensor quantizes its own coordinate with a scalar quantizer, and the
-loss is the squared error of the function. It remarks that an encoder which knows the
-function can do no better than compute it and encode the result, which is the idea of
-Proposition~\ref{prop:B}; the proposition adds the role of the decoder's section and of a
-curved image. Its comparisons with ordinary quantizers in that setting show the same
-slope in rate and a different constant, and a gap that grows with the number of sensors.
-The growing gap here is of another kind: it is in rate at a fixed small loss, for vector
-test channels whose error covariance cannot depend on the source point. We did not read
-its section on intervals where the function is insensitive, which may be closer. This
-note therefore makes no claim of priority. What the note adds to T1 is the comparison: when $Q$ has full rank
-and the consumer reads fewer directions at each point, the fixed-covariance Gaussian test
-channels behind the codes T1 serves need a rate that exceeds $\RC$ by a growing term.
+half of its arXiv version, through an automated summary and not line by line. According
+to that summary, its setting is distributed: each sensor quantizes its own coordinate
+with a scalar quantizer, and the loss is the squared error of the function. According to
+the summary it also remarks that an encoder which knows the function can do no better
+than compute it and encode the result, which is the idea of
+Proposition~\ref{prop:B}. As far as we read, the proposition's use of a section and of a
+curved image is not there. Its comparisons with ordinary quantizers in that setting are
+reported to show the same slope in rate and a different constant, and a gap that grows
+with the number of sensors. The growing gap here is of another kind: it is in rate at a
+fixed small loss, for vector test channels whose error covariance cannot depend on the
+source point. We did not read its section on intervals where the function is
+insensitive, which may be closer. This note therefore makes no claim of priority. What
+the note adds to T1 is the comparison: under the hypotheses of Corollary~\ref{cor:C} with
+$k<p$, the fixed-covariance Gaussian test channels behind the codes T1 serves exceed
+$\RC$ by $\tfrac{p-k}2\log(1/D)+O(1)$.
 
 \begin{thebibliography}{9}
 \bibitem{t1} A. H. Bond, ``Learn then serve: Recovering a consumer's read operator and

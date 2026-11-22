@@ -241,10 +241,17 @@ jobs:
           working_directory: paper/t1-learn-then-serve
           latexmk_use_xelatex: false
           args: -pdf -interaction=nonstopmode -halt-on-error
-      - name: Fail on undefined references / citations (beyond-stationary manuscript and T1 note)
+      - name: Compile the T1 addendum on moving read kernels (t1-moving-kernel.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: t1-moving-kernel.tex
+          working_directory: paper/t1-moving-kernel
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+      - name: Fail on undefined references / citations (beyond-stationary manuscript, T1 note and addendum)
         run: |
           rc=0
-          for f in paper/tit-beyond-stationary/tit-beyond-stationary paper/t1-learn-then-serve/t1-learn-then-serve; do
+          for f in paper/tit-beyond-stationary/tit-beyond-stationary paper/t1-learn-then-serve/t1-learn-then-serve paper/t1-moving-kernel/t1-moving-kernel; do
             if [ ! -f "$f.log" ]; then
               echo "::error::$f.log is missing -- the document did not compile"
               rc=1

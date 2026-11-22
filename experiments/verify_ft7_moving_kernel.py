@@ -27,21 +27,23 @@ the first version could not fail if thm:A(c) were false):
       I4 diag(d, 1); I5 t Q^{-1}) has slope rank(Q)/2 in ln(1/D). This is an upper bound
       on R_fixed. It tests thm:A(d) and the second-order exactness of T1. It does NOT test
       the lower bound thm:A(c). For the control I4 an upper bound is the right direction.
-  c3  The section code: g(s(proj(u))) = proj(u), evaluated with the consumer function
+  c3  The section map: g(s(proj(u))) = proj(u), evaluated with the consumer function
       itself, and its consumer loss never above the unprojected error. I1-I5.
   c4  The excess bracket at D = 1e-5 is finite (it carries the numbers the note quotes).
-  c5  I5 only, the lower bound: the least rate over ALL 2x2 Delta (rotation, anisotropy,
-      scale; a grid and a Nelder-Mead polish) has slope 1 in ln(1/D), is not below the
-      t Q^{-1} family by more than Monte Carlo noise, and is not below the bound of
-      thm:A(c).
+  c5  I5 only, the lower bound: a numerical search for the least rate over ALL 2x2
+      Delta (rotation, anisotropy, scale; a grid and a Nelder-Mead polish; not a certified
+      minimum) has slope 1 in ln(1/D); on the same sample it agrees with the t Q^{-1}
+      family to 1e-3 nats, two-sided; and it is not below the bound of thm:A(c), computed
+      from the exact lambda_min(Q). That bound is proved only for D < D_0, which is not
+      explicit, so the comparison at the larger D is beyond the proved range.
 
 Fire test: `--fire` exits 0 only if every mutant fails its check.
   m1  thm:A(a) with factor 0.5 instead of 2 (a re-run of c1).
   m2-m4  wrong predictions compared with measured slopes (tolerance checks only).
-  m5  instrument mutant: the c5 optimiser run on the fixed-kernel consumer
-      g(x) = x1 + sin x1 must NOT return slope 1.
-  m6  instrument mutant: the c5 optimiser run with the loss corrupted to z1^2 (the
-      sin x2 term dropped) must NOT return slope 1.
+  m5  instrument mutant: the c5 search run on the fixed-kernel consumer
+      g(x) = x1 + sin x1 must return slope 1/2 (within tolerance), not 1.
+  m6  instrument mutant: the c5 search run on a loss that reads one fixed direction at
+      37 degrees, off the search's angle grid, must return slope 1/2, not 1.
 
 Output: results/FT7-moving-kernel-net.json (verdict, FT7NET_supported). Seed 20261131.
 """
@@ -192,8 +194,9 @@ class Fixed:
         return float(np.mean(self.loss(xh, z)))
 
     def rate_fix(self, D):
-        """Least rate (1/2) sum ln(1/d_i) over the family that is optimal by symmetry:
-        I1, I2 isotropic; I3 diag(a, a, b) with b = D - L_a(a); I4 diag(d, 1)."""
+        """Rate of a hand-picked achievable family, an upper bound on R_fixed:
+        I1, I2 isotropic; I3 diag(a, a, b) with b = D - L_a(a); I4 diag(d, 1);
+        I5 t Q^{-1}."""
         nm = self.name
         if nm in ("I1", "I2"):
             d = optimize.brentq(lambda t: self.L([t] * self.p) - D, D / 20, min(0.99, 20 * D), xtol=1e-14 * D)
@@ -273,7 +276,7 @@ def check_c1(name, lam, rng, factor=2.0, n_delta=60, n_mc=400_000, q=None):
     return ok, float(worst), adv
 
 
-# ---------- c3: the section code ----------
+# ---------- c3: the section map ----------
 def check_c3(name, rng, n=200_000):
     p = INST[name]["p"]
     x = rng.standard_normal((n, p))
@@ -332,8 +335,12 @@ def loss_fixed_kernel(xh, z):
     return (z[:, 0] + np.sin(xh[:, 0] + z[:, 0]) - np.sin(xh[:, 0])) ** 2
 
 
+_ANG = math.radians(37.0)
+
+
 def loss_corrupted(xh, z):
-    return z[:, 0] ** 2
+    """A fixed-kernel loss whose read direction is at 37 degrees, off the angle grid."""
+    return (math.cos(_ANG) * z[:, 0] + math.sin(_ANG) * z[:, 1]) ** 2
 
 
 def full_min_rate(loss, D, w1, w2):
@@ -377,10 +384,26 @@ def full_min_rate(loss, D, w1, w2):
     return float(min(best, res.fun))
 
 
-def c5_slopes(loss, rng):
+def family_rate_same_sample(loss, D, w1, w2):
+    """Rate of Delta = t Q5^{-1} at loss D, on the given sample."""
+    qi = np.linalg.inv(Q5)
+
+    def lt(u):
+        delta = math.exp(u) * qi
+        ch = np.linalg.cholesky(np.eye(2) - delta)
+        cz = np.linalg.cholesky(delta)
+        return float(np.mean(loss(w1 @ ch.T, w2 @ cz.T))) - D
+    t = math.exp(optimize.brentq(lt, math.log(D / 40), math.log(min(0.05, 20 * D)), xtol=1e-7))
+    return 0.5 * math.log(np.linalg.det(Q5) / (t * t))
+
+
+def c5_slopes(loss, rng, family=False):
     w1 = rng.standard_normal((C5_N, 2))
     w2 = rng.standard_normal((C5_N, 2))
     rates = [full_min_rate(loss, D, w1, w2) for D in C5_DS]
+    if family:
+        fam = [family_rate_same_sample(loss, D, w1, w2) for D in C5_DS]
+        return rates, slope(C5_DS, rates), fam
     return rates, slope(C5_DS, rates)
 
 
@@ -425,16 +448,21 @@ def run(fire=False):
         inst["c4_excess_bracket_at_1e-5"] = [last["excess_lower"], last["excess_upper"]]
         verdict[f"c4_{name}_finite"] = bool(np.isfinite(last["excess_lower"]) and np.isfinite(last["excess_upper"]))
         if name == "I5":
-            rates, s5 = c5_slopes(loss_I5, rng)
+            rates, s5, fam_same = c5_slopes(loss_I5, rng, family=True)
             fam = {r["D"]: r["R_fix"] for r in rows}
-            thm_a = [math.log(2 * lam / (2 * D)) for D in C5_DS]  # (p/2) ln(p lam/(2D)), p = 2, Sigma = I
+            lam_exact = float(np.linalg.eigvalsh(Q5)[0])
+            # (p/2) ln(p lam/(2D)) with p = 2, Sigma = I, from the exact lambda_min(Q)
+            thm_a = [math.log(2 * lam_exact / (2 * D)) for D in C5_DS]
             # K of eq. (K) in the note for g_1: M1 = sqrt 2, M2 = M3 = 1, tr Sigma = 2
             big_k = 1.75 + 2 * math.sqrt(2) + (math.sqrt(5) / 2) * math.sqrt(2) + (5 / 12) * 2
             inst["c5"] = {"D": C5_DS, "min_rate_all_Delta": rates, "slope": s5,
-                          "family_rate": [fam[D] for D in C5_DS], "thmA_c_bound": thm_a,
-                          "K": big_k, "s0": lam / (2 * big_k)}
+                          "family_rate": [fam[D] for D in C5_DS],
+                          "family_rate_same_sample": fam_same, "thmA_c_bound": thm_a,
+                          "lambda_min_Q_exact": lam_exact,
+                          "K": big_k, "s0": lam_exact / (2 * big_k)}
             verdict["c5_I5_slope"] = abs(s5 - 1.0) <= SLOPE_TOL
-            verdict["c5_I5_not_below_family"] = all(m >= fam[D] - 0.02 for m, D in zip(rates, C5_DS))
+            verdict["c5_I5_matches_family_same_sample"] = all(
+                abs(m - f) <= 1e-3 for m, f in zip(rates, fam_same))
             verdict["c5_I5_above_thmA_bound"] = all(m >= b for m, b in zip(rates, thm_a))
             print(f"I5 c5: min over all Delta {[round(x, 4) for x in rates]}, slope {s5:.4f}", flush=True)
         out["instances"][name] = inst
@@ -472,9 +500,9 @@ def fire():
     caught["m4_moving_bounded"] = all(abs(out["instances"][nm]["slope_excess"]) > SLOPE_TOL for nm in ["I1", "I2", "I3", "I5"])
     # m5, m6: instrument mutants through the c5 optimiser
     _, s_fk = c5_slopes(loss_fixed_kernel, rng)
-    caught["m5_fixed_kernel_through_c5"] = abs(s_fk - 1.0) > SLOPE_TOL
+    caught["m5_fixed_kernel_through_c5"] = abs(s_fk - 0.5) <= SLOPE_TOL
     _, s_co = c5_slopes(loss_corrupted, rng)
-    caught["m6_corrupted_loss_through_c5"] = abs(s_co - 1.0) > SLOPE_TOL
+    caught["m6_corrupted_loss_through_c5"] = abs(s_co - 0.5) <= SLOPE_TOL
     print("m5 slope", round(s_fk, 4), "m6 slope", round(s_co, 4))
     print("fire:", caught)
     return all(caught.values())
