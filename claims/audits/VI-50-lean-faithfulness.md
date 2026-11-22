@@ -14,6 +14,10 @@ sha256 prefix:
 | `lean/ObservationTheory/ConsumerLandauerBlocks.lean` | `e8da232d…` |
 | `paper/consumer-relative-landauer.tex` | `ad5ed7e8…` |
 
+The EntropyTools and IidBlocks hashes are of the working files as read, which had Windows
+line endings. The committed blobs, with LF endings, have the same content and hash
+`e249b71d…` and `03423625…`.
+
 **Verifier.** A fresh-context general-purpose agent, local files only, with no browser,
 connector or network tools and no access to the assistant's verdict. It did not compile
 anything.
