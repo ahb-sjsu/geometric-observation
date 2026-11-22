@@ -21,7 +21,7 @@
 
 \title{The Price of a Fixed Weight When the Read Kernel Moves\\ (T1 addendum, working note)}
 \author{Andrew~H.~Bond%
-\thanks{Working note of the Observation Theory program, v0.1, 2026-11-21. Drafted by
+\thanks{Working note of the Observation Theory program, v0.2, 2026-11-22. Drafted by
 Claude (Anthropic) at the author's request. The author set the scope in review notes of
 2026-11-21 and supplied the example of Section~\ref{sec:example}. The author has not yet
 read the proofs. The T1 note \cite{t1} is frozen at v4.1 and is not changed by this
@@ -170,8 +170,17 @@ The theorem needs $Q\succ0$. For $q<p$ the analogous statement would have $q$ in
 $p$, since a channel may leave the directions of $\ker Q$ undescribed, but
 $\Delta\preceq\Sigma$ couples those directions to the rest unless $\ker Q$ is invariant
 under $\Sigma$, and we do not prove it. The constant $D_0$ comes from a compactness
-argument and is not explicit. The bound is over fixed-covariance Gaussian test channels
-only.
+argument, and we have no explicit lower bound for it. It does have an explicit upper
+bound when $s_0<\lmin(\Sigma)$. Let $v$ be a unit eigenvector of $Q$ for $\lambda$ and
+$\Delta_\varepsilon=s_0vv^{\mathsf T}+\varepsilon I$. For small $\varepsilon>0$ this is
+admissible with $\tr\Delta_\varepsilon\ge s_0$, and
+$L(\Delta_\varepsilon)\le\tr(Q\Delta_\varepsilon)+K(\tr\Delta_\varepsilon)^2$, so letting
+$\varepsilon\to0$,
+\[
+D_0\ \le\ \lambda s_0+Ks_0^2=\frac{3\lambda^2}{4K}.
+\]
+So part (c) can only cover $D$ below $3\lambda^2/(4K)$, and we do not show how far below.
+The bound is over fixed-covariance Gaussian test channels only.
 \end{remark}
 
 \section{The consumer's rate as an output rate}
@@ -290,8 +299,10 @@ simplex polish, not a certified minimum) subject to the loss constraint. At
 $D=10^{-2},10^{-3},10^{-4},10^{-5}$ it finds $4.485$, $6.794$, $9.097$ and
 $11.400$ nats, with slope $1.0009$ in $\log(1/D)$ against $p/2=1$. These sit above the
 expression of Theorem~\ref{thm:A}(c), which with the exact $\lambda=0.13993$ is $2.639$,
-$4.941$, $7.244$ and $9.546$. Part (c) is proved only for $D<D_0$, and $D_0$ is not
-explicit, so at the larger values of $D$ this comparison is beyond the proved range. The
+$4.941$, $7.244$ and $9.546$. Part (c) is proved only for $D<D_0$. By
+Remark~\ref{rem:scope}, $D_0\le3\lambda^2/(4K)=0.0021$ here, so $D=10^{-2}$ is outside
+the proved range. We have no lower bound for $D_0$, so the other three values of $D$ are
+not shown to be inside it either. The
 gap to that expression is a constant, about $1.85$ nats, so the slope is the sensitive
 check. The inequality of Theorem~\ref{thm:A}(a) is checked on random $\Delta$ and on
 $\Delta$ nearly of rank one along the least eigenvector of $Q$, where it is closest to
@@ -304,9 +315,16 @@ reaches past what part (a) proves.
 sample as the search, agrees with the search's minimum to within $10^{-4}$ nats at all
 four values of $D$. On a separate, larger sample it gives $4.489$, $6.798$, $9.101$ and
 $11.403$ nats; the difference of $0.004$ is Monte Carlo noise between the two samples. Over
-$D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ it exceeds the
-bracket for $R_U$ by between $5.4672$ and $5.4676$ nats, where
-$\tfrac12\log(1/D)=5.756$.
+$D\in[10^{-5},10^{-2}]$ the family's slope is $1.0007$. At $D=10^{-5}$ the family's rate exceeds
+$R_U$ by between $5.4672$ and $5.4676$ nats, the two ends coming from the Gaussian upper
+bound and the Shannon lower bound on $R_U$; here $\tfrac12\log(1/D)=5.756$. Only the
+larger number bounds the gap $\Rfix-\RC$, and from above, since the family's rate is an
+upper bound on $\Rfix$. It is the comparison of part (d) again, not a separate test of
+Corollary~\ref{cor:C}. From below, the search's minimum less the Gaussian upper bound on
+$R_U$ is $5.4635$ nats, against $\tfrac12\log(1/D)+c_-=3.610$; that is the comparison of
+part (c) again, and it rests on a search that is not a certified minimum. What the
+corollary adds to Theorem~\ref{thm:A}, namely $\RC=R_U$ and the two bounds on $R_U$, has
+no numerical check.
 
 \emph{Other consumers, upper bounds only.} For three smooth radial consumers the script
 evaluates one hand-picked family each, and finds slopes $1.0002$, $1.4995$ and $1.5001$

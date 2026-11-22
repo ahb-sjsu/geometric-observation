@@ -7,7 +7,7 @@ author's request of 2026-11-22 ("write the FT.7 custody table"). It records what
 ## Claim
 
 The numbered statements of the T1 addendum on moving read kernels,
-`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.1), by label. The source is
+`paper/t1-moving-kernel/t1-moving-kernel.tex` (v0.2), by label. The source is
 $T\sim N(0,\Sigma)$ in $\mathbb R^p$, $\Sigma\succ0$. The consumer acts through a $C^3$ map
 $g:\mathbb R^p\to\mathbb R^k$ with three bounded derivatives, loss
 $\|g(\hat x)-g(x)\|^2$, local read metric $P_C(x)=J_g(x)^{\mathsf T}J_g(x)$ and
@@ -56,7 +56,10 @@ $Q=\mathbb E\,P_C(T)$. Rates are in nats.
 ## Proof
 
 `paper/t1-moving-kernel/t1-moving-kernel.tex`, the proofs following `lem:kernel`, `thm:A`,
-`prop:B` and `cor:C`, and the section "An example". The text last changed in 45cbc15.
+`prop:B` and `cor:C`, and the section "An example". The proofs last changed in 45cbc15.
+Version 0.2 (2026-11-22) changed the remark `rem:scope` and the example's numerical
+paragraphs only: it adds the upper bound $D_0\le3\lambda^2/(4K)$ and says what the quoted
+gap numbers do and do not bound.
 
 `thm:A` imports one result: the second-order remainder
 $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (its theorem
@@ -81,7 +84,9 @@ $|L(\Delta)-\operatorname{tr}(Q\Delta)|\le\rho_b(\Delta)$ of the T1 note v4.1 (i
     m5 and m6 passed on "slope is not 1" (#12).
   - Of its 16 findings, 14 were applied in 45cbc15. #13 (c3 for $g_1$ is nearly trivial) was
     left as is; #14 (CI wall time) needed no change.
-- **No pass has read the state after 45cbc15.** That includes the present form of c5 (same
+- **No pass with a VI row has read the state after 45cbc15.** That includes the bound
+  $D_0\le3\lambda^2/(4K)$ of v0.2, which the reviewer of this file derived and the
+  assistant re-derived, and the present form of c5 (same
   sample, two-sided, the closed-form $\lambda$) and the present m5 and m6. c5 is the only
   check on the lower bound.
 
@@ -165,10 +170,10 @@ says what it is.
 - **The imported remainder is not `[proved]`.** `thm:A` rests on T1 v4.1's second-order
   theorem, and row T1 is `[exploratory]`. VI-52 checked $K$ against T1's proof, and the T1
   row records that VI-24 found no false step in T1 v4, but T1 has no custody file.
-- **No tested $D$ is shown to be in the proved range of `thm:A`(c).** The note gives no
-  value for $D_0$. It has an upper bound: letting $\Delta$ tend to $s_0vv^{\mathsf T}$ along
-  the least eigenvector gives $D_0\le\lambda s_0+Ks_0^2=3\lambda^2/(4K)$, which is 0.0021
-  for $g_1$. So $D=10^{-2}$ is outside the range. $D_0$ has no lower bound on record, so
+- **No tested $D$ is shown to be in the proved range of `thm:A`(c).** The note
+  (v0.2, `rem:scope`) gives only an upper bound: letting $\Delta$ tend to
+  $s_0vv^{\mathsf T}$ along the least eigenvector gives
+  $D_0\le\lambda s_0+Ks_0^2=3\lambda^2/(4K)$, which is 0.0021 for $g_1$. So $D=10^{-2}$ is outside the range. $D_0$ has no lower bound on record, so
   $10^{-3}$, $10^{-4}$ and $10^{-5}$ are not shown to be inside. The same holds for `cor:C`.
 - **Proved ranges are computed for $g_1$ only.** $K$, $s_0$, $c$ and $D_1$ are not computed
   for I1 to I3, so none of their cases is shown to be in a proved range.
@@ -183,8 +188,8 @@ says what it is.
     $R_U$. At $D=10^{-5}$ that is $11.3996-5.9361=5.4635$ against
     $\tfrac12\log(1/D)+c_-=3.610$, with $c_-=-2.146$. This is the `thm:A`(c) comparison
     again, and no check computes it.
-  - The number the note quotes as the lower end of the gap, 5.4672, is the family less the
-    Gaussian upper bound. It bounds the true gap in neither direction.
+  - The number 5.4672 that the note quotes is the family less the Gaussian upper bound. It
+    bounds the true gap in neither direction; the note says so since v0.2.
   - What `cor:C` adds to `thm:A` has no check: $R_C=R_U$, the Shannon lower bound and the
     Gaussian upper bound on $R_U$.
 - **No check can fail on some statements.** `lem:kernel`, `thm:A`(b), `prop:B`(a) and the
@@ -195,8 +200,9 @@ says what it is.
 - **Monte Carlo.** Every loss is a Monte Carlo mean at one seed. The Monte Carlo
   $\lambda_{\min}(Q)$ differs from the closed form by 0.0004, and c1 uses the Monte Carlo
   value.
-- **Constants computed here.** $c$, $D_1$, $c_-$, $c_+$ and the bound on $D_0$ for $g_1$ are
-  computed in this file from the note's formulas and are not in the JSON. $c_+$ uses
+- **Constants computed here.** $c$, $D_1$, $c_-$, $c_+$, the bound on $D_0$ and the
+  number 5.4635 for $g_1$ are computed from the note's formulas and the JSON's entries; they
+  are not themselves in the JSON, and no check computes them. $c_+$ uses
   $h(U)=1.598$, recovered from the script's bracket for $R_U$. The reviewer of this file
   recomputed all of them, and $h(U)$ by its own quadrature.
 - **The fire test is not in CI,** and its result on the present mutants is the assistant's
