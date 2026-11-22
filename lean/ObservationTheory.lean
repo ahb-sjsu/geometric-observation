@@ -12,3 +12,8 @@ import ObservationTheory.SpectralRateLeakage
 import ObservationTheory.BeyondStationary
 import ObservationTheory.FiniteEntropy
 import ObservationTheory.ConsumerLandauerIdentities
+import ObservationTheory.EntropyTools
+import ObservationTheory.IidBlocks
+import ObservationTheory.ConsumerLandauerBlocks
+import ObservationTheory.BlockLLN
+import ObservationTheory.Covering

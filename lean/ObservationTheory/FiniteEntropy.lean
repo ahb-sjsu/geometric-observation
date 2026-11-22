@@ -2,7 +2,8 @@
 A minimal finite-alphabet Shannon-entropy layer, written for the identity layer of Paper V
 (`paper/consumer-relative-landauer.tex`). The pinned Mathlib (v4.32.2) has `Real.negMulLog`,
 the binary entropy and Kullback–Leibler divergence for measures, but no entropy of finitely
-supported random variables. This file supplies only what the identities need.
+supported random variables. This file supplies the entropy layer that Paper V's Lean
+modules build on.
 
 Conventions. A "law" on a finite type is any function `p : α → ℝ`; the lemmas state the
 hypotheses they use (nonnegativity, total mass one) explicitly. Entropy is in nats:
@@ -17,6 +18,13 @@ Contents:
 * `H_push_injective` — relabeling: an injective map preserves entropy.
 * `push_push` — pushforwards compose.
 * `H_prod` — additivity on product laws: `H (p ⊗ q) = H p + H q` for laws of total mass one.
+* `push_id` — pushing along the identity changes nothing.
+* `condH` — conditional entropy `H(A | S) = H(A, S) − H(S)`; `condH_push_le` (conditional
+  coarse-graining) and `condH_materialize` (a description stored beside `A` adds nothing).
+* `subadd_unnorm`, `condSubadd_explicit`, `condH_subadd` — subadditivity, unconditional and
+  conditional: `H(A, B | S) ≤ H(A | S) + H(B | S)`.
+* Helpers: `gibbs_term` (the termwise Gibbs step), `negMulLog_sum_eq`, and the evaluated
+  marginals `push_AS_apply`, `push_BS_apply`, `push_S_apply`.
 -/
 import Mathlib
 

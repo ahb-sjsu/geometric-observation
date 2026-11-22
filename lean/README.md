@@ -263,23 +263,94 @@ conditional entropy is defined by the chain rule. It proves:
 - conditional subadditivity, `H(A, B | S) ≤ H(A | S) + H(B | S)`, from `log x ≤ x − 1`
   term by term.
 
-`ObservationTheory/ConsumerLandauerIdentities.lean` states and proves, on that layer, the
-information content of two results of `paper/consumer-relative-landauer.tex`:
+`ObservationTheory/EntropyTools.lean` adds what the block-level and many-consumer statements
+need:
 
-- **Theorem 2** (`materialization`): `H(A, f A | S) = H(A | S)` for any law and any
-  description map. That is, storing a description beside the full record adds no reset
-  content, whatever the description.
-- **Corollary 3, for two consumers:** the joint minimum, the coordinated reset chain, the
-  independent minimum, the nonnegativity of the conditional total correlation, and
-  attainment by the code that stores the outputs.
+- variables that are functions of each other have equal entropy;
+- coarsening the side information cannot lower a conditional entropy;
+- `H(A | S) ≤ H(A) ≤ log |A|`;
+- conditional subadditivity for a finite family, `H(U₁, …, Uₘ | S) ≤ ∑ⱼ H(Uⱼ | S)`;
+- the chain rule for a sequence of resets,
+  `∑ⱼ H(Mⱼ | Mⱼ₊₁, …, Mₘ, S) = H(M₁, …, Mₘ | S)`.
+
+`ObservationTheory/IidBlocks.lean` covers i.i.d. blocks:
+
+- `H(Xⁿ) = n H(X)` and `H(Xⁿ | Sⁿ) = n H(X | S)`;
+- a letterwise map of the block is the block of the mapped letter;
+- each letter of the block has the letter law.
+
+`ObservationTheory/ConsumerLandauerIdentities.lean` and
+`ObservationTheory/ConsumerLandauerBlocks.lean` state and prove, on that layer, the following
+results of `paper/consumer-relative-landauer.tex`:
+
+- **Theorem 2:**
+  - `materialization`: `H(A, f A | S) = H(A | S)` for any law and any description map;
+  - `materialization_block`: `H(Xⁿ, f(Xⁿ) | Sⁿ) = n H(X | S)`.
+
+  So storing a description beside the full record adds no reset content, whatever the
+  description.
+- **The exact-tax identity** behind (`eq:exact-tax`): `H(X | S) − H(U | S) = H(X | U, S)` for
+  `U = u(X)`.
+- **Corollary 3, for `m` consumers, at every blocklength:**
+  - **joint minimum:** a memory from which every consumer decodes its output block exactly
+    has content at least `n H(U₁, …, Uₘ | S)`;
+  - **coordinated reset:** separate memories reset in sequence cost exactly their joint
+    content;
+  - **independent minimum:** independent resets cost at least `n ∑ⱼ H(Uⱼ | S)`;
+  - **the gap:** the conditional total correlation is nonnegative;
+  - **attainment:** storing the outputs meets both minima, the coordinated reset included.
+
+  Exactness is required at every source sequence. The two-consumer forms are in the
+  identities file.
+- **Proposition 6** (`stale_monotone_path`). It is stated on the law of the whole path,
+  `q₀(m, x₀) ∏ₛ K(xₛ, xₛ₊₁)`. That is the paper's hypothesis: a record made from `X₀`,
+  conditionally independent of the future given `X₀`, and a time-homogeneous Markov chain.
+  `pathLaw_marginal` proves that the law of `(M, X_t)` is the `t`-th iterate of the one-step
+  map, so `H(M | X_t)` is nondecreasing in `t`. Stationarity is not used.
+- **Theorem 1, the per-code converse chain** (`eq:work-conv`):
+  - `H(M | Sⁿ) ≥ ∑ᵢ I(Xᵢ; X̂ᵢ | Sᵢ)` for any deterministic code;
+  - and `H(M | Sⁿ) ≤ log |ℳ|`.
+
+  With a one-point side-information alphabet, the first is the rate chain (`eq:rate-conv`)
+  in this encoding; that `condH` and `condMI` then reduce to `H` and `I` is not stated as a
+  lemma.
 
 **Not formalized:**
 - reading reset content as work (Landauer's bound, imported by the paper);
-- the step `H(Xⁿ | Sⁿ) = n H(X | S)` for an i.i.d. block;
-- Corollary 3 for general `m`;
-- every coding theorem.
+- exactness almost surely rather than at every sequence;
+- randomized encoders;
+- for Theorem 1:
+  - the distortion coordinate and the region itself;
+  - the per-letter Markov property;
+  - the mixture channel;
+  - Lemma 1 (convexity);
+  - the limit in `D`;
+  - all of achievability;
+- Corollary 2;
+- every Gaussian result.
 
-Build record: `paper/consumer-relative-landauer-lean-2026-11-21.txt`. Each module was
-compiled with `lake env lean -o` on Atlas against the pinned toolchain and Mathlib, with
-zero `sorry`. Every theorem depends only on `propext`, `Classical.choice` and
-`Quot.sound`.
+**Faithfulness.** VI-50 is a fresh-context R-IND-5 reading of the formal statements against
+the paper. It found no unfaithful statement, one overstated docstring, and gaps that are now
+fixed or disclosed (`claims/audits/VI-50-lean-faithfulness.md`).
+
+**Achievability (time-boxed).** `ObservationTheory/BlockLLN.lean` is the first milestone of
+the time-boxed attempt at Theorem 1's achievability. It proves:
+- independence of the letters of an i.i.d. block;
+- the second moment of a centred i.i.d. sum;
+- Chebyshev's bound (the quantitative weak law; the limit is not stated).
+
+`ObservationTheory/Covering.lean` is the second milestone. It proves:
+- a one-shot covering bound for a random codebook: averaged over `N` i.i.d. codewords, the
+  probability that no codeword is accepted is at most the joint probability of rejection plus
+  `exp(−N / L)`, whenever accepted pairs satisfy `qⁿ(y | x) ≤ L rⁿ(y)`;
+- derandomization.
+
+It has not yet had a faithfulness reading. The box, its route and its kill criterion are
+recorded in `claims/FRONTIER.md` (row G14).
+
+**Build record:** `paper/consumer-relative-landauer-lean-blocks-2026-11-21.txt`.
+- All seven modules were compiled from scratch on Atlas, each with `lake env lean -o`, against
+  the pinned toolchain and Mathlib, with zero `sorry`.
+- Every audited theorem depends only on `propext`, `Classical.choice` and `Quot.sound`.
+- The first record, `paper/consumer-relative-landauer-lean-2026-11-21.txt`, covers the first
+  two modules at their earlier versions.

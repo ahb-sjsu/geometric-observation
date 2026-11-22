@@ -1,0 +1,89 @@
+Build record: Paper V identity and block layers, and the achievability box milestones 1-2 (Lean)
+date: 2026-11-22T01:39:25Z  host: Atlas
+toolchain: leanprover/lean4:v4.32.2
+lean: Lean (version 4.32.2, x86_64-unknown-linux-gnu, commit f3b06c705e6c85f5314019d5d3baab0fec5b580c, Release)
+mathlib (lake-manifest): v4.32.2 905b95818eb32af7874a58b427f50c1711a5e96c
+method: lake env lean -o <olean> <file>, module by module (no package rebuilt)
+
+sha256 bca1c3453309546291ef032d91a2a431bc57d3d29d5972acb43987ddc855a7f0  ObservationTheory/FiniteEntropy.lean
+sorry occurrences: 0
+sha256 2ce899ef1b99e2b0c5405d14d11aa0da35ee39a1d2bfde29c77141055efe496f  ObservationTheory/ConsumerLandauerIdentities.lean
+sorry occurrences: 0
+sha256 9b5e726a509db41451a5c5d35bf4d12bb765759baa8ceec2069fd4b4768b0bed  ObservationTheory/EntropyTools.lean
+sorry occurrences: 0
+sha256 3d8d3a87d62c2565c61203e7a772f3177e46a43c346bb4fc17f9a9b593109079  ObservationTheory/IidBlocks.lean
+sorry occurrences: 0
+sha256 63aced03eaa76684916d6a82e1133d9ebf51e8e1d0bb671781df04fb8dcd8ebb  ObservationTheory/ConsumerLandauerBlocks.lean
+sorry occurrences: 0
+sha256 43ea2e93abdc24e79f3f1981d103ce2780cb4c1145a813e9fe5dd09c1ba665ec  ObservationTheory/BlockLLN.lean
+sorry occurrences: 0
+sha256 f502d31c29c308eb038570db8ee2882a8dcabe0f4394c76d568aebe50797fa91  ObservationTheory/Covering.lean
+sorry occurrences: 0
+
+== ObservationTheory/FiniteEntropy.lean
+exit 0 after 10 s; sorry count: 0
+== ObservationTheory/ConsumerLandauerIdentities.lean
+exit 0 after 9 s; sorry count: 0
+== ObservationTheory/EntropyTools.lean
+exit 0 after 12 s; sorry count: 0
+== ObservationTheory/IidBlocks.lean
+exit 0 after 9 s; sorry count: 0
+== ObservationTheory/ConsumerLandauerBlocks.lean
+exit 0 after 11 s; sorry count: 0
+== ObservationTheory/BlockLLN.lean
+exit 0 after 9 s; sorry count: 0
+== ObservationTheory/Covering.lean
+exit 0 after 10 s; sorry count: 0
+
+== axiom audit (AxiomsCheck.lean)
+'ObservationTheory.FiniteEntropy.H_push_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.H_push_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.H_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_subadd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.materialization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3_joint_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3_coordinated_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3_independent_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3_tc_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.H_push_eq_of_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_coarsen' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_le_H_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.H_le_log_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_pi_subadd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.H_iid' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.push_iid' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.push_iid_eval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.condH_block' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.block_map' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.block_letter' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.materialization_block' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.exact_tax_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.exact_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_joint_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_coordinated' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_tc_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.stale_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.stale_monotone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.work_converse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.content_le_log_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.cor3m_coordinated_attained' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ObservationTheory.ConsumerLandauer.future_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.pathLaw_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.pathLaw_succ_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.pathLaw_marginal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.ConsumerLandauer.stale_monotone_path' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.sum_iid_mul_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.sum_iid_mul_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.iid_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.iid_chebyshev' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.one_sub_pow_le_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.exp_neg_mul_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.codebook_miss' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.covering_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ObservationTheory.FiniteEntropy.exists_le_of_average' depends on axioms: [propext, Classical.choice, Quot.sound]

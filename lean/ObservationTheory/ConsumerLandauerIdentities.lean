@@ -60,7 +60,9 @@ noncomputable def condH_first_given_rest (p : (μ₁ × μ₂) × σ → ℝ) : 
   H p - H (push (fun x : (μ₁ × μ₂) × σ => (x.1.2, x.2)) p)
 
 omit [DecidableEq μ₁] [DecidableEq μ₂] in
-/-- **Corollary 3, joint minimum.** Any code's joint content is at least `H(U₁, U₂ | S)`. -/
+/-- **Corollary 3, joint minimum, two memories.** For memories `(M₁, M₂)` with `Uⱼ = gⱼ Mⱼ`,
+the joint content is at least `H(U₁, U₂ | S)`. (A joint memory read whole by every consumer is
+`cor3m_joint_lower` in `ConsumerLandauerBlocks`.) -/
 theorem cor3_joint_lower (g₁ : μ₁ → υ₁) (g₂ : μ₂ → υ₂) (p : (μ₁ × μ₂) × σ → ℝ)
     (hp : ∀ x, 0 ≤ p x) :
     condH (outputLaw g₁ g₂ p) ≤ condH p :=
