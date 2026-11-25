@@ -160,8 +160,9 @@ too shallow, and the ledger says both.
 ## A second party: the rate–leakage–distortion series
 
 The theorems above price one consumer and no one else. A companion series of four
-papers for the *IEEE Transactions on Information Theory* (the RLD series: paper I in
-review, II–IV in preparation) adds a second party, a **holder** that observes the
+papers for the *IEEE Transactions on Information Theory* (the RLD series: papers I and II
+submitted, paper II on 2026-11-18, III and IV in preparation; Chapter 24 treats the series
+in full) adds a second party, a **holder** that observes the
 source through its own noisy map and learns from the description without decoding
 it, and charges a second cost beside the rate: the **leakage**, the conditional
 information $I(X;\hat X\mid S)$ the description gives the holder beyond its own
@@ -210,7 +211,11 @@ And one thing the series establishes is read differently elsewhere. Its leakage 
 the conditional information $I(X;\hat X\mid S)$; that this quantity is the ideal work
 to reset a record against the holder's knowledge is a further claim, which uses the
 physical memory and reset model of the consumer-relative Landauer paper, in which
-the downstream consumer and the physical reset agent are different parties.
+the downstream consumer and the physical reset agent are different parties. That paper,
+its coding theorems and its measured results are Chapter 25. Chapter 26 prices one
+description that serves two read operators, Chapter 27 lets the reset agent's access to
+its context vary in time, Chapter 28 makes the second party an adversary, and Chapter 29
+carries the read operator into estimation and control.
 
 ## COST, in one line
 

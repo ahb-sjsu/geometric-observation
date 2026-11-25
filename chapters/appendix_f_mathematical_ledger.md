@@ -68,6 +68,31 @@ repository `the-angular-observer`. That custody has not yet been audited against
 | α=1 as the $\ker P_C$ membership-test sign (spectral/operator setting) | `[demonstrated]` |
 | Dimension emerges before shape (Weyl ordering) | `[demonstrated]` |
 
+## Beyond one consumer (Chapters 17 and 24 to 29)
+
+*Added 2026-11-25. Each line is the class the ledger row carried on that date; the row,
+not this table, is the record.*
+
+| Claim | Class | Chapter | Registry |
+|---|---|---|---|
+| RLD-I, RLD-II, RLD-III.1 to III.5, RLD-IV.1 to IV.4 (rate, leakage and distortion with a holder: vectors, stationary processes, slowly varying, cyclostationary, non-Gaussian, unstable and ergodically driven sources) | `[exploratory]` (written proofs and fresh-context audits; no sealed registration, no constants table) | 24 | none |
+| T1 (learn-then-serve) and T1-MK (a read kernel that moves with the point) | `[exploratory]` | 17 | none |
+| PAPER-V.a (convexity, Pareto channel, exact-output minima, two-bit boundary, thermal water-filling, staleness complement) | `[proved]` | 25 | 042 |
+| PAPER-V.b (Gaussian region: scalar quadrant, reset water-filling, the minima without side information) | `[proved]` | 25 | 044 |
+| PAPER-V.c (coding theorems, several consumers, the work endpoint) | `[exploratory]` (no check can fail) | 25 | none |
+| PAPER-V.d (materialization identity, conditional total correlation) | `[exploratory]` | 25 | none |
+| GO-7 (rate and reset content are separate resources) | `[replicated]` | 25 | 043, 045, 047 (046 a logged miss) |
+| GO-8 (reset threshold rises with the age of the side information) | `[replicated]`, with a recorded post-hoc fix to a control statistic | 25 | 049, 053 |
+| GO-9 (coordinated reset is cheaper by the shared structure) | `[replicated]`, same caveat | 25 | 050, 054 |
+| GO-10 (the complementarity tax in rate and in reset work) | `[replicated]` | 26 | 055, 058, 059 |
+| GO-11 (the conditional rate and work region behind the tax) | `[replicated]` | 26 | 060 to 064 |
+| GO-12 (staleness is access width, not delay; spectral conditional function at circulant scope) | `[predicted]` | 27 | 065, 066, 070, 071 |
+| GO-13 (the dynamic complementarity tax) | `[demonstrated]` | 27 | 067 to 069, 072 to 074 |
+| GO-14 (causal erasure) | `[predicted]` | 27 | 076, 078 to 086 |
+| Access width on a serving stack | P1 `[demonstrated]`; P2 **`[refuted]`** as sealed | 27 | 077 |
+| GO-16 (the adversarial observer) | Theorems 1 and 2 and the discrete twin `[predicted]`; Theorem 3 as sealed **`[refuted]`** (NEG-17); the campaign `[exploratory]` | 28, 16 | 090, 091 |
+| GO-EC-2 to GO-EC-7 (sensor schedules, triggers, a simulated optical link, the two-consumer tax, closed loop) | `[predicted]` | 29 | 087 to 089 and the campaign registrations named in the rows |
+
 ## The domain sweep (VALUE face; Chapter 13)
 
 | Domain | Class | Registry |

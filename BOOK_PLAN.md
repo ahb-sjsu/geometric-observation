@@ -61,6 +61,20 @@ the OT-14 refresh-floor law, the governor) into the volume as the *temporal face
 the pre-existing chapters finds zero freshness terms). Integration plan, page budget,
 source map, and the Vol-14-Part-vs-Vol-15 decision: [`BOOK-OUTLINE.md`](BOOK-OUTLINE.md).
 Ch. 19 drafted as the voice sample; 20–23 stubbed with source maps + honest tiers.
+| `ch24_the_holder.md` | 24 — The Holder: Rate, Leakage, and Distortion | — | ✅ drafted 2026-11-25 |
+| `ch25_the_reset.md` | 25 — The Reset: Rate, Work, and Distortion | — | ✅ drafted 2026-11-25 |
+| `ch26_the_complementarity_tax.md` | 26 — The Complementarity Tax | — | ✅ drafted 2026-11-25 |
+| `ch27_access_width.md` | 27 — Access Width: Staleness, Processes, and Causal Erasure | — | ✅ drafted 2026-11-25 |
+| `ch28_the_adversarial_observer.md` | 28 — The Adversarial Observer | — | ✅ drafted 2026-11-25 |
+| `ch29_estimation_and_control.md` | 29 — Observation for Estimation and Control | — | ✅ drafted 2026-11-25 |
+
+**Part [new] — BEYOND ONE CONSUMER (Ch. 24–29), added 2026-11-25.** Ports the results of
+`paper/` that the volume did not yet carry: the rate–leakage–distortion series
+(`paper/tit-*`), Paper V and its operational rows, the complementarity tax and its
+conditional region, the dynamic and causal results, the adversarial observer, and the
+estimation-and-control campaign. Drafted by the assistant from the ledger rows and the
+papers, one chapter per ledger group, each claim at its row's class. Not yet read by the
+author. Chapter 17 gained the moving-kernel addendum (row T1-MK).
 | `appendix_a_related_work.md` | A — Related Work & Differentiation | A | ✅ drafted |
 | `appendix_b_cost_ledger.md` | B — The COST Ledger | B | ✅ drafted |
 | `appendix_c_reproduction_cookbook.md` | C — Reproduction Cookbook | A | ✅ drafted |

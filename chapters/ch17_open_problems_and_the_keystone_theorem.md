@@ -72,6 +72,50 @@ dependent symbols. The end-to-end worked result the note calls for — recover a
 consumer's operator, charge the probing, build the description, and bound its downstream
 loss against the series' frontier — is drafted for registration and not sealed.
 
+**A kernel that moves with the point (ledger row T1-MK, `[exploratory]`).** One item of
+that list has a first answer. An addendum to the note (`paper/t1-moving-kernel`, version
+0.7) treats a consumer whose ignored directions change from one source point to the next.
+Its level sets are the fibers the consumer cannot tell apart, $\ker J_g(x)$ is the tangent
+space of the fiber through $x$, and the averaged weight $Q=\mathbb{E}\,J_g^{\mathsf T}J_g$
+can then have rank $q$ larger than the output dimension $k$. The codes T1 serves are built
+on Gaussian test channels whose error covariance $\Delta$ does not depend on the source
+point. For that class, with a source $N(0,\Sigma)$ and a map $g$ with three bounded
+derivatives, the least rate at consumer loss $D$ is, in nats,
+
+$$
+R_{\mathrm{fix}}(D)=\frac q2\log\frac qD+\frac12\log{\det}^{+}\bigl(\Sigma^{1/2}Q\Sigma^{1/2}\bigr)+O(D)\qquad(D\to0),
+$$
+
+where ${\det}^{+}$ is the product of the nonzero eigenvalues. When $g$ has a measurable
+right inverse on a closed convex image in $\mathbb{R}^k$ and its output $g(T)$ has a
+density, finite differential entropy and a positive definite covariance, the consumer's
+own rate–distortion function is that of its output, and so
+
+$$
+R_{\mathrm{fix}}(D)-R_{\mathcal C}(D)=\frac{q-k}2\log\frac1D+O(1)\qquad(D\to0).
+$$
+
+A code chosen from the averaged weight alone, within this class, pays for $q$ directions
+where the consumer reads $k$, and the excess grows without bound as the loss falls. For
+the example $g(x_1,x_2)=x_1+a\sin x_2$ with $\Sigma=I$, $Q$ has rank $2$ and the output
+has dimension $1$, the consumer loss has a closed form, the excess is
+$\tfrac12\log(1/D)+C_*+O(D)$ with an explicit constant, and at $a=1$ and $D\le10^{-2}$ the
+least rate is the value of a one-dimensional concave problem. What the row does not say
+matters as much. These are statements about fixed-covariance test channels and about
+information rates, not about every code, and no lower bound for every code built from a
+weight is claimed. Three bounded derivatives exclude consumers such as $\|x\|^2$. For a
+general consumer the lower bounds hold below a loss $D_0$ for which there is no explicit
+bound. The result with a right inverse assumes the decoder holds one, and how a learner
+obtains one from queries, at what cost, is not treated. The idea that an encoder that
+knows the function should compute it and encode the result is in Misra, Goyal and Varshney's
+functional quantization, and the high-resolution theory of Linder, Zamir and Zeger covers
+locally quadratic losses whose sensitivity matrix is positive definite, a hypothesis that
+a consumer with $k<p$ fails at every point. The numerical checks (two nets, 22 and 6
+checks) had their criteria fixed in the scripts and were not sealed, and six fresh-context
+audits (ledger VI-52 to VI-57) found no mathematical error in a numbered statement. One of
+them, VI-55, passed over an unsupported expansion in the prose of the example, which has
+since been replaced by a proved proposition.
+
 ## The cross-domain magnitude constant
 
 The sharpest *quantitative* gap is inherited from the 20-Newsgroups blind test (041,

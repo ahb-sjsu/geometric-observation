@@ -191,6 +191,21 @@ weight alone.
 17. Open Problems and the Keystone Theorem
 18. The Principle: Keep the Structure the Observer Can Use
 
+**Part VIII — Reliability: The Witnessed Certificate**
+19. The Certificate That Ages
+20. The False-Clear Rate (outline)
+21. The Refresh Floor (outline)
+22. The Freshness Sweep (outline)
+23. The Governor (outline)
+
+**Part IX — Beyond One Consumer**
+24. The Holder: Rate, Leakage, and Distortion
+25. The Reset: Rate, Work, and Distortion
+26. The Complementarity Tax
+27. Access Width: Staleness, Processes, and Causal Erasure
+28. The Adversarial Observer
+29. Observation for Estimation and Control
+
 **Appendices**
 - A. Related Work and Differentiation
 - B. The COST Ledger: Theorems, Proofs, and Falsification Harnesses
