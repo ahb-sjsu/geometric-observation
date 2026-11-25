@@ -122,6 +122,10 @@ equal-slope theorem; the novelty sweeps did not find the spectral form for joint
 stationary pairs, with library checks still owed (Gray 1973 in the journal text, Leiner
 and Gray 1974, Wyner 1976 to 1978).
 
+![Figure 27.1](figures/ch27_fig1.svg)
+
+*Figure 27.1. Three kinds of access the eraser can have to its observation path, with the record made at the marked time. With path access it holds every sample, and delay alone costs nothing. With prefix access it holds every sample up to a horizon. With slice access it holds a single sample at a distance Delta from the record, and the cost rises with Delta. What ages a context is how little of the path is held, not the delay.*
+
 ## The dynamic complementarity tax (GO-13)
 
 Chapter 26's tax is the excess of the joint cost over the better single-consumer cost.

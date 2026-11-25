@@ -47,6 +47,10 @@ mechanism. The path to it ran through refuted proxies (NEG-5…10), which is the
 of Chapter 16; the point here is that the endpoint is a clean, twice-instantiated
 dissociation.
 
+![Figure 8.1](figures/ch08_fig1.svg)
+
+*Figure 8.1. The flip in its smallest form. Descriptions A and B are the two errors of Figure 5.1, with equal reconstruction error 2. A consumer that reads the horizontal direction ranks A first (0.3 against 1.7). A consumer that reads the vertical direction ranks B first. Reconstruction error cannot rank them at all. This is an illustration of the mechanism, not a measurement; the measured cases are in the text.*
+
 ## The flip is a property of observation, not of a domain
 
 If the flip were an artifact of the regimes it was first shown in, it would not travel.

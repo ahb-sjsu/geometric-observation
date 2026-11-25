@@ -46,6 +46,10 @@ The blind probe of Chapter 10 recovers $P_C$ *at* an operating point precisely b
 it is local; averaging it over a data distribution gives the $\bar P_C$ that enters
 the alignment law $\kappa$ (Chapter 12).
 
+![Figure 5.1](figures/ch05_fig1.svg)
+
+*Figure 5.1. Two errors with the same reconstruction error, trace 2. The consumer reads the horizontal direction only, so its read metric is the rank-one matrix with a single 1 in the top left. Error A costs it 0.3 and error B costs it 1.7. The vertical direction is the kernel of the read metric: displacement along it is not read.*
+
 ## The read distortion
 
 Now let a code introduce error $\delta = \hat x - x$ with second moment $\Sigma_\delta =

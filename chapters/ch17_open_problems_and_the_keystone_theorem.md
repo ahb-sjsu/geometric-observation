@@ -116,6 +116,14 @@ audits (ledger VI-52 to VI-57) found no mathematical error in a numbered stateme
 them, VI-55, passed over an unsupported expansion in the prose of the example, which has
 since been replaced by a proved proposition.
 
+![Figure 17.1](figures/ch17_fig1.svg)
+
+*Figure 17.1. A read kernel that moves with the point, for the consumer g(x1, x2) = x1 + sin x2. The curves are level sets of g, the fibers the consumer cannot tell apart. The short strokes are the kernel of the Jacobian, the direction along the fiber, at points of the fiber through the origin. The direction turns with x2, so no single direction is unread everywhere, and the averaged read metric has rank 2 although the consumer reads one number.*
+
+![Figure 17.2](figures/ch17_fig2.svg)
+
+*Figure 17.2. The price of stopping at the averaged weight, for g(x1, x2) = x1 + sin x2 with a standard Gaussian source. The upper line is the least rate of a description whose error covariance does not depend on the point, ln(2/D) + ½ ln det Q. The lower line is the Shannon lower bound on the consumer's own rate, which the note shows is tight to within ½ ln(1 + D). Both are drawn without their O(D) terms. The lines separate by ½ ln(1/D) − 0.291 nats, which grows without bound as the loss D falls (ledger row T1-MK, exploratory).*
+
 ## The cross-domain magnitude constant
 
 The sharpest *quantitative* gap is inherited from the 20-Newsgroups blind test (041,

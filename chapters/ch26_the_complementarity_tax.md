@@ -75,6 +75,10 @@ hash of registration 055 matches no stored version of its file; the file is unch
 since its seal commit and the cause cannot be shown (VI-25, disclosed in
 `prereg/SEAL-DISCLOSURES.json`).
 
+![Figure 26.1](figures/ch26_fig1.svg)
+
+*Figure 26.1. The rate floor for one description that serves two reads. Each curve is the set of distortion pairs at which the floor is met with equality at the stated rate, drawn for a read plane with kappa = 1 (two orthogonal reads of unit variance). Below a curve the pair cannot be reached at that rate. Lowering one consumer's distortion at a fixed rate raises the other's. In this case the floor is the joint rate-distortion function on the whole square shown, since the exactness condition is that both distortions are at most 1.*
+
 ## The work floor and the discount
 
 Put $\Sigma_{X\mid S}=\mathbb E[\operatorname{Cov}(X\mid S)]$ and

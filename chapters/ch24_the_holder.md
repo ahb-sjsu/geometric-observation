@@ -81,6 +81,10 @@ Under a *matrix* distortion on the whole source one description minimizes both c
 as the bounds of Ekrem and Ulukus imply. A trace constraint leaves the encoder a
 choice among error covariances, and that choice is the trade-off.
 
+![Figure 24.1](figures/ch24_fig1.svg)
+
+*Figure 24.1. The three parties of the rate-leakage-distortion series. The encoder sees the source and writes a message. The decoder has the message only and must reproduce a linear part of the source within distortion D. The holder has the message and its own noisy observation S of the source, and reconstructs nothing. The rate counts the message. The leakage counts what the message tells the holder beyond S.*
+
 ## Paper I: reverse water-filling on a tilted weight
 
 Both costs are strictly convex in $\Delta$, so each frontier point is the unique

@@ -120,6 +120,10 @@ and that a 0.015-bit raise of the boundary for $t<0.9D$ was not caught. A mutati
 of the nets fired 18 of 18 gates and 9 of 17 probes, and was committed only after its
 runs.
 
+![Figure 25.1](figures/ch25_fig1.svg)
+
+*Figure 25.1. The lower boundary of the rate and reset-content region for two fair bits (A, B) with the reset agent holding A, at average Hamming distortion D = 0.15 (Proposition 2). Moving along the curve shifts the allowed error from B to A. The endpoint at the lower right puts all error on B, the bit the reset agent does not know, and has the least content, 0.1187 bits, at rate 1.1187. The endpoint at the upper left splits the error evenly and has the least rate, 0.7803 bits, at content 0.3902. Rate and reset content trade against each other.*
+
 ## Gaussian sources
 
 For a Gaussian source the alphabets are continuous, so the results are statements about
@@ -221,6 +225,10 @@ information is $1-h_2(q_t)$. Chapter 19 treats age as what makes a certificate f
 Here the same age raises the work of clearing the record that the certificate was read
 from. Chapter 27 takes up which access to the context makes age matter (ledger row
 GO-12, `[predicted]`).
+
+![Figure 25.2](figures/ch25_fig2.svg)
+
+*Figure 25.2. Reset content against the age of the side information, for a record of one fair bit that flips with probability 0.05 per step (Proposition 6). At age 0 the reset agent knows the bit and the content is 0. As the side information ages the content rises toward 1 bit, and the predictive information, the complement, falls toward 0. The curve is the formula of the text, not a measurement; the measured thresholds are under GO-8 below.*
 
 ## What is machine-checked
 

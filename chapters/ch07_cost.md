@@ -52,6 +52,10 @@ need to know the consumer exactly; a surrogate for $P_C$ suffices. At low resolu
 you do. This is the rate-dependence that makes the blind probe (Chapter 10)
 load-bearing precisely in the bit-starved regime where compression matters.
 
+![Figure 7.1](figures/ch07_fig1.svg)
+
+*Figure 7.1. Reverse water-filling on five modes with weighted variances 4, 2, 1, 0.5 and 0.25, at distortion D = 3. The water level is 0.75. Each mode keeps an error equal to the smaller of its variance and the level, and only the part above the level is described. Three modes are described, at a total of 2.12 bits, and the two modes below the level receive no bits. For a consumer the modes are those of the source weighted by the read metric, so a direction the consumer does not read has variance 0 here and is never described.*
+
 ## Two observers: the rate region and refinability
 
 Serving *two* consumers from one code is a network-information-theory problem with an

@@ -232,6 +232,10 @@ eigenvalue does. The net now has nine checks (603 cases, 317 flat stretches, 0
 violations, 9/9), requires the sealed "tie iff contested" to fail, and fires when
 each of VI-33's errors is put back.
 
+![Figure 28.1](figures/ch28_fig1.svg)
+
+*Figure 28.1. The function J(t) of the corrected Theorem 3 on the instance that refuted the sealed statement: weights (5, 3, 2, 1), value weights (10, 0.1, 0.1, 0.1), price 1, attention budget 2. J is convex and piecewise linear, and here it rises from t = 0, so the attention water level is 0. The sealed statement placed the level at one of the weights, marked on the curve, and J is larger at every one of them than its value 5.3 at 0. This is the blackout case the sealed statement missed.*
+
 ## The discrete twin and Theorems 4 to 6
 
 **The measured twin** is `[predicted]` (ledger row GO-16, registration 091, 4/4 at

@@ -243,6 +243,10 @@ further observation in the row is `[exploratory]`, reported and not claimed: sca
 joint scheduling did better than time-sharing in 72 of 80 cells at this budget. Nothing
 in this chapter rests on it.
 
+![Figure 29.1](figures/ch29_fig1.svg)
+
+*Figure 29.1. The measured tax for serving two consumers with one sensor schedule, against the principal angle between their read operators (ledger row GO-EC-6, predicted). The ratio compares the best shared schedule, judged by the worse-served consumer, with each consumer served alone. It is 1.000 when the two geometries coincide and 1.149 when they are orthogonal. Synthetic systems and planted consumers, one governed run.*
+
 ## Closed loop at matched control effort
 
 Near a set point, $P_C$ is a candidate state penalty for an LQG controller. The test
