@@ -15,12 +15,12 @@ from xml.sax.saxutils import escape
 
 # Palette of the online Geometric Series (erisml-lib docs/assets/css/style.css): the card
 # surface, the text colours and the ColorBrewer Set2 hues the site uses on its dark ground.
-SURFACE = "#142536"   # --bg-card
+SURFACE = "#0b1622"   # --bg-deep, the page background, so a figure has no visible frame
 BORDER = "#2a4a56"    # --border-medium (teal at 30%) composited on the card
 INK = "#e8ecf0"       # --text-primary
 INK2 = "#a9bccd"      # between --text-primary and --text-secondary, for small labels
 INK3 = "#8fa4b8"      # --text-secondary
-GRID = "#22384b"      # hairline, one step off the surface
+GRID = "#1b2e40"      # hairline, one step off the surface
 SERIES = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]
 CRITICAL = "#e78ac3"
 GOOD = "#a6d854"
@@ -115,7 +115,7 @@ class Canvas:
     def save(self, path, caption=None):
         head = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" viewBox="0 0 {self.w} {self.h}" '
                 f'role="img" aria-label="{escape(self.title or caption or "figure")}">'
-                f'<rect x="0.5" y="0.5" width="{self.w - 1}" height="{self.h - 1}" rx="10" fill="{SURFACE}" stroke="{BORDER}" stroke-width="1"/>')
+                f'<rect width="100%" height="100%" fill="{SURFACE}"/>')
         body = "".join(self.parts)
         if self.title:
             body = f'<text x="18" y="27" font-family="{TITLE_FONT}" font-size="17" font-weight="600" fill="{INK}">{escape(self.title)}</text>' + body
