@@ -13,15 +13,20 @@ from __future__ import annotations
 import math
 from xml.sax.saxutils import escape
 
-SURFACE = "#fcfcfb"
-INK = "#0b0b0b"
-INK2 = "#52514e"
-INK3 = "#8a897f"
-GRID = "#e6e5e1"
-SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
-CRITICAL = "#d03b3b"
-GOOD = "#0ca30c"
-FONT = "Inter, 'Segoe UI', Helvetica, Arial, sans-serif"
+# Palette of the online Geometric Series (erisml-lib docs/assets/css/style.css): the card
+# surface, the text colours and the ColorBrewer Set2 hues the site uses on its dark ground.
+SURFACE = "#142536"   # --bg-card
+BORDER = "#2a4a56"    # --border-medium (teal at 30%) composited on the card
+INK = "#e8ecf0"       # --text-primary
+INK2 = "#a9bccd"      # between --text-primary and --text-secondary, for small labels
+INK3 = "#8fa4b8"      # --text-secondary
+GRID = "#22384b"      # hairline, one step off the surface
+SERIES = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]
+CRITICAL = "#e78ac3"
+GOOD = "#a6d854"
+BOX = "#1a3248"       # --bg-hover
+FONT = "Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+TITLE_FONT = "'Crimson Pro', Georgia, 'Times New Roman', serif"
 
 
 def fmt(v):
@@ -98,7 +103,7 @@ class Canvas:
             a = ang + s * 2.6
             self.line(x2, y2, x2 + 8 * math.cos(a), y2 + 8 * math.sin(a), stroke, width)
 
-    def box(self, x, y, w, h, label, sub=None, fill="#f3f2ee", stroke=INK3):
+    def box(self, x, y, w, h, label, sub=None, fill=BOX, stroke=BORDER):
         self.add(f'<rect x="{x:.2f}" y="{y:.2f}" width="{w:.2f}" height="{h:.2f}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1"/>')
         if sub:
             self.text(x + w / 2, y + h / 2 - 3, label, 12, "middle", INK, "600")
@@ -110,10 +115,10 @@ class Canvas:
     def save(self, path, caption=None):
         head = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" viewBox="0 0 {self.w} {self.h}" '
                 f'role="img" aria-label="{escape(self.title or caption or "figure")}">'
-                f'<rect width="100%" height="100%" fill="{SURFACE}"/>')
+                f'<rect x="0.5" y="0.5" width="{self.w - 1}" height="{self.h - 1}" rx="10" fill="{SURFACE}" stroke="{BORDER}" stroke-width="1"/>')
         body = "".join(self.parts)
         if self.title:
-            body = f'<text x="16" y="24" font-family="{FONT}" font-size="14" font-weight="600" fill="{INK}">{escape(self.title)}</text>' + body
+            body = f'<text x="18" y="27" font-family="{TITLE_FONT}" font-size="17" font-weight="600" fill="{INK}">{escape(self.title)}</text>' + body
         with open(path, "w", encoding="utf-8") as f:
             f.write(head + body + "</svg>")
 

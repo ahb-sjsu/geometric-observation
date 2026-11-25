@@ -94,7 +94,7 @@ def fig_7_1():
     y = ax.Y(theta)
     c.line(ax.x0, y, ax.x0 + ax.w, y, INK, 1.5, dash="6 4")
     c.text(ax.x0 + ax.w + 6, y + 4, "level 0.75", 11, "start", INK)
-    legend(c, 70, 40, [("described", SERIES[0]), ("error kept", "#f3a585")])
+    legend(c, 70, 40, [("described", SERIES[0]), ("error kept", "#b8755a")])
     c.text(16, 390, f"error kept sums to {d:.0f}, the distortion; rate {rate:.2f} bits", 10.5, "start", INK3, italic=True)
     c.save(p)
 
@@ -142,7 +142,7 @@ def fig_17_1():
             x1 = cval - math.sin(x2)
             if -4 <= x1 <= 4:
                 pts.append((ax.X(x1), ax.Y(x2)))
-        c.polyline(pts, SERIES[0] if cval == 0 else "#a9c8ee", 2 if cval == 0 else 1.5, title=f"g = {cval}")
+        c.polyline(pts, SERIES[0] if cval == 0 else "#3d7868", 2 if cval == 0 else 1.5, title=f"g = {cval}")
     for x2 in [-2.6, -1.6, -0.6, 0.0, 0.6, 1.6, 2.6]:
         x1 = -math.sin(x2)
         # kernel of (1, cos x2) is spanned by (-cos x2, 1)
@@ -377,7 +377,7 @@ def fig_29_1():
             "the worse-served consumer, with each consumer served alone. It is 1.000 when the two geometries coincide and "
             "1.149 when they are orthogonal. Synthetic systems and planted consumers, one governed run.",
             "## Closed loop at matched control effort")
-    c = Canvas(720, 400, "Sharing is free when the consumers agree and costs most when they are orthogonal")
+    c = Canvas(720, 400, "The tax for sharing one schedule rises with the angle between consumers")
     ax = Axes(c, 70, 52, 540, 280, (-8, 98), (0.95, 1.2), ang, [1.0, 1.05, 1.1, 1.15, 1.2],
               "angle between the two consumers, degrees", "shared over separate")
     pts = [(ax.X(a), ax.Y(v)) for a, v in zip(ang, val)]
