@@ -69,7 +69,7 @@ kernel grows accordingly. The nuisance is exactly this kernel.</p>
 <p>Diagonalize $P_C = \sum_i \lambda_i v_i v_i^\top$ with $\lambda_1 \ge \dots \ge
 \lambda_r &gt; 0 = \lambda_{r+1} = \dots$. The $\{v_i\}_{i \le r}$ span the read subspace;
 the orthogonal projector onto it is $\Pi_C = \sum_{i \le r} v_i v_i^\top$. The
-$\{v_i\}_{i>r}$ span $\ker P_C$. The eigenvalues $\lambda_i$ are the <em>sensitivities</em>:
+$\{v_i\}_{i&gt;r}$ span $\ker P_C$. The eigenvalues $\lambda_i$ are the <em>sensitivities</em>:
 how much a unit perturbation along $v_i$ costs the consumer. A code should protect
 directions in proportion to $\lambda_i$ — pour bits where the consumer is sensitive,
 spend nothing on the kernel. That instruction, made precise, is the COST theory.</p>
@@ -110,8 +110,8 @@ covariances with identical total magnitude can have read distortions differing b
 arbitrary factor, determined entirely by how $\Sigma_\delta$ is <em>oriented</em> relative
 to $\operatorname{range}(P_C)$.</p>
 </blockquote>
-<p>The proof is one line: $\operatorname{tr}(P_C\Sigma_\delta) = \sum_{ij} (P_C)<em>{ij}
-(\Sigma</em>\delta)_{ji}$ depends on the <em>alignment</em> of the two operators, not on
+<p>The proof is one line: $\operatorname{tr}(P_C\Sigma_\delta) = \sum_{ij} (P_C)_{ij}
+(\Sigma_\delta)_{ji}$ depends on the <em>alignment</em> of the two operators, not on
 $\operatorname{tr}(\Sigma_\delta) = \sum_i (\Sigma_\delta)_{ii}$ alone. Concretely, on
 KV-keys the controlling quantity was found to be the across-token variance of the
 query-projected error $\operatorname{Var}_s(q\cdot\delta_s)$ — a <em>structured</em>
@@ -123,7 +123,7 @@ preliminary so later chapters can lean on it: <em>the downstream-relevant conten
 coding error is its projection onto $P_C$, not its size.</em> Any method that scores a
 code by the size of its error — which is every reconstruction metric — is measuring a
 quantity the lemma says is decoupled from what it wants to know.</p>
-<h2 id="the-output-metric-math48-concretely">The output metric $G$, concretely</h2>
+<h2 id="the-output-metric-math51-concretely">The output metric $G$, concretely</h2>
 <p>For completeness, the output metrics used across the book:</p>
 <ul>
 <li><strong>Classifier (softmax):</strong> $G$ is the Fisher information of the output distribution,

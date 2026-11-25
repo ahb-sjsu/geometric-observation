@@ -128,7 +128,7 @@ the high-resolution formula, a different statement.</p>
 harness: GO-6 measures the gap falling from $0.41$ to $0.005$. There is
 no analytic theorem; VI-3 graded the high-resolution argument PLAUSIBLE-with-conditions.
 Its Linder–Zamir conditions are cited, not checked, and the formula also needs
-$\mathbb E\log\det G<\infty$.</p>
+$\mathbb E\log\det G&lt;\infty$.</p>
 <p><strong>Consequence.</strong> At high resolution a surrogate for $P$ suffices; at low resolution it does
 not. This is why the blind probe (Chapter 10) is load-bearing precisely in the bit-starved
 regime.</p>
@@ -218,11 +218,11 @@ withdrawn in Paper III.</p>
 <h2 id="thm-b6-the-price-of-a-misidentified-observer-tax-and-floor">Thm B6 — The price of a misidentified observer: tax and floor</h2>
 <p><strong>Statement (tax).</strong> Suppose the coder&rsquo;s metric $\hat P$ and the consumer&rsquo;s $P$ satisfy
 $m\hat P\preceq P\preceq M\hat P$ on their shared range (equal ranges, Loewner constants
-$0<m\le M$). Then the design built for $\hat P$, $\Sigma^\star(\hat P,D/M)$, meets the
+$0&lt;m\le M$). Then the design built for $\hat P$, $\Sigma^\star(\hat P,D/M)$, meets the
 consumer&rsquo;s distortion $D$ at an excess rate of at most $(r/2)\log(M/m)$, in the coding
 regime the theorem states, and the $r/2$ is sharp (<code>thm:commission</code>, which gives the exact
 design and regime).</p>
-<p>(This appendix used to say &ldquo;a rank-$M$ read metric when the consumer&rsquo;s is rank $m<M$&rdquo;,
+<p>(This appendix used to say &ldquo;a rank-$M$ read metric when the consumer&rsquo;s is rank $m&lt;M$&rdquo;,
 which confuses the Loewner constants with ranks; VI-32.)</p>
 <p><strong>Statement (floor).</strong> Every allocation in the $\hat P$-water-filling family, when $\hat P$
 omits a direction the consumer reads, hits a distortion floor
@@ -250,11 +250,11 @@ exists&rdquo;. It was resolved by a fresh held-out test, not by relaxing the bar
 <p><strong>Statement.</strong> The finite-blocklength consumer coding problem is the $r$-dimensional
 tilted problem at every blocklength (<code>prop:dispersion</code>, by a covering argument). For the
 Gaussian quadratic case its dispersion is</p>
-<p>$$V_Y(D)=\tfrac12\Bigl[r_D+\sum_{k:\,0<\gamma_k\le\theta}(\gamma_k/\theta)^2\Bigr]\ \text{nats}^2,\qquad r_D\le 2V_Y\le r,$$</p>
+<p>$$V_Y(D)=\tfrac12\Bigl[r_D+\sum_{k:\,0&lt;\gamma_k\le\theta}(\gamma_k/\theta)^2\Bigr]\ \text{nats}^2,\qquad r_D\le 2V_Y\le r,$$</p>
 <p>with $\gamma_k$ the tilted mode variances, $\theta$ the water level, and $r_D$ the active
 modes (<code>cor:dispersion</code>). Equality holds on the right iff $\gamma_k\ge\theta$ for every
 $k$, which covers the whole low-distortion regime. It counts at most the $r$ read
-dimensions, never the ambient $d$. (A first correction wrote &ldquo;$<r$&rdquo;, which fails when
+dimensions, never the ambient $d$. (A first correction wrote &ldquo;$&lt;r$&rdquo;, which fails when
 every mode is active.)</p>
 <p><strong>Correction (NEG-18, VI-32).</strong> This appendix, Paper III and prereg 025 gave the
 dispersion as $(r_D/2)\log^2e$, counting only the active modes. The value came from
@@ -277,12 +277,12 @@ bound survives.</p>
   Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
   abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
   the vector letter (<code>cor:dispersion</code>). VI-37 checked the uniqueness argument line by line
-  and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
+  and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]&lt;\infty$, not the third moment the
   assistant had read and used to overrule VI-37&rsquo;s verifier.
 - 025&rsquo;s check C3b is circular and samples only the all-active regime. The net with
   inactive modes is now <code>verify_paper3_nets.py</code> (m5, m6), in CI since 2026-11-21.
 - The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú&rsquo;s eq. (94), for
-  $0<d<\sigma^2$ (checked at the source, 2026-11-21; FRONTIER G12 closed).</p>
+  $0&lt;d&lt;\sigma^2$ (checked at the source, 2026-11-21; FRONTIER G12 closed).</p>
 <p><strong>Verification incident (VI-7).</strong> A draft claimed the finite-$n$ equivalence was &ldquo;exact at
 every $n$ because the tilt is a bijection&rdquo;, with &ldquo;effective dimension $= r$&rdquo;. The
 fresh-context pass found that the equivalence rests on a <strong>covering</strong> argument. Its

@@ -101,7 +101,7 @@ $\Delta$, with $0\prec\Delta\preceq\Sigma$ and $\operatorname{tr}(Q\Delta)\le D$
 r(\Delta)=\tfrac12\log\frac{\det\Sigma}{\det\Delta},\qquad
 \ell(\Delta)=\tfrac12\log\frac{\det\Sigma_{X\mid S}}{\det(\Delta^{-1}+J)^{-1}} .
 $$</p>
-<p>Paper I&rsquo;s coding theorem (its Theorem 3) states that for $0<D<D_{\max}$ the
+<p>Paper I&rsquo;s coding theorem (its Theorem 3) states that for $0&lt;D&lt;D_{\max}$ the
 operational region is the union of the quadrants above $(r(\Delta),\ell(\Delta))$
 <code>[exploratory]</code> (ledger row RLD-I; no registration). The audit VI-27 (fresh-context
 agent, 2026-11-20) found no false step and one gap: the achievability rested on a
@@ -124,14 +124,14 @@ $$</p>
 $\Phi(A)=\sum_i\min\{1,1/\lambda_i\}\,e_ie_i^{\mathsf T}$, reverse water-filling at
 level one. (The paper writes $T$ for the source and $X$ for the whitened error
 covariance.)</p>
-<p><strong>Theorem (paper I, Theorem 7).</strong> For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the
+<p><strong>Theorem (paper I, Theorem 7).</strong> For $\alpha\in[0,1]$ and $0&lt;D&lt;D_{\max}$, the
 frontier point of weight $\alpha$ is the unique $E$ with
 $\operatorname{tr}(\tilde QE)=D$ and</p>
 <p>$$
 E=\Phi\big(\tilde A(E)\big),\qquad
 \tilde A(E)=2\nu\,\tilde Q+(1-\alpha)\,\tilde H^{\mathsf T}\big(\tilde HE\tilde H^{\mathsf T}+\Sigma_U\big)^{-1}\tilde H,
 $$</p>
-<p>for some $\nu>0$ <code>[exploratory]</code> (ledger row RLD-I; no registration). The second term
+<p>for some $\nu&gt;0$ <code>[exploratory]</code> (ledger row RLD-I; no registration). The second term
 is the tilt: the information the holder&rsquo;s observation adds to the description. It is
 evaluated at the solution, so the statement is a fixed point and not a closed form.
 At $\alpha=1$ the tilt vanishes and the theorem is classical reverse water-filling on
@@ -155,7 +155,7 @@ eigenvector $b(\delta)$ (Theorem 16(a)). Theorem 20 states: if $\mu_{\max}(\delt
 is simple and positive on an open interval, then $b(\delta)$ spans one line
 throughout if and only if some $b_0=b(\delta_0)$ satisfies</p>
 <p>$$
-Q\Sigma b_0=\lambda b_0\quad\text{and}\quad J\Sigma b_0=\varsigma b_0,\qquad \lambda>0,\ \varsigma\ge0,
+Q\Sigma b_0=\lambda b_0\quad\text{and}\quad J\Sigma b_0=\varsigma b_0,\qquad \lambda&gt;0,\ \varsigma\ge0,
 $$</p>
 <p>that is, $b_0$ is a common generalized eigenvector of the two parties&rsquo; pencils;
 otherwise $b(\delta)$ is constant on no open subinterval <code>[exploratory]</code> (ledger row
@@ -224,7 +224,7 @@ $$</p>
 achievable. The lower bound needs additive holder noise independent of the source,
 and is tight as $D\to0$ only when the whole source is reproduced ($Q\succ0$).</p>
 <p><strong>The covariance-mixture inequality</strong> (Corollary 6). For $K_1,\dots,K_C\succ0$,
-weights $\lambda_c>0$ summing to one, and $\bar K=\sum_c\lambda_cK_c$,</p>
+weights $\lambda_c&gt;0$ summing to one, and $\bar K=\sum_c\lambda_cK_c$,</p>
 <p>$$
 V_{\mathrm G}(\alpha,D;\bar K)\ \ge\ \min\Big\{\sum_c\lambda_c\,V_{\mathrm G}(\alpha,D_c;K_c):\ \sum_c\lambda_cD_c\le D\Big\}
 $$</p>
@@ -235,7 +235,7 @@ phase of a cycle, never lowers the cost. The paper&rsquo;s introduction uses it 
 its branches: in each, the model that forgets structure is conservative.</p>
 <p><strong>Scalar unstable sources.</strong> For a scalar autoregressive source with poles $\rho_i$
 off the unit circle, a scalar holder gain $H$, and
-$\rho_\star=\sum_{\lvert\rho_i\rvert>1}\log\lvert\rho_i\rvert$,</p>
+$\rho_\star=\sum_{\lvert\rho_i\rvert&gt;1}\log\lvert\rho_i\rvert$,</p>
 <p>$$
 \mathcal A(D)=\big(\rho_\star,\ \rho_\star\mathbf 1_{\{H=0\}}\big)+\mathcal R_f(D),
 $$</p>
@@ -256,7 +256,7 @@ changed after that run had been seen. The Lean record (<code>lean-beyond-2026-11
 and a holder whose filter has finite memory or is rational and stable,</p>
 <p>$$
 \mathcal A(D)=\big(\rho_\star,\ \rho_{\mathrm{hid}}\big)+\mathcal R_f(D),\qquad
-\rho_{\mathrm{hid}}=\sum_{\lvert\rho\rvert>1,\ \rho\ \text{hidden}}\log\lvert\rho\rvert,
+\rho_{\mathrm{hid}}=\sum_{\lvert\rho\rvert&gt;1,\ \rho\ \text{hidden}}\log\lvert\rho\rvert,
 $$</p>
 <p>where a pole is hidden when its mode is unobservable by the holder in the sense of
 Kalman (the holder&rsquo;s filter cancels it), and $f$ is the spectral density of the
@@ -269,7 +269,7 @@ one of them &ldquo;every truncation of a filter that cancels a pole sees the pol
 the first check script one criterion failed (a cost changed by up to 1.9e-6 bits
 against a bar of 1e-6), and its criteria were written after exploratory probes.</p>
 <p><strong>Poles on the unit circle.</strong> For a scalar source with poles anywhere and a scalar
-holder gain, the region at every $D>0$ is the quadrant above</p>
+holder gain, the region at every $D&gt;0$ is the quadrant above</p>
 <p>$$
 \big(\rho_\star+r_f(D),\ \ \rho_\star\mathbf 1_{\{H=0\}}+\ell_f(D)\big),
 $$</p>
@@ -283,7 +283,7 @@ holder in white noise, the region is the quadrant above $(r_\mu(D),\ell_\mu(D))$
 with water level $\theta$:</p>
 <p>$$
 r_\mu=\int\tfrac12\log^+\frac\lambda\theta\,d\mu,\qquad
-\ell_\mu=\int_{\lambda>\theta}\tfrac12\log\frac{1/\theta+J}{1/\lambda+J}\,d\mu,\qquad
+\ell_\mu=\int_{\lambda&gt;\theta}\tfrac12\log\frac{1/\theta+J}{1/\lambda+J}\,d\mu,\qquad
 Q\int\min\{\lambda,\theta\}\,d\mu=D .
 $$</p>
 <p>For a cyclostationary process with a continuous correlation of finite range, sampled

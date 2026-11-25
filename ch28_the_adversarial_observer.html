@@ -79,7 +79,7 @@ holder of Chapter 24.) The value loss is</p>
 <p>The reader picks a read $\Theta$ of rank $k$ with $\Theta\Theta^\top=I_k$, observes
 $Y=\Theta A$, and exploits $Z=HX$. The leakage is the variance it resolves,
 $R(\Theta)=\operatorname{tr}\operatorname{Cov}(\mathbb E[Z\mid Y])$. With
-$N=FF^\top+\Sigma_w$ the record covariance and $\lambda>0$ the price of leakage, the
+$N=FF^\top+\Sigma_w$ the record covariance and $\lambda&gt;0$ the price of leakage, the
 encoder, committing first, minimizes</p>
 <p>$$ J(F,\Sigma_w) = L_{\mathrm{val}} + \lambda\max_{\Theta}R(\Theta;F,\Sigma_w). $$</p>
 <p>Write $M=H^\top H$ for the exploit weight and $\Sigma_S=S^\top S$ for the value
@@ -99,8 +99,8 @@ the same.</p>
 given $K$ is</p>
 <p>$$ C(K)=\operatorname{tr}\big(S(I-K)S^\top\big), $$</p>
 <p>attained by <strong>shrink-and-dither</strong>: $F^\star=SK$, $\Sigma_w^\star=SK(I-K)S^\top$, so
-that $N^\star=SKS^\top$. The case $m<n$ adds a rank constraint on $K$ and is left
-open in the paper. For $m>n$ the attaining $N^\star$ is singular and the attainment
+that $N^\star=SKS^\top$. The case $m&lt;n$ adds a rank constraint on $K$ and is left
+open in the paper. For $m&gt;n$ the attaining $N^\star$ is singular and the attainment
 is in the limit sense (corrected 2026-11-20, VI-30; the earlier text said the harness
 checks singular and projection $K$, and it does not).</p>
 <p>(iii) The game is therefore the convex semidefinite program</p>
@@ -187,10 +187,10 @@ not yet proved&rdquo;. The later audit rows VI-33 and VI-35 record that a fresh-
 agent re-derived its core by hand and found it right, with the fixes below. No
 registration governs it and I do not give it a class.</p>
 <p>Let $\Sigma_S=\operatorname{diag}(s_1^2,\dots,s_n^2)\succ0$,
-$M=\operatorname{diag}(\mu_1,\dots,\mu_n)$, $1\le k<n$, $\lambda>0$, with (G1) the
+$M=\operatorname{diag}(\mu_1,\dots,\mu_n)$, $1\le k&lt;n$, $\lambda&gt;0$, with (G1) the
 $\mu_i$ distinct and positive and (G2) $\lambda\mu_i\ne s_i^2$ for all $i$. Call $i$
-conceded, $i\in\mathcal C$, if $\lambda\mu_i<s_i^2$, and shieldable,
-$i\in\mathcal H$, if $\lambda\mu_i>s_i^2$. Define, for $t\ge0$,</p>
+conceded, $i\in\mathcal C$, if $\lambda\mu_i&lt;s_i^2$, and shieldable,
+$i\in\mathcal H$, if $\lambda\mu_i&gt;s_i^2$. Define, for $t\ge0$,</p>
 <p>$$ J(t)=\lambda kt+\sum_{i\in\mathcal C}\lambda(\mu_i-t)_+
    +\sum_{i\in\mathcal H}s_i^2\Big(1-\frac{t}{\mu_i}\Big)_+ , $$</p>
 <p>which is convex and piecewise linear. A diagonal optimum
@@ -220,25 +220,25 @@ attention on it, the classes are:</p>
 <tbody>
 <tr>
 <td>conceded</td>
-<td>$\lambda\mu_i<s_i^2$, $\mu_i>t^\ast$</td>
+<td>$\lambda\mu_i&lt;s_i^2$, $\mu_i&gt;t^\ast$</td>
 <td>$1$</td>
 <td>$1$</td>
 </tr>
 <tr>
 <td>contested</td>
-<td>$\lambda\mu_i>s_i^2$, $\mu_i>t^\ast>0$</td>
+<td>$\lambda\mu_i&gt;s_i^2$, $\mu_i&gt;t^\ast&gt;0$</td>
 <td>$t^\ast/\mu_i$</td>
 <td>$s_i^2/(\lambda\mu_i)$</td>
 </tr>
 <tr>
 <td>level</td>
-<td>$\mu_j=t^\ast>0$</td>
+<td>$\mu_j=t^\ast&gt;0$</td>
 <td>$1$</td>
 <td>the slack, in $[0,\min(1,s_j^2/(\lambda\mu_j))]$</td>
 </tr>
 <tr>
 <td>submerged</td>
-<td>$\mu_i<t^\ast$</td>
+<td>$\mu_i&lt;t^\ast$</td>
 <td>$1$</td>
 <td>$0$</td>
 </tr>
@@ -260,7 +260,7 @@ level with nothing contested every $\theta_i$ is 0 or 1 and the top $k$ eigenval
 are strictly separated; the example $\mu=(4,2.5,1.8)$, $s^2=(5,5,5)$, $\lambda=1$,
 $k=2$ (all conceded, $\theta=(1,1,0)$) is the first pass&rsquo;s own witness.</p>
 <p>The correction was itself corrected twice, and both rounds belong here. VI-33
-(2026-11-20) found the core right, given $\lambda>0$, and found three errors the
+(2026-11-20) found the core right, given $\lambda&gt;0$, and found three errors the
 correction had introduced: a false non-uniqueness clause, a claim that the level
 coordinate&rsquo;s attention is always interior (it can be 0 or the cap at the end of a
 flat stretch of $J$), and a remark that mixing happens only on contested coordinates.
@@ -335,7 +335,7 @@ the paper counts eight and twelve. The paper records the build (2026-08-21, zero
 <li><strong>The joint-subset converse for $k\ge2$.</strong> Open. A fresh-context search found no
   gap on two instances (VI-31); that is evidence, not proof.</li>
 <li><strong>Instruments that do not commute.</strong> Open.</li>
-<li><strong>The case $m<n$</strong> of Theorem 1(ii), and a check of Theorem 5&rsquo;s blackout regime.
+<li><strong>The case $m&lt;n$</strong> of Theorem 1(ii), and a check of Theorem 5&rsquo;s blackout regime.
   Neither exists.</li>
 </ul>
       </div>

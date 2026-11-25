@@ -111,7 +111,7 @@ open problem: the single-stage tilted mean is a two-line completion of squares, 
 the recursive, filtering form is open.</p>
 <p><strong>Proposition 2 (rank-one value of observation).</strong> Let the prior covariance
 $\Sigma^{-}$ be symmetric, let a scalar measurement be $y=h^{\top}x+v$ with noise
-variance $r>0$, and let $\Sigma^{+}$ be the covariance after the Kalman update. For a
+variance $r&gt;0$, and let $\Sigma^{+}$ be the covariance after the Kalman update. For a
 rank-one consumer $P_C=gg^{\top}$, the consumer-relative value of the observation is</p>
 <p>$$
 V_C \;=\; \operatorname{tr}\big(P_C(\Sigma^{-}-\Sigma^{+})\big)
@@ -124,7 +124,7 @@ symmetry of $\Sigma^{-}$ is the hypothesis that carries the identity. Without it
 correct form is $(g^{\top}\Sigma h)(h^{\top}\Sigma g)/s$ with $s=h^{\top}\Sigma h+r$,
 and the squared form failed in 4,999 of 5,000 asymmetric draws. Positive
 semidefiniteness is not needed, and the condition on the denominator, silent in the
-first draft, is met by $r>0$. The audit&rsquo;s own net of 65,000 draws agreed to a maximum
+first draft, is met by $r&gt;0$. The audit&rsquo;s own net of 65,000 draws agreed to a maximum
 relative deviation of $2.1\times10^{-14}$.</p>
 <p><strong>What the Lean statements cover.</strong> <code>lean/README.md</code> records that
 <code>weighted_mean_invariance</code> checks Proposition 1 in its discrete form: for any matrix
@@ -186,10 +186,10 @@ T1, which concerns codes.</p>
 the realized gap between the sensor&rsquo;s state and the remote estimate. The operational
 trigger transmits when</p>
 <p>$$
-e^{\top}P_C\,e \;>\; \tau ,
+e^{\top}P_C\,e \;&gt;\; \tau ,
 $$</p>
 <p>with threshold $\tau$ tuned to a transmission budget.</p>
-<p>The first pilot for this experiment produced a registered null finding. A trigger built on the covariance alone, $\operatorname{tr}(P_C\Sigma_t)>\tau$,
+<p>The first pilot for this experiment produced a registered null finding. A trigger built on the covariance alone, $\operatorname{tr}(P_C\Sigma_t)&gt;\tau$,
 collapses to a nearly periodic schedule. The covariance recursion does not depend on the
 measurements, so at a fixed budget every functional of it fires on a clock, and the
 consumer weighting adds nothing. Direction matters to the timing only through the

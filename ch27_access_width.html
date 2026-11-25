@@ -119,7 +119,7 @@ $\mathcal G$ correlated with the read noise breaks the sufficiency step. For sli
 causal prefix and full path at equal lag, $q$ is the single-sample variance
 $1-a^{2\Delta}/(1+\tau^2)$, the Kalman fixed-lag smoother variance, and the noncausal
 Wiener error, so</p>
-<p>$$ L_{\mathrm{slice}}(D,\Delta)\;>\;L_{\mathrm{prefix}}(D,\Delta)\;>\;L_{\mathrm{path}}(D), $$</p>
+<p>$$ L_{\mathrm{slice}}(D,\Delta)\;&gt;\;L_{\mathrm{prefix}}(D,\Delta)\;&gt;\;L_{\mathrm{path}}(D), $$</p>
 <p>with the prefix-to-path gap equal to $C^{2\Delta}(P_f-q_{\mathrm{path}})$ in the paper&rsquo;s
 Riccati quantities $P_f$ and $C\in(0,1)$, never zero. $W(\Delta)=kT\ln2\cdot L_{\mathrm{prefix}}(D,\Delta)$ is the
 row&rsquo;s dynamic conditional-Landauer curve: the work falls geometrically as the eraser is
@@ -213,14 +213,14 @@ rule fails (by up to 4.59 bits) and the ordering below inverts; counter-values 0
 and 0.092864 are on record.</p>
 <p><strong>The chain rule (076).</strong></p>
 <p>$$ n\,L_a(\Delta)\;=\;I\big(T^n;\hat Y^n\mid S^n\big)+C_\Delta,\qquad
-C_\Delta=\sum_t I\big(\hat Y_t;S_{>t+\Delta}\mid S^{t+\Delta},\hat Y^{t-1}\big)\;\ge 0 . $$</p>
+C_\Delta=\sum_t I\big(\hat Y_t;S_{&gt;t+\Delta}\mid S^{t+\Delta},\hat Y^{t-1}\big)\;\ge 0 . $$</p>
 <p>$C_\Delta$ is the smoothing-leakage charge, the price of erasing before the rest of the
 context arrives. It is zero exactly when the record can be simulated causally from $S$
 at lag $\Delta$. The first conjecture, that no useful record collapses, was false:
 records built from $N$ alone collapse while carrying bits. The corrected statement is
 about feasibility. Below $D=\rho^2(n-\Delta-1)/n$ the distortion budget forbids every
 collapsing record, and at the bound one exists.</p>
-<p><strong>The ordering.</strong> $\mathrm{block}_n<\min L_a(\Delta)\le L_a^{\mathrm{diag}}(\Delta)<\mathrm{slice}(\Delta)$,
+<p><strong>The ordering.</strong> $\mathrm{block}_n&lt;\min L_a(\Delta)\le L_a^{\mathrm{diag}}(\Delta)&lt;\mathrm{slice}(\Delta)$,
 with the upper bounds strictly decreasing in $\Delta$ (version 0.1 said increasing, a
 sign error) and the lower margin closing at rate $\lambda_s^{2\Delta}$, where
 $\lambda_s=a(1-K)$ is the Kalman smoothing pole. The diagonal class is provably beaten,

@@ -88,7 +88,7 @@ I(X;\hat X_A,\hat X_B)\ \ge\ \tfrac12\log_2\frac{\kappa}{D_AD_B},
 $$</p>
 <p>The floor is exactly the joint rate-distortion function if and only if
 $\mathrm{diag}(D_A,D_B)\preceq B^{\mathsf T}\Sigma B$ (for
-$0<D_A\le\sigma_u^2$, $0<D_B\le\sigma_v^2$). Outside that regime it is a strict floor
+$0&lt;D_A\le\sigma_u^2$, $0&lt;D_B\le\sigma_v^2$). Outside that regime it is a strict floor
 and $R_{AB}$ is the simultaneous-service max-determinant program of the two-observer
 paper (Chapter 7). On the regime the tax has the closed form
 $\mathrm{CT}_R=\tfrac12\log_2\bigl(\sigma_m^2(1-\rho_{AB}^2)/D_m\bigr)$, with $m$ the
@@ -127,7 +127,7 @@ $$</p>
 <p>the information the reset context holds about the read plane. So $\kappa_S\le\kappa$
 always, and a context independent of the read plane discounts nothing.
 [<code>[replicated]</code>, ledger row GO-10, registration 055.] Unlike the rate floor, the work
-floor is generally not attained at $D>0$. Row GO-11 says exactly when it is.</p>
+floor is generally not attained at $D&gt;0$. Row GO-11 says exactly when it is.</p>
 <p>A worked instance sets the operational targets: $\Sigma=I_2$, orthogonal reads, equal
 distortion $D$, and $S=u^{\mathsf T}X+N$ with $s^2=\operatorname{Var}(X_1\mid S)$. Then
 $\mathrm{CT}_W=\tfrac12\log_2\bigl((s^2+(1-s^2)D)/D\bigr)$ and</p>
@@ -198,17 +198,17 @@ it is at most <code>[exploratory]</code>, and nothing in this chapter rests on i
 <h2 id="go-11-the-exact-conditional-function-for-one-rank-one-read">GO-11: the exact conditional function for one rank-one read</h2>
 <p>Take one consumer with read $Y=w^{\mathsf T}X$, normalized to unit variance, and a context
 $S=V+U$, where $V$ is a unit-variance linear function of $X$ with $\rho=\mathbb E[YV]$,
-$\lvert\rho\rvert<1$, and $U\sim\mathcal N(0,\tau^2)$ is independent noise. $V$ is the
+$\lvert\rho\rvert&lt;1$, and $U\sim\mathcal N(0,\tau^2)$ is independent noise. $V$ is the
 part of the context the encoder can compute. Theorem 1 (pair sufficiency): the channel may
 depend on $X$ only through $(Y,V)$, so in any dimension the problem depends on
 $(\rho,\tau^2)$ alone. Theorem 2: with $s=1+\tau^2$ (not the $s^2$ of the instance
-above), for $0<D<1$ the minimum of $I(X;\hat Y\mid S)$ subject to
+above), for $0&lt;D&lt;1$ the minimum of $I(X;\hat Y\mid S)$ subject to
 $\mathbb E(Y-\hat Y)^2\le D$ is</p>
 <p>$$
 L(D)=\tfrac12\log_2 g^\star,\qquad
 g^\star=\text{the larger root of }\ D\,s\,g^2-(D+s-\rho^2)\,g+(1-\rho^2)=0 .
 $$</p>
-<p>Since the quadratic equals $(D-1)\tau^2<0$ at $g=1$, exactly one root exceeds $1$. The
+<p>Since the quadratic equals $(D-1)\tau^2&lt;0$ at $g=1$, exactly one root exceeds $1$. The
 value reduces to the classical $1/D$ at $\rho=0$, to Gray&rsquo;s conditional function as
 $\tau^2\to0$, and to Steinberg&rsquo;s scalar common-reconstruction corner as $\rho^2\to1$.
 [<code>[replicated]</code>, ledger row GO-11; harness 060 passed 6 of 6, the quadratic against
@@ -225,7 +225,7 @@ pass showed one factor spurious, reduced it to the quadratic, proved uniqueness 
 the converse analytically. The draft also claimed that Theorem 2 settled the whole
 frontier. That was an overclaim, and correcting it produced the next result.</p>
 <h2 id="the-frontier-two-water-levels-and-two-corners">The frontier: two water levels and two corners</h2>
-<p>Theorem 3 gives the whole rate-work region for $\rho^2\in(0,1)$, $\tau^2>0$, $0<D<1$. Its
+<p>Theorem 3 gives the whole rate-work region for $\rho^2\in(0,1)$, $\tau^2&gt;0$, $0&lt;D&lt;1$. Its
 Pareto frontier is traced by $\alpha\in[0,1]$ through channels $\hat Y=aY+bV+N$,
 $N\sim\mathcal N(0,n)$, solving</p>
 <p>$$
