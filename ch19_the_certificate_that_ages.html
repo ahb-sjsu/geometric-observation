@@ -55,6 +55,16 @@ read as <em>distortion</em>. But a cache has a second, quieter way to be wrong: 
 return an answer that <em>was</em> right and no longer is. The entry is well-chosen; it is
 simply <strong>stale</strong>. No amount of the earlier theory sees this failure, because the
 earlier theory has no clock.</p>
+<p>Three kinds of change should be kept apart. A <strong>changing source</strong> — statistics that
+drift, cycle, grow, or vary without a period — is the subject of the RLD series
+(Chapter 7), which holds the consumer&rsquo;s weight and the holder&rsquo;s map fixed and asks
+what the description costs. A <strong>drifting observer</strong> — a read operator that changes,
+so that a description tuned to yesterday&rsquo;s consumer misreads today&rsquo;s — and a
+<strong>reliable monitor</strong> — a certificate whose claims are witnessed and whose false-clear
+rate is calibrated — are this Part&rsquo;s subjects, and they need assumptions and results
+of their own. The coding theorems supply limits and benchmarks for expected
+distortion; a monitor&rsquo;s false-clear rate is a further statistical claim, which needs
+its own argument and its own measurement.</p>
 <h2 id="the-certificate">The certificate</h2>
 <p>Almost every operational decision rests not on a measurement but on a <strong>certificate</strong>
 — a claim, issued at some time $t$, that a read is within tolerance:</p>

@@ -71,9 +71,86 @@ stated factor of the oracle code, end to end.</p>
 the program&rsquo;s central practical claim — <em>recover the observer, then serve it</em> — from a
 two-step empirical recipe into one theorem with an end-to-end guarantee. The pieces
 exist: the probe&rsquo;s recovery rate is measured (GO-1, and the rate-dependence of the
-surrogate gap in GO-6), and the mismatch tax and omission floor are proved (Chapter 7,
-Appendix B). T1 would fuse them. It carries no result yet — it is a <strong>stated target</strong>,
+surrogate gap in GO-6, disputed: VI-32, VI-34, re-run owed), and the mismatch tax and omission floor are derived
+(<code>[predicted]</code>-grade, the floor measured <code>[demonstrated]</code>; Chapter 7, Appendix B, B6). T1 would fuse them. It carries no result yet — it is a <strong>stated target</strong>,
 not a theorem — and I flag it as such [status: open, recommended].</p>
+<p><strong>Update, November 2026: the T1 note.</strong> A working note (<code>paper/t1-learn-then-serve</code>,
+version 4.1, <code>[exploratory]</code>) proves T1 in two regimes. The consumer&rsquo;s loss is
+$\|g(\hat x)-g(x)\|^2$ for its weighted map $g=G^{1/2}\mathcal C$, and $Q$ is its read metric
+averaged over a probe distribution. Read metrics at $m$ probe points give $\hat Q$ with
+$(1-\varepsilon_-)Q\preceq\hat Q\preceq(1+\varepsilon_+)Q$ with probability $1-\delta$, where
+$\varepsilon_\pm=\sqrt{2\nu_+\nu_-L/m}+2\nu_\pm L/(3m)$, $L=\ln(2p/\delta)$, and $\nu_\pm$ bound the
+read metric relative to $Q$ (a one-sided matrix Bernstein bound; the lower constant needs no
+prior knowledge, since read metrics are positive semidefinite). <em>Any smooth consumer.</em> For a
+Gaussian vector source (RLD I) and a consumer whose $g$ has three bounded derivatives, the
+Gaussian test channels that attain the series&rsquo; frontiers have consumer loss
+$\operatorname{tr}(Q\Delta)$ up to an explicit remainder of order $(\operatorname{tr}\Delta)^2$, and
+codes built for the consumer achieve the test channel&rsquo;s rate, leakage and consumer loss
+together. So a learner that knows derivative bounds, the source law and an upper constant
+for the read metric certifies that the frontier for $\hat Q$, at a slightly smaller budget,
+is achievable at consumer loss $D$, within $\tau_\varepsilon+O(D)$ bits per symbol of the
+frontier for the true weight, $\tau_\varepsilon=\tfrac p2\log\frac{1+\varepsilon_+}{1-\varepsilon_-}$.
+<em>Consumers under a quadratic sandwich.</em> If the loss lies between $1-\nu_-$ and $1+\nu_+$
+times $(\hat x-x)^{\mathsf T}Q(\hat x-x)$, with the constants known in advance (no finite set
+of probes can certify them), a converse holds as well, in every setting of the series, and
+the series&rsquo; own codes for $\hat Q$ lie within $\tau_\nu+\tau_\varepsilon$ bits per symbol of the
+outer bound in rate and in leakage at once, $\tau_\nu=\tfrac p2\log\frac{1+\nu_+}{1-\nu_-}$; the
+learning part is sharp for an encoder that knows the weight only through the confidence
+statement. The sandwich is restrictive: for a Gaussian source it makes $g$ bi-Lipschitz,
+and $\tau_\nu$ is small only near linearity (a leaky ReLU of slope $a$ has
+$\tau_\nu=p\log_2(1/a)$ bits per symbol, an upper bound on what is paid). <em>Costs.</em> Probing
+costs $2pm$ consumer queries by central differences, whose error of order $h^2$ adds to
+$\varepsilon_\pm$; a decoder that does not probe can be sent $\hat Q$ once in
+$O(p^2\log(p\kappa/\varepsilon_q))$ bits that carry no information about the source. Three
+fresh-context audits (ledger VI-22 to VI-24) found errors in remarks and wording only, all
+corrected, and the author has read all its proofs (2026-11-18). Read operators of lower rank with a
+kernel that does not move are covered in RLD I–III. Still open, and still the heart of the
+original statement: one code, chosen from $\hat Q$ alone, that serves every consumer of a
+class; codes in the process settings of RLD II–IV; a converse without the sandwich; a kernel
+that moves with the point and a range estimated with error (principal angles, the commission
+tax, and the omission floor, so far for the rate alone); and consumers that read across
+dependent symbols. The end-to-end worked result the note calls for — recover a real
+consumer&rsquo;s operator, charge the probing, build the description, and bound its downstream
+loss against the series&rsquo; frontier — is drafted for registration and not sealed.</p>
+<p><strong>A kernel that moves with the point (ledger row T1-MK, <code>[exploratory]</code>).</strong> One item of
+that list has a first answer. An addendum to the note (<code>paper/t1-moving-kernel</code>, version
+0.7) treats a consumer whose ignored directions change from one source point to the next.
+Its level sets are the fibers the consumer cannot tell apart, $\ker J_g(x)$ is the tangent
+space of the fiber through $x$, and the averaged weight $Q=\mathbb{E}\,J_g^{\mathsf T}J_g$
+can then have rank $q$ larger than the output dimension $k$. The codes T1 serves are built
+on Gaussian test channels whose error covariance $\Delta$ does not depend on the source
+point. For that class, with a source $N(0,\Sigma)$ and a map $g$ with three bounded
+derivatives, the least rate at consumer loss $D$ is, in nats,</p>
+<p>$$
+R_{\mathrm{fix}}(D)=\frac q2\log\frac qD+\frac12\log{\det}^{+}\bigl(\Sigma^{1/2}Q\Sigma^{1/2}\bigr)+O(D)\qquad(D\to0),
+$$</p>
+<p>where ${\det}^{+}$ is the product of the nonzero eigenvalues. When $g$ has a measurable
+right inverse on a closed convex image in $\mathbb{R}^k$ and its output $g(T)$ has a
+density, finite differential entropy and a positive definite covariance, the consumer&rsquo;s
+own rate–distortion function is that of its output, and so</p>
+<p>$$
+R_{\mathrm{fix}}(D)-R_{\mathcal C}(D)=\frac{q-k}2\log\frac1D+O(1)\qquad(D\to0).
+$$</p>
+<p>A code chosen from the averaged weight alone, within this class, pays for $q$ directions
+where the consumer reads $k$, and the excess grows without bound as the loss falls. For
+the example $g(x_1,x_2)=x_1+a\sin x_2$ with $\Sigma=I$, $Q$ has rank $2$ and the output
+has dimension $1$, the consumer loss has a closed form, the excess is
+$\tfrac12\log(1/D)+C_*+O(D)$ with an explicit constant, and at $a=1$ and $D\le10^{-2}$ the
+least rate is the value of a one-dimensional concave problem. What the row does not say
+matters as much. These are statements about fixed-covariance test channels and about
+information rates, not about every code, and no lower bound for every code built from a
+weight is claimed. Three bounded derivatives exclude consumers such as $\|x\|^2$. For a
+general consumer the lower bounds hold below a loss $D_0$ for which there is no explicit
+bound. The result with a right inverse assumes the decoder holds one, and how a learner
+obtains one from queries, at what cost, is not treated. The idea that an encoder that
+knows the function should compute it and encode the result is in Misra, Goyal and Varshney&rsquo;s
+functional quantization, and the high-resolution theory of Linder, Zamir and Zeger covers
+locally quadratic losses whose sensitivity matrix is positive definite, a hypothesis that
+a consumer with $k<p$ fails at every point. The numerical checks (two nets, 22 and 6
+checks) had their criteria fixed in the scripts and were not sealed, and six fresh-context
+audits (ledger VI-52 to VI-57) found no mathematical error in a numbered statement. One of
+them, VI-55, passed over an unsupported expansion in the prose of the example, which has
+since been replaced by a proved proposition.</p>
 <h2 id="the-cross-domain-magnitude-constant">The cross-domain magnitude constant</h2>
 <p>The sharpest <em>quantitative</em> gap is inherited from the 20-Newsgroups blind test (041,
 Chapter 10). The blind non-oracle probe recovers the winning code&rsquo;s <em>direction</em>

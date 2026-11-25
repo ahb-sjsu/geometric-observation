@@ -45,108 +45,257 @@
 
       <div class="chapter-content">
 <h1 id="appendix-b-the-cost-ledger-theorems-proofs-and-falsification-harnesses">Appendix B — The COST Ledger: Theorems, Proofs, and Falsification Harnesses</h1>
-<p><em>Staging tier [B]. This appendix carries the statements and proof-status of the
-COST-face theorems (Paper III). Each theorem ships, per the charter&rsquo;s theorem-custody
-rule (T-CUST-1), four things: a written proof, an R-IND-5 fresh-context adversarial
-pass, a committed C3 numerical falsification harness built to fail if the theorem is
-false, and a constants/slack + known-gaps table. Full proofs live in Paper III and its
-appendix; this ledger gives statements, status, custody, and the verification incidents
-each one survived. Nothing here is <code>[proved]</code> without </em><em>both</em><em> grades (T-CUST-2: a green
-harness is a net, not a proof).</em></p>
+<p><em>Staging tier [B].</em> This appendix carries the statements and proof status of the
+COST-face theorems (Paper III).</p>
+<p><strong>What <code>[proved]</code> requires.</strong> Under the charter&rsquo;s theorem-custody rule (T-CUST-1), a
+theorem reaches <code>[proved]</code> only when it ships four things:
+1. a written proof;
+2. an R-IND-5 fresh-context adversarial pass;
+3. a committed C3 numerical falsification harness, built to fail if the theorem is false;
+4. a constants/slack and known-gaps table.</p>
+<p>A green harness is a net, not a proof (T-CUST-2). Full proofs live in Paper III and its
+appendix. This ledger gives each statement, its status, its custody, and the verification
+incidents it survived.</p>
+<p><strong>Status as of 2026-11-21.</strong> A custody pass (VI-32, <code>claims/audits/VI-32-PaperIII-B.md</code>)
+found, and later passes (VI-34, VI-36 to VI-38) extended, that this appendix had overstated
+itself:
+- no theorem here had a custody table, so none was <code>[proved]</code>;
+- three of its statements misstated Paper III (B1, B4, B6);
+- one constant was wrong (B7, NEG-18);
+- some of the harnesses could not fail.</p>
+<p>The classes below are corrected to the ledger, which wins (Appendix F). A theorem whose
+statement is netted by a sealed C3 registration is <code>[predicted]</code>-grade until its custody
+table exists.</p>
+<p><strong><code>[proved]</code> since 2026-11-21.</strong> Ledger row PAPER-III.a, with its custody file
+<code>claims/custody/PAPER-III.a.md</code>, covers <code>lem:maxdet</code>&rsquo;s single-letter rate identity and the max-det
+corner identity of B4 and B5: the max-det closed form (derived in <code>lem:maxdet</code> since 2026-11-21,
+read by VI-47) and the rate-loss corner step. Their coding readings keep the classes given below.
+B7&rsquo;s corrected variance formula is row PAPER-III.b, <code>[proved]</code> since the rate identity it rests on
+was netted (<code>verify_paper3_rate_identity.py</code>, 2026-11-21). Reading it as the dispersion stays
+<code>[exploratory]</code> (VI-48).</p>
 <h2 id="conventions">Conventions</h2>
-<p>Source $x$ with covariance $\Sigma_x$; observer read metric $P$ (dropping the subscript
-$C$); coding error $\delta$ with covariance $\Sigma_\delta$; read distortion
-$D = \operatorname{tr}(P\Sigma_\delta)$. The <strong>whitened</strong> basis is $\Sigma_x^{1/2} P
-\Sigma_x^{1/2}$; several constants are correct only in this basis (the recurring lesson
-of VI-4/VI-6).</p>
+<ul>
+<li>Source $x$ with covariance $\Sigma_x$.</li>
+<li>Observer read metric $P$ (dropping the subscript $C$).</li>
+<li>Coding error $\delta$, with covariance $\Sigma_\delta$.</li>
+<li>Read distortion $D = \operatorname{tr}(P\Sigma_\delta)$.</li>
+<li>The <strong>whitened</strong> basis is $\Sigma_x^{1/2} P \Sigma_x^{1/2}$. Several constants are correct
+  only in this basis, the recurring lesson of VI-4 and VI-6.</li>
+</ul>
 <h2 id="thm-b1-consumer-ratedistortion-achievability-converse">Thm B1 — Consumer rate–distortion achievability &amp; converse</h2>
-<p><strong>Statement.</strong> For a Gaussian source and read metric $P$, the minimum rate to achieve
-read distortion $D$ is $R_C(D)$, achieved by a test channel that does reverse water-
-filling in the whitened basis; the tilt relative to Shannon&rsquo;s source-only allocation is
-exactly $P$. The reduction in true divergence relative to reconstruction coding is the
-tilt.</p>
-<p><strong>Status.</strong> <code>[proved]</code> — derivation-grade via written proof + R-IND-5 pass; conclusion-
-grade via a committed Blahut–Arimoto harness reproducing the optimum. Registry 022 block
-/ Paper III.</p>
-<p><strong>Custody / gaps.</strong> Verbatim Kostina–Verdú transfer holds for the fixed-$P$ Gaussian
-case; the true-nonlinear consumer keeps a &ldquo;should port&rdquo; hedge (VI-7). Constants in the
-whitened basis only.</p>
+<p><strong>Statement.</strong> For a Gaussian source and read metric $P$, the minimum rate to achieve read
+distortion $D$ is $R_C(D)$. It is achieved by a test channel that does reverse
+water-filling in the whitened basis, on the tilted source $Y = P^{1/2}X$ (Paper III
+<code>prop:rd</code>, <code>lem:tilt</code>, <code>thm:coding</code>, <code>cor:coding</code>).</p>
+<p>(Paper III&rsquo;s own <code>thm:B1</code> is a different result: the coding theorem for the true
+divergence. An earlier sentence here, &ldquo;the reduction in true divergence … is the tilt&rdquo;,
+matched no statement and is withdrawn.)</p>
+<p><strong>Status.</strong>
+- R-IND-5: VI-3.
+- The single-letter Gaussian identity behind it, <code>lem:maxdet</code>&rsquo;s rate identity, is
+  <code>[proved]</code> (ledger row PAPER-III.a) since 2026-11-21. <code>thm:coding</code>, the operational theorem,
+  still has no net.
+- <code>thm:coding</code> has no C3 net of its own; <code>verify_appendixB.py</code> nets <code>thm:B2</code>/<code>cor:B2a</code> and
+  part of <code>thm:B3</code>.
+- <strong><code>[exploratory]</code> pending a net and custody.</strong></p>
+<p><strong>Custody / gaps.</strong>
+- Verbatim Kostina–Verdú transfer holds for the fixed-$P$ Gaussian case.
+- The true nonlinear consumer keeps its &ldquo;should port&rdquo; hedge.
+- Constants hold in the whitened basis only.</p>
 <h2 id="thm-b2-output-surrogate-reconstruction-at-matched-rate">Thm B2 — Output ≤ surrogate ≤ reconstruction at matched rate</h2>
 <p><strong>Statement.</strong> At matched rate, coding for the consumer&rsquo;s output metric is no worse than
 coding for a surrogate read metric, which is no worse than coding for reconstruction, on
-the consumer metric; the output–reconstruction gap is governed by the $\ker P$ entropy
-share.</p>
-<p><strong>Status.</strong> <code>[demonstrated]</code> operationally by GO-6 (GO-P-2026-028): the ordering holds at
-<em>every</em> rate, reconstruction up to ~500× worse at high rate, median gap $+2.45$ (strict,
-kernel positive), isotropic control $P = I$ collapses the three coders. The analytic
-statement is proved; the harness is the conclusion-grade net.</p>
-<p><strong>Custody / gaps.</strong> Nonlinear consumer $d = 8, r = 4$, $\dim\ker P = 4$; synthetic. The
-gap&rsquo;s dependence on the kernel entropy share is the load-bearing structural claim.</p>
+the consumer metric. This is Paper III&rsquo;s registered prediction GO-6, not its <code>thm:B2</code>,
+which is the output-reduction theorem.</p>
+<p><strong>Status.</strong> <code>[demonstrated]</code> by the ledger, and <strong>disputed</strong> (VI-32, VI-34): the findings below
+mean the harness does not test the claim&rsquo;s matched-rate premise. A re-run at matched rate is
+owed, and the class is the author&rsquo;s to set. What GO-6 (GO-P-2026-028) measured:
+- the ordering holds at every rate tested;
+- reconstruction is up to about 500× worse at high rate;
+- the median gap is $+2.45$;
+- the isotropic control collapses the three coders.</p>
+<p><strong>What VI-32 found:</strong>
+- No theorem gives the ordering, the &ldquo;kernel entropy share&rdquo; (which is undefined) or the
+  rate dependence, so the earlier &ldquo;the analytic statement is proved&rdquo; is withdrawn.
+- The harness charges (b) and (c) a backward-channel rate while measuring their
+  distortion with forward noise, so the rates are not exactly matched.
+- The harness&rsquo;s isotropic control assigns all three curves the same array.</p>
 <h2 id="thm-b3-the-surrogateoutput-gap-vanishes-with-rate">Thm B3 — The surrogate–output gap vanishes with rate</h2>
 <p><strong>Statement.</strong> The relative gap $(b - a)/(c - a)$ between a surrogate-optimal and an
-output-optimal code shrinks to zero as the rate grows.</p>
-<p><strong>Status.</strong> <code>[demonstrated]</code> — GO-6 measures it $0.41 \to 0.005$ as rate grows. Analytic
-statement PLAUSIBLE-with-conditions on the R-IND-5 pass (VI-3), pinned by the harness.</p>
-<p><strong>Consequence.</strong> At high resolution a surrogate for $P$ suffices; at low resolution it
-does not — which is why the blind probe (Chapter 10) is load-bearing precisely in the
-bit-starved regime.</p>
-<h2 id="thm-b4-two-observer-region-refinability-loewner-nesting">Thm B4 — Two-observer region &amp; refinability = Loewner nesting</h2>
-<p><strong>Statement.</strong> The achievable rate region for two observers $(P_1, P_2)$ is
-characterized; a single scalable code serves the coarse observer with a prefix of the
-fine observer&rsquo;s bits <strong>iff</strong> $P_1 \preceq P_2$ (Loewner). Non-nested read metrics incur
-an exact rate loss.</p>
-<p><strong>Status.</strong> <code>[proved]</code> — the two-observer max-determinant program; prereg 022.</p>
-<p><strong>Verification incident (VI-4, standing).</strong> An in-context <code>sigma_star</code> formula used
-$(\Sigma^\star)^{-1} = \Sigma_x^{-1} + \lambda P$ with the inline claim &ldquo;the cap never
-binds&rdquo;; a fresh-context adversarial pass found the max-det error covariance is reverse
-water-filling in the whitened basis and the cap <strong>does</strong> bind on $\ker P$. Corrected;
-harness re-run with a nested-Gaussian sufficiency check reproducing both single-stage
-optima to $10^{-10}$; prereg amended and re-sealed; false pass logged. <em>The analytic
-theorem statement was unaffected — the harness was wrong.</em> This is the textbook case for
-why <code>[proved]</code> demands both grades.</p>
-<h2 id="thm-b5-complete-rate-region-the-math25-observer-chain">Thm B5 — Complete rate region &amp; the $k$-observer chain</h2>
-<p><strong>Statement.</strong> For $k \ge 3$ observers in a chain the tight region is Kostina–Tuncel&rsquo;s;
-achievability is via independent Fisher increments from physically-degraded channels.</p>
-<p><strong>Status.</strong> <code>[proved]</code>, corrected. Prereg 023.</p>
-<p><strong>Verification incident (VI-5).</strong> Two errors caught pre-publication: (a) the $k \ge 3$
-region is Kostina–Tuncel, not Rimoldi (which is the finite-alphabet $L$-stage carrier);
-(b) the two-stage K-map <strong>does not iterate</strong> — an accumulating rotation ambiguity $B =
-Q\Lambda^{1/2}$ leaks Fisher information by $O(0.1)$ per stage. Achievability restated via
-independent increments, exact to $10^{-14}$; the $k = 2$ corner unaffected.</p>
+output-optimal code shrinks to zero as the rate grows (GO-6 (iii)). Paper III&rsquo;s <code>thm:B3</code> is
+the high-resolution formula, a different statement.</p>
+<p><strong>Status.</strong> <code>[demonstrated]</code> by the ledger, and <strong>disputed</strong> with B2, since it uses the same
+harness: GO-6 measures the gap falling from $0.41$ to $0.005$. There is
+no analytic theorem; VI-3 graded the high-resolution argument PLAUSIBLE-with-conditions.
+Its Linder–Zamir conditions are cited, not checked, and the formula also needs
+$\mathbb E\log\det G<\infty$.</p>
+<p><strong>Consequence.</strong> At high resolution a surrogate for $P$ suffices; at low resolution it does
+not. This is why the blind probe (Chapter 10) is load-bearing precisely in the bit-starved
+regime.</p>
+<h2 id="thm-b4-two-observer-region-refinability">Thm B4 — Two-observer region &amp; refinability</h2>
+<p><strong>Statement.</strong> The achievable rate region for two observers $(P_1, P_2)$ is contained in
+the max-determinant region of Paper III (<code>thm:region</code>), with
+$0\prec\Sigma_f\preceq\Sigma_b\preceq\Sigma_x$, and equals it under Assumption SR.</p>
+<p>If a single scalable code serves both observers at their single-stage optimal rates
+$R_1(D_1)$ and $R_2(D_2)$ (the corner), the coarse observer with a prefix of the fine
+observer&rsquo;s bits, then <strong>the observers&rsquo; optimal error covariances nest,
+$\Sigma_2^\star\preceq\Sigma_1^\star$</strong> (<code>thm:multiobs</code>); under Assumption SR nesting also
+suffices. (Without the corner rates the statement is false: Paper III&rsquo;s <code>sec:multiobs</code>, consequence
+(iii), is served by two independent codes at a higher total rate; VI-39, VI-40.) This condition depends on $D_1$
+and $D_2$.</p>
+<p>Non-nested optima incur at least the rate loss of <code>thm:multiobs-loss</code>, and exactly that loss
+under Assumption SR. (Stated unconditionally until 2026-11-21; VI-38.)</p>
+<p><strong>Correction (VI-32).</strong> This appendix used to state the criterion as &ldquo;iff
+$P_1\preceq P_2$&rdquo;. That is false in both directions:
+- not refinable although $P_1\preceq P_2$: $\Sigma_x=I_2$, $P_1=\mathrm{diag}(1,0)$, $P_2=I$,
+  $D_1=0.5$, $D_2=1.2$;
+- refinable although $P_1\not\preceq P_2$: $P_1=2I$, $P_2=I$, $D_1=1$, $D_2=0.2$.</p>
+<p>The paper always had it right.</p>
+<p><strong>Status.</strong>
+- Proof plus R-IND-5 (VI-4; later VI-32, VI-36 to VI-40, VI-46 and VI-47).
+- Sealed net 022, but that net is weak. VI-32 re-inserted VI-4&rsquo;s original bug into
+  <code>verify_two_observer.py</code>, and checks [1]–[3] still pass. Only <code>verify_rate_region.py</code> [3]
+  catches it.
+- <strong>Split (VI-36, corrected by VI-37).</strong> <code>verify_rate_region.py</code> [3] computes the
+  closed-form Gaussian corner and takes the region as given, so what it nets is the
+  <strong>max-det corner identity</strong> (the closed forms of $\Sigma^\star$, $\Sigma^\circ$ and $L$):
+  <strong><code>[proved]</code></strong> since 2026-11-21 (ledger row PAPER-III.a, netted by <code>verify_paper3_nets.py</code>
+  m1–m4 in CI; it was <code>[predicted]</code>-grade pending custody). The coding statements take the
+  region&rsquo;s class:
+  the necessity of nesting and the rate loss as a lower bound rest on the region converse,
+  which has no net that can fail, and the sufficiency of nesting and the attained minimum
+  rest on Assumption SR (achievability, attributed to Effros, unchecked): <strong><code>[exploratory]</code></strong>.
+  <code>verify_paper3_nets.py</code> nets the closed forms and the corner restriction; it too takes the
+  region as given.</p>
+<p><strong>Verification incident (VI-4, standing).</strong>
+- <em>The bug.</em> An in-context <code>sigma_star</code> formula used
+  $(\Sigma^\star)^{-1} = \Sigma_x^{-1} + \lambda P$, with the inline claim &ldquo;the cap never
+  binds&rdquo;.
+- <em>The catch.</em> A fresh-context adversarial pass found that the max-det error covariance is
+  reverse water-filling in the whitened basis, and that the cap <strong>does</strong> bind on $\ker P$.
+- <em>The fix.</em> The formula was corrected and the harness re-run. The analytic theorem
+  statement was unaffected; the harness was wrong.
+- <em>Later (VI-32).</em> The &ldquo;decisive&rdquo; check added then is an algebraic identity that holds for
+  any nested pair, so it cannot detect the bug.</p>
+<h2 id="thm-b5-rate-region-the-math44-observer-chain">Thm B5 — Rate region &amp; the $k$-observer chain</h2>
+<p><strong>Statement.</strong>
+- <strong>Converse and the necessity of nesting:</strong> for $k$ observers in a chain, the achievable
+  region is contained in the chain of nested max-det covariances (<code>cor:kobs</code>, with
+  $0\prec\Sigma_k$), and refinability implies that the single-stage optima nest. Paper III
+  proves both, with the $n$-block step added in 2026-11.
+- <strong>Under Assumption SR, for every $k$</strong> (for $k=2$: <code>thm:region</code>, <code>thm:multiobs</code>), the
+  region equals that set and refinability is equivalent to nesting.
+- <strong>Achievability, for every $k$, and with it the sufficiency of nesting:</strong> the
+  independent-Fisher-increment Gaussian test channel realizes every feasible chain, but
+  turning it into codes is not proved in Paper III. That step is Paper III&rsquo;s Assumption SR,
+  attributed to Effros (IEEE T-IT 1999), which Kostina–Tuncel cite for the two-stage region
+  on continuous alphabets; that it covers $k\ge3$ stages is a reading of its title
+  (&ldquo;multiresolution&rdquo;), and its hypotheses for this Gaussian case are still to be checked at
+  the source. Every achievability claim
+  here, for $k=2$ too, rests on it. (Checked 2026-11-21, VI-36: Kostina–Tuncel, which Paper III
+  cited as the coding theorem, is a two-stage parametric characterization of the region&rsquo;s
+  boundary, and itself cites Effros for the continuous-alphabet extension.)</p>
+<p><strong>Status.</strong>
+- $k=2$, the max-det corner identity: proof, R-IND-5 (VI-5), and the sealed net 023, whose
+  check [3] is a real net for it. <strong><code>[proved]</code></strong> since 2026-11-21 (ledger row PAPER-III.a,
+  netted in CI by <code>verify_paper3_nets.py</code>). Refinability as a coding statement is
+  <code>[exploratory]</code>, as in B4.
+- The region converse: proof and R-IND-5, but no net that can fail. 023&rsquo;s [1] is an
+  identity, and [2] cannot fail on the region&rsquo;s coupling. <strong><code>[exploratory]</code> until a net
+  exists.</strong>
+- Achievability, for $k=2$ as for $k\ge3$: Assumption SR, <strong>unchecked</strong> (FRONTIER G12b).</p>
+<p><strong>Verification incident (VI-5).</strong> One error was caught before publication, (b) below. A
+citation was also flagged, but VI-5&rsquo;s replacement readings proved unchecked or wrong
+(VI-36 to VI-40), so (a) is not counted as a catch:
+- (a) the citation: Rimoldi&rsquo;s is the finite-alphabet $L$-stage result (VI-5&rsquo;s reading;
+  Kostina–Tuncel quote it for two stages, and the $L$-stage form is not checked at the
+  source; VI-39);
+- (b) the two-stage K-map <strong>does not iterate</strong>: an accumulating rotation ambiguity leaks
+  Fisher information by $O(0.1)$ per stage.</p>
+<p>Achievability was restated with independent increments. VI-32 found that the follow-on
+claim, that the two-stage arguments &ldquo;extend verbatim&rdquo;, was itself unproved. It is now
+withdrawn in Paper III.</p>
 <h2 id="thm-b6-the-price-of-a-misidentified-observer-tax-and-floor">Thm B6 — The price of a misidentified observer: tax and floor</h2>
-<p><strong>Statement (tax).</strong> Coding for a rank-$M$ read metric when the consumer&rsquo;s is rank $m &lt;
-M$ costs excess rate $\sim (r/2)\log(M/m)$. <strong>Statement (floor).</strong> A code blind to a
-direction the consumer reads hits a distortion floor $D \ge D_{\text{floor}} =
-\operatorname{tr}(\tilde P\Pi)$ (whitened kernel), a compact band $[D_{\text{floor}},
-\operatorname{tr}(P\Sigma_x)]$ — a floor, not unbounded distortion.</p>
-<p><strong>Status.</strong> <code>[proved]</code> (prereg 024) and, for the floor, <code>[demonstrated]</code> downstream on a
-trained model (GO-P-2026-027, held-out layers {4,20}, floor 16/16, asymptotic ratio
-800–5700×).</p>
-<p><strong>Verification incident (VI-6).</strong> Two corrections pre-publication: omission gives a
-<em>floor</em>, not unbounded distortion; and the floor uses the <em>whitened</em> kernel
-$\Sigma_x^{-1/2}\ker\hat P$ — a naive kernel projector overstates it by ~30% when
-$\Sigma_x \ne I$. The 0.647 Llama overlap is written as a <strong>conditional</strong> certificate
-(omission + equal weights), not a flat number.</p>
+<p><strong>Statement (tax).</strong> Suppose the coder&rsquo;s metric $\hat P$ and the consumer&rsquo;s $P$ satisfy
+$m\hat P\preceq P\preceq M\hat P$ on their shared range (equal ranges, Loewner constants
+$0<m\le M$). Then the design built for $\hat P$, $\Sigma^\star(\hat P,D/M)$, meets the
+consumer&rsquo;s distortion $D$ at an excess rate of at most $(r/2)\log(M/m)$, in the coding
+regime the theorem states, and the $r/2$ is sharp (<code>thm:commission</code>, which gives the exact
+design and regime).</p>
+<p>(This appendix used to say &ldquo;a rank-$M$ read metric when the consumer&rsquo;s is rank $m<M$&rdquo;,
+which confuses the Loewner constants with ranks; VI-32.)</p>
+<p><strong>Statement (floor).</strong> Every allocation in the $\hat P$-water-filling family, when $\hat P$
+omits a direction the consumer reads, hits a distortion floor
+$D \ge D_{\text{floor}} = \operatorname{tr}(\tilde P\Pi)$, with the whitened kernel.
+The achievable band is the compact $[D_{\text{floor}}, \operatorname{tr}(P\Sigma_x)]$: a
+floor, not unbounded distortion (<code>thm:omission</code>).</p>
+<p><strong>Status.</strong>
+- Proof plus R-IND-5 (VI-6), and the sealed net 024. Its commission bound is a real check;
+  its omission &ldquo;alt&rdquo; floor is a tautology.
+- <strong><code>[predicted]</code>-grade, pending custody.</strong>
+- The floor is also <code>[demonstrated]</code> downstream on a trained model: GO-P-2026-027,
+  held-out layers {4,20}, floor 16/16, asymptotic ratio 800–5700×.</p>
+<p><strong>Verification incident (VI-6).</strong> Two corrections were made before publication:
+- omission gives a <em>floor</em>, not unbounded distortion;
+- the floor uses the <em>whitened</em> kernel. A naive kernel projector overstates it by about
+  30% when $\Sigma_x \ne I$.</p>
+<p>The 0.647 Llama overlap is a <strong>conditional</strong> certificate. It holds given omission, equal
+weights <strong>and</strong> an isotropic source ($\Sigma_x=I$). VI-32 restored the isotropy
+condition, VI-6&rsquo;s own lesson.</p>
 <p><strong>Related negative (NEG-13 → resolved).</strong> The first sealed finite-rate gate for the floor
-<em>missed</em> (0/16, shallow-sweep artifact conflating floor-reached with floor-exists);
-resolved by a fresh held-out test, not by relaxing the bar (Chapters 15–16).</p>
-<h2 id="thm-b7-dispersion-counts-read-dimensions">Thm B7 — Dispersion counts read dimensions</h2>
-<p><strong>Statement.</strong> The finite-blocklength dispersion counts the <em>read</em> dimensions: effective
-dimension $r_D \le r$, equal to $r$ only as $D \to 0$.</p>
-<p><strong>Status.</strong> <code>[proved]</code>, sharpened. Prereg 025.</p>
-<p><strong>Verification incident (VI-7).</strong> A draft claimed &ldquo;exact at every $n$ because the tilt is
-a bijection&rdquo; and &ldquo;effective dimension $= r$&rdquo;; the fresh-context pass found the finite-$n$
-equivalence rests on a <strong>covering</strong> argument (not a first-order data-processing bound),
-and $r_D \le r$ (not flat $r$). Dispersion constants flagged [C7] to Kostina–Verdú.</p>
-<h2 id="custody-summary">Custody summary</h2>
+<em>missed</em> (0/16), a shallow-sweep artifact that conflated &ldquo;floor reached&rdquo; with &ldquo;floor
+exists&rdquo;. It was resolved by a fresh held-out test, not by relaxing the bar (Chapters
+15–16).</p>
+<h2 id="thm-b7-dispersion-counts-at-most-the-read-dimensions">Thm B7 — Dispersion counts at most the read dimensions</h2>
+<p><strong>Statement.</strong> The finite-blocklength consumer coding problem is the $r$-dimensional
+tilted problem at every blocklength (<code>prop:dispersion</code>, by a covering argument). For the
+Gaussian quadratic case its dispersion is</p>
+<p>$$V_Y(D)=\tfrac12\Bigl[r_D+\sum_{k:\,0<\gamma_k\le\theta}(\gamma_k/\theta)^2\Bigr]\ \text{nats}^2,\qquad r_D\le 2V_Y\le r,$$</p>
+<p>with $\gamma_k$ the tilted mode variances, $\theta$ the water level, and $r_D$ the active
+modes (<code>cor:dispersion</code>). Equality holds on the right iff $\gamma_k\ge\theta$ for every
+$k$, which covers the whole low-distortion regime. It counts at most the $r$ read
+dimensions, never the ambient $d$. (A first correction wrote &ldquo;$<r$&rdquo;, which fails when
+every mode is active.)</p>
+<p><strong>Correction (NEG-18, VI-32).</strong> This appendix, Paper III and prereg 025 gave the
+dispersion as $(r_D/2)\log^2e$, counting only the active modes. The value came from
+VI-7&rsquo;s &ldquo;sharpening&rdquo;. Modes below the water level contribute too, because fluctuations of
+their energy are absorbed by the active modes. A Monte Carlo at
+$\gamma=(4,2,0.6,0.3)$, $\theta=1$ gives a variance of 1.226 against the claimed 1.0. The
+bound survives.</p>
+<p><strong>Status.</strong>
+- The finite-$n$ reduction: proof plus R-IND-5 (VI-7), and the sealed net 025. But 025&rsquo;s
+  checks C4 and D1–D3 are tautological and C3/C3b are circular, so none of them can fail:
+  <strong><code>[exploratory]</code> until a net exists</strong> (VI-34).
+- The dispersion formula: <code>[refuted]</code> as earlier stated. The corrected variance was
+  re-derived by two fresh contexts (VI-34, VI-36) and is netted by <code>verify_paper3_nets.py</code>
+  (m5, m6), in CI since 2026-11-21. The corrected formula is <strong><code>[proved]</code></strong> (ledger row
+  PAPER-III.b, custody file <code>claims/custody/PAPER-III.b.md</code>) as the variance of the tilted
+  information. It rests on <code>lem:maxdet</code>&rsquo;s rate identity, which VI-46 found unnetted and
+  <code>verify_paper3_rate_identity.py</code> now nets. Reading it as the consumer problem&rsquo;s dispersion
+  also needs the finite-$n$ reduction above, which stays <code>[exploratory]</code>, and kernel uniqueness,
+  which is proved but on which no check can fail (VI-48). Identifying the variance with the dispersion is Kostina–Verdú&rsquo;s
+  Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
+  abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
+  the vector letter (<code>cor:dispersion</code>). VI-37 checked the uniqueness argument line by line
+  and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
+  assistant had read and used to overrule VI-37&rsquo;s verifier.
+- 025&rsquo;s check C3b is circular and samples only the all-active regime. The net with
+  inactive modes is now <code>verify_paper3_nets.py</code> (m5, m6), in CI since 2026-11-21.
+- The scalar constant $\tfrac12\log^2e$ is Kostina–Verdú&rsquo;s eq. (94), for
+  $0<d<\sigma^2$ (checked at the source, 2026-11-21; FRONTIER G12 closed).</p>
+<p><strong>Verification incident (VI-7).</strong> A draft claimed the finite-$n$ equivalence was &ldquo;exact at
+every $n$ because the tilt is a bijection&rdquo;, with &ldquo;effective dimension $= r$&rdquo;. The
+fresh-context pass found that the equivalence rests on a <strong>covering</strong> argument. Its
+replacement, &ldquo;effective dimension $r_D$&rdquo;, was itself wrong for the dispersion (NEG-18).</p>
+<h2 id="custody-summary-corrected-2026-11-20-and-2026-11-21">Custody summary (corrected 2026-11-20 and 2026-11-21)</h2>
 <table>
 <thead>
 <tr>
 <th>Thm</th>
 <th>Statement grade</th>
-<th>Harness (C3) grade</th>
+<th>Harness (C3)</th>
 <th>Prereg</th>
-<th>Incident</th>
+<th>Incidents</th>
 <th>Class</th>
 </tr>
 </thead>
@@ -154,65 +303,70 @@ and $r_D \le r$ (not flat $r$). Dispersion constants flagged [C7] to Kostina–V
 <tr>
 <td>B1</td>
 <td>proof + R-IND-5</td>
-<td>Blahut–Arimoto</td>
+<td>none for <code>thm:coding</code></td>
 <td>022 blk</td>
-<td>—</td>
-<td><code>[proved]</code></td>
+<td>VI-3, VI-32, VI-38</td>
+<td><code>[exploratory]</code> (pending net + custody)</td>
 </tr>
 <tr>
 <td>B2</td>
-<td>proof</td>
-<td>GO-6</td>
+<td>— (registered prediction GO-6)</td>
+<td>GO-6 (rates not exactly matched)</td>
 <td>028</td>
-<td>—</td>
-<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>VI-32, VI-34</td>
+<td><code>[demonstrated]</code>, disputed; re-run owed</td>
 </tr>
 <tr>
 <td>B3</td>
-<td>PLAUSIBLE-w/-cond.</td>
+<td>PLAUSIBLE-w/-cond. (high-res.)</td>
 <td>GO-6</td>
 <td>028</td>
-<td>VI-3</td>
-<td><code>[demonstrated]</code></td>
+<td>VI-3, VI-32, VI-34</td>
+<td><code>[demonstrated]</code>, disputed; re-run owed</td>
 </tr>
 <tr>
 <td>B4</td>
 <td>proof + R-IND-5</td>
-<td>nested-Gaussian</td>
-<td>022</td>
-<td><strong>VI-4</strong></td>
-<td><code>[proved]</code></td>
+<td>022 (weak: misses VI-4&rsquo;s bug); <code>verify_rate_region</code> [3]; <code>verify_paper3_nets</code> m1–m4</td>
+<td>022, 023</td>
+<td>VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46</td>
+<td>max-det corner identity <code>[proved]</code> (PAPER-III.a); region, refinability and rate loss as coding statements <code>[exploratory]</code></td>
 </tr>
 <tr>
 <td>B5</td>
-<td>proof, corrected</td>
-<td>verify_rate_region</td>
+<td>proof (converse, $k=2$) + R-IND-5</td>
+<td><code>verify_rate_region</code> [3] (the corner only)</td>
 <td>023</td>
-<td>VI-5</td>
-<td><code>[proved]</code></td>
+<td>VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40</td>
+<td>corner identity <code>[proved]</code> (PAPER-III.a); region <code>[exploratory]</code> (converse unnetted; achievability under Assumption SR, unchecked, every $k$)</td>
 </tr>
 <tr>
 <td>B6</td>
-<td>proof + measured floor</td>
-<td>verify_observer_mismatch + 027</td>
+<td>proof + R-IND-5 + measured floor</td>
+<td>024 + 027</td>
 <td>024/026/027</td>
-<td>VI-6, NEG-13</td>
-<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>VI-6, NEG-13, VI-32, VI-38</td>
+<td><code>[predicted]</code>-grade; floor <code>[demonstrated]</code></td>
 </tr>
 <tr>
 <td>B7</td>
-<td>proof, sharpened</td>
-<td>verify_dispersion_separation</td>
+<td>reduction: proof + R-IND-5</td>
+<td>025 (no check can fail); <code>verify_paper3_nets</code> m5–m6 (variance)</td>
 <td>025</td>
-<td>VI-7</td>
-<td><code>[proved]</code></td>
+<td>VI-7, <strong>NEG-18</strong>, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46, VI-48, VI-49</td>
+<td>reduction <code>[exploratory]</code>; corrected $V$ as a variance <code>[proved]</code> (PAPER-III.b), as the dispersion <code>[exploratory]</code>; old constant <code>[refuted]</code></td>
 </tr>
 </tbody>
 </table>
-<p>Every row that says <code>[proved]</code> carries both grades and a logged fresh-context pass; every
-incident was caught <strong>before</strong> the paper asserted the result. That is the appendix&rsquo;s whole
-claim: not that the derivations were right the first time — four of seven were not — but
-that the discipline caught the errors, and the record shows where.</p>
+<p>Two ledger rows are <code>[proved]</code> (2026-11-21). PAPER-III.a covers the max-det corner identity of B4
+and B5 and <code>lem:maxdet</code>&rsquo;s rate identity; PAPER-III.b covers B7&rsquo;s corrected $V$ as a variance. Their custody
+files are in <code>claims/custody/</code>. No other row
+here has a custody table yet.</p>
+<p>The appendix used to end on &ldquo;the discipline caught the errors, and the record shows
+where&rdquo;. That stays true, with a correction. The first round of passes caught four errors in
+seven derivations. A second round, three months later, found that one of the fixes (VI-7&rsquo;s)
+was itself an error, and that one net (VI-4&rsquo;s) could not detect the bug it was built
+around. The discipline works only if the fixes are checked too.</p>
       </div>
 
       <div class="chapter-nav-bottom">

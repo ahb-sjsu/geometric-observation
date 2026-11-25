@@ -62,8 +62,9 @@ the pass/fail bar — is hashed and <strong>git-committed before</strong> the fi
 it covers. The binding registration timestamp is the git commit, not the file&rsquo;s
 modification time; the sealed state is externally anchored in a DOI deposit (Zenodo concept
 DOI 10.5281/zenodo.21423315), so the registered claim is not merely local (REG-3).
-Corrections to a sealed prereg are appended as dated amendments and re-sealed, with the
-reason stated, and the original remains in git history (REG-2). Registration IDs are a
+Corrections to a sealed prereg are appended after the sealed text as dated amendments,
+with the reason stated. The sealed text is never edited and the file is never re-sealed,
+so the original commitment still verifies, and CI checks that it does (REG-2). Registration IDs are a
 single monotone sequence <code>GO-P-2026-###</code> — never reused, never backfilled (REG-4) — which
 is what lets Appendix D present a <em>gap-free</em> disposition table and lets the &ldquo;no file drawer&rdquo;
 claim mean something: an unexplained hole in the sequence would be visible.</p>
@@ -123,11 +124,13 @@ source before assertion and grepped out before export (T-CUST-3).</p>
 <p>R-IND is not a posture; it has a track record, and the track record is the argument. Caught
 <em>before publication</em>: an extreme-value scaling error (VI-2 — $\exp(-x^a)$ tails give
 $(\ln N)^{1/a}$, not $\sqrt{\ln N}$); the <code>sigma_star</code> false pass (VI-4); a non-iterating
-$k$-stage construction and a mis-attributed citation (VI-5 — the two-stage map does not
-iterate; an accumulating rotation ambiguity leaks Fisher information by $O(0.1)$); a
+$k$-stage construction (VI-5 — the two-stage map does not iterate; an accumulating
+rotation ambiguity leaks Fisher information by $O(0.1)$; VI-5 also flagged a citation, but
+its replacement readings proved unchecked or wrong, VI-36 to VI-40); a
 naive-kernel floor error (VI-6 — the omission floor uses the <em>whitened</em> kernel, overstated
 $\sim 30\%$ otherwise, and is a <em>floor</em>, not unbounded distortion); and a &ldquo;bijection&rdquo;
-argument that had to be a covering argument (VI-7). Six catches, each a place the book
+argument that had to be a covering argument (VI-7; its replacement, &ldquo;effective dimension
+$r_D$&rdquo;, was itself refuted later, NEG-18). Five catches, each a place the book
 would have asserted something false had the rule not fired. A rule earns its cost by its
 catches, and these are the catches.</p>
 <h2 id="standards-alignment-and-the-honest-frontier-gap">Standards alignment, and the honest frontier gap</h2>

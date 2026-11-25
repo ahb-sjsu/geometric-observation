@@ -67,9 +67,11 @@ in the <strong>joint basis</strong> that diagonalizes $P_C$ against $\Sigma_x$ (
 operator $\Sigma_x^{1/2} P_C \Sigma_x^{1/2}$), pouring bits into directions that are
 both high-source-variance <em>and</em> high-consumer-sensitivity, and abandoning any
 direction that either the source does not populate or the consumer does not read. The
-tilt away from Shannon&rsquo;s source-only allocation is precisely the factor $P_C$; the
-&ldquo;true-divergence reduction&rdquo; relative to reconstruction coding <em>is</em> that tilt.
-[proved — Appendix B, Thm B1; conclusion-grade via a committed Blahut–Arimoto harness]</p>
+tilt away from Shannon&rsquo;s source-only allocation is precisely the factor $P_C$. (An
+earlier sentence here, that the &ldquo;true-divergence reduction&rdquo; relative to reconstruction
+coding <em>is</em> that tilt, matched no statement in Paper III and is withdrawn; VI-32, VI-39.)
+[<code>[exploratory]</code> pending a net and custody — Appendix B, B1; tagged <code>[proved]</code> until
+2026-11-21, VI-38]</p>
 <p>Two operational consequences frame the rest of the chapter.</p>
 <p><strong>Reconstruction is wasteful by a computable amount.</strong> A code that reconstructs $x$
 (optimizes $P_C = I$) spends bits on $\ker P_C$ that buy the consumer nothing. GO-6
@@ -77,24 +79,34 @@ measures this end to end: at matched rate, <strong>output coding $\le$ surrogate
 reconstruction</strong> on the consumer metric, the ordering holding at <em>every</em> rate, with
 reconstruction up to $\sim 500\times$ worse downstream at high rate because its bits
 went to the unread directions [demonstrated — GO-P-2026-028, all bars pass, nonlinear
-consumer $d=8, r=4$]. The isotropic control $P_C = I$ collapses the three coders, as
+consumer $d=8, r=4$; <strong>disputed</strong>: the harness is off the matched-rate premise, re-run
+owed (VI-32, VI-34)]. The isotropic control $P_C = I$ collapses the three coders, as
 it must — when the consumer reads everything, there is nothing to save.</p>
-<p><strong>The surrogate–output gap vanishes with rate.</strong> GO-6 also confirms Thm B3: the
+<p><strong>The surrogate–output gap vanishes with rate.</strong> GO-6 also supports Thm B3: the
 relative gap between an output-optimal code and a good surrogate shrinks (measured
-$0.41 \to 0.005$) as the budget grows [demonstrated]. At high resolution you do not
+$0.41 \to 0.005$) as the budget grows [demonstrated, disputed (VI-32, VI-34)]. At high resolution you do not
 need to know the consumer exactly; a surrogate for $P_C$ suffices. At low resolution
 you do. This is the rate-dependence that makes the blind probe (Chapter 10)
 load-bearing precisely in the bit-starved regime where compression matters.</p>
 <h2 id="two-observers-the-rate-region-and-refinability">Two observers: the rate region and refinability</h2>
-<p>Serving <em>two</em> consumers from one code is a network-information-theory problem, and it
-has an exact structure. For observers with read metrics $P_1, P_2$ the achievable
-rate region is characterized, and its <strong>refinability</strong> — whether a single scalable
-code can serve the coarse observer with a prefix of the bits it serves the fine one —
-holds exactly when the read metrics are <strong>Loewner-nested</strong>, $P_1 \preceq P_2$
-[proved — Appendix B; the two-observer max-determinant program, prereg GO-P-2026-022].
-Nesting is the precise sense in which one observer is &ldquo;a refinement of&rdquo; another: it
-can be served by adding bits, not resending them. When the read metrics are <em>not</em>
-nested, there is an exact rate loss for serving both, and the theory quantifies it.</p>
+<p>Serving <em>two</em> consumers from one code is a network-information-theory problem with an
+exact outer structure. For observers with read metrics $P_1, P_2$, Paper III proves that
+every two-stage code lies in a max-determinant region, and that the region is tight under
+a successive-refinement achievability assumption (Assumption SR, attributed to
+Effros and not yet checked at the source). Its corner decides <strong>refinability</strong> — whether a
+single scalable code can serve both observers at their single-stage optimal rates
+$R_1(D_1)$ and $R_2(D_2)$, the coarse one with a prefix of the bits it serves the fine one.
+(Without the optimal rates the question is empty: two independent codes always serve both,
+at a higher total rate; VI-40.) Refinability requires the observers&rsquo; optimal error covariances to <strong>nest</strong>,
+$\Sigma_2^\star \preceq \Sigma_1^\star$, and under the assumption nesting suffices.
+Nesting depends on the targets $D_1, D_2$, not only on the read metrics: $P_1 \preceq P_2$
+neither implies it nor follows from it (VI-32; Appendix B, B4). Nesting is the precise sense
+in which one observer is &ldquo;a refinement of&rdquo; another: it can be served by adding bits at no
+rate loss (under Assumption SR), not resending them. When the optima do <em>not</em> nest, serving both costs a rate loss, which the
+theory bounds below (exactly, under the assumption). [The max-det corner identity <code>[proved]</code>, ledger row PAPER-III.a; the region and its
+coding statements <code>[exploratory]</code> — Appendix B.] (This paragraph said until 2026-11-21 that
+refinability holds exactly when $P_1 \preceq P_2$, tagged <code>[proved]</code>; that criterion is
+false both ways, VI-32.)</p>
 <p>This region carries one of the program&rsquo;s standing verification incidents, and it is
 worth stating because it is exactly the kind of error the discipline exists to catch.
 The in-context derivation of the two-observer error covariance used a water-filling
@@ -103,30 +115,44 @@ adversarial pass found the max-determinant error covariance is reverse water-fil
 in the <em>whitened</em> basis and the cap <strong>does</strong> bind on $\ker P$ (VI-4). The formula was
 corrected, the prereg amended and re-sealed, and the false pass logged with the same
 prominence as a positive. The theorem statements — the abstract max-det program — were
-unaffected; the harness was wrong and the harness was fixed. This is what &ldquo;[proved]
-means both grades&rdquo; buys you: the analytic claim and the numerical net disagreed, and
-the disagreement was the alarm.</p>
-<h2 id="the-math26-chain-and-what-counts-a-dimension">The $k$-chain and what counts a dimension</h2>
-<p>For $k \ge 3$ observers in a chain the tight region is Kostina–Tuncel&rsquo;s, not a naive
-iteration of the two-stage map — another caught error (VI-5): the two-stage
-construction <em>does not iterate</em>, because an accumulating rotation ambiguity leaks
-Fisher information by $O(0.1)$ per stage; the correct achievability uses independent
-Fisher increments from physically-degraded channels, exact to $10^{-14}$
-[proved, corrected; prereg GO-P-2026-023]. The lesson survives the technicality: a
+unaffected; the harness was wrong and the harness was fixed. This is what checking both
+the analytic claim and its numerical net buys you: they disagreed, and the disagreement was
+the alarm. (A later custody pass, VI-32, found that the check added then cannot fail
+either: re-inserting the original bug still passes it. The corner is now netted by
+prereg 023&rsquo;s check [3] and by <code>verify_paper3_nets.py</code>.)</p>
+<h2 id="the-math31-chain-and-what-counts-a-dimension">The $k$-chain and what counts a dimension</h2>
+<p>For $k \ge 3$ observers in a chain, Paper III proves the outer bound and that
+refinability requires the optima to nest; equality, and the sufficiency of nesting, rest on
+the same achievability assumption. The chain is not a naive iteration of the two-stage
+map — another caught error (VI-5): the two-stage construction <em>does not iterate</em>, because
+an accumulating rotation ambiguity leaks Fisher information by $O(0.1)$ per stage; the
+correct single-letter construction uses independent Fisher increments from physically
+degraded channels, exact to $10^{-14}$ [corrected; prereg GO-P-2026-023; the coding step
+is assumed, not proved]. The lesson survives the technicality: a
 chain of observers is not a stack of two-observer problems, and the geometry that
-makes it work is the nesting of read metrics.</p>
-<p>Dispersion — the second-order term governing finite-blocklength performance — counts
-the <strong>read</strong> dimensions, not the source dimensions. The effective dimension is $r_D
-\le r$, equal to the read rank only as $D \to 0$; a fresh-context pass sharpened a
-draft that had claimed a flat $r$ (VI-7). The number of directions that cost you at
-finite blocklength is the number the <em>consumer</em> resolves at the target distortion, and
-that number grows from few to $r$ as you demand more fidelity.</p>
+makes it work is the nesting of the observers&rsquo; optimal error covariances, not of their
+read metrics.</p>
+<p>Dispersion — the second-order term governing finite-blocklength performance — counts at
+most the <strong>read</strong> dimensions, never the source dimensions: $r_D \le 2V \le r$ in nats$^2$,
+with $r_D$ the modes above the water level and equality on the right exactly when no
+read mode lies below it (a mode at the level, $\gamma_k=\theta$, counts fully). Modes below the water level still contribute, $(\gamma_k/\theta)^2/2$
+each, because fluctuations of their energy are absorbed by the active ones. As the target
+distortion falls, more modes become active and $2V$ rises to $r$. [The variance formula
+<code>[proved]</code>, ledger row PAPER-III.b. Reading it as this dispersion also needs the finite-$n$
+reduction, <code>[exploratory]</code>, and kernel uniqueness, and the expansion is Kostina–Verdú&rsquo;s, imported —
+Appendix B.] (This paragraph said
+until 2026-11-21, following VI-7&rsquo;s &ldquo;sharpening&rdquo;, that the dispersion counts only the active
+modes, an &ldquo;effective dimension $r_D$&rdquo;; that is refuted, NEG-18, Chapter 16.)</p>
 <h2 id="mismatch-the-tax-and-the-floor">Mismatch: the tax and the floor</h2>
 <p>The two results with the most operational bite are about using the <em>wrong</em> read
 metric — which is what every reconstruction-optimal code does.</p>
-<p><strong>The commission tax.</strong> Coding for a read metric of rank $M$ when the consumer&rsquo;s is
-rank $m < M$ costs an excess rate of order $(r/2)\log(M/m)$ — you pay to protect
-directions the consumer does not read [proved — Appendix B; prereg GO-P-2026-024].
+<p><strong>The commission tax.</strong> Coding for a read metric $\hat P$ when the consumer&rsquo;s is $P$,
+with $m\hat P\preceq P\preceq M\hat P$ on their shared range (Loewner constants
+$0<m\le M$), costs an excess rate of at most $(r/2)\log(M/m)$ in the regime
+<code>thm:commission</code> states, and the $r/2$ is sharp — you pay for weighting directions as the
+consumer does not [<code>[predicted]</code>-grade — Appendix B, B6; prereg GO-P-2026-024]. (Until
+2026-11-21 this paragraph gave the metrics ranks $M$ and $m$, confusing the Loewner
+constants with ranks, and tagged it <code>[proved]</code>; VI-32, VI-38.)
 This is the rate-domain shadow of &ldquo;reconstruction is wasteful&rdquo;: the waste has a
 closed-form price.</p>
 <p><strong>The omission floor.</strong> The dangerous mismatch is the other direction — a code
@@ -139,7 +165,8 @@ omission gives a <em>floor</em>, a compact distortion band $[D_{\text{floor}},
 \operatorname{tr}(P\Sigma_x)]$, <strong>not</strong> the &ldquo;unbounded distortion&rdquo; a first draft
 claimed; and the floor uses the <em>whitened</em> kernel, which a naive kernel projector
 overstates by $\sim 30\%$ when $\Sigma_x \ne I$ (VI-6, corrected;
-[proved — prereg GO-P-2026-024]).</p>
+<code>[predicted]</code>-grade, prereg GO-P-2026-024, and the floor&rsquo;s measurement <code>[demonstrated]</code> —
+Appendix B, B6; tagged <code>[proved]</code> until 2026-11-21, VI-38).</p>
 <p>The omission floor is not only a theorem. It was <strong>measured biting a real language
 model.</strong> On trained Llama-3.2-3B read operators, the read-metric floor is reached on
 16/16 heads — $\operatorname{tr}(P\Sigma_\delta)$ saturates at the measured
@@ -153,6 +180,62 @@ artifact that conflated <em>floor-reached</em> with <em>floor-exists</em> (NEG-1
 logged, and the claim was resolved not by relaxing the sealed bar but by a fresh,
 held-out test that passed. The floor is real; the first instrument for seeing it was
 too shallow, and the ledger says both.</p>
+<h2 id="a-second-party-the-rateleakagedistortion-series">A second party: the rate–leakage–distortion series</h2>
+<p>The theorems above price one consumer and no one else. A companion series of four
+papers for the <em>IEEE Transactions on Information Theory</em> (the RLD series: papers I and II
+submitted, paper II on 2026-11-18, III and IV in preparation; Chapter 24 treats the series
+in full) adds a second party, a <strong>holder</strong> that observes the
+source through its own noisy map and learns from the description without decoding
+it, and charges a second cost beside the rate: the <strong>leakage</strong>, the conditional
+information $I(X;\hat X\mid S)$ the description gives the holder beyond its own
+observation. For a fixed per-symbol weight $Q$ the series finds the region of pairs
+of rate and leakage:</p>
+<ul>
+<li><strong>I</strong> — Gaussian vectors: every frontier point is reverse water-filling on the
+  weight <em>tilted</em> by the holder&rsquo;s information, and the optimal directions turn with
+  the budget.</li>
+<li><strong>II</strong> — stationary Gaussian processes: the same frequency by frequency under one
+  level, and the spectral region is the operational one, for holders whose
+  observation is filtered (with finite or infinite memory), delayed, or the whole
+  observation process.</li>
+<li><strong>III</strong> — slowly varying sources (water-filling over time and frequency),
+  cyclostationary sources, scalar unstable sources, and sources that are not
+  Gaussian (the Gaussian region is achievable; every code is bounded below by the
+  Gaussian frontier less two relative entropies). One inequality joins the
+  branches: averaging a covariance, or a spectrum over time or a cycle, never lowers
+  the cost.</li>
+<li><strong>IV</strong> — unstable vector sources: an unstable pole costs the logarithm of its
+  modulus in rate, and again in leakage only if the holder cannot observe it
+  ($\rho_\star$ against $\rho_{\mathrm{hid}}$), for holders with finite or rational
+  memory; poles on the unit circle (scalar) cost nothing; sources whose statistics
+  vary without a period, including the proof that incommensurate sampling removes
+  the dependence on the sampling phase, a conjecture of Tan, Dabora, and Poor; and
+  ergodically driven vector sources.</li>
+</ul>
+<p>Each result has a written proof, fresh-context model audits, and numerical checks
+whose criteria were fixed before they ran but were not sealed; in this book&rsquo;s grammar
+they are <code>[exploratory]</code> until promoted (ledger section RLD).</p>
+<p>The series takes two things as given, and they are the business of other chapters.
+<strong>The weight.</strong> The consumer&rsquo;s own geometry is the local read metric $P_C(x)$; the
+series&rsquo; $Q$ is a fixed input, and the optimal <em>description</em> — an error covariance
+whose directions turn with the budget — depends on $Q$, the source, the holder, and
+$D$ together. That turning is the description&rsquo;s geometry, not the observer&rsquo;s: it
+does not mean the consumer&rsquo;s metric has changed. Replacing $P_C(x)$ by a constant $Q$
+is the bridge of Chapter 5, which has conditions and a price. <strong>The knowledge of the
+weight.</strong> The series assumes $Q$ known; Chapter 10 recovers the read operator from
+the consumer, but its recovery result identifies the read <em>subspace</em>, under a
+specified model, probe distribution, and output metric, and not the weights within
+it, which an allocation also needs. Composing recovery with the series&rsquo; coding
+theorems, and charging for the probing, is the keystone T1 (Chapter 17).</p>
+<p>And one thing the series establishes is read differently elsewhere. Its leakage is
+the conditional information $I(X;\hat X\mid S)$; that this quantity is the ideal work
+to reset a record against the holder&rsquo;s knowledge is a further claim, which uses the
+physical memory and reset model of the consumer-relative Landauer paper, in which
+the downstream consumer and the physical reset agent are different parties. That paper,
+its coding theorems and its measured results are Chapter 25. Chapter 26 prices one
+description that serves two read operators, Chapter 27 lets the reset agent&rsquo;s access to
+its context vary in time, Chapter 28 makes the second party an adversary, and Chapter 29
+carries the read operator into estimation and control.</p>
 <h2 id="cost-in-one-line">COST, in one line</h2>
 <p>Observation charges a rate, the rate is $R_C(D)$, and its whole difference from
 Shannon is a tilt of the bit-allocation toward the read subspace — with a commission

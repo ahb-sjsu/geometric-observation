@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 24 — The Holder: Rate, Leakage, and Distortion &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 24 — The Holder: Rate, Leakage, and Distortion from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch24_the_holder">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 24 — The Holder: Rate, Leakage, and Distortion</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch23_the_governor.html" class="nav-prev">&larr; Chapter 23 — The Governor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch25_the_reset.html" class="nav-next">Chapter 25 — The Reset: Rate, Work, and Distortion &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-24-the-holder-rate-leakage-and-distortion">Chapter 24 — The Holder: Rate, Leakage, and Distortion</h1>
+<p>Chapter 7 priced one consumer and summarized four papers written for the <em>IEEE
+Transactions on Information Theory</em>, the rate-leakage-distortion (RLD) series, in
+which a second party holds the description and learns from it without decoding it.</p>
+<p><strong>Class of everything below.</strong> Every result in this chapter is <code>[exploratory]</code>
+(ledger rows RLD-I to RLD-IV.4). The ledger gives the reason: each row has a written
+proof and fresh-context model audits (verification incidents VI-16 to VI-22, later
+VI-26, VI-27 and VI-29), and the ledger records the author&rsquo;s statement of 2026-11-18
+that the author has read all the proofs of the four papers. No row has a sealed
+registration. The numerical checks had their criteria fixed in the scripts before
+they ran but were not sealed, so they cannot carry a row at <code>[predicted]</code> or
+<code>[demonstrated]</code>, and <code>[proved]</code> also needs a constants and slack table, which the
+papers do not yet have. Promotion is to <code>[proved]</code> once such a table is attached to a
+row&rsquo;s theorem, or to <code>[predicted]</code> once a registration seals a numerical consequence
+before it is run.</p>
+<p><strong>Status of the papers.</strong> Paper I (<code>paper/tit-rate-leakage</code>) is recorded as submitted
+and under review. Paper II (<code>paper/tit-stationary</code>) was submitted on 2026-11-18 as
+manuscript IT-26-1961 (its <code>README.md</code>). Papers III (<code>paper/tit-beyond-stationary</code>)
+and IV (<code>paper/tit-unstable-ergodic</code>) are drafts, not submitted (their <code>README.md</code>
+files).</p>
+<h2 id="the-setting-three-parties-and-two-costs">The setting: three parties and two costs</h2>
+<p>An encoder observes independent copies of a Gaussian vector $X\in\mathbb{R}^p$ with
+covariance $\Sigma\succ0$. A decoder receives a message $M$ and reproduces a linear
+part $Y=FX$ under a weighted quadratic distortion,</p>
+<p>$$
+\mathbb{E}\big[(Y-\hat Y)^{\mathsf T}W(Y-\hat Y)\big]\le D,\qquad
+Q:=F^{\mathsf T}WF\succeq0,\qquad D_{\max}:=\operatorname{tr}(Q\Sigma).
+$$</p>
+<p>The matrix $Q$ is the series&rsquo; fixed weight. The third party, the <strong>holder</strong>, has the
+message and its own observation</p>
+<p>$$
+S=HX+U,\qquad U\sim\mathcal N(0,\Sigma_U),\ \Sigma_U\succ0,\qquad
+J:=H^{\mathsf T}\Sigma_U^{-1}H,\qquad \Sigma_{X\mid S}=(\Sigma^{-1}+J)^{-1},
+$$</p>
+<p>and reconstructs nothing. The decoder has no side information, so this is not the
+arrangement of Wyner and Ziv. A code of blocklength $n$ has rate
+$R_n=\tfrac1n\log\lvert\mathcal M_n\rvert$ and leakage</p>
+<p>$$
+L_n=\tfrac1nH(M\mid S^n)=\tfrac1nI(X^n;M\mid S^n),
+$$</p>
+<p>whose single-letter form is the conditional information $I(X;\hat X\mid S)$ of a
+description $\hat X$ formed without $S$.</p>
+<p><strong>The leakage coordinate is not new.</strong> Conditional leakage is the quantity of secure
+source coding. Paper I attributes the single-letter region of rate, distortion and
+equivocation to Villard and Piantanida (2013, their Theorem 3), and the minimum
+leakage for vector Gaussian sources at unconstrained rate, under a matrix distortion
+on the whole source, to Ekrem and Ulukus (2013), who left the joint region open. Xu,
+Chen, Chen and Jin later characterized the rate-distortion-equivocation function as
+a matrix program. The leakage endpoint is Steinberg&rsquo;s common-reconstruction
+functional. Paper I states as its contribution the <em>structure</em> of the region under a
+trace-type distortion on part of the source.</p>
+<p>Gaussian descriptions exhaust the region and are indexed by their error covariance
+$\Delta$, with $0\prec\Delta\preceq\Sigma$ and $\operatorname{tr}(Q\Delta)\le D$:</p>
+<p>$$
+r(\Delta)=\tfrac12\log\frac{\det\Sigma}{\det\Delta},\qquad
+\ell(\Delta)=\tfrac12\log\frac{\det\Sigma_{X\mid S}}{\det(\Delta^{-1}+J)^{-1}} .
+$$</p>
+<p>Paper I&rsquo;s coding theorem (its Theorem 3) states that for $0<D<D_{\max}$ the
+operational region is the union of the quadrants above $(r(\Delta),\ell(\Delta))$
+<code>[exploratory]</code> (ledger row RLD-I; no registration). The audit VI-27 (fresh-context
+agent, 2026-11-20) found no false step and one gap: the achievability rested on a
+paraphrase of the Villard-Piantanida theorem, which was checked against the source
+the same day and matched. The audit records that no harness netted this theorem.</p>
+<p>Under a <em>matrix</em> distortion on the whole source one description minimizes both costs,
+as the bounds of Ekrem and Ulukus imply. A trace constraint leaves the encoder a
+choice among error covariances, and that choice is the trade-off.</p>
+<h2 id="paper-i-reverse-water-filling-on-a-tilted-weight">Paper I: reverse water-filling on a tilted weight</h2>
+<p>Both costs are strictly convex in $\Delta$, so each frontier point is the unique
+minimizer of $\alpha r+(1-\alpha)\ell$ for a weight $\alpha\in[0,1]$. Whiten by the
+source,</p>
+<p>$$
+E=\Sigma^{-1/2}\Delta\Sigma^{-1/2},\qquad
+\tilde Q=\Sigma^{1/2}Q\Sigma^{1/2},\qquad \tilde H=H\Sigma^{1/2},
+$$</p>
+<p>and for a symmetric $A\succeq0$ with eigenpairs $(\lambda_i,e_i)$ let
+$\Phi(A)=\sum_i\min\{1,1/\lambda_i\}\,e_ie_i^{\mathsf T}$, reverse water-filling at
+level one. (The paper writes $T$ for the source and $X$ for the whitened error
+covariance.)</p>
+<p><strong>Theorem (paper I, Theorem 7).</strong> For $\alpha\in[0,1]$ and $0<D<D_{\max}$, the
+frontier point of weight $\alpha$ is the unique $E$ with
+$\operatorname{tr}(\tilde QE)=D$ and</p>
+<p>$$
+E=\Phi\big(\tilde A(E)\big),\qquad
+\tilde A(E)=2\nu\,\tilde Q+(1-\alpha)\,\tilde H^{\mathsf T}\big(\tilde HE\tilde H^{\mathsf T}+\Sigma_U\big)^{-1}\tilde H,
+$$</p>
+<p>for some $\nu>0$ <code>[exploratory]</code> (ledger row RLD-I; no registration). The second term
+is the tilt: the information the holder&rsquo;s observation adds to the description. It is
+evaluated at the solution, so the statement is a fixed point and not a closed form.
+At $\alpha=1$ the tilt vanishes and the theorem is classical reverse water-filling on
+$\tilde Q$.</p>
+<p>VI-27 found no false step here and records the theorem as netted by independent
+programs, and the check scripts as exiting with status zero on failure. The Lean
+build record <code>lean-tilted-complete-2026-10-07.txt</code> states a <code>sorry</code> count of zero
+and that the listed theorems, among them <code>tilted_waterfilling_complete</code>, depend only
+on the three standard axioms. It does not say what those theorems assert, and I
+report no more than that.</p>
+<p><strong>The direction turns with the budget.</strong> Write $\delta=D_{\max}-D$ for the reduction
+in distortion the description must buy, and $A(\delta)=\Sigma Q\Sigma-\delta\Sigma$. A
+one-dimensional description $b^{\mathsf T}X+N$, with $N$ independent Gaussian noise,
+has least leakage</p>
+<p>$$
+L_{\mathrm{1d}}(D)=\tfrac12\log\Big(1+\frac{\delta}{\mu_{\max}(\delta)}\Big),
+$$</p>
+<p>with $\mu_{\max}(\delta)$ the largest root of
+$\det\big(A(\delta)-\mu\Sigma_{X\mid S}\big)=0$, attained at a generalized
+eigenvector $b(\delta)$ (Theorem 16(a)). Theorem 20 states: if $\mu_{\max}(\delta)$
+is simple and positive on an open interval, then $b(\delta)$ spans one line
+throughout if and only if some $b_0=b(\delta_0)$ satisfies</p>
+<p>$$
+Q\Sigma b_0=\lambda b_0\quad\text{and}\quad J\Sigma b_0=\varsigma b_0,\qquad \lambda>0,\ \varsigma\ge0,
+$$</p>
+<p>that is, $b_0$ is a common generalized eigenvector of the two parties&rsquo; pencils;
+otherwise $b(\delta)$ is constant on no open subinterval <code>[exploratory]</code> (ledger row
+RLD-I). With no holder ($J=0$) the direction is fixed at every budget, as in
+classical reverse water-filling.</p>
+<p>This statement was narrowed. The ledger row first read as a claim about frontier
+descriptions in general; VI-27 recorded that as an overclaim, and the row was
+narrowed on 2026-11-20. Theorem 20 is about the <em>best one-dimensional</em> description,
+which is leakage-optimal only where the certificate of Theorem 16(b) holds. VI-27
+records that Theorem 20 was netted only weakly, and the harness then written for it
+contained an error of the assistant&rsquo;s (VI-29, round 1), corrected in a second round.
+Paper I is under review, so VI-27&rsquo;s items went to the owner unapplied, and the ledger
+leaves the row&rsquo;s class to the owner, from the paper&rsquo;s own verification record, which
+was not reviewed for the row.</p>
+<h2 id="paper-ii-stationary-sources-and-the-spectral-region">Paper II: stationary sources and the spectral region</h2>
+<p>Let the source be a stationary Gaussian process with a continuous spectral density
+$\Sigma(\omega)\succ0$, and let the holder observe $S_t=\sum_kH_kX_{t-k}+U_t$ with
+frequency response $H(\omega)$ and a continuous noise spectrum
+$\Sigma_U(\omega)\succ0$. With $\tilde Q(\omega)$, $\tilde H(\omega)$ the whitened
+quantities and $\ell_\omega$ the leakage at each frequency, the spectral cost is</p>
+<p>$$
+V(\alpha,D)=\min\Big\{\int_{-\pi}^{\pi}\big[\alpha r+(1-\alpha)\ell_\omega\big]\big(E(\omega)\big)\,\frac{d\omega}{2\pi}:\
+\int_{-\pi}^{\pi}\operatorname{tr}\big(\tilde Q(\omega)E(\omega)\big)\,\frac{d\omega}{2\pi}\le D\Big\},
+$$</p>
+<p>attained by the field that solves paper I&rsquo;s fixed point at every frequency under
+<strong>one</strong> level $\nu$, the only thing the frequencies share. The spectral region is the
+set of $(R,L)$ with $\alpha R+(1-\alpha)L\ge V(\alpha,D)$ for every $\alpha$.</p>
+<p>The claim is that the spectral region is the operational region, with deterministic
+encoders <code>[exploratory]</code> (ledger row RLD-II; no registration). Holders covered (its
+<code>README.md</code>): a memoryless map in white noise (Theorem 16); a filter of finite length in colored noise (Theorem 20); every filter with real taps
+and a continuous frequency response, of finite or infinite memory (Theorem 22); and
+a holder with its whole observation process (Theorem 23). Excluded: band-limited
+sources and a holder that sees a component without noise.</p>
+<p>VI-16 (fresh-context agents, 2026-11-13 to 15) found no error that invalidates a
+theorem and fixed gaps, among them that the closing argument (achievable region
+equals spectral region) did not follow as first written. The executed notebook
+reports 69 PASS and 0 FAIL, on criteria in the scripts, unsealed. The Lean record (<code>lean-spectral-2026-11-13.txt</code>: 21 theorems,
+<code>sorry</code> count 0) covers, per the <code>README.md</code>, algebraic steps only. On prior work,
+the paper cites conditional rate-distortion theory with memory to Gray (1973) and
+Leiner and Gray, and the <code>README.md</code> records that the first window bound at
+$\alpha=1$ is the Wyner-Ziv (1971) memory bound applied to blocks, not a new one.</p>
+<h2 id="paper-iii-four-branches-and-the-inequality-that-joins-them">Paper III: four branches and the inequality that joins them</h2>
+<p><strong>Slowly varying sources.</strong> For a Gaussian source that is locally stationary with
+local spectrum $\Sigma(u,\omega)$ (the paper&rsquo;s conditions L1 to L3), a fixed weight
+and a fixed memoryless holder in white noise, the region is water-filling over the time-frequency plane: the program above with a
+double integral over $u\in[0,1]$ and $\omega$, under one level, with deterministic
+encoders <code>[exploratory]</code> (ledger row RLD-III.1). The achievability has no rate in the
+blocklength. The closest prior result at the rate-only weight is Hammerich (2016),
+of which the <code>README.md</code> says only the abstract was read.</p>
+<p><strong>Cyclostationary sources.</strong> For period $q$, stack one period into a vector; the
+stacked process is stationary, and</p>
+<p>$$
+V_{\mathrm{cs}}(\alpha,D)=\tfrac1q\,\tilde V(\alpha,qD),
+$$</p>
+<p>with $\tilde V$ paper II&rsquo;s spectral cost of the stacked process <code>[exploratory]</code>
+(ledger row RLD-III.2). The stacking is classical (Gladyshev; Kipnis, Goldsmith and
+Eldar); the ledger records the leakage as new.</p>
+<p><strong>Sources that are not Gaussian.</strong> For a memoryless source, with $V_{\mathrm G}$ the
+cost of the Gaussian source with the same second moments and $\vartheta(X)$,
+$\vartheta(X\mid S)$ the relative entropies of the source, and of its conditional law
+given $S$, from the Gaussian laws with the same covariances,</p>
+<p>$$
+V_{\mathrm G}(\alpha,D)-\alpha\,\vartheta(X)-(1-\alpha)\,\vartheta(X\mid S)\ \le\ V(\alpha,D)\ \le\ V_{\mathrm G}(\alpha,D)
+$$</p>
+<p><code>[exploratory]</code> (ledger row RLD-III.3). The upper bound says the Gaussian region is
+achievable. The lower bound needs additive holder noise independent of the source,
+and is tight as $D\to0$ only when the whole source is reproduced ($Q\succ0$).</p>
+<p><strong>The covariance-mixture inequality</strong> (Corollary 6). For $K_1,\dots,K_C\succ0$,
+weights $\lambda_c>0$ summing to one, and $\bar K=\sum_c\lambda_cK_c$,</p>
+<p>$$
+V_{\mathrm G}(\alpha,D;\bar K)\ \ge\ \min\Big\{\sum_c\lambda_c\,V_{\mathrm G}(\alpha,D_c;K_c):\ \sum_c\lambda_cD_c\le D\Big\}
+$$</p>
+<p><code>[exploratory]</code> (ledger row RLD-III.4). A Gaussian source whose covariance is an
+average costs at least as much, at every weight, as a source that switches between
+the covariances. This is what shows that averaging a spectrum over time, or over the
+phase of a cycle, never lowers the cost. The paper&rsquo;s introduction uses it to join
+its branches: in each, the model that forgets structure is conservative.</p>
+<p><strong>Scalar unstable sources.</strong> For a scalar autoregressive source with poles $\rho_i$
+off the unit circle, a scalar holder gain $H$, and
+$\rho_\star=\sum_{\lvert\rho_i\rvert>1}\log\lvert\rho_i\rvert$,</p>
+<p>$$
+\mathcal A(D)=\big(\rho_\star,\ \rho_\star\mathbf 1_{\{H=0\}}\big)+\mathcal R_f(D),
+$$</p>
+<p>where $\mathcal A(D)$ is the achievable region and $\mathcal R_f(D)$ the spectral
+region of the stationary source with the reflected spectrum $f$ <code>[exploratory]</code>
+(ledger row RLD-III.5). The rate term is classical (Gray; Hashimoto and Arimoto);
+the ledger records the leakage as new. In this scalar model there is no trade-off.</p>
+<p>For all five rows: VI-17 (fresh-context agents, 2026-11-15 and 16) found no error in
+the mathematics, one false sentence (which stationary processes satisfy the
+definition), one unproved remark that was softened, and gaps that were fixed. The
+<code>README.md</code> records two post-hoc changes: <code>verify_ls.py</code> passed only after a
+criterion was changed following a failed first run, and <code>verify_unstable.py</code> failed its first full run and had its criteria
+changed after that run had been seen. The Lean record (<code>lean-beyond-2026-11-16.txt</code>:
+15 theorems, <code>sorry</code> count 0) formalizes no coding theorem (<code>README.md</code>).</p>
+<h2 id="paper-iv-unstable-poles-the-unit-circle-and-sources-that-never-repeat">Paper IV: unstable poles, the unit circle, and sources that never repeat</h2>
+<p>In paper IV the decoder reproduces the whole source.</p>
+<p><strong>Hidden poles.</strong> For a vector autoregressive source with no pole on the unit circle
+and a holder whose filter has finite memory or is rational and stable,</p>
+<p>$$
+\mathcal A(D)=\big(\rho_\star,\ \rho_{\mathrm{hid}}\big)+\mathcal R_f(D),\qquad
+\rho_{\mathrm{hid}}=\sum_{\lvert\rho\rvert>1,\ \rho\ \text{hidden}}\log\lvert\rho\rvert,
+$$</p>
+<p>where a pole is hidden when its mode is unobservable by the holder in the sense of
+Kalman (the holder&rsquo;s filter cancels it), and $f$ is the spectral density of the
+stationary counterpart <code>[exploratory]</code> (ledger row RLD-IV.1). An unstable pole is paid for once, in rate, when the holder can see it,
+and again in leakage when it cannot. <strong>Priority for the rate part is not claimed</strong>:
+Toms and Berger (1971) was read only as an abstract. Losses on this row: VI-21 found
+an <strong>error in a proof step</strong> (a coupling&rsquo;s seed is not independent of the remainder,
+as the proof said; the conclusion stands), and VI-20 found two false framing claims,
+one of them &ldquo;every truncation of a filter that cancels a pole sees the pole&rdquo;, with a counterexample. In
+the first check script one criterion failed (a cost changed by up to 1.9e-6 bits
+against a bar of 1e-6), and its criteria were written after exploratory probes.</p>
+<p><strong>Poles on the unit circle.</strong> For a scalar source with poles anywhere and a scalar
+holder gain, the region at every $D>0$ is the quadrant above</p>
+<p>$$
+\big(\rho_\star+r_f(D),\ \ \rho_\star\mathbf 1_{\{H=0\}}+\ell_f(D)\big),
+$$</p>
+<p>with $r_f$, $\ell_f$ the reverse water-filling rate and leakage on $f$; poles on the
+circle cost nothing <code>[exploratory]</code> (ledger row RLD-IV.2; <code>verify_unit_circle.json</code>,
+30 of 30). VI-20 found a gap in the achievability (a constructed case had a 1.05-bit
+overhead), since fixed.</p>
+<p><strong>Incommensurate sampling.</strong> For a scalar source with uniformly bounded window
+covariances whose eigenvalue distributions converge to a measure $\mu$, and a scalar
+holder in white noise, the region is the quadrant above $(r_\mu(D),\ell_\mu(D))$,
+with water level $\theta$:</p>
+<p>$$
+r_\mu=\int\tfrac12\log^+\frac\lambda\theta\,d\mu,\qquad
+\ell_\mu=\int_{\lambda>\theta}\tfrac12\log\frac{1/\theta+J}{1/\lambda+J}\,d\mu,\qquad
+Q\int\min\{\lambda,\theta\}\,d\mu=D .
+$$</p>
+<p>For a cyclostationary process with a continuous correlation of finite range, sampled
+at a rate incommensurate with its period, the limit exists and does not depend on
+the sampling phase <code>[exploratory]</code> (ledger row RLD-IV.3). The ledger records this as
+a proof of the conjecture of Tan, Dabora and Poor (ISIT 2024, Remark 1), restated as
+open in an April 2026 seminar, <strong>with the caveat that their 2026 journal article was
+read only as an abstract</strong>; the <code>README.md</code> says it is not known whether that article
+addresses the conjecture. The finite-range hypothesis had been dropped from the
+abstract, the introduction and the ledger row, and was restored on 2026-11-20
+(VI-26). VI-26 found no false step, and found that the harness&rsquo;s phase-independence
+check had no power: runs at rational rates passed it too.</p>
+<p><strong>Ergodically driven vector sources.</strong> For a vector source driven by a homeomorphism
+all of whose powers are uniquely ergodic, with continuous finite-range correlations,
+covariances bounded below, and a holder of finite memory, the region is the limit of
+programs over independent blocks, with error $O(1/n)$, the same for every starting
+phase <code>[exploratory]</code> (ledger row RLD-IV.4). The memoryless check <strong>failed all six of
+its checks</strong> on absolute tolerances on its first run; a follow-up with criteria
+written before it ran passed nine of nine. VI-19 found gaps, since fixed, and an
+appendix claim false (&ldquo;phase spread at most a quarter&rdquo;; the recorded ratio is
+0.2508). The folder holds no
+Lean build record for paper IV.</p>
+<h2 id="what-the-series-takes-as-given">What the series takes as given</h2>
+<p><strong>The weight is an input, and it is not the consumer&rsquo;s read metric.</strong> The consumer&rsquo;s
+geometry is the local read metric $P_C(x)$ of Chapter 5; the series&rsquo; $Q$ is a fixed
+per-symbol weight. The turning of the optimal description with the budget is a
+property of the description, which depends on $Q$, $\Sigma$, the holder and $D$
+together; it does not mean the consumer&rsquo;s metric has changed. Replacing $P_C(x)$ by a
+constant $Q$ is the bridge of Chapter 5.</p>
+<p><strong>The weight is assumed known.</strong> Chapter 10 recovers the read subspace, not the
+weights within it. Composing recovery with these coding theorems, and charging for
+the probing, is the keystone T1 of Chapter 17.</p>
+<p><strong>Leakage as reset work is a further claim.</strong> The leakage here is the conditional
+information $I(X;\hat X\mid S)$. Reading it as the ideal work to reset a record
+against the holder&rsquo;s knowledge needs a physical memory and reset model, and belongs
+to Chapter 25.</p>
+<h2 id="what-is-still-open">What is still open</h2>
+<ul>
+<li><strong>Promotion of every row.</strong> Open: a constants and slack table per theorem for
+  <code>[proved]</code>, or a sealed registration of a numerical consequence for <code>[predicted]</code>.</li>
+<li><strong>RLD-I.</strong> The class is the owner&rsquo;s to set (VI-27).</li>
+<li><strong>RLD-II.</strong> Not proved, per the paper: a rate of convergence in the blocklength for
+  a filter; block codes against a holder that keeps a causal prefix; side information
+  at the decoder.</li>
+<li><strong>RLD-III.</strong> Open: a time-varying weight or holder; tightness of the non-Gaussian
+  lower bound at positive distortion. Owed: reading Hammerich (2016) in full.</li>
+<li><strong>RLD-IV.</strong> Open: poles on the unit circle for vector sources or holders with
+  memory; filters of infinite memory that are not rational; fast variation without
+  the floor on the covariances. Owed: reading Toms and Berger (1971) and the 2026
+  article of Tan, Dabora and Poor in full; CI wiring and custody for RLD-IV.3.</li>
+</ul>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch23_the_governor.html" class="nav-prev">&larr; Chapter 23 — The Governor</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch25_the_reset.html" class="nav-next">Chapter 25 — The Reset: Rate, Work, and Distortion &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

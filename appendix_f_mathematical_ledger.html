@@ -108,13 +108,17 @@ lost bet, carried at full prominence.</p>
 </tr>
 <tr>
 <td>GO-6 — output ≤ surrogate ≤ reconstruction at matched rate</td>
-<td><code>[demonstrated]</code></td>
+<td><code>[demonstrated]</code>, disputed (VI-32, VI-34; re-run owed)</td>
 <td>7, App. B</td>
 <td>028</td>
 </tr>
 </tbody>
 </table>
 <h2 id="cost-face-theorems-appendix-b">COST-face theorems (Appendix B)</h2>
+<p><em>Corrected 2026-11-20 (VI-32). No COST-face theorem was <code>[proved]</code>, since none had a custody
+table; since 2026-11-21 ledger rows PAPER-III.a and PAPER-III.b cover the max-det corner
+identity of B4 and B5, <code>lem:maxdet</code>&rsquo;s rate identity, and B7&rsquo;s corrected $V$ as a variance. Appendix B also misstated B4 and B6, and B7&rsquo;s constant was wrong (NEG-18). The
+full corrected custody summary is in Appendix B.</em></p>
 <table>
 <thead>
 <tr>
@@ -127,49 +131,53 @@ lost bet, carried at full prominence.</p>
 <tbody>
 <tr>
 <td>B1 — consumer $R_C(D)$ achievability + converse</td>
-<td><code>[proved]</code></td>
+<td><code>[exploratory]</code> (pending net + custody)</td>
 <td>022 blk</td>
-<td>—</td>
+<td>VI-3, VI-32, VI-38</td>
 </tr>
 <tr>
-<td>B2 — output ≤ surrogate ≤ reconstruction</td>
-<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>B2 — output ≤ surrogate ≤ reconstruction (GO-6)</td>
+<td><code>[demonstrated]</code>, <strong>disputed</strong> (harness off the matched-rate premise; re-run owed)</td>
 <td>028</td>
-<td>—</td>
+<td>VI-32, VI-34</td>
 </tr>
 <tr>
 <td>B3 — surrogate–output gap vanishes with rate</td>
-<td><code>[demonstrated]</code></td>
+<td><code>[demonstrated]</code>, <strong>disputed</strong> (same harness)</td>
 <td>028</td>
-<td>VI-3</td>
+<td>VI-3, VI-32, VI-34</td>
 </tr>
 <tr>
-<td>B4 — two-observer region; refinability = Loewner nesting</td>
-<td><code>[proved]</code></td>
-<td>022</td>
-<td><strong>VI-4</strong></td>
+<td>B4 — two-observer region; refinability ⇒ $\Sigma_2^\star\preceq\Sigma_1^\star$ (⇔ under Assumption SR)</td>
+<td>max-det corner identity <code>[proved]</code> (ledger row PAPER-III.a); region, refinability and rate loss as coding statements <code>[exploratory]</code></td>
+<td>022, 023</td>
+<td><strong>VI-4</strong>, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46</td>
 </tr>
 <tr>
-<td>B5 — complete rate region + k-observer chain</td>
-<td><code>[proved]</code></td>
+<td>B5 — rate region: the converse for every $k$; equality and the sufficiency of nesting under Assumption SR (successive-refinement achievability, attributed to Effros, unchecked), for every $k$</td>
+<td>corner identity <code>[proved]</code> (ledger row PAPER-III.a); region <code>[exploratory]</code> (converse: no net that can fail; equality: Assumption SR)</td>
 <td>023</td>
-<td>VI-5</td>
+<td>VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40</td>
 </tr>
 <tr>
-<td>B6 — mismatch tax $(r/2)\log(M/m)$ + omission floor $\operatorname{tr}(\tilde P\Pi)$</td>
-<td><code>[proved]</code>/<code>[demonstrated]</code></td>
+<td>B6 — mismatch tax $(r/2)\log(M/m)$ for $m\hat P\preceq P\preceq M\hat P$ + omission floor $\operatorname{tr}(\tilde P\Pi)$</td>
+<td><code>[predicted]</code>-grade / floor <code>[demonstrated]</code></td>
 <td>024/027</td>
-<td>VI-6, NEG-13</td>
+<td>VI-6, NEG-13, VI-32, VI-38</td>
 </tr>
 <tr>
-<td>B7 — dispersion counts read dimensions ($r_D \le r$)</td>
-<td><code>[proved]</code></td>
+<td>B7 — dispersion counts at most the read dimensions, $r_D\le 2V\le r$ (nats$^2$)</td>
+<td>reduction <code>[exploratory]</code> (025&rsquo;s checks cannot fail); corrected $V$ as a variance <code>[proved]</code> (ledger row PAPER-III.b), as the dispersion <code>[exploratory]</code>; the $r_D/2$ constant <code>[refuted]</code></td>
 <td>025</td>
-<td>VI-7</td>
+<td>VI-7, <strong>NEG-18</strong>, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46, VI-48, VI-49</td>
 </tr>
 </tbody>
 </table>
 <h2 id="legibility-face-theorems-chapter-9">LEGIBILITY-face theorems (Chapter 9)</h2>
+<p><em>As of 2026-11-20 the <code>[proved]</code> tags below are the book&rsquo;s, not the ledger&rsquo;s: no ledger row
+carries them, and their custody (proofs, R-IND-5 records, nets) lives in the sibling
+repository <code>the-angular-observer</code>. That custody has not yet been audited against T-CUST-1
+(FRONTIER G11). Read them as pending audit.</em></p>
 <table>
 <thead>
 <tr>
@@ -225,6 +233,123 @@ lost bet, carried at full prominence.</p>
 <tr>
 <td>Dimension emerges before shape (Weyl ordering)</td>
 <td><code>[demonstrated]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="beyond-one-consumer-chapters-17-and-24-to-29">Beyond one consumer (Chapters 17 and 24 to 29)</h2>
+<p><em>Added 2026-11-25. Each line is the class the ledger row carried on that date; the row,
+not this table, is the record.</em></p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Class</th>
+<th>Chapter</th>
+<th>Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RLD-I, RLD-II, RLD-III.1 to III.5, RLD-IV.1 to IV.4 (rate, leakage and distortion with a holder: vectors, stationary processes, slowly varying, cyclostationary, non-Gaussian, unstable and ergodically driven sources)</td>
+<td><code>[exploratory]</code> (written proofs and fresh-context audits; no sealed registration, no constants table)</td>
+<td>24</td>
+<td>none</td>
+</tr>
+<tr>
+<td>T1 (learn-then-serve) and T1-MK (a read kernel that moves with the point)</td>
+<td><code>[exploratory]</code></td>
+<td>17</td>
+<td>none</td>
+</tr>
+<tr>
+<td>PAPER-V.a (convexity, Pareto channel, exact-output minima, two-bit boundary, thermal water-filling, staleness complement)</td>
+<td><code>[proved]</code></td>
+<td>25</td>
+<td>042</td>
+</tr>
+<tr>
+<td>PAPER-V.b (Gaussian region: scalar quadrant, reset water-filling, the minima without side information)</td>
+<td><code>[proved]</code></td>
+<td>25</td>
+<td>044</td>
+</tr>
+<tr>
+<td>PAPER-V.c (coding theorems, several consumers, the work endpoint)</td>
+<td><code>[exploratory]</code> (no check can fail)</td>
+<td>25</td>
+<td>none</td>
+</tr>
+<tr>
+<td>PAPER-V.d (materialization identity, conditional total correlation)</td>
+<td><code>[exploratory]</code></td>
+<td>25</td>
+<td>none</td>
+</tr>
+<tr>
+<td>GO-7 (rate and reset content are separate resources)</td>
+<td><code>[replicated]</code></td>
+<td>25</td>
+<td>043, 045, 047 (046 a logged miss)</td>
+</tr>
+<tr>
+<td>GO-8 (reset threshold rises with the age of the side information)</td>
+<td><code>[replicated]</code>, with a recorded post-hoc fix to a control statistic</td>
+<td>25</td>
+<td>049, 053</td>
+</tr>
+<tr>
+<td>GO-9 (coordinated reset is cheaper by the shared structure)</td>
+<td><code>[replicated]</code>, same caveat</td>
+<td>25</td>
+<td>050, 054</td>
+</tr>
+<tr>
+<td>GO-10 (the complementarity tax in rate and in reset work)</td>
+<td><code>[replicated]</code></td>
+<td>26</td>
+<td>055, 058, 059</td>
+</tr>
+<tr>
+<td>GO-11 (the conditional rate and work region behind the tax)</td>
+<td><code>[replicated]</code></td>
+<td>26</td>
+<td>060 to 064</td>
+</tr>
+<tr>
+<td>GO-12 (staleness is access width, not delay; spectral conditional function at circulant scope)</td>
+<td><code>[predicted]</code></td>
+<td>27</td>
+<td>065, 066, 070, 071</td>
+</tr>
+<tr>
+<td>GO-13 (the dynamic complementarity tax)</td>
+<td><code>[demonstrated]</code></td>
+<td>27</td>
+<td>067 to 069, 072 to 074</td>
+</tr>
+<tr>
+<td>GO-14 (causal erasure)</td>
+<td><code>[predicted]</code></td>
+<td>27</td>
+<td>076, 078 to 086</td>
+</tr>
+<tr>
+<td>Access width on a serving stack</td>
+<td>P1 <code>[demonstrated]</code>; P2 <strong><code>[refuted]</code></strong> as sealed</td>
+<td>27</td>
+<td>077</td>
+</tr>
+<tr>
+<td>GO-16 (the adversarial observer)</td>
+<td>Theorems 1 and 2 and the discrete twin <code>[predicted]</code>; Theorem 3 as sealed <strong><code>[refuted]</code></strong> (NEG-17); the campaign <code>[exploratory]</code></td>
+<td>28, 16</td>
+<td>090, 091</td>
+</tr>
+<tr>
+<td>GO-EC-2 to GO-EC-7 (sensor schedules, triggers, a simulated optical link, the two-consumer tax, closed loop)</td>
+<td><code>[predicted]</code></td>
+<td>29</td>
+<td>087 to 089 and the campaign registrations named in the rows</td>
 </tr>
 </tbody>
 </table>
@@ -290,7 +415,7 @@ NEG-13 (resolved to <code>[demonstrated]</code> by a fresh held-out test).</p>
 <h2 id="verification-incidents-r-ind-5-caught-pre-publication">Verification incidents (R-IND-5), caught pre-publication</h2>
 <p>VI-2 (extreme-value scaling) · VI-3 (App-B derivation-grade caveats) · <strong>VI-4</strong> (the
 <code>sigma_star</code> false-pass — the standing reminder that the assistant may not grade itself) ·
-VI-5 (k-chain non-iteration + citation) · VI-6 (omission floor: whitened kernel, floor not
+VI-5 (k-chain non-iteration; its citation correction proved unchecked or wrong, VI-36 to VI-40) · VI-6 (omission floor: whitened kernel, floor not
 unbounded) · VI-7 (dispersion: covering argument, $r_D \le r$).</p>
 <h2 id="how-to-read-this-appendix">How to read this appendix</h2>
 <p>Every claim above resolves to a row in <code>claims/LEDGER.md</code> with its notebook, result JSON,

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 27 — Access Width: Staleness, Processes, and Causal Erasure &mdash; Geometric Observation</title>
+  <meta name="description" content="Chapter 27 — Access Width: Staleness, Processes, and Causal Erasure from Geometric Observation: The Mathematical Structure of What an Observer Can Use, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-observation" data-chapter-id="ch27_access_width">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Observation</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Observation</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 27 — Access Width: Staleness, Processes, and Causal Erasure</span>
+      </nav>
+      <div class="chapter-nav-top">
+        <a href="ch26_the_complementarity_tax.html" class="nav-prev">&larr; Chapter 26 — The Complementarity Tax</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch28_the_adversarial_observer.html" class="nav-next">Chapter 28 — The Adversarial Observer &rarr;</a>
+      </div>
+
+      <div class="chapter-content">
+<h1 id="chapter-27-access-width-staleness-processes-and-causal-erasure">Chapter 27 — Access Width: Staleness, Processes, and Causal Erasure</h1>
+<p>Chapter 25 priced the reset of a stored record against a context the eraser holds, and
+Chapter 26 priced serving two consumers from one record. Both were static: the source
+was memoryless and the context was simultaneous with the record. Chapter 19 put a clock
+on certificates. This chapter puts a clock on the reset. It covers four ledger rows:
+GO-12 <code>[predicted]</code>, GO-13 <code>[demonstrated]</code>, GO-14 <code>[predicted]</code>, and a measurement on a
+serving stack (registration 077) whose two sealed predictions came out one
+<code>[demonstrated]</code> and one <code>[refuted]</code>. The rows are long because they record what was
+corrected, and those corrections are reported here beside the statements they changed.</p>
+<p>One caution on scope applies to the whole chapter. The spectral theorems hold for a
+circulant (periodic) embedding of the process, and their transfer to ordinary finite
+windows is imported with four lemmas that are not proved. The sources are problem
+statements and two paper skeletons with open placeholders
+(<code>paper/paper-VI-spectral-conditional.tex</code>, <code>paper/paper-VII-dynamic-tax.tex</code>).</p>
+<h2 id="the-setting">The setting</h2>
+<p>The context is a stationary first-order autoregressive process $V$ with pole
+$a\in(0,1)$ and unit variance. The consumer&rsquo;s read is $Y_t=\rho V_t+N_t$, also of unit
+variance, with $N_t$ independent noise. The eraser (the holder of Chapter 24, now the
+party that resets the record) observes $S_s=V_s+U_s$ with white noise of variance
+$\tau^2$. The record $\hat Y$ plays the role of the description $\hat X$; its mean
+squared error against the read is at most $D$. Write $T=(V,Y)$. The cost coordinate is
+the per-symbol conditional information</p>
+<p>$$ L \;=\; \lim_{n\to\infty}\frac1n\, I\big(T^n;\hat Y^n \mid S^n\big), $$</p>
+<p>and $kT\ln 2\cdot L$ is the ideal reset work per symbol under the physical model of
+Chapter 25. The functional $L$ is not new: at the single-letter level it is Gray&rsquo;s
+conditional rate-distortion function (1972, 1973), and the existence of the per-symbol
+limit is Leiner and Gray (1974). Conditional leakage as a coordinate comes from secure
+source coding (Villard and Piantanida 2013; Ekrem and Ulukus 2013; Chapter 24).</p>
+<p>The static building block is the function of Chapter 26&rsquo;s ledger row GO-11
+<code>[replicated]</code>: $\tfrac12\log_2 g^\star(\rho^2,s,D)$, where $g^\star$ is the larger root
+of $Dsg^2-(D+s-\rho^2)g+(1-\rho^2)=0$ and $s=1+\tau^2$ in the static case.</p>
+<h2 id="staleness-is-access-width-not-delay-go-12">Staleness is access width, not delay (GO-12)</h2>
+<p>Suppose the context the eraser holds is aged by $\Delta$ steps. The question is whether
+the age itself costs anything. The answer in ledger row GO-12 <code>[predicted]</code>
+(registration 065) is that it depends on how much of the context path the eraser can
+reach.</p>
+<p><strong>Path access.</strong> If the eraser holds the whole observation path, pure delay is free. In
+the circulant embedding, with $P$ the cyclic shift and $S^{(\Delta)}=P^\Delta V+U$,</p>
+<p>$$ \big(Y,V,S^{(\Delta)}\big)\;\overset{d}{=}\;\big(Y,V,P^{\Delta}S^{(0)}\big), $$</p>
+<p>and since $P^\Delta$ is a bijection, every conditional functional that depends on $S$
+only through the information it generates, $L$ included, is exactly independent of
+$\Delta$ at every $n$. On finite windows the deviation is an edge term of order $1/n$.
+The governed harness measured the invariance at $3.3\times10^{-16}$. The draft stated
+this as invariance of a conditional covariance; the fresh-context audit (VI-28) showed
+that form is weaker and replaced it with the identity above, and fixed a transpose
+error. Invariance under recoding of the conditioning variable is folklore, and the
+phenomenon at the level of rates is in print for memoryless pairs (Simeone and Permuter
+2013; Matsuta and Uyematsu 2014). The ledger records as new only the packaged
+finite-$n$ identity for a conditioner that is neither encoder nor decoder.</p>
+<p><strong>Slice access.</strong> If the eraser holds one time-local sample, staleness costs, and the
+cost is the static function with a substitution fixed by what the <em>encoder</em> may use. A
+record built from $(Y_t,V_t)$ alone pays at $(\rho,\; s/a^{2\Delta})$. A record granted
+the latent at the context&rsquo;s epoch pays the strictly smaller value at
+$(\rho a^{\Delta},\;\tau^2)$; the gap reaches $0.053$ bits on the probe grid. Both
+increase strictly in $\Delta$ to the common limit $\tfrac12\log_2(1/D)$. The first draft
+assigned the second formula to the first kind of record. The audit before the seal
+refuted that pairing and supplied the corrected derivation (VI-28, pass 1: &ldquo;FAIL as
+drafted&rdquo;); both pilots are disclosed. The substitution device itself is prior work
+(Simeone and Permuter 2013; Sun and Cyr 2018 for the staleness form in the
+age-of-information literature). What the ledger records as new is the third-party
+conditioner and the dependence of the substitution on the encoder&rsquo;s access.</p>
+<p>This is the link to Chapter 25. The age dependence measured in ledger row GO-8
+<code>[replicated]</code> (which carries its own caveat, a post-hoc fix to a control statistic in
+registration 053) is the operational face of the slice class. Chapter 19&rsquo;s ageing
+certificate is the same situation seen from the consumer&rsquo;s side: a time-local sample.</p>
+<p><strong>The conditional-variance reduction (Theorem 1, registration 066).</strong> For single-letter
+records, $D\in(0,1)$, and any context $\sigma$-algebra $\mathcal G$ generated by a
+nonempty subset of the observations $\{S_s\}$,</p>
+<p>$$ L_{\mathcal G}(D)\;=\;\tfrac12\log_2 g^\star\!\Big(\rho^2,\;\frac{1}{1-q_{\mathcal G}},\;D\Big),
+\qquad q_{\mathcal G}=\operatorname{Var}\big(V_t\mid\mathcal G\big). $$</p>
+<p>The whole access class enters through one number. The hypotheses are essential: a
+$\mathcal G$ correlated with the read noise breaks the sufficiency step. For slice,
+causal prefix and full path at equal lag, $q$ is the single-sample variance
+$1-a^{2\Delta}/(1+\tau^2)$, the Kalman fixed-lag smoother variance, and the noncausal
+Wiener error, so</p>
+<p>$$ L_{\mathrm{slice}}(D,\Delta)\;>\;L_{\mathrm{prefix}}(D,\Delta)\;>\;L_{\mathrm{path}}(D), $$</p>
+<p>with the prefix-to-path gap equal to $C^{2\Delta}(P_f-q_{\mathrm{path}})$ in the paper&rsquo;s
+Riccati quantities $P_f$ and $C\in(0,1)$, never zero. $W(\Delta)=kT\ln2\cdot L_{\mathrm{prefix}}(D,\Delta)$ is the
+row&rsquo;s dynamic conditional-Landauer curve: the work falls geometrically as the eraser is
+allowed to wait. The audit passed this theorem with five sharpenings. Optimality over
+all records is imported from the static converse of GO-11, not proved again. The Kalman
+and Wiener forms are classical, and the physics framing inherits del Rio and co-authors,
+Sagawa and Ueda, and Still and co-authors.</p>
+<p><strong>The spectral conditional rate-distortion function (registrations 070, 071).</strong> For
+block records at the work endpoint, in the circulant embedding with Gaussian records,
+the discrete Fourier modes are independent static problems and</p>
+<p>$$ L_n(D)\;=\;\min_{\frac1n\sum_k D_k=D}\;\frac1n\sum_k \tfrac12\log_2
+g^\star\!\big(\rho_k^2,\;s_k,\;D_k/S_{Y,k}\big), $$</p>
+<p>with $\lambda_k$ the context eigenvalues, $S_{Y,k}=\rho^2\lambda_k+(1-\rho^2)$,
+$\rho_k^2=\rho^2\lambda_k/S_{Y,k}$ and $s_k=1+\tau^2/\lambda_k$. The allocation is
+equal-slope; per-mode convexity is proved; $\tau^2\to\infty$ recovers classical reverse
+water-filling and a flat spectrum recovers the static theorem. The weighted version
+(071) decomposes the same way at every weight $w\in[0,1]$, each mode carrying the two
+water levels of GO-11 under <strong>one</strong> common distortion price. The conjecture had said &ldquo;a
+common pair of Lagrange prices&rdquo;; that phrasing is refuted as phrased and rescoped to the
+pair (weight $w$, price $\mu$). Both theorems are <code>[predicted]</code> under row GO-12 and are
+proved at circulant scope only. On finite windows the numerics converge at order $1/n$,
+which the paper calls support and not a proof. The decomposition generalizes Gray&rsquo;s
+equal-slope theorem; the novelty sweeps did not find the spectral form for jointly
+stationary pairs, with library checks still owed (Gray 1973 in the journal text, Leiner
+and Gray 1974, Wyner 1976 to 1978).</p>
+<h2 id="the-dynamic-complementarity-tax-go-13">The dynamic complementarity tax (GO-13)</h2>
+<p>Chapter 26&rsquo;s tax is the excess of the joint cost over the better single-consumer cost.
+With an ageing context the work-side tax becomes a function of the eraser&rsquo;s access:</p>
+<p>$$ \mathrm{CT}_W(\mathcal G)\;=\;L_{AB}(\mathcal G)-\max\big(L_A(\mathcal G),L_B(\mathcal G)\big). $$</p>
+<p>Ledger row GO-13 is <code>[demonstrated]</code>, on registrations 067, 068, 069, 072, 073, 074.</p>
+<p><strong>Theorem 1, the matrix reduction (067).</strong> For two consumers and single-letter records,
+under joint Gaussianity, record noise independent of $(T,\mathcal G)$, the
+conditional-independence embedding $\operatorname{Cov}(T,V_s)=\operatorname{Cov}(T,V_t)\,a^{\lvert t-s\rvert}$,
+and $w\in[0,1]$, the access enters every coordinate only through</p>
+<p>$$ \Sigma_{T\mid\mathcal G}\;=\;\Sigma_T-(1-q_{\mathcal G})\,cc^{\mathsf T},\qquad c=\operatorname{Cov}(T,V_t). $$</p>
+<p>With a scalar context, both taxes are functions of $q_{\mathcal G}$ alone: access
+classes with equal $q$ pay identical taxes. The coordinates are nondecreasing in $q$ and
+$\mathrm{CT}_W\to\mathrm{CT}_R$ as $q\to1$. The universality is scoped to scalar
+context. The verifier&rsquo;s counterexample for context dimension $r\ge2$ is on record (equal
+trace of the conditional covariance, coordinates differing by $0.12$).</p>
+<p><strong>Theorem 2, the envelope sign law (068).</strong> The first version claimed the tax is
+monotone in staleness. The audit before the seal refuted it (a regime where the tax
+increases by 0.16 nats, and a kink where the binding consumer switches). The settled
+statement, by Danskin&rsquo;s theorem, is</p>
+<p>$$ \frac{d\,\mathrm{CT}_W}{dq}\;=\;\frac{1-w}{2\ln 2}\Big[(Ac)^{\mathsf T}M_1^{-1}(Ac)-s_{\mathrm{binding}}\Big], $$</p>
+<p>where the joint record is $\hat{\mathbf Y}=AZ+N$ in GO-11&rsquo;s whitened coordinates,
+$M_1=A\Lambda A^{\mathsf T}+\Sigma_N$ is its covariance given the context ($\Lambda$ the
+whitened conditional covariance, $\Sigma_N$ the record noise), both at the optimal
+channel, and $s_{\mathrm{binding}}$ is the same sensitivity for the binding consumer.
+Staleness raises the tax exactly when the joint record couples to the context more than
+the binding consumer&rsquo;s does. The kink at a switch is always downward, and at
+$w=1$ the curve is flat. The global regime map is open. An unregistered 18-point sweep
+(<code>[exploratory]</code>) refutes the reading &ldquo;rises iff the binding consumer is context-poor&rdquo;
+at 6 of 18 points, and no statement here rests on it.</p>
+<p><strong>The operational face (069).</strong> At the rising instance the tax rose by $+0.090$ under
+staleness against $+0.086$ predicted, and equal-$q$ classes agreed to $0.001$. The first
+governed run failed one instrument gate (one uniform-control cell of 216) with the five
+physics gates passing; the rerun, under a dated amendment with every bar unchanged, is
+the result quoted, and the as-executed file is kept.</p>
+<p><strong>Theorem 3, the binary twin (072).</strong> For a binary symmetric pair with a Markov context,
+the slice collapses exactly to the static binary function at
+$q_{\mathrm{eff}}=q*\delta_\Delta$, and the optimal family survives every finite access
+class through the posterior reliability distribution. Single-$q$ universality fails
+exactly, by about $9\times10^{-5}$ (checked at 50 digits), although it nearly holds
+numerically. Equal-$q$ universality is a Gaussian property.</p>
+<p><strong>Theorems 4 and 5 (073, 074).</strong> The two-consumer spectral theorem gives per-frequency
+matrix water levels under two common prices, one per distortion constraint, at circulant
+scope. The static kernel is prior work (Xiao and Luo 2005; Stylianou, Charalambous and
+Charalambous 2021, 2024); the row claims the spectral lift, the conditional face and the
+third-party conditioner. The moment-convexity lemma proves that
+$G(C,V)=\log\det(V-C^{\mathsf T}QC)-\log\det(V-C^{\mathsf T}PC)$ is jointly convex for
+$P\succeq Q\succeq0$, which makes the weighted two-consumer program convex in moments,
+resolves the uniqueness flag on GO-11&rsquo;s Theorem 9, and makes the two-price rule globally
+optimal. The convexity ingredients are standard (Boyd and Vandenberghe; Ando 1979); the
+contribution recorded is the lift into moment coordinates.</p>
+<h2 id="causal-erasure-go-14">Causal erasure (GO-14)</h2>
+<p>GO-12 settled a causal eraser for one record. Ledger row GO-14 <code>[predicted]</code>
+(registrations 076 and 078 to 086) treats block records erased cell by cell, where the
+eraser of cell $t$ holds the context up to $t+\Delta$ and the cells already erased:</p>
+<p>$$ L_a(\Delta)\;=\;\frac1n\sum_{t=1}^{n} I\big(T^n;\hat Y_t \mid S^{t+\Delta},\hat Y^{t-1}\big). $$</p>
+<p>Two other definitions were rejected: a memoryless eraser (a floor of 0.0136 bits, and
+inconsistent with the chain rule) and the causally conditioned directed information of
+Kostina and Hassibi, which collapses in Gaussian settings. A novelty sweep for this
+framing is owed before any novelty language (Kramer; Lev and Khina; the nonanticipative
+line).</p>
+<p><strong>The record family is a hard hypothesis.</strong> Every statement below is for Gaussian
+records independent of the eraser&rsquo;s observation noise $U$. Outside the family the chain
+rule fails (by up to 4.59 bits) and the ordering below inverts; counter-values 0.539536
+and 0.092864 are on record.</p>
+<p><strong>The chain rule (076).</strong></p>
+<p>$$ n\,L_a(\Delta)\;=\;I\big(T^n;\hat Y^n\mid S^n\big)+C_\Delta,\qquad
+C_\Delta=\sum_t I\big(\hat Y_t;S_{>t+\Delta}\mid S^{t+\Delta},\hat Y^{t-1}\big)\;\ge 0 . $$</p>
+<p>$C_\Delta$ is the smoothing-leakage charge, the price of erasing before the rest of the
+context arrives. It is zero exactly when the record can be simulated causally from $S$
+at lag $\Delta$. The first conjecture, that no useful record collapses, was false:
+records built from $N$ alone collapse while carrying bits. The corrected statement is
+about feasibility. Below $D=\rho^2(n-\Delta-1)/n$ the distortion budget forbids every
+collapsing record, and at the bound one exists.</p>
+<p><strong>The ordering.</strong> $\mathrm{block}_n<\min L_a(\Delta)\le L_a^{\mathrm{diag}}(\Delta)<\mathrm{slice}(\Delta)$,
+with the upper bounds strictly decreasing in $\Delta$ (version 0.1 said increasing, a
+sign error) and the lower margin closing at rate $\lambda_s^{2\Delta}$, where
+$\lambda_s=a(1-K)$ is the Kalman smoothing pole. The diagonal class is provably beaten,
+so every quoted minimum is an upper bound, and the seal forbids calling 0.572255 &ldquo;the
+minimum&rdquo;. The pole statement is local to time-local records
+($\lambda_s^{-2}=7.955$ at the tested parameters); code-mixing records decay more
+slowly, and that rate is open. The value $\mathrm{block}_\infty=0.529950$ carries a
+dated erratum.</p>
+<p><strong>Convexity (079).</strong> In the moment coordinates $H=\operatorname{Cov}(\hat Y,W)$,
+$\Gamma=\operatorname{Cov}(\hat Y)$, with $W=(V^n;Y^n)$, the family program is jointly
+convex for any nondecreasing access schedule, so every stationary point is the global
+family minimum and the finite-$n$ anchors are certified two-sided, under disclosed
+floating-point certificates. Convexity holds for the regrouped sum only. Per-cell
+convexity was tested and refuted for every cell after the first (086), with an exact
+rational witness.</p>
+<p><strong>The process limit (080 to 085).</strong> The limit $L^\infty(\Delta)$ exists
+unconditionally, by subadditivity under block concatenation and Fekete&rsquo;s lemma. A
+proposed bound on the boundary charge was refuted, and the route that depended on it was
+left conditional. A different chain (082, with its convexity step proved in 083) gives
+an unconditional lower bound $L^\infty(\Delta)\ge\Psi(D;\Delta)$ at $\Delta=0,1,2$,
+where $\Psi$ is a stationary spectral value held as a certified bracket. An explicit
+feasible record on a 2048-cell window gives the other side (084):</p>
+<p>$$ L^\infty(0)\in[0.5627264963,\,0.5627656412],\quad
+L^\infty(1)\in[0.5364013784,\,0.5364458112],\quad
+L^\infty(2)\in[0.5310500198,\,0.5310994872]. $$</p>
+<p>These brackets are the quotable numbers. Registration 085 adds the equality
+$L^\infty(\Delta)=\Psi(D;\Delta)$ at those three lags as a scoped theorem with five
+named inputs, one of them a classical citation whose hypotheses were checked and whose
+proof was not redone. In reaching it, one supporting lemma (Lemma M) was sealed
+restated, with two of its claims withdrawn. The row is explicit that &ldquo;unconditional&rdquo;
+attaches to the one-directional chain, not to the equality or to any value of $\Psi$,
+and that the equality is not a licence to quote a value as exact.</p>
+<h2 id="a-measurement-on-a-serving-stack-077">A measurement on a serving stack (077)</h2>
+<p>The fourth row tests the idea outside the Gaussian model: eviction from the key-value
+cache of a language model (Qwen2.5-7B) at matched budget. The successor arc is recorded
+with its losses: registration 056 was a miss, registration number 075 was burned on a
+disclosed design failure, and 077 was sealed before the run.</p>
+<p><strong>P1 <code>[demonstrated]</code>.</strong> Task quality tracks the measured predictive uncertainty $u$
+about the consumer&rsquo;s future reads, not the nominal width of the scorer. A 32-query
+snapshot beat a 1024-query scorer by $+0.4375\pm0.070$ at 5% keep (bar 0.30) and
+survived 97% eviction with no drop, while wide-window scoring was statistically
+indistinguishable from random eviction at extreme budgets. The limits: one governed run
+(tier B, $n=64$), a binary task metric, passage retrieval only, and 89 thermal duty
+cycles disclosed.</p>
+<p><strong>P2 <code>[refuted]</code> as sealed.</strong> The control predicted that equal scalar $u$ gives equal
+quality. It did not: the equality gate failed ($+0.078$ against a tolerance of 0.0625)
+and the registered contrast was $+0.359\pm0.068$, 5.3 standard errors, with calibration
+well inside its gates. Equal scalar uncertainty is insufficient; the structure of the
+error matters. The row reads this as consistent with GO-13 Theorem 1&rsquo;s own scoping,
+where equal-$q$ universality fails once the context has dimension two or more. The
+verdict was 5 of 6 gates, with the failure on the branch the registration had named as a
+finding.</p>
+<h2 id="what-is-open">What is open</h2>
+<ul>
+<li><strong>Toeplitz transfer</strong> of the spectral theorems (GO-12 registrations 070 and 071; GO-13
+  Theorem 4): open. The four transfer lemmas are imported, not proved.</li>
+<li><strong>The spectral-tilt conjecture</strong> (GO-12): open, unregistered.</li>
+<li><strong>Library checks</strong> for GO-12&rsquo;s attribution (Gray 1973, Leiner and Gray 1974, Wyner
+  1976 to 1978): owed.</li>
+<li><strong>The global regime map</strong> for the tax&rsquo;s sign (GO-13): open; only an <code>[exploratory]</code>
+  sweep exists.</li>
+<li><strong>Operational faces beyond 069</strong> (the kink, the two-price spectral face, prefix and
+  path access, the binary twin) and <strong>the price rule for $m$ consumers</strong>: open.</li>
+<li><strong>GO-14</strong>: uniqueness of the minimizer, the reset-protocol construction that would
+  make $L_a$ operational, the decay rate for code-mixing records, the closure constant
+  beyond $\Delta\approx6$, and the novelty sweep. Records coupled to the eraser&rsquo;s noise
+  are a different and cheaper coordinate; a problem statement on them
+  (<code>paper/go15-reference-coupled.tex</code>) is exploratory work with no ledger row and no
+  result claimed here.</li>
+<li><strong>A successor to 077</strong> that matches the profile of uncertainty and not its scalar
+  value: named as a candidate, not drafted.</li>
+</ul>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="ch26_the_complementarity_tax.html" class="nav-prev">&larr; Chapter 26 — The Complementarity Tax</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch28_the_adversarial_observer.html" class="nav-next">Chapter 28 — The Adversarial Observer &rarr;</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Observation: The Mathematical Structure of What an Observer Can Use.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      throwOnError: false
+    });"></script>
+</body>
+</html>
