@@ -419,3 +419,55 @@ named only as a range or in passing in Chapter 16) and the v1.0 declaration (Ope
 other row of `claims/LEDGER.md` (the falsifiable core, the Gate B rows, NEG-1 to NEG-18, the
 OT-EC rows, RLD, T1, T1-MK, PAPER-III and PAPER-V) is carried by at least one chapter. Of the verification incidents, only VI-1 (the
 founding incident) is not cited by number or within a cited range.
+
+## Cross-volume repairs (2026-11-26)
+
+From the survey of the series for agreement between volumes (`cross-volume-report.md` in the
+survey's working folder, findings O1 to O7 and S1), made after commit 1dc42ef. Four items
+needed the author's choice. The author asked that they be "resolved as you recommend"; the
+rules that apply that request are in `author-decisions.md` (G1, G8), and each item below names
+its rule. No ledger row, registration, figure line, caption, or heading a figure is placed
+before was changed. Lines were added in Appendix A, Chapters 0, 1 and 15, and the README.
+
+1. **O1. README, the DRI.** "The public index name is **DRI** (the "Bond Index" of early
+   drafts, renamed …)". The Bond Index was not renamed. It is still the name of the invariance
+   index of *Geometric Ethics* (Chapter 18 there: mean deviation over declared
+   re-descriptions, over a tolerance). The DRI is the Decoder Robustness Index of *Geometric
+   Methods*, Chapter 10, which Appendix A and `DOMAIN-GENERALITY-SWEEP.md` call its descendant.
+   Now: "(the Decoder Robustness Index of *Geometric Methods*, Chapter 10; early drafts called
+   it the "Bond Index", which is the different, earlier invariance index of *Geometric
+   Ethics*; provenance footnoted in the sweep)".
+2. **O2. Appendix A, "Decoder-robustness / invariance methodology".** Both indices were said
+   to score "distortion under read-relevant versus invariant transforms". Only the DRI splits
+   its transforms that way (*Geometric Methods*, Sections 10.5 and 20.5); the Bond Index scores
+   declared invariant re-descriptions only. The sentence now describes each.
+3. **O3. Chapter 0, epistemic status.** "where the earlier books each posit one domain's
+   geometry" → "where the domain volumes each posit one domain's geometry". Volume 1,
+   *Geometric Methods*, is the series' method volume, not a domain volume.
+4. **O4 (rule G8). Chapter 18, opening.** "Every volume of this series reduces its framework
+   to a single sentence, and this one is no exception." The first volume, *Geometric Methods*,
+   does not end that way. Now: "This volume reduces its framework to a single sentence." Open, 3
+   (where the principle chapter belongs) is not affected.
+5. **O5 (rule G8). The house rule "inherited from every volume of this series".** Chapter 1
+   (§ "A last word"), Chapter 15 (opening) and, by the same rule, Chapter 0 ("The house rule of
+   the whole series applies here in its strongest form"). Only *Geometric Ethics* and
+   *Geometric Cognition* keep claim ledgers besides this volume; ten volumes keep none. Each
+   place now calls it "the house rule of this volume, which *Geometric Ethics* and *Geometric
+   Cognition*, the other volumes that keep claim ledgers, share". The preface's "inherited
+   from the series" is left, as the report advised.
+6. **O6 (rule G8). Chapter 17, last section.** "settled enough to build the next volume on"
+   → "settled enough to build further work on". This is the last volume of the series.
+7. **O7 (rule G1). README, Layout table and opening.** "The book (ch00–ch18 + appendices A–G)"
+   → "ch00–ch29". "**Part A** = the canonical instrument docs" and "then Part A of the book —
+   the instruments" used a part letter that on the published contents page (the build
+   configuration's parts) names "The Problem" (Chapters 1–3). The instruments are Part D
+   (Chapters 10–13). The README now says "Part D", and the Layout row reads "Part D (ch10–ch13),
+   with ch15 and App. D", because the method chapter and the registry it lists are outside
+   Part D. The front matter's own table of contents (Parts I–IX) is a third scheme, left as
+   it is (Open, 4).
+8. **S1. README, license paragraph.** "Every claim in this series carries a status label …
+   graded against a claim ledger" → "Claims in this series carry status labels, such as
+   `[proved]`, `[posited]` or `[open]` or a volume's own tags, graded against a claim ledger
+   where the volume keeps one". The same sentence is repaired in every volume's README.
+
+No figure or caption is made stale by these repairs.

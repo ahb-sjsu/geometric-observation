@@ -16,15 +16,16 @@ Department of Computer Engineering, San José State University
 ### Epistemic status of this volume (2026-07-20)
 
 **Posited framework with an instrumented spine.** This is the meta-volume of the
-series: where the earlier books each posit one domain's geometry, this one asks
+series: where the domain volumes each posit one domain's geometry, this one asks
 what *any* observer's geometry is made of, and answers with a mechanism that has
 been sealed, run, and — where it failed — reported failing. The falsifiable core
 (GO-1 … GO-6) is registered before measurement, verified in fresh contexts, and
 carried in a living ledger; the consumer-relative flip has been **put at risk in
 twelve domains and three distinct branches of physics, and confirmed as a sealed
 flip in six of them**, and its boundaries are printed beside its wins. Everything the ledger cannot show is marked as posited
-theory at licensed strength. **The house rule of the whole series applies here in
-its strongest form: the book may not assert what the ledger cannot show.** Formal
+theory at licensed strength. **The house rule of this volume, which *Geometric Ethics*
+and *Geometric Cognition*, the other volumes that keep claim ledgers, share: the book may
+not assert what the ledger cannot show.** Formal
 claims are tracked, one row per claim, in `claims/LEDGER.md`; the discipline that
 governs those rows is in `CHARTER.md` and `PROTOCOL.md`.
 

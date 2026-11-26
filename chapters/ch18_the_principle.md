@@ -1,7 +1,7 @@
 # Chapter 18 — The Principle: Keep the Structure the Observer Can Use
 
-Every volume of this series reduces its framework to a single sentence, and this one is
-no exception. The seventeen chapters before this one, their theorems, the twelve domains of
+This volume reduces its framework to a single sentence. The seventeen chapters before
+this one, their theorems, the twelve domains of
 the sweep, and the honest negatives of Chapter 16 reduce to five words:
 
 > **Keep the structure the observer can use.**

@@ -149,7 +149,8 @@ operator up.
 A last word before we begin, because it governs everything. This is a program
 co-designed with an embedded AI assistant, and it operates under a written charter
 whose first rule is that the assistant may not be the sole grader of its own work,
-and whose house rule — inherited from every volume of this series — is that *the book
+and whose house rule — the house rule of this volume, which *Geometric Ethics* and
+*Geometric Cognition*, the other volumes that keep claim ledgers, share — is that *the book
 may not assert what the ledger cannot show.* When a sentence in this book carries a
 tag like [demonstrated] or [refuted], that tag is a promise about a specific row in
 a specific ledger, and, where the row is a registered test, sealed before it was

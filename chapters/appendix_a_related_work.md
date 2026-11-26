@@ -93,8 +93,9 @@ learned one. The Skeptic's Appendix answers "isn't this just task-aware compress
 ## Decoder-robustness / invariance methodology (the series' own lineage)
 
 *Owns.* The Bond Index (Geometric Ethics) and its bioacoustic descendant the Decoder
-Robustness Index (DRI): scoring a system by its distortion under read-relevant versus
-invariant transforms.
+Robustness Index (DRI): the first scores a system by how far its evaluation moves under
+declared invariant re-descriptions, the second scores a decoder separately under invariant
+and stress (read-relevant) transforms (*Geometric Methods*, Chapter 10).
 
 *This program adds.* The recognition that these are the *same* read-operator-distortion
 methodology — invariant transforms are $\ker P_C$, stress transforms are the read

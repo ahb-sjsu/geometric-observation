@@ -10,7 +10,8 @@ program must be able to **lose in public and continue smaller.** Everything the 
 rests on the machinery described here; if the machinery does not convince you, the results
 should not either, and that is the intended order of reading.
 
-The whole apparatus serves one house rule, inherited from every volume of the series and
+The whole apparatus serves one house rule, the house rule of this volume, which *Geometric
+Ethics* and *Geometric Cognition*, the other volumes that keep claim ledgers, share. It is
 enforced here by a written charter: *the book may not assert what the ledger cannot show.*
 
 ## Seal before measure

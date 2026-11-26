@@ -9,15 +9,16 @@
 > — one page, no evidence, the map of the whole program.
 > Cite the theory as Observation Theory; cite the evidence by ledger row;
 > reserve "geometric observation" for the book itself. **New readers start
-> here:** the one-page [OBSERVATION.md](OBSERVATION.md), then Part A of the
+> here:** the one-page [OBSERVATION.md](OBSERVATION.md), then Part D of the
 > book — the instruments are documented once and reused everywhere:
 > [the blind probe](chapters/ch10_the_blind_probe.md) ·
 > [the recognizer](chapters/ch11_the_recognizer.md) ·
 > [the failure taxonomy (the four degeneracies of P_C) and κ](chapters/ch12_failure_taxonomy_and_kappa.md) ·
 > [registration-first method](chapters/ch15_registration_first.md) ·
 > [the registry](chapters/appendix_d_the_registry.md). The public index name is
-> **DRI** (the "Bond Index" of early drafts, renamed — provenance footnoted in
-> the sweep). Paper numerals I–V are internal shorthand; every public claim
+> **DRI** (the Decoder Robustness Index of *Geometric Methods*, Chapter 10; early
+> drafts called it the "Bond Index", which is the different, earlier invariance index
+> of *Geometric Ethics*; provenance footnoted in the sweep). Paper numerals I–V are internal shorthand; every public claim
 > resolves to a ledger row, not a numeral.
 
 [![CI](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ahb-sjsu/geometric-observation/actions/workflows/ci.yml)
@@ -92,7 +93,7 @@ condition. The Honest Negatives chapter carries every `[refuted]` row.
 | [`DOMAIN-GENERALITY-SWEEP.md`](DOMAIN-GENERALITY-SWEEP.md) | The consumer-relative flip across domains, one row per sealed prereg + result |
 | [`experiments/`](experiments/) | The three-arm instance runs (§3) and scripts |
 | [`results/`](results/) | Sentinel-delimited result JSONs (committed, CI-rerun) |
-| [`chapters/`](chapters/) | The book (ch00–ch18 + appendices A–G). **Part A = the canonical instrument docs**: probe (ch10), recognizer (ch11), failure taxonomy + κ (ch12), method (ch15), registry (App. D) — single-sourced, cited from everywhere else |
+| [`chapters/`](chapters/) | The book (ch00–ch29 + appendices A–G). **Part D (ch10–ch13), with ch15 and App. D = the canonical instrument docs**: probe (ch10), recognizer (ch11), failure taxonomy + κ (ch12), method (ch15), registry (App. D) — single-sourced, cited from everywhere else |
 
 ## Status — falsifiable core resolved; the flip is domain-general; the cost face extends to thermodynamics; the tax and its region are replicated; the dynamic theory is closed through the spectral pair and the m=2 endgame; causal erasure is netted through its convex program and an unconditional process limit; reference-coupled erasure is open; the estimation-and-control extension is drafted with its flagship sealed and passed
 
@@ -206,8 +207,8 @@ published elsewhere are outside both files. They carry the rights their
 publisher agreement assigns.
 
 CC BY asks you to attribute and to indicate whether you changed anything. Both
-halves of that matter here. Every claim in this series carries a status label,
-such as `[proved]`, `[posited]` or `[open]`, graded against a claim ledger, and
+halves of that matter here. Claims in this series carry status labels,
+such as `[proved]`, `[posited]` or `[open]` or a volume's own tags, graded against a claim ledger where the volume keeps one, and
 an adapted version presented as the original misstates the evidence behind it.
 Attribution that names the author, the volume and this repository, and that
 says whether the text was changed, is enough.
