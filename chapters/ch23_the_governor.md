@@ -30,6 +30,10 @@
   cross-domain measurement methodology → the IEEE-SA Industry Connections path (the
   false-clear rate as a first-class KPI), complementing 3GPP/O-RAN/IETF/IEEE 802.
 
+![Figure 23.1](figures/ch23_fig1.svg)
+
+*Figure 23.1. A schematic of the governor as the outline describes it. Top: the operational loop, which observes the certificate and witness streams, measures the false-clear rate per certificate and consumer, governs, and certifies. Below: the escalation ladder that the govern step follows. It first shrinks the refresh period to the floor, then changes the mechanism when refreshing at the floor still leaves the certificate vacuous, and certifies per consumer, since the same certificate can hold for a lax consumer and be vacuous for a strict one. The diagram shows structure only; the outline calls the governor a reference implementation.*
+
 ## Boundary / honesty
 The governor adds no new physics and does not replace domain machinery (QEC, EMS
 state estimation, HARQ) — it *measures and governs* the certificate those systems

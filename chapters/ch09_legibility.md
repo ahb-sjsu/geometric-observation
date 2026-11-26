@@ -52,6 +52,10 @@ sharp, and getting it right mattered: an early over-claim (that a certain heat-t
 reversal held on a real embedding model) is carried as a standing negative pending
 confirmation (NEG-3, [refuted, pending confirm]).
 
+![Figure 9.1](figures/ch09_fig1.svg)
+
+*Figure 9.1. A schematic of the polar form x = r u. Twelve embedding points are drawn with radii that vary from point to point, as the radius does when it carries degree and density. Row normalization moves each point along its ray onto the unit circle, which keeps the direction u and discards the radius r. At one point the two components of a motion are marked: the tangential part turns u and is read by the geodesic-rank consumer, and the radial part changes only r and is not. The radii are illustrative.*
+
 ## The exactly-solvable cases
 
 Legibility is not only asymptotic; on symmetric spaces it is exact, and the exact cases

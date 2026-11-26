@@ -93,6 +93,10 @@ coding error is its projection onto $P_C$, not its size.* Any method that scores
 code by the size of its error — which is every reconstruction metric — is measuring a
 quantity the lemma says is decoupled from what it wants to know.
 
+![Figure 6.1](figures/ch06_fig1.svg)
+
+*Figure 6.1. The lemma drawn for a consumer that reads one direction of a plane. Each curve is an error covariance of fixed magnitude, trace 2, rotated through the angle on the horizontal axis; the vertical axis is the read distortion. The magnitude never changes and the read distortion does. Between the two extreme orientations it changes by a factor of 5.7 for eigenvalues (1.7, 0.3) and 39 for (1.95, 0.05), and the factor grows without limit as the error is made thinner. Only the isotropic error is indifferent to orientation. The values are illustrative.*
+
 ## The output metric $G$, concretely
 
 For completeness, the output metrics used across the book:

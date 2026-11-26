@@ -31,6 +31,10 @@ $S = \mathbb{E}[g g^\top]$ recovers a read operator that (this is the crucial pr
 is why the probe succeeds where a naive estimate fails, and it is the whole content of
 the legal-domain story below.
 
+![Figure 10.1](figures/ch10_fig1.svg)
+
+*Figure 10.1. The probe worked on a planted consumer in a plane, C(x) = tanh(w·x) with w at 30 degrees. The thin lines are level sets of C. At sixteen operating points the gradient g is taken by finite differences of the output alone and drawn as a stroke. Every stroke points the same way, and where the consumer saturates the strokes shrink. The margin sensitivity S, the average of g gᵀ, has one nonzero eigenvalue, and its top eigenvector is the planted direction. This illustrates the mechanism and is not the GO-1 measurement.*
+
 ## What the probe can promise: GO-1
 
 On planted read subspaces — where the truth is known and the probe is graded against
@@ -87,6 +91,10 @@ GO-P-2026-039]. The held-out-reuse asterisk was removed.
 This is the first demonstration that the GO-1 blind probe, previously only
 [predicted] on planted subspaces, recovers a *real* consumer's read operator with the
 two properties the theory needs. It is the chapter's central result.
+
+![Figure 10.2](figures/ch10_fig2.svg)
+
+*Figure 10.2. The three legal-retrieval tests, with the downstream scores printed in the text for the read-preserving code R and the reconstruction-optimal code O. In 035 the read operator was the document covariance and O beat R: the flip failed [refuted]. In 036 the operator came from the blind probe and, on the same held-out data, R beat O by 0.008 [demonstrated, GO-P-2026-036, 4/4]. In 039 the frozen recipe on a fresh opinion-disjoint split gave R over O by 0.016 [demonstrated, GO-P-2026-039]. The horizontal axis starts at 0.74, not at zero.*
 
 ## What the probe cannot promise
 

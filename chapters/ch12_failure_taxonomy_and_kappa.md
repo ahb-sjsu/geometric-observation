@@ -80,6 +80,10 @@ retrospective/prospective distinction is enforced, not cosmetic: the retrospecti
 an [exploratory] row and PROTOCOL Rule 1.1 forbids the umbrella text from leaning on it;
 only the sealed prospective point can promote the law.
 
+![Figure 12.1](figures/ch12_fig1.svg)
+
+*Figure 12.1. The alignment κ = tr(P Σ) in two dimensions, as an illustration of the definition and not a measurement. The source has variances 0.9 and 0.1 (unit trace) and the consumer reads one direction (a rank-one read metric of unit trace) at angle φ to the high-energy axis, so κ = 0.9 cos²φ + 0.1 sin²φ. Left: the one-standard-deviation contour of the source and three read directions. Right: κ against φ. A consumer that reads the high-energy axis has κ = 0.9, the coupling end, where reconstruction-optimal coding already protects what is read. A consumer that reads the quiet axis has κ = 0.1, the end where the chapter places the flip. The figure does not draw the flip magnitude, which the chapter reports only as a retrospective [exploratory] fit and one sealed [predicted] point.*
+
 ## Two axes, not one
 
 The alignment law is necessary but not sufficient to pick the *code*, because the flip's

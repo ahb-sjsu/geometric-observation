@@ -23,6 +23,10 @@
   certificate interpolates between free-and-wrong and correct-but-costly (the ZK
   `read_fresh` curve).
 
+![Figure 20.1](figures/ch20_fig1.svg)
+
+*Figure 20.1. The routing anchor of the outline: how often the certificate "60 seconds of quiescence means converged" is false, for three routing protocols [replicated]. The vertical axis is the false-clear rate. The outline's reading is that opacity orders the bands and the implementation places a system within its band. The outline prints no target for these certificates, so none is drawn.*
+
 ## Key figures / claims (→ ledger)
 - FC definition box (from Ch. 19). 
 - Routing vacuity bar (three protocols) [replicated].

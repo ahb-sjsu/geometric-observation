@@ -23,6 +23,10 @@ sealed bars, naive vs witnessed FC, verdict, tier.
 | Markets | QUOTE | efficient-price sim | 0.37 → 0.003 | `[exploratory]` |
 | Sensing | (sensor) | real UCI field data | drift real; linear recal only ~1.6× | **[refuted]** |
 
+![Figure 22.1](figures/ch22_fig1.svg)
+
+*Figure 22.1. The freshness sweep of the outline's table, drawn on one axis. For each domain the upper mark is the false-clear rate of the naive certificate and the lower mark is the rate once the certificate is witnessed. A bar is a range and a single dot is one value, both as the table prints them, approximate values included. The class of each row is at the right, and rows keep their own class: routing and replication are [replicated], cellular is [demonstrated], optical, grid and AI evaluation are [predicted], quantum and markets are [exploratory]. Sensing is [refuted]: the clean template failed and no false-clear pair is printed for it. The outline does not claim that the magnitudes coincide across domains.*
+
 ## Narrative beats
 - The **replicated core** (routing + replication/coordination): the vacuity result
   reproduced across six independent data substrates and two witness kinds

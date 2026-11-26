@@ -69,6 +69,10 @@ deployed, and that is the point:
 honest. It is not a convention; it is set by the coherence time, and Chapter 21
 measures the constant.
 
+![Figure 19.1](figures/ch19_fig1.svg)
+
+*Figure 19.1. A schematic of the witnessed triple on a time axis. Each bar is one certificate, a claim that the consumer's read is within tolerance, valid from its issue until it is renewed. The certificate issued at t is acted on at t + Δ, and it can be wrong for no reason other than Δ. The witness is an independent measurement of the true outcome, and it grades the claim at the time of use. The renewal interval is the refresh floor φ, drawn at 0.177 of the coherence time, the slope this chapter quotes from Chapter 21 for one 5G physical layer [demonstrated]; on another substrate the ratio may differ.*
+
 ## The false-clear rate
 
 The one number this Part is built on:
@@ -102,6 +106,10 @@ reads it as the distortion *time* inflicts: $\Sigma_\delta$ is now the second mo
 of the drift between issue and use, and $\operatorname{tr}(P_C\Sigma_\delta)$ is the
 consumer-felt error of acting on a stale read. Same operator; the clock supplies
 $\Sigma$. This is why freshness is a *face* of the theory and not an appendix to it.
+
+![Figure 19.2](figures/ch19_fig2.svg)
+
+*Figure 19.2. The false-clear rate as a conditional, drawn for illustrative values (coverage 0.80, false-clear rate 0.25; these are not measurements). The square is all certificates. Its width splits them into those that clear and those that do not. Within the ones that clear, the shaded part is the fraction the witness refutes: that fraction is FC. The joint probability of clearing and being refuted is the product, 0.20. A certificate that clears everything has coverage 1, so for it the joint rate and FC are the same number.*
 
 ## What this Part shows
 

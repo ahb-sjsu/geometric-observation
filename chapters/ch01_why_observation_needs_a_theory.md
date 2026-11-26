@@ -89,6 +89,10 @@ disagree about which of two codes is better, we call the disagreement the
 reproducible property of observation, sealed across twelve domains and three
 branches of physics.
 
+![Figure 1.1](figures/ch01_fig1.svg)
+
+*Figure 1.1. A schematic of the two places a code can be scored. Reconstruction error compares the object x with its reconstruction and stops there, so it names no consumer. The read distortion scores the same coding error after weighting it by the read metric, the output metric G pulled back through the consumer's Jacobian J. The consumer, the output metric and the budget together are the observer.*
+
 ## One object, three shadows
 
 The read metric $P_C$ is the whole book, seen once. But it casts three shadows, and

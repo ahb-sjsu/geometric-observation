@@ -48,6 +48,10 @@ Shannon in the sense of resolving a continuous idealization (perfect reproductio
 observer-relative parts (what this consumer, at this budget, can use). The consumer-
 relative rate–distortion thesis is the spine, and Shannon is the $P_C = I$ vertebra.
 
+![Figure 18.1](figures/ch18_fig1.svg)
+
+*Figure 18.1. A schematic of the chapter's summary: one operator, four faces. Each face is a shadow of the read metric P_C, and each was a separate literature, named beneath its box. The last line under three of the faces says what happens in the slice P_C = I, the observer that reads every direction equally: the rate is Shannon's, the flip collapses because reconstruction is then optimal, and the quotient is trivial.*
+
 ## What the principle licenses
 
 "Keep the structure the observer can use" licenses a definite change in practice.

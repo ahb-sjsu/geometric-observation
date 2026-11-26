@@ -289,6 +289,10 @@ every $n$ because the tilt is a bijection", with "effective dimension $= r$". Th
 fresh-context pass found that the equivalence rests on a **covering** argument. Its
 replacement, "effective dimension $r_D$", was itself wrong for the dispersion (NEG-18).
 
+![Figure B.1](figures/appb_fig1.svg)
+
+*Figure B.1. The corrected variance of Theorem B7 on the appendix's test case, tilted mode variances (4, 2, 0.6, 0.3) and water level 1, in nats squared. Each mode above the level contributes 1/2. Each mode below it contributes (γ/θ)²/2, here 0.18 and 0.045, which the old constant left out. The sum is 1.225; the Monte Carlo of the definition quoted in the text gives 1.226. The old constant r_D/2 = 1.0, counting active modes only, is [refuted] (NEG-18) and is drawn as a dashed line; it survives as the lower bound, and the upper bound is r/2 = 2. The corrected formula is [proved] as the variance of the tilted information (ledger row PAPER-III.b); reading it as the dispersion stays [exploratory].*
+
 ## Custody summary (corrected 2026-11-20 and 2026-11-21)
 
 | Thm | Statement grade | Harness (C3) | Prereg | Incidents | Class |

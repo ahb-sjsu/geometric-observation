@@ -46,6 +46,10 @@ moment $P_C \ne I$, which is the moment you have a consumer that cares about som
 directions more than others — a classifier, an attention head, a ranker, an
 estimator — which is to say almost always.
 
+![Figure 2.1](figures/ch02_fig1.svg)
+
+*Figure 2.1. Reconstruction error as one slice of a family. The two codes are the errors A and B of Figure 5.1, with covariances diag(0.3, 1.7) and diag(1.7, 0.3), so both have reconstruction error 2. The horizontal axis is the weight w that a consumer with read metric diag(1, w) gives the second direction, and the vertical axis is the read distortion. The two measures agree only at w = 1, where the read metric is the identity, and there the two codes tie. The values are illustrative, not measured.*
+
 ## What the failure looks like in the wild
 
 Abstractions persuade slowly; sealed refutations persuade fast. The program's

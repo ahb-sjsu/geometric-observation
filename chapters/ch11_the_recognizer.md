@@ -51,6 +51,10 @@ the recognizer reports dimension with confidence well before it commits to a sha
 its staged output — dimension first, shape second — mirrors the mathematics rather than
 imposing a convenient UI on it.
 
+![Figure 11.1](figures/ch11_fig1.svg)
+
+*Figure 11.1. The Weyl law of the text on four spaces whose Laplacian spectra are known in closed form. The horizontal axis is the threshold λ and the vertical axis is the number of eigenvalues at or below it, both on logarithmic scales, so the slope of each staircase is d/2. The dashed lines are the Weyl leading terms. The sphere and the flat torus are both of dimension 2 and climb at the same slope. They differ in the constant and in the sizes of the steps, 1, 3, 5, 7 for the sphere and 1, 4, 4, 4 for the torus, which is the shape. This is an illustration from known spectra, not a measurement by the recognizer.*
+
 ## The certificate and its vacuity threshold (GO-3)
 
 Recognition needs a stopping rule: at what point does the representation's geometry

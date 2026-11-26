@@ -30,6 +30,10 @@ a replay of the set the effect was calibrated on. (Reference: GO-P-2026-027 conf
 omission floor on held-out layers {4,20} after it was first seen on {8,16}.) You cannot
 promote a claim by looking at the same data harder.
 
+![Figure 14.1](figures/ch14_fig1.svg)
+
+*Figure 14.1. A schematic of the six class tags and the two promotions the chapter states. The top row is ordered by how much each class demands. An [exploratory] finding reaches [demonstrated] only through a fresh sealed prereg and a run on held-out data (rule R-IND-6), never by a replay of the set it was first seen on. [proved] needs three things together. [refuted] is a bet lost, and it stays in print. The diagram restates the definitions; it reports no result.*
+
 ## The six
 
 **GO-1 — the read/nuisance split is identifiable ex ante from the consumer.**

@@ -109,6 +109,10 @@ decade on the grounds that it improved results turns out to be the optimal thing
 do for a specific, identifiable observer. Folk practice is often a theory that has
 not been written down; here the read metric writes it down.
 
+![Figure 3.1](figures/ch03_fig1.svg)
+
+*Figure 3.1. A schematic of the lineage the chapter sets out. Each of four older subjects supplies one part of the read metric, named under it. The book claims none of the parts. What it adds is the load placed on the operator, shown on the right.*
+
 ## The lineage, in one sentence
 
 The read metric inherits its algebra from the pullback metric of Čencov and Amari,

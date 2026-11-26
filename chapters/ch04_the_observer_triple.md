@@ -57,6 +57,10 @@ even if they share a name. This is why the framework can carry a single mechanis
 across a language model and a seismometer array: they are unrelated machines with,
 sometimes, the same read metric structure.
 
+![Figure 4.1](figures/ch04_fig1.svg)
+
+*Figure 4.1. The quotient for a consumer that reads one direction of a plane, drawn at 30 degrees. Left: eight inputs. Inputs joined by a dashed line differ only along the kernel of the read metric, so the consumer cannot tell them apart. Right: the quotient, in which each dashed line has become a single point, and the eight inputs are four. The read metric says how finely the read direction is resolved, and the quotient is the world the observer acts on. The points are illustrative.*
+
 ## The consumer table
 
 Here is the abstraction cashed out. Each row is a real consumer from the program's

@@ -140,6 +140,14 @@ fixed.
 **Why the harness passed.** It sampled only distortions at which every mode is active. That
 is the same pattern as NEG-17, and here the sharpening itself was the error.
 
+![Figure 16.1](figures/ch16_fig1.svg)
+
+*Figure 16.1. A schematic of the KV-key ladder, NEG-5 to NEG-9. Each box is a sealed proxy or test that was refuted, with what the refutation showed. Each miss located the next hypothesis, and the sequence ends at the direct trace, which gets the discriminating flip right 12 of 12 times and is still not a complete rank statistic. NEG-5 refutes the registered test and not claim GO-2.*
+
+![Figure 16.2](figures/ch16_fig2.svg)
+
+*Figure 16.2. NEG-18, the refuted dispersion constant, against what was measured. The claim V = (r_D/2) log² e, which counts only the modes above the water level, gives 1.0 on the test case and is drawn as a dashed outline because it is [refuted]. A Monte Carlo of the definition gives 1.226. The corrected formula, in which each mode below the level adds (γ/θ)²/2, gives 1.225. The vertical axis is the dispersion V in the units the chapter prints. What stands is the bound: the dispersion counts at most the read dimensions.*
+
 ## The four kinds of boundary
 
 The negatives are not a random pile; they sort into the four degeneracies of $P_C$ (Chapter
