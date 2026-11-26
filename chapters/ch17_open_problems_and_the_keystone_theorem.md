@@ -61,8 +61,9 @@ $\tau_\nu=p\log_2(1/a)$ bits per symbol, an upper bound on what is paid). *Costs
 costs $2pm$ consumer queries by central differences, whose error of order $h^2$ adds to
 $\varepsilon_\pm$; a decoder that does not probe can be sent $\hat Q$ once in
 $O(p^2\log(p\kappa/\varepsilon_q))$ bits that carry no information about the source. Three
-fresh-context audits (ledger VI-22 to VI-24) found errors in remarks and wording only, all
-corrected, and the author has read all its proofs (2026-11-18). Read operators of lower rank with a
+fresh-context audits (ledger VI-22 to VI-24) found no false mathematical step; their
+findings (errors in remarks and wording, gaps, overstatements) were all applied, and, by the
+author's own statement of 2026-11-18, the author has read all its proofs. Read operators of lower rank with a
 kernel that does not move are covered in RLD I–III. Still open, and still the heart of the
 original statement: one code, chosen from $\hat Q$ alone, that serves every consumer of a
 class; codes in the process settings of RLD II–IV; a converse without the sandwich; a kernel
@@ -146,7 +147,7 @@ From the LEGIBILITY leg (Chapter 9) comes a clean mathematical conjecture. The
 Green-kernel rank-limit theorem reduces Angular Preservation, for intrinsic dimension
 $d \le 3$, to the **positivity of a single geometric coefficient** — the leading
 Green-kernel rank coefficient — and proves rank 1 on the two-point homogeneous spaces
-$S^2, S^3, \mathbb{RP}^2, \mathbb{RP}^3$ [proved]. The **conjecture** is that this
+$S^2, S^3, \mathbb{RP}^2, \mathbb{RP}^3$ (proved in Paper I; not yet a ledger row). The **conjecture** is that this
 coefficient is positive on a broad class of manifolds beyond the two-point homogeneous
 ones, which would extend Angular Preservation's rank form from the exactly-solvable
 symmetric cases to the general $d \le 3$ setting [status: conjectured]. It is a

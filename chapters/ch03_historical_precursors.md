@@ -89,7 +89,7 @@ Read through the observer, it says something narrower and recoverable. The commu
 distance is the reading of the embedding by *one* consumer — the one that ranks by
 that distance — and the theorem is a statement about that consumer's read metric. Put
 the embedding in polar form and the collapse is confined to the *radial* coordinate;
-the *angular* coordinate keeps the geodesics [proved]. The geometry did not vanish;
+the *angular* coordinate keeps the geodesics (proved in Paper I; not yet a ledger row). The geometry did not vanish;
 it moved into the coordinate the distance-reading discards. This is the LEGIBILITY
 shadow (Chapter 9), and it is the concrete case that taught the program the general
 lesson: a degeneracy theorem for a representation is often a theorem about *one

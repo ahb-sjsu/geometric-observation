@@ -40,8 +40,8 @@ def fig_12_1():
             "one-standard-deviation contour of the source and three read directions. Right: κ against φ. A consumer "
             "that reads the high-energy axis has κ = 0.9, the coupling end, where reconstruction-optimal coding "
             "already protects what is read. A consumer that reads the quiet axis has κ = 0.1, the end where the "
-            "chapter places the flip. The figure does not draw the flip magnitude, which the chapter reports only as "
-            "a retrospective [exploratory] fit and one sealed [predicted] point.",
+            "chapter places the flip. The figure draws no flip magnitude: the chapter reports that the magnitude law "
+            "failed (an [exploratory] honest negative) and that registration 040, which was to test it, was never sealed.",
             "## Two axes, not one")
     c = Canvas(720, 400, "The alignment κ: how much energy lies where the consumer reads")
     cx, cy, s = 180, 220, 140
@@ -85,7 +85,7 @@ def fig_13_1():
             "The three criteria of a flip on held-out data, in three wave physics (registration GO-P-2026-034). Bars "
             "are fractions of held-out cases: the read-preserving arm wins downstream (flip), the "
             "reconstruction-optimal arm reconstructs better (the trade), and the arm with the read direction destroyed "
-            "is worst (the control). D2 and D3 are [demonstrated] on disjoint held-out recordings and events. D1 is "
+            "is worst (the control). D2 and D3 are [predicted, hit] on disjoint held-out recordings and events. D1 is "
             "[predicted → partial, registered miss]: its control is 60% against a sealed bar of 70%, and its split is "
             "within one recording because the disjoint set could not be downloaded. The sealed bar is drawn for D1 "
             "only, since that is the one the chapter prints.",
@@ -121,7 +121,7 @@ def fig_14_1():
             "A schematic of the six class tags and the two promotions the chapter states. The top row is ordered by "
             "how much each class demands. An [exploratory] finding reaches [demonstrated] only through a fresh sealed "
             "prereg and a run on held-out data (rule R-IND-6), never by a replay of the set it was first seen on. "
-            "[proved] needs three things together. [refuted] is a bet lost, and it stays in print. The diagram "
+            "[proved] needs four things together. [refuted] is a bet lost, and it stays in print. The diagram "
             "restates the definitions; it reports no result.",
             "## The six")
     c = Canvas(720, 420, "How a claim earns its class")
@@ -138,8 +138,9 @@ def fig_14_1():
     c.arrow(210, 262, 328, 144, INK2, 1.5)
     c.text(290, 200, "R-IND-6: a fresh sealed prereg", 11, "start", INK)
     c.text(290, 216, "and a run on held-out data", 11, "start", INK)
-    c.box(510, 250, 180, 56, "[proved]", "all three of:")
-    for k, s in enumerate(("a written proof", "a committed falsification harness", "a fresh-context re-derivation")):
+    c.box(510, 250, 180, 56, "[proved]", "all four of:")
+    for k, s in enumerate(("a written proof", "a committed falsification harness", "a fresh-context re-derivation",
+                           "a constants and known-gaps table")):
         c.text(600, 326 + 16 * k, s, 10.5, "middle", INK2)
     c.box(270, 320, 180, 56, "[refuted]", "a bet lost, kept in print")
     c.save(p)
@@ -272,17 +273,17 @@ def fig_18_1():
 
 # ------------------------------------------------------------------ chapter 19
 def fig_19_1():
-    k = 0.177
+    # Schematic only: Chapter 21 reports that no proportionality law between the refresh floor and
+    # the coherence time survived the sealed rerun (the 0.177 fit is refuted), so no ratio is claimed.
     phi = 100.0
-    tcoh = phi / k
-    assert abs(phi / tcoh - 0.177) < 1e-12
+    tcoh = 3.0 * phi
     p = reg("chapters/ch19_the_certificate_that_ages.md", "19.1",
             "A schematic of the witnessed triple on a time axis. Each bar is one certificate, a claim that the "
             "consumer's read is within tolerance, valid from its issue until it is renewed. The certificate issued at "
             "t is acted on at t + Δ, and it can be wrong for no reason other than Δ. The witness is an independent "
             "measurement of the true outcome, and it grades the claim at the time of use. The renewal interval is the "
-            "refresh floor φ, drawn at 0.177 of the coherence time, the slope this chapter quotes from Chapter 21 for "
-            "one 5G physical layer [demonstrated]; on another substrate the ratio may differ.",
+            "refresh floor φ, drawn shorter than the coherence time. The ratio is schematic: Chapter 21 reports that the "
+            "proportionality law once fitted between them is refuted, and that no constant survived the sealed rerun.",
             "## The false-clear rate")
     c = Canvas(720, 400, "A certificate is issued at one time and used at another")
     x0 = 70
@@ -308,7 +309,7 @@ def fig_19_1():
     c.box(250, 318, 330, 50, "witness W", "an independent measurement of the true outcome")
     c.line(250, 343, xu, 343, INK2, 1.5)
     c.arrow(xu, 343, xu, 304, INK2, 1.5)
-    c.text(40, 388, "schematic; φ / T_coh drawn at 0.177", 10.5, "start", INK3, italic=True)
+    c.text(40, 388, "schematic; no ratio of φ to T_coh is claimed", 10.5, "start", INK3, italic=True)
     c.save(p)
 
 

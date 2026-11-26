@@ -16,8 +16,8 @@ operator. The claim is not the operator; it is the *load*: that this pullback is
 operative object for **lossy representation across domains** — the thing that decides
 whether a quantizer, embedding, or array codec is good — and that it is recoverable
 *blind*. Information geometry studies the pullback for inference *on* a manifold; this
-program uses it to decide how to *compress inputs to* a consumer, proves a falsifiable
-consequence (the flip), and seals it across twelve domains. The contribution is the
+program uses it to decide how to *compress inputs to* a consumer, derives a falsifiable
+consequence (the flip), and puts it at risk in twelve domains (Chapter 13). The contribution is the
 sentence and its ledger, not the symbol.
 
 ---
@@ -40,7 +40,8 @@ framework explains *why it works and when it will not.*
 
 This is the objection the program takes most seriously, because it is exactly the failure
 it *caught in itself* — twice. Legal-035 estimated the read operator from a document
-covariance, and it **overfit**: reconstruction-optimal won on held-out (NEG, Chapter 10).
+covariance, and it **overfit**: reconstruction-optimal won on held-out (a registered miss,
+Chapter 10).
 The fix was not to fit harder but to recover the operator *blind* from the consumer
 (GO-1 probe) and to **seal the config before touching held-out data**, then confirm on a
 **fully virgin** split (039, margin double). The commit-ordering audit (Appendix D) proves
@@ -56,8 +57,8 @@ and out-of-sample promotion (R-IND-6). Where the program could not meet this bar
 You should not trust the assistant's self-grade, and the program does not ask you to. The
 charter's first rule is that the assistant **may not be the sole grader of its own work**
 (Chapter 15). Independence is supplied by fresh-context adversarial verification (R-IND-5),
-differential testing against a second implementation (R-IND-3), and, for the flagship
-theorem, a proof assistant. The standing evidence that this is necessary *and* works is
+differential testing against a second implementation (R-IND-3), and, for a set of
+lemmas and identities (GO-16's lemmas, Paper V's identity layer), a proof assistant. The standing evidence that this is necessary *and* works is
 VI-4: an in-context self-check passed a **wrong** `sigma_star` formula; the fresh-context
 pass caught it. "Yes, and": there is no *mature* standard for verifying AI-assisted work
 independently of the assistant, and the program says so plainly (Chapter 15's frontier
@@ -71,10 +72,12 @@ is unfalsifiable."**
 The opposite: the theory predicts its exceptions *in advance and mechanistically*, which
 is what makes it falsifiable rather than elastic. The four degeneracies of $P_C$ (Chapter
 12) are a closed list, three of them diagnosable *before* the experiment via the $\kappa$
-dial and the two-axis regime map. D4 was predicted to be a coupling null *and was* (flip
-27%, anti 300/300). The one-number regime shortcut (NEG-14) was **refuted on its first
-prospective test** — a genuinely unfalsifiable theory cannot log a refutation of its own
-diagnostic. The exceptions are sealed predictions, not retrofitted excuses.
+dial and the two-axis regime map. D4 was registered to show the flip and missed it
+(flip 27%, anti 300/300); the coupling diagnosis came after the run, and it now stands as
+a boundary stated before the next domain is tested. The one-number regime shortcut
+(NEG-14) was **refuted on its first prospective test** — a genuinely unfalsifiable theory
+cannot log a refutation of its own diagnostic. The exceptions are stated ahead of the
+tests that could break them, not kept in reserve as excuses.
 
 ---
 
@@ -87,7 +90,8 @@ recommendation); moral, music, and KV-keys are labeled *verdicts*, not flips, an
 counted as flips. D1 is labeled **partial** (data-limited, anti below bar); D4 is labeled
 an **honest null** (a true boundary). The sealed flips that clear their bars span
 **≥5 independent domains and ≥3 distinct physics** (synthetic, acoustic, seismic) plus
-non-physical consumers (attention, classifiers, retrieval) — that is the real count, and
+non-physical consumers (a dialect classifier, citation retrieval; the attention rematch,
+021, is worse-arm discrimination, not a flip) — that is the real count, and
 it is stated without the verdicts or the null padding it.
 
 ---

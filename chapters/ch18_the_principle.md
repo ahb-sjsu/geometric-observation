@@ -1,12 +1,12 @@
 # Chapter 18 — The Principle: Keep the Structure the Observer Can Use
 
-Every volume of this series ends by reducing its framework to a single sentence, and
-this one is no exception. Seventeen chapters, seven theorems, twelve domains, and sixteen
-honest negatives reduce to five words:
+Every volume of this series reduces its framework to a single sentence, and this one is
+no exception. The seventeen chapters before this one, their theorems, the twelve domains of
+the sweep, and the honest negatives of Chapter 16 reduce to five words:
 
 > **Keep the structure the observer can use.**
 
-The rest of this closing chapter says what those five words license, what they do not,
+The rest of this chapter says what those five words license, what they do not,
 and why the framework they name is best understood as one theory — a consumer-relative
 rate–distortion theory, a *quantized Shannon* — of which classical information theory is
 a single slice.
@@ -59,9 +59,10 @@ relative rate–distortion thesis is the spine, and Shannon is the $P_C = I$ ver
 It says: **do not measure a code by its reconstruction error unless your observer is
 isotropic.** Measure it by the read distortion $\operatorname{tr}(P_C\Sigma_\delta)$,
 and when you cannot write $P_C$ down, *recover it* with the blind probe. It says: **the
-worse-reconstructing code can be the right code**, on purpose, and you can tell in
-advance whether it will be, by measuring the alignment $\kappa$ and placing your domain
-on the two-axis regime map. It says: **adapt, do not universalize** — no single code
+worse-reconstructing code can be the right code**, on purpose, and you can judge in
+advance whether it will be, by measuring the alignment $\kappa$ (an ordering with an exact
+null, not a law of the flip's size) and placing your domain on the two-axis regime map
+(an exploratory diagnostic, not yet a ledger row; Chapter 12). It says: **adapt, do not universalize** — no single code
 wins across regimes, and the domain-dependence of the flip is the reason an adaptive
 selector, not a universal codec, is the correct engineering object. And it says, in the
 LEGIBILITY register: **when a representation looks degenerate, ask which observer's
@@ -109,4 +110,4 @@ answerable, one observer at a time.
 Keep the structure the observer can use. It is the whole of the theory, and it is the
 name of the next thing to build.
 
-*— end of the main text —*
+*— end of Part VII —*

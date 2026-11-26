@@ -42,7 +42,7 @@ finer geometry only in the constant and the corrections. This means the eigenval
 *ordering* fixes $d$ **before** it fixes the shape: you can read how many dimensions a
 representation has from the growth rate of its spectrum, while the question of *which*
 $d$-manifold it is requires the finer multiplet structure that emerges later in the
-spectrum [demonstrated — the Weyl-ordering derivation, Paper I.5].
+spectrum (the Weyl-ordering derivation, Paper I.5; not yet a ledger row).
 
 The slogan "dimension emerges before shape" is not a metaphor. It is the statement that
 the map (representation) $\to$ (intrinsic dimension) is legible from a coarser
@@ -80,7 +80,9 @@ or certifies that it approximates none, and "dimension emerges before shape" app
 here too: the substrate's dimension stabilizes before its shape does as it grows. (A
 gotcha the program logged: the maximum generation must scale with the budget, or the
 substrate is read before its geometry has settled — a measurement artifact, not a
-property of the substrate.)
+property of the substrate.) No result of this application is recorded in this
+repository or in the ledger; it is reported here as the program's account, not as a
+ledger row.
 
 ## The recognizer as a consumer
 

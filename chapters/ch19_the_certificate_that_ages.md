@@ -66,12 +66,12 @@ deployed, and that is the point:
 | quantum | device calibration | randomized / mirror benchmarking |
 
 **The refresh floor** $\phi$: the maximum renewal interval that keeps the certificate
-honest. It is not a convention; it is set by the coherence time, and Chapter 21
-measures the constant.
+honest. It is not a convention; it depends on how fast the certified state
+decorrelates, and Chapter 21 records what has been measured of it.
 
 ![Figure 19.1](figures/ch19_fig1.svg)
 
-*Figure 19.1. A schematic of the witnessed triple on a time axis. Each bar is one certificate, a claim that the consumer's read is within tolerance, valid from its issue until it is renewed. The certificate issued at t is acted on at t + Δ, and it can be wrong for no reason other than Δ. The witness is an independent measurement of the true outcome, and it grades the claim at the time of use. The renewal interval is the refresh floor φ, drawn at 0.177 of the coherence time, the slope this chapter quotes from Chapter 21 for one 5G physical layer [demonstrated]; on another substrate the ratio may differ.*
+*Figure 19.1. A schematic of the witnessed triple on a time axis. Each bar is one certificate, a claim that the consumer's read is within tolerance, valid from its issue until it is renewed. The certificate issued at t is acted on at t + Δ, and it can be wrong for no reason other than Δ. The witness is an independent measurement of the true outcome, and it grades the claim at the time of use. The renewal interval is the refresh floor φ, drawn shorter than the coherence time. The ratio is schematic: Chapter 21 reports that the proportionality law once fitted between them is refuted, and that no constant survived the sealed rerun.*
 
 ## The false-clear rate
 
@@ -117,10 +117,14 @@ The remaining chapters make the triple operational and then earn it across domai
 
 - **Ch. 20** develops FC as a first-class KPI and the stark consumer-relativity of
   staleness — the vacuity of the aggregate certificate.
-- **Ch. 21** measures the refresh floor: on a real 5G physical layer the usable
-  report period scales linearly with coherence time (slope $\approx 0.177$, $R^2
-  \approx 0.92$) [demonstrated], and the optimal linear predictor cannot extend the
-  horizon past one coherence time — a wall, not a knob.
+- **Ch. 21** takes up the refresh floor. On a real 5G physical layer an unsealed
+  exploration fitted the usable report period as linear in coherence time (slope
+  $\approx 0.177$, $R^2 \approx 0.92$). Its source now records that fit as refuted:
+  the floors were measured at a relaxed 0.15 threshold against a 0.10 budget, and the
+  sealed rerun at the 0.10 budget finds a horizon of a few TTI at 10 Hz and one TTI at
+  50 Hz and above, with no proportionality law to fit. Separately, the optimal linear
+  predictor cannot extend the horizon past one coherence time [exploratory] — a
+  wall, not a knob.
 - **Ch. 22** runs the freshness sweep: the same witnessed-certificate grammar,
   measured across routing, replication and coordination, cellular PHY/RAN, and —
   as breadth — optical, power-grid, market, quantum, and AI-evaluation substrates.

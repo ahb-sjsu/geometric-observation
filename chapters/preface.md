@@ -25,6 +25,8 @@
 > happened to protect those few directions would have kept the model sharp. She had
 > been optimizing the wrong metric with great precision. This book is about the
 > right one.
+>
+> *(Maya is a composite, and her story is illustrative.)*
 
 ---
 
@@ -49,7 +51,7 @@ almost undamaged. The geometry had not died. It had moved into the coordinate
 nobody was reading. Keeping only the angle is exactly the row-normalization step in
 Ng–Jordan–Weiss spectral clustering, a move practitioners had been making for years
 on the grounds that it "worked"; the polar decomposition said *why* it worked, and
-gave it a metric-geometric justification. [proved]
+gave it a metric-geometric justification (proved in Paper I; not yet a ledger row).
 
 That was supposed to be the whole story: a small correction to a spectral-embedding
 folk theorem. It was a footnote. It refused to stay one.
@@ -95,8 +97,9 @@ entirely: it appears in direction-of-arrival estimation on a microphone array
 [predicted], in a second, independent acoustic corpus [predicted], and — the one I
 did not expect — in *seismic backazimuth*, elastic waves from real earthquakes read
 by a thirteen-element array in the ground, where a compressor that reconstructs the
-waveform better points at the wrong epicenter [predicted]. Twelve domains. Three
-distinct branches of physics — electromagnetic, acoustic, elastic. One mechanism.
+waveform better points at the wrong epicenter [predicted]. Twelve domains put at
+risk, six of them sealed flips. Three distinct branches of physics — acoustic and
+elastic, and, in part, electromagnetic. One mechanism.
 When a picture drawn from a graph-embedding footnote predicts which quantizer will
 best locate an earthquake, either it is a coincidence of unusual size or the
 footnote was never small.
@@ -165,16 +168,17 @@ coupled, and we say so [refuted]. A density quotient we hoped would generalize
 outside diffusion was refuted across four domains [refuted]. A blind probe on a real
 frontier model recovered the read operator but missed its sealed bar, bounding the
 theory to synthetic consumers on that evidence until a corrected design passed
-[refuted → demonstrated]. These are not embarrassments to be managed. They are the
+[refuted → predicted, hit]. These are not embarrassments to be managed. They are the
 boundaries of the result, and a result without stated boundaries is not a result.
 The program's governing sentence, inherited from the series and enforced here by a
 written charter, is: *the book may not assert what the ledger cannot show.*
 
 ---
 
-The book has seven parts, moving from the problem through the framework and its
-three shadows to the instruments, the evidence, and the discipline that produced
-it. Part VI, on that discipline, could have been an appendix; I have made it a part
+The book has nine parts. The first seven move from the problem through the
+framework and its three shadows to the instruments, the evidence, and the discipline
+that produced it; the last two follow the read metric in time (Part VIII) and beyond
+a single consumer (Part IX). Part VI, on that discipline, could have been an appendix; I have made it a part
 because in a program co-designed with an embedded AI assistant — one that may
 propose and derive and draft, but that *may not be the sole grader of its own
 work* — how the claims are kept honest is not separable from what they are.

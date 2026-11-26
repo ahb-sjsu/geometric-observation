@@ -4,7 +4,7 @@ A mechanism first shown on transformer keys and graph embeddings could be a fact
 transformer keys and graph embeddings. The only way to know whether the flip is a
 *property of observation* or an artifact of its birth regimes is to put it at risk
 somewhere it has no right to work. This chapter is that sweep: twelve domains, three
-distinct branches of physics, one compressor, every row config-frozen on a calibration
+distinct branches of physics, one compressor across the real-array rows, every row config-frozen on a calibration
 split and scored on held-out data, every outcome reported regardless of sign. It is the
 book's broadest empirical claim, and its most important negatives are in it, not
 quarantined into Chapter 16.
@@ -50,7 +50,8 @@ code beats reconstruction-optimal Lloyd–Max at matched bits on 25/25 held-out 
 Lloyd reconstructs the raw signal better on 25/25 (the textbook flip, median flip_fail
 0.41°). But the **anti control is 15/25 = 60% < the sealed 70%** — the tiny 8-element array's ~15°
 resolution lets phase-destroyed snapshots occasionally land near the reference — and the
-data was download-limited (the disjoint-recording set is 310 GB behind a 403), forcing a
+data was download-limited (the full set is about 800 GB, the indoor recordings alone
+310 GB, behind an HTTP 403), forcing a
 within-recording split. Two of three sealed bars pass; the anti control and the disjoint
 held-out do not → **partial** [predicted → partial, registered miss]. The flip mechanism
 transfers to a different physics; a *clean* D1 confirm awaits the full data.
@@ -59,14 +60,15 @@ transfers to a different physics; a *clean* D1 confirm awaits the full data.
 different array (8-mic circular), room, speakers; camera-tracked 3D-mouth GT (1.2 cm).
 Scored against *absolute* tracked GT, no reference amendment. Held-out disjoint
 recordings, $n = 201$: flip 148/201 (74%), recon-trade 201/201, anti 152/201, median
-flip_fail 0.28° [demonstrated — GO-P-2026-034 D2]. The strongest of the real-data domains.
+flip_fail 0.28° [predicted, hit — GO-P-2026-034 D2]. The strongest of the battery's
+real-data domains.
 
 **Elastic (D3, PDAR) — confirmed.** A third distinct physics: elastic waves from real
 M≥6.5 earthquakes, a 13-element IMS short-period array, incoherent wideband MUSIC over
 backazimuth at the theoretical teleseismic-P slowness. Scored against the *absolute*
 USGS catalogue backazimuth (great-circle array→epicentre; no reference amendment — the
 array resolves baz to a few degrees). Held-out disjoint ~2018 events, $n = 17$: flip
-13/17 (76%), recon-trade 17/17, anti 13/17, median flip_fail 0.00° [demonstrated —
+13/17 (76%), recon-trade 17/17, anti 13/17, median flip_fail 0.00° [predicted, hit —
 GO-P-2026-034 D3]. A quantizer that reconstructs the seismogram better locates the
 earthquake worse.
 
@@ -75,7 +77,7 @@ prospective domains — is **met** [predicted → met].
 
 ![Figure 13.1](figures/ch13_fig1.svg)
 
-*Figure 13.1. The three criteria of a flip on held-out data, in three wave physics (registration GO-P-2026-034). Bars are fractions of held-out cases: the read-preserving arm wins downstream (flip), the reconstruction-optimal arm reconstructs better (the trade), and the arm with the read direction destroyed is worst (the control). D2 and D3 are [demonstrated] on disjoint held-out recordings and events. D1 is [predicted → partial, registered miss]: its control is 60% against a sealed bar of 70%, and its split is within one recording because the disjoint set could not be downloaded. The sealed bar is drawn for D1 only, since that is the one the chapter prints.*
+*Figure 13.1. The three criteria of a flip on held-out data, in three wave physics (registration GO-P-2026-034). Bars are fractions of held-out cases: the read-preserving arm wins downstream (flip), the reconstruction-optimal arm reconstructs better (the trade), and the arm with the read direction destroyed is worst (the control). D2 and D3 are [predicted, hit] on disjoint held-out recordings and events. D1 is [predicted → partial, registered miss]: its control is 60% against a sealed bar of 70%, and its split is within one recording because the disjoint set could not be downloaded. The sealed bar is drawn for D1 only, since that is the one the chapter prints.*
 
 ## The non-physical confirmations
 
@@ -84,12 +86,12 @@ Beyond physics, the flip appears in consumers of pure information geometry.
 **Whale codas (W) — sealed flip.** Sperm-whale coda dialect, a clan classifier, 8718
 codas of inter-click-interval rhythm. Held-out read-preserving AUROC 0.934 > recon-optimal
 0.883, recon-trade (O reconstructs 2× better yet downstream-worse), flip 300/300
-[demonstrated — GO-P-2026-038, promoted from an (A2) verdict]. Distinct biology from every
+[predicted, hit — GO-P-2026-038, promoted from an (A2) verdict]. Distinct biology from every
 other row, and the clean proof (Chapter 12) that the regime map needs two axes.
 
 **Legal (L) — the identifiability story.** Citation-ranking, read operator recovered
 blind, 035 miss → 036/039 hit on a virgin split (R=0.796 > O=0.780, double the margin)
-[demonstrated — GO-P-2026-039]. The first real-consumer demonstration that the blind probe
+[predicted, hit — GO-P-2026-039]. The first real-consumer demonstration that the blind probe
 recovers a read operator that is both misaligned-with-energy and generalizing.
 
 **Moral, music, KV-keys (M, Mu, K) — (A2) verdicts.** Consistent with the flip via the
@@ -110,8 +112,10 @@ for.
 ## The verdict of the sweep
 
 The consumer-relative flip is a property of observation **wherever the read operator can
-be identified.** It confirms across acoustic, seismic, and synthetic physics; LLM
-attention; moral, genre, and dialect classifiers; and citation retrieval. It fails,
+be identified.** It confirms, as a sealed flip, across acoustic, seismic, and synthetic
+physics, a dialect classifier, and citation retrieval; LLM attention shows the weaker
+worse-arm discrimination (row A2, not a flip), and the moral and genre classifiers give (A2) verdicts
+consistent with it. It fails,
 *informatively*, exactly where the read operator is unidentifiable (fixable), coupled to
 the signal (a boundary), or attached to a consumer that does not work (a precondition).
 The one-encoder question is thereby answered — **adapt, don't universalize** — and the

@@ -56,10 +56,30 @@ run; `void` = a reservation abandoned unsealed.
 | **040** | κ magnitude-law prospective (reserved) | **void** | not sealed — κ magnitude law failed validation; reservation abandoned |
 | 041 | Blind non-oracle flip + magnitude (20NG) | sweep (blind) | **PARTIAL** — blind code prediction held; magnitude band missed |
 
+## The sequence after 041 (042 to 092)
+
+The table above was written when the sequence ended at 041. It now runs to **092**, and
+`claims/REGISTRY-ACCOUNTING.md` gives each of 042–092 its own row. By block:
+
+| IDs | Block | Disposition (per LEDGER and the accounting) |
+|---|---|---|
+| 042–054 | Paper V: theorem harnesses 042 and 044; the operational faces of GO-7, GO-8, GO-9 (Chapter 25) | all sealed and run; four registered misses, each superseded with its instrument defect named: 046→047 · 048→049 · 051→053 · 052→054 |
+| 055–074 | GO-10 to GO-13, the tax, the conditional region and the dynamic theory (Chapters 26, 27), with 056 and 057 | all sealed and run; **056** the KV-serving miss (NEG-16); **057** the Bell negative (NEG-15); **069** rerun under a one-cell instrumentation amendment, both artifacts kept |
+| 075 | KV access width on a serving system | **reserved, never sealed**: its pilot exposed a design failure before any bar was set; successor 077 |
+| 076, 078–086 | GO-14, causal erasure (Chapter 27) | ten sealed registrations, every pilot and amendment disclosed in its row |
+| 077 | Access width on a serving stack (Chapter 27) | sealed; split verdict: P1 `[demonstrated]`, P2 `[refuted]` (Chapter 16) |
+| 087–089 | The estimation-and-control campaigns, GO-EC-3, GO-EC-2, GO-EC-4 (Chapter 29) | sealed in this repository (63a6f56, 705f068), then migrated on 2026-08-19 to `observation-theory-campaigns`, where the runs live |
+| 090–091 | GO-16, the adversarial observer (Chapter 28) | sealed 3a74638 before the governed runs; 090's tie clause is NEG-17 |
+| 092 | The T1 worked result (Chapter 17) | **reserved, unsealed** (2026-11-20); no bar is final and no governed run exists |
+
+New registrations start at 093.
+
 ## Completeness argument
 
-The assigned sequence is **001–041 with two skips (029, 030) and one void (040)**, and
-every other ID resolves to a registered run reported in the ledger.
+The sequence 001–041 has **two skips (029, 030) and one void (040)**, and every other ID in
+it resolves to a registered run reported in the ledger. Of 042–092, only **075** (burned by
+its own pilot before any seal) and **092** (reserved for the T1 worked result) carry no
+sealed governed run, each with its reason on record.
 
 - **022–028** are the COST-face theorem harnesses (Paper III), a different shadow of the
   same object; their absence from the VALUE sweep is a scope boundary, not suppression.
@@ -72,7 +92,8 @@ every other ID resolves to a registered run reported in the ledger.
   a removed result.
 
 **Supersession chains** (each miss reported, then corrected): 001→002 · 007→008→009 ·
-012→013→014 · 016→017→018→019 · 020→021 · 032→033 · 035→036 (→039).
+012→013→014 · 016→017→018→019 · 020→021 · 032→033 · 035→036 (→039) · 046→047 ·
+048→049 · 051→053 · 052→054 · 056→(075 burned)→077.
 
 **No file-drawer holds:** every sealed run appears in the ledger regardless of sign; the
 only gaps carried no run.
@@ -84,7 +105,13 @@ DAG of the commit that first added its result — not merely an earlier calendar
 Checked with `git merge-base --is-ancestor <seal> <result-add>`; all pass (A2-021,
 A1-031, A3-033, D2/D3-034, L-036, W-038). Every result commit is strictly downstream of
 its seal; the ordering is verifiable at any snapshot, including the DOI'd release. (Full
-commit hashes in `claims/REGISTRY-ACCOUNTING.md`.)
+commit hashes in `claims/REGISTRY-ACCOUNTING.md`, which also audits the post-041 blocks.)
+
+**Content hashes.** Seal-before-run is not the same as an unchanged registration. The audit
+VI-25 (2026-11-19) found that 13 of 84 recorded hashes did not verify over their whole file
+and 6 more had been re-sealed over their originals; the hash record showed none of it, and
+ten of the thirteen were disclosed nowhere. Every case is now disclosed in `prereg/SEAL-DISCLOSURES.json`, and
+`scripts/verify_seals.py` checks every sealed registration in CI.
 
 ## Statistical audit (headline rows)
 

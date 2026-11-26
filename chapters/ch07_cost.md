@@ -2,8 +2,8 @@
 
 *This chapter and the two that follow are the thesis chapters of the book (staging
 tier [B]). Their theorems are stated here with their status; the proofs and the
-committed falsification harnesses live in Appendix B, and every numbered result
-resolves to a ledger row.*
+committed falsification harnesses of this chapter's theorems live in Appendix B, and
+each resolves to its entry there and, where one exists, to a ledger row.*
 
 If a consumer reads only $P_C$, what does it cost — in bits — to serve it? The answer
 is a rate–distortion theory in which the fidelity measure is the read distortion, and
@@ -43,7 +43,8 @@ reconstruction up to $\sim 500\times$ worse downstream at high rate because its 
 went to the unread directions [demonstrated — GO-P-2026-028, all bars pass, nonlinear
 consumer $d=8, r=4$; **disputed**: the harness is off the matched-rate premise, re-run
 owed (VI-32, VI-34)]. The isotropic control $P_C = I$ collapses the three coders, as
-it must — when the consumer reads everything, there is nothing to save.
+it must — when the consumer reads everything, there is nothing to save; the harness's
+control assigns the three curves the same array, so it cannot fail (VI-32).
 
 **The surrogate–output gap vanishes with rate.** GO-6 also supports Thm B3: the
 relative gap between an output-optimal code and a good surrogate shrinks (measured
@@ -83,7 +84,8 @@ The in-context derivation of the two-observer error covariance used a water-fill
 formula with an inline claim that a certain cap "never binds"; a fresh-context
 adversarial pass found the max-determinant error covariance is reverse water-filling
 in the *whitened* basis and the cap **does** bind on $\ker P$ (VI-4). The formula was
-corrected, the prereg amended and re-sealed, and the false pass logged with the same
+corrected, the prereg's prediction rewritten in place and re-sealed (a re-seal the charter
+no longer allows, disclosed since; Chapter 15, VI-25), and the false pass logged with the same
 prominence as a positive. The theorem statements — the abstract max-det program — were
 unaffected; the harness was wrong and the harness was fixed. This is what checking both
 the analytic claim and its numerical net buys you: they disagreed, and the disagreement was
@@ -151,9 +153,11 @@ The omission floor is not only a theorem. It was **measured biting a real langua
 model.** On trained Llama-3.2-3B read operators, the read-metric floor is reached on
 16/16 heads — $\operatorname{tr}(P\Sigma_\delta)$ saturates at the measured
 whitened-kernel value, while a naive $\Sigma_x = I$ assumption is off by 20–60% — and,
-crucially, a misidentified coder plateaus at a softmax divergence $\sim 10^5\times$
-the matched operator's (median $0.10$ nats versus $\sim 6\times10^{-7}$)
-[demonstrated — GO-P-2026-027, sealed before the run on held-out layers {4,20}]. This
+crucially, a misidentified coder plateaus at a softmax divergence $800$–$5700\times$
+the matched operator's (median floor $0.10$ nats)
+[demonstrated — GO-P-2026-027, sealed before the run on held-out layers {4,20}]; the
+exploratory follow-up that preceded it, on layers {8,16}, saw about $10^5\times$ (median
+$0.10$ nats versus $\sim 6\times10^{-7}$). This
 row has a history worth carrying: the *first* sealed finite-rate gate for it **missed**
 (0/16), because softmax-KL was still improving at the top swept rate — a shallow-sweep
 artifact that conflated *floor-reached* with *floor-exists* (NEG-13). The gate flaw was
@@ -174,8 +178,9 @@ observation. For a fixed per-symbol weight $Q$ the series finds the region of pa
 of rate and leakage:
 
 - **I** — Gaussian vectors: every frontier point is reverse water-filling on the
-  weight *tilted* by the holder's information, and the optimal directions turn with
-  the budget.
+  weight *tilted* by the holder's information, and the direction of the best
+  one-dimensional description turns with the budget unless it is a common generalized
+  eigenvector of the two parties' pencils (narrowed, VI-27).
 - **II** — stationary Gaussian processes: the same frequency by frequency under one
   level, and the spectral region is the operational one, for holders whose
   observation is filtered (with finite or infinite memory), delayed, or the whole
@@ -190,8 +195,9 @@ of rate and leakage:
   modulus in rate, and again in leakage only if the holder cannot observe it
   ($\rho_\star$ against $\rho_{\mathrm{hid}}$), for holders with finite or rational
   memory; poles on the unit circle (scalar) cost nothing; sources whose statistics
-  vary without a period, including the proof that incommensurate sampling removes
-  the dependence on the sampling phase, a conjecture of Tan, Dabora, and Poor; and
+  vary without a period, including the proof that incommensurate sampling of a
+  cyclostationary process with a correlation of finite range removes the dependence on
+  the sampling phase, a conjecture of Tan, Dabora, and Poor; and
   ergodically driven vector sources.
 
 Each result has a written proof, fresh-context model audits, and numerical checks
@@ -201,7 +207,7 @@ they are `[exploratory]` until promoted (ledger section RLD).
 The series takes two things as given, and they are the business of other chapters.
 **The weight.** The consumer's own geometry is the local read metric $P_C(x)$; the
 series' $Q$ is a fixed input, and the optimal *description* — an error covariance
-whose directions turn with the budget — depends on $Q$, the source, the holder, and
+whose directions can turn with the budget — depends on $Q$, the source, the holder, and
 $D$ together. That turning is the description's geometry, not the observer's: it
 does not mean the consumer's metric has changed. Replacing $P_C(x)$ by a constant $Q$
 is the bridge of Chapter 5, which has conditions and a price. **The knowledge of the

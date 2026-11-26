@@ -335,8 +335,8 @@ def fig_10_1():
 
 def fig_10_2():
     rows = [("035", "document covariance", "[refuted]", 0.757, 0.773, 0.016, "flip failed"),
-            ("036", "blind probe, same held-out data", "[demonstrated]", 0.779, 0.771, 0.008, "flip 200/200"),
-            ("039", "blind probe, fresh split", "[demonstrated]", 0.796, 0.780, 0.016, "flip 200/200")]
+            ("036", "blind probe, same held-out data", "[predicted, hit]", 0.779, 0.771, 0.008, "flip 200/200"),
+            ("039", "blind probe, fresh split", "[predicted, hit]", 0.796, 0.780, 0.016, "flip 200/200")]
     for _, _, _, r, o, d, _ in rows:
         assert abs(abs(r - o) - d) < 1e-9
     assert rows[0][3] < rows[0][4] and rows[1][3] > rows[1][4] and rows[2][3] > rows[2][4]
@@ -344,8 +344,8 @@ def fig_10_2():
             "The three legal-retrieval tests, with the downstream scores printed in the text for the read-preserving "
             "code R and the reconstruction-optimal code O. In 035 the read operator was the document covariance and O "
             "beat R: the flip failed [refuted]. In 036 the operator came from the blind probe and, on the same "
-            "held-out data, R beat O by 0.008 [demonstrated, GO-P-2026-036, 4/4]. In 039 the frozen recipe on a fresh "
-            "opinion-disjoint split gave R over O by 0.016 [demonstrated, GO-P-2026-039]. The horizontal axis starts "
+            "held-out data, R beat O by 0.008 [predicted, hit: GO-P-2026-036, 4/4]. In 039 the frozen recipe on a fresh "
+            "opinion-disjoint split gave R over O by 0.016 [predicted, hit: GO-P-2026-039]. The horizontal axis starts "
             "at 0.74, not at zero.",
             "## What the probe cannot promise")
     c = _canvas(720, 330, "The blind probe restores the flip that a covariance estimate lost")

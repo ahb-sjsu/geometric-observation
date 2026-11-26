@@ -11,7 +11,9 @@ resolves becomes the encoder's loss. The same record is also the instrument by w
 the encoder earns its value, so the encoder cannot simply stay silent.
 
 The material is ledger row GO-16, and the row's class cell is split. I give the split
-first, because every statement below carries one of its parts.
+first, because every statement below carries one of its parts. Theorem, corollary and
+conjecture numbers in this chapter are those of the GO-16 statement
+(`paper/go16-adversarial-observer.tex`), not of this book.
 
 - Theorems 1 and 2 at their scope, and the measured discrete twin: `[predicted]`
   (ledger row GO-16, registrations 090 and 091).
@@ -165,7 +167,10 @@ instance it ran was in the blackout regime. The first fresh-context pass in Augu
 had already flagged V6 as circular (finding 10) and had already found one fault in
 the same clause (finding 7); the two-regime statement written to repair it was the
 one that missed the blackout. Registration 090's file is unchanged; the refutation is
-disclosed in its registry row. Chapter 16 carries this negative as NEG-17 and draws
+disclosed in its registry row. Its only hash field, like 091's, records the harness's
+hash, not a content hash of the registration's own text, and 090's harness was hardened
+for CI after the governed run; re-running the sealed harness reproduces the governed
+verdict (VI-25, `prereg/SEAL-DISCLOSURES.json`). Chapter 16 carries this negative as NEG-17 and draws
 the lesson there: a passing gate certifies only what it can fail.
 
 **The corrected statement, at its grade.** What follows is netted, ungoverned and

@@ -46,13 +46,14 @@ prospective, PASS 5/5]. The scope is stated: a planted low-rank read subspace wi
 tanh consumer; the real-model consumer is the hardening, and the rest of the chapter is
 that hardening.
 
-The probe also generalizes to a *Hessian* read operator. In gradient compression
-against a curvature consumer, the blind projected variance $\operatorname{tr}(H
-\Sigma_\delta)/\operatorname{tr}(H\Sigma_0)$ tracks the update distortion 12/12 at
-identical reconstruction, while reconstruction is uninformative (Spearman $-0.20$)
-[predicted — GO-P-2026-010, Gate B, PASS 5/5]. The read operator $P_C$ is not tied to
-classification; it is whatever the consumer's second-order sensitivity is, and the
-probe finds it.
+The read operator also generalizes to a *Hessian*. In gradient compression against a
+curvature consumer, the projected variance $\operatorname{tr}(H
+\Sigma_\delta)/\operatorname{tr}(H\Sigma_0)$, computed from the planted curvature $H$,
+tracks the update distortion 12/12 at identical reconstruction, while reconstruction is
+uninformative (Spearman $-0.20$) [predicted — GO-P-2026-010, Gate B, PASS 5/5]. The read
+operator $P_C$ is not tied to classification; it is whatever the consumer's second-order
+sensitivity is. (In that test $H$ was given, not probed; recovering a curvature operator
+blind is not yet on the record.)
 
 ## The decisive test: a real consumer, recovered blind
 
@@ -77,7 +78,7 @@ GO-1 **blind probe** margin-sensitivity operator, kept low-rank ($r = 32$), with
 config chosen on an internal cal-A/cal-B split and **sealed before** touching the
 held-out set. On the *same* held-out data the verdict flipped: R=0.779 > O=0.771, flip
 200/200, recon O=0.220 ≪ R=0.584 (reconstruction-optimal reconstructs 2.6× better yet
-is downstream-worse) [demonstrated — GO-P-2026-036, 4/4]. The blind probe recovered a
+is downstream-worse) [predicted, hit — GO-P-2026-036, 4/4]. The blind probe recovered a
 read operator that was *both* misaligned-with-energy and generalizing — the two
 conditions the 035 negative proved necessary.
 
@@ -85,7 +86,7 @@ conditions the 035 negative proved necessary.
 and its margin was thin ($\Delta = 0.008$), the frozen 036 recipe was re-run on a fully
 virgin opinion-disjoint split, blind probe refit. All four bars passed with **double the
 margin** (R=0.796 > O=0.780, $\Delta = 0.016$; R even edges the uncompressed baseline —
-nuisance-stripping *denoises* the ranking), flip 200/200 [demonstrated —
+nuisance-stripping *denoises* the ranking), flip 200/200 [predicted, hit —
 GO-P-2026-039]. The held-out-reuse asterisk was removed.
 
 This is the first demonstration that the GO-1 blind probe, previously only
@@ -94,7 +95,7 @@ two properties the theory needs. It is the chapter's central result.
 
 ![Figure 10.2](figures/ch10_fig2.svg)
 
-*Figure 10.2. The three legal-retrieval tests, with the downstream scores printed in the text for the read-preserving code R and the reconstruction-optimal code O. In 035 the read operator was the document covariance and O beat R: the flip failed [refuted]. In 036 the operator came from the blind probe and, on the same held-out data, R beat O by 0.008 [demonstrated, GO-P-2026-036, 4/4]. In 039 the frozen recipe on a fresh opinion-disjoint split gave R over O by 0.016 [demonstrated, GO-P-2026-039]. The horizontal axis starts at 0.74, not at zero.*
+*Figure 10.2. The three legal-retrieval tests, with the downstream scores printed in the text for the read-preserving code R and the reconstruction-optimal code O. In 035 the read operator was the document covariance and O beat R: the flip failed [refuted]. In 036 the operator came from the blind probe and, on the same held-out data, R beat O by 0.008 [predicted, hit: GO-P-2026-036, 4/4]. In 039 the frozen recipe on a fresh opinion-disjoint split gave R over O by 0.016 [predicted, hit: GO-P-2026-039]. The horizontal axis starts at 0.74, not at zero.*
 
 ## What the probe cannot promise
 
@@ -103,13 +104,13 @@ prominence.
 
 **On a frontier attention head, blind recovery is real but was sub-bar (NEG-12).** On
 Llama-3.2-3B post-RoPE keys, the blind Jacobian probe recovered the read operator at
-median overlap 0.567 — real, ≈4.5× chance, with strong heads near 0.96 — but **missed
+median overlap 0.567 — real, ≈4.5× chance, with strong heads at 0.815 and 0.958 — but **missed
 the sealed 0.60 bar**, and because the registered quantizer pair was not
 reconstruction-matched, `proj_beats_recon` could not fire [refuted — NEG-12]. Two of
 three sealed triggers missed, bounding the theory to synthetic consumers *on that
 evidence*. The corrected rematch (recon-matched key codes) then passed cleanly —
 blind $\operatorname{tr}(\hat P\Sigma_\delta)$ predicts the worse arm 16/16, probe
-overlap 0.647 ≥ 0.60 [demonstrated — GO-P-2026-021] — but NEG-12 *stands as its own
+overlap 0.647 ≥ 0.60 [predicted, hit — GO-P-2026-021] — but NEG-12 *stands as its own
 negative*. The instrument works; the first sealed design for testing it on a real model
 was flawed, and both facts are on the record.
 

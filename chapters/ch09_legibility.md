@@ -19,7 +19,7 @@ geodesic-rank consumer — and its read metric, worked out, is *nondegenerate on
 angular coordinate and degenerate on the radial one.* The collapse is confined to the
 radius; the radius carries the degree and density (the nuisance the theorem says will
 swamp everything), and the **angle carries the graph geodesics, almost undamaged**
-[proved]. The geometry did not vanish. It moved into the coordinate the
+(proved in Paper I; not yet a ledger row). The geometry did not vanish. It moved into the coordinate the
 distance-reading discards, which is to say into the read subspace of the
 geodesic-rank observer and out of the kernel where density lives.
 
@@ -37,7 +37,7 @@ results. Row-normalization *is* the projection onto the angular coordinate, whic
 the read subspace of the geodesic-rank consumer, which *is* the coordinate the
 collapse spares. The heuristic was doing consumer-relative coding without a name for
 it: protecting the read subspace, quotienting the nuisance. Keep-the-Angle supplies the
-name and the theorem [proved].
+name and the theorem (proved in Paper I; not yet a ledger row).
 
 ## The exact mechanism: tangential noncollapse, not radius constancy
 
@@ -63,24 +63,26 @@ are where the theory is most testable.
 
 **The circle $S^1$: rank collapse, proved.** For the plain (unfiltered) commute filter
 on the circle, the angular read metric collapses to **rank 1** — an exact statement,
-provable in closed form [proved]. This is the cleanest instance of the read metric
+provable in closed form (proved in Paper I; not yet a ledger row). This is the cleanest instance of the read metric
 being genuinely low-rank: on $S^1$ the geodesic-rank observer reads *one* direction.
 
 **Flat tori: a uniform lower angular bound.** On flat tori the program proves a uniform
 lower bound on the angular preservation via a dyadic-block argument — the numerator and
 denominator of the angular sensitivity grow at the same dyadic rate and compensate,
-giving co-Lipschitz control that does *not* degrade with the mode count [proved]. Paired
+giving co-Lipschitz control that does *not* degrade with the mode count (proved in
+Paper I; not yet a ledger row). Paired
 with the exact upper-Lipschitz *divergence* for the commute filter (the sensitivity
 $\|dN_R(e_j)\|^2 = |K_R|/(d\,S_R)$, Lipschitz constant growing like $R^{1/2}$,
 $R/\sqrt{\log R}$, $R$ for $d = 1, 2, \ge 3$), these bracket the filter's behavior exactly
 and locate the phase transition. The spectral-filter phase diagram has three Weyl
 thresholds ($s > d/4$, $s > d/2$, $s > d/2 + 1$) and a **critical dimension $d = 4$**
-where the rank form's uniformity breaks [proved]. The rank form of Angular Preservation
+where the rank form's uniformity breaks (proved in Paper I; not yet a ledger row). The
+rank form of Angular Preservation
 is uniform *below* $d = 4$ — a Green-kernel rank-limit theorem shows that for intrinsic
 dimension $d \le 3$ the angular ranking converges, uniformly in the mode count, to a
 fixed Green-kernel ranking (exactly rank 1 on two-point homogeneous spaces $S^2, S^3,
 \mathbb{RP}^2, \mathbb{RP}^3$), reducing Angular Preservation to positivity of a single
-geometric coefficient [proved]; the positivity itself is the standing Green-rank
+geometric coefficient (proved in Paper I; not yet a ledger row); the positivity itself is the standing Green-rank
 conjecture (Chapter 17).
 
 The negative that bounds all this is NEG-1: fixed-scale, *uniform-in-$m$*
@@ -95,7 +97,8 @@ Two further legibility results generalize the idea past spectral embeddings.
 **The $\ker P_C$ membership test.** For the density-quotient family indexed by an
 exponent $\alpha$, the *sign* of the $\alpha = 1$ response is a membership test for
 $\ker P_C$: it tells you whether a given nuisance direction is truly in the observer's
-kernel [demonstrated, in the spectral/operator setting]. This is legibility as a
+kernel (measured in Paper I, in the spectral/operator setting; not yet a ledger row).
+This is legibility as a
 diagnostic — reading off, from a response sign, what the observer discards. Its
 *boundary* is one of the program's sharpest negatives: the hope that an $\alpha = 1$
 density quotient would restore fidelity *outside* diffusion was refuted across four
@@ -109,7 +112,7 @@ mechanism inside diffusion and a refuted one outside it, and the book says both.
 **Dimension emerges before shape.** The recognizer (Chapter 11) exploits a Weyl-law
 ordering: a representation's intrinsic *dimension* is legible from the low
 eigen-multiplet structure before its *shape* is — the counting function fixes $d$ ahead
-of the finer geometry [demonstrated]. You can read how many dimensions a manifold has
+of the finer geometry (measured in Paper I.5; not yet a ledger row). You can read how many dimensions a manifold has
 before you can read which manifold it is. This is legibility as staged revelation, and
 it is the principle the recognizer is built on.
 

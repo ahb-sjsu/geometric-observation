@@ -131,12 +131,12 @@ radial — when moving along the manifold moves the *direction* $u$ and not only
 magnitude $r$. The program calls this **tangential noncollapse**, and it borrows the
 label (A2) from the broader Observation-Theory framework as an organizing name. The
 exact normalization identity behind Keep-the-Angle locates the mechanism *here* — in
-tangential noncollapse — rather than in any constancy of the radius [proved]. The
+tangential noncollapse — rather than in any constancy of the radius (proved in Paper I; not yet a ledger row). The
 point for this chapter is structural: the read metric of the geodesic-rank consumer is
 nondegenerate on the angular coordinate exactly when (A2) holds, and the flip and the
 legibility both trace back to whether the consumer's read subspace is *misaligned*
-with the source's energy — a theme the alignment law $\kappa$ (Chapter 12) makes
-quantitative.
+with the source's energy — a theme the alignment law $\kappa$ (Chapter 12) turns
+into an ordinal test with an exact null condition.
 
 ## Identifiability, previewed
 
@@ -146,7 +146,7 @@ Chapter 10, is that $P_C$ is **identifiable from the consumer's behavior alone**
 recover the read subspace by finite-differencing the consumer's output, with no
 labels and no oracle direction, and this recovery has been demonstrated on planted
 subspaces (GO-1, [predicted]) and on a real citation-ranking consumer (the legal
-035→036→039 sequence, [demonstrated]). The read metric is not a quantity you must be
+035→036→039 sequence, [predicted, hit]). The read metric is not a quantity you must be
 handed; it is a quantity you can measure. Chapter 6 assembles the linear-algebraic
 machinery — pullbacks, projections, and the geometry of $\operatorname{tr}(P_C
 \Sigma_\delta)$ — that both the theory and the probe stand on.

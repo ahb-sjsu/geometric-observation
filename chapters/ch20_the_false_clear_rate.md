@@ -3,7 +3,8 @@
 > **STUB [A] — draftable now.** Source: `observation-theory-campaigns` freshness
 > cells + `FRESHNESS-PROGRAM.md`; ZK cell (`analysis/zk`, `ZK-USE-CASES.ipynb`);
 > routing D8 (`analysis/xproto`, `analysis/d8`). House voice per Ch. 19. Every
-> number resolves to a `SEALS.md` row (Appendix D/F).
+> number is to resolve to a `SEALS.md` row; neither Appendix D nor Appendix F, nor
+> `claims/LEDGER.md`, carries these rows yet.
 
 ## What this chapter must establish
 

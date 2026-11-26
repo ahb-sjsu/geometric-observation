@@ -274,7 +274,7 @@ bound survives.
   `verify_paper3_rate_identity.py` now nets. Reading it as the consumer problem's dispersion
   also needs the finite-$n$ reduction above, which stays `[exploratory]`, and kernel uniqueness,
   which is proved but on which no check can fail (VI-48). Identifying the variance with the dispersion is Kostina–Verdú's
-  Theorem 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
+  Thm 12, checked at the source on 2026-11-21 and independently by VI-38: it holds for
   abstract alphabets, and its restrictions (i)–(iv) and basic conditions (a)–(c) hold for
   the vector letter (`cor:dispersion`). VI-37 checked the uniqueness argument line by line
   and VI-38 found it right; VI-38 corrected restriction (iv): it is $\mathbb E[d^9]<\infty$, not the third moment the
@@ -300,7 +300,7 @@ replacement, "effective dimension $r_D$", was itself wrong for the dispersion (N
 | B1 | proof + R-IND-5 | none for `thm:coding` | 022 blk | VI-3, VI-32, VI-38 | `[exploratory]` (pending net + custody) |
 | B2 | — (registered prediction GO-6) | GO-6 (rates not exactly matched) | 028 | VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
 | B3 | PLAUSIBLE-w/-cond. (high-res.) | GO-6 | 028 | VI-3, VI-32, VI-34 | `[demonstrated]`, disputed; re-run owed |
-| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3]; `verify_paper3_nets` m1–m4 | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46 | max-det corner identity `[proved]` (PAPER-III.a); region, refinability and rate loss as coding statements `[exploratory]` |
+| B4 | proof + R-IND-5 | 022 (weak: misses VI-4's bug); `verify_rate_region` [3]; `verify_paper3_nets` m1–m4 | 022, 023 | VI-4, VI-32, VI-36, VI-37, VI-38, VI-39, VI-40, VI-42, VI-45, VI-46, VI-47 | max-det corner identity `[proved]` (PAPER-III.a); region, refinability and rate loss as coding statements `[exploratory]` |
 | B5 | proof (converse, $k=2$) + R-IND-5 | `verify_rate_region` [3] (the corner only) | 023 | VI-5, VI-32, VI-34, VI-37, VI-38, VI-39, VI-40 | corner identity `[proved]` (PAPER-III.a); region `[exploratory]` (converse unnetted; achievability under Assumption SR, unchecked, every $k$) |
 | B6 | proof + R-IND-5 + measured floor | 024 + 027 | 024/026/027 | VI-6, NEG-13, VI-32, VI-38 | `[predicted]`-grade; floor `[demonstrated]` |
 | B7 | reduction: proof + R-IND-5 | 025 (no check can fail); `verify_paper3_nets` m5–m6 (variance) | 025 | VI-7, **NEG-18**, VI-34, VI-36, VI-37, VI-38, VI-45, VI-46, VI-48, VI-49 | reduction `[exploratory]`; corrected $V$ as a variance `[proved]` (PAPER-III.b), as the dispersion `[exploratory]`; old constant `[refuted]` |
@@ -312,6 +312,6 @@ here has a custody table yet.
 
 The appendix used to end on "the discipline caught the errors, and the record shows
 where". That stays true, with a correction. The first round of passes caught four errors in
-seven derivations. A second round, three months later, found that one of the fixes (VI-7's)
+seven derivations. A second round, four months later, found that one of the fixes (VI-7's)
 was itself an error, and that one net (VI-4's) could not detect the bug it was built
 around. The discipline works only if the fixes are checked too.

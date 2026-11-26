@@ -20,9 +20,9 @@ series: where the earlier books each posit one domain's geometry, this one asks
 what *any* observer's geometry is made of, and answers with a mechanism that has
 been sealed, run, and — where it failed — reported failing. The falsifiable core
 (GO-1 … GO-6) is registered before measurement, verified in fresh contexts, and
-carried in a living ledger; the consumer-relative flip has **replicated across
-twelve domains and three distinct branches of physics**, and its boundaries are
-printed beside its wins. Everything the ledger cannot show is marked as posited
+carried in a living ledger; the consumer-relative flip has been **put at risk in
+twelve domains and three distinct branches of physics, and confirmed as a sealed
+flip in six of them**, and its boundaries are printed beside its wins. Everything the ledger cannot show is marked as posited
 theory at licensed strength. **The house rule of the whole series applies here in
 its strongest form: the book may not assert what the ledger cannot show.** Formal
 claims are tracked, one row per claim, in `claims/LEDGER.md`; the discipline that
@@ -58,11 +58,11 @@ they appear in the text.
 | $X/\!\sim_C$ (the quotient) | *the world the observer can act on* — objects it cannot tell apart are one point | Equivalence under $\ker P_C$; the space on which the consumer's verdicts live (Ch. 5) |
 | $\operatorname{tr}(P_C \Sigma_\delta)$ (read distortion) | how much of the coding error lands where the consumer looks | The quantity that controls downstream loss at matched rate — **not** $\|\delta\|^2$ (Ch. 6) |
 | $R_C(D)$ (the consumer rate–distortion function) | the price of observation | Achievability + converse for the read metric, whose water-filling tilts toward $P_C$ (Ch. 7, the COST shadow) |
-| The **flip** | preserving the read can beat reconstructing the object | Reconstruction-tied codes rank oppositely per consumer; sealed across 12 domains + 3 physics (Ch. 8, the VALUE shadow) |
+| The **flip** | preserving the read can beat reconstructing the object | Reconstruction-tied codes rank oppositely per consumer; tested in 12 domains + 3 physics, a sealed flip in 6 (Ch. 8, the VALUE shadow) |
 | Keep-the-Angle | in spectral embeddings the *angle* carries geodesics, the radius carries density | Angular coordinate is the read subspace of the geodesic-rank consumer; radius $\in \ker P_C$ (Ch. 9, the LEGIBILITY shadow) |
 | The blind probe (GO-1) | recover $P_C$ from the consumer's outputs alone, no labels, no oracle | Finite-difference the consumer margin; recovers the read subspace ex ante (Ch. 10) |
 | The recognizer | name the manifold a representation lies on, or certify that none exists | Low multiplets + angular distances; "dimension emerges before shape" (Weyl ordering) (Ch. 11) |
-| $\kappa = \operatorname{tr}(\bar P_C \bar\Sigma_x)$ (the alignment law) | *when* the flip appears — read/energy misalignment on a dial | Normalized read–energy overlap; flip magnitude decreasing in $\kappa$; $\kappa\to 1$ is the coupling null (Ch. 12) |
+| $\kappa = \operatorname{tr}(\bar P_C \bar\Sigma_x)$ (the alignment law) | *when* the flip appears — read/energy misalignment on an ordinal dial | Normalized read–energy overlap; $\kappa\to 1$ with read support equal to signal support is the coupling null; the magnitude law (flip decreasing in $\kappa$) failed (Ch. 12) |
 | The four degeneracies of $P_C$ | the four ways the flip is *absent* | coupling ($\operatorname{range} P_C$ aligned with source energy), precondition ($P_C \approx 0$), identifiability (wrong $\hat G$), mechanism-absent (direction $\notin \ker P_C$) (Ch. 12) |
 | The ledger | the living record of record | Six classes `[proved] [demonstrated] [replicated] [predicted] [exploratory] [refuted]`; every table ID resolves to a row (Ch. 15–16) |
 
@@ -77,8 +77,9 @@ wear a tag its ledger row has not earned.
 
 - **`[proved]`** — a complete written proof *and* a committed numerical
   falsification harness that would fail if the theorem were false, *and* a
-  fresh-context adversarial re-derivation on record. Both grades, or it is not
-  proved.
+  fresh-context adversarial re-derivation on record, *and* a table of its
+  constants, slack and known gaps (the charter's T-CUST-1). Both grades, or it is
+  not proved.
 - **`[demonstrated]`** — a sealed, pre-registered empirical prediction that passed
   its ex-ante bar on a governed run.
 - **`[replicated]`** — a `[demonstrated]` result reproduced on a second,

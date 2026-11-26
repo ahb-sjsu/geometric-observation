@@ -223,7 +223,7 @@ def fig_25_2():
     ls = [h2(0.5 * (1 - (1 - 2 * pflip) ** t)) for t in ts]
     p = reg("chapters/ch25_the_reset.md", "25.2",
             "Reset content against the age of the side information, for a record of one fair bit that flips with "
-            "probability 0.05 per step (Proposition 6). At age 0 the reset agent knows the bit and the content is 0. "
+            "probability 0.05 per step (Paper V's Proposition 6). At age 0 the reset agent knows the bit and the content is 0. "
             "As the side information ages the content rises toward 1 bit, and the predictive information, the "
             "complement, falls toward 0. The curve is the formula of the text, not a measurement; the measured "
             "thresholds are under GO-8 below.",

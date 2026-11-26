@@ -113,8 +113,8 @@ For completeness, the output metrics used across the book:
   $P_C$ is the outer product of the estimator's angular sensitivity — the array
   manifold derivative $a'(\theta_0)$, projected off the manifold span (the corrected
   read operator $\hat g = P_a^\perp a'(\theta_0)$ of the DOA work; using $\operatorname{span}(A)$
-  instead gives a degenerate scale-invariant reading, the VI that the DOA prereg
-  caught).
+  instead gives a degenerate scale-invariant reading, the design pivot that the DOA
+  prereg, GO-P-2026-031, logged after its first attempt returned zero error for every arm).
 - **Ranking (retrieval):** $G$ scores rank distortion; $P_C$ is (to leading order) the
   projector onto the query-response subspace, recovered blind by the margin-sensitivity
   probe $S = \mathbb{E}[g g^\top]$, $g = \hat a - \cos(a,b)\hat b$.

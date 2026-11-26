@@ -5,7 +5,8 @@ is misaligned with the signal energy, and (on learned representations) generaliz
 That sentence has three conditions, and each names a way the flip can be absent. This
 chapter makes the list complete and then makes it quantitative: the four degeneracies
 of $P_C$ are the exhaustive taxonomy of failure, and the alignment law $\kappa$ turns
-the decisive condition from a bucket into a dial you can read before you compress. This
+the decisive condition from a bucket into an ordinal dial you can read before you
+compress (an ordering, not a magnitude: the magnitude law failed, as below). This
 is where "know your consumer" stops being folklore.
 
 ## The four degeneracies of $P_C$
@@ -20,15 +21,16 @@ you used what the *signal* varies in (a covariance) as a stand-in for what the
 *consumer* reads. This is the **fixable** failure. Legal-035 is the reference instance:
 a document-covariance read operator overfit and reconstruction-optimal won on held-out;
 replacing it with the GO-1 blind probe (036/039) flipped the verdict on the identical
-data [refuted → demonstrated]. *The 035 miss was an identifiability failure, not a
+data [refuted → predicted, hit]. *The 035 miss was an identifiability failure, not a
 failure of the flip* — and the blind probe is its fix.
 
 **2. Coupling — the read operator is *intrinsically* aligned with the signal energy.**
 $P_C$ is estimated correctly and is *still* aligned with the source, because in this
 domain the directions the consumer reads *are* the directions the signal has energy in.
-Then reconstruction-optimal coding already protects the read directions, and the flip
-cannot appear no matter how well you recover $P_C$. This is a **true boundary**, not a
-bug. D4 (real-model gradient compression) is the reference: the Hessian's high-curvature
+Then reconstruction-optimal coding already protects the read directions, and at the
+rate tested the flip cannot appear no matter how well you recover $P_C$ (Paper IV shows
+the null is a low-rate one: at full alignment the flip is forbidden only below a rate
+fixed by the source spectrum). This is a **true boundary**, not a bug. D4 (real-model gradient compression) is the reference: the Hessian's high-curvature
 directions and the high-gradient-energy directions both come from $X^\top X$, so they
 coincide; the anti-probe stays robust (300/300 — the read operator *does* govern the
 task) but the subtle flip is 27% [refuted, as a flip; not rehabilitatable by any
@@ -38,7 +40,8 @@ read-operator recovery].
 directions because the consumer does not actually read the task. Moral judgment on
 *frozen* embeddings sits at chance (LaBSE 0.60 vs 0.63 majority): there is no moral read
 direction to protect until the consumer is fine-tuned, at which point (bert-base → 0.74)
-the flip appears [refuted-as-stated; needs a competent consumer, not a read-operator
+the probe returns an (A2) verdict consistent with the flip (Chapter 13, row M)
+[exploratory — no ledger row; it needs a competent consumer, not a read-operator
 fix].
 
 **4. Mechanism-absent — the claimed effect does not exist.** The direction you hoped to
@@ -64,25 +67,32 @@ $$ \kappa = \operatorname{tr}\!\big(\bar P_C\, \bar\Sigma_x\big), $$
 the (normalized) overlap of the average read metric with the source covariance on the
 read subspace. $\kappa$ is small when the consumer reads directions the signal is quiet
 in (strong misalignment — the flip regime) and approaches 1 when the read subspace *is*
-the high-energy subspace (the coupling regime — no flip). The **alignment law** is the
-claim that **flip magnitude decreases in $\kappa$**, with $\kappa \to 1$ the coupling
-null.
+the high-energy subspace (the coupling regime — no flip). The **alignment law**, as
+first stated, was the claim that **flip magnitude decreases in $\kappa$**, with
+$\kappa \to 1$ the coupling null.
 
-This converts boundary condition #2 from a discrete bucket ("coupled or not") into a
-continuous, *ex-ante* dial: measure $\kappa$ before compressing and you have a
-prediction of whether — and how strongly — the flip will appear, without running the
-downstream task. The law is tested two ways. **Retrospectively**, across the twelve
-measured domains, flip magnitude is decreasing in $\kappa$, with D4 sitting at the
-$\kappa \to 1$ null exactly as predicted [exploratory → the retrospective fit is labeled
-retrospective and does not license the umbrella claim]. **Prospectively**, one sealed
-prediction at an intermediate $\kappa$ is the confirmatory test [predicted]. The
-retrospective/prospective distinction is enforced, not cosmetic: the retrospective fit is
-an [exploratory] row and PROTOCOL Rule 1.1 forbids the umbrella text from leaning on it;
-only the sealed prospective point can promote the law.
+Had it held, it would have converted boundary condition #2 from a discrete bucket
+("coupled or not") into a continuous, *ex-ante* dial: measure $\kappa$ before
+compressing and read off whether — and how strongly — the flip will appear, without
+running the downstream task. **The magnitude law did not hold.** $\kappa$ was computed
+for the two analytic anchors (about 0.006 for the synthetic array read, where the flip
+is large; about 0.80 for the D4 gradient Hessian, the empirical null at flip 27%), and a
+controlled synthetic sweep that dialed $\kappa$ from 0 to 1 found the flip magnitude
+peaked, not monotone, under every normalization tried [exploratory — an honest negative,
+`results/GO-kappa-law.json`, Paper IV's remark on $\kappa$]. A faithful coupling model
+then showed why: the null at $\kappa = 1$ is sharp exactly when the signal's support
+equals the read support, and in that regime lowering $\kappa$ moves the read subspace
+into the vanishing-energy background, so the flip lands on negligible signal. What
+survives is ordinal: $\kappa$ is a coupling-null predictor with an exact null condition
+(read support equals signal support), not a magnitude dial. The one sealed prospective
+point that was to test the magnitude law (registration 040) was reserved and never
+sealed, because the law it would have tested did not survive validation; the registry
+lists 040 as void (Appendix D). The loss is kept here, where the law would have stood,
+and PROTOCOL Rule 1.1 keeps the umbrella text off the exploratory record.
 
 ![Figure 12.1](figures/ch12_fig1.svg)
 
-*Figure 12.1. The alignment κ = tr(P Σ) in two dimensions, as an illustration of the definition and not a measurement. The source has variances 0.9 and 0.1 (unit trace) and the consumer reads one direction (a rank-one read metric of unit trace) at angle φ to the high-energy axis, so κ = 0.9 cos²φ + 0.1 sin²φ. Left: the one-standard-deviation contour of the source and three read directions. Right: κ against φ. A consumer that reads the high-energy axis has κ = 0.9, the coupling end, where reconstruction-optimal coding already protects what is read. A consumer that reads the quiet axis has κ = 0.1, the end where the chapter places the flip. The figure does not draw the flip magnitude, which the chapter reports only as a retrospective [exploratory] fit and one sealed [predicted] point.*
+*Figure 12.1. The alignment κ = tr(P Σ) in two dimensions, as an illustration of the definition and not a measurement. The source has variances 0.9 and 0.1 (unit trace) and the consumer reads one direction (a rank-one read metric of unit trace) at angle φ to the high-energy axis, so κ = 0.9 cos²φ + 0.1 sin²φ. Left: the one-standard-deviation contour of the source and three read directions. Right: κ against φ. A consumer that reads the high-energy axis has κ = 0.9, the coupling end, where reconstruction-optimal coding already protects what is read. A consumer that reads the quiet axis has κ = 0.1, the end where the chapter places the flip. The figure draws no flip magnitude: the chapter reports that the magnitude law failed (an [exploratory] honest negative) and that registration 040, which was to test it, was never sealed.*
 
 ## Two axes, not one
 
@@ -106,8 +116,9 @@ probe's `probe_quotient` measures directly — is decisive. A tempting one-numbe
 prospective test** (NEG-14): a synthetic per-dimension-offset source had unit_disp 0.649
 (rule says "needs blind-probe") yet generic polar won at 1 bit. The reconciliation to the
 two-axis probe *stands*; only the single-number shortcut is refuted. The reliable
-diagnostic is `probe_quotient`, per domain, at low bits [refuted, for the shortcut;
-demonstrated, for the two-axis diagnostic].
+diagnostic is `probe_quotient`, per domain, at low bits [refuted — NEG-14, for the
+shortcut; the two-axis diagnostic rests on unsealed `a2_probe` characterizations and is
+not yet a ledger row].
 
 ## Why this is the last instrument
 

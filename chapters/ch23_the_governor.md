@@ -14,7 +14,7 @@
   post-mortem into a control signal.
 - **The escalation ladder** (encodes the cells' lessons):
   1. **refresh faster** — vacuous and reporting above the floor → shrink the period
-     to the floor (OT-14, Ch. 21);
+     to the floor (Ch. 21);
   2. **change mechanism** — already at the floor and still vacuous → refreshing
      cannot close the loop → add diversity (link certs) / re-route (serving certs) /
      re-layout (quantum) / mitigate;

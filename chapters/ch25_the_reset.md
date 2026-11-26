@@ -35,7 +35,7 @@ $$ W_n\ \ge\ n\,k_B T\ln 2\;L_n , $$
 
 with $k_B$ Boltzmann's constant. This bound, its asymptotic tightness, and the memory
 model are imported, not proved here (the paper cites Landauer 1961, del Rio and
-co-authors 2011, and Faist and co-authors 2015; ledger rows PAPER-V.a and PAPER-V.b
+co-authors 2011, and Faist and co-authors 2015; ledger rows PAPER-V.a and PAPER-V.d
 record the import). It prices only the reversible lower limit of resetting a classical
 degenerate memory, not sensing, transmission, error correction, or finite-time
 operation.
@@ -102,7 +102,7 @@ exposed boundary point minimizes $\alpha I(X;\hat X)+(1-\alpha)I(X;\hat X\mid S)
 +\beta\,\mathbb{E}\,d_C$ and satisfies a fixed-point equation that generalizes
 Blahut and Arimoto's (Proposition 1). For a deterministic consumer output
 $U=\mathcal C(X)$ recovered exactly, the minima are $R_C(0)=H(U)$ and
-$L_C(0\mid S)=H(U\mid S)$ (Corollary 2). And for two independent fair bits $X=(A,B)$
+$L_C(0\mid S)=H(U\mid S)$ (Paper V's Cor. 2). And for two independent fair bits $X=(A,B)$
 with $S=A$ and average Hamming distortion $D\le 1/4$, the lower boundary is
 
 $$
@@ -128,7 +128,8 @@ runs.
 
 For a Gaussian source the alphabets are continuous, so the results are statements about
 the single-letter region $\mathcal U(D)$. All three below are `[proved]` (ledger row
-PAPER-V.b, net sealed as registration 044).
+PAPER-V.b, net sealed as registration 044; its fresh-context passes are VI-9, VI-41,
+VI-43, VI-44 and VI-46 to VI-49).
 
 *No side information.* Let $X\sim\mathcal N(0,\Sigma)$ with $\Sigma\succ0$, let the
 distortion be $(x-\hat x)^{\mathsf T}P_C(x-\hat x)$, and let $\lambda_i$ be the nonzero
@@ -137,7 +138,7 @@ $\sum_i\min\{\lambda_i,\theta\}=D$,
 
 $$ R_C(D)=L_C(D)=\frac12\sum_i\Bigl[\log_2\frac{\lambda_i}{\theta}\Bigr]_+ $$
 
-(Corollary 4). The row excludes its operational
+(Paper V's Cor. 4). The row excludes its operational
 reading and the case of singular $\Sigma$, which is proved but not netted. Its own check
 in Paper V's sealed net is circular (VI-41), so its net is Paper III's rate-identity
 harness.
@@ -150,7 +151,7 @@ $$
 L\ge\tfrac12\log_2\frac{\sigma^2(1-\rho^2)+\rho^2D}{D}\Bigr\}
 $$
 
-(Proposition 3). The region is one quadrant, and one channel attains both bounds, so a
+(Paper V's Prop. 3). The region is one quadrant, and one channel attains both bounds, so a
 scalar source has no trade-off between rate and work. The discount
 $R_{\min}-L_{\min}=\tfrac12\log_2\frac{\sigma^2}{\sigma^2(1-\rho^2)+\rho^2D}$ decreases
 in $D$ and tends to $I(X;S)=\tfrac12\log_2\frac{1}{1-\rho^2}$ as $D\to0$.
@@ -169,16 +170,16 @@ R=\sum_i\tfrac12\log_2\frac{\sigma_i^2}{d_i},\qquad
 L=\sum_i\tfrac12\log_2\frac{c_i+\rho_i^2d_i}{d_i}
 $$
 
-(Proposition 4, reset water-filling). At $\alpha=1$ this is classical reverse
+(Paper V's Prop. 4, reset water-filling). At $\alpha=1$ this is classical reverse
 water-filling. At $\alpha=0$ it moves distortion toward the modes the reset agent knows
 least. The trade-off returns because modes differ in $\rho_i$: for two unit-variance
-modes with $\rho=(0.95,0)$ and $D=0.5$ the two endpoints differ by $0.1105$ bits of
+modes with $\rho=(0.95,0)$, equal weights, and $D=0.5$ the two endpoints differ by $0.1105$ bits of
 content and $0.1306$ bits of rate. The custody file `claims/custody/PAPER-V.b.md`
 records that the component inequalities of the proof are netted only in part, and that
 the code-level reading of both propositions belongs to row PAPER-V.c.
 
 If eigenmode $i$ is reset in a separate bank at temperature $T_i$, the least work is at
-$d_i^\star=\min\{\lambda_i,\nu T_i\}$ (Proposition 5, `[proved]`, row PAPER-V.a, as an
+$d_i^\star=\min\{\lambda_i,\nu T_i\}$ (Paper V's Prop. 5, `[proved]`, row PAPER-V.a, as an
 optimization inside an imported memory model).
 
 ## Storing the full block before projecting
@@ -209,7 +210,9 @@ audit VI-41 found that Corollary 3 had no written proof. The audit VI-43 found t
 restated corollary omitted the condition that consumer $j$ reads $M_j$ alone, without
 which the independent-reset clause is false. Both were fixed on 2026-11-21. The ledger
 also records that the class of row PAPER-V.d was written by the assistant after the
-author accepted the four-row split on 2026-11-21, and is open to the author's revision.
+author's reply of 2026-11-21 ("yes, I accept. Proceed as you recommend") to a question
+about the split and the class of that row, a question that carried no recommendation
+for the row, and that the class is open to the author's revision.
 
 ## Staleness
 
@@ -218,7 +221,7 @@ conditionally independent of the future given $X_0$. If the reset agent holds $X
 
 $$ L_t=H(M\mid X_t)=H(M)-I(M;X_t), $$
 
-and $L_t$ is nondecreasing in $t$ (Proposition 6, `[proved]`, row PAPER-V.a). For a fair
+and $L_t$ is nondecreasing in $t$ (Paper V's Prop. 6, `[proved]`, row PAPER-V.a). For a fair
 bit that flips with probability $p$ per step and $M=X_0$, with
 $q_t=\tfrac12\bigl(1-(1-2p)^t\bigr)$, the content is $L_t=h_2(q_t)$ and the predictive
 information is $1-h_2(q_t)$. Chapter 19 treats age as what makes a certificate false.
@@ -228,7 +231,7 @@ GO-12, `[predicted]`).
 
 ![Figure 25.2](figures/ch25_fig2.svg)
 
-*Figure 25.2. Reset content against the age of the side information, for a record of one fair bit that flips with probability 0.05 per step (Proposition 6). At age 0 the reset agent knows the bit and the content is 0. As the side information ages the content rises toward 1 bit, and the predictive information, the complement, falls toward 0. The curve is the formula of the text, not a measurement; the measured thresholds are under GO-8 below.*
+*Figure 25.2. Reset content against the age of the side information, for a record of one fair bit that flips with probability 0.05 per step (Paper V's Proposition 6). At age 0 the reset agent knows the bit and the content is 0. As the side information ages the content rises toward 1 bit, and the predictive information, the complement, falls toward 0. The curve is the formula of the text, not a measurement; the measured thresholds are under GO-8 below.*
 
 ## What is machine-checked
 
@@ -236,10 +239,10 @@ The build record `paper/consumer-relative-landauer-lean-blocks-2026-11-21.txt` a
 `lean/README.md` state that seven Lean modules compile with no `sorry` and that the
 audited theorems use only the standard axioms. On a finite-alphabet entropy layer they
 cover Theorem 2's identity, Corollary 3 for $m$ consumers at every blocklength,
-Proposition 6 on the law of the whole path, and the per-code converse chain of
+Paper V's Prop. 6 on the law of the whole path, and the per-code converse chain of
 Theorem 1 for deterministic codes. Not formalized: the Landauer reading, randomized
-encoders, Lemma 1, the region and all of achievability, Corollary 2, and every Gaussian
-result. The audits VI-50 and VI-51 read the formal statements of six modules against
+encoders, Lemma 1, the region and all of achievability, Paper V's Cor. 2, and every
+Gaussian result. The audits VI-50 and VI-51 read the formal statements of six modules against
 the paper and found none unfaithful. `Covering.lean` has had no such reading. `claims/FRONTIER.md`
 (row G14) records that no class changes on this account until a charter rule is added.
 
@@ -303,6 +306,6 @@ only, data bit-identical between runs.
   are not simultaneously diagonal: left open in the paper.
 - Sources with memory, finite blocklength, quantum memories, and the cost of acquiring
   $S$: outside the model.
-- Proposition 2's net at other distortions, and Corollary 4 for singular $\Sigma$: not
-  netted.
+- Proposition 2's net at other distortions, and Paper V's Cor. 4 for singular
+  $\Sigma$: not netted.
 - The citation of Villard and Piantanida and of Ekrem and Ulukus in the paper: owed.

@@ -21,7 +21,7 @@ sealed bars, naive vs witnessed FC, verdict, tier.
 | AI evaluation | LLM | roberta-mnli / HANS | *(shakedown)* | `[predicted]` |
 | Quantum devices | QUANTUM | qiskit-aer (hand-built) | 0.28–0.43 → 0 | `[exploratory]` |
 | Markets | QUOTE | efficient-price sim | 0.37 → 0.003 | `[exploratory]` |
-| Sensing | (sensor) | real UCI field data | drift real; linear recal only ~1.6× | **[refuted]** |
+| Sensing | (sensor) | real UCI field data | drift real; linear recalibration recovers only ~1.6× | **[refuted]** |
 
 ![Figure 22.1](figures/ch22_fig1.svg)
 
@@ -32,7 +32,11 @@ sealed bars, naive vs witnessed FC, verdict, tier.
   reproduced across six independent data substrates and two witness kinds
   (LSN/oplog/zxid). The umbrella rests here.
 - The **demonstrated wing** (cellular): the certificate ages under a *physical*
-  coherence process, HARQ-witnessed, on standards-grade LDPC.
+  coherence process, HARQ-witnessed, on standards-grade LDPC. One of its cells is
+  scope-corrected and is kept as a negative: the AICSI reconstruction-vs-consumer
+  dissociation did not survive the community-standard substrate (real 3GPP CDL-C, a
+  CsiNet-class codec, which false-clears 0.0 on every seed; the pre-registered kill
+  fired, 2026-08-25), so that row is not a headline.
 - The **breadth** (optical/grid/LLM/quantum/markets): the grammar transfers to new
   substrates at `[predicted]`/`[exploratory]` — pre-registered, awaiting sealed
   grading or a real substrate (IBM hardware, tick data).

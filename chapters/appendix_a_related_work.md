@@ -42,7 +42,7 @@ Kostina–Tuncel characterize the two-stage boundary and prove a nonasymptotic c
 no achievability, for which they cite Rimoldi and Effros; the
 achievability of the multi-observer region, for $k=2$ and $k\ge3$ alike, is Paper III's
 Assumption SR, attributed to Effros and not yet checked at the source (and the $k$-stage
-construction is not an iteration of the two-stage map — VI-5; VI-32, VI-36, VI-37). The dispersion rests on Kostina–Verdú's Gaussian approximation (their Theorem 12,
+construction is not an iteration of the two-stage map — VI-5; VI-32, VI-36, VI-37). The dispersion rests on Kostina–Verdú's Gaussian approximation (Kostina–Verdú's Thm 12,
 with the scalar constant their eq. (94)), checked at the source on 2026-11-21 and
 independently by VI-38, which corrected restriction (iv) to a ninth moment; the parallel
 formula is derived in Paper III (NEG-18).
@@ -66,7 +66,7 @@ rather than guessing it.
 normalization; diffusion maps and the $\alpha$ family of density normalizations.
 
 *This program adds.* The polar decomposition that confines the collapse to the radius and
-keeps geodesics in the angle [proved]; the identification of row-normalization as the
+keeps geodesics in the angle (proved in Paper I; not yet a ledger row); the identification of row-normalization as the
 read-subspace projection of the geodesic-rank consumer; the exact $S^1$ rank-collapse and
 flat-torus bounds; the spectral-filter phase diagram (critical dimension $d = 4$) and the
 Green-kernel rank-limit theorem.

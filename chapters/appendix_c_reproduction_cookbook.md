@@ -2,7 +2,8 @@
 
 Every headline number in this book is reproducible from committed scripts. This appendix
 says how, without reproducing the repository's own READMEs. The governing facts: results
-are sealed-before-run (Chapter 15), archived at the DOI deposit, and re-run by CI. A
+are sealed-before-run (Chapter 15), archived at the DOI deposit, and, for the CPU
+harnesses, re-run by CI. A
 reader who wants to *verify* rather than *trust* starts here.
 
 ## Where everything lives
@@ -39,7 +40,8 @@ reader who wants to *verify* rather than *trust* starts here.
   scientific-Python; pin versions from the repo lockfile.
 - **GPU rows** (real-LLM Gate-B: Llama-3.2-3B keys, GO-P-2026-020/021/026/027): run on the
   Atlas GPU host; environment `torch 2.10 / transformers 4.46.3` (thread caps affect
-  execution only, not results). These need the model weights and are the most involved to
+  execution only, not results). The KV-serving rows on Qwen2.5-7B (GO-P-2026-056/077)
+  are GPU rows too. These need the model weights and are the most involved to
   reproduce.
 - **MATLAB rows** (root-MUSIC cross-check for DOA, GO-P-2026-031): the Phased Array
   toolbox reproduction; its reconstruction-energy columns match the numpy harness to 3

@@ -4,7 +4,7 @@ This is the chapter the discipline of Chapter 15 exists to make possible. Every 
 below is a bet the program placed and lost, or a plausible idea it refuted, and every one
 is carried here at *the same prominence as the win it bounds* — because a sealed miss that
 is softened after the fact is not a result, it is a rumor. The house rule has a corollary
-the charter states outright (VI-3): *misses are first-class; a refuted or missed-gate row is
+the charter states outright (its rule VI-3): *misses are first-class; a refuted or missed-gate row is
 carried into every downstream artifact as prominently as a win it bounds.* Read this chapter
 as the load-bearing one. A framework is only as trustworthy as its stated boundaries, and
 these are the boundaries.
@@ -83,7 +83,7 @@ the earlier miss.
 finite-rate gate **missed** 0/16 (softmax-KL was still improving at the top swept rate). This
 was a *shallow-sweep artifact*, not a refutation — the criterion conflated *floor-reached*
 with *floor-exists*. The resolution is the model of the standing over-strict-gate rule
-(VI-2): the gate flaw was logged, and the claim was resolved **not by relaxing the sealed
+(the charter's rule VI-2): the gate flaw was logged, and the claim was resolved **not by relaxing the sealed
 bar** but by a *fresh* R-IND-6 test — GO-P-2026-027, sealed before the run, on held-out layers
 {4,20}, a different corpus — which **passed** (read-metric floor 16/16, downstream floor 16/16,
 asymptotic ratio 800–5700×). The omission floor is thus [demonstrated] downstream on a trained
@@ -171,6 +171,49 @@ fixed.
 **Why the harness passed.** It sampled only distortions at which every mode is active. That
 is the same pattern as NEG-17, and here the sharpening itself was the error.
 
+**The Crucible's losses: OT-4, OT-5, OT-9 and OT-10.** The graduation campaigns of
+Observation Theory sealed their tests at claim level before any of them ran (the Crucible,
+OT-1 to OT-7, and the Second Crucible, OT-8 to OT-12). Four tests were lost.
+
+- **OT-4: operator drift predicts a real long-generation degradation, and a derived refresh
+  moves it.** `[refuted]`. The degradation was real (A0 +13.39), but it was feedback compounding of a constant error of
+  about 4.3 nats, not drift. Teacher forcing removed the consistent growth, and orientation
+  did nothing against the rotated null (A1 p = 0.42, B1 −0.020, no doubling at T\*, the
+  refresh stage's gate not met).
+- **OT-5: the damage-ranking accuracy of $\operatorname{tr}(P_C\Sigma_\delta)$ degrades
+  monotonically in the measured differential fraction.** `[refuted]`. The boundary is a step,
+  not a slope: accuracy stays at ceiling down to a differential fraction of 0.094, and then the
+  metric goes silent (0 of 30 pairs informative). It was never wrong while differential. The
+  rank correlation was 0.54 against a bar of 0.80, so the monotone claim dies as sealed.
+- **OT-9: readings transfer forward across measures by the loading law, graded on real
+  heads.** `[refuted]` as sealed: 7 of 12 against a bar of 10. The effective sample size was
+  about 1.0 everywhere, because importance weighting with 24 points degenerates in 128
+  dimensions, so the sealed correction was a one-point estimate. The claim is untested in
+  substance; the test is dead as sealed.
+- **OT-10: noise floors the accuracy at a derived level and never moves the cliff.**
+  `[refuted]` as sealed. Every quantity the theorem predicts held (the floor within 5% of
+  $\sigma^2(d-1)/\lambda^2$ at every $\sigma$, slope 2.01, no hidden recoveries at any noise),
+  and the test died on an authoring defect: a contrast sub-bar that contradicted OT-3's own
+  committed affinities. The bars were not adjusted, and the theory's support was downgraded
+  to exploratory.
+
+Two further tests of the Second Crucible, OT-11 and OT-12, are void: their families gave no
+interior to grade. The first campaign's verdict was a failure of its graduation rule (3 of 5
+core tests), so Observation Theory v1.0 was not declared on 2026-08-15, and the second's was
+no graduation (1 of 5). The ledger records that later sealed campaigns revised the principles
+these tests concerned, and that v1.0 was declared on 2026-08-18.
+
+**Equal scalar uncertainty gives equal quality on a serving stack (registration 077,
+prediction P2).** `[refuted]` as sealed, a refutation the registration named in advance as a
+possible finding. On a Qwen2.5-7B key-value cache, a control titrated the degradation so that
+two arms carry the same scalar uncertainty u about the consumer's future reads, and predicted
+equal task quality. With calibration health 4× to 130× inside its gates, equal u did not give
+equal quality: V4 was +0.078 against a tolerance of 0.0625, and the pre-registered ρ = 0.03
+contrast firmed to +0.359 ± 0.068, 5.3 standard errors. Equal scalar uncertainty is not
+enough; the structure of the error matters, which is consistent with the scalar-context
+scope of GO-13's first theorem. Prediction P1 of the same registration, that task quality
+tracks u at a matched budget, is `[demonstrated]` (Chapter 27).
+
 ![Figure 16.1](figures/ch16_fig1.svg)
 
 *Figure 16.1. A schematic of the KV-key ladder, NEG-5 to NEG-9. Each box is a sealed proxy or test that was refuted, with what the refutation showed. Each miss located the next hypothesis, and the sequence ends at the direct trace, which gets the discriminating flip right 12 of 12 times and is still not a complete rank statistic. NEG-5 refutes the registered test and not claim GO-2.*
@@ -201,10 +244,10 @@ and stop.
 
 I want to end the chapter on the thing that is easy to miss. The negatives above are not the
 framework's weaknesses managed into the open; they are its *credential*. A theory that has
-placed a dozen sealed bets and reported the losses at full prominence has done the one thing a
+placed dozens of sealed bets and reported the losses at full prominence has done the one thing a
 highlight reel cannot: it has shown you the shape of where it fails, which is the only way to
 trust where it succeeds. The stand-down clause (Chapter 15) says the program continues
-smaller when a bet is lost; this chapter is that clause, exercised, sixteen times. *The book
+smaller when a bet is lost; this chapter is that clause, exercised once for every entry above. *The book
 may not assert what the ledger cannot show* — and the ledger shows the misses. Part VII looks
 forward from here, to the open problems and the single principle the whole framework reduces
 to.

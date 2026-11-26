@@ -12,7 +12,8 @@ locate. The third is Sun-ho, who works on a direction-finding array — micropho
 in his case, though it could as easily be radar or a seismometer network. He has a
 codec that compresses the array snapshots with beautiful waveform fidelity, and his
 estimator now points a few degrees wrong, consistently, in a way that averages out
-to nothing and so hides in every summary statistic he trusts.
+to nothing and so hides in every summary statistic he trusts. (The three are
+composites, and their numbers are illustrative.)
 
 None of the three has a bug. Each has a compressor that does exactly what it was
 asked to do — minimize the difference between the input and its reconstruction — and
@@ -86,8 +87,8 @@ this is the entire drama of the book — they can move in *opposite directions*.
 code that makes the first small can make the second large, and vice versa. When they
 disagree about which of two codes is better, we call the disagreement the
 **consumer-relative flip**, and Chapter 8 shows it is not a curiosity but a
-reproducible property of observation, sealed across twelve domains and three
-branches of physics.
+reproducible property of observation, put at risk across twelve domains and three
+branches of physics and confirmed as a sealed flip in six of them (Chapter 13).
 
 ![Figure 1.1](figures/ch01_fig1.svg)
 
@@ -132,7 +133,8 @@ It has to say **which** directions the consumer reads — and it does, via the r
 metric, which Chapter 10 shows can be recovered *blind*, from the consumer's outputs
 alone, with no labels and no oracle. It has to say **when** the flip appears and when
 it does not — and it does, via the alignment law $\kappa$ of Chapter 12, which turns
-"know your consumer" from folklore into a dial you can measure before you compress.
+"know your consumer" from folklore into an ordinal dial you can measure before you
+compress (an exact null condition, not a law of the flip's size).
 And it has to say **what it costs** to do the right thing — and it does, via the
 rate–distortion theory of Chapter 7. A warning tells you to be careful. A theory
 tells you what to compute.
@@ -150,6 +152,7 @@ whose first rule is that the assistant may not be the sole grader of its own wor
 and whose house rule — inherited from every volume of this series — is that *the book
 may not assert what the ledger cannot show.* When a sentence in this book carries a
 tag like [demonstrated] or [refuted], that tag is a promise about a specific row in
-a specific ledger, sealed before it was measured. The three engineers' mistake was
+a specific ledger, and, where the row is a registered test, sealed before it was
+measured. The three engineers' mistake was
 to trust a number that named no consumer. The correction is not to trust a different
 number more; it is to say, every time, whose number it is, and to show the receipt.

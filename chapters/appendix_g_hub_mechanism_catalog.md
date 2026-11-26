@@ -31,7 +31,8 @@ not re-derived under this volume's registration harness. They therefore carry
 are not GO-P rows, and the house rule (PROTOCOL Rule 1.1 — no umbrella claim leans
 on an unregistered row) forbids me from dressing them as `[demonstrated]`. What they
 are is a decisive, independently registered instance of the framework's central
-phenomenon in a domain — retrieval geometry — the GO-P sweep did not itself enter.
+phenomenon in a domain — hubness in retrieval geometry — the GO-P sweep did not itself
+enter (its retrieval rows test ranking under compression, not hubness).
 Sources: `turboquant-pro/docs/HUBNESS_PRIMER.md` (the phenomenon and the mechanism
 taxonomy); `docs/RESULTS_multilingual_strata.md` and
 `docs/RESULTS_strata_phase23_gates.md` (the multilingual and remedy measurements,
@@ -86,8 +87,8 @@ companion work is a hard negative: it is one of the two ceilings that proved a
 generator-*capability* failure rather than a search failure — no optimizer pass over a
 point-cluster family can manufacture the long occurrence tail a real hubby corpus has,
 because the geometry caps the tail at $\sim 2k$
-(`openvector-bench/results/PREREG_ROUND11.md`, citing the `turboquant-pro`
-`docs/RESULTS_strata_phase23_gates.md` fixture work). For observer theory the ceiling
+(`openvector-bench/results/PREREG_ROUND11.md`, citing the fixture work in the
+`turboquant-pro` file `docs/RESULTS_strata_phase23_gates.md`). For observer theory the ceiling
 is a statement about basin sizes: a point cluster can only ever be the answer to
 $\Theta(k)$ queries, no matter how the surrounding space is arranged.
 

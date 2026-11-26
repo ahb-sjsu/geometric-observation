@@ -6,7 +6,10 @@ eraser holds and the consumer never sees. This chapter joins the two: one descri
 serves two read operators at once, and the question is what the second consumer adds, in
 bits stored and in ideal reset work. Two ledger rows carry it. Row GO-10 is the
 complementarity tax. Row GO-11 is the exact conditional region behind the tax. Both rows
-are class `[replicated]` today, and every result below carries that class. No theorem of
+are class `[replicated]` today, and every result below carries that class. The replication
+is of the rows' operational faces, each measured on two source families (registrations 058
+and 059, 061 and 062); the registry grades the theorems netted by the sealed harnesses 060,
+063 and 064 as citable at `[predicted]` grade (`claims/REGISTRY-ACCOUNTING.md`). No theorem of
 this chapter has a `[proved]` row.
 
 ## The setting: two rank-one reads and the read plane
@@ -157,6 +160,8 @@ it is at most `[exploratory]`, and nothing in this chapter rests on it.
 
 ## GO-11: the exact conditional function for one rank-one read
 
+Theorem and conjecture numbers from here to the end of the chapter are those of the GO-11
+manuscript (`paper/go11-conditional-region.tex`, v0.11), not of this book.
 Take one consumer with read $Y=w^{\mathsf T}X$, normalized to unit variance, and a context
 $S=V+U$, where $V$ is a unit-variance linear function of $X$ with $\rho=\mathbb E[YV]$,
 $\lvert\rho\rvert<1$, and $U\sim\mathcal N(0,\tau^2)$ is independent noise. $V$ is the
@@ -251,10 +256,11 @@ a deficit that tends to zero as $\Delta\to0$. [`[replicated]`, ledger row GO-11.
   every interior $\alpha$ by matrix convexity, which retires a hedge in Theorem 3.
 - **Theorem 9** (the frontier system for two consumers). The water levels become
   $2\times2$ matrices $M_0,M_1$. With $w\in[0,1]$ the weight on rate, $\Sigma_N$ the channel
-  noise covariance and $\mu$ the distortion multipliers, every Pareto-optimal channel
-  satisfies
-  $\Sigma_N^{-1}=wM_0^{-1}+(1-w)M_1^{-1}+\mathrm{diag}(\mu)$, off-diagonal entry included,
-  with $\mu_i=1/D_i$ at $w=1$ and no symmetry assumption. The frontier is contained in
+  noise covariance and $\mu$ the distortion multipliers, and assuming an optimum is attained
+  with $\Sigma_N\succ0$, every Pareto-optimal channel satisfies
+  $\Sigma_N^{-1}=wM_0^{-1}+(1-w)M_1^{-1}+\mathrm{diag}(\mu)$, off-diagonal entry included;
+  at $w=1$, on the regime where the two-consumer rate floor is exact, $\mu_i=1/D_i$ with no
+  symmetry assumption. The frontier is contained in
   the solution set; the theorem does not claim the converse.
 - **Theorem 10** (binary pair). For a doubly symmetric binary pair with
   $\Pr[Y\ne V]=p$ and $S=V\oplus\mathrm{Bern}(q)$, the conditional function is

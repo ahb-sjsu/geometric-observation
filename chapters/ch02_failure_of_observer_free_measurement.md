@@ -66,10 +66,10 @@ only one of them was the thing the product shipped.
 **The calibration negative (NEG-4): a "better" code that is worse.** A lightweight
 online (Lloyd) recalibration of the key quantizer *improved* reconstruction and made
 the downstream softmax-KL divergence *worse* [refuted]. This is the failure in its
-purest form: an optimization that provably moves the reconstruction number in the
+purest form: an optimization that measurably moves the reconstruction number in the
 good direction and the consumer's number in the bad direction, at the same time, on
 purpose. Reconstruction is not a noisy proxy for downstream quality here. It is an
-*anti*-correlated one, over the range that matters.
+*anti*-correlated one, in this measurement.
 
 If reconstruction error were merely imprecise — a proxy with some scatter — you could
 correct for the scatter and move on. The reason you cannot is that the disagreement

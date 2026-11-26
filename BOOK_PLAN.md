@@ -83,7 +83,8 @@ author. Chapter 17 gained the moving-kernel addendum (row T1-MK).
 | `appendix_f_mathematical_ledger.md` | F — Mathematical Ledger | A | ✅ drafted |
 | `appendix_g_hub_mechanism_catalog.md` | G — Hub-Mechanism Catalog | A | ✅ drafted |
 
-**Full draft complete** (front matter + preface + 18 chapters + 6 appendices). Next:
+**Full draft complete** (front matter + preface + 29 chapters, of which 20–23 are stubs, +
+7 appendices, A–G). Next:
 optional `.build/` pipeline (pandoc→HTML, shared Geometric-Series template) to serve
 this volume at the same look as the other volumes; figure insertion; a final
 tag-vs-ledger consistency pass.
@@ -160,7 +161,8 @@ read/signal *misalignment* and a working consumer. *Source: Paper II + IV.*
 carries density; the polar decomposition of the collapse theorem; row-normalization
 justified; $\alpha=1$ response sign = $\ker P_C$ membership test; "dimension emerges
 before shape" (Weyl ordering). The $S^1$ rank-collapse and the flat-torus bounds as
-the exactly-solvable cases [proved]. *Source: Paper I + I.5.*
+the exactly-solvable cases (proved in Paper I; not yet a ledger row, so untagged).
+*Source: Paper I + I.5.*
 
 ### Part IV — The Instruments
 
@@ -176,8 +178,10 @@ non-oracle 20-Newsgroups partial (041). What the probe can and cannot promise.
 **Ch. 12 — The Failure Taxonomy and the $\kappa$ Law [A/B].** The four degeneracies
 of $P_C$ as the complete list of ways the flip is absent (coupling / precondition /
 identifiability / mechanism-absent). The $\kappa=\operatorname{tr}(\bar P_C\bar\Sigma_x)$
-alignment law: flip magnitude decreasing in $\kappa$, $\kappa\to1$ the coupling null
-(D4) [refuted-as-null], one sealed prospective point. Converts the boundary from a
+alignment law: as first planned, flip magnitude decreasing in $\kappa$, $\kappa\to1$ the
+coupling null (D4, an honest negative in the ledger), one sealed prospective point. The
+magnitude law failed (`results/GO-kappa-law.json`), the prospective registration 040 was
+never sealed (void), and Ch. 12 now carries $\kappa$ as an ordinal null condition. Converts the boundary from a
 bucket into a dial. *[A] for the taxonomy; the κ law's prospective point is [B].*
 
 ### Part V — The Evidence
@@ -202,7 +206,8 @@ Lean, CODECHECK) and the honest frontier gap — no mature toolkit for verifying
 AI-assisted work independently of the assistant. The verification incidents VI-2…VI-7
 as the rule earning its place.
 
-**Ch. 16 — Honest Negatives [A].** NEG-1…NEG-14, carried at full prominence. The
+**Ch. 16 — Honest Negatives [A].** NEG-1…NEG-18, the Crucible's losses (OT-4, OT-5,
+OT-9, OT-10) and registration 077's P2, carried at full prominence. The
 uniform-in-$m$ commute-filter refutation (NEG-1); reconstruction-as-proxy (NEG-2);
 the KV-keys ladder of refuted proxies (NEG-5…9) that located the *right* statistic;
 the retrieval precondition (NEG-10); the density-quotient refutation (NEG-11); the
@@ -226,9 +231,10 @@ with Shannon the $P_C=I$ slice. What the framework does and does not license.
 
 - **A. Related Work and Differentiation [A]** — information geometry, rate–distortion,
   spectral methods, task-aware compression; what is old, what is the synthesis.
-- **B. The COST Ledger [B]** — Thms B1–B3 (achievability / output-reduction /
+- **B. The COST Ledger [B]** — Thms B1–B7: B1–B3 (achievability / output-reduction /
   high-resolution) with proofs and the committed Blahut–Arimoto + falsification
-  harnesses; the two-observer and rate-region theorems; constants/slack tables.
+  harnesses; the two-observer and rate-region theorems (B4, B5), the mismatch tax and
+  omission floor (B6), the dispersion (B7); constants/slack tables.
 - **C. Reproduction Cookbook [A]** — environments, seeds, how to re-run each GO row.
 - **D. The Registry [A]** — every `GO-P-2026-###` ID, gap-free disposition
   (reported / superseded / never-run-with-reason); the no-file-drawer accounting.

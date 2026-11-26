@@ -107,7 +107,8 @@ This is Devi's consumer.
 music, the clan/dialect classifier on whale codas — read the geometry of their weight
 vectors and are invariant to transformations that do not cross a decision boundary.
 The read metric is recovered blind from the classifier's margin (Chapter 10), and
-these consumers supply three of the sweep's confirmations (Chapter 13).
+these consumers supply three rows of the sweep (Chapter 13): the whale-coda row is a
+sealed flip, and the moral and genre rows are (A2) verdicts, not sealed flips.
 
 **The recognizer** — a consumer of a different flavor, the subject of Chapter 11 —
 reads the low eigen-multiplets and angular distances of a representation to decide

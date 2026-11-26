@@ -6,7 +6,7 @@ which a second party holds the description and learns from it without decoding i
 
 **Class of everything below.** Every result in this chapter is `[exploratory]`
 (ledger rows RLD-I to RLD-IV.4). The ledger gives the reason: each row has a written
-proof and fresh-context model audits (verification incidents VI-16 to VI-22, later
+proof and fresh-context model audits (verification incidents VI-16 to VI-21, later
 VI-26, VI-27 and VI-29), and the ledger records the author's statement of 2026-11-18
 that the author has read all the proofs of the four papers. No row has a sealed
 registration. The numerical checks had their criteria fixed in the scripts before
@@ -16,7 +16,10 @@ papers do not yet have. Promotion is to `[proved]` once such a table is attached
 row's theorem, or to `[predicted]` once a registration seals a numerical consequence
 before it is run.
 
-**Status of the papers.** Paper I (`paper/tit-rate-leakage`) is recorded as submitted
+**Status of the papers.** In this chapter Papers I to IV are the four papers of the RLD
+series (ledger rows RLD-I to RLD-IV), not the program's Papers I to V that the other
+chapters cite (Paper I is there the angular observer, Paper III the consumer-relative
+rate–distortion paper of Chapter 7). Paper I (`paper/tit-rate-leakage`) is recorded as submitted
 and under review. Paper II (`paper/tit-stationary`) was submitted on 2026-11-18 as
 manuscript IT-26-1961 (its `README.md`). Papers III (`paper/tit-beyond-stationary`)
 and IV (`paper/tit-unstable-ergodic`) are drafts, not submitted (their `README.md`
@@ -134,7 +137,7 @@ $$
 
 with $\mu_{\max}(\delta)$ the largest root of
 $\det\big(A(\delta)-\mu\Sigma_{X\mid S}\big)=0$, attained at a generalized
-eigenvector $b(\delta)$ (Theorem 16(a)). Theorem 20 states: if $\mu_{\max}(\delta)$
+eigenvector $b(\delta)$ (Paper I's Thm 16(a)). Paper I's Thm 20 states: if $\mu_{\max}(\delta)$
 is simple and positive on an open interval, then $b(\delta)$ spans one line
 throughout if and only if some $b_0=b(\delta_0)$ satisfies
 
@@ -149,9 +152,9 @@ classical reverse water-filling.
 
 This statement was narrowed. The ledger row first read as a claim about frontier
 descriptions in general; VI-27 recorded that as an overclaim, and the row was
-narrowed on 2026-11-20. Theorem 20 is about the *best one-dimensional* description,
-which is leakage-optimal only where the certificate of Theorem 16(b) holds. VI-27
-records that Theorem 20 was netted only weakly, and the harness then written for it
+narrowed on 2026-11-20. Paper I's Thm 20 is about the *best one-dimensional*
+description, which is leakage-optimal only where the certificate of its Thm 16(b)
+holds. VI-27 records that Thm 20 was netted only weakly, and the harness then written for it
 contained an error of the assistant's (VI-29, round 1), corrected in a second round.
 Paper I is under review, so VI-27's items went to the owner unapplied, and the ledger
 leaves the row's class to the owner, from the paper's own verification record, which
@@ -175,10 +178,10 @@ attained by the field that solves paper I's fixed point at every frequency under
 set of $(R,L)$ with $\alpha R+(1-\alpha)L\ge V(\alpha,D)$ for every $\alpha$.
 
 The claim is that the spectral region is the operational region, with deterministic
-encoders `[exploratory]` (ledger row RLD-II; no registration). Holders covered (its
-`README.md`): a memoryless map in white noise (Theorem 16); a filter of finite length in colored noise (Theorem 20); every filter with real taps
-and a continuous frequency response, of finite or infinite memory (Theorem 22); and
-a holder with its whole observation process (Theorem 23). Excluded: band-limited
+encoders `[exploratory]` (ledger row RLD-II; no registration). Holders covered (Paper
+II's theorems, per its `README.md`): a memoryless map in white noise (Thm 16); a filter of finite length in colored noise (Thm 20); every filter with real taps
+and a continuous frequency response, of finite or infinite memory (Thm 22); and
+a holder with its whole observation process (Thm 23). Excluded: band-limited
 sources and a holder that sees a component without noise.
 
 VI-16 (fresh-context agents, 2026-11-13 to 15) found no error that invalidates a
@@ -222,9 +225,9 @@ $$
 
 `[exploratory]` (ledger row RLD-III.3). The upper bound says the Gaussian region is
 achievable. The lower bound needs additive holder noise independent of the source,
-and is tight as $D\to0$ only when the whole source is reproduced ($Q\succ0$).
+and is tight as $D\to0$ when the whole source is reproduced ($Q\succ0$).
 
-**The covariance-mixture inequality** (Corollary 6). For $K_1,\dots,K_C\succ0$,
+**The covariance-mixture inequality** (Paper III's Cor. 6). For $K_1,\dots,K_C\succ0$,
 weights $\lambda_c>0$ summing to one, and $\bar K=\sum_c\lambda_cK_c$,
 
 $$

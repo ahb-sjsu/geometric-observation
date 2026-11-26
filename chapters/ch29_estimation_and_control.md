@@ -16,7 +16,7 @@ The estimation-and-control campaign (OT-EC, paper `paper/ot-estimation-control.t
 asks what this number is good for: choosing sensors, deciding when to transmit, and
 setting a control penalty.
 
-Two propositions come first, then six measured results. Every measured result in this
+Two propositions of the paper come first, numbered as there, then six measured results. Every measured result in this
 chapter is `[predicted]`: a single governed run at a sealed seed, on synthetic linear
 time-invariant systems with planted or frozen consumers, and none on hardware.
 
@@ -293,7 +293,10 @@ dismiss; the larger net gave pooled $z=-0.74$.
   non-Gaussian case as open.
 - **Noisy links and staleness.** GO-EC-4 assumes exact-state transmission. The paper
   reports three further sealed runs on staleness, and the audits VI-14 and VI-15
-  confirmed their closed forms and their comparison with no error. I found no claim row
+  confirmed their closed forms and their comparison with no error. VI-14 also found that
+  one DR-1 gate could not fail (what it tested holds for every system in the class) and
+  that one DR-2 gate was worded so that a misreading would have failed the run; a
+  clarifying amendment records the sealed reading. I found no claim row
   for them in this ledger section, so they carry no class here.
 - **More than two consumers, unequal priorities, layered descriptions.** Status: open.
 - **Overlapping consumers in the flip.** GO-EC-2 used orthogonal consumers. Status:

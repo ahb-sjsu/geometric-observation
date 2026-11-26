@@ -18,7 +18,8 @@ Every row carries one of six tags, and the tags are ordered by how much they dem
 - **`[replicated]`** — `[demonstrated]`, then reproduced on a second independent instance
   or representation.
 - **`[proved]`** — a written proof *and* a committed falsification harness *and* a
-  fresh-context adversarial re-derivation. Both grades.
+  fresh-context adversarial re-derivation, both grades, *and* a constants/slack and
+  known-gaps table (the charter's T-CUST-1; Chapter 15).
 - **`[exploratory]`** — a green numerical check with an unproven derivation; may not
   support an umbrella claim.
 - **`[refuted]`** — a bet lost, carried at full prominence (Chapter 16).
@@ -32,7 +33,7 @@ promote a claim by looking at the same data harder.
 
 ![Figure 14.1](figures/ch14_fig1.svg)
 
-*Figure 14.1. A schematic of the six class tags and the two promotions the chapter states. The top row is ordered by how much each class demands. An [exploratory] finding reaches [demonstrated] only through a fresh sealed prereg and a run on held-out data (rule R-IND-6), never by a replay of the set it was first seen on. [proved] needs three things together. [refuted] is a bet lost, and it stays in print. The diagram restates the definitions; it reports no result.*
+*Figure 14.1. A schematic of the six class tags and the two promotions the chapter states. The top row is ordered by how much each class demands. An [exploratory] finding reaches [demonstrated] only through a fresh sealed prereg and a run on held-out data (rule R-IND-6), never by a replay of the set it was first seen on. [proved] needs four things together. [refuted] is a bet lost, and it stays in print. The diagram restates the definitions; it reports no result.*
 
 ## The six
 
@@ -78,6 +79,10 @@ every rate; reconstruction up to ~500× worse at high rate; the surrogate→outp
 [GO-P-2026-028; every bar passed as run, but the dispute above stands and the isotropic
 control, as coded, cannot fail (VI-32, VI-34)]. This closes the last promised registration.
 
+The ledger's core does not stop at six. Its rows GO-7 to GO-14 and GO-16 (there is no
+GO-15) carry the reset, the complementarity tax, access width and the adversarial observer,
+each at its own class, in Chapters 25 to 28.
+
 ## Gate B: the out-of-sample discipline
 
 The six are the spine; **Gate B** is the stress test — confirmation in domains *disjoint*
@@ -106,7 +111,7 @@ A reader could ask why the misses — NEG-12, LOCATA-032, D1, D4 — are printed
 hits at all. Because a falsifiable core is defined by what would have refuted it, and a
 program that reports only its confirmations has, in effect, no core. The Llama miss
 bounded the theory (and was later cleared by a *corrected* design, not a relaxed bar); the
-LOCATA miss caught a GT-leakage artifact and forced the rehab; D1 says "data-limited" out
+LOCATA miss caught an over-optimistic calibration selection and forced the rehab; D1 says "data-limited" out
 loud; D4 is a true boundary the $\kappa$ law now predicts. Each miss either bounded the
 claim or improved the instrument, and none was quietly dropped. That is the difference
 between a falsifiable core and a highlight reel — and it is why the next part, on the
