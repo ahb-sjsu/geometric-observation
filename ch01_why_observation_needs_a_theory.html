@@ -56,7 +56,8 @@ locate. The third is Sun-ho, who works on a direction-finding array — micropho
 in his case, though it could as easily be radar or a seismometer network. He has a
 codec that compresses the array snapshots with beautiful waveform fidelity, and his
 estimator now points a few degrees wrong, consistently, in a way that averages out
-to nothing and so hides in every summary statistic he trusts.</p>
+to nothing and so hides in every summary statistic he trusts. (The three are
+composites, and their numbers are illustrative.)</p>
 <p>None of the three has a bug. Each has a compressor that does exactly what it was
 asked to do — minimize the difference between the input and its reconstruction — and
 each has a <em>downstream system that does not care about that difference.</em> The
@@ -116,8 +117,8 @@ this is the entire drama of the book — they can move in <em>opposite direction
 code that makes the first small can make the second large, and vice versa. When they
 disagree about which of two codes is better, we call the disagreement the
 <strong>consumer-relative flip</strong>, and Chapter 8 shows it is not a curiosity but a
-reproducible property of observation, sealed across twelve domains and three
-branches of physics.</p>
+reproducible property of observation, put at risk across twelve domains and three
+branches of physics and confirmed as a sealed flip in six of them (Chapter 13).</p>
 <p><img alt="Figure 1.1" src="figures/ch01_fig1.svg" /></p>
 <p><em>Figure 1.1. A schematic of the two places a code can be scored. Reconstruction error compares the object x with its reconstruction and stops there, so it names no consumer. The read distortion scores the same coding error after weighting it by the read metric, the output metric G pulled back through the consumer&rsquo;s Jacobian J. The consumer, the output metric and the budget together are the observer.</em></p>
 <h2 id="one-object-three-shadows">One object, three shadows</h2>
@@ -159,7 +160,8 @@ consumer.</em> That warning is true and it is not enough, because it gives no wa
 metric, which Chapter 10 shows can be recovered <em>blind</em>, from the consumer&rsquo;s outputs
 alone, with no labels and no oracle. It has to say <strong>when</strong> the flip appears and when
 it does not — and it does, via the alignment law $\kappa$ of Chapter 12, which turns
-&ldquo;know your consumer&rdquo; from folklore into a dial you can measure before you compress.
+&ldquo;know your consumer&rdquo; from folklore into an ordinal dial you can measure before you
+compress (an exact null condition, not a law of the flip&rsquo;s size).
 And it has to say <strong>what it costs</strong> to do the right thing — and it does, via the
 rate–distortion theory of Chapter 7. A warning tells you to be careful. A theory
 tells you what to compute.</p>
@@ -175,7 +177,8 @@ whose first rule is that the assistant may not be the sole grader of its own wor
 and whose house rule — inherited from every volume of this series — is that <em>the book
 may not assert what the ledger cannot show.</em> When a sentence in this book carries a
 tag like [demonstrated] or [refuted], that tag is a promise about a specific row in
-a specific ledger, sealed before it was measured. The three engineers&rsquo; mistake was
+a specific ledger, and, where the row is a registered test, sealed before it was
+measured. The three engineers&rsquo; mistake was
 to trust a number that named no consumer. The correction is not to trust a different
 number more; it is to say, every time, whose number it is, and to show the receipt.</p>
       </div>

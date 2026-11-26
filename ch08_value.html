@@ -52,14 +52,14 @@ code reconstructs the signal better.</em> The two facts are simultaneous, and th
 simultaneity is the point. We call it the <strong>flip</strong>, and it is the empirical heart of
 the book.</p>
 <h2 id="the-claim-stated-to-be-falsifiable">The claim, stated to be falsifiable</h2>
-<p>Fix a budget. Build two codes for the same source: an <strong>O</strong>-arm that preserves the
-read metric (small $\operatorname{tr}(P_C\Sigma_\delta)$) and an <strong>R</strong>-arm that is
+<p>Fix a budget. Build two codes for the same source: an <strong>R</strong>-arm that preserves the
+read metric (small $\operatorname{tr}(P_C\Sigma_\delta)$) and an <strong>O</strong>-arm that is
 reconstruction-optimal (small $\operatorname{tr}(\Sigma_\delta)$). The flip is the
 conjunction of two sealed inequalities:</p>
 <ol>
-<li><strong>Downstream (the flip proper):</strong> the O-arm beats the R-arm on the consumer&rsquo;s task.</li>
-<li><strong>Reconstruction (the trade):</strong> the R-arm reconstructs the source better than the
-   O-arm.</li>
+<li><strong>Downstream (the flip proper):</strong> the R-arm beats the O-arm on the consumer&rsquo;s task.</li>
+<li><strong>Reconstruction (the trade):</strong> the O-arm reconstructs the source better than the
+   R-arm.</li>
 </ol>
 <p>Either alone is unremarkable. <em>Together</em> they are a dissociation: the code that is
 worse by the universal yardstick is better by the only one that ships. A third,
@@ -98,35 +98,39 @@ The headline confirmations:</p>
 <li><strong>Acoustic (D2, AV16.3):</strong> a second, fully independent microphone corpus — different
   array (8-mic circular), room, speakers, camera-tracked 3D-mouth ground truth. Clean
   flip 148/201 (74%), recon-trade 201/201, anti 152/201, against <em>absolute</em> tracked GT
-  [demonstrated — GO-P-2026-034 D2].</li>
+  [predicted, hit — GO-P-2026-034 D2].</li>
 <li><strong>Seismic (D3, PDAR):</strong> a <em>third distinct physics</em> — elastic waves from real M≥6.5
   earthquakes, read by a 13-element IMS array, scored against the USGS catalogue
-  backazimuth. Flip 13/17 (76%), recon-trade 17/17, anti 13/17 [demonstrated —
+  backazimuth. Flip 13/17 (76%), recon-trade 17/17, anti 13/17 [predicted, hit —
   GO-P-2026-034 D3]. A quantizer that reconstructs the seismogram better points at the
   wrong epicenter.</li>
 <li><strong>Cetacean (whale, 038):</strong> sperm-whale coda dialect, a clan classifier consumer,
   8718 codas of inter-click-interval rhythm. Held-out read-preserving AUROC 0.934 vs
   reconstruction-optimal 0.883, recon-trade (O reconstructs 2× better yet downstream
-  worse), flip 300/300 [demonstrated — GO-P-2026-038, promoted from an earlier
+  worse), flip 300/300 [predicted, hit — GO-P-2026-038, promoted from an earlier
   (A2) verdict to a sealed flip].</li>
 <li><strong>Legal (036/039):</strong> citation-ranking on a real large corpus (CourtListener, LaBSE),
   the read operator recovered <em>blind</em> from the consumer. On a fully virgin
   opinion-disjoint split, R=0.796 &gt; O=0.780 downstream, recon O=0.223 ≤ R=0.561, flip
-  200/200 [demonstrated — GO-P-2026-039].</li>
+  200/200 [predicted, hit — GO-P-2026-039].</li>
 </ul>
-<p>Synthetic ULA (031), LLM attention rematch (021), and real acoustic LOCATA (033) are
-three further confirmed anchors. Across anchors and confirmations the flip spans
-<strong>≥5 independent domains and ≥3 distinct physics</strong> (electromagnetic, acoustic,
-elastic) plus non-physical consumers (attention, classifiers, retrieval). The
+<p>Synthetic ULA (031) and real acoustic LOCATA (033) are two further confirmed anchors.
+The LLM attention rematch (021) is a weaker result of its own kind:
+reconstruction-invisible worse-arm discrimination on one consumer, not a flip.
+Across anchors and confirmations the flip spans
+<strong>≥5 independent domains and ≥3 distinct physics</strong> (synthetic, acoustic, seismic; the
+electromagnetic radar row, D1, is partial) plus non-physical consumers (a dialect
+classifier, citation retrieval). The
 battery&rsquo;s <em>own</em> sealed prediction — flip in ≥2 of the 3 core prospective domains — was
 met by D2 and D3 [predicted → met].</p>
 <h2 id="why-it-works-whitening-and-the-read-subspace">Why it works: whitening and the read subspace</h2>
-<p>Mechanistically, the O-arm wins because it spends its bits in the read subspace and
-the R-arm spreads them to be small on average, depositing error where the consumer
+<p>Mechanistically, the R-arm wins because it spends its bits in the read subspace and
+the O-arm spreads them to be small on average, depositing error where the consumer
 looks. The best <em>single</em> code the program found is the ZCA-whitened code, which
 decorrelates the source before allocating bits and thereby aligns the code&rsquo;s error
 covariance with the read metric&rsquo;s geometry; on whale codas it wins at every bit level
-(0.83/0.85/0.97 vs per-channel 0.41/0.80/0.89) [demonstrated]. But no single code wins
+(0.83/0.85/0.97 vs per-channel 0.41/0.80/0.89) [exploratory — an <code>a2_probe</code>
+characterization, not a sealed test]. But no single code wins
 everywhere, and that is not a gap — it is the regime structure of Chapter 12. Whitening
 wins where the source is cross-channel <em>correlated</em>; generic polar wins where it is
 isotropic and <em>uncorrelated</em>; per-channel wins where the structure is

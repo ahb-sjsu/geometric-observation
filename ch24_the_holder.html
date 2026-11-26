@@ -50,7 +50,7 @@ Transactions on Information Theory</em>, the rate-leakage-distortion (RLD) serie
 which a second party holds the description and learns from it without decoding it.</p>
 <p><strong>Class of everything below.</strong> Every result in this chapter is <code>[exploratory]</code>
 (ledger rows RLD-I to RLD-IV.4). The ledger gives the reason: each row has a written
-proof and fresh-context model audits (verification incidents VI-16 to VI-22, later
+proof and fresh-context model audits (verification incidents VI-16 to VI-21, later
 VI-26, VI-27 and VI-29), and the ledger records the author&rsquo;s statement of 2026-11-18
 that the author has read all the proofs of the four papers. No row has a sealed
 registration. The numerical checks had their criteria fixed in the scripts before
@@ -59,7 +59,10 @@ they ran but were not sealed, so they cannot carry a row at <code>[predicted]</c
 papers do not yet have. Promotion is to <code>[proved]</code> once such a table is attached to a
 row&rsquo;s theorem, or to <code>[predicted]</code> once a registration seals a numerical consequence
 before it is run.</p>
-<p><strong>Status of the papers.</strong> Paper I (<code>paper/tit-rate-leakage</code>) is recorded as submitted
+<p><strong>Status of the papers.</strong> In this chapter Papers I to IV are the four papers of the RLD
+series (ledger rows RLD-I to RLD-IV), not the program&rsquo;s Papers I to V that the other
+chapters cite (Paper I is there the angular observer, Paper III the consumer-relative
+rate–distortion paper of Chapter 7). Paper I (<code>paper/tit-rate-leakage</code>) is recorded as submitted
 and under review. Paper II (<code>paper/tit-stationary</code>) was submitted on 2026-11-18 as
 manuscript IT-26-1961 (its <code>README.md</code>). Papers III (<code>paper/tit-beyond-stationary</code>)
 and IV (<code>paper/tit-unstable-ergodic</code>) are drafts, not submitted (their <code>README.md</code>
@@ -151,7 +154,7 @@ L_{\mathrm{1d}}(D)=\tfrac12\log\Big(1+\frac{\delta}{\mu_{\max}(\delta)}\Big),
 $$</p>
 <p>with $\mu_{\max}(\delta)$ the largest root of
 $\det\big(A(\delta)-\mu\Sigma_{X\mid S}\big)=0$, attained at a generalized
-eigenvector $b(\delta)$ (Theorem 16(a)). Theorem 20 states: if $\mu_{\max}(\delta)$
+eigenvector $b(\delta)$ (Paper I&rsquo;s Thm 16(a)). Paper I&rsquo;s Thm 20 states: if $\mu_{\max}(\delta)$
 is simple and positive on an open interval, then $b(\delta)$ spans one line
 throughout if and only if some $b_0=b(\delta_0)$ satisfies</p>
 <p>$$
@@ -163,9 +166,9 @@ RLD-I). With no holder ($J=0$) the direction is fixed at every budget, as in
 classical reverse water-filling.</p>
 <p>This statement was narrowed. The ledger row first read as a claim about frontier
 descriptions in general; VI-27 recorded that as an overclaim, and the row was
-narrowed on 2026-11-20. Theorem 20 is about the <em>best one-dimensional</em> description,
-which is leakage-optimal only where the certificate of Theorem 16(b) holds. VI-27
-records that Theorem 20 was netted only weakly, and the harness then written for it
+narrowed on 2026-11-20. Paper I&rsquo;s Thm 20 is about the <em>best one-dimensional</em>
+description, which is leakage-optimal only where the certificate of its Thm 16(b)
+holds. VI-27 records that Thm 20 was netted only weakly, and the harness then written for it
 contained an error of the assistant&rsquo;s (VI-29, round 1), corrected in a second round.
 Paper I is under review, so VI-27&rsquo;s items went to the owner unapplied, and the ledger
 leaves the row&rsquo;s class to the owner, from the paper&rsquo;s own verification record, which
@@ -184,10 +187,10 @@ $$</p>
 <strong>one</strong> level $\nu$, the only thing the frequencies share. The spectral region is the
 set of $(R,L)$ with $\alpha R+(1-\alpha)L\ge V(\alpha,D)$ for every $\alpha$.</p>
 <p>The claim is that the spectral region is the operational region, with deterministic
-encoders <code>[exploratory]</code> (ledger row RLD-II; no registration). Holders covered (its
-<code>README.md</code>): a memoryless map in white noise (Theorem 16); a filter of finite length in colored noise (Theorem 20); every filter with real taps
-and a continuous frequency response, of finite or infinite memory (Theorem 22); and
-a holder with its whole observation process (Theorem 23). Excluded: band-limited
+encoders <code>[exploratory]</code> (ledger row RLD-II; no registration). Holders covered (Paper
+II&rsquo;s theorems, per its <code>README.md</code>): a memoryless map in white noise (Thm 16); a filter of finite length in colored noise (Thm 20); every filter with real taps
+and a continuous frequency response, of finite or infinite memory (Thm 22); and
+a holder with its whole observation process (Thm 23). Excluded: band-limited
 sources and a holder that sees a component without noise.</p>
 <p>VI-16 (fresh-context agents, 2026-11-13 to 15) found no error that invalidates a
 theorem and fixed gaps, among them that the closing argument (achievable region
@@ -222,8 +225,8 @@ V_{\mathrm G}(\alpha,D)-\alpha\,\vartheta(X)-(1-\alpha)\,\vartheta(X\mid S)\ \le
 $$</p>
 <p><code>[exploratory]</code> (ledger row RLD-III.3). The upper bound says the Gaussian region is
 achievable. The lower bound needs additive holder noise independent of the source,
-and is tight as $D\to0$ only when the whole source is reproduced ($Q\succ0$).</p>
-<p><strong>The covariance-mixture inequality</strong> (Corollary 6). For $K_1,\dots,K_C\succ0$,
+and is tight as $D\to0$ when the whole source is reproduced ($Q\succ0$).</p>
+<p><strong>The covariance-mixture inequality</strong> (Paper III&rsquo;s Cor. 6). For $K_1,\dots,K_C\succ0$,
 weights $\lambda_c&gt;0$ summing to one, and $\bar K=\sum_c\lambda_cK_c$,</p>
 <p>$$
 V_{\mathrm G}(\alpha,D;\bar K)\ \ge\ \min\Big\{\sum_c\lambda_c\,V_{\mathrm G}(\alpha,D_c;K_c):\ \sum_c\lambda_cD_c\le D\Big\}

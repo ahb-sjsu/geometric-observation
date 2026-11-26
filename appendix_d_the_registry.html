@@ -313,9 +313,66 @@ run; <code>void</code> = a reservation abandoned unsealed.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="the-sequence-after-041-042-to-092">The sequence after 041 (042 to 092)</h2>
+<p>The table above was written when the sequence ended at 041. It now runs to <strong>092</strong>, and
+<code>claims/REGISTRY-ACCOUNTING.md</code> gives each of 042–092 its own row. By block:</p>
+<table>
+<thead>
+<tr>
+<th>IDs</th>
+<th>Block</th>
+<th>Disposition (per LEDGER and the accounting)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>042–054</td>
+<td>Paper V: theorem harnesses 042 and 044; the operational faces of GO-7, GO-8, GO-9 (Chapter 25)</td>
+<td>all sealed and run; four registered misses, each superseded with its instrument defect named: 046→047 · 048→049 · 051→053 · 052→054</td>
+</tr>
+<tr>
+<td>055–074</td>
+<td>GO-10 to GO-13, the tax, the conditional region and the dynamic theory (Chapters 26, 27), with 056 and 057</td>
+<td>all sealed and run; <strong>056</strong> the KV-serving miss (NEG-16); <strong>057</strong> the Bell negative (NEG-15); <strong>069</strong> rerun under a one-cell instrumentation amendment, both artifacts kept</td>
+</tr>
+<tr>
+<td>075</td>
+<td>KV access width on a serving system</td>
+<td><strong>reserved, never sealed</strong>: its pilot exposed a design failure before any bar was set; successor 077</td>
+</tr>
+<tr>
+<td>076, 078–086</td>
+<td>GO-14, causal erasure (Chapter 27)</td>
+<td>ten sealed registrations, every pilot and amendment disclosed in its row</td>
+</tr>
+<tr>
+<td>077</td>
+<td>Access width on a serving stack (Chapter 27)</td>
+<td>sealed; split verdict: P1 <code>[demonstrated]</code>, P2 <code>[refuted]</code> (Chapter 16)</td>
+</tr>
+<tr>
+<td>087–089</td>
+<td>The estimation-and-control campaigns, GO-EC-3, GO-EC-2, GO-EC-4 (Chapter 29)</td>
+<td>sealed in this repository (63a6f56, 705f068), then migrated on 2026-08-19 to <code>observation-theory-campaigns</code>, where the runs live</td>
+</tr>
+<tr>
+<td>090–091</td>
+<td>GO-16, the adversarial observer (Chapter 28)</td>
+<td>sealed 3a74638 before the governed runs; 090&rsquo;s tie clause is NEG-17</td>
+</tr>
+<tr>
+<td>092</td>
+<td>The T1 worked result (Chapter 17)</td>
+<td><strong>reserved, unsealed</strong> (2026-11-20); no bar is final and no governed run exists</td>
+</tr>
+</tbody>
+</table>
+<p>New registrations start at 093.</p>
 <h2 id="completeness-argument">Completeness argument</h2>
-<p>The assigned sequence is <strong>001–041 with two skips (029, 030) and one void (040)</strong>, and
-every other ID resolves to a registered run reported in the ledger.</p>
+<p>The sequence 001–041 has <strong>two skips (029, 030) and one void (040)</strong>, and every other ID in
+it resolves to a registered run reported in the ledger. Of 042–092, only <strong>075</strong> (burned by
+its own pilot before any seal) and <strong>092</strong> (reserved for the T1 worked result) carry no
+sealed governed run, each with its reason on record.</p>
 <ul>
 <li><strong>022–028</strong> are the COST-face theorem harnesses (Paper III), a different shadow of the
   same object; their absence from the VALUE sweep is a scope boundary, not suppression.
@@ -328,7 +385,8 @@ every other ID resolves to a registered run reported in the ledger.</p>
   a removed result.</li>
 </ul>
 <p><strong>Supersession chains</strong> (each miss reported, then corrected): 001→002 · 007→008→009 ·
-012→013→014 · 016→017→018→019 · 020→021 · 032→033 · 035→036 (→039).</p>
+012→013→014 · 016→017→018→019 · 020→021 · 032→033 · 035→036 (→039) · 046→047 ·
+048→049 · 051→053 · 052→054 · 056→(075 burned)→077.</p>
 <p><strong>No file-drawer holds:</strong> every sealed run appears in the ledger regardless of sign; the
 only gaps carried no run.</p>
 <h2 id="commit-ordering-audit-seal-predates-run">Commit-ordering audit (seal predates run)</h2>
@@ -337,7 +395,12 @@ DAG of the commit that first added its result — not merely an earlier calendar
 Checked with <code>git merge-base --is-ancestor &lt;seal&gt; &lt;result-add&gt;</code>; all pass (A2-021,
 A1-031, A3-033, D2/D3-034, L-036, W-038). Every result commit is strictly downstream of
 its seal; the ordering is verifiable at any snapshot, including the DOI&rsquo;d release. (Full
-commit hashes in <code>claims/REGISTRY-ACCOUNTING.md</code>.)</p>
+commit hashes in <code>claims/REGISTRY-ACCOUNTING.md</code>, which also audits the post-041 blocks.)</p>
+<p><strong>Content hashes.</strong> Seal-before-run is not the same as an unchanged registration. The audit
+VI-25 (2026-11-19) found that 13 of 84 recorded hashes did not verify over their whole file
+and 6 more had been re-sealed over their originals; the hash record showed none of it, and
+ten of the thirteen were disclosed nowhere. Every case is now disclosed in <code>prereg/SEAL-DISCLOSURES.json</code>, and
+<code>scripts/verify_seals.py</code> checks every sealed registration in CI.</p>
 <h2 id="statistical-audit-headline-rows">Statistical audit (headline rows)</h2>
 <p>Every reported percentage carries its $n$, its sealed bar, and its null. Flip/recon-trade
 nulls are a per-query coin flip ($p = 0.5$); the anti null is worst-of-three ($p = 1/3$).</p>
