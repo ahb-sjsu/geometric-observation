@@ -72,7 +72,7 @@ denominator of the angular sensitivity grow at the same dyadic rate and compensa
 giving co-Lipschitz control that does *not* degrade with the mode count [proved]. Paired
 with the exact upper-Lipschitz *divergence* for the commute filter (the sensitivity
 $\|dN_R(e_j)\|^2 = |K_R|/(d\,S_R)$, Lipschitz constant growing like $R^{1/2}$,
-$\sqrt{\log R}$, $R$ for $d = 1, 2, \ge 3$), these bracket the filter's behavior exactly
+$R/\sqrt{\log R}$, $R$ for $d = 1, 2, \ge 3$), these bracket the filter's behavior exactly
 and locate the phase transition. The spectral-filter phase diagram has three Weyl
 thresholds ($s > d/4$, $s > d/2$, $s > d/2 + 1$) and a **critical dimension $d = 4$**
 where the rank form's uniformity breaks [proved]. The rank form of Angular Preservation

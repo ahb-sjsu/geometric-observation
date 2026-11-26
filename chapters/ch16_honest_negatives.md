@@ -124,13 +124,13 @@ it can fail. A fresh context is what finds the regime nobody sampled.
 **NEG-18: the dispersion counts only the active modes.** `[refuted]`, the constant only.
 
 **The claim.** Paper III's corollary and the book's B7 gave the second-order dispersion of
-the consumer-relative parallel Gaussian code as V = (r_D/2) log² e, where r_D is the number of
-modes above the water level. The value came from VI-7's "sharpening" in July.
+the consumer-relative parallel Gaussian code as V = (r_D/2) log² e, that is, r_D/2 in
+nats², where r_D is the number of modes above the water level. The value came from VI-7's "sharpening" in July.
 
 **The refutation.** A custody pass in November (VI-32) derived the d-tilted information and
 found that modes below the water level still contribute (γ_k/θ)²/2 each. Fluctuations in their
-energy have to be absorbed by the active modes. A Monte Carlo of the definition gives 1.226
-where the claim gives 1.0, and the corrected formula gives 1.225.
+energy have to be absorbed by the active modes. In nats², a Monte Carlo of the definition
+gives 1.226 where the claim gives 1.0, and the corrected formula gives 1.225.
 
 **What stands.** The bound: the dispersion counts at most the r read dimensions, never the
 ambient d. It counts exactly r when every mode is active. The first correction wrote a strict
@@ -173,7 +173,7 @@ framework's weaknesses managed into the open; they are its *credential*. A theor
 placed a dozen sealed bets and reported the losses at full prominence has done the one thing a
 highlight reel cannot: it has shown you the shape of where it fails, which is the only way to
 trust where it succeeds. The stand-down clause (Chapter 15) says the program continues
-smaller when a bet is lost; this chapter is that clause, exercised, fourteen times. *The book
+smaller when a bet is lost; this chapter is that clause, exercised, sixteen times. *The book
 may not assert what the ledger cannot show* — and the ledger shows the misses. Part VII looks
 forward from here, to the open problems and the single principle the whole framework reduces
 to.

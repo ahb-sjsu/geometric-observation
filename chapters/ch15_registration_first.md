@@ -74,8 +74,11 @@ self-check of the assistant's own `sigma_star` formula was partly tautological a
 a wrong formula*; the two-observer max-determinant error covariance is reverse
 water-filling in the whitened basis, and the cap the formula claimed "never binds" does
 bind on $\ker P$. A fresh-context adversarial pass caught it, the formula was corrected, the
-prereg amended and re-sealed, and the false pass was logged with the prominence of a
-positive. An assistant grading its own work would have shipped the error. The composition
+prereg (GO-P-2026-022) had its prediction and falsification lines rewritten in place and
+was re-sealed, about 14 hours after its first result file was committed, and the false
+pass was logged with the prominence of a positive. That re-seal predates the rule above:
+CHARTER v1.2's REG-2 no longer allows one. It is disclosed, with the original hash, in
+`prereg/SEAL-DISCLOSURES.json` (VI-25). An assistant grading its own work would have shipped the error. The composition
 that caught it — a fresh-context verifier, differential testing against a second
 implementation, and (for the flagship theorem) a proof assistant — is the program's
 approximation to a standard that does not yet exist.

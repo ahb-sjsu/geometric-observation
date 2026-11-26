@@ -1,7 +1,7 @@
 # Chapter 18 — The Principle: Keep the Structure the Observer Can Use
 
 Every volume of this series ends by reducing its framework to a single sentence, and
-this one is no exception. Seventeen chapters, six theorems, twelve domains, and fourteen
+this one is no exception. Seventeen chapters, seven theorems, twelve domains, and sixteen
 honest negatives reduce to five words:
 
 > **Keep the structure the observer can use.**

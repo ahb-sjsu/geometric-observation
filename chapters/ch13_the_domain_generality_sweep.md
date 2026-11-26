@@ -22,9 +22,9 @@ arm reconstructs better (the trade), and the anti-arm (read direction destroyed)
 
 | # | Domain | Consumer | Read operator | Outcome | Registry |
 |---|--------|----------|---------------|---------|----------|
-| A1 | Synthetic ULA | beamformer-ML + root-MUSIC | array manifold $\hat g = P_a^\perp a'$ | ✅ 6/6 | GO-P-2026-031 |
-| A2 | LLM attention keys (Llama-3.2-3B) | softmax attention | query 2nd-moment (blind probe) | ✅ 16/16 | GO-P-2026-021 |
-| A3 | LOCATA acoustic array | wideband MUSIC | array manifold | ✅ 11/13 | GO-P-2026-033 |
+| A1 | Synthetic ULA | beamformer-ML + root-MUSIC | array manifold $\hat g = P_a^\perp a'$ | ✅ 6/6 rates | GO-P-2026-031 |
+| A2 | LLM attention keys (Llama-3.2-3B) | softmax attention | query 2nd-moment (blind probe) | ✅ 16/16 heads (worse arm) | GO-P-2026-021 |
+| A3 | LOCATA acoustic array | wideband MUSIC | array manifold | ✅ 11/13 held-out recordings | GO-P-2026-033 |
 | **D1** | **RaDICaL 77 GHz FMCW radar** | MUSIC DOA | 8-elem virtual array | ◐ **partial** | GO-P-2026-034 D1 |
 | **D2** | **AV16.3 acoustic (2nd corpus)** | wideband MUSIC (circular) | array manifold | ✅ **confirmed** | GO-P-2026-034 D2 |
 | **D3** | **PDAR seismic array** | wideband MUSIC backazimuth | array manifold | ✅ **confirmed** | GO-P-2026-034 D3 |
@@ -48,7 +48,7 @@ any one substrate.
 automotive-grade 77 GHz FMCW radar, the core dissociation *replicates*: the angle-favoring
 code beats reconstruction-optimal Lloyd–Max at matched bits on 25/25 held-out frames while
 Lloyd reconstructs the raw signal better on 25/25 (the textbook flip, median flip_fail
-0.41°). But the **anti control is 60% < the sealed 70%** — the tiny 8-element array's ~15°
+0.41°). But the **anti control is 15/25 = 60% < the sealed 70%** — the tiny 8-element array's ~15°
 resolution lets phase-destroyed snapshots occasionally land near the reference — and the
 data was download-limited (the disjoint-recording set is 310 GB behind a 403), forcing a
 within-recording split. Two of three sealed bars pass; the anti control and the disjoint

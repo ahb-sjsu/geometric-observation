@@ -1,6 +1,6 @@
 # Chapter 19 — The Certificate That Ages
 
-*Part [new] — RELIABILITY: The Witnessed Certificate.* This is the reading the
+*Part VIII — RELIABILITY: The Witnessed Certificate.* This is the reading the
 title promised and the earlier chapters set aside. Parts III–IV asked what an
 observer reads and what it may discard. This Part asks a question that only appears
 once time is in the picture: is what the observer reads *still true*?

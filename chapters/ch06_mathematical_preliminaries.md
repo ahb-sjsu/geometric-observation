@@ -38,20 +38,24 @@ spend nothing on the kernel. That instruction, made precise, is the COST theory.
 ## The read distortion as a reverse water-filling
 
 Here is the first result worth boxing. Let a code produce error covariance
-$\Sigma_\delta$ subject to a rate budget, and suppose (for this preliminary) that we
-may choose $\Sigma_\delta$ freely along the eigenbasis of $P_C$ subject to a total
-"resolution" constraint $\sum_i 1/d_i \le B$ where $d_i$ is the error variance
-allocated to direction $v_i$ (smaller $d_i$ = more bits). Minimizing the read
-distortion
+$\Sigma_\delta$ subject to a rate budget, and suppose (for this preliminary) that
+$\Sigma_x$ is diagonal in the eigenbasis of $P_C$, with variance $\sigma_i^2$ along
+$v_i$, and that we may choose $\Sigma_\delta$ freely along that eigenbasis subject to
+the rate constraint $\sum_i \tfrac12\log(\sigma_i^2/d_i) \le R$ with $0 < d_i \le
+\sigma_i^2$, where $d_i$ is the error variance allocated to direction $v_i$ (smaller
+$d_i$ = more bits; the error in a direction cannot exceed that direction's variance).
+Minimizing the read distortion
 
 $$ \operatorname{tr}(P_C\Sigma_\delta) = \sum_i \lambda_i\, d_i $$
 
 subject to the budget yields, by a Lagrange argument identical in form to Shannon's,
 an allocation that pours resolution into the high-$\lambda_i$ (high-sensitivity)
-directions and abandons the low ones below a threshold:
+directions and abandons the low ones, those whose weighted variance
+$\lambda_i\sigma_i^2$ is at or below a threshold $\theta$ set by the budget:
 
-$$ \boxed{\; d_i^\star \propto \lambda_i^{-1/2} \text{ above a water-line; } d_i^\star
-   = \text{(free)} \text{ on } \ker P_C. \;} $$
+$$ \boxed{\; d_i^\star = \theta/\lambda_i \text{ above the water-line }
+   (\lambda_i\sigma_i^2 > \theta); \quad d_i^\star = \sigma_i^2 \text{ (no bits) at or
+   below it, and on } \ker P_C. \;} $$
 
 The content is entirely in *which basis* the water-filling happens. Classical reverse
 water-filling allocates by *source* variance (the eigenbasis of $\Sigma_x$); the read

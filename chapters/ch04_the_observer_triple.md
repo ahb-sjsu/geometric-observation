@@ -96,7 +96,8 @@ nearly free. The read metric is the Hessian (or its preconditioned form). This
 consumer is why gradient compression has a consumer-relative theory too — and, as
 Chapter 12's boundary shows, why the flip is *subtle* here: in a trained model the
 high-curvature directions coincide with the high-energy directions, so the read
-metric is coupled to the source (a true boundary, D4, [refuted-as-flip]).
+metric is coupled to the source (a true boundary, D4, [refuted] as a flip: the sealed
+flip bar was missed while the anti control held, GO-P-2026-034 D4).
 
 **Retrieval ranking** reads the projection of a query onto a learned subspace and is
 blind to off-subspace energy; the read metric is the projector onto that subspace.

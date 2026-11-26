@@ -110,7 +110,7 @@ def fig_13_1():
         c.text(cx, ax.Y(0) + 17, name, 11, "middle", INK2)
         c.text(cx, ax.Y(0) + 33, verdict, 11, "middle", INK, "600")
     legend(c, 70, 46, [(n, SERIES[j]) for j, n in enumerate(names)])
-    c.text(16, 390, "D1: 25 held-out frames of one recording; its anti control is printed as a percentage only", 10.5,
+    c.text(16, 390, "D1: 25 held-out frames of one recording; its anti control is 15 of 25", 10.5,
            "start", INK3, italic=True)
     c.save(p)
 
@@ -223,7 +223,7 @@ def fig_16_2():
             "the chapter prints. What stands is the bound: the dispersion counts at most the read dimensions.",
             "## The four kinds of boundary")
     c = Canvas(720, 400, "NEG-18: the claimed dispersion constant against the measured one")
-    ax = Axes(c, 70, 52, 600, 280, (0, 3), (0, 1.4), [], [0, 0.25, 0.5, 0.75, 1, 1.25], "", "dispersion V")
+    ax = Axes(c, 70, 52, 600, 280, (0, 3), (0, 1.4), [], [0, 0.25, 0.5, 0.75, 1, 1.25], "", "dispersion V, nats²")
     rows = [("claim: active modes only", "[refuted]", claimed, None),
             ("Monte Carlo of the definition", "measured", mc, SERIES[0]),
             ("corrected formula", "below-level modes counted", corrected, SERIES[1])]

@@ -75,7 +75,8 @@ diffusion exponent, non-spectrally. A bet placed, lost, and carried.
 off the matched-rate premise; a re-run is owed, and the class is the author's to set). The operational net for the COST theorems (B2/B3): the ordering holds at
 every rate; reconstruction up to ~500× worse at high rate; the surrogate→output gap shrinks
 0.41→0.005 as rate grows; the isotropic control $P_C = I$ collapses the three coders
-[GO-P-2026-028, all pass]. This closes the last promised registration.
+[GO-P-2026-028; every bar passed as run, but the dispute above stands and the isotropic
+control, as coded, cannot fail (VI-32, VI-34)]. This closes the last promised registration.
 
 ## Gate B: the out-of-sample discipline
 

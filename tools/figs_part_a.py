@@ -350,7 +350,7 @@ def fig_10_2():
             "## What the probe cannot promise")
     c = _canvas(720, 330, "The blind probe restores the flip that a covariance estimate lost")
     ax = Axes(c, 238, 62, 300, 180, (0.74, 0.81), (0, 3), [0.74, 0.76, 0.78, 0.80], [],
-              "downstream score on the held-out set, as printed", "")
+              "retrieval AUROC on the held-out set, as printed", "")
     for v in (0.74, 0.76, 0.78, 0.80):
         c.line(ax.X(v), ax.y0, ax.X(v), ax.y0 + ax.h, GRID, 1)
     for i, (num, how, cls, r, o, d, note) in enumerate(rows):

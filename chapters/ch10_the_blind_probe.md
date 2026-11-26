@@ -66,8 +66,8 @@ instrument.
 **035 (miss).** The first attempt estimated the read operator as the centered document
 covariance — a stand-in fit on calibration data. On the held-out set the recon-trade and
 anti-control passed, but the **flip failed**: reconstruction-optimal *beat*
-read-preserving (O=0.773 > R=0.757) [refuted — NEG, the estimated subspace overfit and
-did not transfer]. A weaker program would have concluded the flip does not hold on real
+read-preserving (retrieval AUROC, O=0.773 > R=0.757) [refuted — GO-P-2026-035, a
+registered miss; the estimated subspace overfit and did not transfer]. A weaker program would have concluded the flip does not hold on real
 retrieval. The discipline's diagnosis was sharper: *this is a read-operator
 identifiability failure, not a failure of the flip* — the covariance estimate captured
 what the *signal* varies in, not what the *consumer* reads.
