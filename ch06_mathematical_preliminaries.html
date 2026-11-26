@@ -75,17 +75,21 @@ directions in proportion to $\lambda_i$ — pour bits where the consumer is sens
 spend nothing on the kernel. That instruction, made precise, is the COST theory.</p>
 <h2 id="the-read-distortion-as-a-reverse-water-filling">The read distortion as a reverse water-filling</h2>
 <p>Here is the first result worth boxing. Let a code produce error covariance
-$\Sigma_\delta$ subject to a rate budget, and suppose (for this preliminary) that we
-may choose $\Sigma_\delta$ freely along the eigenbasis of $P_C$ subject to a total
-&ldquo;resolution&rdquo; constraint $\sum_i 1/d_i \le B$ where $d_i$ is the error variance
-allocated to direction $v_i$ (smaller $d_i$ = more bits). Minimizing the read
-distortion</p>
+$\Sigma_\delta$ subject to a rate budget, and suppose (for this preliminary) that
+$\Sigma_x$ is diagonal in the eigenbasis of $P_C$, with variance $\sigma_i^2$ along
+$v_i$, and that we may choose $\Sigma_\delta$ freely along that eigenbasis subject to
+the rate constraint $\sum_i \tfrac12\log(\sigma_i^2/d_i) \le R$ with $0 &lt; d_i \le
+\sigma_i^2$, where $d_i$ is the error variance allocated to direction $v_i$ (smaller
+$d_i$ = more bits; the error in a direction cannot exceed that direction&rsquo;s variance).
+Minimizing the read distortion</p>
 <p>$$ \operatorname{tr}(P_C\Sigma_\delta) = \sum_i \lambda_i\, d_i $$</p>
 <p>subject to the budget yields, by a Lagrange argument identical in form to Shannon&rsquo;s,
 an allocation that pours resolution into the high-$\lambda_i$ (high-sensitivity)
-directions and abandons the low ones below a threshold:</p>
-<p>$$ \boxed{\; d_i^\star \propto \lambda_i^{-1/2} \text{ above a water-line; } d_i^\star
-   = \text{(free)} \text{ on } \ker P_C. \;} $$</p>
+directions and abandons the low ones, those whose weighted variance
+$\lambda_i\sigma_i^2$ is at or below a threshold $\theta$ set by the budget:</p>
+<p>$$ \boxed{\; d_i^\star = \theta/\lambda_i \text{ above the water-line }
+   (\lambda_i\sigma_i^2 &gt; \theta); \quad d_i^\star = \sigma_i^2 \text{ (no bits) at or
+   below it, and on } \ker P_C. \;} $$</p>
 <p>The content is entirely in <em>which basis</em> the water-filling happens. Classical reverse
 water-filling allocates by <em>source</em> variance (the eigenbasis of $\Sigma_x$); the read
 distortion allocates by <em>consumer</em> sensitivity (the eigenbasis of $P_C$). When
@@ -125,7 +129,7 @@ code by the size of its error — which is every reconstruction metric — is me
 quantity the lemma says is decoupled from what it wants to know.</p>
 <p><img alt="Figure 6.1" src="figures/ch06_fig1.svg" /></p>
 <p><em>Figure 6.1. The lemma drawn for a consumer that reads one direction of a plane. Each curve is an error covariance of fixed magnitude, trace 2, rotated through the angle on the horizontal axis; the vertical axis is the read distortion. The magnitude never changes and the read distortion does. Between the two extreme orientations it changes by a factor of 5.7 for eigenvalues (1.7, 0.3) and 39 for (1.95, 0.05), and the factor grows without limit as the error is made thinner. Only the isotropic error is indifferent to orientation. The values are illustrative.</em></p>
-<h2 id="the-output-metric-math51-concretely">The output metric $G$, concretely</h2>
+<h2 id="the-output-metric-math57-concretely">The output metric $G$, concretely</h2>
 <p>For completeness, the output metrics used across the book:</p>
 <ul>
 <li><strong>Classifier (softmax):</strong> $G$ is the Fisher information of the output distribution,
