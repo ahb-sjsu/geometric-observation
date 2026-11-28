@@ -73,8 +73,8 @@ Ch. 19 drafted as the voice sample; 20–23 stubbed with source maps + honest ti
 (`paper/tit-*`), Paper V and its operational rows, the complementarity tax and its
 conditional region, the dynamic and causal results, the adversarial observer, and the
 estimation-and-control campaign. Drafted by the assistant from the ledger rows and the
-papers, one chapter per ledger group, each claim at its row's class. Not yet read by the
-author. Chapter 17 gained the moving-kernel addendum (row T1-MK).
+papers, one chapter per ledger group, each claim at its row's class. Read by the author
+(the author's statement, 2026-11-28: "I have read it"). Chapter 17 gained the moving-kernel addendum (row T1-MK).
 | `appendix_a_related_work.md` | A — Related Work & Differentiation | A | ✅ drafted |
 | `appendix_b_cost_ledger.md` | B — The COST Ledger | B | ✅ drafted |
 | `appendix_c_reproduction_cookbook.md` | C — Reproduction Cookbook | A | ✅ drafted |

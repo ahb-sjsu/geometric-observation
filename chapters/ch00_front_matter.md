@@ -66,7 +66,8 @@ On the date above the parts of the book stand as follows.
   them yet.
 - **Part IX, beyond one consumer (Chapters 24 to 29).** Drafted by the assistant on
   2026-11-25 from the ledger rows and the program's papers, one chapter per ledger
-  group, with each claim at its row's class. The reset and the complementarity tax
+  group, with each claim at its row's class, and read by the author (the author's
+  statement, 2026-11-28). The reset and the complementarity tax
   (GO-7 to GO-11) are `[replicated]`. The dynamic tax (GO-13) is `[demonstrated]`.
   Access width and causal erasure (GO-12 and GO-14) are `[predicted]`, and a
   measurement on a production serving stack (registration 077) passed one of its two
