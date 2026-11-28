@@ -334,6 +334,13 @@ and the 077 row (Open, item 12).
 5. **The front matter's epistemic-status paragraph is dated 2026-07-20.** It names the core
    as GO-1 … GO-6 and does not mention Parts VIII and IX. Its twelve-domain sentence was
    corrected (Repaired, 4). Needed: whether to re-date and extend it.
+   **Done 2026-11-28** (the author asked for the status to be updated): re-dated
+   2026-11-28 and extended, one item per part, from the ledger as it stands (the core,
+   the flip, the Crucibles and v1.0, the `[proved]` and `[exploratory]` theorem rows,
+   Parts VIII and IX, the losses, and the items still open here). Its physics sentence
+   now names the media (sealed on the acoustic corpora and the seismic array, partial
+   on radar), which does not settle item 6. The Classification section names the two
+   exceptions to "straight from the claim ledger" (Paper I, Part VIII).
 6. **What "three physics" means.** Ch. 13's section "The three physics" counts real media
    (electromagnetic D1, partial; acoustic; elastic); its verdict, Ch. 8,
    `DOMAIN-GENERALITY-SWEEP.md` and Appendix E count confirmed flips (synthetic, acoustic,
